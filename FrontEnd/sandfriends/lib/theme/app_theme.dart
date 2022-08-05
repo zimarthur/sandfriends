@@ -7,8 +7,6 @@ class AppTheme {
   const AppTheme._();
 
   static ThemeData define() {
-    return ThemeData(
-      fontFamily: "Lexend",
-    );
+    return ThemeData(fontFamily: "Lexend");
   }
 }

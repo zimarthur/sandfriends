@@ -97,6 +97,10 @@ flutter:
     - assets\icon\eye_open.svg
     - assets\icon\happy_face.svg
     - assets\icon\sad_face.svg
+    - assets\icon\at_email.svg
+    - assets\icon\location_ping.svg
+    - assets\icon\star.svg
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

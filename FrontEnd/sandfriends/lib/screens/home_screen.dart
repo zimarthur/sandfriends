@@ -49,12 +49,10 @@ class _MyStatefulWidgetState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: PageView(
-          controller: _pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          children: _widgetOptions,
-        ),
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: _widgetOptions,
       ),
       bottomNavigationBar: SandFriendsNavBar(
         onItemSelected: _onItemTapped,

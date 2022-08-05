@@ -44,6 +44,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                         r"assets\icon\image_login.png",
                         height: height * 0.3,
                         fit: BoxFit.fill,
+                        width: width,
                       ),
                     ),
                     Container(
