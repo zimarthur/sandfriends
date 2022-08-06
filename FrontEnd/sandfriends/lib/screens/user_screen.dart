@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import '../models/enums.dart';
+import '../models/user.dart';
 import 'user_detail_screen.dart';
 import '../theme/app_theme.dart';
 import '../providers/login_provider.dart';
@@ -37,7 +39,7 @@ class _UserScreenState extends State<UserScreen> {
                           backgroundColor: AppTheme.colors.secondaryGreen,
                           radius: width / 7.6,
                           child: Text(
-                            "AB",
+                            "${Provider.of<User>(context, listen: false).FirstName![0].toUpperCase()}${Provider.of<User>(context, listen: false).LastName![0].toUpperCase()}",
                             style: TextStyle(
                                 color: AppTheme.colors.secondaryBack,
                                 fontWeight: FontWeight.w600,
@@ -52,7 +54,7 @@ class _UserScreenState extends State<UserScreen> {
                     child: FittedBox(
                       fit: BoxFit.fitHeight,
                       child: Text(
-                        "Arthur Zim",
+                        "${Provider.of<User>(context, listen: false).FirstName} ${Provider.of<User>(context, listen: false).LastName}",
                         style: TextStyle(color: AppTheme.colors.textWhite),
                       ),
                     ),
@@ -68,6 +70,7 @@ class _UserScreenState extends State<UserScreen> {
                             children: [
                               SvgPicture.asset(
                                 r'assets\icon\location_ping.svg',
+                                color: AppTheme.colors.secondaryPaper,
                                 width: 15,
                               ),
                               Padding(
@@ -86,16 +89,12 @@ class _UserScreenState extends State<UserScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              SvgPicture.asset(
-                                r'assets\icon\location_ping.svg',
-                                width: 15,
-                              ),
                               Row(
                                 children: [
                                   FittedBox(
                                     fit: BoxFit.fitHeight,
                                     child: Text(
-                                      "Beach Tennis:",
+                                      "BT:",
                                       style: TextStyle(
                                           color: AppTheme.colors.textWhite),
                                     ),
@@ -106,7 +105,12 @@ class _UserScreenState extends State<UserScreen> {
                                     child: FittedBox(
                                       fit: BoxFit.fitHeight,
                                       child: Text(
-                                        "A",
+                                        Provider.of<User>(context,
+                                                        listen: false)
+                                                    .Rank ==
+                                                null
+                                            ? "-"
+                                            : "${Provider.of<User>(context, listen: false).Rank}",
                                         style: TextStyle(
                                             color: AppTheme.colors.textWhite),
                                       ),
@@ -119,7 +123,7 @@ class _UserScreenState extends State<UserScreen> {
                                   FittedBox(
                                     fit: BoxFit.fitHeight,
                                     child: Text(
-                                      "Futvolei:",
+                                      "FV:",
                                       style: TextStyle(
                                           color: AppTheme.colors.textWhite),
                                     ),
@@ -143,7 +147,7 @@ class _UserScreenState extends State<UserScreen> {
                                   FittedBox(
                                     fit: BoxFit.fitHeight,
                                     child: Text(
-                                      "Volei:",
+                                      "VL:",
                                       style: TextStyle(
                                           color: AppTheme.colors.textWhite),
                                     ),
@@ -185,19 +189,19 @@ class _UserScreenState extends State<UserScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  UserButtons(context, "Meu perfil", r'assets\icon\user.png',
+                  UserButtons(context, "Meu perfil", r'assets\icon\user.svg',
                       context.goNamed,
-                      functionParameter: UserDetailScreen.routeName),
-                  UserButtons(context, "Convide amigos",
-                      r'assets\icon\share.png', context.goNamed,
                       functionParameter: 'user_detail'),
                   UserButtons(context, "Minhas partidas",
-                      r'assets\icon\trophy.png', context.goNamed,
-                      functionParameter: UserDetailScreen.routeName),
-                  UserButtons(context, "Configurações",
-                      r'assets\icon\configuration.png', context.goNamed,
-                      functionParameter: UserDetailScreen.routeName),
-                  UserButtons(context, "Sair", r'assets\icon\logout.png',
+                      r'assets\icon\trophy.svg', context.goNamed,
+                      functionParameter: 'user_detail'),
+                  UserButtons(context, "Configurar pagamentos",
+                      r'assets\icon\payment.svg', context.goNamed,
+                      functionParameter: 'user_detail'),
+                  UserButtons(context, "Fale com a gente",
+                      r'assets\icon\chat.svg', context.goNamed,
+                      functionParameter: 'user_detail'),
+                  UserButtons(context, "Sair", r'assets\icon\logout.svg',
                       context.goNamed,
                       functionParameter: 'login_signup'),
                 ],
@@ -237,10 +241,10 @@ Widget UserButtons(
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset(
+                SvgPicture.asset(
                   iconPath,
-                  height: height * 0.45 * 0.15 > 40 ? 40 : height * 0.45 * 0.15,
-                  color: AppTheme.colors.secondaryBack,
+                  height: height * 0.45 * 0.07,
+                  color: AppTheme.colors.secondaryPaper,
                 ),
                 Container(
                   padding: EdgeInsets.only(left: width * 0.03),

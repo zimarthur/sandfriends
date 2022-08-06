@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:provider/provider.dart';
 
 import '../../models/enums.dart';
+import '../../models/user.dart';
 import '../../providers/login_provider.dart';
 import '../../widgets/SF_Modal.dart';
 
@@ -40,7 +41,31 @@ Future<void> ValidateAccessToken(BuildContext context) async {
       } else if (responseBody['IsNewUser'] == true) {
         context.goNamed('new_user_welcome');
       } else {
-        context.goNamed('home');
+        response = await http.get(Uri.parse(
+            'https://www.sandfriends.com.br/GetUser/' + newAccessToken));
+        if (response.statusCode == 200) {
+          Map<String, dynamic> responseBody = json.decode(response.body);
+          Provider.of<User>(context, listen: false).FirstName =
+              responseBody['FirstName'];
+          Provider.of<User>(context, listen: false).LastName =
+              responseBody['LastName'];
+          Provider.of<User>(context, listen: false).Gender =
+              responseBody['Gender'];
+          Provider.of<User>(context, listen: false).PhoneNumber =
+              responseBody['PhoneNumber'];
+          Provider.of<User>(context, listen: false).Birthday =
+              responseBody['Birthday'];
+          Provider.of<User>(context, listen: false).Rank = responseBody['Rank'];
+          Provider.of<User>(context, listen: false).Height =
+              responseBody['Height'];
+          Provider.of<User>(context, listen: false).HandPreference =
+              responseBody['HandPreference'];
+          Provider.of<User>(context, listen: false).Photo =
+              responseBody['Photo'];
+          context.goNamed('home', params: {'initialPage': 'null'});
+        } else {
+          print("deu ruim");
+        }
       }
     } else {
       //o token não é valido

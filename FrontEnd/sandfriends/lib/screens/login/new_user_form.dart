@@ -34,7 +34,6 @@ class _NewUserFormState extends State<NewUserForm> {
 
   String? genderValue;
 
-  User? userInfo;
   @override
   void initState() {
     super.initState();
@@ -172,17 +171,6 @@ class _NewUserFormState extends State<NewUserForm> {
                       if (_newUserFormKey.currentState?.validate() == true) {
                         addUserInfo(context);
                       } else {}
-                      /*Provider.of<User>(context, listen: false).FirstName =
-                              firstNameController.text;
-                          Provider.of<User>(context, listen: false).LastName =
-                              lastNameController.text;
-                          Provider.of<User>(context, listen: false).Gender =
-                              genderValue;
-                          Provider.of<User>(context, listen: false).PhoneNumber =
-                              phoneNumberController.text;
-                          Provider.of<User>(context, listen: false).Birthday =
-                              birthdayController.text;*/
-                      //context.goNamed("new_user_form2");
                     },
                   ),
                 ),
@@ -211,7 +199,17 @@ class _NewUserFormState extends State<NewUserForm> {
           'Gender': genderValue!,
         }),
       );
-      context.goNamed('home');
+      Provider.of<User>(context, listen: false).FirstName =
+          firstNameController.text;
+      Provider.of<User>(context, listen: false).LastName =
+          lastNameController.text;
+      Provider.of<User>(context, listen: false).Gender =
+          lastNameController.text;
+      Provider.of<User>(context, listen: false).PhoneNumber =
+          PhonenumberConverter(phoneNumberController.text);
+      Provider.of<User>(context, listen: false).Gender = genderValue!;
+
+      context.goNamed('home', params: {'initialPage': 'feed_screen'});
     }
   }
 

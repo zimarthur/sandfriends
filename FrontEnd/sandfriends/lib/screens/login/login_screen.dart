@@ -4,8 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import '../../models/enums.dart';
+import '../../models/user.dart';
 import '../../widgets/SF_Button.dart';
 import '../../widgets/SF_TextField.dart';
 import '../../theme/app_theme.dart';
@@ -219,7 +221,30 @@ class _LoginScreenState extends State<LoginScreen> {
         if (responseBody['IsNewUser'] == true) {
           context.goNamed('new_user_welcome');
         } else {
-          context.goNamed('home');
+          response = await http.get(Uri.parse(
+              'https://www.sandfriends.com.br/GetUser/' + newAccessToken));
+          if (response.statusCode == 200) {
+            Map<String, dynamic> responseBody = json.decode(response.body);
+            Provider.of<User>(context, listen: false).FirstName =
+                responseBody['FirstName'];
+            Provider.of<User>(context, listen: false).LastName =
+                responseBody['LastName'];
+            Provider.of<User>(context, listen: false).Gender =
+                responseBody['Gender'];
+            Provider.of<User>(context, listen: false).PhoneNumber =
+                responseBody['PhoneNumber'];
+            Provider.of<User>(context, listen: false).Birthday =
+                responseBody['Birthday'];
+            Provider.of<User>(context, listen: false).Rank =
+                responseBody['Rank'];
+            Provider.of<User>(context, listen: false).Height =
+                responseBody['Height'];
+            Provider.of<User>(context, listen: false).HandPreference =
+                responseBody['HandPreference'];
+            Provider.of<User>(context, listen: false).Photo =
+                responseBody['Photo'];
+            context.goNamed('home', params: {'initialPage': 'feed_screen'});
+          }
         }
       } else if (response.statusCode == 404) {
         modalMessage =
