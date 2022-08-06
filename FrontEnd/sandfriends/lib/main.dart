@@ -238,8 +238,13 @@ class _MyAppState extends State<MyApp> {
       ),
       GoRoute(
         name: 'home',
-        path: '/home',
-        builder: (BuildContext context, GoRouterState state) => HomeScreen(),
+        path: '/home/:initialPage',
+        builder: (BuildContext context, GoRouterState state) {
+          final query = state.params['initialPage'];
+          return HomeScreen(
+            initialPage: query,
+          );
+        },
       ),
       GoRoute(
         name: 'user_detail',

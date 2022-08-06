@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:sandfriends/screens/schedule_screen.dart';
 import 'package:sandfriends/widgets/SF_NavBar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../widgets/schedule_screen.dart';
+import 'schedule_screen.dart';
 import 'feed_screen.dart';
 import 'user_screen.dart';
 import '../theme/app_theme.dart';
 
 class HomeScreen extends StatefulWidget {
+  HomeScreen({this.initialPage});
+  final String? initialPage;
   @override
   State<HomeScreen> createState() => _MyStatefulWidgetState();
 }
@@ -21,7 +24,13 @@ class _MyStatefulWidgetState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    _selectedIndex = 1;
+    if (widget.initialPage == 'user_screen') {
+      _selectedIndex = 0;
+    } else if (widget.initialPage == 'schedule_screen') {
+      _selectedIndex = 2;
+    } else {
+      _selectedIndex = 1;
+    }
 
     _widgetOptions = <Widget>[
       UserScreen(),
@@ -35,7 +44,6 @@ class _MyStatefulWidgetState extends State<HomeScreen> {
   @override
   void dispose() {
     _pageController.dispose();
-
     super.dispose();
   }
 
