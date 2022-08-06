@@ -26,6 +26,8 @@ class _SFDropdownState extends State<SFDropdown> {
     return DropdownButtonFormField(
       validator: widget.validator,
       decoration: InputDecoration(
+        labelText: widget.controller == null ? null : widget.labelText,
+        labelStyle: TextStyle(color: AppTheme.colors.textDarkGrey),
         fillColor: AppTheme.colors.secondaryPaper,
         filled: true,
         enabledBorder: OutlineInputBorder(
@@ -59,7 +61,6 @@ class _SFDropdownState extends State<SFDropdown> {
       ),
       focusColor: AppTheme.colors.primaryBlue,
       iconEnabledColor: AppTheme.colors.primaryBlue,
-      //iconSize: 30,
       isExpanded: true,
       hint: Text(
         widget.labelText,
