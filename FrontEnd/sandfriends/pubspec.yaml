@@ -91,6 +91,7 @@ flutter:
     - assets\icon\logout.svg
     - assets\icon\arrow_right.png
     - assets\icon\arrow_left.svg
+    - assets\icon\arrow_down.svg
     - assets\icon\info.svg
     - assets\icon\email.svg
     - assets\icon\lock.svg
@@ -101,6 +102,9 @@ flutter:
     - assets\icon\at_email.svg
     - assets\icon\location_ping.svg
     - assets\icon\star.svg
+    - assets\icon\search.svg
+    - assets\icon\calendar.svg
+    - assets\icon\clock.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
