@@ -13,6 +13,7 @@ class SFButton extends StatefulWidget {
   final EdgeInsets buttonPadding;
   final String iconPath;
   final double iconSize;
+  final EdgeInsets? textPadding;
 
   SFButton(
       {required this.buttonLabel,
@@ -21,7 +22,8 @@ class SFButton extends StatefulWidget {
       this.fontSize = 14,
       this.buttonPadding = const EdgeInsets.symmetric(vertical: 13),
       this.iconPath = "",
-      this.iconSize = 14});
+      this.iconSize = 14,
+      this.textPadding});
 
   @override
   State<SFButton> createState() => _SFButtonState();
@@ -47,15 +49,20 @@ class _SFButtonState extends State<SFButton> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FittedBox(
-              fit: BoxFit.fitHeight,
-              child: Text(
-                widget.buttonLabel,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: widget.buttonType == ButtonType.Secondary
-                      ? AppTheme.colors.primaryBlue
-                      : AppTheme.colors.textWhite,
+            Padding(
+              padding: widget.textPadding == null
+                  ? const EdgeInsets.all(0)
+                  : widget.textPadding!,
+              child: FittedBox(
+                fit: BoxFit.fitHeight,
+                child: Text(
+                  widget.buttonLabel,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: widget.buttonType == ButtonType.Secondary
+                        ? AppTheme.colors.primaryBlue
+                        : AppTheme.colors.textWhite,
+                  ),
                 ),
               ),
             ),

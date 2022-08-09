@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/screens/login/dummy.dart';
+import 'package:sandfriends/screens/match_search_screen.dart';
+import 'package:sandfriends/screens/sport_selection_screen.dart';
 import './providers/redirect_provider.dart';
 import './screens/login/change_password.dart';
 import 'package:sandfriends/screens/login/email_validation.dart';
@@ -22,11 +24,13 @@ import 'screens/login/load_login_screen.dart';
 import '../screens/user_detail_screen.dart';
 import './theme/app_theme.dart';
 import './providers/login_provider.dart';
+import './providers/match_provider.dart';
 import 'models/user.dart';
 
 final redirecter = Redirect();
 final loginInfo = Login();
 final userinfo = User();
+final match = Match();
 
 bool needsRedirect = false;
 bool? isAppInit;
@@ -149,6 +153,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<User>.value(
           value: userinfo,
         ),
+        ChangeNotifierProvider<Match>.value(
+          value: match,
+        ),
       ],
       child: MaterialApp.router(
         routeInformationParser: _router.routeInformationParser,
@@ -185,6 +192,18 @@ class _MyAppState extends State<MyApp> {
     },
     //initialLocation: needsRedirect == false ? "/load_login" : "/",
     routes: <GoRoute>[
+      GoRoute(
+        name: 'match_search_screen',
+        path: '/match_search_screen',
+        builder: (BuildContext context, GoRouterState state) =>
+            MatchSearchScreen(),
+      ),
+      GoRoute(
+        name: 'sport_selection',
+        path: '/sport_selection',
+        builder: (BuildContext context, GoRouterState state) =>
+            SportSelectionScreen(),
+      ),
       GoRoute(
         name: 'dummy_screen',
         path: '/',

@@ -8,3 +8,17 @@ enum EnumChangePasswordStatus {
 }
 enum EnumEmailConfirmationStatus { Success, Failed }
 enum ModalPourpose { Alert, Email, Password }
+
+enum Sport { Beachtennis, futevolei, volei }
+
+extension ParseToString on Sport {
+  String toShortString() {
+    if (this == Sport.Beachtennis) {
+      return 'Beach Tennis';
+    } else if (this == Sport.futevolei) {
+      return 'Futevôlei';
+    } else {
+      return 'Vôlei';
+    }
+  }
+}
