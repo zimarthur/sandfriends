@@ -170,7 +170,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                   width: double.infinity,
                   child: SFDropdown(
                     controller: genderValue,
-                    labelText: "Gênero",
+                    labelText: "Gônero",
                     items: const ["Masculino", "Feminino"],
                     validator: genderValidator,
                   )),

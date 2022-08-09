@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/screens/schedule_screen.dart';
+import 'package:sandfriends/screens/match_search_screen.dart';
+import 'package:sandfriends/screens/sport_selection_screen.dart';
 import 'package:sandfriends/widgets/SF_NavBar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'schedule_screen.dart';
+import 'match_search_screen.dart';
 import 'feed_screen.dart';
 import 'user_screen.dart';
 import '../theme/app_theme.dart';
@@ -26,7 +27,7 @@ class _MyStatefulWidgetState extends State<HomeScreen> {
 
     if (widget.initialPage == 'user_screen') {
       _selectedIndex = 0;
-    } else if (widget.initialPage == 'schedule_screen') {
+    } else if (widget.initialPage == 'sport_selection_screen') {
       _selectedIndex = 2;
     } else {
       _selectedIndex = 1;
@@ -35,7 +36,7 @@ class _MyStatefulWidgetState extends State<HomeScreen> {
     _widgetOptions = <Widget>[
       UserScreen(),
       FeedScreen(),
-      ScheduleScreen(),
+      SportSelectionScreen(),
     ];
 
     _pageController = PageController(initialPage: _selectedIndex);
