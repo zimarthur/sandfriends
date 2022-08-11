@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../models/enums.dart';
 import '../../providers/login_provider.dart';
@@ -41,7 +40,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             color: AppTheme.colors.secondaryBack,
             child: Stack(
               children: [
-                Text("password link"),
+                const Text("password link"),
                 Positioned.fill(
                   child: SvgPicture.asset(
                     r'assets\icon\sand_bar.svg',
