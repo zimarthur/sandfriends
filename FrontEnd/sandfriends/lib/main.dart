@@ -12,8 +12,8 @@ import 'package:sandfriends/screens/login/email_validation.dart';
 import 'package:uni_links/uni_links.dart';
 import '../api/google_signin_api.dart';
 import 'dart:async';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'models/enums.dart';
 import 'screens/login/create_account.dart';
 import 'screens/login/new_user_form.dart';
 import 'screens/login/new_user_welcome.dart';
@@ -162,6 +162,11 @@ class _MyAppState extends State<MyApp> {
         routerDelegate: _router.routerDelegate,
         debugShowCheckedModeBanner: false,
         theme: AppTheme.define(),
+        builder: ((context, child) => MediaQuery(
+              data:
+                  MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+              child: child!,
+            )),
       ),
     );
   }
@@ -189,6 +194,7 @@ class _MyAppState extends State<MyApp> {
           return null;
         }
       }
+      return null;
     },
     //initialLocation: needsRedirect == false ? "/load_login" : "/",
     routes: <GoRoute>[
@@ -196,7 +202,7 @@ class _MyAppState extends State<MyApp> {
         name: 'match_search_screen',
         path: '/match_search_screen',
         builder: (BuildContext context, GoRouterState state) =>
-            MatchSearchScreen(),
+            const MatchSearchScreen(),
       ),
       GoRoute(
         name: 'sport_selection',
@@ -213,13 +219,13 @@ class _MyAppState extends State<MyApp> {
         name: 'change_password',
         path: '/change_password',
         builder: (BuildContext context, GoRouterState state) =>
-            ChangePassword(),
+            const ChangePassword(),
       ),
       GoRoute(
         name: 'email_validation',
         path: '/email_validation',
         builder: (BuildContext context, GoRouterState state) =>
-            EmailValidation(),
+            const EmailValidation(),
       ),
       GoRoute(
         name: 'create_account',
@@ -230,13 +236,14 @@ class _MyAppState extends State<MyApp> {
       GoRoute(
         name: 'new_user_form',
         path: '/new_user_form',
-        builder: (BuildContext context, GoRouterState state) => NewUserForm(),
+        builder: (BuildContext context, GoRouterState state) =>
+            const NewUserForm(),
       ),
       GoRoute(
         name: 'new_user_welcome',
         path: '/new_user_welcome',
         builder: (BuildContext context, GoRouterState state) =>
-            NewUserWelcome(),
+            const NewUserWelcome(),
       ),
       GoRoute(
         name: 'load_login',
@@ -269,7 +276,7 @@ class _MyAppState extends State<MyApp> {
         name: 'user_detail',
         path: '/user_detail',
         builder: (BuildContext context, GoRouterState state) =>
-            UserDetailScreen(),
+            const UserDetailScreen(),
       ),
     ],
   );
