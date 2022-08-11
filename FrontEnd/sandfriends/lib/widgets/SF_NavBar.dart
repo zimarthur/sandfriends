@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SandFriendsNavBar extends StatelessWidget {
-  SandFriendsNavBar({
+  const SandFriendsNavBar({
     Key? key,
     this.selectedIndex = 1,
     this.iconSize = 32,

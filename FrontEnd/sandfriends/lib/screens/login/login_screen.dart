@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         modalImagePath = r"assets\icon\happy_face.svg";
                       });
                     },
-                    child: Container(
+                    child: SizedBox(
                       height: height * 0.022,
                       child: FittedBox(
                         fit: BoxFit.fill,
@@ -155,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   Expanded(child: Container()),
-                  Container(
+                  SizedBox(
                     height: height * 0.06,
                     width: MediaQuery.of(context).size.width,
                     child: FittedBox(

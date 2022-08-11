@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/login_provider.dart';
 
 enum TextFieldPourpose { Standard, Email, Password, Numeric }
 
@@ -16,7 +14,7 @@ class SFTextField extends StatefulWidget {
   final TextEditingController controller;
   final FormFieldValidator<String>? validator;
 
-  SFTextField({
+  const SFTextField({
     required this.labelText,
     this.prefixIcon,
     this.suffixIcon,
@@ -103,14 +101,14 @@ class _SFTextFieldState extends State<SFTextField> {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.red,
             width: 2,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.red,
             width: 2,
           ),

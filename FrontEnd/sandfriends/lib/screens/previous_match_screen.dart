@@ -9,10 +9,10 @@ class PreviousMatchScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppTheme.colors.primaryBlue,
-        title: Text("Partidas"),
+        title: const Text("Partidas"),
       ),
       body: Container(
-        child: Text("Partidas"),
+        child: const Text("Partidas"),
       ),
     );
   }

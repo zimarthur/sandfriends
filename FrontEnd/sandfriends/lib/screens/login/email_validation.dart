@@ -4,8 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:sandfriends/providers/redirect_provider.dart';
 
 import '../../models/enums.dart';
 import '../../providers/login_provider.dart';
@@ -45,7 +43,7 @@ class _EmailValidationState extends State<EmailValidation> {
             color: AppTheme.colors.secondaryBack,
             child: Stack(
               children: [
-                Text("dynamic link"),
+                const Text("dynamic link"),
                 Positioned.fill(
                   child: SvgPicture.asset(
                     r'assets\icon\sand_bar.svg',
@@ -114,7 +112,7 @@ class _EmailValidationState extends State<EmailValidation> {
       showModal = true;
     }
 
-    if (this.mounted) {
+    if (mounted) {
       if (showModal) {
         setState(() {
           // Your state change code goes here

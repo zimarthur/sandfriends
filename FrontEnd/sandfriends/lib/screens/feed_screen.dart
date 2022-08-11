@@ -10,7 +10,7 @@ class FeedScreen extends StatelessWidget {
       color: AppTheme.colors.secondaryYellow,
       constraints: const BoxConstraints.expand(),
       child: ListView(
-        children: [],
+        children: const [],
       ),
     );
   }

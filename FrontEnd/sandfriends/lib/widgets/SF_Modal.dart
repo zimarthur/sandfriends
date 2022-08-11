@@ -51,10 +51,10 @@ class _SFModalState extends State<SFModal> {
           height: widget.pourpose == ModalPourpose.Alert
               ? height * 0.4
               : height * 0.7,
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: Column(
             children: <Widget>[
-              Padding(padding: EdgeInsets.only(top: 10)),
+              const Padding(padding: EdgeInsets.only(top: 10)),
               SvgPicture.asset(
                 widget.picturePath,
                 height: 88,

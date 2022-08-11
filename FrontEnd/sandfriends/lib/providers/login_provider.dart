@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../models/enums.dart';
 
 class Login with ChangeNotifier {
   /*LoginStatus _loginStatus = LoginStatus.LogOff;

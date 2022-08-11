@@ -7,9 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../../models/enums.dart';
 import '../../widgets/SF_Dropdown.dart';
-import '../../providers/login_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/SF_Button.dart';
 import '../../widgets/SF_TextField.dart';
@@ -20,7 +18,7 @@ final _newUserFormKey = GlobalKey<FormState>();
 class NewUserForm extends StatefulWidget {
   static const routeName = 'user_detail';
 
-  NewUserForm({Key? key}) : super(key: key);
+  const NewUserForm({Key? key}) : super(key: key);
 
   @override
   State<NewUserForm> createState() => _NewUserFormState();
@@ -30,7 +28,7 @@ class _NewUserFormState extends State<NewUserForm> {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController phoneNumberController =
-      new MaskedTextController(mask: '(000) 00000-00000');
+      MaskedTextController(mask: '(000) 00000-00000');
 
   String? genderValue;
 
@@ -183,7 +181,7 @@ class _NewUserFormState extends State<NewUserForm> {
   }
 
   Future<void> addUserInfo(BuildContext context) async {
-    final storage = new FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     String? accessToken = await storage.read(key: "AccessToken");
     if (accessToken != null) {
       var response = await http.post(

@@ -6,11 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:intl/intl.dart';
 
-import '../../models/enums.dart';
 import '../../widgets/SF_Dropdown.dart';
-import '../../providers/login_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/SF_Button.dart';
 import '../../widgets/SF_TextField.dart';
@@ -21,7 +18,7 @@ final _userDetailFormKey = GlobalKey<FormState>();
 class UserDetailScreen extends StatefulWidget {
   static const routeName = 'user_detail';
 
-  UserDetailScreen({Key? key}) : super(key: key);
+  const UserDetailScreen({Key? key}) : super(key: key);
 
   @override
   State<UserDetailScreen> createState() => _UserDetailScreen();
@@ -31,11 +28,11 @@ class _UserDetailScreen extends State<UserDetailScreen> {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController phoneNumberController =
-      new MaskedTextController(mask: '(000) 00000-00000');
+      MaskedTextController(mask: '(000) 00000-00000');
   final TextEditingController birthdayController =
-      new MaskedTextController(mask: '00/00/0000');
+      MaskedTextController(mask: '00/00/0000');
   final TextEditingController heightController =
-      new MaskedTextController(mask: '0,00');
+      MaskedTextController(mask: '0,00');
 
   String? genderValue;
   String? handPreferenceValue;
@@ -117,7 +114,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: width * 0.2,
                   child: SFButton(
                     buttonLabel: "Salvar",
@@ -226,7 +223,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
   }
 
   Future<void> updateUser(BuildContext context) async {
-    final storage = new FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     String? accessToken = await storage.read(key: "AccessToken");
     if (accessToken != null) {
       var response = await http.put(

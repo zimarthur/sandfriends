@@ -46,14 +46,14 @@ class _SFDropdownState extends State<SFDropdown> {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.red,
             width: 2,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.red,
             width: 2,
           ),

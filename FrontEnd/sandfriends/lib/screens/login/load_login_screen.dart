@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sandfriends/providers/redirect_provider.dart';
 import 'package:sandfriends/theme/app_theme.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:provider/provider.dart';
 
-import '../../models/enums.dart';
 import '../../models/user.dart';
-import '../../providers/login_provider.dart';
-import '../../widgets/SF_Modal.dart';
 
 Future<void> ValidateAccessToken(BuildContext context) async {
-  final storage = new FlutterSecureStorage();
+  const storage = FlutterSecureStorage();
   String? accessToken = await storage.read(key: "AccessToken");
   bool isNewUser = false;
   String newAccessToken;

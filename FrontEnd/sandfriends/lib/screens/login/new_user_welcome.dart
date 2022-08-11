@@ -127,7 +127,7 @@ class NewUserWelcome extends StatelessWidget {
               ),
             ),
             Expanded(child: Container()),
-            Container(
+            SizedBox(
               height: height * 0.06,
               width: MediaQuery.of(context).size.width,
               child: FittedBox(

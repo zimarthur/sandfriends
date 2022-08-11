@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../models/enums.dart';
-import '../../providers/login_provider.dart';
 import '../../api/google_signin_api.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/SF_Button.dart';
-import '../../widgets/SF_Modal.dart';
 
 class LoginSignupScreen extends StatefulWidget {
+  @override
   State<LoginSignupScreen> createState() => _LoginSignupScreenState();
 }
 
@@ -120,7 +117,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                 ),
               ),
               Expanded(child: Container()),
-              Container(
+              SizedBox(
                 height: height * 0.06,
                 width: MediaQuery.of(context).size.width,
                 child: FittedBox(
@@ -160,6 +157,7 @@ Future<String?> googleSignIn(BuildContext context) async {
         return null;
       });
   }
+  return null;
 }
 
 Future<void> ValidateLogin(BuildContext context, String email) async {

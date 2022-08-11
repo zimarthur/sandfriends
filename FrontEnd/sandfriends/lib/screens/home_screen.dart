@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/screens/match_search_screen.dart';
 import 'package:sandfriends/screens/sport_selection_screen.dart';
 import 'package:sandfriends/widgets/SF_NavBar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'match_search_screen.dart';
 import 'feed_screen.dart';
 import 'user_screen.dart';
 import '../theme/app_theme.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({this.initialPage});
+  const HomeScreen({this.initialPage});
   final String? initialPage;
   @override
   State<HomeScreen> createState() => _MyStatefulWidgetState();

@@ -15,7 +15,7 @@ class SFButton extends StatefulWidget {
   final double iconSize;
   final EdgeInsets? textPadding;
 
-  SFButton(
+  const SFButton(
       {required this.buttonLabel,
       required this.buttonType,
       required this.onTap,

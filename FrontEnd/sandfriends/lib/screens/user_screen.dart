@@ -3,11 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import '../models/enums.dart';
 import '../models/user.dart';
-import 'user_detail_screen.dart';
 import '../theme/app_theme.dart';
-import '../providers/login_provider.dart';
 
 class UserScreen extends StatefulWidget {
   @override
@@ -49,7 +46,7 @@ class _UserScreenState extends State<UserScreen> {
                       ),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     height: height * 0.04,
                     child: FittedBox(
                       fit: BoxFit.fitHeight,
