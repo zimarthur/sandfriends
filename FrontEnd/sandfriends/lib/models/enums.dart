@@ -11,6 +11,8 @@ enum ModalPourpose { Alert, Email, Password }
 
 enum Sport { Beachtennis, futevolei, volei }
 
+enum SearchFilter { Local, Date, Time }
+
 extension ParseToString on Sport {
   String toShortString() {
     if (this == Sport.Beachtennis) {
