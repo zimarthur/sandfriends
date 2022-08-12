@@ -53,14 +53,8 @@ class _MyAppState extends State<MyApp> {
 
   StreamSubscription? _sub;
 
-  //   // NOTE: Don't forget to call _sub.cancel() in dispose()
-  // }
-  /// Handle incoming links - the ones that the app will recieve from the OS
-  /// while already started.
   void _handleIncomingLinks() {
     if (!kIsWeb) {
-      // It will handle app links while the app is already started - be it in
-      // the foreground or in the background.
       _sub = uriLinkStream.listen((Uri? uri) {
         if (!mounted) return;
         print('got uri: $uri');
@@ -85,17 +79,7 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  /// Handle the initial Uri - the one the app was started with
-  ///
-  /// **ATTENTION**: `getInitialLink`/`getInitialUri` should be handled
-  /// ONLY ONCE in your app's lifetime, since it is not meant to change
-  /// throughout your app's life.
-  ///
-  /// We handle all exceptions, since it is called from initState.
   Future<void> _handleInitialUri() async {
-    // In this example app this is an almost useless guard, but it is here to
-    // show we are not going to call getInitialUri multiple times, even if this
-    // was a weidget that will be disposed of (ex. a navigation route change).
     if (!_initialUriIsHandled) {
       _initialUriIsHandled = true;
       print('_handleInitialUri called');
@@ -116,7 +100,6 @@ class _MyAppState extends State<MyApp> {
         }
         setState(() => _initialUri = uri);
       } on PlatformException {
-        // Platform messages may fail but we ignore the exception
         print('falied to get initial uri');
       } on FormatException catch (err) {
         if (!mounted) return;
@@ -129,7 +112,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    //initUniLinks();
     _handleIncomingLinks();
     _handleInitialUri();
   }
@@ -196,7 +178,6 @@ class _MyAppState extends State<MyApp> {
       }
       return null;
     },
-    //initialLocation: needsRedirect == false ? "/load_login" : "/",
     routes: <GoRoute>[
       GoRoute(
         name: 'match_search_screen',
