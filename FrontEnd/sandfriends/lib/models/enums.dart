@@ -6,9 +6,6 @@ enum EnumChangePasswordStatus {
   WrongPassword,
   NotConfirmedEmail
 }
-enum EnumEmailConfirmationStatus { Success, Failed }
-enum ModalPourpose { Alert, Email, Password }
-
 enum Sport { Beachtennis, futevolei, volei }
 
 enum SearchFilter { Local, Date, Time }
@@ -24,3 +21,7 @@ extension ParseToString on Sport {
     }
   }
 }
+
+enum AppBarType { Primary, Secondary }
+
+enum GenericStatus { Success, Failed }
