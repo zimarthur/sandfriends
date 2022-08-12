@@ -3,12 +3,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:sandfriends/widgets/Modal/SF_ModalMessage.dart';
 import 'dart:convert';
 
 import '../../models/enums.dart';
+import '../../models/user.dart';
 import '../../providers/login_provider.dart';
 import '../../theme/app_theme.dart';
-import '../../widgets/SF_Modal.dart';
+import '../../widgets/Modal/SF_Modal.dart';
 
 class EmailValidation extends StatefulWidget {
   const EmailValidation({Key? key}) : super(key: key);
@@ -21,16 +23,15 @@ class _EmailValidationState extends State<EmailValidation> {
   final TextEditingController modalController = TextEditingController();
 
   bool showModal = false;
+  Widget? modalWidget;
+  GenericStatus? modalStatus;
   String? modalMessage;
-  String? modalImagePath;
-  ModalPourpose? modalPourpose;
 
-  EnumEmailConfirmationStatus? emailConfirmationStatus;
+  GenericStatus? emailConfirmationStatus;
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       showModal = false;
-      modalPourpose = ModalPourpose.Alert;
       ConfirmEmail(context);
     });
 
@@ -62,19 +63,22 @@ class _EmailValidationState extends State<EmailValidation> {
           ),
           showModal
               ? SFModal(
-                  picturePath: modalImagePath!,
-                  message: modalMessage!,
-                  showModal: showModal,
-                  pourpose: modalPourpose!,
-                  textController: modalController,
-                  onTap: () {
+                  onTapBackground: () {
                     setState(() {
-                      if (emailConfirmationStatus ==
-                          EnumEmailConfirmationStatus.Failed) {
-                        context.goNamed('login_signup');
-                      }
+                      showModal = false;
                     });
                   },
+                  child: SFModalMessage(
+                    message: modalMessage!,
+                    modalStatus: modalStatus!,
+                    onTap: () {
+                      setState(() {
+                        if (emailConfirmationStatus == GenericStatus.Failed) {
+                          context.goNamed('login_signup');
+                        }
+                      });
+                    },
+                  ),
                 )
               : Container()
         ],
@@ -97,18 +101,23 @@ class _EmailValidationState extends State<EmailValidation> {
     );
 
     if (response.statusCode == 200) {
-      emailConfirmationStatus = EnumEmailConfirmationStatus.Success;
+      emailConfirmationStatus = GenericStatus.Success;
       showModal = false;
-      context.goNamed('login');
+      context.goNamed('new_user_welcome');
     } else if (response.statusCode == 406) {
-      emailConfirmationStatus = EnumEmailConfirmationStatus.Failed;
+      emailConfirmationStatus = GenericStatus.Failed;
       modalMessage = "Seu link não é válido. Tente novamente";
-      modalImagePath = r"assets\icon\sad_face.svg";
+      modalStatus = GenericStatus.Failed;
+      showModal = true;
+    } else if (response.statusCode == 411) {
+      emailConfirmationStatus = GenericStatus.Failed;
+      modalMessage = "Sua conta já foi confirmada. Faça login!";
+      modalStatus = GenericStatus.Success;
       showModal = true;
     } else {
-      emailConfirmationStatus = EnumEmailConfirmationStatus.Failed;
+      emailConfirmationStatus = GenericStatus.Failed;
       modalMessage = "Ocorreu um erro inesperado. Tente novamente";
-      modalImagePath = r"assets\icon\sad_face.svg";
+      modalStatus = GenericStatus.Failed;
       showModal = true;
     }
 

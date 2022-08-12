@@ -16,6 +16,6 @@ String? passwordValidator(String? value) {
   } else if (RegExp(r"^.{8,}").hasMatch(value)) {
     return null;
   } else {
-    return "sua senha deve ter pelo menos 8 digitos";
+    return "min. 8 caracteres";
   }
 }

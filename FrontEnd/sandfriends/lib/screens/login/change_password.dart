@@ -3,12 +3,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:sandfriends/widgets/Modal/SF_ModalInput.dart';
+import 'package:sandfriends/widgets/SF_TextField.dart';
 import 'dart:convert';
 
 import '../../models/enums.dart';
+import '../../models/validators.dart';
 import '../../providers/login_provider.dart';
 import '../../theme/app_theme.dart';
-import '../../widgets/SF_Modal.dart';
+import '../../widgets/Modal/SF_Modal.dart';
+import '../../widgets/Modal/SF_ModalMessage.dart';
 
 final _newPasswordFormKey = GlobalKey<FormState>();
 
@@ -20,12 +24,26 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
-  final TextEditingController modalController = TextEditingController();
+  TextEditingController modalController = TextEditingController();
 
   bool showModal = true;
-  String modalMessage = "Digite sua nova senha";
-  String modalImagePath = r"assets\icon\happy_face.svg";
-  ModalPourpose modalPourpose = ModalPourpose.Password;
+  GenericStatus? modalStatus = GenericStatus.Success;
+  String? modalMessage = "";
+  Widget? modalWidget;
+  /*SFModalInput(
+      formKey: _newPasswordFormKey,
+      inputMessage: 'senha',
+      textController: modalController,
+      textFieldPourpose: TextFieldPourpose.Password,
+      validator: passwordValidator,
+      message: 'digite sua nova senha',
+      modalStatus: GenericStatus.Success,
+      onTap: () {
+        setState(() {
+          SetNewPassword(context);
+        });
+      },
+    );*/
 
   EnumChangePasswordStatus? changePasswordStatus;
 
@@ -58,6 +76,31 @@ class _ChangePasswordState extends State<ChangePassword> {
             ),
           ),
           showModal
+              ? SFModal(
+                  onTapBackground: () {
+                    setState(() {
+                      showModal = false;
+                      context.goNamed('login_signup');
+                    });
+                  },
+                  child: modalWidget == null
+                      ? SFModalInput(
+                          formKey: _newPasswordFormKey,
+                          inputMessage: 'senha',
+                          textController: modalController,
+                          textFieldPourpose: TextFieldPourpose.Password,
+                          validator: passwordValidator,
+                          message: 'digite sua nova senha',
+                          modalStatus: GenericStatus.Success,
+                          onTap: () {
+                            setState(() {
+                              SetNewPassword(context);
+                            });
+                          },
+                        )
+                      : modalWidget!)
+              : Container()
+          /*showModal
               ? Form(
                   key: _newPasswordFormKey,
                   child: SFModal(
@@ -78,7 +121,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     },
                   ),
                 )
-              : Container()
+              : Container()*/
         ],
       ),
     );
@@ -102,18 +145,29 @@ class _ChangePasswordState extends State<ChangePassword> {
 
       if (response.statusCode == 200) {
         modalMessage = "Sua senha foi alterada!";
-        modalImagePath = r"assets\icon\happy_face.svg";
+        modalStatus = GenericStatus.Success;
         showModal = true;
         changePasswordStatus = EnumChangePasswordStatus.Success;
       } else {
-        modalMessage = "Ocorreu um erro ao trocar sua senha. Tente novamente";
-        modalImagePath = r"assets\icon\sad_face.svg";
+        modalMessage = "Esse link não é mais válido. Solicite novamente.";
+        modalStatus = GenericStatus.Failed;
         showModal = true;
       }
-      if (showModal) {
-        setState(() {
-          modalPourpose = ModalPourpose.Alert;
-        });
+      if (mounted) {
+        if (showModal) {
+          setState(() {
+            modalWidget = SFModalMessage(
+              modalStatus: modalStatus!,
+              message: modalMessage!,
+              onTap: () {
+                setState(() {
+                  showModal = false;
+                  context.goNamed('login_signup');
+                });
+              },
+            );
+          });
+        }
       }
     }
   }

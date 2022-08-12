@@ -5,13 +5,16 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:sandfriends/widgets/Modal/SF_ModalInput.dart';
+import 'package:sandfriends/widgets/Modal/SF_ModalMessage.dart';
+import 'package:sandfriends/widgets/SF_Scaffold.dart';
 
 import '../../models/enums.dart';
 import '../../models/user.dart';
 import '../../widgets/SF_Button.dart';
 import '../../widgets/SF_TextField.dart';
 import '../../theme/app_theme.dart';
-import '../../widgets/SF_Modal.dart';
+import '../../widgets/Modal/SF_Modal.dart';
 import '../../models/validators.dart';
 
 final _loginFormKey = GlobalKey<FormState>();
@@ -25,173 +28,128 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController modalController = TextEditingController();
+  TextEditingController modalController = TextEditingController();
 
   bool showModal = false;
+  Widget? modalWidget;
+  GenericStatus? modalStatus;
   String? modalMessage;
-  String? modalImagePath;
-  ModalPourpose modalPourpose = ModalPourpose.Alert;
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: SafeArea(
-          child: Container(
-            color: AppTheme.colors.secondaryBack,
-            padding: const EdgeInsets.all(17),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    context.goNamed('login_signup');
-                  },
+    return SFScaffold(
+      titleText: "Login",
+      goNamed: 'login_signup',
+      appBarType: AppBarType.Secondary,
+      showModal: showModal,
+      modalWidget: modalWidget,
+      onTapBackground: () {
+        setState(() {
+          showModal = false;
+        });
+      },
+      child: Container(
+        color: AppTheme.colors.secondaryBack,
+        width: double.infinity,
+        child: Form(
+          key: _loginFormKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                r"assets\icon\logo_brand.png",
+                height: height * 0.22,
+              ),
+              Padding(padding: EdgeInsets.only(bottom: height * 0.08)),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                child: SFTextField(
+                  controller: emailController,
+                  labelText: "Digite seu e-mail",
+                  prefixIcon: SvgPicture.asset(r"assets\icon\email.svg"),
+                  pourpose: TextFieldPourpose.Email,
+                  validator: emailValidator,
+                ),
+              ),
+              Padding(padding: EdgeInsets.only(bottom: height * 0.025)),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                child: SFTextField(
+                  controller: passwordController,
+                  labelText: "Digite sua senha",
+                  prefixIcon: SvgPicture.asset(r"assets\icon\lock.svg"),
+                  suffixIcon: SvgPicture.asset(r"assets\icon\eye_closed.svg"),
+                  suffixIconPressed:
+                      SvgPicture.asset(r"assets\icon\eye_open.svg"),
+                  pourpose: TextFieldPourpose.Password,
+                  validator: passwordValidator,
+                ),
+              ),
+              Padding(padding: EdgeInsets.only(bottom: height * 0.01)),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    showModal = true;
+                    modalStatus = GenericStatus.Success;
+                    modalMessage =
+                        "Digite seu e-mail e enviaremos o link para troca de senha";
+                    modalWidget = SFModalInput(
+                        modalStatus: modalStatus!,
+                        message: modalMessage!,
+                        inputMessage: "digite seu e-mail",
+                        formKey: _forgotPasswordFormKey,
+                        validator: emailValidator,
+                        textController: modalController,
+                        textFieldPourpose: TextFieldPourpose.Email,
+                        onTap: () => ForgotPassword(context));
+                  });
+                },
+                child: SizedBox(
+                  height: height * 0.022,
+                  child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: Text(
+                      "Esqueci minha senha",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: AppTheme.colors.textBlue,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(padding: EdgeInsets.only(bottom: height * 0.1)),
+              SizedBox(
+                width: double.infinity,
+                child: Container(
+                  height: height * 0.05,
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.14),
+                  child: SFButton(
+                    buttonLabel: "Login",
+                    buttonType: ButtonType.Primary,
+                    onTap: () => validateLogin(
+                        context, emailController.text, passwordController.text),
+                  ),
+                ),
+              ),
+              Expanded(child: Container()),
+              SizedBox(
+                height: height * 0.06,
+                width: MediaQuery.of(context).size.width,
+                child: FittedBox(
+                  fit: BoxFit.fill,
                   child: SvgPicture.asset(
-                    r'assets\icon\arrow_left.svg',
-                    height: 8.7,
-                    width: 13.2,
+                    r'assets\icon\sand_bar.svg',
+                    alignment: Alignment.bottomCenter,
                   ),
                 ),
-                Text(
-                  "Login",
-                  style: TextStyle(
-                    color: AppTheme.colors.primaryBlue,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SvgPicture.asset(
-                  r'assets\icon\info.svg',
-                  height: 15,
-                  width: 15,
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      ),
-      body: Stack(
-        children: [
-          Container(
-            color: AppTheme.colors.secondaryBack,
-            width: double.infinity,
-            child: Form(
-              key: _loginFormKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    r"assets\icon\logo_brand.png",
-                    height: height * 0.22,
-                  ),
-                  Padding(padding: EdgeInsets.only(bottom: height * 0.08)),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                    child: SFTextField(
-                      controller: emailController,
-                      labelText: "Digite seu e-mail",
-                      prefixIcon: SvgPicture.asset(r"assets\icon\email.svg"),
-                      pourpose: TextFieldPourpose.Email,
-                      validator: emailValidator,
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.only(bottom: height * 0.025)),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                    child: SFTextField(
-                      controller: passwordController,
-                      labelText: "Digite sua senha",
-                      prefixIcon: SvgPicture.asset(r"assets\icon\lock.svg"),
-                      suffixIcon:
-                          SvgPicture.asset(r"assets\icon\eye_closed.svg"),
-                      suffixIconPressed:
-                          SvgPicture.asset(r"assets\icon\eye_open.svg"),
-                      pourpose: TextFieldPourpose.Password,
-                      validator: passwordValidator,
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.only(bottom: height * 0.01)),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        showModal = true;
-                        modalPourpose = ModalPourpose.Email;
-                        modalMessage =
-                            "Digite seu e-mail e enviaremos o link para troca de senha";
-                        modalImagePath = r"assets\icon\happy_face.svg";
-                      });
-                    },
-                    child: SizedBox(
-                      height: height * 0.022,
-                      child: FittedBox(
-                        fit: BoxFit.fill,
-                        child: Text(
-                          "Esqueci minha senha",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: AppTheme.colors.textBlue,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.only(bottom: height * 0.1)),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Container(
-                      height: height * 0.05,
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.14),
-                      child: SFButton(
-                        buttonLabel: "Login",
-                        buttonType: ButtonType.Primary,
-                        onTap: () => validateLogin(context,
-                            emailController.text, passwordController.text),
-                      ),
-                    ),
-                  ),
-                  Expanded(child: Container()),
-                  SizedBox(
-                    height: height * 0.06,
-                    width: MediaQuery.of(context).size.width,
-                    child: FittedBox(
-                      fit: BoxFit.fill,
-                      child: SvgPicture.asset(
-                        r'assets\icon\sand_bar.svg',
-                        alignment: Alignment.bottomCenter,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          showModal
-              ? Form(
-                  key: _forgotPasswordFormKey,
-                  child: SFModal(
-                    picturePath: modalImagePath!,
-                    message: modalMessage!,
-                    showModal: showModal,
-                    pourpose: modalPourpose,
-                    textController: modalController,
-                    onTap: () {
-                      setState(() {
-                        if (modalPourpose == ModalPourpose.Email) {
-                          ForgotPassword(context);
-                        } else {
-                          showModal = false;
-                        }
-                      });
-                    },
-                  ),
-                )
-              : Container()
-        ],
       ),
     );
   }
@@ -225,50 +183,42 @@ class _LoginScreenState extends State<LoginScreen> {
               'https://www.sandfriends.com.br/GetUser/' + newAccessToken));
           if (response.statusCode == 200) {
             Map<String, dynamic> responseBody = json.decode(response.body);
-            Provider.of<User>(context, listen: false).FirstName =
-                responseBody['FirstName'];
-            Provider.of<User>(context, listen: false).LastName =
-                responseBody['LastName'];
-            Provider.of<User>(context, listen: false).Gender =
-                responseBody['Gender'];
-            Provider.of<User>(context, listen: false).PhoneNumber =
-                responseBody['PhoneNumber'];
-            Provider.of<User>(context, listen: false).Birthday =
-                responseBody['Birthday'];
-            Provider.of<User>(context, listen: false).Rank =
-                responseBody['Rank'];
-            Provider.of<User>(context, listen: false).Height =
-                responseBody['Height'];
-            Provider.of<User>(context, listen: false).HandPreference =
-                responseBody['HandPreference'];
-            Provider.of<User>(context, listen: false).Photo =
-                responseBody['Photo'];
+            userFromJson(context, responseBody);
             context.goNamed('home', params: {'initialPage': 'feed_screen'});
           }
         }
       } else if (response.statusCode == 404) {
         modalMessage =
             "Você já utilizou esse e-mail para entrar com conta Google"; //link
-        modalImagePath = r"assets\icon\sad_face.svg";
+        modalStatus = GenericStatus.Failed;
         showModal = true;
       } else if (response.statusCode == 405) {
         modalMessage =
             "Antes de começar, confirme seu e-mail com o link que enviamos";
-        modalImagePath = r"assets\icon\sad_face.svg";
+        modalStatus = GenericStatus.Failed;
         showModal = true;
       } else if (response.statusCode == 407) {
         modalMessage = "Você ainda não tem uma conta";
-        modalImagePath = r"assets\icon\sad_face.svg";
+        modalStatus = GenericStatus.Failed;
         showModal = true;
       } else if (response.statusCode == 408) {
         modalMessage = "Senha Incorreta";
-        modalImagePath = r"assets\icon\sad_face.svg";
+        modalStatus = GenericStatus.Failed;
         showModal = true;
       } else {
         print("Erro nao identificado");
       }
       if (showModal) {
-        setState(() {});
+        setState(() {
+          modalWidget = SFModalMessage(
+              modalStatus: modalStatus!,
+              message: modalMessage!,
+              onTap: () {
+                setState(() {
+                  showModal = false;
+                });
+              });
+        });
       }
     }
   }
@@ -289,24 +239,33 @@ class _LoginScreenState extends State<LoginScreen> {
         showModal = true;
         modalMessage =
             "Feito! Enviamos um e-mail para você escolher uma nova senha";
-        modalImagePath = r"assets\icon\happy_face.svg";
+        modalStatus = GenericStatus.Success;
       } else if (response.statusCode == 407) {
         modalMessage = "Não existe nenhuma conta com esse e-mail";
-        modalImagePath = r"assets\icon\sad_face.svg";
+        modalStatus = GenericStatus.Failed;
         showModal = true;
       } else if (response.statusCode == 405) {
         modalMessage =
             "Você ainda não confirmou seu e-mail. Faça isso antes de qualquer coisa.";
-        modalImagePath = r"assets\icon\sad_face.svg";
+        modalStatus = GenericStatus.Failed;
         showModal = true;
       } else {
         modalMessage = "Erro Inesperado";
-        modalImagePath = r"assets\icon\sad_face.svg";
+        modalStatus = GenericStatus.Failed;
         showModal = true;
       }
       if (showModal) {
         setState(() {
-          modalPourpose = ModalPourpose.Alert;
+          modalWidget = SFModalMessage(
+            modalStatus: modalStatus!,
+            message: modalMessage!,
+            onTap: () {
+              setState(() {
+                modalController.text = "";
+                showModal = false;
+              });
+            },
+          );
         });
       }
     }

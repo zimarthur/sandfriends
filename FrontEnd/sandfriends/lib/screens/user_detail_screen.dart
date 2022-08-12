@@ -5,6 +5,8 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:sandfriends/models/enums.dart';
+import 'package:sandfriends/widgets/SF_Scaffold.dart';
 import 'dart:convert';
 
 import '../../widgets/SF_Dropdown.dart';
@@ -25,6 +27,8 @@ class UserDetailScreen extends StatefulWidget {
 }
 
 class _UserDetailScreen extends State<UserDetailScreen> {
+  bool showModal = false;
+
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController phoneNumberController =
@@ -81,59 +85,27 @@ class _UserDetailScreen extends State<UserDetailScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: SafeArea(
-          child: Container(
-            color: AppTheme.colors.secondaryBack,
-            padding: const EdgeInsets.all(17),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: width * 0.2,
-                  alignment: Alignment.centerLeft,
-                  child: InkWell(
-                    onTap: () {
-                      context.goNamed('home',
-                          params: {'initialPage': 'user_screen'});
-                    },
-                    child: SvgPicture.asset(
-                      r'assets\icon\arrow_left.svg',
-                      height: 8.7,
-                      width: 13.2,
-                    ),
-                  ),
-                ),
-                Text(
-                  "Meu Perfil",
-                  style: TextStyle(
-                    color: AppTheme.colors.primaryBlue,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SizedBox(
-                  width: width * 0.2,
-                  child: SFButton(
-                    buttonLabel: "Salvar",
-                    buttonType: ButtonType.Primary,
-                    onTap: () {
-                      if (_userDetailFormKey.currentState?.validate() == true) {
-                        print(rankValue);
-                        print(genderValue);
-                        updateUser(context);
-                      } else {}
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
+    return SFScaffold(
+      showModal: showModal,
+      titleText: "Meu Perfil",
+      goNamed: 'home',
+      goNamedParams: {'initialPage': 'user_screen'},
+      appBarType: AppBarType.Secondary,
+      rightWidget: Container(
+        width: width * 0.2,
+        child: SFButton(
+          buttonLabel: "Salvar",
+          buttonType: ButtonType.Primary,
+          onTap: () {
+            if (_userDetailFormKey.currentState?.validate() == true) {
+              print(rankValue);
+              print(genderValue);
+              updateUser(context);
+            } else {}
+          },
         ),
       ),
-      body: Container(
+      child: Container(
         margin: EdgeInsets.symmetric(horizontal: width * 0.05),
         color: AppTheme.colors.secondaryBack,
         width: double.infinity,
@@ -251,22 +223,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
       );
       if (response.statusCode == 200) {
         Map<String, dynamic> responseBody = json.decode(response.body);
-        Provider.of<User>(context, listen: false).FirstName =
-            responseBody['FirstName'];
-        Provider.of<User>(context, listen: false).LastName =
-            responseBody['LastName'];
-        Provider.of<User>(context, listen: false).Gender =
-            responseBody['Gender'];
-        Provider.of<User>(context, listen: false).PhoneNumber =
-            responseBody['PhoneNumber'];
-        Provider.of<User>(context, listen: false).Birthday =
-            responseBody['Birthday'];
-        Provider.of<User>(context, listen: false).Rank = responseBody['Rank'];
-        Provider.of<User>(context, listen: false).Height =
-            responseBody['Height'];
-        Provider.of<User>(context, listen: false).HandPreference =
-            responseBody['HandPreference'];
-        Provider.of<User>(context, listen: false).Photo = responseBody['Photo'];
+        userFromJson(context, responseBody);
         context.goNamed('home', params: {'initialPage': 'user_screen'});
       } else {
         print("deu ruim");
