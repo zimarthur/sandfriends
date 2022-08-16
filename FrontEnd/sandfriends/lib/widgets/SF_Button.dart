@@ -10,7 +10,6 @@ class SFButton extends StatefulWidget {
   final ButtonType buttonType;
   final VoidCallback? onTap;
   final double fontSize;
-  final EdgeInsets buttonPadding;
   final String iconPath;
   final double iconSize;
   final EdgeInsets? textPadding;
@@ -20,7 +19,6 @@ class SFButton extends StatefulWidget {
       required this.buttonType,
       required this.onTap,
       this.fontSize = 14,
-      this.buttonPadding = const EdgeInsets.symmetric(vertical: 13),
       this.iconPath = "",
       this.iconSize = 14,
       this.textPadding});

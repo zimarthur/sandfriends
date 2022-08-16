@@ -30,7 +30,7 @@ import 'models/user.dart';
 final redirecter = Redirect();
 final loginInfo = Login();
 final userinfo = User();
-final match = Match();
+final match = MatchProvider();
 
 bool needsRedirect = false;
 bool? isAppInit;
@@ -135,7 +135,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<User>.value(
           value: userinfo,
         ),
-        ChangeNotifierProvider<Match>.value(
+        ChangeNotifierProvider<MatchProvider>.value(
           value: match,
         ),
       ],

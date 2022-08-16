@@ -53,7 +53,7 @@ class _SportSelectionScreenState extends State<SportSelectionScreen> {
                           textPadding:
                               EdgeInsets.symmetric(vertical: height * 0.025),
                           onTap: () {
-                            Provider.of<Match>(context, listen: false)
+                            Provider.of<MatchProvider>(context, listen: false)
                                 .matchSport = Sport.Beachtennis;
                             context.goNamed('match_search_screen');
                           }),
@@ -67,7 +67,7 @@ class _SportSelectionScreenState extends State<SportSelectionScreen> {
                           textPadding:
                               EdgeInsets.symmetric(vertical: height * 0.025),
                           onTap: () {
-                            Provider.of<Match>(context, listen: false)
+                            Provider.of<MatchProvider>(context, listen: false)
                                 .matchSport = Sport.futevolei;
                             context.goNamed('match_search_screen');
                           }),
@@ -81,7 +81,7 @@ class _SportSelectionScreenState extends State<SportSelectionScreen> {
                           textPadding:
                               EdgeInsets.symmetric(vertical: height * 0.025),
                           onTap: () {
-                            Provider.of<Match>(context, listen: false)
+                            Provider.of<MatchProvider>(context, listen: false)
                                 .matchSport = Sport.volei;
                             context.goNamed('match_search_screen');
                           }),

@@ -45,11 +45,14 @@ class _SFSearchFilterState extends State<SFSearchFilter> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    widget.labelText,
-                    style: TextStyle(
-                      color: AppTheme.colors.textWhite,
-                      fontWeight: FontWeight.w500,
+                  FittedBox(
+                    fit: BoxFit.fitHeight,
+                    child: Text(
+                      widget.labelText,
+                      style: TextStyle(
+                        color: AppTheme.colors.textWhite,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                   SvgPicture.asset(

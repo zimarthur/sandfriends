@@ -25,3 +25,5 @@ extension ParseToString on Sport {
 enum AppBarType { Primary, Secondary }
 
 enum GenericStatus { Success, Failed }
+
+enum EnumSearchStatus { NoFilterApplied, Results, NoResultsFound }
