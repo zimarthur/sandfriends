@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:sandfriends/providers/match_provider.dart';
+import 'package:sandfriends/widgets/SF_AvailableHours.dart';
 import 'package:sandfriends/widgets/SF_Button.dart';
 
 import '../models/court.dart';
@@ -17,6 +20,17 @@ class SFCourtCard extends StatefulWidget {
 }
 
 class _SFCourtCardState extends State<SFCourtCard> {
+  bool isSelectedCourt(BuildContext context) {
+    if (Provider.of<MatchProvider>(context).selectedCourt ==
+        widget.court.index) {
+      print("true");
+      return true;
+    } else {
+      print("false");
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -104,68 +118,29 @@ class _SFCourtCardState extends State<SFCourtCard> {
                 scrollDirection: Axis.horizontal,
                 itemCount: widget.court.availableHours.length,
                 itemBuilder: ((context, index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 2.0),
-                    child: Container(
-                      width: 75,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                            color: AppTheme.colors.primaryBlue, width: 1),
-                      ),
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SvgPicture.asset(r"assets\icon\clock.svg"),
-                                Expanded(
-                                  child: FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: Text(
-                                      widget.court.availableHours[index].hour,
-                                      style: TextStyle(
-                                          color: AppTheme.colors.primaryBlue),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SvgPicture.asset(r"assets\icon\payment.svg"),
-                                Expanded(
-                                  child: FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: Text(
-                                      widget.court.availableHours[index].price,
-                                      style: TextStyle(
-                                          color: AppTheme.colors.primaryBlue),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                  return SFAvailableHours(
+                    court: widget.court,
+                    hourIndex: index,
                   );
                 }),
               ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: width * 0.1, vertical: height * 0.01),
+                  horizontal: width * 0.03, vertical: height * 0.01),
               child: SFButton(
                   buttonLabel: "Agendar Horário",
-                  buttonType: ButtonType.Disabled,
+                  buttonType: isSelectedCourt(context)
+                      ? ButtonType.Primary
+                      : ButtonType.Disabled,
                   textPadding: EdgeInsets.symmetric(vertical: 5),
-                  onTap: () {}),
+                  onTap: () {
+                    if (isSelectedCourt(context)) {
+                      print("pode agendar");
+                    } else {
+                      print("seleciona horario antes");
+                    }
+                  }),
             ),
           ],
         ),
