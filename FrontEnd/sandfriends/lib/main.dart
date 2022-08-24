@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/screens/court_screen.dart';
 import 'package:sandfriends/screens/login/dummy.dart';
 import 'package:sandfriends/screens/match_search_screen.dart';
 import 'package:sandfriends/screens/sport_selection_screen.dart';
@@ -135,9 +136,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<User>.value(
           value: userinfo,
         ),
-        ChangeNotifierProvider<MatchProvider>.value(
-          value: match,
-        ),
+        ChangeNotifierProvider<MatchProvider>(
+            create: ((context) => MatchProvider())),
       ],
       child: MaterialApp.router(
         routeInformationParser: _router.routeInformationParser,
@@ -179,6 +179,12 @@ class _MyAppState extends State<MyApp> {
       return null;
     },
     routes: <GoRoute>[
+      GoRoute(
+        name: 'court_screen',
+        path: '/court_screen',
+        builder: (BuildContext context, GoRouterState state) =>
+            const CourtScreen(),
+      ),
       GoRoute(
         name: 'match_search_screen',
         path: '/match_search_screen',

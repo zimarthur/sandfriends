@@ -8,8 +8,6 @@ enum EnumChangePasswordStatus {
 }
 enum Sport { Beachtennis, futevolei, volei }
 
-enum SearchFilter { Local, Date, Time }
-
 extension ParseToString on Sport {
   String toShortString() {
     if (this == Sport.Beachtennis) {
@@ -26,4 +24,4 @@ enum AppBarType { Primary, Secondary }
 
 enum GenericStatus { Success, Failed }
 
-enum EnumSearchStatus { NoFilterApplied, Results, NoResultsFound }
+enum EnumSearchStatus { NoFilterApplied, Results, NoResultsFound, Error }

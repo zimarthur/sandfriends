@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/providers/match_provider.dart';
 import 'package:sandfriends/widgets/SF_AvailableHours.dart';
@@ -20,13 +21,12 @@ class SFCourtCard extends StatefulWidget {
 }
 
 class _SFCourtCardState extends State<SFCourtCard> {
-  bool isSelectedCourt(BuildContext context) {
-    if (Provider.of<MatchProvider>(context).selectedCourt ==
+  bool isSelectedCourt(BuildContext context, bool listen) {
+    if (Provider.of<MatchProvider>(context, listen: listen)
+            .indexSelectedCourt ==
         widget.court.index) {
-      print("true");
       return true;
     } else {
-      print("false");
       return false;
     }
   }
@@ -54,11 +54,16 @@ class _SFCourtCardState extends State<SFCourtCard> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
-                    child: Image.asset(
-                      r"assets\icon\logo.png",
+                    child: Image.network(
+                      widget.court.imageUrl,
                       height: 82,
                       width: 82,
                     ),
+                    /*Image.asset(
+                      r"assets\icon\logo.png",
+                      height: 82,
+                      width: 82,
+                    ),*/
                   ),
                   Padding(padding: EdgeInsets.only(right: 12)),
                   Expanded(
@@ -130,13 +135,14 @@ class _SFCourtCardState extends State<SFCourtCard> {
                   horizontal: width * 0.03, vertical: height * 0.01),
               child: SFButton(
                   buttonLabel: "Agendar Horário",
-                  buttonType: isSelectedCourt(context)
+                  buttonType: isSelectedCourt(context, true)
                       ? ButtonType.Primary
                       : ButtonType.Disabled,
                   textPadding: EdgeInsets.symmetric(vertical: 5),
                   onTap: () {
-                    if (isSelectedCourt(context)) {
+                    if (isSelectedCourt(context, false)) {
                       print("pode agendar");
+                      context.goNamed('court_screen');
                     } else {
                       print("seleciona horario antes");
                     }

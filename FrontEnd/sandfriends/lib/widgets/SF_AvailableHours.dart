@@ -21,15 +21,9 @@ class SFAvailableHours extends StatefulWidget {
 
 class _SFAvailableHoursState extends State<SFAvailableHours> {
   bool isSelectedHour(BuildContext context) {
-    /*print("Provider selectedcourt: " +
-        Provider.of<MatchProvider>(context).selectedCourt.toString());
-    print("courtIndex: " + widget.court.index.toString());
-    print("Provider selectedTime: " +
-        Provider.of<MatchProvider>(context).selectedTime.toString());
-    print("hourIndex: " + widget.hourIndex.toString());*/
-    if ((Provider.of<MatchProvider>(context).selectedCourt ==
+    if ((Provider.of<MatchProvider>(context).indexSelectedCourt ==
             widget.court.index) &&
-        (Provider.of<MatchProvider>(context).selectedTime ==
+        (Provider.of<MatchProvider>(context).indexSelectedTime ==
             widget.hourIndex)) {
       return true;
     } else {
@@ -42,10 +36,12 @@ class _SFAvailableHoursState extends State<SFAvailableHours> {
     return InkWell(
       onTap: () {
         setState(() {
-          Provider.of<MatchProvider>(context, listen: false).selectedCourt =
-              widget.court.index;
-          Provider.of<MatchProvider>(context, listen: false).selectedTime =
+          Provider.of<MatchProvider>(context, listen: false)
+              .indexSelectedCourt = widget.court.index;
+          Provider.of<MatchProvider>(context, listen: false).indexSelectedTime =
               widget.hourIndex;
+          Provider.of<MatchProvider>(context, listen: false).selectedCourt =
+              widget.court;
         });
       },
       child: Container(
