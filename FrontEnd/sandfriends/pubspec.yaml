@@ -113,12 +113,15 @@ flutter:
     - assets\icon\calendar.svg
     - assets\icon\clock.svg
     - assets\icon\court.svg
+    - assets\icon\left.svg
+    - assets\icon\right.svg
 
     - assets\match.json
 
     - assets\its\1.jpg
     - assets\its\2.jpg
     - assets\its\3.jpg
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

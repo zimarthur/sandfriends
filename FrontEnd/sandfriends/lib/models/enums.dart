@@ -6,7 +6,7 @@ enum EnumChangePasswordStatus {
   WrongPassword,
   NotConfirmedEmail
 }
-enum Sport { Beachtennis, futevolei, volei }
+/*enum Sport { Beachtennis, futevolei, volei }
 
 extension ParseToString on Sport {
   String toShortString() {
@@ -18,7 +18,7 @@ extension ParseToString on Sport {
       return 'Vôlei';
     }
   }
-}
+}*/
 
 enum AppBarType { Primary, Secondary }
 

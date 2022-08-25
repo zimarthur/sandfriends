@@ -67,19 +67,13 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
     double height = MediaQuery.of(context).size.height;
     double appBarHeight = height * 0.3 > 150 ? 150 : height * 0.3;
 
-    /*if (Provider.of<MatchProvider>(context, listen: false).regionText == null) {
-      regionText = "Cidade";
-    } else {
-      regionText =
-          Provider.of<MatchProvider>(context, listen: false).regionText!;
-    }*/
     String ConvertDatetime(DateTime dateTime) {
       return dateTime.toString().replaceAll('00:00:00.000', '');
     }
 
     return SFScaffold(
       titleText:
-          "Busca - ${Provider.of<MatchProvider>(context).matchSport!.toShortString()}",
+          "Busca - ${Provider.of<MatchProvider>(context).selectedMatchSport!.description}",
       goNamed: 'home',
       goNamedParams: {'initialPage': 'sport_selection_screen'},
       appBarType: AppBarType.Primary,

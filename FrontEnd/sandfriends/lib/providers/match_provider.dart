@@ -5,12 +5,25 @@ import 'package:time_range/time_range.dart';
 import '../models/city.dart';
 import '../models/region.dart';
 import '../models/enums.dart';
+import '../models/sport.dart';
 
 class MatchProvider with ChangeNotifier {
-  Sport? _matchSport;
-  Sport? get matchSport => _matchSport;
-  set matchSport(Sport? value) {
-    _matchSport = value;
+  List<Sport> _availableSports = [];
+  List<Sport> get availableSports => _availableSports;
+  void addSport(Sport sport) {
+    _availableSports.add(sport);
+    notifyListeners();
+  }
+
+  void clearSports() {
+    _availableSports.clear();
+    notifyListeners();
+  }
+
+  Sport? _selectedMatchSport;
+  Sport? get selectedMatchSport => _selectedMatchSport;
+  set selectedMatchSport(Sport? value) {
+    _selectedMatchSport = value;
   }
 
   EnumSearchStatus _searchStatus = EnumSearchStatus.NoFilterApplied;
@@ -112,6 +125,13 @@ class MatchProvider with ChangeNotifier {
   String get timeText => _timeText;
   set timeText(String value) {
     _timeText = value;
+    notifyListeners();
+  }
+
+  int _indexCurrentPhoto = 0;
+  int get indexCurrentPhoto => _indexCurrentPhoto;
+  set indexCurrentPhoto(int value) {
+    _indexCurrentPhoto = value;
     notifyListeners();
   }
 }
