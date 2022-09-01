@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/models/enums.dart';
 import 'package:sandfriends/widgets/Modal/SF_Modal.dart';
 
+import '../providers/match_provider.dart';
 import '../theme/app_theme.dart';
+import 'SF_Button.dart';
 
 class SFScaffold extends StatefulWidget {
   final String titleText;
@@ -111,6 +114,85 @@ class _SFScaffoldState extends State<SFScaffold> {
             widget.showModal
                 ? SFModal(
                     child: widget.modalWidget!,
+                    /*child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.05,
+                              vertical: height * 0.02),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: FittedBox(
+                                  fit: BoxFit.fitWidth,
+                                  child: Text(
+                                    "Que horas você quer jogar?",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppTheme.colors.primaryBlue),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          //width: width * 0.6,
+                          height: height * 0.05,
+                          child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              "${Provider.of<MatchProvider>(context).currentSlider.start.round()}:00 - ${Provider.of<MatchProvider>(context, listen: false).currentSlider.end.round()}:00",
+                              style:
+                                  TextStyle(color: AppTheme.colors.primaryBlue),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.05,
+                              vertical: height * 0.015),
+                          child: RangeSlider(
+                            values: Provider.of<MatchProvider>(context)
+                                .currentSlider,
+                            min: 0,
+                            max: 23,
+                            //divisions: 5,
+                            onChanged: (RangeValues values) {
+                              setState(() {
+                                print(Provider.of<MatchProvider>(context,
+                                        listen: false)
+                                    .currentSlider
+                                    .start
+                                    .toString());
+                                print(Provider.of<MatchProvider>(context,
+                                        listen: false)
+                                    .currentSlider
+                                    .end
+                                    .toString());
+                                Provider.of<MatchProvider>(context,
+                                        listen: false)
+                                    .currentSlider = values;
+                              });
+                            },
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: height * 0.015,
+                              horizontal: width * 0.15),
+                          child: SFButton(
+                              iconPath: r"assets\icon\search.svg",
+                              buttonLabel: "Aplicar Filtro",
+                              textPadding:
+                                  EdgeInsets.symmetric(vertical: height * 0.01),
+                              buttonType: ButtonType.Secondary,
+                              onTap: () {}),
+                        )
+                      ],
+                    ),*/
                     onTapBackground: widget.onTapBackground!,
                   )
                 : Container()

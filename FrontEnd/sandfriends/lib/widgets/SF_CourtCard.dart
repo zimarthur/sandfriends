@@ -55,15 +55,10 @@ class _SFCourtCardState extends State<SFCourtCard> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Image.network(
-                      widget.court.imageUrl,
+                      widget.court.store.imageUrl,
                       height: 82,
                       width: 82,
                     ),
-                    /*Image.asset(
-                      r"assets\icon\logo.png",
-                      height: 82,
-                      width: 82,
-                    ),*/
                   ),
                   Padding(padding: EdgeInsets.only(right: 12)),
                   Expanded(
@@ -74,7 +69,7 @@ class _SFCourtCardState extends State<SFCourtCard> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.court.name,
+                          widget.court.store.name,
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 18,
@@ -84,7 +79,7 @@ class _SFCourtCardState extends State<SFCourtCard> {
                           children: [
                             SvgPicture.asset(r"assets\icon\location_ping.svg"),
                             Text(
-                              widget.court.address,
+                              widget.court.store.address,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 10,
@@ -142,7 +137,8 @@ class _SFCourtCardState extends State<SFCourtCard> {
                   onTap: () {
                     if (isSelectedCourt(context, false)) {
                       print("pode agendar");
-                      context.goNamed('court_screen');
+                      context
+                          .goNamed('court_screen', params: {'param': 'null'});
                     } else {
                       print("seleciona horario antes");
                     }

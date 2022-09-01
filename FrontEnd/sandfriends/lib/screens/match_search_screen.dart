@@ -3,10 +3,12 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/models/court.dart';
 import 'package:sandfriends/models/court_available_hours.dart';
+import 'package:sandfriends/models/court_price.dart';
 import 'package:sandfriends/widgets/Modal/SF_ModalDatePicker.dart';
 import 'package:sandfriends/widgets/SF_CourtCard.dart';
 import 'package:sandfriends/widgets/SF_Scaffold.dart';
@@ -21,6 +23,7 @@ import 'package:http/http.dart' as http;
 import '../../models/enums.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/SF_Button.dart';
+import '../models/store.dart';
 import '../providers/match_provider.dart';
 
 class MatchSearchScreen extends StatefulWidget {
@@ -45,7 +48,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
   bool showModal = false;
   Widget? modalWidget;
 
-  String timeText = "Hora";
+  RangeValues _currentRangeValues = RangeValues(0, 23);
 
   TimeRangeResult? timePickerRange;
   final defaultTimePickerRange = TimeRangeResult(
@@ -73,7 +76,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
 
     return SFScaffold(
       titleText:
-          "Busca - ${Provider.of<MatchProvider>(context).selectedMatchSport!.description}",
+          "Busca - ${Provider.of<MatchProvider>(context).selectedSport!.description}",
       goNamed: 'home',
       goNamedParams: {'initialPage': 'sport_selection_screen'},
       appBarType: AppBarType.Primary,
@@ -255,6 +258,74 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                             ),
                           ),
                         ),
+                        /*Expanded(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width * 0.02,
+                                vertical: appBarHeight * 0.06),
+                            height: appBarHeight * 0.33,
+                            child: SFSearchFilter(
+                              labelText:
+                                  Provider.of<MatchProvider>(context).timeText,
+                              iconPath: r"assets\icon\clock.svg",
+                              margin: EdgeInsets.only(left: width * 0.02),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: appBarHeight * 0.02),
+                              onTap: () {
+                                setState(
+                                  () {
+                                    modalWidget = Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: width * 0.05,
+                                              vertical: height * 0.02),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                child: FittedBox(
+                                                  fit: BoxFit.fitWidth,
+                                                  child: Text(
+                                                    "Que horas você quer jogar?",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: AppTheme.colors
+                                                            .primaryBlue),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        RangeSlider(
+                                          values: _currentRangeValues,
+                                          min: 0,
+                                          max: 23,
+                                          //divisions: 5,
+                                          onChanged: (RangeValues values) {
+                                            setState(() {
+                                              print(_currentRangeValues.start
+                                                  .toString());
+                                              print(_currentRangeValues.end
+                                                  .toString());
+                                              _currentRangeValues = values;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                    showModal = true;
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ),*/
+
                         Expanded(
                           child: Container(
                             padding: EdgeInsets.symmetric(
@@ -451,11 +522,14 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                   ),
                                   SizedBox(
                                     height: height * 0.05,
-                                    child: Text(
-                                      "Use os filtros para buscar por quadras e partidas disponíveis.",
-                                      style: TextStyle(
-                                        color: AppTheme.colors.textBlue,
-                                        fontWeight: FontWeight.w700,
+                                    child: FittedBox(
+                                      fit: BoxFit.contain,
+                                      child: Text(
+                                        "Use os filtros para buscar por\n quadras e partidas disponíveis.",
+                                        style: TextStyle(
+                                          color: AppTheme.colors.textBlue,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -541,89 +615,127 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                           },
                                           groupValue: segmentedTextValue),
                                     ),
-                                    Expanded(
-                                      child: ListView.builder(
-                                        itemCount: courts.length,
-                                        itemBuilder: ((context, index) {
-                                          if ((index == 0) ||
-                                              (courts[index].day !=
-                                                  courts[index - 1].day)) {
-                                            return Column(
-                                              children: [
-                                                index == 0
-                                                    ? Container(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal:
-                                                                    width *
-                                                                        0.05),
-                                                        child: Row(
-                                                          children: [
-                                                            SvgPicture.asset(
-                                                                r'assets\icon\court.svg'),
-                                                            Container(
+                                    segmentedTextValue == 0 ||
+                                            segmentedTextValue == 1
+                                        ? Expanded(
+                                            child: ListView.builder(
+                                              itemCount: courts.length,
+                                              itemBuilder: ((context, index) {
+                                                if ((index == 0) ||
+                                                    (courts[index].day !=
+                                                        courts[index - 1]
+                                                            .day)) {
+                                                  return Column(
+                                                    children: [
+                                                      index == 0
+                                                          ? Container(
                                                               padding: EdgeInsets
                                                                   .symmetric(
                                                                       horizontal:
                                                                           width *
-                                                                              0.02),
-                                                              child: Text(
-                                                                "Quadras",
-                                                                style: TextStyle(
-                                                                    color: AppTheme
-                                                                        .colors
-                                                                        .primaryBlue,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w700),
+                                                                              0.05),
+                                                              child: Row(
+                                                                children: [
+                                                                  SvgPicture.asset(
+                                                                      r'assets\icon\court.svg'),
+                                                                  Container(
+                                                                    padding: EdgeInsets.symmetric(
+                                                                        horizontal:
+                                                                            width *
+                                                                                0.02),
+                                                                    child: Text(
+                                                                      "Quadras",
+                                                                      style: TextStyle(
+                                                                          color: AppTheme
+                                                                              .colors
+                                                                              .primaryBlue,
+                                                                          fontWeight:
+                                                                              FontWeight.w700),
+                                                                    ),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: SvgPicture
+                                                                        .asset(
+                                                                            r'assets\icon\divider.svg'),
+                                                                  )
+                                                                ],
                                                               ),
-                                                            ),
-                                                            Expanded(
+                                                            )
+                                                          : Container(),
+                                                      Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    width *
+                                                                        0.03,
+                                                                vertical:
+                                                                    height *
+                                                                        0.02),
+                                                        child: Row(
+                                                          children: [
+                                                            Container(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      right: 5),
                                                               child: SvgPicture
                                                                   .asset(
-                                                                      r'assets\icon\divider.svg'),
-                                                            )
+                                                                      r'assets\icon\calendar.svg'),
+                                                            ),
+                                                            Text(
+                                                              courts[index].day,
+                                                              style: TextStyle(
+                                                                  color: AppTheme
+                                                                      .colors
+                                                                      .primaryBlue,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700),
+                                                            ),
                                                           ],
                                                         ),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: (() {
+                                                          Provider.of<MatchProvider>(
+                                                                      context,
+                                                                      listen: false)
+                                                                  .selectedCourt =
+                                                              courts[index];
+                                                          context.goNamed(
+                                                              'court_screen',
+                                                              params: {
+                                                                'param':
+                                                                    'viewOnly'
+                                                              });
+                                                        }),
+                                                        child: SFCourtCard(
+                                                            court:
+                                                                courts[index]),
                                                       )
-                                                    : Container(),
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: width * 0.03,
-                                                      vertical: height * 0.02),
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                right: 5),
-                                                        child: SvgPicture.asset(
-                                                            r'assets\icon\calendar.svg'),
-                                                      ),
-                                                      Text(
-                                                        courts[index].day,
-                                                        style: TextStyle(
-                                                            color: AppTheme
-                                                                .colors
-                                                                .primaryBlue,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w700),
-                                                      ),
                                                     ],
-                                                  ),
-                                                ),
-                                                SFCourtCard(
-                                                    court: courts[index])
-                                              ],
-                                            );
-                                          } else {
-                                            return SFCourtCard(
-                                                court: courts[index]);
-                                          }
-                                        }),
-                                      ),
-                                    ),
+                                                  );
+                                                } else {
+                                                  return InkWell(
+                                                    onTap: (() {
+                                                      Provider.of<MatchProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .selectedCourt =
+                                                          courts[index];
+                                                      context.goNamed(
+                                                          'court_screen',
+                                                          params: {
+                                                            'param': 'viewOnly'
+                                                          });
+                                                    }),
+                                                    child: SFCourtCard(
+                                                        court: courts[index]),
+                                                  );
+                                                }
+                                              }),
+                                            ),
+                                          )
+                                        : Container(),
                                   ],
                                 ),
                               ),
@@ -685,6 +797,10 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, Object>{
+        'sportId': Provider.of<MatchProvider>(context, listen: false)
+            .selectedSport!
+            .idSport
+            .toString(),
         'cityId': Provider.of<MatchProvider>(context, listen: false)
             .selectedRegion!
             .selectedCity!
@@ -715,27 +831,59 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
     );
     if (response.statusCode == 200) {
       Provider.of<MatchProvider>(context, listen: false).clearCourts();
-      final responseBody = json.decode(response.body)['dates'];
+      Provider.of<MatchProvider>(context, listen: false).clearStores();
+      final responseBody = json.decode(response.body);
+      final courts = responseBody['dates'];
+      final stores = responseBody['stores'];
 
-      int courtIndexTotal = 0;
+      for (int i = 0; i < stores.length; i++) {
+        Store newStore = Store();
+        Map storeJson = stores[i];
+        newStore.idStore = storeJson['IdStore'];
+        newStore.name = storeJson['name'];
+        newStore.address = storeJson['address'];
+        newStore.imageUrl = storeJson['imageURL'];
+        newStore.descriptionText = storeJson['description'];
+        for (int photoIndex = 0;
+            photoIndex < storeJson['storePhotos'].length;
+            photoIndex++) {
+          Map photo = storeJson['storePhotos'][photoIndex];
+          newStore.addPhoto(photo['storePhoto']);
+        }
+        Provider.of<MatchProvider>(context, listen: false).addStore(newStore);
+      }
+
       Court court = Court();
+      int courtIndexTotal = 0;
 
-      for (int dateIndex = 0; dateIndex < responseBody.length; dateIndex++) {
-        Map firstLevel = responseBody[dateIndex];
+      for (int dateIndex = 0; dateIndex < courts.length; dateIndex++) {
+        Map firstLevel = courts[dateIndex];
         for (int courtIndex = 0;
             courtIndex < firstLevel['places'].length;
             courtIndex++) {
           Map secondLevel = firstLevel['places'][courtIndex];
           court.day = firstLevel['date'];
-          court.name = secondLevel['name'];
-          court.address = secondLevel['address'];
-          court.imageUrl = secondLevel['imageURL'];
+          Provider.of<MatchProvider>(context, listen: false)
+              .stores
+              .forEach((store) {
+            if (store.idStore == secondLevel['IdStore']) {
+              court.store = store;
+            }
+          });
           for (int availableHoursIndex = 0;
               availableHoursIndex < secondLevel['available'].length;
               availableHoursIndex++) {
             Map thirdLevel = secondLevel['available'][availableHoursIndex];
+            List<CourtPrice> courtPriceList = [];
+            for (int availableCourts = 0;
+                availableCourts < thirdLevel['courts'].length;
+                availableCourts++) {
+              Map fourthLevel = thirdLevel['courts'][availableCourts];
+              courtPriceList.add(CourtPrice(
+                  fourthLevel['idStoreCourt'], fourthLevel['price']));
+            }
             court.availableHours.add(CourtAvailableHours(availableHoursIndex,
-                thirdLevel['time'], thirdLevel['price'].toString() + "/h"));
+                thirdLevel['time'], thirdLevel['timeInt'], courtPriceList));
           }
           court.index = courtIndexTotal;
           courtIndexTotal++;

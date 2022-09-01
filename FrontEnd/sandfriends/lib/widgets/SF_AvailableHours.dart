@@ -96,7 +96,9 @@ class _SFAvailableHoursState extends State<SFAvailableHours> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          widget.court.availableHours[widget.hourIndex].price,
+                          "${widget.court.availableHours[widget.hourIndex]
+                              .getCheapestCourt()
+                              .toString()}/h",
                           style: TextStyle(
                             color: isSelectedHour(context)
                                 ? AppTheme.colors.textWhite

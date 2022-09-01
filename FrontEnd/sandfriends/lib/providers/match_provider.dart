@@ -6,6 +6,7 @@ import '../models/city.dart';
 import '../models/region.dart';
 import '../models/enums.dart';
 import '../models/sport.dart';
+import '../models/store.dart';
 
 class MatchProvider with ChangeNotifier {
   List<Sport> _availableSports = [];
@@ -20,10 +21,10 @@ class MatchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Sport? _selectedMatchSport;
-  Sport? get selectedMatchSport => _selectedMatchSport;
-  set selectedMatchSport(Sport? value) {
-    _selectedMatchSport = value;
+  Sport? _selectedSport;
+  Sport? get selectedSport => _selectedSport;
+  set selectedSport(Sport? value) {
+    _selectedSport = value;
   }
 
   EnumSearchStatus _searchStatus = EnumSearchStatus.NoFilterApplied;
@@ -54,10 +55,20 @@ class MatchProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  List<Store> _stores = [];
+  List<Store> get stores => _stores;
+  void addStore(Store store) {
+    _stores.add(store);
+    notifyListeners();
+  }
+
+  void clearStores() {
+    _stores.clear();
+    notifyListeners();
+  }
+
   List<Court> _courts = [];
-
   List<Court> get courts => _courts;
-
   void addCourt(Court court) {
     _courts.add(court);
     notifyListeners();
@@ -132,6 +143,13 @@ class MatchProvider with ChangeNotifier {
   int get indexCurrentPhoto => _indexCurrentPhoto;
   set indexCurrentPhoto(int value) {
     _indexCurrentPhoto = value;
+    notifyListeners();
+  }
+
+  RangeValues _currentSlider = const RangeValues(0, 23);
+  RangeValues get currentSlider => _currentSlider;
+  set currentSlider(RangeValues values) {
+    _currentSlider = values;
     notifyListeners();
   }
 }

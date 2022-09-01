@@ -107,10 +107,10 @@ class _SportSelectionScreenState extends State<SportSelectionScreen> {
                               EdgeInsets.symmetric(vertical: height * 0.025),
                           onTap: () {
                             Provider.of<MatchProvider>(context, listen: false)
-                                    .selectedMatchSport =
-                                Provider.of<MatchProvider>(context,
-                                        listen: false)
-                                    .availableSports[index];
+                                .selectedSport = Provider.of<MatchProvider>(
+                                    context,
+                                    listen: false)
+                                .availableSports[index];
                             context.goNamed('match_search_screen');
                           }),
                     );

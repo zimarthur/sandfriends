@@ -180,11 +180,14 @@ class _MyAppState extends State<MyApp> {
     },
     routes: <GoRoute>[
       GoRoute(
-        name: 'court_screen',
-        path: '/court_screen',
-        builder: (BuildContext context, GoRouterState state) =>
-            const CourtScreen(),
-      ),
+          name: 'court_screen',
+          path: '/court_screen/:param',
+          builder: (BuildContext context, GoRouterState state) {
+            final query = state.params['param'];
+            return CourtScreen(
+              param: query,
+            );
+          }),
       GoRoute(
         name: 'match_search_screen',
         path: '/match_search_screen',

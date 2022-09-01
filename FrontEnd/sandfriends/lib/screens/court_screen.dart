@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -10,7 +12,8 @@ import 'package:photo_view/photo_view.dart';
 import '../providers/match_provider.dart';
 
 class CourtScreen extends StatefulWidget {
-  const CourtScreen({Key? key}) : super(key: key);
+  const CourtScreen({this.param});
+  final String? param;
 
   @override
   State<CourtScreen> createState() => _CourtScreenState();
@@ -18,14 +21,8 @@ class CourtScreen extends StatefulWidget {
 
 class _CourtScreenState extends State<CourtScreen> {
   bool showModal = false;
+  bool viewOnly = true;
   ScrollController _controller = ScrollController();
-
-  final imageList = [
-    r'assets\its\1.jpg',
-    r'assets\its\2.jpg',
-    r'assets\its\3.jpg',
-    r'assets\its\3.jpg',
-  ];
 
   void _onScrollEvent() {
     if (_controller.position.pixels.toInt() %
@@ -41,6 +38,11 @@ class _CourtScreenState extends State<CourtScreen> {
   @override
   void initState() {
     _controller.addListener(_onScrollEvent);
+    if (widget.param == 'viewOnly') {
+      viewOnly = true;
+    } else {
+      viewOnly = false;
+    }
     super.initState();
   }
 
@@ -55,7 +57,7 @@ class _CourtScreenState extends State<CourtScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return SFScaffold(
-      titleText: "Explorar quadras",
+      titleText: viewOnly ? "Explorar quadras" : "Agendamento",
       goNamed: 'match_search_screen',
       appBarType: AppBarType.Primary,
       showModal: showModal,
@@ -69,7 +71,6 @@ class _CourtScreenState extends State<CourtScreen> {
               Container(
                 height: height * 0.2,
                 width: width * 0.94,
-                //padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                 margin: EdgeInsets.symmetric(vertical: height * 0.01),
                 child: Stack(
                   alignment: Alignment.bottomCenter,
@@ -78,15 +79,23 @@ class _CourtScreenState extends State<CourtScreen> {
                       controller: _controller,
                       scrollDirection: Axis.horizontal,
                       physics: PageScrollPhysics(),
-                      itemCount: imageList.length,
+                      itemCount:
+                          Provider.of<MatchProvider>(context, listen: false)
+                              .selectedCourt!
+                              .store
+                              .photos
+                              .length,
                       itemBuilder: ((context, index) {
                         return Container(
                           width: width * 0.94,
                           child: FittedBox(
                             fit: BoxFit.fitWidth,
-                            child: Image.asset(
-                              imageList[index],
-                            ),
+                            child: Image.network(Provider.of<MatchProvider>(
+                                    context,
+                                    listen: false)
+                                .selectedCourt!
+                                .store
+                                .photos[index]),
                           ),
                         );
                       }),
@@ -95,9 +104,20 @@ class _CourtScreenState extends State<CourtScreen> {
                       padding: EdgeInsets.only(bottom: height * 0.01),
                       child: Container(
                         height: width * 0.02,
-                        width: width * 0.04 * imageList.length,
+                        width: width *
+                            0.04 *
+                            Provider.of<MatchProvider>(context, listen: false)
+                                .selectedCourt!
+                                .store
+                                .photos
+                                .length,
                         child: ListView.builder(
-                          itemCount: imageList.length,
+                          itemCount:
+                              Provider.of<MatchProvider>(context, listen: false)
+                                  .selectedCourt!
+                                  .store
+                                  .photos
+                                  .length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: ((context, index) {
                             bool isIndex = Provider.of<MatchProvider>(context)
@@ -125,7 +145,7 @@ class _CourtScreenState extends State<CourtScreen> {
                 ),
               ),
               SizedBox(
-                height: height * 0.15,
+                height: height * 0.1,
                 child: Row(
                   children: [
                     ClipRRect(
@@ -133,17 +153,105 @@ class _CourtScreenState extends State<CourtScreen> {
                       child: Image.network(
                         Provider.of<MatchProvider>(context, listen: false)
                             .selectedCourt!
+                            .store
                             .imageUrl,
                         height: height * 0.1,
                         width: height * 0.1,
                       ),
                     ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: height * 0.05,
+                              child: FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: Text(
+                                  Provider.of<MatchProvider>(context,
+                                          listen: false)
+                                      .selectedCourt!
+                                      .store
+                                      .name,
+                                  style: TextStyle(
+                                    color: AppTheme.colors.primaryBlue,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                SvgPicture.asset(
+                                  r'assets\icon\location_ping.svg',
+                                  color: AppTheme.colors.primaryBlue,
+                                  width: 15,
+                                ),
+                                Padding(
+                                    padding:
+                                        EdgeInsets.only(right: width * 0.02)),
+                                Expanded(
+                                  child: Text(
+                                    "${Provider.of<MatchProvider>(context, listen: false).selectedCourt!.store.address} - ${Provider.of<MatchProvider>(context, listen: false).regionText}",
+                                    style: TextStyle(
+                                      color: AppTheme.colors.primaryBlue,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
-              Text(Provider.of<MatchProvider>(context, listen: false)
-                  .selectedCourt!
-                  .name),
+              viewOnly
+                  ? Container()
+                  : Column(
+                      children: [
+                        Container(
+                          color: AppTheme.colors.textLightGrey,
+                          margin: EdgeInsets.symmetric(vertical: height * 0.02),
+                          height: 1,
+                        ),
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: height * 0.01),
+                          child: Text(
+                            "Agendamento",
+                            style: TextStyle(
+                                color: AppTheme.colors.primaryBlue,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                      ],
+                    ),
+              Container(
+                color: AppTheme.colors.textLightGrey,
+                margin: EdgeInsets.symmetric(vertical: height * 0.02),
+                height: 1,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: height * 0.01),
+                child: Text(
+                  "Sobre a quadra",
+                  style: TextStyle(
+                      color: AppTheme.colors.primaryBlue,
+                      fontWeight: FontWeight.w700),
+                ),
+              ),
+              Text(
+                Provider.of<MatchProvider>(context, listen: false)
+                    .selectedCourt!
+                    .store
+                    .descriptionText,
+                style: TextStyle(color: AppTheme.colors.textDarkGrey),
+              ),
             ],
           ),
         ),
