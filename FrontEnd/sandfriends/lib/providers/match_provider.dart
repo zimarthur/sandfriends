@@ -55,6 +55,13 @@ class MatchProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  int? _selectedCourtTime; //para saber qual horario tem que ter highlight
+  int? get selectedCourtTime => _selectedCourtTime;
+  set selectedCourtTime(int? value) {
+    _selectedCourtTime = value;
+    notifyListeners();
+  }
+
   List<Store> _stores = [];
   List<Store> get stores => _stores;
   void addStore(Store store) {

@@ -42,6 +42,8 @@ class _SFAvailableHoursState extends State<SFAvailableHours> {
               widget.hourIndex;
           Provider.of<MatchProvider>(context, listen: false).selectedCourt =
               widget.court;
+          Provider.of<MatchProvider>(context, listen: false).selectedCourtTime =
+              widget.court.availableHours[widget.hourIndex].hourIndex;
         });
       },
       child: Container(
@@ -96,9 +98,7 @@ class _SFAvailableHoursState extends State<SFAvailableHours> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          "${widget.court.availableHours[widget.hourIndex]
-                              .getCheapestCourt()
-                              .toString()}/h",
+                          "${widget.court.availableHours[widget.hourIndex].getCheapestCourt().toString()}/h",
                           style: TextStyle(
                             color: isSelectedHour(context)
                                 ? AppTheme.colors.textWhite
