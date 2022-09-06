@@ -879,8 +879,8 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                 availableCourts < thirdLevel['courts'].length;
                 availableCourts++) {
               Map fourthLevel = thirdLevel['courts'][availableCourts];
-              courtPriceList.add(CourtPrice(
-                  fourthLevel['idStoreCourt'], fourthLevel['price']));
+              courtPriceList.add(CourtPrice(fourthLevel['idStoreCourt'],
+                  fourthLevel['storeCourtName'], fourthLevel['price']));
             }
             court.availableHours.add(CourtAvailableHours(availableHoursIndex,
                 thirdLevel['time'], thirdLevel['timeInt'], courtPriceList));
