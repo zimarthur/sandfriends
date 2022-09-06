@@ -9,6 +9,8 @@ import 'package:sandfriends/theme/app_theme.dart';
 import 'package:sandfriends/widgets/SF_Scaffold.dart';
 import 'package:photo_view/photo_view.dart';
 
+import '../models/court_available_hours.dart';
+import '../models/court_price.dart';
 import '../providers/match_provider.dart';
 
 class CourtScreen extends StatefulWidget {
@@ -56,6 +58,67 @@ class _CourtScreenState extends State<CourtScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    // var filteredCourt = Provider.of<MatchProvider>(context, listen: false)
+    //     .selectedCourt!
+    //     .availableHours
+    //     .where((hour) =>
+    //         hour.hourIndex ==
+    //         Provider.of<MatchProvider>(context, listen: false)
+    //             .selectedCourtTime)
+    //     .first
+    //     .courtPrices;
+    var originalCourt = List.from(
+        Provider.of<MatchProvider>(context, listen: false)
+            .selectedCourt!
+            .availableHours);
+    List<CourtAvailableHours> filteredCourts = [];
+    int widgetIndex = 0;
+    for (int hoursLoop = 0; hoursLoop < originalCourt.length; hoursLoop++) {
+      if (originalCourt[hoursLoop].hourIndex ==
+          Provider.of<MatchProvider>(context, listen: false)
+              .selectedCourtTime) {
+        print("IGUALLLL");
+        List<CourtPrice> filteredCourtPrices = [];
+        for (int courtsLoop = 0;
+            courtsLoop < originalCourt[hoursLoop].courtPrices.length;
+            courtsLoop++) {
+          filteredCourtPrices.add(CourtPrice(
+              originalCourt[hoursLoop].courtPrices[courtsLoop].idStoreCourt,
+              originalCourt[hoursLoop].courtPrices[courtsLoop].storeCourtName,
+              originalCourt[hoursLoop].courtPrices[courtsLoop].price));
+        }
+        filteredCourts.add(CourtAvailableHours(
+            widgetIndex,
+            originalCourt[hoursLoop].hour,
+            originalCourt[hoursLoop].hourIndex,
+            filteredCourtPrices));
+      } else if (originalCourt[hoursLoop].hourIndex >=
+          Provider.of<MatchProvider>(context, listen: false)
+              .selectedCourtTime) {
+        List<CourtPrice> filteredCourtPrices = [];
+        for (int courtsLoop = 0;
+            courtsLoop < originalCourt[hoursLoop].courtPrices.length;
+            courtsLoop++) {
+          filteredCourtPrices.add(CourtPrice(
+              originalCourt[hoursLoop].courtPrices[courtsLoop].idStoreCourt,
+              originalCourt[hoursLoop].courtPrices[courtsLoop].storeCourtName,
+              originalCourt[hoursLoop].courtPrices[courtsLoop].price));
+        }
+        filteredCourts.add(CourtAvailableHours(
+            widgetIndex,
+            originalCourt[hoursLoop].hour,
+            originalCourt[hoursLoop].hourIndex,
+            filteredCourtPrices));
+      }
+    }
+    for (int j = 0; j < filteredCourts.length; j++) {
+      print(filteredCourts[j].hour);
+      print(filteredCourts[j].hourIndex);
+      for (int k = 0; k < filteredCourts[j].courtPrices.length; k++) {
+        print(filteredCourts[j].courtPrices[k].storeCourtName);
+        print(filteredCourts[j].courtPrices[k].price);
+      }
+    }
     return SFScaffold(
       titleText: viewOnly ? "Explorar quadras" : "Agendamento",
       goNamed: 'match_search_screen',
@@ -210,27 +273,6 @@ class _CourtScreenState extends State<CourtScreen> {
                   ],
                 ),
               ),
-              viewOnly
-                  ? Container()
-                  : Column(
-                      children: [
-                        Container(
-                          color: AppTheme.colors.textLightGrey,
-                          margin: EdgeInsets.symmetric(vertical: height * 0.02),
-                          height: 1,
-                        ),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: height * 0.01),
-                          child: Text(
-                            "Agendamento",
-                            style: TextStyle(
-                                color: AppTheme.colors.primaryBlue,
-                                fontWeight: FontWeight.w700),
-                          ),
-                        ),
-                      ],
-                    ),
               Container(
                 color: AppTheme.colors.textLightGrey,
                 margin: EdgeInsets.symmetric(vertical: height * 0.02),
@@ -252,6 +294,52 @@ class _CourtScreenState extends State<CourtScreen> {
                     .descriptionText,
                 style: TextStyle(color: AppTheme.colors.textDarkGrey),
               ),
+              viewOnly
+                  ? Container()
+                  : Column(
+                      children: [
+                        Container(
+                          color: AppTheme.colors.textLightGrey,
+                          margin: EdgeInsets.symmetric(vertical: height * 0.02),
+                          height: 1,
+                        ),
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: height * 0.01),
+                          child: Text(
+                            Provider.of<MatchProvider>(context, listen: false)
+                                .selectedCourt!
+                                .day,
+                            style: TextStyle(
+                                color: AppTheme.colors.primaryBlue,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: height * 0.01),
+                          child: Text(
+                            Provider.of<MatchProvider>(context, listen: false)
+                                .selectedCourtTime
+                                .toString(),
+                            style: TextStyle(
+                                color: AppTheme.colors.primaryBlue,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        // ListView.builder(
+                        //   shrinkWrap: true,
+                        //   itemCount: filteredCourt.length,
+                        //   itemBuilder: (context, index) {
+                        //     return Column(
+                        //       children: [
+                        //         Text(filteredCourt[index].storeCourtName),
+                        //       ],
+                        //     );
+                        //   },
+                        // ),
+                      ],
+                    ),
             ],
           ),
         ),
