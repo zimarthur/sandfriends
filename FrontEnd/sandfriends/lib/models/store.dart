@@ -17,6 +17,18 @@ class Store {
     _address = value;
   }
 
+  String _latitude = "sf";
+  String get latitude => _latitude;
+  set latitude(String value) {
+    _latitude = value;
+  }
+
+  String _longitude = "sf";
+  String get longitude => _longitude;
+  set longitude(String value) {
+    _longitude = value;
+  }
+
   String _imageUrl = "sf";
   String get imageUrl => _imageUrl;
   set imageUrl(String value) {
@@ -27,6 +39,18 @@ class Store {
   String get descriptionText => _descriptionText;
   set descriptionText(String value) {
     _descriptionText = value;
+  }
+
+  String _instagram = "sf";
+  String get instagram => _instagram;
+  set instagram(String value) {
+    _instagram = value;
+  }
+
+  String _phone = "sf";
+  String get phone => _phone;
+  set phone(String value) {
+    _phone = value;
   }
 
   List<String> _photos = [];
