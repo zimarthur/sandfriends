@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/providers/sport_provider.dart';
+import 'package:sandfriends/providers/user_provider.dart';
 import 'package:sandfriends/screens/court_screen.dart';
 import 'package:sandfriends/screens/login/dummy.dart';
 import 'package:sandfriends/screens/match_search_screen.dart';
@@ -26,11 +28,12 @@ import '../screens/user_detail_screen.dart';
 import './theme/app_theme.dart';
 import './providers/login_provider.dart';
 import './providers/match_provider.dart';
+import './providers/store_provider.dart';
+import './providers/sport_provider.dart';
 import 'models/user.dart';
 
 final redirecter = Redirect();
 final loginInfo = Login();
-final userinfo = User();
 final match = MatchProvider();
 
 bool needsRedirect = false;
@@ -127,17 +130,27 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<Redirect>.value(
+        /*ChangeNotifierProvider<Redirect>.value(
           value: redirecter,
+        ),*/
+        ChangeNotifierProvider<Redirect>(
+          create: ((context) => Redirect()),
         ),
         ChangeNotifierProvider<Login>.value(
           value: loginInfo,
         ),
-        ChangeNotifierProvider<User>.value(
-          value: userinfo,
+        ChangeNotifierProvider<UserProvider>(
+          create: ((context) => UserProvider()),
         ),
         ChangeNotifierProvider<MatchProvider>(
-            create: ((context) => MatchProvider())),
+          create: ((context) => MatchProvider()),
+        ),
+        ChangeNotifierProvider<StoreProvider>(
+          create: ((context) => StoreProvider()),
+        ),
+        ChangeNotifierProvider<SportProvider>(
+          create: ((context) => SportProvider()),
+        ),
       ],
       child: MaterialApp.router(
         routeInformationParser: _router.routeInformationParser,
