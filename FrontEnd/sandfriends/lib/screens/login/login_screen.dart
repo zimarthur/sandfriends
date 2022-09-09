@@ -10,7 +10,7 @@ import 'package:sandfriends/widgets/Modal/SF_ModalMessage.dart';
 import 'package:sandfriends/widgets/SF_Scaffold.dart';
 
 import '../../models/enums.dart';
-import '../../models/user.dart';
+import '../../providers/user_provider.dart';
 import '../../widgets/SF_Button.dart';
 import '../../widgets/SF_TextField.dart';
 import '../../theme/app_theme.dart';
@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
     double height = MediaQuery.of(context).size.height;
     return SFScaffold(
       titleText: "Login",
-      goNamed: 'login_signup',
+      onTapReturn: () => context.goNamed('login_signup'),
       appBarType: AppBarType.Secondary,
       showModal: showModal,
       modalWidget: modalWidget,
@@ -183,7 +183,8 @@ class _LoginScreenState extends State<LoginScreen> {
               'https://www.sandfriends.com.br/GetUser/' + newAccessToken));
           if (response.statusCode == 200) {
             Map<String, dynamic> responseBody = json.decode(response.body);
-            userFromJson(context, responseBody);
+            Provider.of<UserProvider>(context, listen: false)
+                .userFromJson(responseBody);
             context.goNamed('home', params: {'initialPage': 'feed_screen'});
           }
         }

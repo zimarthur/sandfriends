@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/theme/app_theme.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../../models/user.dart';
+import '../../providers/user_provider.dart';
 
 Future<void> ValidateAccessToken(BuildContext context) async {
   const storage = FlutterSecureStorage();
@@ -40,7 +41,8 @@ Future<void> ValidateAccessToken(BuildContext context) async {
             'https://www.sandfriends.com.br/GetUser/' + newAccessToken));
         if (response.statusCode == 200) {
           Map<String, dynamic> responseBody = json.decode(response.body);
-          userFromJson(context, responseBody);
+          Provider.of<UserProvider>(context, listen: false)
+              .userFromJson(responseBody);
           context.goNamed('home', params: {'initialPage': 'null'});
         } else {
           print("deu ruim");

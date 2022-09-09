@@ -7,6 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../../providers/user_provider.dart';
 import '../../widgets/SF_Dropdown.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/SF_Button.dart';
@@ -37,20 +38,31 @@ class _NewUserFormState extends State<NewUserForm> {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       setState(() {
-        if (Provider.of<User>(context, listen: false).FirstName != null) {
+        if (Provider.of<UserProvider>(context, listen: false).user!.FirstName !=
+            null) {
           firstNameController.text =
-              Provider.of<User>(context, listen: false).FirstName!;
+              Provider.of<UserProvider>(context, listen: false)
+                  .user!
+                  .FirstName!;
         }
-        if (Provider.of<User>(context, listen: false).LastName != null) {
+        if (Provider.of<UserProvider>(context, listen: false).user!.LastName !=
+            null) {
           lastNameController.text =
-              Provider.of<User>(context, listen: false).LastName!;
+              Provider.of<UserProvider>(context, listen: false).user!.LastName!;
         }
-        if (Provider.of<User>(context, listen: false).Gender != null) {
-          genderValue = Provider.of<User>(context, listen: false).Gender!;
+        if (Provider.of<UserProvider>(context, listen: false).user!.Gender !=
+            null) {
+          genderValue =
+              Provider.of<UserProvider>(context, listen: false).user!.Gender!;
         }
-        if (Provider.of<User>(context, listen: false).PhoneNumber != null) {
+        if (Provider.of<UserProvider>(context, listen: false)
+                .user!
+                .PhoneNumber !=
+            null) {
           phoneNumberController.text =
-              Provider.of<User>(context, listen: false).PhoneNumber!;
+              Provider.of<UserProvider>(context, listen: false)
+                  .user!
+                  .PhoneNumber!;
         }
       });
     });
@@ -197,15 +209,16 @@ class _NewUserFormState extends State<NewUserForm> {
           'Gender': genderValue!,
         }),
       );
-      Provider.of<User>(context, listen: false).FirstName =
+      Provider.of<UserProvider>(context, listen: false).user!.FirstName =
           firstNameController.text;
-      Provider.of<User>(context, listen: false).LastName =
+      Provider.of<UserProvider>(context, listen: false).user!.LastName =
           lastNameController.text;
-      Provider.of<User>(context, listen: false).Gender =
+      Provider.of<UserProvider>(context, listen: false).user!.Gender =
           lastNameController.text;
-      Provider.of<User>(context, listen: false).PhoneNumber =
+      Provider.of<UserProvider>(context, listen: false).user!.PhoneNumber =
           PhonenumberConverter(phoneNumberController.text);
-      Provider.of<User>(context, listen: false).Gender = genderValue!;
+      Provider.of<UserProvider>(context, listen: false).user!.Gender =
+          genderValue!;
 
       context.goNamed('home', params: {'initialPage': 'feed_screen'});
     }

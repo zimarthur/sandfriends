@@ -37,7 +37,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     double height = MediaQuery.of(context).size.height;
     return SFScaffold(
       titleText: 'Criar Conta',
-      goNamed: 'login_signup',
+      onTapReturn: () => context.goNamed('login_signup'),
       appBarType: AppBarType.Secondary,
       showModal: showModal,
       modalWidget: modalWidget,
