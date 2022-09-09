@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/screens/sport_selection_screen.dart';
 import 'package:sandfriends/widgets/SF_NavBar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../providers/redirect_provider.dart';
 import 'feed_screen.dart';
 import 'user_screen.dart';
 import '../theme/app_theme.dart';
@@ -15,41 +17,41 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-  static List<Widget> _widgetOptions = [];
-  PageController _pageController = PageController();
+  //int _selectedIndex = 0;
+  static List<Widget> _widgetOptions = <Widget>[
+    UserScreen(),
+    FeedScreen(),
+    SportSelectionScreen(),
+  ];
 
   @override
   void initState() {
     super.initState();
-
-    if (widget.initialPage == 'user_screen') {
-      _selectedIndex = 0;
-    } else if (widget.initialPage == 'sport_selection_screen') {
-      _selectedIndex = 2;
-    } else {
-      _selectedIndex = 1;
-    }
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      if (Provider.of<Redirect>(context, listen: false)
+          .pageController
+          .hasClients) {
+        if (widget.initialPage == 'user_screen') {
+          _onItemTapped(0);
+        } else if (widget.initialPage == 'sport_selection_screen') {
+          _onItemTapped(2);
+        } else {
+          _onItemTapped(1);
+        }
+      }
+    });
 
     _widgetOptions = <Widget>[
       UserScreen(),
       FeedScreen(),
       SportSelectionScreen(),
     ];
-
-    _pageController = PageController(initialPage: _selectedIndex);
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
   }
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
-      _pageController.jumpToPage(index);
+      Provider.of<Redirect>(context, listen: false).selectedPageIndex = index;
+      Provider.of<Redirect>(context, listen: false).goto(index);
     });
   }
 
@@ -57,13 +59,13 @@ class _MyStatefulWidgetState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
-        controller: _pageController,
+        controller: Provider.of<Redirect>(context).pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: _widgetOptions,
       ),
       bottomNavigationBar: SandFriendsNavBar(
         onItemSelected: _onItemTapped,
-        selectedIndex: _selectedIndex,
+        selectedIndex: Provider.of<Redirect>(context).selectedPageIndex!,
         items: [
           SandFriendsNavBarItem(
             image: SvgPicture.asset(r"assets\icon\navigation\user_screen.svg"),
