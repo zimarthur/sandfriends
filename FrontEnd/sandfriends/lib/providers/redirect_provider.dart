@@ -14,4 +14,15 @@ class Redirect with ChangeNotifier {
     _redirectBusy = status;
     notifyListeners();
   }
+
+  int? _selectedPageIndex = 1;
+  int? get selectedPageIndex => _selectedPageIndex;
+  set selectedPageIndex(int? index) {
+    _selectedPageIndex = index;
+  }
+
+  PageController pageController = PageController();
+  void goto(int index) {
+    pageController.jumpToPage(index);
+  }
 }

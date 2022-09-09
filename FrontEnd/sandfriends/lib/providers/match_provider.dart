@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/models/court.dart';
+import 'package:sandfriends/models/court_available_hours.dart';
+import 'package:sandfriends/models/store_day.dart';
 import 'package:time_range/time_range.dart';
 
 import '../models/city.dart';
 import '../models/region.dart';
 import '../models/enums.dart';
 import '../models/sport.dart';
-import '../models/store.dart';
 
 class MatchProvider with ChangeNotifier {
-  List<Sport> _availableSports = [];
-  List<Sport> get availableSports => _availableSports;
-  void addSport(Sport sport) {
-    _availableSports.add(sport);
-    notifyListeners();
-  }
-
-  void clearSports() {
-    _availableSports.clear();
-    notifyListeners();
+  void ResetProviderAtributes() {
+    searchStatus = EnumSearchStatus.NoFilterApplied;
+    _indexSelectedTime.clear();
+    selectedStoreDay = StoreDay();
+    _selectedTime.clear();
+    _storeDayList.clear();
   }
 
   Sport? _selectedSport;
@@ -41,48 +37,37 @@ class MatchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  int? _indexSelectedTime; //para saber qual horario tem que ter highlight
-  int? get indexSelectedTime => _indexSelectedTime;
-  set indexSelectedTime(int? value) {
+  List<int> _indexSelectedTime =
+      []; //para saber qual horario tem que ter highlight
+  List<int> get indexSelectedTime => _indexSelectedTime;
+  set indexSelectedTime(List<int> value) {
     _indexSelectedTime = value;
     notifyListeners();
   }
 
-  Court? _selectedCourt;
-  Court? get selectedCourt => _selectedCourt;
-  set selectedCourt(Court? value) {
-    _selectedCourt = value;
+  StoreDay? _selectedStoreDay;
+  StoreDay? get selectedStoreDay => _selectedStoreDay;
+  set selectedStoreDay(StoreDay? value) {
+    _selectedStoreDay = value;
     notifyListeners();
   }
 
-  int? _selectedCourtTime; //para saber qual horario tem que ter highlight
-  int? get selectedCourtTime => _selectedCourtTime;
-  set selectedCourtTime(int? value) {
-    _selectedCourtTime = value;
+  List<CourtAvailableHours> _selectedTime = [];
+  List<CourtAvailableHours> get selectedTime => _selectedTime;
+  set selectedTime(List<CourtAvailableHours> value) {
+    _selectedTime = value;
     notifyListeners();
   }
 
-  List<Store> _stores = [];
-  List<Store> get stores => _stores;
-  void addStore(Store store) {
-    _stores.add(store);
+  List<StoreDay> _storeDayList = [];
+  List<StoreDay> get storeDayList => _storeDayList;
+  void addStoreDay(StoreDay storeDay) {
+    _storeDayList.add(storeDay);
     notifyListeners();
   }
 
-  void clearStores() {
-    _stores.clear();
-    notifyListeners();
-  }
-
-  List<Court> _courts = [];
-  List<Court> get courts => _courts;
-  void addCourt(Court court) {
-    _courts.add(court);
-    notifyListeners();
-  }
-
-  void clearCourts() {
-    _courts.clear();
+  void clearStoreDayList() {
+    _storeDayList.clear();
     notifyListeners();
   }
 
@@ -104,6 +89,7 @@ class MatchProvider with ChangeNotifier {
   }
 
   //////////FILTROS
+
   Region? _selectedRegion;
   Region? get selectedRegion => _selectedRegion;
   set selectedRegion(Region? value) {
@@ -132,10 +118,10 @@ class MatchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  TimeRangeResult? _selectedTime;
-  TimeRangeResult? get selectedTime => _selectedTime;
-  set selectedTime(TimeRangeResult? value) {
-    _selectedTime = value;
+  TimeRangeResult? _selectedTimeRange;
+  TimeRangeResult? get selectedTimeRange => _selectedTimeRange;
+  set selectedTimeRange(TimeRangeResult? value) {
+    _selectedTimeRange = value;
     notifyListeners();
   }
 
@@ -158,5 +144,28 @@ class MatchProvider with ChangeNotifier {
   set currentSlider(RangeValues values) {
     _currentSlider = values;
     notifyListeners();
+  }
+
+  // MATCH DETAILS
+  String get matchDetailsTime {
+    return "${selectedTime.first.hour} - ${selectedTime.last.hourFinish}";
+  }
+
+  int get matchDetailsPrice {
+    int totalPrice = 0;
+    for (int i = 0; i < selectedTime.length; i++) {
+      totalPrice += selectedTime[i].price;
+    }
+    return totalPrice;
+  }
+
+  String get matchDetailsCourt {
+    return selectedStoreDay!.courts[indexSelectedCourt!].storeCourtName;
+  }
+
+  bool _needsRefresh = false;
+  bool get needsRefresh => _needsRefresh;
+  set needsRefresh(bool value) {
+    _needsRefresh = value;
   }
 }
