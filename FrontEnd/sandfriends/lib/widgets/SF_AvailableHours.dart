@@ -3,16 +3,21 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/providers/match_provider.dart';
 
-import '../models/court.dart';
+import '../models/court_available_hours.dart';
+import '../models/store_day.dart';
 import '../theme/app_theme.dart';
 
 class SFAvailableHours extends StatefulWidget {
-  final Court court;
-  final int hourIndex;
+  List<CourtAvailableHours> availableHours;
+  final int widgetIndexTime;
+  final int widgetIndexStore;
+  final bool multipleSelection;
 
   SFAvailableHours({
-    required this.court,
-    required this.hourIndex,
+    required this.availableHours,
+    required this.widgetIndexTime,
+    required this.widgetIndexStore,
+    required this.multipleSelection,
   });
 
   @override
@@ -22,9 +27,10 @@ class SFAvailableHours extends StatefulWidget {
 class _SFAvailableHoursState extends State<SFAvailableHours> {
   bool isSelectedHour(BuildContext context) {
     if ((Provider.of<MatchProvider>(context).indexSelectedCourt ==
-            widget.court.index) &&
-        (Provider.of<MatchProvider>(context).indexSelectedTime ==
-            widget.hourIndex)) {
+            widget.widgetIndexStore) &&
+        (Provider.of<MatchProvider>(context)
+            .indexSelectedTime
+            .contains(widget.widgetIndexTime))) {
       return true;
     } else {
       return false;
@@ -37,13 +43,30 @@ class _SFAvailableHoursState extends State<SFAvailableHours> {
       onTap: () {
         setState(() {
           Provider.of<MatchProvider>(context, listen: false)
-              .indexSelectedCourt = widget.court.index;
-          Provider.of<MatchProvider>(context, listen: false).indexSelectedTime =
-              widget.hourIndex;
-          Provider.of<MatchProvider>(context, listen: false).selectedCourt =
-              widget.court;
-          Provider.of<MatchProvider>(context, listen: false).selectedCourtTime =
-              widget.court.availableHours[widget.hourIndex].hourIndex;
+              .indexSelectedCourt = widget.widgetIndexStore;
+          Provider.of<MatchProvider>(context, listen: false)
+              .indexSelectedTime
+              .clear();
+          Provider.of<MatchProvider>(context, listen: false)
+              .selectedTime
+              .clear();
+          if (widget.multipleSelection) {
+            for (int i = 0; i < widget.widgetIndexTime + 1; i++) {
+              Provider.of<MatchProvider>(context, listen: false)
+                  .indexSelectedTime
+                  .add(i);
+              Provider.of<MatchProvider>(context, listen: false)
+                  .selectedTime
+                  .add(widget.availableHours[i]);
+            }
+          } else {
+            Provider.of<MatchProvider>(context, listen: false)
+                .indexSelectedTime
+                .add(widget.widgetIndexTime);
+            Provider.of<MatchProvider>(context, listen: false)
+                .selectedTime
+                .add(widget.availableHours[widget.widgetIndexTime]);
+          }
         });
       },
       child: Container(
@@ -53,7 +76,7 @@ class _SFAvailableHoursState extends State<SFAvailableHours> {
           decoration: BoxDecoration(
             color: isSelectedHour(context)
                 ? AppTheme.colors.primaryBlue
-                : Colors.transparent,
+                : AppTheme.colors.secondaryPaper,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: AppTheme.colors.primaryBlue, width: 1),
           ),
@@ -74,7 +97,7 @@ class _SFAvailableHoursState extends State<SFAvailableHours> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          widget.court.availableHours[widget.hourIndex].hour,
+                          widget.availableHours[widget.widgetIndexTime].hour,
                           style: TextStyle(
                             color: isSelectedHour(context)
                                 ? AppTheme.colors.textWhite
@@ -98,7 +121,7 @@ class _SFAvailableHoursState extends State<SFAvailableHours> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          "${widget.court.availableHours[widget.hourIndex].getCheapestCourt().toString()}/h",
+                          "${widget.availableHours[widget.widgetIndexTime].price}/h",
                           style: TextStyle(
                             color: isSelectedHour(context)
                                 ? AppTheme.colors.textWhite

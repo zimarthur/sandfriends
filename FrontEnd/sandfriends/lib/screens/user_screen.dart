@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../models/user.dart';
+import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
 
 class UserScreen extends StatefulWidget {
@@ -36,7 +37,7 @@ class _UserScreenState extends State<UserScreen> {
                           backgroundColor: AppTheme.colors.secondaryGreen,
                           radius: width / 7.6,
                           child: Text(
-                            "${Provider.of<User>(context, listen: false).FirstName![0].toUpperCase()}${Provider.of<User>(context, listen: false).LastName![0].toUpperCase()}",
+                            "${Provider.of<UserProvider>(context, listen: false).user!.FirstName![0].toUpperCase()}${Provider.of<UserProvider>(context, listen: false).user!.LastName![0].toUpperCase()}",
                             style: TextStyle(
                                 color: AppTheme.colors.secondaryBack,
                                 fontWeight: FontWeight.w600,
@@ -51,7 +52,7 @@ class _UserScreenState extends State<UserScreen> {
                     child: FittedBox(
                       fit: BoxFit.fitHeight,
                       child: Text(
-                        "${Provider.of<User>(context, listen: false).FirstName} ${Provider.of<User>(context, listen: false).LastName}",
+                        "${Provider.of<UserProvider>(context, listen: false).user!.FirstName} ${Provider.of<UserProvider>(context, listen: false).user!.LastName}",
                         style: TextStyle(color: AppTheme.colors.textWhite),
                       ),
                     ),
@@ -102,12 +103,13 @@ class _UserScreenState extends State<UserScreen> {
                                     child: FittedBox(
                                       fit: BoxFit.fitHeight,
                                       child: Text(
-                                        Provider.of<User>(context,
+                                        Provider.of<UserProvider>(context,
                                                         listen: false)
+                                                    .user!
                                                     .Rank ==
                                                 null
                                             ? "-"
-                                            : "${Provider.of<User>(context, listen: false).Rank}",
+                                            : "${Provider.of<UserProvider>(context, listen: false).user!.Rank}",
                                         style: TextStyle(
                                             color: AppTheme.colors.textWhite),
                                       ),

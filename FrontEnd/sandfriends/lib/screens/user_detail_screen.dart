@@ -14,6 +14,7 @@ import '../../theme/app_theme.dart';
 import '../../widgets/SF_Button.dart';
 import '../../widgets/SF_TextField.dart';
 import '../../models/user.dart';
+import '../../providers/user_provider.dart';
 
 final _userDetailFormKey = GlobalKey<FormState>();
 
@@ -47,35 +48,58 @@ class _UserDetailScreen extends State<UserDetailScreen> {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       setState(() {
-        if (Provider.of<User>(context, listen: false).FirstName != null) {
+        if (Provider.of<UserProvider>(context, listen: false).user!.FirstName !=
+            null) {
           firstNameController.text =
-              Provider.of<User>(context, listen: false).FirstName!;
+              Provider.of<UserProvider>(context, listen: false)
+                  .user!
+                  .FirstName!;
         }
-        if (Provider.of<User>(context, listen: false).LastName != null) {
+        if (Provider.of<UserProvider>(context, listen: false).user!.LastName !=
+            null) {
           lastNameController.text =
-              Provider.of<User>(context, listen: false).LastName!;
+              Provider.of<UserProvider>(context, listen: false).user!.LastName!;
         }
-        if (Provider.of<User>(context, listen: false).Gender != null) {
-          genderValue = Provider.of<User>(context, listen: false).Gender!;
+        if (Provider.of<UserProvider>(context, listen: false).user!.Gender !=
+            null) {
+          genderValue =
+              Provider.of<UserProvider>(context, listen: false).user!.Gender!;
         }
-        if (Provider.of<User>(context, listen: false).PhoneNumber != null) {
+        if (Provider.of<UserProvider>(context, listen: false)
+                .user!
+                .PhoneNumber !=
+            null) {
           phoneNumberController.text =
-              Provider.of<User>(context, listen: false).PhoneNumber!;
+              Provider.of<UserProvider>(context, listen: false)
+                  .user!
+                  .PhoneNumber!;
         }
-        if (Provider.of<User>(context, listen: false).Birthday != null) {
+        if (Provider.of<UserProvider>(context, listen: false).user!.Birthday !=
+            null) {
           birthdayController.text =
-              Provider.of<User>(context, listen: false).Birthday!;
+              Provider.of<UserProvider>(context, listen: false).user!.Birthday!;
         }
-        if (Provider.of<User>(context, listen: false).Height != null) {
+        if (Provider.of<UserProvider>(context, listen: false).user!.Height !=
+            null) {
           heightController.text =
-              Provider.of<User>(context, listen: false).Height.toString();
+              Provider.of<UserProvider>(context, listen: false)
+                  .user!
+                  .Height
+                  .toString();
         }
-        if (Provider.of<User>(context, listen: false).HandPreference != null) {
+        if (Provider.of<UserProvider>(context, listen: false)
+                .user!
+                .HandPreference !=
+            null) {
           handPreferenceValue =
-              Provider.of<User>(context, listen: false).HandPreference!;
+              Provider.of<UserProvider>(context, listen: false)
+                  .user!
+                  .HandPreference!;
         }
-        if (Provider.of<User>(context, listen: false).Rank != null) {
-          rankValue = Provider.of<User>(context, listen: false).Rank!;
+        if (Provider.of<UserProvider>(context, listen: false).user!.Rank !=
+            null) {
+          rankValue =
+              Provider.of<UserProvider>(context, listen: false).user!.Rank!;
         }
       });
     });
@@ -88,8 +112,8 @@ class _UserDetailScreen extends State<UserDetailScreen> {
     return SFScaffold(
       showModal: showModal,
       titleText: "Meu Perfil",
-      goNamed: 'home',
-      goNamedParams: {'initialPage': 'user_screen'},
+      onTapReturn: () =>
+          context.goNamed('home', params: {'initialPage': 'user_screen'}),
       appBarType: AppBarType.Secondary,
       rightWidget: Container(
         width: width * 0.2,
@@ -223,7 +247,8 @@ class _UserDetailScreen extends State<UserDetailScreen> {
       );
       if (response.statusCode == 200) {
         Map<String, dynamic> responseBody = json.decode(response.body);
-        userFromJson(context, responseBody);
+        Provider.of<UserProvider>(context, listen: false)
+            .userFromJson(responseBody);
         context.goNamed('home', params: {'initialPage': 'user_screen'});
       } else {
         print("deu ruim");

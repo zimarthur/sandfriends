@@ -6,10 +6,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/models/court.dart';
+import 'package:sandfriends/models/store_day.dart';
 import 'package:sandfriends/models/court_available_hours.dart';
-import 'package:sandfriends/models/court_price.dart';
+import 'package:sandfriends/models/court.dart';
+import 'package:sandfriends/providers/store_provider.dart';
 import 'package:sandfriends/widgets/Modal/SF_ModalDatePicker.dart';
+import 'package:sandfriends/widgets/SFLoading.dart';
 import 'package:sandfriends/widgets/SF_CourtCard.dart';
 import 'package:sandfriends/widgets/SF_Scaffold.dart';
 import 'package:sandfriends/widgets/SF_SearchFilter.dart';
@@ -25,6 +27,7 @@ import '../../theme/app_theme.dart';
 import '../../widgets/SF_Button.dart';
 import '../models/store.dart';
 import '../providers/match_provider.dart';
+import '../providers/store_provider.dart';
 
 class MatchSearchScreen extends StatefulWidget {
   const MatchSearchScreen({Key? key}) : super(key: key);
@@ -34,16 +37,10 @@ class MatchSearchScreen extends StatefulWidget {
 }
 
 class _MatchSearchScreen extends State<MatchSearchScreen> {
-  Widget widgetLoading = SizedBox(
-    height: 10,
-    width: 10,
-    child: CircularProgressIndicator(),
-  );
+  bool isLoading = false;
 
   int? selectedCourt;
   int? selectedTime;
-
-  List<Court> courts = [];
 
   bool showModal = false;
   Widget? modalWidget;
@@ -52,7 +49,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
 
   TimeRangeResult? timePickerRange;
   final defaultTimePickerRange = TimeRangeResult(
-    const TimeOfDay(hour: 0, minute: 0),
+    const TimeOfDay(hour: 01, minute: 0),
     const TimeOfDay(hour: 23, minute: 00),
   );
 
@@ -65,7 +62,8 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final courts = Provider.of<MatchProvider>(context).courts;
+    final storeDayList =
+        List.from(Provider.of<MatchProvider>(context).storeDayList);
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     double appBarHeight = height * 0.3 > 150 ? 150 : height * 0.3;
@@ -74,11 +72,22 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
       return dateTime.toString().replaceAll('00:00:00.000', '');
     }
 
+    if (Provider.of<MatchProvider>(context, listen: false).needsRefresh ==
+        true) {
+      if (Provider.of<MatchProvider>(context, listen: false).selectedDates ==
+              null ||
+          Provider.of<MatchProvider>(context, listen: false).selectedRegion ==
+              null) {
+        Provider.of<MatchProvider>(context, listen: false).storeDayList.clear();
+      } else {
+        loadDates();
+      }
+    }
     return SFScaffold(
       titleText:
           "Busca - ${Provider.of<MatchProvider>(context).selectedSport!.description}",
-      goNamed: 'home',
-      goNamedParams: {'initialPage': 'sport_selection_screen'},
+      onTapReturn: () => context
+          .goNamed('home', params: {'initialPage': 'sport_selection_screen'}),
       appBarType: AppBarType.Primary,
       showModal: showModal,
       modalWidget: modalWidget,
@@ -108,9 +117,14 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                             EdgeInsets.symmetric(vertical: appBarHeight * 0.02),
                         onTap: () {
                           setState(() {
-                            GetCities(context);
-                            modalWidget = widgetLoading;
                             showModal = true;
+                            modalWidget = Container(
+                              height: height * 0.7,
+                              child: Center(
+                                child: SFLoading(),
+                              ),
+                            );
+                            GetCities(context);
                           });
                         },
                       ),
@@ -258,74 +272,6 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                             ),
                           ),
                         ),
-                        /*Expanded(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: width * 0.02,
-                                vertical: appBarHeight * 0.06),
-                            height: appBarHeight * 0.33,
-                            child: SFSearchFilter(
-                              labelText:
-                                  Provider.of<MatchProvider>(context).timeText,
-                              iconPath: r"assets\icon\clock.svg",
-                              margin: EdgeInsets.only(left: width * 0.02),
-                              padding: EdgeInsets.symmetric(
-                                  vertical: appBarHeight * 0.02),
-                              onTap: () {
-                                setState(
-                                  () {
-                                    modalWidget = Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: width * 0.05,
-                                              vertical: height * 0.02),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: FittedBox(
-                                                  fit: BoxFit.fitWidth,
-                                                  child: Text(
-                                                    "Que horas você quer jogar?",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: AppTheme.colors
-                                                            .primaryBlue),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        RangeSlider(
-                                          values: _currentRangeValues,
-                                          min: 0,
-                                          max: 23,
-                                          //divisions: 5,
-                                          onChanged: (RangeValues values) {
-                                            setState(() {
-                                              print(_currentRangeValues.start
-                                                  .toString());
-                                              print(_currentRangeValues.end
-                                                  .toString());
-                                              _currentRangeValues = values;
-                                            });
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                    showModal = true;
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        ),*/
-
                         Expanded(
                           child: Container(
                             padding: EdgeInsets.symmetric(
@@ -378,13 +324,13 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                     Provider.of<MatchProvider>(
                                                                 context,
                                                                 listen: false)
-                                                            .selectedTime =
+                                                            .selectedTimeRange =
                                                         defaultTimePickerRange;
                                                     Provider.of<MatchProvider>(
                                                                 context,
                                                                 listen: false)
                                                             .timeText =
-                                                        "${Provider.of<MatchProvider>(context, listen: false).selectedTime!.start.hour.toString().padLeft(2, '0')}:${Provider.of<MatchProvider>(context, listen: false).selectedTime!.start.minute.toString().padLeft(2, '0')} - ${Provider.of<MatchProvider>(context, listen: false).selectedTime!.end.hour.toString().padLeft(2, '0')}:${Provider.of<MatchProvider>(context, listen: false).selectedTime!.end.minute.toString().padLeft(2, '0')}";
+                                                        "${Provider.of<MatchProvider>(context, listen: false).selectedTimeRange!.start.hour.toString().padLeft(2, '0')}:${Provider.of<MatchProvider>(context, listen: false).selectedTimeRange!.start.minute.toString().padLeft(2, '0')} - ${Provider.of<MatchProvider>(context, listen: false).selectedTimeRange!.end.hour.toString().padLeft(2, '0')}:${Provider.of<MatchProvider>(context, listen: false).selectedTimeRange!.end.minute.toString().padLeft(2, '0')}";
                                                     showModal = false;
                                                   });
                                                 })
@@ -417,18 +363,18 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                               Provider.of<MatchProvider>(
                                                       context,
                                                       listen: false)
-                                                  .selectedTime,
+                                                  .selectedTimeRange,
                                           firstTime:
-                                              TimeOfDay(hour: 0, minute: 0),
+                                              TimeOfDay(hour: 1, minute: 0),
                                           lastTime:
-                                              TimeOfDay(hour: 23, minute: 30),
+                                              TimeOfDay(hour: 23, minute: 00),
                                           timeStep: 60,
                                           timeBlock: 60,
                                           onRangeCompleted: (range) => setState(
                                               () => Provider.of<MatchProvider>(
                                                       context,
                                                       listen: false)
-                                                  .selectedTime = range),
+                                                  .selectedTimeRange = range),
                                         ),
                                       ),
                                       Container(
@@ -446,13 +392,13 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                 if (Provider.of<MatchProvider>(
                                                             context,
                                                             listen: false)
-                                                        .selectedTime !=
+                                                        .selectedTimeRange !=
                                                     null) {
                                                   Provider.of<MatchProvider>(
                                                               context,
                                                               listen: false)
                                                           .timeText =
-                                                      "${Provider.of<MatchProvider>(context, listen: false).selectedTime!.start.hour.toString().padLeft(2, '0')}:${Provider.of<MatchProvider>(context, listen: false).selectedTime!.start.minute.toString().padLeft(2, '0')} - ${Provider.of<MatchProvider>(context, listen: false).selectedTime!.end.hour.toString().padLeft(2, '0')}:${Provider.of<MatchProvider>(context, listen: false).selectedTime!.end.minute.toString().padLeft(2, '0')}";
+                                                      "${Provider.of<MatchProvider>(context, listen: false).selectedTimeRange!.start.hour.toString().padLeft(2, '0')}:${Provider.of<MatchProvider>(context, listen: false).selectedTimeRange!.start.minute.toString().padLeft(2, '0')} - ${Provider.of<MatchProvider>(context, listen: false).selectedTimeRange!.end.hour.toString().padLeft(2, '0')}:${Provider.of<MatchProvider>(context, listen: false).selectedTimeRange!.end.minute.toString().padLeft(2, '0')}";
                                                 }
                                                 showModal = false;
                                               });
@@ -490,11 +436,14 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                     null) {
                               print("erro");
                             } else {
+                              setState(() {
+                                isLoading = true;
+                              });
                               Provider.of<MatchProvider>(context, listen: false)
-                                      .selectedTime ??=
+                                      .selectedTimeRange ??=
                                   TimeRangeResult(
-                                      const TimeOfDay(hour: 00, minute: 00),
-                                      const TimeOfDay(hour: 23, minute: 30));
+                                      const TimeOfDay(hour: 1, minute: 00),
+                                      const TimeOfDay(hour: 23, minute: 00));
                               loadDates();
                             }
                           }),
@@ -619,11 +568,11 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                             segmentedTextValue == 1
                                         ? Expanded(
                                             child: ListView.builder(
-                                              itemCount: courts.length,
+                                              itemCount: storeDayList.length,
                                               itemBuilder: ((context, index) {
                                                 if ((index == 0) ||
-                                                    (courts[index].day !=
-                                                        courts[index - 1]
+                                                    (storeDayList[index].day !=
+                                                        storeDayList[index - 1]
                                                             .day)) {
                                                   return Column(
                                                     children: [
@@ -682,7 +631,9 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                                       r'assets\icon\calendar.svg'),
                                                             ),
                                                             Text(
-                                                              courts[index].day,
+                                                              storeDayList[
+                                                                      index]
+                                                                  .day,
                                                               style: TextStyle(
                                                                   color: AppTheme
                                                                       .colors
@@ -699,8 +650,9 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                           Provider.of<MatchProvider>(
                                                                       context,
                                                                       listen: false)
-                                                                  .selectedCourt =
-                                                              courts[index];
+                                                                  .selectedStoreDay =
+                                                              storeDayList[
+                                                                  index];
                                                           context.goNamed(
                                                               'court_screen',
                                                               params: {
@@ -709,8 +661,11 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                               });
                                                         }),
                                                         child: SFCourtCard(
-                                                            court:
-                                                                courts[index]),
+                                                            widgetIndexStore:
+                                                                index,
+                                                            storeDay:
+                                                                storeDayList[
+                                                                    index]),
                                                       )
                                                     ],
                                                   );
@@ -720,8 +675,8 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                       Provider.of<MatchProvider>(
                                                                   context,
                                                                   listen: false)
-                                                              .selectedCourt =
-                                                          courts[index];
+                                                              .selectedStoreDay =
+                                                          storeDayList[index];
                                                       context.goNamed(
                                                           'court_screen',
                                                           params: {
@@ -729,7 +684,9 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                           });
                                                     }),
                                                     child: SFCourtCard(
-                                                        court: courts[index]),
+                                                        widgetIndexStore: index,
+                                                        storeDay: storeDayList[
+                                                            index]),
                                                   );
                                                 }
                                               }),
@@ -785,6 +742,14 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                             )
             ],
           ),
+          isLoading
+              ? Container(
+                  color: AppTheme.colors.primaryBlue.withOpacity(0.3),
+                  child: Center(
+                    child: SFLoading(),
+                  ),
+                )
+              : Container()
         ],
       ),
     );
@@ -820,86 +785,115 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                 Provider.of<MatchProvider>(context, listen: false)
                     .selectedDates[1]!),
         'timeStart': Provider.of<MatchProvider>(context, listen: false)
-            .selectedTime!
+            .selectedTimeRange!
             .start
             .format(context),
         'timeEnd': Provider.of<MatchProvider>(context, listen: false)
-            .selectedTime!
+            .selectedTimeRange!
             .end
             .format(context),
       }),
     );
-    if (response.statusCode == 200) {
-      Provider.of<MatchProvider>(context, listen: false).clearCourts();
-      Provider.of<MatchProvider>(context, listen: false).clearStores();
-      final responseBody = json.decode(response.body);
-      final courts = responseBody['dates'];
-      final stores = responseBody['stores'];
-
-      for (int i = 0; i < stores.length; i++) {
-        Store newStore = Store();
-        Map storeJson = stores[i];
-        newStore.idStore = storeJson['IdStore'];
-        newStore.name = storeJson['name'];
-        newStore.address = storeJson['address'];
-        newStore.imageUrl = storeJson['imageURL'];
-        newStore.descriptionText = storeJson['description'];
-        for (int photoIndex = 0;
-            photoIndex < storeJson['storePhotos'].length;
-            photoIndex++) {
-          Map photo = storeJson['storePhotos'][photoIndex];
-          newStore.addPhoto(photo['storePhoto']);
-        }
-        Provider.of<MatchProvider>(context, listen: false).addStore(newStore);
-      }
-
-      Court court = Court();
-      int courtIndexTotal = 0;
-
-      for (int dateIndex = 0; dateIndex < courts.length; dateIndex++) {
-        Map firstLevel = courts[dateIndex];
-        for (int courtIndex = 0;
-            courtIndex < firstLevel['places'].length;
-            courtIndex++) {
-          Map secondLevel = firstLevel['places'][courtIndex];
-          court.day = firstLevel['date'];
+    if (mounted) {
+      if (response.statusCode == 200) {
+        if (mounted) {
           Provider.of<MatchProvider>(context, listen: false)
-              .stores
-              .forEach((store) {
-            if (store.idStore == secondLevel['IdStore']) {
-              court.store = store;
-            }
-          });
-          for (int availableHoursIndex = 0;
-              availableHoursIndex < secondLevel['available'].length;
-              availableHoursIndex++) {
-            Map thirdLevel = secondLevel['available'][availableHoursIndex];
-            List<CourtPrice> courtPriceList = [];
-            for (int availableCourts = 0;
-                availableCourts < thirdLevel['courts'].length;
-                availableCourts++) {
-              Map fourthLevel = thirdLevel['courts'][availableCourts];
-              courtPriceList.add(CourtPrice(fourthLevel['idStoreCourt'],
-                  fourthLevel['storeCourtName'], fourthLevel['price']));
-            }
-            court.availableHours.add(CourtAvailableHours(availableHoursIndex,
-                thirdLevel['time'], thirdLevel['timeInt'], courtPriceList));
-          }
-          court.index = courtIndexTotal;
-          courtIndexTotal++;
-          Provider.of<MatchProvider>(context, listen: false).addCourt(court);
-          court = Court();
-        }
-      }
+              .clearStoreDayList();
+          final responseBody = json.decode(response.body);
+          final responseCourts = responseBody['dates'];
+          final responseStores = responseBody['stores'];
 
-      Provider.of<MatchProvider>(context, listen: false).searchStatus =
-          EnumSearchStatus.Results;
-    } else if (response.statusCode == 412) {
-      Provider.of<MatchProvider>(context, listen: false).searchStatus =
-          EnumSearchStatus.NoResultsFound;
-    } else {
-      Provider.of<MatchProvider>(context, listen: false).searchStatus =
-          EnumSearchStatus.Error;
+          for (int i = 0; i < responseStores.length; i++) {
+            Store newStore = Store();
+            Map storeJson = responseStores[i];
+            newStore.idStore = storeJson['IdStore'];
+            newStore.name = storeJson['name'];
+            newStore.address = storeJson['address'];
+            newStore.latitude = storeJson['latitude'];
+            newStore.longitude = storeJson['longitude'];
+            newStore.imageUrl = storeJson['imageURL'];
+            newStore.descriptionText = storeJson['description'];
+            newStore.instagram = storeJson['instagram'];
+            newStore.phone = storeJson['phone'];
+            for (int photoIndex = 0;
+                photoIndex < storeJson['storePhotos'].length;
+                photoIndex++) {
+              Map photo = storeJson['storePhotos'][photoIndex];
+              newStore.addPhoto(photo['storePhoto']);
+            }
+            Provider.of<StoreProvider>(context, listen: false)
+                .addStore(newStore);
+          }
+
+          StoreDay storeDay = StoreDay();
+          int courtIndexTotal = 0;
+          for (int dateIndex = 0;
+              dateIndex < responseCourts.length;
+              dateIndex++) {
+            Map firstLevel = responseCourts[dateIndex];
+            for (int storeIndex = 0;
+                storeIndex < firstLevel['places'].length;
+                storeIndex++) {
+              Map secondLevel = firstLevel['places'][storeIndex];
+              Provider.of<StoreProvider>(context, listen: false)
+                  .stores
+                  .forEach((store) {
+                if (store.idStore == secondLevel['IdStore']) {
+                  storeDay.store = store;
+                }
+              });
+              storeDay.day = firstLevel['date'];
+              for (int availableHoursIndex = 0;
+                  availableHoursIndex < secondLevel['available'].length;
+                  availableHoursIndex++) {
+                Map thirdLevel = secondLevel['available'][availableHoursIndex];
+                for (int courtIndex = 0;
+                    courtIndex < thirdLevel['courts'].length;
+                    courtIndex++) {
+                  Map fourthLevel = thirdLevel['courts'][courtIndex];
+                  bool newcourt = false;
+                  if (storeDay.courts.isEmpty ||
+                      (storeDay.courts.any((court) =>
+                              court.idStoreCourt ==
+                              fourthLevel['idStoreCourt']) ==
+                          false)) {
+                    newcourt = true;
+                  }
+                  if (newcourt) {
+                    storeDay.courts.add(Court(fourthLevel['idStoreCourt'],
+                        fourthLevel['storeCourtName']));
+                  }
+                  for (int i = 0; i < storeDay.courts.length; i++) {
+                    if (storeDay.courts[i].idStoreCourt ==
+                        fourthLevel['idStoreCourt']) {
+                      storeDay.courts[i].availableHours.add(CourtAvailableHours(
+                          thirdLevel['time'],
+                          thirdLevel['timeInt'],
+                          thirdLevel['timeFinish'],
+                          fourthLevel['price']));
+                    }
+                  }
+                }
+              }
+              Provider.of<MatchProvider>(context, listen: false)
+                  .addStoreDay(storeDay);
+
+              storeDay = StoreDay();
+            }
+          }
+          Provider.of<MatchProvider>(context, listen: false).searchStatus =
+              EnumSearchStatus.Results;
+        }
+      } else if (response.statusCode == 412) {
+        Provider.of<MatchProvider>(context, listen: false).searchStatus =
+            EnumSearchStatus.NoResultsFound;
+      } else {
+        Provider.of<MatchProvider>(context, listen: false).searchStatus =
+            EnumSearchStatus.Error;
+      }
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 

@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/models/court_available_hours.dart';
 import 'package:sandfriends/providers/match_provider.dart';
 import 'package:sandfriends/widgets/SF_AvailableHours.dart';
 import 'package:sandfriends/widgets/SF_Button.dart';
 
-import '../models/court.dart';
+import '../models/store_day.dart';
 import '../theme/app_theme.dart';
 
 class SFCourtCard extends StatefulWidget {
-  final Court court;
+  final StoreDay storeDay;
+  final int widgetIndexStore;
 
   SFCourtCard({
-    required this.court,
+    required this.storeDay,
+    required this.widgetIndexStore,
   });
 
   @override
@@ -24,10 +27,59 @@ class _SFCourtCardState extends State<SFCourtCard> {
   bool isSelectedCourt(BuildContext context, bool listen) {
     if (Provider.of<MatchProvider>(context, listen: listen)
             .indexSelectedCourt ==
-        widget.court.index) {
+        widget.widgetIndexStore) {
       return true;
     } else {
       return false;
+    }
+  }
+
+  List<CourtAvailableHours> availableHours = [];
+
+  void availableHoursLength() {
+    availableHours.clear();
+    bool newHour = true;
+    for (int courtsIndex = 0;
+        courtsIndex < widget.storeDay.courts.length;
+        courtsIndex++) {
+      for (int hoursIndex = 0;
+          hoursIndex <
+              widget.storeDay.courts[courtsIndex].availableHours.length;
+          hoursIndex++) {
+        for (int i = 0; i < availableHours.length; i++) {
+          if (availableHours[i].hourIndex ==
+              widget.storeDay.courts[courtsIndex].availableHours[hoursIndex]
+                  .hourIndex) {
+            newHour = false;
+
+            if (availableHours[i].price.toInt() >
+                widget.storeDay.courts[courtsIndex].availableHours[hoursIndex]
+                    .price
+                    .toInt()) {
+              availableHours[i].price = widget.storeDay.courts[courtsIndex]
+                  .availableHours[hoursIndex].price;
+            }
+          }
+        }
+        if (newHour == true || availableHours.isEmpty) {
+          availableHours.add(CourtAvailableHours(
+              widget
+                  .storeDay.courts[courtsIndex].availableHours[hoursIndex].hour,
+              widget.storeDay.courts[courtsIndex].availableHours[hoursIndex]
+                  .hourIndex,
+              widget.storeDay.courts[courtsIndex].availableHours[hoursIndex]
+                  .hourFinish,
+              widget.storeDay.courts[courtsIndex].availableHours[hoursIndex]
+                  .price));
+          newHour = true;
+          /*print(
+              "new hour: ${widget.storeDay.courts[courtsIndex].availableHours[hoursIndex].hourIndex}");*/
+        }
+        /*else {
+          print(
+              "NOT new hour: ${widget.storeDay.courts[courtsIndex].availableHours[hoursIndex].hourIndex}");
+        }*/
+      }
     }
   }
 
@@ -35,7 +87,7 @@ class _SFCourtCardState extends State<SFCourtCard> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-
+    availableHoursLength();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: width * 0.03),
       margin: EdgeInsets.symmetric(vertical: height * 0.005),
@@ -55,7 +107,7 @@ class _SFCourtCardState extends State<SFCourtCard> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Image.network(
-                      widget.court.store.imageUrl,
+                      widget.storeDay.store.imageUrl,
                       height: 82,
                       width: 82,
                     ),
@@ -69,7 +121,7 @@ class _SFCourtCardState extends State<SFCourtCard> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.court.store.name,
+                          widget.storeDay.store.name,
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 18,
@@ -79,7 +131,7 @@ class _SFCourtCardState extends State<SFCourtCard> {
                           children: [
                             SvgPicture.asset(r"assets\icon\location_ping.svg"),
                             Text(
-                              widget.court.store.address,
+                              widget.storeDay.store.address,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 10,
@@ -116,11 +168,13 @@ class _SFCourtCardState extends State<SFCourtCard> {
               height: 50,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: widget.court.availableHours.length,
+                itemCount: availableHours.length,
                 itemBuilder: ((context, index) {
                   return SFAvailableHours(
-                    court: widget.court,
-                    hourIndex: index,
+                    availableHours: availableHours,
+                    widgetIndexTime: index,
+                    widgetIndexStore: widget.widgetIndexStore,
+                    multipleSelection: false,
                   );
                 }),
               ),
@@ -136,7 +190,11 @@ class _SFCourtCardState extends State<SFCourtCard> {
                   textPadding: EdgeInsets.symmetric(vertical: 5),
                   onTap: () {
                     if (isSelectedCourt(context, false)) {
-                      print("pode agendar");
+                      Provider.of<MatchProvider>(context, listen: false)
+                          .selectedStoreDay = widget.storeDay;
+                      Provider.of<MatchProvider>(context, listen: false)
+                          .indexSelectedTime
+                          .clear();
                       context
                           .goNamed('court_screen', params: {'param': 'null'});
                     } else {
