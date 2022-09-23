@@ -7,6 +7,8 @@ import '../models/city.dart';
 import '../models/region.dart';
 import '../models/enums.dart';
 import '../models/sport.dart';
+import '../models/match.dart';
+import '../models/user.dart';
 
 class MatchProvider with ChangeNotifier {
   void ResetProviderAtributes() {
@@ -72,7 +74,7 @@ class MatchProvider with ChangeNotifier {
   }
 
   List<Match> _openMatchList = [];
-  List<Match> get openMatch => _openMatchList;
+  List<Match> get openMatchList => _openMatchList;
   void addOpenMatch(Match match) {
     _openMatchList.add(match);
     notifyListeners();
