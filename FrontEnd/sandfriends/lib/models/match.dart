@@ -1,3 +1,5 @@
+import 'package:sandfriends/models/user.dart';
+
 import 'court.dart';
 import 'match_member.dart';
 import 'sport.dart';
@@ -38,6 +40,18 @@ class Match {
   String get userCreator => _userCreator;
   set userCreator(String value) {
     _userCreator = value;
+  }
+
+  int _remainingSlots = 0;
+  int get remainingSlots => _remainingSlots;
+  set remainingSlots(int value) {
+    _remainingSlots = value;
+  }
+
+  User? _matchCreator;
+  User? get matchCreator => _matchCreator;
+  set matchCreator(User? value) {
+    _matchCreator = value;
   }
 
   int _timeInt = 0;
