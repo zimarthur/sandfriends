@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
-enum TextFieldPourpose { Standard, Email, Password, Numeric }
+enum TextFieldPourpose { Standard, Email, Password, Numeric, Multiline }
 
 class SFTextField extends StatefulWidget {
   final String labelText;
@@ -13,6 +12,8 @@ class SFTextField extends StatefulWidget {
   final TextFieldPourpose pourpose;
   final TextEditingController controller;
   final FormFieldValidator<String>? validator;
+  final int? maxLines;
+  final Function(String)? onChanged;
 
   const SFTextField({
     required this.labelText,
@@ -22,6 +23,8 @@ class SFTextField extends StatefulWidget {
     required this.pourpose,
     required this.controller,
     required this.validator,
+    this.maxLines,
+    this.onChanged,
   });
 
   @override
@@ -41,12 +44,18 @@ class _SFTextFieldState extends State<SFTextField> {
           ? TextInputType.emailAddress
           : widget.pourpose == TextFieldPourpose.Numeric
               ? TextInputType.number
-              : TextInputType.text,
+              : widget.pourpose == TextFieldPourpose.Multiline
+                  ? TextInputType.multiline
+                  : TextInputType.text,
       obscureText: widget.pourpose != TextFieldPourpose.Password
           ? false
           : _passwordVisible
               ? false
               : true,
+      onChanged: widget.onChanged == null ? (value) {} : widget.onChanged,
+      minLines: 1,
+      maxLines:
+          widget.pourpose == TextFieldPourpose.Multiline ? widget.maxLines : 1,
       enableSuggestions: false,
       autocorrect: false,
       style: TextStyle(

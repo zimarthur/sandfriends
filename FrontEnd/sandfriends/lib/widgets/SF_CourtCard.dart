@@ -94,9 +94,13 @@ class _SFCourtCardState extends State<SFCourtCard> {
       child: Container(
         height: 200,
         decoration: BoxDecoration(
-            color: AppTheme.colors.secondaryPaper,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppTheme.colors.divider, width: 0.5)),
+          color: AppTheme.colors.secondaryPaper,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: AppTheme.colors.divider,
+            width: 0.5,
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -150,7 +154,7 @@ class _SFCourtCardState extends State<SFCourtCard> {
                                   color: AppTheme.colors.textDarkGrey),
                             ),
                             Text(
-                              "Selecione uma ou mais opções",
+                              "Selecione o início do jogo",
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 10,
