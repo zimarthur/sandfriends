@@ -49,11 +49,13 @@ class UserProvider with ChangeNotifier {
 
   void userFromJson(Map<String, dynamic> json) {
     var newUser = User();
+    newUser.IdUser = json['IdUser'];
     newUser.FirstName = json['FirstName'];
     newUser.LastName = json['LastName'];
     newUser.Gender = json['Gender'];
     newUser.PhoneNumber = json['PhoneNumber'];
     newUser.Birthday = json['Birthday'];
+    newUser.Age = json['Age'];
     newUser.Rank = json['Rank'];
     newUser.Height = json['Height'];
     newUser.HandPreference = json['HandPreference'];
