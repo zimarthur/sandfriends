@@ -19,3 +19,11 @@ String? passwordValidator(String? value) {
     return "min. 8 caracteres";
   }
 }
+
+String? max255(String? value) {
+  if (value!.isNotEmpty && value.length > 255) {
+    return "Máx 255 caracteres";
+  } else {
+    return null;
+  }
+}
