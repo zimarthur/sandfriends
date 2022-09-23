@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/models/store_day.dart';
 import 'package:sandfriends/models/court_available_hours.dart';
 import 'package:sandfriends/models/court.dart';
+import 'package:sandfriends/models/user.dart';
 import 'package:sandfriends/providers/court_provider.dart';
 import 'package:sandfriends/providers/store_provider.dart';
 import 'package:sandfriends/widgets/Modal/SF_ModalDatePicker.dart';
@@ -629,10 +630,12 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                                                 EdgeInsets.symmetric(vertical: height * 0.02),
                                                                             child:
                                                                                 ListView.builder(
-                                                                              itemCount: 10,
+                                                                              itemCount: Provider.of<MatchProvider>(context, listen: false).openMatchList.length,
                                                                               scrollDirection: Axis.horizontal,
                                                                               itemBuilder: ((context, index) {
-                                                                                return SFOpenMatchHorizontal();
+                                                                                return SFOpenMatchHorizontal(
+                                                                                  match: Provider.of<MatchProvider>(context, listen: false).openMatchList[index],
+                                                                                );
                                                                               }),
                                                                             ),
                                                                           ),
@@ -753,9 +756,20 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                           )
                                         : Expanded(
                                             child: ListView.builder(
-                                              itemCount: 5,
+                                              itemCount:
+                                                  Provider.of<MatchProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .openMatchList
+                                                      .length,
                                               itemBuilder: (context, index) {
-                                                return SFOpenMatchVertical();
+                                                return SFOpenMatchVertical(
+                                                  match: Provider.of<
+                                                              MatchProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .openMatchList[index],
+                                                );
                                               },
                                             ),
                                           ),
@@ -864,7 +878,37 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
               .format(context),
         }),
       );
-
+      print(accessToken);
+      print(Provider.of<MatchProvider>(context, listen: false)
+          .selectedSport!
+          .idSport
+          .toString());
+      print(Provider.of<MatchProvider>(context, listen: false)
+          .selectedRegion!
+          .selectedCity!
+          .cityId
+          .toString());
+      print(DateFormat("yyyy-MM-dd").format(
+          Provider.of<MatchProvider>(context, listen: false)
+              .selectedDates[0]!));
+      print(Provider.of<MatchProvider>(context, listen: false)
+                  .selectedDates
+                  .length <
+              2
+          ? DateFormat("yyyy-MM-dd").format(
+              Provider.of<MatchProvider>(context, listen: false)
+                  .selectedDates[0]!)
+          : DateFormat("yyyy-MM-dd").format(
+              Provider.of<MatchProvider>(context, listen: false)
+                  .selectedDates[1]!));
+      print(Provider.of<MatchProvider>(context, listen: false)
+          .selectedTimeRange!
+          .start
+          .format(context));
+      print(Provider.of<MatchProvider>(context, listen: false)
+          .selectedTimeRange!
+          .end
+          .format(context));
       if (mounted) {
         if (response.statusCode == 200) {
           if (mounted) {
@@ -984,27 +1028,43 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
 
             for (int i = 0; i < responseOpenMatches.length; i++) {
               Map openCourtJson = responseOpenMatches[i];
-              var newMatch = Match();
+              Map openCourtDetailsJson = openCourtJson['MatchDetails'];
+              Map openCourtMatchCreatorJson = openCourtJson['MatchCreator'];
+
+              var newOpenMatch = Match();
+              newOpenMatch.remainingSlots = openCourtJson['SlotsRemaining'];
+              var matchCreator = User();
+              matchCreator.IdUser = openCourtMatchCreatorJson['IdUser'];
+              matchCreator.FirstName = openCourtMatchCreatorJson['FirstName'];
+              matchCreator.LastName = openCourtMatchCreatorJson['LastName'];
+              matchCreator.Photo = openCourtMatchCreatorJson['Photo'];
+              newOpenMatch.matchCreator = matchCreator;
+
               Provider.of<StoreProvider>(context, listen: false)
                   .stores
                   .forEach((store) {
-                if (store.idStore == openCourtJson['IdStore']) {
-                  newMatch.store = store;
+                if (store.idStore == openCourtDetailsJson['IdStore']) {
+                  newOpenMatch.store = store;
                 }
               });
               Provider.of<CourtProvider>(context, listen: false)
                   .courts
                   .forEach((court) {
-                if (court.idStoreCourt == openCourtJson['IdStoreCourt']) {
-                  newMatch.court = court;
+                if (court.idStoreCourt ==
+                    openCourtDetailsJson['IdStoreCourt']) {
+                  newOpenMatch.court = court;
                 }
               });
-              newMatch.idMatch = openCourtJson['IdMatch'];
-              newMatch.price = openCourtJson['Cost'];
-              newMatch.day = openCourtJson['Date'];
-              newMatch.matchUrl = openCourtJson['MatchUrl'];
-              newMatch.timeBegin = openCourtJson['TimeBegin'];
-              newMatch.timeFinish = openCourtJson['TimeEnd'];
+              newOpenMatch.idMatch = openCourtDetailsJson['IdMatch'];
+              newOpenMatch.price = openCourtDetailsJson['Cost'];
+              newOpenMatch.day = DateTime.parse(openCourtDetailsJson['Date']);
+              newOpenMatch.matchUrl = openCourtDetailsJson['MatchUrl'];
+              newOpenMatch.timeBegin = openCourtDetailsJson['TimeBegin'];
+              newOpenMatch.timeFinish = openCourtDetailsJson['TimeEnd'];
+              newOpenMatch.timeInt = openCourtDetailsJson['TimeInteger'];
+
+              Provider.of<MatchProvider>(context, listen: false)
+                  .addOpenMatch(newOpenMatch);
             }
 
             Provider.of<MatchProvider>(context, listen: false).searchStatus =

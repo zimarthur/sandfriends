@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../theme/app_theme.dart';
+import '../models/match.dart';
 import 'SF_Button.dart';
 
 class SFOpenMatchHorizontal extends StatelessWidget {
-  const SFOpenMatchHorizontal({Key? key}) : super(key: key);
+  final Match match;
+
+  SFOpenMatchHorizontal({required this.match});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +67,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                                   child: FittedBox(
                                     fit: BoxFit.fitHeight,
                                     child: Text(
-                                      "AZ",
+                                      "${match.matchCreator!.FirstName![0].toUpperCase()}${match.matchCreator!.LastName![0].toUpperCase()}",
                                       style: TextStyle(
                                         color: AppTheme.colors.secondaryBack,
                                         fontWeight: FontWeight.w600,
@@ -79,7 +84,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: FittedBox(
                               child: Text(
-                                "Partida de\n Arthur",
+                                "Partida de\n${match.matchCreator!.FirstName}",
                                 style: TextStyle(
                                   color: AppTheme.colors.primaryBlue,
                                   fontWeight: FontWeight.w700,
@@ -117,7 +122,9 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                                 Expanded(
                                   child: FittedBox(
                                     child: Text(
-                                      "restam 2 vagas",
+                                      match.remainingSlots == 1
+                                          ? "resta 1 vaga"
+                                          : "restam ${match.remainingSlots} vagas",
                                       style: TextStyle(
                                         color: AppTheme.colors.primaryBlue,
                                         fontWeight: FontWeight.w700,
@@ -164,7 +171,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                           padding: EdgeInsets.only(right: width * 0.01),
                         ),
                         Text(
-                          "17/19/2022",
+                          "${DateFormat("dd/MM/yyyy").format(match.day!)}",
                           style: TextStyle(
                             color: AppTheme.colors.primaryBlue,
                           ),
@@ -181,7 +188,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                           padding: EdgeInsets.only(right: width * 0.01),
                         ),
                         Text(
-                          "19:00",
+                          match.timeBegin,
                           style: TextStyle(
                             color: AppTheme.colors.primaryBlue,
                           ),
@@ -200,7 +207,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                       padding: EdgeInsets.only(right: width * 0.01),
                     ),
                     Text(
-                      "Point Sul Beach Tenis",
+                      match.store!.name,
                       style: TextStyle(
                         color: AppTheme.colors.primaryBlue,
                       ),
@@ -211,7 +218,10 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                     buttonLabel: "Quero jogar",
                     buttonType: ButtonType.Secondary,
                     iconPath: r'assets\icon\user_plus.svg',
-                    onTap: () {}),
+                    onTap: () {
+                      context.goNamed('match_screen',
+                          params: {'param': "${match.matchUrl}"});
+                    }),
               ],
             ),
           ),

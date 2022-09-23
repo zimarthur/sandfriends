@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 import '../theme/app_theme.dart';
+import '../models/match.dart';
 import 'SF_Button.dart';
 
 class SFOpenMatchVertical extends StatelessWidget {
-  const SFOpenMatchVertical({Key? key}) : super(key: key);
+  final Match match;
+
+  SFOpenMatchVertical({required this.match});
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +73,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                                     child: FittedBox(
                                       fit: BoxFit.fitHeight,
                                       child: Text(
-                                        "AZ",
+                                        "${match.matchCreator!.FirstName![0].toUpperCase()}${match.matchCreator!.LastName![0].toUpperCase()}",
                                         style: TextStyle(
                                           color: AppTheme.colors.secondaryBack,
                                           fontWeight: FontWeight.w600,
@@ -113,7 +117,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                                 child: FittedBox(
                                   fit: BoxFit.fitHeight,
                                   child: Text(
-                                    "Partida de Arthur",
+                                    "Partida de ${match.matchCreator!.FirstName}",
                                     style: TextStyle(
                                       color: AppTheme.colors.primaryBlue,
                                       fontWeight: FontWeight.w700,
@@ -145,7 +149,9 @@ class SFOpenMatchVertical extends StatelessWidget {
                                       FittedBox(
                                         fit: BoxFit.fitHeight,
                                         child: Text(
-                                          "restam 2 vagas",
+                                          match.remainingSlots == 1
+                                              ? "resta 1 vaga"
+                                              : "restam ${match.remainingSlots} vagas",
                                           style: TextStyle(
                                             color: AppTheme.colors.primaryBlue,
                                             fontWeight: FontWeight.w700,
@@ -171,7 +177,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                                             right: width * 0.01),
                                       ),
                                       Text(
-                                        "17/19/2022",
+                                        "${DateFormat("dd/MM/yyyy").format(match.day!)}",
                                         style: TextStyle(
                                           color: AppTheme.colors.primaryBlue,
                                         ),
@@ -189,7 +195,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                                             right: width * 0.01),
                                       ),
                                       Text(
-                                        "19:00",
+                                        match.timeBegin,
                                         style: TextStyle(
                                           color: AppTheme.colors.primaryBlue,
                                         ),
@@ -209,7 +215,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                                         EdgeInsets.only(right: width * 0.01),
                                   ),
                                   Text(
-                                    "Point Sul Beach Tenis",
+                                    match.store!.name,
                                     style: TextStyle(
                                       color: AppTheme.colors.primaryBlue,
                                     ),
