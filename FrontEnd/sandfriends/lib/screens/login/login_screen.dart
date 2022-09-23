@@ -182,10 +182,14 @@ class _LoginScreenState extends State<LoginScreen> {
           response = await http.get(Uri.parse(
               'https://www.sandfriends.com.br/GetUser/' + newAccessToken));
           if (response.statusCode == 200) {
-            Map<String, dynamic> responseBody = json.decode(response.body);
-            Provider.of<UserProvider>(context, listen: false)
-                .userFromJson(responseBody);
-            context.goNamed('home', params: {'initialPage': 'feed_screen'});
+            if (mounted) {
+              Provider.of<UserProvider>(context, listen: false)
+                  .nextMatchNeedsRefresh = true;
+              Map<String, dynamic> responseBody = json.decode(response.body);
+              Provider.of<UserProvider>(context, listen: false)
+                  .userFromJson(responseBody);
+              context.goNamed('home', params: {'initialPage': 'feed_screen'});
+            }
           }
         }
       } else if (response.statusCode == 404) {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/providers/court_provider.dart';
 import 'package:sandfriends/providers/sport_provider.dart';
 import 'package:sandfriends/providers/user_provider.dart';
 import 'package:sandfriends/screens/court_screen.dart';
@@ -31,6 +32,7 @@ import './providers/match_provider.dart';
 import './providers/store_provider.dart';
 import './providers/sport_provider.dart';
 import 'models/user.dart';
+import 'screens/match_screen.dart';
 
 final redirecter = Redirect();
 final loginInfo = Login();
@@ -148,6 +150,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<StoreProvider>(
           create: ((context) => StoreProvider()),
         ),
+        ChangeNotifierProvider<CourtProvider>(
+          create: ((context) => CourtProvider()),
+        ),
         ChangeNotifierProvider<SportProvider>(
           create: ((context) => SportProvider()),
         ),
@@ -180,6 +185,8 @@ class _MyAppState extends State<MyApp> {
           loginInfo.changePasswordToken =
               receivedUri.queryParameters['bd'].toString();
           return '/change_password';
+        } else if (receivedUri.queryParameters['ct'] == "mtch") {
+          return '/match_screen/${receivedUri.queryParameters['bd'].toString()}';
         }
       } else {
         if (isAppInit == false) {
@@ -199,6 +206,15 @@ class _MyAppState extends State<MyApp> {
             final query = state.params['param'];
             return CourtScreen(
               param: query,
+            );
+          }),
+      GoRoute(
+          name: 'match_screen',
+          path: '/match_screen/:param',
+          builder: (BuildContext context, GoRouterState state) {
+            final query = state.params['param'];
+            return MatchScreen(
+              matchUrl: int.parse(query!),
             );
           }),
       GoRoute(

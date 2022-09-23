@@ -140,15 +140,6 @@ class _FeedScreenState extends State<FeedScreen> {
                                     ),
                                   ],
                                 ),
-                                InkWell(
-                                  child: Text(
-                                    "Ver mais",
-                                    style: TextStyle(
-                                      color: AppTheme.colors.primaryBlue,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ),
                               ],
                             ),
                           ),
@@ -240,154 +231,215 @@ class _FeedScreenState extends State<FeedScreen> {
                                             .matchList
                                             .length,
                                     itemBuilder: (context, index) {
-                                      return Container(
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: width * 0.02,
-                                            vertical: height * 0.01),
-                                        width: width * 0.55,
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  AppTheme.colors.textLightGrey,
-                                              blurRadius: 2.0,
-                                              spreadRadius: 0.0,
-                                              offset: Offset(1.0, 1.0),
-                                            )
-                                          ],
-                                          color: AppTheme.colors.secondaryPaper,
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                        ),
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              height: height * 0.15,
-                                              decoration: const BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(16),
-                                                  topRight: Radius.circular(16),
-                                                ),
-                                              ),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                  topLeft: Radius.circular(16),
-                                                  topRight: Radius.circular(16),
-                                                ),
-                                                child: Image.network(
-                                                    '${Provider.of<UserProvider>(context).matchList[index].sport!.photoUrl}',
-                                                    width: width * 0.55,
-                                                    fit: BoxFit.fill),
-                                              ),
-                                            ),
-                                            Positioned(
-                                              left: width * 0.02,
-                                              top: height * 0.07,
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: AppTheme
-                                                      .colors.secondaryPaper
-                                                      .withOpacity(0.9),
+                                      return InkWell(
+                                        onTap: () {
+                                          context
+                                              .goNamed('match_screen', params: {
+                                            'param':
+                                                "${Provider.of<UserProvider>(context, listen: false).matchList[index].matchUrl}"
+                                          });
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: width * 0.02,
+                                              vertical: height * 0.01),
+                                          width: width * 0.55,
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: AppTheme
+                                                    .colors.textLightGrey,
+                                                blurRadius: 2.0,
+                                                spreadRadius: 0.0,
+                                                offset: Offset(1.0, 1.0),
+                                              )
+                                            ],
+                                            color:
+                                                AppTheme.colors.secondaryPaper,
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                          ),
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                height: height * 0.15,
+                                                decoration: const BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.circular(16),
+                                                      BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(16),
+                                                    topRight:
+                                                        Radius.circular(16),
+                                                  ),
                                                 ),
-                                                height: height * 0.07,
-                                                width: height * 0.07,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      "${Provider.of<UserProvider>(context).matchList[index].day!.day}",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                    Text(
-                                                      "${monthsPortuguese[Provider.of<UserProvider>(context).matchList[index].day!.month - 1]}",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ],
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(16),
+                                                    topRight:
+                                                        Radius.circular(16),
+                                                  ),
+                                                  child: Image.network(
+                                                      '${Provider.of<UserProvider>(context).matchList[index].sport!.photoUrl}',
+                                                      width: width * 0.55,
+                                                      fit: BoxFit.fill),
                                                 ),
                                               ),
-                                            ),
-                                            Positioned(
-                                              top: height * 0.15,
-                                              child: Container(
-                                                height: height * 0.08,
-                                                width: width * 0.55,
-                                                padding: EdgeInsets.only(
-                                                    left: width * 0.02),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    Container(
-                                                      child: Text(
-                                                        "Partida de ${Provider.of<UserProvider>(context).matchList[index].userCreator}",
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          color: AppTheme
-                                                              .colors.textBlue,
+                                              Positioned(
+                                                left: width * 0.02,
+                                                top: height * 0.07,
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: AppTheme
+                                                        .colors.secondaryPaper
+                                                        .withOpacity(0.9),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            16),
+                                                  ),
+                                                  height: height * 0.07,
+                                                  width: height * 0.07,
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Container(
+                                                        height: height * 0.03,
+                                                        child: FittedBox(
+                                                          fit: BoxFit.fitHeight,
+                                                          child: Text(
+                                                            "${Provider.of<UserProvider>(context).matchList[index].day!.day}",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                          r"assets\icon\clock.svg",
-                                                          color: AppTheme.colors
-                                                              .textDarkGrey,
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  right: width *
-                                                                      0.01),
-                                                        ),
-                                                        Text(
-                                                          "${Provider.of<UserProvider>(context).matchList[index].timeBegin} - ${Provider.of<UserProvider>(context).matchList[index].timeFinish}",
-                                                          style: TextStyle(
-                                                            color: AppTheme
-                                                                .colors
-                                                                .textDarkGrey,
+                                                      Container(
+                                                        height: height * 0.025,
+                                                        child: FittedBox(
+                                                          fit: BoxFit.fitHeight,
+                                                          child: Text(
+                                                            "${monthsPortuguese[Provider.of<UserProvider>(context).matchList[index].day!.month - 1]}",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                          r"assets\icon\location_ping.svg",
-                                                          color: AppTheme.colors
-                                                              .textDarkGrey,
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  right: width *
-                                                                      0.01),
-                                                        ),
-                                                        Text(
-                                                          "${Provider.of<UserProvider>(context).matchList[index].store!.name}",
-                                                          style: TextStyle(
-                                                            color: AppTheme
-                                                                .colors
-                                                                .textDarkGrey,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                              Positioned(
+                                                top: height * 0.15,
+                                                child: Container(
+                                                  height: height * 0.08,
+                                                  width: width * 0.55,
+                                                  padding: EdgeInsets.only(
+                                                      left: width * 0.02),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      Container(
+                                                        height: height * 0.03,
+                                                        child: FittedBox(
+                                                          fit: BoxFit.fitWidth,
+                                                          child: Text(
+                                                            "Partida de ${Provider.of<UserProvider>(context).matchList[index].userCreator}",
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              color: AppTheme
+                                                                  .colors
+                                                                  .textBlue,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: width * 0.01),
+                                                        height: height * 0.02,
+                                                        width: width * 0.55,
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: FittedBox(
+                                                          fit: BoxFit.fitHeight,
+                                                          child: Row(
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                r"assets\icon\clock.svg",
+                                                                color: AppTheme
+                                                                    .colors
+                                                                    .textDarkGrey,
+                                                              ),
+                                                              Padding(
+                                                                padding: EdgeInsets.only(
+                                                                    right: width *
+                                                                        0.01),
+                                                              ),
+                                                              Text(
+                                                                "${Provider.of<UserProvider>(context).matchList[index].timeBegin} - ${Provider.of<UserProvider>(context).matchList[index].timeFinish}",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: AppTheme
+                                                                      .colors
+                                                                      .textDarkGrey,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: width * 0.01),
+                                                        height: height * 0.02,
+                                                        width: width * 0.55,
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: FittedBox(
+                                                          fit: BoxFit.fitHeight,
+                                                          child: Row(
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                r"assets\icon\location_ping.svg",
+                                                                color: AppTheme
+                                                                    .colors
+                                                                    .textDarkGrey,
+                                                              ),
+                                                              Padding(
+                                                                padding: EdgeInsets.only(
+                                                                    right: width *
+                                                                        0.01),
+                                                              ),
+                                                              Text(
+                                                                "${Provider.of<UserProvider>(context).matchList[index].store!.name}",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: AppTheme
+                                                                      .colors
+                                                                      .textDarkGrey,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       );
                                     },
@@ -579,10 +631,12 @@ class _FeedScreenState extends State<FeedScreen> {
             });
             newMatch.day = DateFormat("yyyy-MM-dd")
                 .parse(responseMatches[matchIndex]['date']);
+            newMatch.idMatch = responseMatches[matchIndex]['idMatch'];
             newMatch.timeInt = responseMatches[matchIndex]['timeInt'];
             newMatch.timeBegin = responseMatches[matchIndex]['timeBegin'];
             newMatch.timeFinish = responseMatches[matchIndex]['timeEnd'];
             newMatch.userCreator = responseMatches[matchIndex]['userCreator'];
+            newMatch.matchUrl = responseMatches[matchIndex]['matchUrl'];
             Provider.of<UserProvider>(context, listen: false)
                 .addMatch(newMatch);
           }

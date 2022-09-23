@@ -24,6 +24,7 @@ import '../models/court.dart';
 import '../models/user.dart';
 import '../providers/match_provider.dart';
 import '../providers/user_provider.dart';
+import '../widgets/SFLoading.dart';
 import '../widgets/SF_AvailableHours.dart';
 
 class CourtScreen extends StatefulWidget {
@@ -35,6 +36,7 @@ class CourtScreen extends StatefulWidget {
 }
 
 class _CourtScreenState extends State<CourtScreen> {
+  bool isLoading = false;
   bool showModal = false;
   Widget? modalWidget;
   bool viewOnly = true;
@@ -155,8 +157,10 @@ class _CourtScreenState extends State<CourtScreen> {
         }
         if (availableHoursList.length > 0) {
           Court newCourt = Court(
-              selectedStoreDay.courts[courtIndex].idStoreCourt,
-              selectedStoreDay.courts[courtIndex].storeCourtName);
+            selectedStoreDay.courts[courtIndex].idStoreCourt,
+            selectedStoreDay.courts[courtIndex].storeCourtName,
+            selectedStoreDay.courts[courtIndex].isIndoor,
+          );
           newCourt.availableHours = List.from(availableHoursList);
           availableCourts.add(newCourt);
           availableHoursList.clear();
@@ -379,7 +383,7 @@ class _CourtScreenState extends State<CourtScreen> {
                             padding:
                                 EdgeInsets.symmetric(vertical: height * 0.01),
                             child: Text(
-                              "Selecione a quadra e o horário do jogo",
+                              "Selecione a quadra e a duração do jogo",
                               style: TextStyle(
                                   color: AppTheme.colors.textDarkGrey,
                                   fontWeight: FontWeight.w700),
@@ -393,19 +397,37 @@ class _CourtScreenState extends State<CourtScreen> {
                             itemBuilder: (context, indexcourt) {
                               return Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: height * 0.01),
+                                    vertical: height * 0.015),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: width * 0.02),
-                                      child: Text(
-                                        availableCourts[indexcourt]
-                                            .storeCourtName,
-                                        style: TextStyle(
-                                          color: AppTheme.colors.primaryBlue,
-                                        ),
+                                      padding: EdgeInsets.only(
+                                        right: width * 0.02,
+                                        bottom: width * 0.02,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            availableCourts[indexcourt]
+                                                .storeCourtName,
+                                            style: TextStyle(
+                                              color:
+                                                  AppTheme.colors.primaryBlue,
+                                            ),
+                                          ),
+                                          Text(
+                                            availableCourts[indexcourt].isIndoor
+                                                ? "Quadra Coberta"
+                                                : "Quadra Descoberta",
+                                            textScaleFactor: 0.8,
+                                            style: TextStyle(
+                                                color: AppTheme
+                                                    .colors.textDarkGrey),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     Container(
@@ -702,6 +724,9 @@ class _CourtScreenState extends State<CourtScreen> {
                                         listen: false)
                                     .indexSelectedTime
                                     .isNotEmpty) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
                                   CourtReservation(context);
                                 }
                               }),
@@ -718,6 +743,14 @@ class _CourtScreenState extends State<CourtScreen> {
                       showModal = false;
                     });
                   },
+                )
+              : Container(),
+          isLoading
+              ? Container(
+                  color: AppTheme.colors.primaryBlue.withOpacity(0.3),
+                  child: Center(
+                    child: SFLoading(),
+                  ),
                 )
               : Container(),
         ],
@@ -770,6 +803,9 @@ class _CourtScreenState extends State<CourtScreen> {
               .matchDetailsPrice
         }),
       );
+      setState(() {
+        isLoading = false;
+      });
       if (response.statusCode == 200) {
         setState(() {
           modalWidget = SFModalMessage(
