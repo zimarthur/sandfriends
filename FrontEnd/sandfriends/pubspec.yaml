@@ -53,6 +53,7 @@ dependencies:
   google_maps_flutter: ^2.2.0
   url_launcher: ^6.1.5
   loading_animation_widget: ^1.2.0+3
+  share_plus: ^4.1.0
 
 dev_dependencies:
   flutter_test:
@@ -122,6 +123,11 @@ flutter:
     - assets\icon\instagram.svg
     - assets\icon\sandfriends.svg
     - assets\icon\sandfriends_negative.svg
+    - assets\icon\confirm.svg
+    - assets\icon\cancel.svg
+    - assets\icon\share.svg
+    - assets\icon\users.svg
+    - assets\icon\user_plus.svg
 
     - assets\match.json
 
