@@ -71,6 +71,9 @@ class _SFButtonState extends State<SFButton> {
                     child: SvgPicture.asset(
                       widget.iconPath,
                       height: widget.iconSize,
+                      color: widget.buttonType == ButtonType.Secondary
+                          ? AppTheme.colors.primaryBlue
+                          : AppTheme.colors.textWhite,
                     ),
                   ),
           ],
