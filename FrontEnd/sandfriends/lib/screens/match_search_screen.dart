@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -9,25 +10,29 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/models/store_day.dart';
 import 'package:sandfriends/models/court_available_hours.dart';
 import 'package:sandfriends/models/court.dart';
+import 'package:sandfriends/providers/court_provider.dart';
 import 'package:sandfriends/providers/store_provider.dart';
 import 'package:sandfriends/widgets/Modal/SF_ModalDatePicker.dart';
 import 'package:sandfriends/widgets/SFLoading.dart';
 import 'package:sandfriends/widgets/SF_CourtCard.dart';
+import 'package:sandfriends/widgets/SF_OpenMatchVertical.dart';
 import 'package:sandfriends/widgets/SF_Scaffold.dart';
 import 'package:sandfriends/widgets/SF_SearchFilter.dart';
-import '../models/city.dart';
-import '../models/region.dart';
-import '../models/enums.dart';
 import 'package:time_range/time_range.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
+import '../models/match.dart';
+import '../models/city.dart';
+import '../models/region.dart';
+import '../models/enums.dart';
 import '../../models/enums.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/SF_Button.dart';
 import '../models/store.dart';
 import '../providers/match_provider.dart';
 import '../providers/store_provider.dart';
+import '../widgets/SF_OpenMatchHorizontal.dart';
 
 class MatchSearchScreen extends StatefulWidget {
   const MatchSearchScreen({Key? key}) : super(key: key);
@@ -427,9 +432,9 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                               vertical: appBarHeight * 0.02),
                           onTap: () {
                             if (Provider.of<MatchProvider>(context,
-                                            listen: false)
-                                        .selectedDates ==
-                                    null ||
+                                        listen: false)
+                                    .selectedDates
+                                    .isEmpty ||
                                 Provider.of<MatchProvider>(context,
                                             listen: false)
                                         .selectedRegion ==
@@ -577,38 +582,92 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                   return Column(
                                                     children: [
                                                       index == 0
-                                                          ? Container(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
+                                                          ? Column(
+                                                              children: [
+                                                                segmentedTextValue ==
+                                                                        0
+                                                                    ? Column(
+                                                                        children: [
+                                                                          Container(
+                                                                            padding:
+                                                                                EdgeInsets.symmetric(horizontal: width * 0.05),
+                                                                            child:
+                                                                                Row(
+                                                                              children: [
+                                                                                SvgPicture.asset(r'assets\icon\trophy.svg'),
+                                                                                Container(
+                                                                                  padding: EdgeInsets.symmetric(
+                                                                                    horizontal: width * 0.02,
+                                                                                  ),
+                                                                                  child: Text(
+                                                                                    "Partidas Abertas",
+                                                                                    style: TextStyle(color: AppTheme.colors.primaryBlue, fontWeight: FontWeight.w700),
+                                                                                  ),
+                                                                                ),
+                                                                                Expanded(
+                                                                                  child: SvgPicture.asset(r'assets\icon\divider.svg'),
+                                                                                )
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                          Container(
+                                                                            padding:
+                                                                                EdgeInsets.symmetric(horizontal: width * 0.05),
+                                                                            width:
+                                                                                double.infinity,
+                                                                            child:
+                                                                                Text(
+                                                                              "Escolha uma partida e desafie novos jogadores",
+                                                                              textScaleFactor: 0.9,
+                                                                              style: TextStyle(color: AppTheme.colors.textDarkGrey),
+                                                                            ),
+                                                                          ),
+                                                                          Container(
+                                                                            height:
+                                                                                240,
+                                                                            margin:
+                                                                                EdgeInsets.symmetric(vertical: height * 0.02),
+                                                                            child:
+                                                                                ListView.builder(
+                                                                              itemCount: 10,
+                                                                              scrollDirection: Axis.horizontal,
+                                                                              itemBuilder: ((context, index) {
+                                                                                return SFOpenMatchHorizontal();
+                                                                              }),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      )
+                                                                    : Container(),
+                                                                Container(
+                                                                  padding: EdgeInsets.symmetric(
                                                                       horizontal:
                                                                           width *
                                                                               0.05),
-                                                              child: Row(
-                                                                children: [
-                                                                  SvgPicture.asset(
-                                                                      r'assets\icon\court.svg'),
-                                                                  Container(
-                                                                    padding: EdgeInsets.symmetric(
-                                                                        horizontal:
-                                                                            width *
-                                                                                0.02),
-                                                                    child: Text(
-                                                                      "Quadras",
-                                                                      style: TextStyle(
-                                                                          color: AppTheme
-                                                                              .colors
-                                                                              .primaryBlue,
-                                                                          fontWeight:
-                                                                              FontWeight.w700),
-                                                                    ),
-                                                                  ),
-                                                                  Expanded(
-                                                                    child: SvgPicture
-                                                                        .asset(
+                                                                  child: Row(
+                                                                    children: [
+                                                                      SvgPicture
+                                                                          .asset(
+                                                                              r'assets\icon\court.svg'),
+                                                                      Container(
+                                                                        padding:
+                                                                            EdgeInsets.symmetric(horizontal: width * 0.02),
+                                                                        child:
+                                                                            Text(
+                                                                          "Quadras",
+                                                                          style: TextStyle(
+                                                                              color: AppTheme.colors.primaryBlue,
+                                                                              fontWeight: FontWeight.w700),
+                                                                        ),
+                                                                      ),
+                                                                      Expanded(
+                                                                        child: SvgPicture.asset(
                                                                             r'assets\icon\divider.svg'),
-                                                                  )
-                                                                ],
-                                                              ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ],
                                                             )
                                                           : Container(),
                                                       Padding(
@@ -692,7 +751,14 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                               }),
                                             ),
                                           )
-                                        : Container(),
+                                        : Expanded(
+                                            child: ListView.builder(
+                                              itemCount: 5,
+                                              itemBuilder: (context, index) {
+                                                return SFOpenMatchVertical();
+                                              },
+                                            ),
+                                          ),
                                   ],
                                 ),
                               ),
@@ -756,144 +822,205 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
   }
 
   Future<void> loadDates() async {
-    var response = await http.post(
-      Uri.parse('https://www.sandfriends.com.br/SearchCourts'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, Object>{
-        'sportId': Provider.of<MatchProvider>(context, listen: false)
-            .selectedSport!
-            .idSport
-            .toString(),
-        'cityId': Provider.of<MatchProvider>(context, listen: false)
-            .selectedRegion!
-            .selectedCity!
-            .cityId
-            .toString(),
-        'dateStart': DateFormat("yyyy-MM-dd").format(
+    const storage = FlutterSecureStorage();
+    String? accessToken = await storage.read(key: "AccessToken");
+    if (accessToken != null) {
+      var response = await http.post(
+        Uri.parse('https://www.sandfriends.com.br/SearchCourts'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, Object>{
+          'accessToken': accessToken,
+          'sportId': Provider.of<MatchProvider>(context, listen: false)
+              .selectedSport!
+              .idSport
+              .toString(),
+          'cityId': Provider.of<MatchProvider>(context, listen: false)
+              .selectedRegion!
+              .selectedCity!
+              .cityId
+              .toString(),
+          'dateStart': DateFormat("yyyy-MM-dd").format(
+              Provider.of<MatchProvider>(context, listen: false)
+                  .selectedDates[0]!),
+          'dateEnd': Provider.of<MatchProvider>(context, listen: false)
+                      .selectedDates
+                      .length <
+                  2
+              ? DateFormat("yyyy-MM-dd").format(
+                  Provider.of<MatchProvider>(context, listen: false)
+                      .selectedDates[0]!)
+              : DateFormat("yyyy-MM-dd").format(
+                  Provider.of<MatchProvider>(context, listen: false)
+                      .selectedDates[1]!),
+          'timeStart': Provider.of<MatchProvider>(context, listen: false)
+              .selectedTimeRange!
+              .start
+              .format(context),
+          'timeEnd': Provider.of<MatchProvider>(context, listen: false)
+              .selectedTimeRange!
+              .end
+              .format(context),
+        }),
+      );
+
+      if (mounted) {
+        if (response.statusCode == 200) {
+          if (mounted) {
+            setState(() {
+              isLoading = false;
+            }); ////////////////////////////////////////////////////////////remover
             Provider.of<MatchProvider>(context, listen: false)
-                .selectedDates[0]!),
-        'dateEnd': Provider.of<MatchProvider>(context, listen: false)
-                    .selectedDates
-                    .length <
-                2
-            ? DateFormat("yyyy-MM-dd").format(
-                Provider.of<MatchProvider>(context, listen: false)
-                    .selectedDates[0]!)
-            : DateFormat("yyyy-MM-dd").format(
-                Provider.of<MatchProvider>(context, listen: false)
-                    .selectedDates[1]!),
-        'timeStart': Provider.of<MatchProvider>(context, listen: false)
-            .selectedTimeRange!
-            .start
-            .format(context),
-        'timeEnd': Provider.of<MatchProvider>(context, listen: false)
-            .selectedTimeRange!
-            .end
-            .format(context),
-      }),
-    );
-    if (mounted) {
-      if (response.statusCode == 200) {
-        if (mounted) {
-          Provider.of<MatchProvider>(context, listen: false)
-              .clearStoreDayList();
-          final responseBody = json.decode(response.body);
-          final responseCourts = responseBody['dates'];
-          final responseStores = responseBody['stores'];
+                .clearStoreDayList();
+            Provider.of<MatchProvider>(context, listen: false)
+                .clearOpenMatchList();
 
-          for (int i = 0; i < responseStores.length; i++) {
-            Store newStore = Store();
-            Map storeJson = responseStores[i];
-            newStore.idStore = storeJson['IdStore'];
-            newStore.name = storeJson['name'];
-            newStore.address = storeJson['address'];
-            newStore.latitude = storeJson['latitude'];
-            newStore.longitude = storeJson['longitude'];
-            newStore.imageUrl = storeJson['imageURL'];
-            newStore.descriptionText = storeJson['description'];
-            newStore.instagram = storeJson['instagram'];
-            newStore.phone = storeJson['phone'];
-            for (int photoIndex = 0;
-                photoIndex < storeJson['storePhotos'].length;
-                photoIndex++) {
-              Map photo = storeJson['storePhotos'][photoIndex];
-              newStore.addPhoto(photo['storePhoto']);
-            }
-            Provider.of<StoreProvider>(context, listen: false)
-                .addStore(newStore);
-          }
+            final responseBody = json.decode(response.body);
+            final responseDates = responseBody['Dates'];
+            final responseStores = responseBody['Stores'];
+            final responseCourts = responseBody['Courts'];
+            final responseOpenMatches = responseBody['OpenMatches'];
 
-          StoreDay storeDay = StoreDay();
-          int courtIndexTotal = 0;
-          for (int dateIndex = 0;
-              dateIndex < responseCourts.length;
-              dateIndex++) {
-            Map firstLevel = responseCourts[dateIndex];
-            for (int storeIndex = 0;
-                storeIndex < firstLevel['places'].length;
-                storeIndex++) {
-              Map secondLevel = firstLevel['places'][storeIndex];
+            for (int i = 0; i < responseStores.length; i++) {
+              Store newStore = Store();
+              Map storeJson = responseStores[i];
+              Map storeDetailsJson = storeJson['Store'];
+              var storePhotosJson = storeJson['StorePhoto'];
+              newStore.idStore = storeDetailsJson['IdStore'];
+              newStore.name = storeDetailsJson['Name'];
+              newStore.address = storeDetailsJson['Address'];
+              newStore.latitude = storeDetailsJson['Latitude'];
+              newStore.longitude = storeDetailsJson['Longitude'];
+              newStore.imageUrl = storeDetailsJson['Logo'];
+              newStore.descriptionText = storeDetailsJson['Description'];
+              newStore.instagram = storeDetailsJson['Instagram'];
+              newStore.phone = storeDetailsJson['PhoneNumber1'];
+              for (int photoIndex = 0;
+                  photoIndex < storePhotosJson.length;
+                  photoIndex++) {
+                Map photo = storePhotosJson[photoIndex];
+                newStore.addPhoto(photo['Photo']);
+              }
               Provider.of<StoreProvider>(context, listen: false)
-                  .stores
-                  .forEach((store) {
-                if (store.idStore == secondLevel['IdStore']) {
-                  storeDay.store = store;
-                }
-              });
-              storeDay.day = firstLevel['date'];
-              for (int availableHoursIndex = 0;
-                  availableHoursIndex < secondLevel['available'].length;
-                  availableHoursIndex++) {
-                Map thirdLevel = secondLevel['available'][availableHoursIndex];
-                for (int courtIndex = 0;
-                    courtIndex < thirdLevel['courts'].length;
-                    courtIndex++) {
-                  Map fourthLevel = thirdLevel['courts'][courtIndex];
-                  bool newcourt = false;
-                  if (storeDay.courts.isEmpty ||
-                      (storeDay.courts.any((court) =>
-                              court.idStoreCourt ==
-                              fourthLevel['idStoreCourt']) ==
-                          false)) {
-                    newcourt = true;
+                  .addStore(newStore);
+            }
+
+            for (int i = 0; i < responseCourts.length; i++) {
+              Map courtJson = responseCourts[i];
+              Provider.of<CourtProvider>(context, listen: false).addCourt(
+                Court(
+                  courtJson['IdStoreCourt'],
+                  courtJson['Description'],
+                  courtJson['IsIndoor'],
+                ),
+              );
+            }
+
+            StoreDay storeDay = StoreDay();
+            int courtIndexTotal = 0;
+            for (int dateIndex = 0;
+                dateIndex < responseDates.length;
+                dateIndex++) {
+              Map firstLevel = responseDates[dateIndex];
+              for (int storeIndex = 0;
+                  storeIndex < firstLevel['Places'].length;
+                  storeIndex++) {
+                Map secondLevel = firstLevel['Places'][storeIndex];
+                Provider.of<StoreProvider>(context, listen: false)
+                    .stores
+                    .forEach((store) {
+                  if (store.idStore == secondLevel['IdStore']) {
+                    storeDay.store = store;
                   }
-                  if (newcourt) {
-                    storeDay.courts.add(Court(fourthLevel['idStoreCourt'],
-                        fourthLevel['storeCourtName']));
-                  }
-                  for (int i = 0; i < storeDay.courts.length; i++) {
-                    if (storeDay.courts[i].idStoreCourt ==
-                        fourthLevel['idStoreCourt']) {
-                      storeDay.courts[i].availableHours.add(CourtAvailableHours(
-                          thirdLevel['time'],
-                          thirdLevel['timeInt'],
-                          thirdLevel['timeFinish'],
-                          fourthLevel['price']));
+                });
+                storeDay.day = firstLevel['Date'];
+                for (int availableHoursIndex = 0;
+                    availableHoursIndex < secondLevel['Available'].length;
+                    availableHoursIndex++) {
+                  Map thirdLevel =
+                      secondLevel['Available'][availableHoursIndex];
+                  for (int courtIndex = 0;
+                      courtIndex < thirdLevel['Courts'].length;
+                      courtIndex++) {
+                    Map fourthLevel = thirdLevel['Courts'][courtIndex];
+
+                    bool newcourt = false;
+                    if (storeDay.courts.isEmpty ||
+                        (storeDay.courts.any((court) =>
+                                court.idStoreCourt ==
+                                fourthLevel['IdStoreCourt']) ==
+                            false)) {
+                      newcourt = true;
+                    }
+                    if (newcourt) {
+                      Provider.of<CourtProvider>(context, listen: false)
+                          .courts
+                          .forEach((court) {
+                        if (court.idStoreCourt == fourthLevel['IdStoreCourt']) {
+                          storeDay.courts.add(court);
+                        }
+                      });
+                    }
+                    for (int i = 0; i < storeDay.courts.length; i++) {
+                      if (storeDay.courts[i].idStoreCourt ==
+                          fourthLevel['IdStoreCourt']) {
+                        storeDay.courts[i].availableHours.add(
+                            CourtAvailableHours(
+                                thirdLevel['TimeBegin'],
+                                thirdLevel['TimeInteger'],
+                                thirdLevel['TimeFinish'],
+                                fourthLevel['Price']));
+                      }
                     }
                   }
                 }
-              }
-              Provider.of<MatchProvider>(context, listen: false)
-                  .addStoreDay(storeDay);
+                Provider.of<MatchProvider>(context, listen: false)
+                    .addStoreDay(storeDay);
 
-              storeDay = StoreDay();
+                storeDay = StoreDay();
+              }
             }
+
+            for (int i = 0; i < responseOpenMatches.length; i++) {
+              Map openCourtJson = responseOpenMatches[i];
+              var newMatch = Match();
+              Provider.of<StoreProvider>(context, listen: false)
+                  .stores
+                  .forEach((store) {
+                if (store.idStore == openCourtJson['IdStore']) {
+                  newMatch.store = store;
+                }
+              });
+              Provider.of<CourtProvider>(context, listen: false)
+                  .courts
+                  .forEach((court) {
+                if (court.idStoreCourt == openCourtJson['IdStoreCourt']) {
+                  newMatch.court = court;
+                }
+              });
+              newMatch.idMatch = openCourtJson['IdMatch'];
+              newMatch.price = openCourtJson['Cost'];
+              newMatch.day = openCourtJson['Date'];
+              newMatch.matchUrl = openCourtJson['MatchUrl'];
+              newMatch.timeBegin = openCourtJson['TimeBegin'];
+              newMatch.timeFinish = openCourtJson['TimeEnd'];
+            }
+
+            Provider.of<MatchProvider>(context, listen: false).searchStatus =
+                EnumSearchStatus.Results;
           }
+        } else if (response.statusCode == 412) {
           Provider.of<MatchProvider>(context, listen: false).searchStatus =
-              EnumSearchStatus.Results;
+              EnumSearchStatus.NoResultsFound;
+        } else {
+          Provider.of<MatchProvider>(context, listen: false).searchStatus =
+              EnumSearchStatus.Error;
         }
-      } else if (response.statusCode == 412) {
-        Provider.of<MatchProvider>(context, listen: false).searchStatus =
-            EnumSearchStatus.NoResultsFound;
-      } else {
-        Provider.of<MatchProvider>(context, listen: false).searchStatus =
-            EnumSearchStatus.Error;
+        setState(() {
+          isLoading = false;
+        });
       }
-      setState(() {
-        isLoading = false;
-      });
     }
   }
 
