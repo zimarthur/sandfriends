@@ -1,4 +1,5 @@
 import 'court.dart';
+import 'match_member.dart';
 import 'sport.dart';
 import 'store.dart';
 
@@ -7,6 +8,12 @@ class Match {
   Store? get store => _store;
   set store(Store? value) {
     _store = value;
+  }
+
+  int? _idMatch;
+  int? get idMatch => _idMatch;
+  set idMatch(int? value) {
+    _idMatch = value;
   }
 
   Court? _court;
@@ -50,4 +57,24 @@ class Match {
   set timeFinish(String value) {
     _timeFinish = value;
   }
+
+  int _price = 0;
+  int get price => _price;
+  set price(int value) {
+    _price = value;
+  }
+
+  String _matchUrl = "";
+  String get matchUrl => _matchUrl;
+  set matchUrl(String value) {
+    _matchUrl = value;
+  }
+
+  String _creatorNotes = "";
+  String get creatorNotes => _creatorNotes;
+  set creatorNotes(String value) {
+    _creatorNotes = value;
+  }
+
+  List<MatchMember> matchMembers = [];
 }
