@@ -71,6 +71,18 @@ class MatchProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  List<Match> _openMatchList = [];
+  List<Match> get openMatch => _openMatchList;
+  void addOpenMatch(Match match) {
+    _openMatchList.add(match);
+    notifyListeners();
+  }
+
+  void clearOpenMatchList() {
+    _openMatchList.clear();
+    notifyListeners();
+  }
+
   List<Region> _availableRegions = [];
   List<Region> get availableRegions => _availableRegions;
   void addRegion(Region region) {
