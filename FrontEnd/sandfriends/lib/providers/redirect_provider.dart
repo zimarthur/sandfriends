@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sandfriends/models/enums.dart';
 
 class Redirect with ChangeNotifier {
   Uri? _redirect;
@@ -24,5 +25,11 @@ class Redirect with ChangeNotifier {
   PageController pageController = PageController();
   void goto(int index) {
     pageController.jumpToPage(index);
+  }
+
+  EnumReturnPages? _originalPage;
+  EnumReturnPages? get originalPage => _originalPage;
+  set originalPage(EnumReturnPages? value) {
+    _originalPage = value;
   }
 }

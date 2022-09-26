@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/models/court.dart';
 import 'package:sandfriends/models/enums.dart';
 import 'package:sandfriends/models/match_member.dart';
+import 'package:sandfriends/models/store_day.dart';
 import 'package:sandfriends/providers/user_provider.dart';
 import 'package:sandfriends/widgets/SF_Button.dart';
 import 'package:sandfriends/widgets/SF_Scaffold.dart';
@@ -21,6 +22,7 @@ import '../models/user.dart';
 import '../models/validators.dart';
 import '../providers/match_provider.dart';
 import '../models/match.dart';
+import '../providers/redirect_provider.dart';
 import '../providers/sport_provider.dart';
 import '../providers/store_provider.dart';
 import '../theme/app_theme.dart';
@@ -32,7 +34,16 @@ final _creatorNotesFormKey = GlobalKey<FormState>();
 
 class MatchScreen extends StatefulWidget {
   final int matchUrl;
-  MatchScreen({required this.matchUrl});
+  final String returnTo;
+  final String? returnToParam;
+  final String? returnToParamValue;
+
+  MatchScreen({
+    required this.matchUrl,
+    required this.returnTo,
+    this.returnToParam,
+    this.returnToParamValue,
+  });
   @override
   State<MatchScreen> createState() => _MatchScreenState();
 }
@@ -69,7 +80,14 @@ class _MatchScreenState extends State<MatchScreen> {
       appBarType: AppBarType.Primary,
       titleText: "Partida de ${currentMatch.userCreator}",
       onTapReturn: () {
-        context.goNamed('home', params: {'initialPage': 'feed_screen'});
+        if (widget.returnToParam == null) {
+          context.goNamed(
+            widget.returnTo,
+          );
+        } else {
+          context.goNamed(widget.returnTo,
+              params: {widget.returnToParam!: widget.returnToParamValue!});
+        }
       },
       showModal: showModal,
       modalWidget: modalWidget,
@@ -95,103 +113,124 @@ class _MatchScreenState extends State<MatchScreen> {
                   padding: EdgeInsets.symmetric(horizontal: width * 0.02),
                   child: ListView(
                     children: [
-                      Container(
-                        height: height * 0.2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              //LOCAL
-                              height: height * 0.03,
-                              margin: EdgeInsets.only(top: height * 0.01),
-                              child: FittedBox(
-                                fit: BoxFit.fitHeight,
-                                child: Text(
-                                  "Local",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          var auxStoreDay = StoreDay();
+                          auxStoreDay.store = currentMatch.store!;
+                          Provider.of<MatchProvider>(context, listen: false)
+                              .selectedStoreDay = auxStoreDay;
+                          context.goNamed('court_screen', params: {
+                            'viewOnly': 'viewOnly',
+                            'returnTo': 'match_screen',
+                            'returnToParam': 'matchUrl',
+                            'returnToParamValue': '${widget.matchUrl}',
+                          });
+                        },
+                        child: Container(
+                          height: height * 0.2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                //LOCAL
+                                height: height * 0.03,
+                                margin: EdgeInsets.only(top: height * 0.01),
+                                child: FittedBox(
+                                  fit: BoxFit.fitHeight,
+                                  child: Text(
+                                    "Local",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  ClipRRect(
-                                    //IMAGEURL
-                                    borderRadius: BorderRadius.circular(16.0),
-                                    child: Image.network(
-                                      currentMatch.store!.imageUrl,
-                                      height: height * 0.13,
-                                      width: height * 0.13,
-                                    ),
-                                  ),
-                                  Padding(
-                                      padding:
-                                          EdgeInsets.only(right: width * 0.1)),
-                                  Expanded(
-                                      child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        currentMatch.store!.name,
-                                        textScaleFactor: 1.5,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            color: AppTheme.colors.primaryBlue),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    ClipRRect(
+                                      //IMAGEURL
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      child: Image.network(
+                                        currentMatch.store!.imageUrl,
+                                        height: height * 0.13,
+                                        width: height * 0.13,
                                       ),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            r'assets\icon\location_ping.svg',
-                                            color: AppTheme.colors.primaryBlue,
-                                            width: 15,
-                                          ),
-                                          Padding(
-                                              padding: EdgeInsets.only(
-                                                  right: width * 0.02)),
-                                          Expanded(
-                                            child: Text(
-                                              "${currentMatch.store!.address}",
-                                              style: TextStyle(
-                                                color:
-                                                    AppTheme.colors.primaryBlue,
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            right: width * 0.1)),
+                                    Expanded(
+                                        child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          currentMatch.store!.name,
+                                          textScaleFactor: 1.5,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              color:
+                                                  AppTheme.colors.primaryBlue),
+                                        ),
+                                        Row(
+                                          children: [
+                                            SvgPicture.asset(
+                                              r'assets\icon\location_ping.svg',
+                                              color:
+                                                  AppTheme.colors.primaryBlue,
+                                              width: 15,
+                                            ),
+                                            Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: width * 0.02)),
+                                            Expanded(
+                                              child: Text(
+                                                "${currentMatch.store!.address}",
+                                                style: TextStyle(
+                                                  color: AppTheme
+                                                      .colors.primaryBlue,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            currentMatch.court!.storeCourtName,
-                                          ),
-                                          Text(
-                                            currentMatch.court!.isIndoor
-                                                ? "Quadra Coberta"
-                                                : "Quadra Descoberta",
-                                            textScaleFactor: 0.8,
-                                            style: TextStyle(
-                                                color: AppTheme
-                                                    .colors.textDarkGrey),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  )),
-                                ],
+                                          ],
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              currentMatch
+                                                  .court!.storeCourtName,
+                                            ),
+                                            Text(
+                                              currentMatch.court!.isIndoor
+                                                  ? "Quadra Coberta"
+                                                  : "Quadra Descoberta",
+                                              textScaleFactor: 0.8,
+                                              style: TextStyle(
+                                                  color: AppTheme
+                                                      .colors.textDarkGrey),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    )),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       isUserMatchCreator == false &&
-                              currentMatch.creatorNotes == ""
+                              (currentMatch.creatorNotes == "" ||
+                                  currentMatch.creatorNotes == null)
                           ? Container()
                           : Column(
                               children: [
@@ -1067,7 +1106,7 @@ class _MatchScreenState extends State<MatchScreen> {
         currentMatch.idMatch = responseMatch['IdMatch'];
         currentMatch.timeBegin = responseMatch['TimeBegin'];
         currentMatch.timeFinish = responseMatch['TimeEnd'];
-        currentMatch.price = responseMatch['Cost'].toInt();
+        currentMatch.price = responseMatch['Cost'];
         currentMatch.matchUrl = responseMatch['MatchUrl'];
         currentMatch.creatorNotes = responseMatch['CreatorNotes'];
 

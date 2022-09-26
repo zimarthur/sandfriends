@@ -32,6 +32,7 @@ import '../../theme/app_theme.dart';
 import '../../widgets/SF_Button.dart';
 import '../models/store.dart';
 import '../providers/match_provider.dart';
+import '../providers/redirect_provider.dart';
 import '../providers/store_provider.dart';
 import '../widgets/SF_OpenMatchHorizontal.dart';
 
@@ -68,6 +69,9 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<Redirect>(context, listen: false).originalPage =
+        EnumReturnPages.MatchSearchScreen;
+
     final storeDayList =
         List.from(Provider.of<MatchProvider>(context).storeDayList);
     double width = MediaQuery.of(context).size.width;
@@ -570,46 +574,295 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                           },
                                           groupValue: segmentedTextValue),
                                     ),
-                                    segmentedTextValue == 0 ||
-                                            segmentedTextValue == 1
-                                        ? Expanded(
-                                            child: ListView.builder(
-                                              itemCount: storeDayList.length,
-                                              itemBuilder: ((context, index) {
-                                                if ((index == 0) ||
-                                                    (storeDayList[index].day !=
-                                                        storeDayList[index - 1]
-                                                            .day)) {
-                                                  return Column(
-                                                    children: [
-                                                      index == 0
-                                                          ? Column(
-                                                              children: [
-                                                                segmentedTextValue ==
-                                                                        0
-                                                                    ? Column(
-                                                                        children: [
-                                                                          Container(
+                                    Expanded(
+                                      child: segmentedTextValue == 0
+                                          ? storeDayList.isEmpty
+                                              ? Column(
+                                                  children: [
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      width *
+                                                                          0.05),
+                                                          child: Row(
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                  r'assets\icon\trophy.svg'),
+                                                              Container(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                  horizontal:
+                                                                      width *
+                                                                          0.02,
+                                                                ),
+                                                                child: Text(
+                                                                  "Partidas Abertas",
+                                                                  style: TextStyle(
+                                                                      color: AppTheme
+                                                                          .colors
+                                                                          .primaryBlue,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w700),
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                child: SvgPicture
+                                                                    .asset(
+                                                                        r'assets\icon\divider.svg'),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      width *
+                                                                          0.05),
+                                                          width:
+                                                              double.infinity,
+                                                          child: Text(
+                                                            "Escolha uma partida e desafie novos jogadores",
+                                                            textScaleFactor:
+                                                                0.9,
+                                                            style: TextStyle(
+                                                                color: AppTheme
+                                                                    .colors
+                                                                    .textDarkGrey),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          height: 240,
+                                                          margin: EdgeInsets
+                                                              .symmetric(
+                                                                  vertical:
+                                                                      height *
+                                                                          0.02),
+                                                          child:
+                                                              ListView.builder(
+                                                            itemCount: Provider
+                                                                    .of<MatchProvider>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                .openMatchList
+                                                                .length,
+                                                            scrollDirection:
+                                                                Axis.horizontal,
+                                                            itemBuilder:
+                                                                ((context,
+                                                                    index) {
+                                                              return SFOpenMatchHorizontal(
+                                                                match: Provider.of<
+                                                                            MatchProvider>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .openMatchList[index],
+                                                              );
+                                                            }),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Container(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal:
+                                                                  width * 0.05),
+                                                      child: Column(
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                  r'assets\icon\court.svg'),
+                                                              Container(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                        horizontal:
+                                                                            width *
+                                                                                0.02),
+                                                                child: Text(
+                                                                  "Quadras",
+                                                                  style: TextStyle(
+                                                                      color: AppTheme
+                                                                          .colors
+                                                                          .primaryBlue,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w700),
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                child: SvgPicture
+                                                                    .asset(
+                                                                        r'assets\icon\divider.svg'),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Container(
+                                                            margin: EdgeInsets
+                                                                .symmetric(
+                                                              vertical:
+                                                                  height * 0.02,
+                                                            ),
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Text(
+                                                              "Nenhuma quadra encontrada para os filtros selecionados.",
+                                                              style: TextStyle(
+                                                                color: AppTheme
+                                                                    .colors
+                                                                    .textDarkGrey,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
+                                                )
+                                              : ListView.builder(
+                                                  itemCount:
+                                                      storeDayList.length,
+                                                  itemBuilder:
+                                                      ((context, index) {
+                                                    if ((index == 0) ||
+                                                        (storeDayList[index]
+                                                                .day !=
+                                                            storeDayList[
+                                                                    index - 1]
+                                                                .day)) {
+                                                      return Column(
+                                                        children: [
+                                                          index == 0
+                                                              ? Column(
+                                                                  children: [
+                                                                    Provider.of<MatchProvider>(context,
+                                                                                listen: false)
+                                                                            .openMatchList
+                                                                            .isNotEmpty
+                                                                        ? Column(
+                                                                            children: [
+                                                                              Container(
+                                                                                padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                                                                                child: Row(
+                                                                                  children: [
+                                                                                    SvgPicture.asset(r'assets\icon\trophy.svg'),
+                                                                                    Container(
+                                                                                      padding: EdgeInsets.symmetric(
+                                                                                        horizontal: width * 0.02,
+                                                                                      ),
+                                                                                      child: Text(
+                                                                                        "Partidas Abertas",
+                                                                                        style: TextStyle(color: AppTheme.colors.primaryBlue, fontWeight: FontWeight.w700),
+                                                                                      ),
+                                                                                    ),
+                                                                                    Expanded(
+                                                                                      child: SvgPicture.asset(r'assets\icon\divider.svg'),
+                                                                                    )
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                              Container(
+                                                                                padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                                                                                width: double.infinity,
+                                                                                child: Text(
+                                                                                  "Escolha uma partida e desafie novos jogadores",
+                                                                                  textScaleFactor: 0.9,
+                                                                                  style: TextStyle(color: AppTheme.colors.textDarkGrey),
+                                                                                ),
+                                                                              ),
+                                                                              Container(
+                                                                                height: 240,
+                                                                                margin: EdgeInsets.symmetric(vertical: height * 0.02),
+                                                                                child: ListView.builder(
+                                                                                  itemCount: Provider.of<MatchProvider>(context, listen: false).openMatchList.length,
+                                                                                  scrollDirection: Axis.horizontal,
+                                                                                  itemBuilder: ((context, index) {
+                                                                                    return SFOpenMatchHorizontal(
+                                                                                      match: Provider.of<MatchProvider>(context, listen: false).openMatchList[index],
+                                                                                    );
+                                                                                  }),
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          )
+                                                                        : Container(
                                                                             padding:
                                                                                 EdgeInsets.symmetric(horizontal: width * 0.05),
                                                                             child:
-                                                                                Row(
+                                                                                Column(
                                                                               children: [
-                                                                                SvgPicture.asset(r'assets\icon\trophy.svg'),
+                                                                                Row(
+                                                                                  children: [
+                                                                                    SvgPicture.asset(r'assets\icon\trophy.svg'),
+                                                                                    Container(
+                                                                                      padding: EdgeInsets.symmetric(horizontal: width * 0.02),
+                                                                                      child: Text(
+                                                                                        "Partidas Abertas",
+                                                                                        style: TextStyle(color: AppTheme.colors.primaryBlue, fontWeight: FontWeight.w700),
+                                                                                      ),
+                                                                                    ),
+                                                                                    Expanded(
+                                                                                      child: SvgPicture.asset(r'assets\icon\divider.svg'),
+                                                                                    )
+                                                                                  ],
+                                                                                ),
                                                                                 Container(
-                                                                                  padding: EdgeInsets.symmetric(
-                                                                                    horizontal: width * 0.02,
-                                                                                  ),
+                                                                                  padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                                                                                  width: double.infinity,
                                                                                   child: Text(
-                                                                                    "Partidas Abertas",
-                                                                                    style: TextStyle(color: AppTheme.colors.primaryBlue, fontWeight: FontWeight.w700),
+                                                                                    "Escolha uma partida e desafie novos jogadores",
+                                                                                    textScaleFactor: 0.9,
+                                                                                    style: TextStyle(color: AppTheme.colors.textDarkGrey),
                                                                                   ),
                                                                                 ),
-                                                                                Expanded(
-                                                                                  child: SvgPicture.asset(r'assets\icon\divider.svg'),
-                                                                                )
+                                                                                Container(
+                                                                                  margin: EdgeInsets.symmetric(
+                                                                                    vertical: height * 0.02,
+                                                                                  ),
+                                                                                  alignment: Alignment.center,
+                                                                                  child: Text(
+                                                                                    "Nenhuma partida aberta encontrada para os filtros selecionados.",
+                                                                                    style: TextStyle(
+                                                                                      color: AppTheme.colors.textDarkGrey,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: EdgeInsets.only(
+                                                                                    bottom: height * 0.02,
+                                                                                  ),
+                                                                                ),
                                                                               ],
                                                                             ),
+                                                                          ),
+                                                                    Container(
+                                                                      padding: EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              width * 0.05),
+                                                                      child:
+                                                                          Column(
+                                                                        children: [
+                                                                          Row(
+                                                                            children: [
+                                                                              SvgPicture.asset(r'assets\icon\court.svg'),
+                                                                              Container(
+                                                                                padding: EdgeInsets.symmetric(horizontal: width * 0.02),
+                                                                                child: Text(
+                                                                                  "Quadras",
+                                                                                  style: TextStyle(color: AppTheme.colors.primaryBlue, fontWeight: FontWeight.w700),
+                                                                                ),
+                                                                              ),
+                                                                              Expanded(
+                                                                                child: SvgPicture.asset(r'assets\icon\divider.svg'),
+                                                                              )
+                                                                            ],
                                                                           ),
                                                                           Container(
                                                                             padding:
@@ -618,46 +871,349 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                                                 double.infinity,
                                                                             child:
                                                                                 Text(
-                                                                              "Escolha uma partida e desafie novos jogadores",
+                                                                              "Agende um horário na sua quadra de preferência",
                                                                               textScaleFactor: 0.9,
                                                                               style: TextStyle(color: AppTheme.colors.textDarkGrey),
                                                                             ),
                                                                           ),
-                                                                          Container(
-                                                                            height:
-                                                                                240,
-                                                                            margin:
-                                                                                EdgeInsets.symmetric(vertical: height * 0.02),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                              : Container(),
+                                                          Padding(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        width *
+                                                                            0.03,
+                                                                    vertical:
+                                                                        height *
+                                                                            0.02),
+                                                            child: Row(
+                                                              children: [
+                                                                Container(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          right:
+                                                                              5),
+                                                                  child: SvgPicture
+                                                                      .asset(
+                                                                          r'assets\icon\calendar.svg'),
+                                                                ),
+                                                                Text(
+                                                                  storeDayList[
+                                                                          index]
+                                                                      .day,
+                                                                  style: TextStyle(
+                                                                      color: AppTheme
+                                                                          .colors
+                                                                          .primaryBlue,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w700),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          InkWell(
+                                                            onTap: (() {
+                                                              setState(() {
+                                                                isLoading =
+                                                                    true;
+                                                              });
+                                                              Provider.of<MatchProvider>(
+                                                                          context,
+                                                                          listen:
+                                                                              false)
+                                                                      .selectedStoreDay =
+                                                                  storeDayList[
+                                                                      index];
+                                                              context.goNamed(
+                                                                  'court_screen',
+                                                                  params: {
+                                                                    'viewOnly':
+                                                                        'viewOnly',
+                                                                    'returnTo':
+                                                                        'match_search_screen',
+                                                                    'returnToParam':
+                                                                        'null',
+                                                                    'returnToParamValue':
+                                                                        'null',
+                                                                  });
+                                                            }),
+                                                            child: SFCourtCard(
+                                                                onOnTap: () {
+                                                                  setState(() {
+                                                                    isLoading =
+                                                                        true;
+                                                                  });
+                                                                },
+                                                                widgetIndexStore:
+                                                                    index,
+                                                                storeDay:
+                                                                    storeDayList[
+                                                                        index]),
+                                                          )
+                                                        ],
+                                                      );
+                                                    } else {
+                                                      return InkWell(
+                                                        onTap: (() {
+                                                          Provider.of<MatchProvider>(
+                                                                      context,
+                                                                      listen: false)
+                                                                  .selectedStoreDay =
+                                                              storeDayList[
+                                                                  index];
+                                                          context.goNamed(
+                                                              'court_screen',
+                                                              params: {
+                                                                'viewOnly':
+                                                                    'viewOnly',
+                                                                'returnTo':
+                                                                    'match_search_screen',
+                                                                'returnToParam':
+                                                                    'null',
+                                                                'returnToParamValue':
+                                                                    'null',
+                                                              });
+                                                        }),
+                                                        child: SFCourtCard(
+                                                            onOnTap: () {
+                                                              setState(() {
+                                                                isLoading =
+                                                                    true;
+                                                              });
+                                                            },
+                                                            widgetIndexStore:
+                                                                index,
+                                                            storeDay:
+                                                                storeDayList[
+                                                                    index]),
+                                                      );
+                                                    }
+                                                  }),
+                                                )
+                                          : segmentedTextValue == 1
+                                              ? ListView.builder(
+                                                  itemCount:
+                                                      storeDayList.isEmpty
+                                                          ? 1
+                                                          : storeDayList.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return Column(
+                                                      children: [
+                                                        index == 0
+                                                            ? Container(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                        horizontal:
+                                                                            width *
+                                                                                0.05),
+                                                                child: Column(
+                                                                  children: [
+                                                                    Row(
+                                                                      children: [
+                                                                        SvgPicture.asset(
+                                                                            r'assets\icon\court.svg'),
+                                                                        Container(
+                                                                          padding:
+                                                                              EdgeInsets.symmetric(
+                                                                            horizontal:
+                                                                                width * 0.02,
+                                                                          ),
+                                                                          child:
+                                                                              Text(
+                                                                            "Quadras",
+                                                                            style:
+                                                                                TextStyle(color: AppTheme.colors.primaryBlue, fontWeight: FontWeight.w700),
+                                                                          ),
+                                                                        ),
+                                                                        Expanded(
+                                                                          child:
+                                                                              SvgPicture.asset(r'assets\icon\divider.svg'),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                    Container(
+                                                                      padding:
+                                                                          EdgeInsets
+                                                                              .symmetric(
+                                                                        horizontal:
+                                                                            width *
+                                                                                0.05,
+                                                                      ),
+                                                                      width: double
+                                                                          .infinity,
+                                                                      child:
+                                                                          Text(
+                                                                        "Agende um horário na sua quadra de preferência",
+                                                                        textScaleFactor:
+                                                                            0.9,
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                AppTheme.colors.textDarkGrey),
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding:
+                                                                          EdgeInsets
+                                                                              .only(
+                                                                        bottom: height *
+                                                                            0.01,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            : Container(),
+                                                        storeDayList.isEmpty
+                                                            ? Container(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                  horizontal:
+                                                                      width *
+                                                                          0.05,
+                                                                ),
+                                                                margin: EdgeInsets
+                                                                    .symmetric(
+                                                                  vertical:
+                                                                      height *
+                                                                          0.02,
+                                                                ),
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                child: Text(
+                                                                  "Nenhuma quadra encontrada para os filtros selecionados.",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: AppTheme
+                                                                        .colors
+                                                                        .textDarkGrey,
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            : Container(
+                                                                child: index ==
+                                                                            0 ||
+                                                                        storeDayList[index].day !=
+                                                                            storeDayList[index - 1].day
+                                                                    ? Column(
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding:
+                                                                                EdgeInsets.symmetric(horizontal: width * 0.03, vertical: height * 0.02),
                                                                             child:
-                                                                                ListView.builder(
-                                                                              itemCount: Provider.of<MatchProvider>(context, listen: false).openMatchList.length,
-                                                                              scrollDirection: Axis.horizontal,
-                                                                              itemBuilder: ((context, index) {
-                                                                                return SFOpenMatchHorizontal(
-                                                                                  match: Provider.of<MatchProvider>(context, listen: false).openMatchList[index],
-                                                                                );
-                                                                              }),
+                                                                                Row(
+                                                                              children: [
+                                                                                Container(
+                                                                                  padding: EdgeInsets.only(right: 5),
+                                                                                  child: SvgPicture.asset(r'assets\icon\calendar.svg'),
+                                                                                ),
+                                                                                Text(
+                                                                                  storeDayList[index].day,
+                                                                                  style: TextStyle(color: AppTheme.colors.primaryBlue, fontWeight: FontWeight.w700),
+                                                                                ),
+                                                                              ],
                                                                             ),
                                                                           ),
+                                                                          InkWell(
+                                                                            onTap:
+                                                                                (() {
+                                                                              setState(() {
+                                                                                isLoading = true;
+                                                                              });
+                                                                              Provider.of<MatchProvider>(context, listen: false).selectedStoreDay = storeDayList[index];
+                                                                              context.goNamed('court_screen', params: {
+                                                                                'viewOnly': 'viewOnly',
+                                                                                'returnTo': 'match_search_screen',
+                                                                                'returnToParam': 'null',
+                                                                                'returnToParamValue': 'null',
+                                                                              });
+                                                                            }),
+                                                                            child: SFCourtCard(
+                                                                                onOnTap: () {
+                                                                                  setState(() {
+                                                                                    isLoading = true;
+                                                                                  });
+                                                                                },
+                                                                                widgetIndexStore: index,
+                                                                                storeDay: storeDayList[index]),
+                                                                          )
                                                                         ],
                                                                       )
-                                                                    : Container(),
-                                                                Container(
-                                                                  padding: EdgeInsets.symmetric(
+                                                                    : InkWell(
+                                                                        onTap:
+                                                                            (() {
+                                                                          Provider.of<MatchProvider>(context, listen: false).selectedStoreDay =
+                                                                              storeDayList[index];
+                                                                          context.goNamed(
+                                                                              'court_screen',
+                                                                              params: {
+                                                                                'viewOnly': 'viewOnly',
+                                                                                'returnTo': 'match_search_screen',
+                                                                                'returnToParam': 'null',
+                                                                                'returnToParamValue': 'null',
+                                                                              });
+                                                                        }),
+                                                                        child: SFCourtCard(
+                                                                            onOnTap: () {
+                                                                              setState(() {
+                                                                                isLoading = true;
+                                                                              });
+                                                                            },
+                                                                            widgetIndexStore: index,
+                                                                            storeDay: storeDayList[index]),
+                                                                      ),
+                                                              ),
+                                                      ],
+                                                    );
+                                                  },
+                                                )
+                                              : ListView.builder(
+                                                  itemCount: Provider.of<
+                                                                  MatchProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .openMatchList
+                                                          .isEmpty
+                                                      ? 1
+                                                      : Provider.of<
+                                                                  MatchProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .openMatchList
+                                                          .length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return Column(children: [
+                                                      index == 0
+                                                          ? Container(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
                                                                       horizontal:
                                                                           width *
                                                                               0.05),
-                                                                  child: Row(
+                                                              child: Column(
+                                                                children: [
+                                                                  Row(
                                                                     children: [
                                                                       SvgPicture
                                                                           .asset(
-                                                                              r'assets\icon\court.svg'),
+                                                                              r'assets\icon\trophy.svg'),
                                                                       Container(
                                                                         padding:
-                                                                            EdgeInsets.symmetric(horizontal: width * 0.02),
+                                                                            EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              width * 0.02,
+                                                                        ),
                                                                         child:
                                                                             Text(
-                                                                          "Quadras",
+                                                                          "Partidas Abertas",
                                                                           style: TextStyle(
                                                                               color: AppTheme.colors.primaryBlue,
                                                                               fontWeight: FontWeight.w700),
@@ -669,156 +1225,127 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                                       )
                                                                     ],
                                                                   ),
-                                                                )
-                                                              ],
+                                                                  Container(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .symmetric(
+                                                                      horizontal:
+                                                                          width *
+                                                                              0.05,
+                                                                    ),
+                                                                    width: double
+                                                                        .infinity,
+                                                                    child: Text(
+                                                                      "Escolha uma partida e desafie novos jogadores",
+                                                                      textScaleFactor:
+                                                                          0.9,
+                                                                      style: TextStyle(
+                                                                          color: AppTheme
+                                                                              .colors
+                                                                              .textDarkGrey),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .only(
+                                                                      bottom:
+                                                                          height *
+                                                                              0.01,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             )
                                                           : Container(),
-                                                      Padding(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal:
-                                                                    width *
-                                                                        0.03,
-                                                                vertical:
-                                                                    height *
-                                                                        0.02),
-                                                        child: Row(
-                                                          children: [
-                                                            Container(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      right: 5),
-                                                              child: SvgPicture
-                                                                  .asset(
-                                                                      r'assets\icon\calendar.svg'),
-                                                            ),
-                                                            Text(
-                                                              storeDayList[
-                                                                      index]
-                                                                  .day,
-                                                              style: TextStyle(
-                                                                  color: AppTheme
-                                                                      .colors
-                                                                      .primaryBlue,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      InkWell(
-                                                        onTap: (() {
-                                                          Provider.of<MatchProvider>(
-                                                                      context,
-                                                                      listen: false)
-                                                                  .selectedStoreDay =
-                                                              storeDayList[
-                                                                  index];
-                                                          context.goNamed(
-                                                              'court_screen',
-                                                              params: {
-                                                                'param':
-                                                                    'viewOnly'
-                                                              });
-                                                        }),
-                                                        child: SFCourtCard(
-                                                            widgetIndexStore:
-                                                                index,
-                                                            storeDay:
-                                                                storeDayList[
-                                                                    index]),
-                                                      )
-                                                    ],
-                                                  );
-                                                } else {
-                                                  return InkWell(
-                                                    onTap: (() {
                                                       Provider.of<MatchProvider>(
                                                                   context,
                                                                   listen: false)
-                                                              .selectedStoreDay =
-                                                          storeDayList[index];
-                                                      context.goNamed(
-                                                          'court_screen',
-                                                          params: {
-                                                            'param': 'viewOnly'
-                                                          });
-                                                    }),
-                                                    child: SFCourtCard(
-                                                        widgetIndexStore: index,
-                                                        storeDay: storeDayList[
-                                                            index]),
-                                                  );
-                                                }
-                                              }),
-                                            ),
-                                          )
-                                        : Expanded(
-                                            child: ListView.builder(
-                                              itemCount:
-                                                  Provider.of<MatchProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .openMatchList
-                                                      .length,
-                                              itemBuilder: (context, index) {
-                                                return SFOpenMatchVertical(
-                                                  match: Provider.of<
-                                                              MatchProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .openMatchList[index],
-                                                );
-                                              },
-                                            ),
-                                          ),
+                                                              .openMatchList
+                                                              .isEmpty
+                                                          ? Container(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                horizontal:
+                                                                    width *
+                                                                        0.05,
+                                                              ),
+                                                              margin: EdgeInsets
+                                                                  .symmetric(
+                                                                vertical:
+                                                                    height *
+                                                                        0.02,
+                                                              ),
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              child: Text(
+                                                                "Nenhuma partida aberta encontrada para os filtros selecionados.",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: AppTheme
+                                                                      .colors
+                                                                      .textDarkGrey,
+                                                                ),
+                                                              ),
+                                                            )
+                                                          : SFOpenMatchVertical(
+                                                              match: Provider.of<
+                                                                          MatchProvider>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .openMatchList[index],
+                                                            )
+                                                    ]);
+                                                  },
+                                                ),
+                                    )
                                   ],
                                 ),
                               ),
                             )
                           : Expanded(
                               child: Container(
-                                  color: AppTheme.colors.secondaryBack,
-                                  child: Center(
-                                    child: Container(
-                                      height: height * 0.2,
-                                      padding: EdgeInsets.only(
-                                          left: width * 0.2,
-                                          right: width * 0.2),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          SvgPicture.asset(
-                                            r"assets\icon\sad_face.svg",
-                                            height: height * 0.1,
-                                          ),
-                                          SizedBox(
-                                            height: height * 0.05,
-                                            child: FittedBox(
-                                              fit: BoxFit.contain,
-                                              child: Text(
-                                                "Ops! Tivemos um problema. \nTente novamente.",
-                                                style: TextStyle(
-                                                  color:
-                                                      AppTheme.colors.textBlue,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
+                                color: AppTheme.colors.secondaryBack,
+                                child: Center(
+                                  child: Container(
+                                    height: height * 0.2,
+                                    padding: EdgeInsets.only(
+                                        left: width * 0.2, right: width * 0.2),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        SvgPicture.asset(
+                                          r"assets\icon\sad_face.svg",
+                                          height: height * 0.1,
+                                        ),
+                                        SizedBox(
+                                          height: height * 0.05,
+                                          child: FittedBox(
+                                            fit: BoxFit.contain,
+                                            child: Text(
+                                              "Ops! Tivemos um problema. \nTente novamente.",
+                                              style: TextStyle(
+                                                color: AppTheme.colors.textBlue,
+                                                fontWeight: FontWeight.w700,
                                               ),
                                             ),
                                           ),
-                                          Container(
-                                            height: height * 0.01 > 4
-                                                ? 4
-                                                : height * 0.01,
-                                            width: width * 0.8,
-                                            color: AppTheme.colors.divider,
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                        Container(
+                                          height: height * 0.01 > 4
+                                              ? 4
+                                              : height * 0.01,
+                                          width: width * 0.8,
+                                          color: AppTheme.colors.divider,
+                                        ),
+                                      ],
                                     ),
-                                  )),
+                                  ),
+                                ),
+                              ),
                             )
             ],
           ),
@@ -878,47 +1405,15 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
               .format(context),
         }),
       );
-      print(accessToken);
-      print(Provider.of<MatchProvider>(context, listen: false)
-          .selectedSport!
-          .idSport
-          .toString());
-      print(Provider.of<MatchProvider>(context, listen: false)
-          .selectedRegion!
-          .selectedCity!
-          .cityId
-          .toString());
-      print(DateFormat("yyyy-MM-dd").format(
-          Provider.of<MatchProvider>(context, listen: false)
-              .selectedDates[0]!));
-      print(Provider.of<MatchProvider>(context, listen: false)
-                  .selectedDates
-                  .length <
-              2
-          ? DateFormat("yyyy-MM-dd").format(
-              Provider.of<MatchProvider>(context, listen: false)
-                  .selectedDates[0]!)
-          : DateFormat("yyyy-MM-dd").format(
-              Provider.of<MatchProvider>(context, listen: false)
-                  .selectedDates[1]!));
-      print(Provider.of<MatchProvider>(context, listen: false)
-          .selectedTimeRange!
-          .start
-          .format(context));
-      print(Provider.of<MatchProvider>(context, listen: false)
-          .selectedTimeRange!
-          .end
-          .format(context));
+
       if (mounted) {
         if (response.statusCode == 200) {
           if (mounted) {
-            setState(() {
-              isLoading = false;
-            }); ////////////////////////////////////////////////////////////remover
             Provider.of<MatchProvider>(context, listen: false)
                 .clearStoreDayList();
             Provider.of<MatchProvider>(context, listen: false)
                 .clearOpenMatchList();
+            Provider.of<CourtProvider>(context, listen: false).clearCourts();
 
             final responseBody = json.decode(response.body);
             final responseDates = responseBody['Dates'];
@@ -1130,85 +1625,65 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
 
     modalWidget = Container(
       height: height * 0.7,
-      child: Column(
-        children: [
-          Container(
-              height: height * 0.07,
-              padding: EdgeInsets.symmetric(
-                  horizontal: width * 0.1, vertical: height * 0.01),
-              child: FittedBox(
-                  fit: BoxFit.fill,
-                  child: Text(
-                    "Escolha a cidade",
-                    style: TextStyle(color: AppTheme.colors.primaryBlue),
-                  ))),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _availableRegions.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ExpansionTile(
-                  title: Text(
-                    _availableRegions[index].state,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  children: _availableRegions[index]
-                      .cities
-                      .map(
-                        (city) => InkWell(
-                          child: Container(
-                            padding:
-                                EdgeInsets.symmetric(vertical: height * 0.01),
-                            child: Text(city.city),
-                          ),
-                          onTap: () {
-                            setState(() {
-                              _availableRegions.forEach((region) {
-                                if (region.state ==
-                                    _availableRegions[index].state) {
-                                  region.cities.forEach((cityList) {
-                                    if (cityList.city == city.city) {
-                                      Provider.of<MatchProvider>(context,
-                                              listen: false)
-                                          .selectedRegion = Region(
-                                        state: _availableRegions[index].state,
-                                        uf: _availableRegions[index].uf,
-                                      );
-                                      Provider.of<MatchProvider>(context,
-                                                  listen: false)
-                                              .selectedRegion!
-                                              .selectedCity =
-                                          City(
-                                              cityId: cityList.cityId,
-                                              city: cityList.city);
-                                    }
-                                  });
-                                }
-                              });
-                              Provider.of<MatchProvider>(context, listen: false)
-                                  .regionText = Provider.of<MatchProvider>(
-                                          context,
-                                          listen: false)
-                                      .selectedRegion!
-                                      .selectedCity!
-                                      .city +
-                                  "/" +
-                                  Provider.of<MatchProvider>(context,
-                                          listen: false)
-                                      .selectedRegion!
-                                      .uf;
-                              showModal = false;
-                            });
-                          },
-                        ),
-                      )
-                      .toList(),
-                );
-              },
+      child: ListView.builder(
+        itemCount: _availableRegions.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ExpansionTile(
+            title: Text(
+              _availableRegions[index].state,
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-        ],
+            children: _availableRegions[index]
+                .cities
+                .map(
+                  (city) => InkWell(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: height * 0.01),
+                      child: Text(city.city),
+                    ),
+                    onTap: () {
+                      setState(() {
+                        _availableRegions.forEach((region) {
+                          if (region.state == _availableRegions[index].state) {
+                            region.cities.forEach((cityList) {
+                              if (cityList.city == city.city) {
+                                Provider.of<MatchProvider>(context,
+                                        listen: false)
+                                    .selectedRegion = Region(
+                                  state: _availableRegions[index].state,
+                                  uf: _availableRegions[index].uf,
+                                );
+                                Provider.of<MatchProvider>(context,
+                                            listen: false)
+                                        .selectedRegion!
+                                        .selectedCity =
+                                    City(
+                                        cityId: cityList.cityId,
+                                        city: cityList.city);
+                              }
+                            });
+                          }
+                        });
+                        Provider.of<MatchProvider>(context, listen: false)
+                            .regionText = Provider.of<MatchProvider>(context,
+                                    listen: false)
+                                .selectedRegion!
+                                .selectedCity!
+                                .city +
+                            "/" +
+                            Provider.of<MatchProvider>(context, listen: false)
+                                .selectedRegion!
+                                .uf;
+                        showModal = false;
+                      });
+                    },
+                  ),
+                )
+                .toList(),
+          );
+        },
       ),
     );
   }

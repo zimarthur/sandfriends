@@ -5,38 +5,43 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:photo_view/photo_view_gallery.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/models/enums.dart';
 import 'package:sandfriends/models/store_day.dart';
+import 'package:sandfriends/providers/redirect_provider.dart';
 import 'package:sandfriends/theme/app_theme.dart';
 import 'package:sandfriends/widgets/Modal/SF_Modal.dart';
 import 'package:sandfriends/widgets/Modal/SF_ModalMessage.dart';
 import 'package:sandfriends/widgets/SF_Button.dart';
-import 'package:sandfriends/widgets/SF_Scaffold.dart';
-import 'package:photo_view/photo_view.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/court_available_hours.dart';
 import '../models/court.dart';
-import '../models/user.dart';
 import '../providers/match_provider.dart';
 import '../providers/user_provider.dart';
 import '../widgets/SFLoading.dart';
 import '../widgets/SF_AvailableHours.dart';
 
 class CourtScreen extends StatefulWidget {
-  const CourtScreen({this.param});
+  const CourtScreen({
+    this.param,
+    required this.returnTo,
+    this.returnToParam,
+    this.returnToParamValue,
+  });
   final String? param;
+  final String returnTo;
+  final String? returnToParam;
+  final String? returnToParamValue;
 
   @override
   State<CourtScreen> createState() => _CourtScreenState();
 }
 
 class _CourtScreenState extends State<CourtScreen> {
-  bool isLoading = false;
+  bool isLoading = true;
   bool showModal = false;
   Widget? modalWidget;
   bool viewOnly = true;
@@ -89,6 +94,9 @@ class _CourtScreenState extends State<CourtScreen> {
       icon: BitmapDescriptor.defaultMarker, //Icon for Marker
     ));
     super.initState();
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -383,7 +391,9 @@ class _CourtScreenState extends State<CourtScreen> {
                             padding:
                                 EdgeInsets.symmetric(vertical: height * 0.01),
                             child: Text(
-                              "Selecione a quadra e a duração do jogo",
+                              availableCourts.length > 1
+                                  ? "Selecione a quadra e a duração do jogo"
+                                  : "Selecione a duração do jogo",
                               style: TextStyle(
                                   color: AppTheme.colors.textDarkGrey,
                                   fontWeight: FontWeight.w700),
@@ -631,13 +641,38 @@ class _CourtScreenState extends State<CourtScreen> {
                 viewOnly = true;
                 Provider.of<MatchProvider>(context, listen: false)
                     .indexSelectedCourt = -1;
-                context.goNamed('match_search_screen');
                 Provider.of<MatchProvider>(context, listen: false)
                     .indexSelectedTime
                     .clear();
                 Provider.of<MatchProvider>(context, listen: false)
                     .selectedTime
                     .clear();
+                if (widget.returnToParam == null) {
+                  context.goNamed(
+                    widget.returnTo,
+                  );
+                } else {
+                  String returnTo;
+                  String returnToParam;
+                  String returnToParamValue;
+                  if (Provider.of<Redirect>(context, listen: false)
+                          .originalPage ==
+                      EnumReturnPages.MatchSearchScreen) {
+                    returnTo = 'match_search_screen';
+                    returnToParam = 'null';
+                    returnToParamValue = 'null';
+                  } else {
+                    returnTo = 'home';
+                    returnToParam = 'initialPage';
+                    returnToParamValue = 'feed_screen';
+                  }
+                  context.goNamed(widget.returnTo, params: {
+                    widget.returnToParam!: widget.returnToParamValue!,
+                    'returnTo': returnTo,
+                    'returnToParam': returnToParam,
+                    'returnToParamValue': returnToParamValue
+                  });
+                }
               },
               child: Container(
                 height: width * 0.1,

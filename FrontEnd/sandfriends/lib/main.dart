@@ -201,20 +201,36 @@ class _MyAppState extends State<MyApp> {
     routes: <GoRoute>[
       GoRoute(
           name: 'court_screen',
-          path: '/court_screen/:param',
+          path:
+              '/court_screen/:viewOnly/:returnTo/:returnToParam/:returnToParamValue',
           builder: (BuildContext context, GoRouterState state) {
-            final query = state.params['param'];
+            final viewOnly = state.params['viewOnly'];
+            final returnTo = state.params['returnTo'];
+            final returnToParam = state.params['returnToParam'];
+            final returnToParamValue = state.params['returnToParamValue'];
             return CourtScreen(
-              param: query,
+              param: viewOnly,
+              returnTo: returnTo!,
+              returnToParam: returnToParam == 'null' ? null : returnToParam,
+              returnToParamValue:
+                  returnToParamValue == 'null' ? null : returnToParamValue,
             );
           }),
       GoRoute(
           name: 'match_screen',
-          path: '/match_screen/:param',
+          path:
+              '/match_screen/:matchUrl/:returnTo/:returnToParam/:returnToParamValue',
           builder: (BuildContext context, GoRouterState state) {
-            final query = state.params['param'];
+            final matchUrl = state.params['matchUrl'];
+            final returnTo = state.params['returnTo'];
+            final returnToParam = state.params['returnToParam'];
+            final returnToParamValue = state.params['returnToParamValue'];
             return MatchScreen(
-              matchUrl: int.parse(query!),
+              matchUrl: int.parse(matchUrl!),
+              returnTo: returnTo!,
+              returnToParam: returnToParam == 'null' ? null : returnToParam,
+              returnToParamValue:
+                  returnToParamValue == 'null' ? null : returnToParamValue,
             );
           }),
       GoRoute(

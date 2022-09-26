@@ -12,6 +12,7 @@ import 'dart:convert';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sandfriends/widgets/SFLoading.dart';
 
+import '../models/enums.dart';
 import '../models/sport.dart';
 import '../models/store.dart';
 import '../models/user.dart';
@@ -58,6 +59,8 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<Redirect>(context, listen: false).originalPage =
+        EnumReturnPages.Home;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -235,8 +238,11 @@ class _FeedScreenState extends State<FeedScreen> {
                                         onTap: () {
                                           context
                                               .goNamed('match_screen', params: {
-                                            'param':
-                                                "${Provider.of<UserProvider>(context, listen: false).matchList[index].matchUrl}"
+                                            'matchUrl':
+                                                "${Provider.of<UserProvider>(context, listen: false).matchList[index].matchUrl}",
+                                            'returnTo': 'home',
+                                            'returnToParam': 'initialPage',
+                                            'returnToParamValue': 'feed_screen',
                                           });
                                         },
                                         child: Container(

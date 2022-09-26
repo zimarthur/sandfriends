@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../theme/app_theme.dart';
@@ -232,10 +233,18 @@ class SFOpenMatchVertical extends StatelessWidget {
                 Container(
                   height: 30,
                   child: SFButton(
-                      buttonLabel: "Quero jogar",
-                      iconPath: r'assets\icon\user_plus.svg',
-                      buttonType: ButtonType.Secondary,
-                      onTap: () {}),
+                    buttonLabel: "Quero jogar",
+                    iconPath: r'assets\icon\user_plus.svg',
+                    buttonType: ButtonType.Secondary,
+                    onTap: () {
+                      context.goNamed('match_screen', params: {
+                        'matchUrl': match.matchUrl,
+                        'returnTo': 'match_search_screen',
+                        'returnToParam': 'null',
+                        'returnToParamValue': 'null',
+                      });
+                    },
+                  ),
                 ),
               ],
             ),

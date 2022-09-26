@@ -12,3 +12,5 @@ enum AppBarType { Primary, Secondary }
 enum GenericStatus { Success, Failed }
 
 enum EnumSearchStatus { NoFilterApplied, Results, NoResultsFound, Error }
+
+enum EnumReturnPages { Home, MatchSearchScreen }

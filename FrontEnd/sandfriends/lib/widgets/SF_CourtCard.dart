@@ -13,11 +13,12 @@ import '../theme/app_theme.dart';
 class SFCourtCard extends StatefulWidget {
   final StoreDay storeDay;
   final int widgetIndexStore;
+  final VoidCallback onOnTap;
 
-  SFCourtCard({
-    required this.storeDay,
-    required this.widgetIndexStore,
-  });
+  SFCourtCard(
+      {required this.storeDay,
+      required this.widgetIndexStore,
+      required this.onOnTap});
 
   @override
   State<SFCourtCard> createState() => _SFCourtCardState();
@@ -194,13 +195,18 @@ class _SFCourtCardState extends State<SFCourtCard> {
                   textPadding: EdgeInsets.symmetric(vertical: 5),
                   onTap: () {
                     if (isSelectedCourt(context, false)) {
+                      widget.onOnTap();
                       Provider.of<MatchProvider>(context, listen: false)
                           .selectedStoreDay = widget.storeDay;
                       Provider.of<MatchProvider>(context, listen: false)
                           .indexSelectedTime
                           .clear();
-                      context
-                          .goNamed('court_screen', params: {'param': 'null'});
+                      context.goNamed('court_screen', params: {
+                        'viewOnly': 'null',
+                        'returnTo': 'match_search_screen',
+                        'returnToParam': 'null',
+                        'returnToParamValue': 'null',
+                      });
                     } else {
                       print("seleciona horario antes");
                     }

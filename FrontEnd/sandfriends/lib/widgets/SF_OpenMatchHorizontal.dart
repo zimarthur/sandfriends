@@ -215,13 +215,18 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                   ],
                 ),
                 SFButton(
-                    buttonLabel: "Quero jogar",
-                    buttonType: ButtonType.Secondary,
-                    iconPath: r'assets\icon\user_plus.svg',
-                    onTap: () {
-                      context.goNamed('match_screen',
-                          params: {'param': "${match.matchUrl}"});
-                    }),
+                  buttonLabel: "Quero jogar",
+                  buttonType: ButtonType.Secondary,
+                  iconPath: r'assets\icon\user_plus.svg',
+                  onTap: () {
+                    context.goNamed('match_screen', params: {
+                      'matchUrl': match.matchUrl,
+                      'returnTo': 'match_search_screen',
+                      'returnToParam': 'null',
+                      'returnToParamValue': 'null',
+                    });
+                  },
+                ),
               ],
             ),
           ),

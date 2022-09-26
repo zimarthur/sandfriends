@@ -36,7 +36,7 @@ class Match {
     _day = value;
   }
 
-  String _userCreator = "sf";
+  String _userCreator = "";
   String get userCreator => _userCreator;
   set userCreator(String value) {
     _userCreator = value;

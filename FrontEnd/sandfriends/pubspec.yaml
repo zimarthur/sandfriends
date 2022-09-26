@@ -54,6 +54,7 @@ dependencies:
   url_launcher: ^6.1.5
   loading_animation_widget: ^1.2.0+3
   share_plus: ^4.1.0
+  tuple: ^2.0.0
 
 dev_dependencies:
   flutter_test:
