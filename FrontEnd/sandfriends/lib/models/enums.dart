@@ -14,3 +14,14 @@ enum GenericStatus { Success, Failed }
 enum EnumSearchStatus { NoFilterApplied, Results, NoResultsFound, Error }
 
 enum EnumReturnPages { Home, MatchSearchScreen }
+
+enum EnumProfileFields {
+  Photo,
+  Name,
+  Age,
+  Gender,
+  Rank,
+  HandPreference,
+  Height,
+  Region
+}

@@ -1,15 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:sandfriends/models/match_counter.dart';
+import 'package:sandfriends/models/region.dart';
+
+import 'rank.dart';
+import 'side_preference.dart';
+import 'gender.dart';
 
 class User {
-  int? IdUser;
-  String? FirstName;
-  String? LastName;
-  String? PhoneNumber;
-  String? Gender;
-  String? Birthday;
-  int? Age;
-  String? Rank;
-  double? Height;
-  String? HandPreference;
-  String? Photo;
+  int? idUser;
+  String? firstName;
+  String? lastName;
+  String? phoneNumber;
+  Gender? gender;
+  String? birthday;
+  int? age;
+  double? height;
+  SidePreference? sidePreference;
+  String? photo;
+  List<Rank> rank = [];
+  List<MatchCounter> matchCounter = [];
+  String? email;
+  Region? region;
+
+  User({
+    required this.idUser,
+    required this.firstName,
+    required this.lastName,
+    this.phoneNumber,
+    this.gender,
+    this.birthday,
+    this.age,
+    this.height,
+    this.sidePreference,
+    this.email,
+    this.region,
+    required this.photo,
+  });
 }

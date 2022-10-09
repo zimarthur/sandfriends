@@ -67,7 +67,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                                   child: FittedBox(
                                     fit: BoxFit.fitHeight,
                                     child: Text(
-                                      "${match.matchCreator!.FirstName![0].toUpperCase()}${match.matchCreator!.LastName![0].toUpperCase()}",
+                                      "${match.matchCreator!.firstName![0].toUpperCase()}${match.matchCreator!.lastName![0].toUpperCase()}",
                                       style: TextStyle(
                                         color: AppTheme.colors.secondaryBack,
                                         fontWeight: FontWeight.w600,
@@ -84,7 +84,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: FittedBox(
                               child: Text(
-                                "Partida de\n${match.matchCreator!.FirstName}",
+                                "Partida de\n${match.matchCreator!.firstName}",
                                 style: TextStyle(
                                   color: AppTheme.colors.primaryBlue,
                                   fontWeight: FontWeight.w700,
