@@ -37,7 +37,7 @@ class _UserScreenState extends State<UserScreen> {
                           backgroundColor: AppTheme.colors.secondaryGreen,
                           radius: width / 7.6,
                           child: Text(
-                            "${Provider.of<UserProvider>(context, listen: false).user!.FirstName![0].toUpperCase()}${Provider.of<UserProvider>(context, listen: false).user!.LastName![0].toUpperCase()}",
+                            "${Provider.of<UserProvider>(context, listen: false).user!.firstName![0].toUpperCase()}${Provider.of<UserProvider>(context, listen: false).user!.lastName![0].toUpperCase()}",
                             style: TextStyle(
                                 color: AppTheme.colors.secondaryBack,
                                 fontWeight: FontWeight.w600,
@@ -52,7 +52,7 @@ class _UserScreenState extends State<UserScreen> {
                     child: FittedBox(
                       fit: BoxFit.fitHeight,
                       child: Text(
-                        "${Provider.of<UserProvider>(context, listen: false).user!.FirstName} ${Provider.of<UserProvider>(context, listen: false).user!.LastName}",
+                        "${Provider.of<UserProvider>(context, listen: false).user!.firstName} ${Provider.of<UserProvider>(context, listen: false).user!.lastName}",
                         style: TextStyle(color: AppTheme.colors.textWhite),
                       ),
                     ),
@@ -67,6 +67,27 @@ class _UserScreenState extends State<UserScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SvgPicture.asset(
+                                r'assets\icon\at_email.svg',
+                                color: AppTheme.colors.secondaryPaper,
+                                width: 15,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: width * 0.02),
+                                child: FittedBox(
+                                  fit: BoxFit.fitHeight,
+                                  child: Text(
+                                    "${Provider.of<UserProvider>(context, listen: false).user!.email}",
+                                    style: TextStyle(
+                                        color: AppTheme.colors.textWhite),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
                                 r'assets\icon\location_ping.svg',
                                 color: AppTheme.colors.secondaryPaper,
                                 width: 15,
@@ -76,7 +97,13 @@ class _UserScreenState extends State<UserScreen> {
                                 child: FittedBox(
                                   fit: BoxFit.fitHeight,
                                   child: Text(
-                                    "Porto Alegre / RS",
+                                    Provider.of<UserProvider>(context,
+                                                    listen: false)
+                                                .user!
+                                                .region ==
+                                            null
+                                        ? "-"
+                                        : "${Provider.of<UserProvider>(context, listen: false).user!.region!.selectedCity!.city} / ${Provider.of<UserProvider>(context, listen: false).user!.region!.uf}",
                                     style: TextStyle(
                                         color: AppTheme.colors.textWhite),
                                   ),
@@ -85,85 +112,36 @@ class _UserScreenState extends State<UserScreen> {
                             ],
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Row(
-                                children: [
-                                  FittedBox(
-                                    fit: BoxFit.fitHeight,
-                                    child: Text(
-                                      "BT:",
-                                      style: TextStyle(
-                                          color: AppTheme.colors.textWhite),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(left: width * 0.01),
-                                    child: FittedBox(
-                                      fit: BoxFit.fitHeight,
-                                      child: Text(
-                                        Provider.of<UserProvider>(context,
-                                                        listen: false)
-                                                    .user!
-                                                    .Rank ==
-                                                null
-                                            ? "-"
-                                            : "${Provider.of<UserProvider>(context, listen: false).user!.Rank}",
-                                        style: TextStyle(
-                                            color: AppTheme.colors.textWhite),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              SvgPicture.asset(
+                                r'assets\icon\star.svg',
+                                color: AppTheme.colors.secondaryPaper,
+                                width: 15,
                               ),
-                              Row(
-                                children: [
-                                  FittedBox(
-                                    fit: BoxFit.fitHeight,
-                                    child: Text(
-                                      "FV:",
-                                      style: TextStyle(
-                                          color: AppTheme.colors.textWhite),
-                                    ),
+                              Padding(
+                                padding: EdgeInsets.only(left: width * 0.02),
+                                child: FittedBox(
+                                  fit: BoxFit.fitHeight,
+                                  child: Text(
+                                    Provider.of<UserProvider>(context,
+                                                    listen: false)
+                                                .user!
+                                                .matchCounter
+                                                .map(
+                                                  (e) => e.total,
+                                                )
+                                                .reduce((value, current) =>
+                                                    value + current) ==
+                                            1
+                                        ? "1 jogo"
+                                        : "${Provider.of<UserProvider>(context, listen: false).user!.matchCounter.map(
+                                              (e) => e.total,
+                                            ).reduce((value, current) => value + current)} jogos",
+                                    style: TextStyle(
+                                        color: AppTheme.colors.textWhite),
                                   ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(left: width * 0.01),
-                                    child: FittedBox(
-                                      fit: BoxFit.fitHeight,
-                                      child: Text(
-                                        "-",
-                                        style: TextStyle(
-                                            color: AppTheme.colors.textWhite),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  FittedBox(
-                                    fit: BoxFit.fitHeight,
-                                    child: Text(
-                                      "VL:",
-                                      style: TextStyle(
-                                          color: AppTheme.colors.textWhite),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(left: width * 0.01),
-                                    child: FittedBox(
-                                      fit: BoxFit.fitHeight,
-                                      child: Text(
-                                        "-",
-                                        style: TextStyle(
-                                            color: AppTheme.colors.textWhite),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
                             ],
                           ),
