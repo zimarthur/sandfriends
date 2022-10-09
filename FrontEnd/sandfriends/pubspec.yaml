@@ -129,6 +129,7 @@ flutter:
     - assets\icon\share.svg
     - assets\icon\users.svg
     - assets\icon\user_plus.svg
+    - assets\icon\edit.svg
 
     - assets\match.json
 
