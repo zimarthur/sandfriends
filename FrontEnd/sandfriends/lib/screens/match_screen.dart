@@ -16,6 +16,8 @@ import 'package:sandfriends/widgets/SF_TextField.dart';
 import 'dart:convert';
 import 'package:share_plus/share_plus.dart';
 
+import '../models/city.dart';
+import '../models/region.dart';
 import '../models/sport.dart';
 import '../models/store.dart';
 import '../models/user.dart';
@@ -23,7 +25,7 @@ import '../models/validators.dart';
 import '../providers/match_provider.dart';
 import '../models/match.dart';
 import '../providers/redirect_provider.dart';
-import '../providers/sport_provider.dart';
+import '../providers/categories_provider.dart';
 import '../providers/store_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/Modal/SF_Modal.dart';
@@ -475,7 +477,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                                       child: FittedBox(
                                                         fit: BoxFit.fitHeight,
                                                         child: Text(
-                                                          "${currentMatch.matchMembers[index].user!.FirstName![0].toUpperCase()}${currentMatch.matchMembers[index].user!.LastName![0].toUpperCase()}",
+                                                          "${currentMatch.matchMembers[index].user!.firstName![0].toUpperCase()}${currentMatch.matchMembers[index].user!.lastName![0].toUpperCase()}",
                                                           style: TextStyle(
                                                             color: AppTheme
                                                                 .colors
@@ -498,7 +500,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                                       child: FittedBox(
                                                         fit: BoxFit.fitHeight,
                                                         child: Text(
-                                                          "${currentMatch.matchMembers[index].user!.FirstName} ${currentMatch.matchMembers[index].user!.LastName}",
+                                                          "${currentMatch.matchMembers[index].user!.firstName} ${currentMatch.matchMembers[index].user!.lastName}",
                                                           style: TextStyle(
                                                               color: AppTheme
                                                                   .colors
@@ -532,20 +534,20 @@ class _MatchScreenState extends State<MatchScreen> {
                                                                       .matchMembers[
                                                                           index]
                                                                       .user!
-                                                                      .Age ==
+                                                                      .age ==
                                                                   null
                                                               ? ""
                                                               : currentMatch
                                                                           .matchMembers[
                                                                               index]
                                                                           .user!
-                                                                          .Age! <
+                                                                          .age! <
                                                                       18
                                                                   ? "Sub-18"
                                                                   : currentMatch
                                                                               .matchMembers[index]
                                                                               .user!
-                                                                              .Age! <
+                                                                              .age! <
                                                                           40
                                                                       ? "Sub-40"
                                                                       : "40+",
@@ -581,13 +583,14 @@ class _MatchScreenState extends State<MatchScreen> {
                                                                 .matchMembers[
                                                                     index]
                                                                 .user!
-                                                                .Gender ==
+                                                                .gender ==
                                                             null
                                                         ? "-"
                                                         : currentMatch
                                                             .matchMembers[index]
                                                             .user!
-                                                            .Gender!,
+                                                            .gender!
+                                                            .name,
                                                     style: TextStyle(
                                                         color: AppTheme
                                                             .colors.textBlue,
@@ -602,24 +605,25 @@ class _MatchScreenState extends State<MatchScreen> {
                                                         .spaceBetween,
                                                 children: [
                                                   Text("Rank:"),
-                                                  Text(
-                                                    currentMatch
-                                                                .matchMembers[
-                                                                    index]
-                                                                .user!
-                                                                .Rank ==
-                                                            null
-                                                        ? "-"
-                                                        : currentMatch
-                                                            .matchMembers[index]
-                                                            .user!
-                                                            .Rank!,
-                                                    style: TextStyle(
-                                                        color: AppTheme
-                                                            .colors.textBlue,
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                  ),
+                                                  ////////SFRANK
+                                                  // Text(
+                                                  //   currentMatch
+                                                  //               .matchMembers[
+                                                  //                   index]
+                                                  //               .user!
+                                                  //               .Rank ==
+                                                  //           null
+                                                  //       ? "-"
+                                                  //       : currentMatch
+                                                  //           .matchMembers[index]
+                                                  //           .user!
+                                                  //           .Rank!,
+                                                  //   style: TextStyle(
+                                                  //       color: AppTheme
+                                                  //           .colors.textBlue,
+                                                  //       fontWeight:
+                                                  //           FontWeight.w700),
+                                                  // ),
                                                 ],
                                               ),
                                               Row(
@@ -633,13 +637,14 @@ class _MatchScreenState extends State<MatchScreen> {
                                                                 .matchMembers[
                                                                     index]
                                                                 .user!
-                                                                .HandPreference ==
+                                                                .sidePreference ==
                                                             null
                                                         ? "-"
                                                         : currentMatch
                                                             .matchMembers[index]
                                                             .user!
-                                                            .HandPreference!,
+                                                            .sidePreference!
+                                                            .name,
                                                     style: TextStyle(
                                                         color: AppTheme
                                                             .colors.textBlue,
@@ -659,10 +664,10 @@ class _MatchScreenState extends State<MatchScreen> {
                                                                 .matchMembers[
                                                                     index]
                                                                 .user!
-                                                                .Height ==
+                                                                .height ==
                                                             null
                                                         ? "-"
-                                                        : "${currentMatch.matchMembers[index].user!.Height!}m",
+                                                        : "${currentMatch.matchMembers[index].user!.height!}m",
                                                     style: TextStyle(
                                                         color: AppTheme
                                                             .colors.textBlue,
@@ -676,12 +681,12 @@ class _MatchScreenState extends State<MatchScreen> {
                                         ),
                                         isUserMatchCreator &&
                                                 currentMatch.matchMembers[index]
-                                                        .user!.IdUser !=
+                                                        .user!.idUser !=
                                                     Provider.of<UserProvider>(
                                                             context,
                                                             listen: false)
                                                         .user!
-                                                        .IdUser
+                                                        .idUser
                                             ? Container(
                                                 width: width * 0.5,
                                                 child: SFButton(
@@ -699,7 +704,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                                               .matchMembers[
                                                                   index]
                                                               .user!
-                                                              .IdUser!);
+                                                              .idUser!);
                                                     }),
                                               )
                                             : Container(),
@@ -739,7 +744,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                           Expanded(
                                             child: Text(
                                               currentMatch.matchMembers[index]
-                                                  .user!.FirstName!,
+                                                  .user!.firstName!,
                                               style: TextStyle(
                                                 color:
                                                     AppTheme.colors.textWhite,
@@ -764,7 +769,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                                                     .matchMembers[
                                                                         index]
                                                                     .user!
-                                                                    .IdUser!,
+                                                                    .idUser!,
                                                                 true),
                                                         child: SvgPicture.asset(
                                                           r'assets\icon\confirm.svg',
@@ -786,7 +791,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                                                     .matchMembers[
                                                                         index]
                                                                     .user!
-                                                                    .IdUser!,
+                                                                    .idUser!,
                                                                 false),
                                                         child: SvgPicture.asset(
                                                           r'assets\icon\cancel.svg',
@@ -821,7 +826,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                               child: FittedBox(
                                                 fit: BoxFit.fitHeight,
                                                 child: Text(
-                                                  "${currentMatch.matchMembers[index].user!.FirstName![0].toUpperCase()}${currentMatch.matchMembers[index].user!.LastName![0].toUpperCase()}",
+                                                  "${currentMatch.matchMembers[index].user!.firstName![0].toUpperCase()}${currentMatch.matchMembers[index].user!.lastName![0].toUpperCase()}",
                                                   style: TextStyle(
                                                     color: AppTheme
                                                         .colors.secondaryBack,
@@ -951,25 +956,48 @@ class _MatchScreenState extends State<MatchScreen> {
             },
           ),
         );
-
         if (response.statusCode == 200) {
           Map<String, dynamic> responseBody = json.decode(response.body);
-          final newAccessToken = responseBody['AccessToken'];
+          final responseLogin = responseBody['login'];
+          final responseUser = responseBody['user'];
+          final responseUserRanks = responseBody['userRanks'];
+          final responseUserMatchCounter = responseBody['matchCounter'];
+          final responseUserCity = responseBody['userCity'];
+          final responseUserState = responseBody['userState'];
+
+          Provider.of<UserProvider>(context, listen: false).userFromJson(
+              responseUser,
+              Provider.of<CategoriesProvider>(context, listen: false));
+          Provider.of<UserProvider>(context, listen: false).userRankFromJson(
+              responseUserRanks,
+              Provider.of<CategoriesProvider>(context, listen: false));
+          Provider.of<UserProvider>(context, listen: false)
+              .userMatchCounterFromJson(responseUserMatchCounter,
+                  Provider.of<CategoriesProvider>(context, listen: false));
+          Provider.of<UserProvider>(context, listen: false).user!.email =
+              responseBody['userEmail'];
+
+          Provider.of<UserProvider>(context, listen: false).user!.region =
+              Region(
+                  idState: responseUserState['IdState'],
+                  state: responseUserState['State'],
+                  uf: responseUserState['UF']);
+          Provider.of<UserProvider>(context, listen: false)
+                  .user!
+                  .region!
+                  .selectedCity =
+              City(
+                  cityId: responseUserCity['IdCity'],
+                  city: responseUserCity['City']);
+
+          final newAccessToken = responseLogin['AccessToken'];
           await storage.write(key: "AccessToken", value: newAccessToken);
-          if (responseBody['EmailConfirmationDate'] == null) {
+          if (responseLogin['EmailConfirmationDate'] == null) {
             context.goNamed('login_signup');
-          } else if (responseBody['IsNewUser'] == true) {
+          } else if (responseLogin['IsNewUser'] == true) {
             context.goNamed('new_user_welcome');
           } else {
-            response = await http.get(Uri.parse(
-                'https://www.sandfriends.com.br/GetUser/' + newAccessToken));
-            if (response.statusCode == 200) {
-              Map<String, dynamic> responseBody = json.decode(response.body);
-              Provider.of<UserProvider>(context, listen: false)
-                  .userFromJson(responseBody);
-            } else {
-              print("deu ruim");
-            }
+            context.go('/home/feed_screen');
           }
         } else {
           //o token não é valido
@@ -995,9 +1023,11 @@ class _MatchScreenState extends State<MatchScreen> {
         final responseStorePhoto = responseBody['storePhotos'];
         final responseSports = responseBody['sports'];
 
-        if (Provider.of<SportProvider>(context, listen: false).sports.isEmpty) {
+        if (Provider.of<CategoriesProvider>(context, listen: false)
+            .sports
+            .isEmpty) {
           for (int i = 0; i < responseSports.length; i++) {
-            Provider.of<SportProvider>(context, listen: false).sports.add(
+            Provider.of<CategoriesProvider>(context, listen: false).sports.add(
                   Sport(
                     idSport: responseSports[i]['IdSport'],
                     description: responseSports[i]['Description'],
@@ -1016,11 +1046,11 @@ class _MatchScreenState extends State<MatchScreen> {
           newStore.imageUrl = responseStore['Logo'];
           newStore.descriptionText = responseStore['Description'];
           newStore.instagram = responseStore['Instagram'];
-          newStore.phone = responseStore['Phone'];
+          newStore.phone = responseStore['PhoneNumber1'];
           for (int photoIndex = 0;
               photoIndex < responseStorePhoto.length;
               photoIndex++) {
-            newStore.addPhoto(responseStorePhoto[photoIndex]['storePhoto']);
+            newStore.addPhoto(responseStorePhoto[photoIndex]['Photo']);
           }
           Provider.of<StoreProvider>(context, listen: false)
               .stores
@@ -1028,31 +1058,63 @@ class _MatchScreenState extends State<MatchScreen> {
         }
         List<User> usersList = [];
         for (int i = 0; i < responseUsers.length; i++) {
-          var newUser = User();
-          newUser.IdUser = responseUsers[i]['IdUser'];
-          newUser.FirstName = responseUsers[i]['FirstName'];
-          newUser.LastName = responseUsers[i]['LastName'];
-          newUser.PhoneNumber = responseUsers[i]['PhoneNumber'];
-          newUser.Gender = responseUsers[i]['Gender'];
-          newUser.Birthday = responseUsers[i]['Birthday'];
-          newUser.Age = responseUsers[i]['Age'];
-          newUser.Rank = responseUsers[i]['Rank'];
-          newUser.Height = responseUsers[i]['Height'];
-          newUser.HandPreference = responseUsers[i]['HandPreference'];
-          newUser.Photo = responseUsers[i]['Photo'];
+          var gender;
+          var sidePreference;
+          for (int j = 0;
+              j <
+                  Provider.of<CategoriesProvider>(context, listen: false)
+                      .genders
+                      .length;
+              j++) {
+            if (Provider.of<CategoriesProvider>(context, listen: false)
+                    .genders[j]
+                    .idGender ==
+                responseUsers[i]['IdGenderCategory']) {
+              gender = Provider.of<CategoriesProvider>(context, listen: false)
+                  .genders[j];
+            }
+          }
+          for (int k = 0;
+              k <
+                  Provider.of<CategoriesProvider>(context, listen: false)
+                      .sidePreferences
+                      .length;
+              k++) {
+            if (Provider.of<CategoriesProvider>(context, listen: false)
+                    .sidePreferences[k]
+                    .idSidePreference ==
+                responseUsers[i]['IdSidePreferenceCategory']) {
+              sidePreference =
+                  Provider.of<CategoriesProvider>(context, listen: false)
+                      .sidePreferences[k];
+            }
+          }
+          var newUser = User(
+            idUser: responseUsers[i]['IdUser'],
+            firstName: responseUsers[i]['FirstName'],
+            lastName: responseUsers[i]['LastName'],
+            photo: responseUsers[i]['PhoneNumber'],
+            gender: gender,
+            birthday: responseUsers[i]['Birthday'],
+            age: responseUsers[i]['Age'],
+            height: responseUsers[i]['Height'],
+            sidePreference: sidePreference,
+            phoneNumber: responseUsers[i]['Photo'],
+          );
+
           usersList.add(newUser);
         }
 
         isUserInMatch = false;
         for (int i = 0; i < responseMatchMembers.length; i++) {
           if (responseMatchMembers[i]['IdUser'] ==
-              Provider.of<UserProvider>(context, listen: false).user!.IdUser) {
+              Provider.of<UserProvider>(context, listen: false).user!.idUser) {
             isUserInMatch = true;
           }
           for (int userListIndex = 0;
               userListIndex < usersList.length;
               userListIndex++) {
-            if (usersList[userListIndex].IdUser ==
+            if (usersList[userListIndex].idUser ==
                 responseMatchMembers[i]['IdUser']) {
               currentMatch.matchMembers.add(
                 MatchMember(
@@ -1063,11 +1125,11 @@ class _MatchScreenState extends State<MatchScreen> {
                 ),
               );
               if (responseMatchMembers[i]['IsMatchCreator'] == true) {
-                currentMatch.userCreator = usersList[userListIndex].FirstName!;
+                currentMatch.userCreator = usersList[userListIndex].firstName!;
                 if (Provider.of<UserProvider>(context, listen: false)
                         .user!
-                        .IdUser ==
-                    usersList[userListIndex].IdUser) {
+                        .idUser ==
+                    usersList[userListIndex].idUser) {
                   isUserMatchCreator = true;
                 } else {
                   isUserMatchCreator = false;
@@ -1080,10 +1142,10 @@ class _MatchScreenState extends State<MatchScreen> {
           currentMatch.matchMembers = currentMatch.matchMembers
               .where((member) =>
                   member.waitingApproval == false ||
-                  member.user!.IdUser ==
+                  member.user!.idUser ==
                       Provider.of<UserProvider>(context, listen: false)
                           .user!
-                          .IdUser)
+                          .idUser)
               .toList();
         }
         currentMatch.idMatch = responseMatch['IdMatch'];
@@ -1094,7 +1156,7 @@ class _MatchScreenState extends State<MatchScreen> {
             currentMatch.store = store;
           }
         });
-        Provider.of<SportProvider>(context, listen: false)
+        Provider.of<CategoriesProvider>(context, listen: false)
             .sports
             .forEach((sport) {
           if (sport.idSport == responseMatch['IdSport']) {

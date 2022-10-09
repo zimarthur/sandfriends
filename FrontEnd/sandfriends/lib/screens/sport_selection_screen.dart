@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/models/sport.dart';
-import 'package:sandfriends/providers/sport_provider.dart';
+import 'package:sandfriends/providers/categories_provider.dart';
 import 'package:sandfriends/widgets/SFLoading.dart';
 import 'package:sandfriends/widgets/SF_Button.dart';
 import 'package:http/http.dart' as http;
@@ -33,7 +33,7 @@ class _SportSelectionScreenState extends State<SportSelectionScreen> {
         sportIndex = sport['IdSport'];
         sportDescription = sport['Description'];
         sportPhoto = sport['SportPhoto'];
-        Provider.of<SportProvider>(context, listen: false).addSport(Sport(
+        Provider.of<CategoriesProvider>(context, listen: false).addSport(Sport(
           idSport: sportIndex,
           description: sportDescription,
           photoUrl: sportPhoto,
@@ -48,7 +48,9 @@ class _SportSelectionScreenState extends State<SportSelectionScreen> {
   @override
   void initState() {
     super.initState();
-    if (Provider.of<SportProvider>(context, listen: false).sports.isEmpty) {
+    if (Provider.of<CategoriesProvider>(context, listen: false)
+        .sports
+        .isEmpty) {
       RequestSports(context);
     }
   }
@@ -69,7 +71,7 @@ class _SportSelectionScreenState extends State<SportSelectionScreen> {
               height: height * 0.2,
               child: FittedBox(
                 fit: BoxFit.contain,
-                child: Provider.of<SportProvider>(context, listen: false)
+                child: Provider.of<CategoriesProvider>(context, listen: false)
                         .sports
                         .isEmpty
                     ? Expanded(
@@ -91,9 +93,10 @@ class _SportSelectionScreenState extends State<SportSelectionScreen> {
                 alignment: Alignment.center,
                 child: ListView.separated(
                   shrinkWrap: true,
-                  itemCount: Provider.of<SportProvider>(context, listen: false)
-                      .sports
-                      .length,
+                  itemCount:
+                      Provider.of<CategoriesProvider>(context, listen: false)
+                          .sports
+                          .length,
                   separatorBuilder: (context, index) {
                     return SizedBox(
                       height: height * 0.05,
@@ -104,10 +107,10 @@ class _SportSelectionScreenState extends State<SportSelectionScreen> {
                       height: height * 0.1,
                       padding: EdgeInsets.symmetric(horizontal: width * 0.1),
                       child: SFButton(
-                          buttonLabel:
-                              Provider.of<SportProvider>(context, listen: false)
-                                  .sports[index]
-                                  .description,
+                          buttonLabel: Provider.of<CategoriesProvider>(context,
+                                  listen: false)
+                              .sports[index]
+                              .description,
                           buttonType: ButtonType.Secondary,
                           textPadding:
                               EdgeInsets.symmetric(vertical: height * 0.025),
@@ -115,17 +118,17 @@ class _SportSelectionScreenState extends State<SportSelectionScreen> {
                             if (Provider.of<MatchProvider>(context,
                                         listen: false)
                                     .selectedSport !=
-                                Provider.of<SportProvider>(context,
+                                Provider.of<CategoriesProvider>(context,
                                         listen: false)
                                     .sports[index]) {
                               Provider.of<MatchProvider>(context, listen: false)
                                   .ResetProviderAtributes();
                             }
                             Provider.of<MatchProvider>(context, listen: false)
-                                .selectedSport = Provider.of<SportProvider>(
-                                    context,
-                                    listen: false)
-                                .sports[index];
+                                    .selectedSport =
+                                Provider.of<CategoriesProvider>(context,
+                                        listen: false)
+                                    .sports[index];
                             context.goNamed('match_search_screen');
                           }),
                     );
