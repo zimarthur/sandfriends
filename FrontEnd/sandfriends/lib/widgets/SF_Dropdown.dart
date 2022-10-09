@@ -7,12 +7,15 @@ class SFDropdown extends StatefulWidget {
   String? controller;
   final List<String> items;
   final FormFieldValidator<String>? validator;
+  final Function(String?) onChanged;
 
-  SFDropdown(
-      {required this.labelText,
-      required this.controller,
-      required this.items,
-      required this.validator});
+  SFDropdown({
+    required this.labelText,
+    required this.controller,
+    required this.items,
+    required this.validator,
+    required this.onChanged,
+  });
 
   @override
   State<SFDropdown> createState() => _SFDropdownState();
@@ -72,9 +75,7 @@ class _SFDropdownState extends State<SFDropdown> {
       ),
       value: widget.controller,
       onChanged: (String? newValue) {
-        setState(() {
-          widget.controller = newValue!;
-        });
+        widget.onChanged(newValue);
       },
       style: TextStyle(
         color: AppTheme.colors.primaryBlue,
