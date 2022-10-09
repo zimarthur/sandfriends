@@ -13,6 +13,7 @@ import 'package:sandfriends/models/court.dart';
 import 'package:sandfriends/models/user.dart';
 import 'package:sandfriends/providers/court_provider.dart';
 import 'package:sandfriends/providers/store_provider.dart';
+import 'package:sandfriends/providers/user_provider.dart';
 import 'package:sandfriends/widgets/Modal/SF_ModalDatePicker.dart';
 import 'package:sandfriends/widgets/SFLoading.dart';
 import 'package:sandfriends/widgets/SF_CourtCard.dart';
@@ -1528,11 +1529,13 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
 
               var newOpenMatch = Match();
               newOpenMatch.remainingSlots = openCourtJson['SlotsRemaining'];
-              var matchCreator = User();
-              matchCreator.IdUser = openCourtMatchCreatorJson['IdUser'];
-              matchCreator.FirstName = openCourtMatchCreatorJson['FirstName'];
-              matchCreator.LastName = openCourtMatchCreatorJson['LastName'];
-              matchCreator.Photo = openCourtMatchCreatorJson['Photo'];
+              var matchCreator = User(
+                idUser: openCourtMatchCreatorJson['IdUser'],
+                firstName: openCourtMatchCreatorJson['FirstName'],
+                lastName: openCourtMatchCreatorJson['LastName'],
+                photo: openCourtMatchCreatorJson['Photo'],
+              );
+
               newOpenMatch.matchCreator = matchCreator;
 
               Provider.of<StoreProvider>(context, listen: false)
@@ -1588,103 +1591,252 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
 
     if (response.statusCode == 200) {
       Provider.of<MatchProvider>(context, listen: false).clearRegions();
-      final cities = json.decode(response.body);
-      bool stateExists = false;
 
-      for (int i = 0; i < cities.length; i++) {
-        stateExists = false;
+      Map<String, dynamic> responseBody = json.decode(response.body);
+      final responseCities = responseBody['cities'];
+      final responseStates = responseBody['states'];
+
+      for (int stateIndex = 0;
+          stateIndex < responseStates.length;
+          stateIndex++) {
         Provider.of<MatchProvider>(context, listen: false)
             .availableRegions
-            .forEach((region) {
-          if (region.state == cities[i]["cityState"]) {
-            stateExists = true;
-            Provider.of<MatchProvider>(context, listen: false).addCity(
-                region,
-                City(
-                    cityId: int.parse(cities[i]["cityId"]),
-                    city: cities[i]["cityName"]));
+            .add(Region(
+              idState: responseStates[stateIndex]['IdState'],
+              state: responseStates[stateIndex]['State'],
+              uf: responseStates[stateIndex]['UF'],
+            ));
+      }
+      for (int cityIndex = 0; cityIndex < responseCities.length; cityIndex++) {
+        for (int allRegionsIndex = 0;
+            allRegionsIndex <
+                Provider.of<MatchProvider>(context, listen: false)
+                    .availableRegions
+                    .length;
+            allRegionsIndex++) {
+          if (Provider.of<MatchProvider>(context, listen: false)
+                  .availableRegions[allRegionsIndex]
+                  .idState ==
+              responseCities[cityIndex]['IdState']) {
+            Provider.of<MatchProvider>(context, listen: false)
+                .availableRegions[allRegionsIndex]
+                .cities
+                .add(City(
+                  cityId: responseCities[cityIndex]['IdCity'],
+                  city: responseCities[cityIndex]['City'],
+                ));
           }
-        });
-
-        if (!stateExists) {
-          Region newRegion =
-              Region(state: cities[i]["cityState"], uf: cities[i]["cityUF"]);
-          Provider.of<MatchProvider>(context, listen: false)
-              .addRegion(newRegion);
-          Provider.of<MatchProvider>(context, listen: false).addCity(
-              newRegion,
-              City(
-                  cityId: int.parse(cities[i]["cityId"]),
-                  city: cities[i]["cityName"]));
         }
       }
-    }
 
-    List<Region> _availableRegions =
-        Provider.of<MatchProvider>(context, listen: false).availableRegions;
+      List<Region> _availableRegions =
+          Provider.of<MatchProvider>(context, listen: false).availableRegions;
 
-    modalWidget = Container(
-      height: height * 0.7,
-      child: ListView.builder(
-        itemCount: _availableRegions.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ExpansionTile(
-            title: Text(
-              _availableRegions[index].state,
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            children: _availableRegions[index]
-                .cities
-                .map(
-                  (city) => InkWell(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: height * 0.01),
-                      child: Text(city.city),
+      modalWidget = Container(
+        height: height * 0.7,
+        child: ListView.builder(
+          itemCount: _availableRegions.length,
+          itemBuilder: (BuildContext context, int index) {
+            if (index == 0) {
+              return Column(
+                children: [
+                  Provider.of<UserProvider>(context, listen: false)
+                              .user!
+                              .region ==
+                          null
+                      ? Container()
+                      : InkWell(
+                          onTap: () {
+                            setState(() {
+                              Provider.of<MatchProvider>(context, listen: false)
+                                  .selectedRegion = Provider.of<UserProvider>(
+                                      context,
+                                      listen: false)
+                                  .user!
+                                  .region;
+                              Provider.of<MatchProvider>(context, listen: false)
+                                  .selectedRegion!
+                                  .selectedCity = Provider.of<UserProvider>(
+                                      context,
+                                      listen: false)
+                                  .user!
+                                  .region!
+                                  .selectedCity;
+                              Provider.of<MatchProvider>(context, listen: false)
+                                  .regionText = Provider.of<MatchProvider>(
+                                          context,
+                                          listen: false)
+                                      .selectedRegion!
+                                      .selectedCity!
+                                      .city +
+                                  "/" +
+                                  Provider.of<MatchProvider>(context,
+                                          listen: false)
+                                      .selectedRegion!
+                                      .uf;
+                              showModal = false;
+                            });
+                          },
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            height: height * 0.07,
+                            padding: EdgeInsets.symmetric(
+                              vertical: height * 0.01,
+                              horizontal: width * 0.05,
+                            ),
+                            child: FittedBox(
+                              fit: BoxFit.fitHeight,
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    r"assets\icon\location_ping.svg",
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      right: width * 0.02,
+                                    ),
+                                  ),
+                                  Text(
+                                    "${Provider.of<UserProvider>(context, listen: false).user!.region!.selectedCity!.city} / ${Provider.of<UserProvider>(context, listen: false).user!.region!.uf}",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: AppTheme.colors.textBlue,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                  ExpansionTile(
+                    title: Text(
+                      _availableRegions[index].state,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                    onTap: () {
-                      setState(() {
-                        _availableRegions.forEach((region) {
-                          if (region.state == _availableRegions[index].state) {
-                            region.cities.forEach((cityList) {
-                              if (cityList.city == city.city) {
+                    children: _availableRegions[index]
+                        .cities
+                        .map(
+                          (city) => InkWell(
+                            child: Container(
+                              padding:
+                                  EdgeInsets.symmetric(vertical: height * 0.01),
+                              child: Text(city.city),
+                            ),
+                            onTap: () {
+                              setState(() {
+                                _availableRegions.forEach((region) {
+                                  if (region.state ==
+                                      _availableRegions[index].state) {
+                                    region.cities.forEach((cityList) {
+                                      if (cityList.city == city.city) {
+                                        Provider.of<MatchProvider>(context,
+                                                listen: false)
+                                            .selectedRegion = Region(
+                                          idState:
+                                              _availableRegions[index].idState,
+                                          state: _availableRegions[index].state,
+                                          uf: _availableRegions[index].uf,
+                                        );
+                                        Provider.of<MatchProvider>(context,
+                                                    listen: false)
+                                                .selectedRegion!
+                                                .selectedCity =
+                                            City(
+                                                cityId: cityList.cityId,
+                                                city: cityList.city);
+                                      }
+                                    });
+                                  }
+                                });
                                 Provider.of<MatchProvider>(context,
                                         listen: false)
-                                    .selectedRegion = Region(
-                                  state: _availableRegions[index].state,
-                                  uf: _availableRegions[index].uf,
-                                );
-                                Provider.of<MatchProvider>(context,
+                                    .regionText = Provider.of<MatchProvider>(
+                                            context,
                                             listen: false)
                                         .selectedRegion!
-                                        .selectedCity =
-                                    City(
-                                        cityId: cityList.cityId,
-                                        city: cityList.city);
+                                        .selectedCity!
+                                        .city +
+                                    "/" +
+                                    Provider.of<MatchProvider>(context,
+                                            listen: false)
+                                        .selectedRegion!
+                                        .uf;
+                                showModal = false;
+                              });
+                            },
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ],
+              );
+            } else {
+              return ExpansionTile(
+                title: Text(
+                  _availableRegions[index].state,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                children: _availableRegions[index]
+                    .cities
+                    .map(
+                      (city) => InkWell(
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(vertical: height * 0.01),
+                          child: Text(city.city),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            _availableRegions.forEach((region) {
+                              if (region.state ==
+                                  _availableRegions[index].state) {
+                                region.cities.forEach((cityList) {
+                                  if (cityList.city == city.city) {
+                                    Provider.of<MatchProvider>(context,
+                                            listen: false)
+                                        .selectedRegion = Region(
+                                      idState: _availableRegions[index].idState,
+                                      state: _availableRegions[index].state,
+                                      uf: _availableRegions[index].uf,
+                                    );
+                                    Provider.of<MatchProvider>(context,
+                                                listen: false)
+                                            .selectedRegion!
+                                            .selectedCity =
+                                        City(
+                                            cityId: cityList.cityId,
+                                            city: cityList.city);
+                                  }
+                                });
                               }
                             });
-                          }
-                        });
-                        Provider.of<MatchProvider>(context, listen: false)
-                            .regionText = Provider.of<MatchProvider>(context,
-                                    listen: false)
-                                .selectedRegion!
-                                .selectedCity!
-                                .city +
-                            "/" +
                             Provider.of<MatchProvider>(context, listen: false)
-                                .selectedRegion!
-                                .uf;
-                        showModal = false;
-                      });
-                    },
-                  ),
-                )
-                .toList(),
-          );
-        },
-      ),
-    );
+                                .regionText = Provider.of<MatchProvider>(
+                                        context,
+                                        listen: false)
+                                    .selectedRegion!
+                                    .selectedCity!
+                                    .city +
+                                "/" +
+                                Provider.of<MatchProvider>(context,
+                                        listen: false)
+                                    .selectedRegion!
+                                    .uf;
+                            showModal = false;
+                          });
+                        },
+                      ),
+                    )
+                    .toList(),
+              );
+            }
+          },
+        ),
+      );
+    }
   }
 }

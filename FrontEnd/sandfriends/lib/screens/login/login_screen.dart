@@ -5,11 +5,15 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:sandfriends/providers/categories_provider.dart';
+import 'package:sandfriends/providers/match_provider.dart';
 import 'package:sandfriends/widgets/Modal/SF_ModalInput.dart';
 import 'package:sandfriends/widgets/Modal/SF_ModalMessage.dart';
 import 'package:sandfriends/widgets/SF_Scaffold.dart';
 
+import '../../models/city.dart';
 import '../../models/enums.dart';
+import '../../models/region.dart';
 import '../../providers/user_provider.dart';
 import '../../widgets/SF_Button.dart';
 import '../../widgets/SF_TextField.dart';
@@ -171,26 +175,52 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (response.statusCode == 200) {
         Map<String, dynamic> responseBody = json.decode(response.body);
-        final newAccessToken = responseBody['AccessToken'];
+        final responseLogin = responseBody['login'];
+        final responseUser = responseBody['user'];
+        final responseUserRanks = responseBody['userRanks'];
+        final responseUserMatchCounter = responseBody['matchCounter'];
+        final responseUserCity = responseBody['userCity'];
+        final responseUserState = responseBody['userState'];
+
+        Provider.of<UserProvider>(context, listen: false).userFromJson(
+            responseUser,
+            Provider.of<CategoriesProvider>(context, listen: false));
+        Provider.of<UserProvider>(context, listen: false).userRankFromJson(
+            responseUserRanks,
+            Provider.of<CategoriesProvider>(context, listen: false));
+        Provider.of<UserProvider>(context, listen: false)
+            .userMatchCounterFromJson(responseUserMatchCounter,
+                Provider.of<CategoriesProvider>(context, listen: false));
+        Provider.of<UserProvider>(context, listen: false).user!.email =
+            responseBody['userEmail'];
+
+        if (responseUserState != "" && responseUserCity != "") {
+          Provider.of<UserProvider>(context, listen: false).user!.region =
+              Region(
+                  idState: responseUserState['IdState'],
+                  state: responseUserState['State'],
+                  uf: responseUserState['UF']);
+          Provider.of<UserProvider>(context, listen: false)
+                  .user!
+                  .region!
+                  .selectedCity =
+              City(
+                  cityId: responseUserCity['IdCity'],
+                  city: responseUserCity['City']);
+        }
+
+        final newAccessToken = responseLogin['AccessToken'];
 
         const storage = FlutterSecureStorage();
         await storage.write(key: "AccessToken", value: newAccessToken);
 
-        if (responseBody['IsNewUser'] == true) {
+        Provider.of<MatchProvider>(context, listen: false)
+            .ResetProviderAtributes();
+
+        if (responseLogin['IsNewUser'] == true) {
           context.goNamed('new_user_welcome');
         } else {
-          response = await http.get(Uri.parse(
-              'https://www.sandfriends.com.br/GetUser/' + newAccessToken));
-          if (response.statusCode == 200) {
-            if (mounted) {
-              Provider.of<UserProvider>(context, listen: false)
-                  .nextMatchNeedsRefresh = true;
-              Map<String, dynamic> responseBody = json.decode(response.body);
-              Provider.of<UserProvider>(context, listen: false)
-                  .userFromJson(responseBody);
-              context.goNamed('home', params: {'initialPage': 'feed_screen'});
-            }
-          }
+          context.goNamed('home', params: {'initialPage': 'feed_screen'});
         }
       } else if (response.statusCode == 404) {
         modalMessage =

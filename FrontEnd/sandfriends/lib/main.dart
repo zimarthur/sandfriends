@@ -1,13 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/models/city.dart';
+import 'package:sandfriends/models/region.dart';
 import 'package:sandfriends/providers/court_provider.dart';
-import 'package:sandfriends/providers/sport_provider.dart';
+import 'package:sandfriends/providers/categories_provider.dart';
 import 'package:sandfriends/providers/user_provider.dart';
 import 'package:sandfriends/screens/court_screen.dart';
-import 'package:sandfriends/screens/login/dummy.dart';
+import 'package:sandfriends/screens/login/load_login.dart';
 import 'package:sandfriends/screens/match_search_screen.dart';
 import 'package:sandfriends/screens/sport_selection_screen.dart';
 import './providers/redirect_provider.dart';
@@ -16,27 +19,35 @@ import 'package:sandfriends/screens/login/email_validation.dart';
 import 'package:uni_links/uni_links.dart';
 import '../api/google_signin_api.dart';
 import 'dart:async';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:intl/intl.dart';
 
+import 'models/gender.dart';
+import 'models/rank.dart';
+import 'models/side_preference.dart';
+import 'models/sport.dart';
 import 'screens/login/create_account.dart';
 import 'screens/login/new_user_form.dart';
 import 'screens/login/new_user_welcome.dart';
 import 'screens/login/login_screen.dart';
 import 'screens/login/login_signup_screen.dart';
 import '../screens/home_screen.dart';
-import 'screens/login/load_login_screen.dart';
 import '../screens/user_detail_screen.dart';
 import './theme/app_theme.dart';
 import './providers/login_provider.dart';
 import './providers/match_provider.dart';
 import './providers/store_provider.dart';
-import './providers/sport_provider.dart';
+import 'providers/categories_provider.dart';
 import 'models/user.dart';
 import 'screens/match_screen.dart';
 
 final redirecter = Redirect();
 final loginInfo = Login();
 final match = MatchProvider();
+
+final categoriesProvider = CategoriesProvider();
+final userProvider = UserProvider();
 
 bool needsRedirect = false;
 bool? isAppInit;
@@ -118,8 +129,10 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _handleIncomingLinks();
-    _handleInitialUri();
+    InitializeAppData(context).then((value) {
+      _handleIncomingLinks();
+      _handleInitialUri();
+    });
   }
 
   @override
@@ -142,10 +155,10 @@ class _MyAppState extends State<MyApp> {
           value: loginInfo,
         ),
         ChangeNotifierProvider<UserProvider>(
-          create: ((context) => UserProvider()),
+          create: ((context) => userProvider),
         ),
         ChangeNotifierProvider<MatchProvider>(
-          create: ((context) => MatchProvider()),
+          create: ((context) => match),
         ),
         ChangeNotifierProvider<StoreProvider>(
           create: ((context) => StoreProvider()),
@@ -153,8 +166,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<CourtProvider>(
           create: ((context) => CourtProvider()),
         ),
-        ChangeNotifierProvider<SportProvider>(
-          create: ((context) => SportProvider()),
+        ChangeNotifierProvider<CategoriesProvider>(
+          create: ((context) => categoriesProvider),
         ),
       ],
       child: MaterialApp.router(
@@ -186,12 +199,12 @@ class _MyAppState extends State<MyApp> {
               receivedUri.queryParameters['bd'].toString();
           return '/change_password';
         } else if (receivedUri.queryParameters['ct'] == "mtch") {
-          return '/match_screen/${receivedUri.queryParameters['bd'].toString()}';
+          return '/match_screen/${receivedUri.queryParameters['bd'].toString()}/home/initialPage/feed_screen';
         }
       } else {
         if (isAppInit == false) {
           isAppInit = true;
-          return "/load_login";
+          return redirecter.routeRedirect;
         } else {
           return null;
         }
@@ -246,9 +259,10 @@ class _MyAppState extends State<MyApp> {
             SportSelectionScreen(),
       ),
       GoRoute(
-        name: 'dummy_screen',
+        name: 'load_login',
         path: '/',
-        builder: (BuildContext context, GoRouterState state) => DummyScreen(),
+        builder: (BuildContext context, GoRouterState state) =>
+            LoadLoginScreen(),
       ),
       GoRoute(
         name: 'change_password',
@@ -281,12 +295,6 @@ class _MyAppState extends State<MyApp> {
             const NewUserWelcome(),
       ),
       GoRoute(
-        name: 'load_login',
-        path: '/load_login',
-        builder: (BuildContext context, GoRouterState state) =>
-            LoadLoginScreen(),
-      ),
-      GoRoute(
         name: 'login_signup',
         path: '/login_signup',
         builder: (BuildContext context, GoRouterState state) =>
@@ -315,6 +323,131 @@ class _MyAppState extends State<MyApp> {
       ),
     ],
   );
+
+  Future<void> InitializeAppData(BuildContext context) async {
+    match.ResetProviderAtributes();
+    var response = await http.get(
+      Uri.parse('https://www.sandfriends.com.br/GetAppCategories'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (mounted) {
+      if (response.statusCode == 200) {
+        userProvider.clearMatchList();
+        categoriesProvider.clearCategories();
+        Map<String, dynamic> responseBody = json.decode(response.body);
+
+        final responseSports = responseBody['sports'];
+        final responseGenders = responseBody['genders'];
+        final responseRanks = responseBody['ranks'];
+        final responseSidePreferences = responseBody['sidePreferences'];
+
+        for (int i = 0; i < responseSports.length; i++) {
+          Map sportJson = responseSports[i];
+          Sport newSport = Sport(
+              idSport: sportJson['IdSport'],
+              description: sportJson['Description'],
+              photoUrl: sportJson['SportPhoto']);
+          categoriesProvider.addSport(newSport);
+        }
+        for (int i = 0; i < responseGenders.length; i++) {
+          Map genderJson = responseGenders[i];
+          Gender newgender = Gender(
+            idGender: genderJson['IdGenderCategory'],
+            name: genderJson['GenderName'],
+          );
+          categoriesProvider.addGender(newgender);
+        }
+        for (int i = 0; i < responseSidePreferences.length; i++) {
+          Map sidePreferenceJson = responseSidePreferences[i];
+          SidePreference newSidePreference = SidePreference(
+              idSidePreference: sidePreferenceJson['IdSidePreferenceCategory'],
+              name: sidePreferenceJson['SidePreferenceName']);
+          categoriesProvider.addSidePreference(newSidePreference);
+        }
+        for (int i = 0; i < responseRanks.length; i++) {
+          Map rankJson = responseRanks[i];
+          for (int j = 0; j < categoriesProvider.sports.length; j++) {
+            if (categoriesProvider.sports[j].idSport == rankJson['IdSport']) {
+              Rank newRank = Rank(
+                idRankCategory: rankJson['IdRankCategory'],
+                sport: categoriesProvider.sports[j],
+                rankSportLevel: rankJson['RankSportLevel'],
+                name: rankJson['RankName'],
+                color: rankJson['RankColor'],
+              );
+              categoriesProvider.addRank(newRank);
+              break;
+            }
+          }
+        }
+      }
+      const storage = FlutterSecureStorage();
+      String? accessToken = await storage.read(key: "AccessToken");
+      bool isNewUser = false;
+      String newAccessToken;
+
+      if (accessToken != null) {
+        response = await http.post(
+          Uri.parse('https://www.sandfriends.com.br/ValidateToken'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(
+            <String, Object>{
+              'AccessToken': accessToken,
+            },
+          ),
+        );
+        if (response.statusCode == 200) {
+          Map<String, dynamic> responseBody = json.decode(response.body);
+          final responseLogin = responseBody['login'];
+          final responseUser = responseBody['user'];
+          final responseUserRanks = responseBody['userRanks'];
+          final responseUserMatchCounter = responseBody['matchCounter'];
+          final responseUserCity = responseBody['userCity'];
+          final responseUserState = responseBody['userState'];
+
+          userProvider.userFromJson(responseUser, categoriesProvider);
+          userProvider.userRankFromJson(responseUserRanks, categoriesProvider);
+          userProvider.userMatchCounterFromJson(
+              responseUserMatchCounter, categoriesProvider);
+          userProvider.user!.email = responseBody['userEmail'];
+
+          if (responseUserState != "" && responseUserCity != "") {
+            userProvider.user!.region = Region(
+                idState: responseUserState['IdState'],
+                state: responseUserState['State'],
+                uf: responseUserState['UF']);
+            userProvider.user!.region!.selectedCity = City(
+                cityId: responseUserCity['IdCity'],
+                city: responseUserCity['City']);
+          }
+
+          final newAccessToken = responseLogin['AccessToken'];
+          await storage.write(key: "AccessToken", value: newAccessToken);
+          if (responseLogin['EmailConfirmationDate'] == null) {
+            redirecter.routeRedirect = '/login_signup';
+          } else if (responseLogin['IsNewUser'] == true) {
+            redirecter.routeRedirect = '/new_user_welcome';
+          } else {
+            redirecter.routeRedirect = '/home/feed_screen';
+          }
+        } else {
+          //o token não é valido
+          redirecter.routeRedirect = '/login_signup';
+        }
+      } else {
+        //não tem token
+        redirecter.routeRedirect = '/login_signup';
+      }
+    } else {
+      redirecter.routeRedirect = '/login_signup';
+      print("Deu pau carregando categores");
+    }
+  }
 }
 
 Future googleSignOut() async {

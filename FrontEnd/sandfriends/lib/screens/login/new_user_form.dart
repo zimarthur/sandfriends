@@ -5,6 +5,7 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:sandfriends/providers/categories_provider.dart';
 import 'dart:convert';
 
 import '../../providers/user_provider.dart';
@@ -38,31 +39,33 @@ class _NewUserFormState extends State<NewUserForm> {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       setState(() {
-        if (Provider.of<UserProvider>(context, listen: false).user!.FirstName !=
+        if (Provider.of<UserProvider>(context, listen: false).user!.firstName !=
             null) {
           firstNameController.text =
               Provider.of<UserProvider>(context, listen: false)
                   .user!
-                  .FirstName!;
+                  .firstName!;
         }
-        if (Provider.of<UserProvider>(context, listen: false).user!.LastName !=
+        if (Provider.of<UserProvider>(context, listen: false).user!.lastName !=
             null) {
           lastNameController.text =
-              Provider.of<UserProvider>(context, listen: false).user!.LastName!;
+              Provider.of<UserProvider>(context, listen: false).user!.lastName!;
         }
-        if (Provider.of<UserProvider>(context, listen: false).user!.Gender !=
+        if (Provider.of<UserProvider>(context, listen: false).user!.gender !=
             null) {
-          genderValue =
-              Provider.of<UserProvider>(context, listen: false).user!.Gender!;
+          genderValue = Provider.of<UserProvider>(context, listen: false)
+              .user!
+              .gender!
+              .name;
         }
         if (Provider.of<UserProvider>(context, listen: false)
                 .user!
-                .PhoneNumber !=
+                .phoneNumber !=
             null) {
           phoneNumberController.text =
               Provider.of<UserProvider>(context, listen: false)
                   .user!
-                  .PhoneNumber!;
+                  .phoneNumber!;
         }
       });
     });
@@ -163,9 +166,18 @@ class _NewUserFormState extends State<NewUserForm> {
               SizedBox(
                   width: double.infinity,
                   child: SFDropdown(
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        genderValue = newValue!;
+                      });
+                    },
                     controller: genderValue,
                     labelText: "Gênero",
-                    items: const ["Masculino", "Feminino"],
+                    items:
+                        Provider.of<CategoriesProvider>(context, listen: false)
+                            .genders
+                            .map((e) => e.name)
+                            .toList(),
                     validator: genderValidator,
                   )),
               Container(
@@ -209,16 +221,22 @@ class _NewUserFormState extends State<NewUserForm> {
           'Gender': genderValue!,
         }),
       );
-      Provider.of<UserProvider>(context, listen: false).user!.FirstName =
+      Provider.of<UserProvider>(context, listen: false).user!.firstName =
           firstNameController.text;
-      Provider.of<UserProvider>(context, listen: false).user!.LastName =
+      Provider.of<UserProvider>(context, listen: false).user!.lastName =
           lastNameController.text;
-      Provider.of<UserProvider>(context, listen: false).user!.Gender =
-          lastNameController.text;
-      Provider.of<UserProvider>(context, listen: false).user!.PhoneNumber =
+      Provider.of<UserProvider>(context, listen: false).user!.phoneNumber =
           PhonenumberConverter(phoneNumberController.text);
-      Provider.of<UserProvider>(context, listen: false).user!.Gender =
-          genderValue!;
+      var gender;
+      for (int i = 0;
+          i < Provider.of<CategoriesProvider>(context).genders.length;
+          i++) {
+        if (Provider.of<CategoriesProvider>(context).genders[i].name ==
+            genderValue!) {
+          gender = Provider.of<CategoriesProvider>(context).genders[i];
+        }
+      }
+      Provider.of<UserProvider>(context, listen: false).user!.gender = gender;
 
       context.goNamed('home', params: {'initialPage': 'feed_screen'});
     }

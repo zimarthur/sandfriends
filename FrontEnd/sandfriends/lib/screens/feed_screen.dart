@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/models/match.dart';
-import 'package:sandfriends/providers/sport_provider.dart';
+import 'package:sandfriends/models/rank.dart';
+import 'package:sandfriends/models/side_preference.dart';
+import 'package:sandfriends/providers/categories_provider.dart';
 import 'package:sandfriends/theme/app_theme.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -13,13 +15,14 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sandfriends/widgets/SFLoading.dart';
 
 import '../models/enums.dart';
+import '../models/gender.dart';
 import '../models/sport.dart';
 import '../models/store.dart';
 import '../models/user.dart';
 import '../providers/redirect_provider.dart';
 import '../providers/store_provider.dart';
 import '../providers/user_provider.dart';
-import '../providers/sport_provider.dart';
+import '../providers/categories_provider.dart';
 
 class FeedScreen extends StatefulWidget {
   @override
@@ -106,7 +109,7 @@ class _FeedScreenState extends State<FeedScreen> {
                         child: FittedBox(
                           fit: BoxFit.fitWidth,
                           child: Text(
-                            "Olá, ${Provider.of<UserProvider>(context).user!.FirstName}!",
+                            "Olá, ${Provider.of<UserProvider>(context).user!.firstName}!",
                             style: TextStyle(
                                 color: AppTheme.colors.primaryBlue,
                                 fontWeight: FontWeight.w700),
@@ -515,7 +518,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      "Existem 5 partidas abertas",
+                                      "Existem ${Provider.of<UserProvider>(context, listen: false).openMatchesCounter} partidas abertas",
                                       style: TextStyle(
                                         color: AppTheme.colors.textWhite,
                                         fontWeight: FontWeight.w700,
@@ -568,13 +571,20 @@ class _FeedScreenState extends State<FeedScreen> {
   Future<void> GetUserInfo(BuildContext context) async {
     const storage = FlutterSecureStorage();
     String? accessToken = await storage.read(key: "AccessToken");
+    String? userCityId = await storage.read(key: "UserCityId");
 
     if (accessToken != null) {
-      var response = await http.get(
-        Uri.parse('https://www.sandfriends.com.br/GetUserInfo/${accessToken}'),
+      var response = await http.post(
+        Uri.parse('https://www.sandfriends.com.br/GetUserInfo'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
+        body: jsonEncode(
+          <String, Object>{
+            'AccessToken': accessToken,
+            'UserCityId': userCityId == null ? -1 : int.parse(userCityId),
+          },
+        ),
       );
       if (mounted) {
         if (response.statusCode == 200) {
@@ -582,17 +592,9 @@ class _FeedScreenState extends State<FeedScreen> {
           Map<String, dynamic> responseBody = json.decode(response.body);
           final responseMatches = responseBody['nextMatches'];
           final responseStores = responseBody['stores'];
-          final responseSports = responseBody['sports'];
 
-          for (int i = 0; i < responseSports.length; i++) {
-            Map sportJson = responseSports[i];
-            Sport newSport = Sport(
-                idSport: sportJson['idSport'],
-                description: sportJson['description'],
-                photoUrl: sportJson['sportPhoto']);
-            Provider.of<SportProvider>(context, listen: false)
-                .addSport(newSport);
-          }
+          Provider.of<UserProvider>(context, listen: false).openMatchesCounter =
+              responseBody['openMatchesCounter'];
 
           for (int i = 0; i < responseStores.length; i++) {
             Store newStore = Store();
@@ -628,7 +630,7 @@ class _FeedScreenState extends State<FeedScreen> {
                 newMatch.store = store;
               }
             });
-            Provider.of<SportProvider>(context, listen: false)
+            Provider.of<CategoriesProvider>(context, listen: false)
                 .sports
                 .forEach((sport) {
               if (sport.idSport == responseMatches[matchIndex]['idSport']) {

@@ -9,6 +9,13 @@ class Redirect with ChangeNotifier {
     notifyListeners();
   }
 
+  String? _routeRedirect;
+  String? get routeRedirect => _routeRedirect;
+  set routeRedirect(String? route) {
+    _routeRedirect = route;
+    notifyListeners();
+  }
+
   bool? _redirectBusy;
   bool? get redirectBusy => _redirectBusy;
   set redirectBusy(bool? status) {
