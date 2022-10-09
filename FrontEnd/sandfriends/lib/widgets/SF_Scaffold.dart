@@ -19,6 +19,7 @@ class SFScaffold extends StatefulWidget {
   final Widget? modalWidget;
   final Widget child;
   final VoidCallback? onTapBackground;
+  bool? resizeToAvoidBottomInset = true;
 
   SFScaffold({
     required this.titleText,
@@ -29,6 +30,7 @@ class SFScaffold extends StatefulWidget {
     this.modalWidget,
     this.onTapBackground,
     required this.child,
+    this.resizeToAvoidBottomInset,
   });
 
   @override
@@ -42,7 +44,7 @@ class _SFScaffoldState extends State<SFScaffold> {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
       backgroundColor: widget.appBarType == AppBarType.Primary
           ? AppTheme.colors.primaryBlue
           : AppTheme.colors.secondaryBack,
