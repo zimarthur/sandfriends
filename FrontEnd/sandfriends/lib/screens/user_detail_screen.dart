@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -10,8 +12,9 @@ import 'package:sandfriends/models/enums.dart';
 import 'package:sandfriends/models/match_counter.dart';
 import 'package:sandfriends/models/region.dart';
 import 'package:sandfriends/providers/categories_provider.dart';
+import 'package:sandfriends/theme/colors.dart';
 import 'package:sandfriends/widgets/SF_Scaffold.dart';
-import 'dart:convert';
+import 'package:image_picker/image_picker.dart';
 
 import '../../widgets/SF_Dropdown.dart';
 import '../../theme/app_theme.dart';
@@ -55,6 +58,8 @@ class _UserDetailScreen extends State<UserDetailScreen> {
   String? genderValue;
   String? handPreferenceValue;
   Rank? rankValue;
+  String? imagePath;
+  bool? noImage = false;
 
   MatchCounter? matchCounterValue;
 
@@ -63,6 +68,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
   List<Region> allRegions = [];
 
   void setReferenceUserInfo(BuildContext context) {
+    imagePath = null;
     referenceUserInfo = User(
       idUser: context.read<UserProvider>().user!.idUser,
       firstName: context.read<UserProvider>().user!.firstName,
@@ -75,6 +81,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
       sidePreference: context.read<UserProvider>().user!.sidePreference,
       photo: context.read<UserProvider>().user!.photo,
       region: context.read<UserProvider>().user!.region,
+      email: context.read<UserProvider>().user!.email,
     );
     for (int userRanks = 0;
         userRanks <
@@ -139,8 +146,6 @@ class _UserDetailScreen extends State<UserDetailScreen> {
         if (referenceUserInfo!.sidePreference != null) {
           handPreferenceValue = referenceUserInfo!.sidePreference!.name;
         }
-        referenceUserInfo!.rank.clear();
-        referenceUserInfo!.matchCounter.clear();
 
         //PARA ATUALIZAR VALORES QUANDO TELA É INICIADA
         for (int i = 0;
@@ -198,8 +203,12 @@ class _UserDetailScreen extends State<UserDetailScreen> {
         });
       },
       titleText: "Meu Perfil",
-      onTapReturn: () =>
-          context.goNamed('home', params: {'initialPage': 'user_screen'}),
+      onTapReturn: () {
+        //RESET PROVIDER
+        Provider.of<UserProvider>(context, listen: false).user =
+            referenceUserInfo!;
+        context.goNamed('home', params: {'initialPage': 'user_screen'});
+      },
       appBarType: AppBarType.Secondary,
       rightWidget: Container(
         width: width * 0.2,
@@ -368,12 +377,14 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                         ),
                                         Center(
                                           child: SFAvatar(
+                                            showRank: true,
                                             height: height * 0.15,
                                             sport: sportValue!,
                                             user: Provider.of<UserProvider>(
                                                     context,
                                                     listen: false)
                                                 .user!,
+                                            editFile: imagePath,
                                           ),
                                         ),
                                       ],
@@ -823,7 +834,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                       horizontal: width * 0.02,
                     ),
                     child: Text(
-                      "zim.arthur97@gmail.com",
+                      referenceUserInfo!.email!,
                       style: TextStyle(
                         color: AppTheme.colors.textBlue,
                       ),
@@ -901,6 +912,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
               ),
             ),
           );
+          showModal = true;
           break;
         case EnumProfileFields.Age:
           modalWidget = Container(
@@ -984,6 +996,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
               ),
             ),
           );
+          showModal = true;
           break;
         case EnumProfileFields.Height:
           modalWidget = Container(
@@ -1046,6 +1059,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
               ),
             ),
           );
+          showModal = true;
           break;
         case EnumProfileFields.Gender:
           modalWidget = Container(
@@ -1140,6 +1154,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
               ],
             ),
           );
+          showModal = true;
           break;
         case EnumProfileFields.HandPreference:
           modalWidget = Container(
@@ -1235,6 +1250,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
               ],
             ),
           );
+          showModal = true;
           break;
 
         case EnumProfileFields.Rank:
@@ -1358,6 +1374,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
               ],
             ),
           );
+          showModal = true;
           break;
         case EnumProfileFields.Region:
           setState(() {
@@ -1436,18 +1453,99 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                 ),
               );
               isLoading = false;
+              showModal = true;
             });
           });
           break;
+        case EnumProfileFields.Photo:
+          modalWidget = Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: width * 0.04,
+              vertical: height * 0.04,
+            ),
+            height: width * 1.2,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  "Toque para escolher uma nova foto.",
+                  style: TextStyle(color: AppTheme.colors.textDarkGrey),
+                ),
+                Column(
+                  children: [
+                    SFAvatar(
+                      height: width * 0.7,
+                      user: Provider.of<UserProvider>(context, listen: false)
+                          .user!,
+                      showRank: false,
+                      editFile: imagePath,
+                      onTap: () {
+                        if (noImage == false) {
+                          pickImage().then((value) {
+                            setState(() {
+                              UpdateField(EnumProfileFields.Photo, context);
+                            });
+                          });
+                        }
+                      },
+                    ),
+                    CheckboxListTile(
+                        title: Text(
+                          "Não escolher foto",
+                          style: TextStyle(
+                            color: AppTheme.colors.textDarkGrey,
+                          ),
+                        ),
+                        value: noImage,
+                        controlAffinity: ListTileControlAffinity.leading,
+                        onChanged: (newValue) {
+                          setState(() {
+                            noImage = newValue;
+                            if (noImage == true) {
+                              imagePath = null;
+                              Provider.of<UserProvider>(context, listen: false)
+                                  .user!
+                                  .photo = null;
+                            }
+                            UpdateField(EnumProfileFields.Photo, context);
+                          });
+                        }),
+                  ],
+                ),
+                SFButton(
+                    buttonLabel: "Concluído",
+                    buttonType: ButtonType.Primary,
+                    textPadding: EdgeInsets.symmetric(
+                      vertical: height * 0.01,
+                    ),
+                    onTap: () {
+                      setState(() {
+                        showModal = false;
+                        if ((imagePath != null) ||
+                            ((referenceUserInfo!.photo != "") &&
+                                (noImage == true))) {
+                          isEdited = true;
+                        }
+                      });
+                    })
+              ],
+            ),
+          );
+          showModal = true;
+
+          break;
         default:
       }
-      showModal = true;
     });
   }
 
   Future<void> updateUser(BuildContext context) async {
     const storage = FlutterSecureStorage();
     String? accessToken = await storage.read(key: "AccessToken");
+
+    File imageFile = new File(imagePath!);
+    List<int> imageBytes = imageFile.readAsBytesSync();
+    String base64Image = base64Encode(imageBytes);
 
     if (accessToken != null) {
       setState(() {
@@ -1512,7 +1610,9 @@ class _UserDetailScreen extends State<UserDetailScreen> {
               .sidePreference!
               .idSidePreference,
           'Rank': rankJson,
-          'Photo': "",
+          'Photo': imagePath == null
+              ? Provider.of<UserProvider>(context, listen: false).user!.photo!
+              : base64Image,
           'IdCity':
               Provider.of<UserProvider>(context, listen: false).user!.region ==
                       null
@@ -1597,6 +1697,13 @@ class _UserDetailScreen extends State<UserDetailScreen> {
         }
       }
     }
+  }
+
+  Future pickImage() async {
+    XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (file == null) return;
+    imagePath = file.path;
+    setState(() {});
   }
 
   String? nameValidator(String? value) {
