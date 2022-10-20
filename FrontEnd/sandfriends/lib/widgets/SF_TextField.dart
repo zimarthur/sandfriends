@@ -13,6 +13,7 @@ class SFTextField extends StatefulWidget {
   final TextEditingController controller;
   final FormFieldValidator<String>? validator;
   final int? maxLines;
+  final int? minLines;
   final Function(String)? onChanged;
 
   const SFTextField({
@@ -25,6 +26,7 @@ class SFTextField extends StatefulWidget {
     required this.validator,
     this.maxLines,
     this.onChanged,
+    this.minLines,
   });
 
   @override
@@ -53,7 +55,7 @@ class _SFTextFieldState extends State<SFTextField> {
               ? false
               : true,
       onChanged: widget.onChanged == null ? (value) {} : widget.onChanged,
-      minLines: 1,
+      minLines: widget.minLines == null ? 1 : widget.minLines,
       maxLines:
           widget.pourpose == TextFieldPourpose.Multiline ? widget.maxLines : 1,
       enableSuggestions: false,
