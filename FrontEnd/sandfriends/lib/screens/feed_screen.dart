@@ -32,21 +32,6 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   bool isLoading = true;
 
-  List monthsPortuguese = [
-    'Jan',
-    'Fev',
-    'Mar',
-    'Abr',
-    'Mai',
-    'Jun',
-    'Jul',
-    'Ago',
-    'Set',
-    'Out',
-    'Nov',
-    'Dez'
-  ];
-
   void initState() {
     if (Provider.of<UserProvider>(context, listen: false).matchList.isEmpty ||
         Provider.of<UserProvider>(context, listen: false)
@@ -152,7 +137,7 @@ class _FeedScreenState extends State<FeedScreen> {
                           Container(
                             height: height * 0.25,
                             child: Provider.of<UserProvider>(context)
-                                    .matchList
+                                    .nextMatchList
                                     .isEmpty
                                 ? Container(
                                     alignment: Alignment.topCenter,
@@ -234,7 +219,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                     shrinkWrap: true,
                                     itemCount:
                                         Provider.of<UserProvider>(context)
-                                            .matchList
+                                            .nextMatchList
                                             .length,
                                     itemBuilder: (context, index) {
                                       return InkWell(
@@ -242,7 +227,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                           context
                                               .goNamed('match_screen', params: {
                                             'matchUrl':
-                                                "${Provider.of<UserProvider>(context, listen: false).matchList[index].matchUrl}",
+                                                "${Provider.of<UserProvider>(context, listen: false).nextMatchList[index].matchUrl}",
                                             'returnTo': 'home',
                                             'returnToParam': 'initialPage',
                                             'returnToParamValue': 'feed_screen',
@@ -290,7 +275,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                         Radius.circular(16),
                                                   ),
                                                   child: Image.network(
-                                                      '${Provider.of<UserProvider>(context).matchList[index].sport!.photoUrl}',
+                                                      '${Provider.of<UserProvider>(context).nextMatchList[index].sport!.photoUrl}',
                                                       width: width * 0.55,
                                                       fit: BoxFit.fill),
                                                 ),
@@ -319,7 +304,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                         child: FittedBox(
                                                           fit: BoxFit.fitHeight,
                                                           child: Text(
-                                                            "${Provider.of<UserProvider>(context).matchList[index].day!.day}",
+                                                            "${Provider.of<UserProvider>(context).nextMatchList[index].day!.day}",
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
@@ -332,7 +317,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                         child: FittedBox(
                                                           fit: BoxFit.fitHeight,
                                                           child: Text(
-                                                            "${monthsPortuguese[Provider.of<UserProvider>(context).matchList[index].day!.month - 1]}",
+                                                            "${Provider.of<CategoriesProvider>(context, listen: false).monthsPortuguese[Provider.of<UserProvider>(context).nextMatchList[index].day!.month - 1]}",
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
@@ -361,7 +346,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                         child: FittedBox(
                                                           fit: BoxFit.fitWidth,
                                                           child: Text(
-                                                            "Partida de ${Provider.of<UserProvider>(context).matchList[index].userCreator}",
+                                                            "Partida de ${Provider.of<UserProvider>(context).nextMatchList[index].userCreator}",
                                                             style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -396,7 +381,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                                         0.01),
                                                               ),
                                                               Text(
-                                                                "${Provider.of<UserProvider>(context).matchList[index].timeBegin} - ${Provider.of<UserProvider>(context).matchList[index].timeFinish}",
+                                                                "${Provider.of<UserProvider>(context).nextMatchList[index].timeBegin} - ${Provider.of<UserProvider>(context).nextMatchList[index].timeFinish}",
                                                                 style:
                                                                     TextStyle(
                                                                   color: AppTheme
@@ -431,7 +416,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                                         0.01),
                                                               ),
                                                               Text(
-                                                                "${Provider.of<UserProvider>(context).matchList[index].store!.name}",
+                                                                "${Provider.of<UserProvider>(context).nextMatchList[index].store!.name}",
                                                                 style:
                                                                     TextStyle(
                                                                   color: AppTheme
@@ -495,37 +480,55 @@ class _FeedScreenState extends State<FeedScreen> {
                                 ],
                               ),
                             ),
-                            Container(
-                              alignment: Alignment.topCenter,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: width * 0.03,
-                                  vertical: height * 0.02),
-                              width: width * 0.47,
-                              height: height * 0.15,
-                              decoration: BoxDecoration(
-                                color: AppTheme.colors.primaryDarkBlue,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    r"assets\icon\trophy.svg",
-                                    color: AppTheme.colors.textWhite,
-                                  ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(right: width * 0.02),
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      "Existem ${Provider.of<UserProvider>(context, listen: false).openMatchesCounter} partidas abertas",
-                                      style: TextStyle(
-                                        color: AppTheme.colors.textWhite,
-                                        fontWeight: FontWeight.w700,
+                            InkWell(
+                              onTap: Provider.of<UserProvider>(context,
+                                              listen: false)
+                                          .openMatchesCounter >
+                                      0
+                                  ? () => context.goNamed('open_matches_screen')
+                                  : () {},
+                              child: Container(
+                                alignment: Alignment.topCenter,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: width * 0.03,
+                                    vertical: height * 0.02),
+                                width: width * 0.47,
+                                height: height * 0.15,
+                                decoration: BoxDecoration(
+                                  color: AppTheme.colors.primaryDarkBlue,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      r"assets\icon\trophy.svg",
+                                      color: AppTheme.colors.textWhite,
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.only(right: width * 0.02),
+                                    ),
+                                    Flexible(
+                                      child: Text(
+                                        Provider.of<UserProvider>(context,
+                                                        listen: false)
+                                                    .openMatchesCounter ==
+                                                0
+                                            ? "Não há partidas abertas"
+                                            : Provider.of<UserProvider>(context,
+                                                            listen: false)
+                                                        .openMatchesCounter ==
+                                                    1
+                                                ? "Existe 1 partida aberta"
+                                                : "Existem ${Provider.of<UserProvider>(context, listen: false).openMatchesCounter} partidas abertas",
+                                        style: TextStyle(
+                                          color: AppTheme.colors.textWhite,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -590,7 +593,7 @@ class _FeedScreenState extends State<FeedScreen> {
         if (response.statusCode == 200) {
           Provider.of<UserProvider>(context, listen: false).clearMatchList();
           Map<String, dynamic> responseBody = json.decode(response.body);
-          final responseMatches = responseBody['nextMatches'];
+          final responseMatches = responseBody['userMatches'];
           final responseStores = responseBody['stores'];
 
           Provider.of<UserProvider>(context, listen: false).openMatchesCounter =
@@ -598,21 +601,21 @@ class _FeedScreenState extends State<FeedScreen> {
 
           for (int i = 0; i < responseStores.length; i++) {
             Store newStore = Store();
-            Map storeJson = responseStores[i];
+            Map storeJson = responseStores[i]['store'];
             newStore.idStore = storeJson['IdStore'];
-            newStore.name = storeJson['name'];
-            newStore.address = storeJson['address'];
-            newStore.latitude = storeJson['latitude'];
-            newStore.longitude = storeJson['longitude'];
-            newStore.imageUrl = storeJson['imageURL'];
-            newStore.descriptionText = storeJson['description'];
-            newStore.instagram = storeJson['instagram'];
-            newStore.phone = storeJson['phone'];
+            newStore.name = storeJson['Name'];
+            newStore.address = storeJson['Address'];
+            newStore.latitude = storeJson['Latitude'];
+            newStore.longitude = storeJson['Longitude'];
+            newStore.imageUrl = storeJson['Logo'];
+            newStore.descriptionText = storeJson['Description'];
+            newStore.instagram = storeJson['Instagram'];
+            newStore.phone = storeJson['PhoneNumber1'];
             for (int photoIndex = 0;
-                photoIndex < storeJson['storePhotos'].length;
+                photoIndex < responseStores[i]['storePhotos'].length;
                 photoIndex++) {
-              Map photo = storeJson['storePhotos'][photoIndex];
-              newStore.addPhoto(photo['storePhoto']);
+              Map photo = responseStores[i]['storePhotos'][photoIndex];
+              newStore.addPhoto(photo['Photo']);
             }
 
             Provider.of<StoreProvider>(context, listen: false)
@@ -622,29 +625,30 @@ class _FeedScreenState extends State<FeedScreen> {
           for (int matchIndex = 0;
               matchIndex < responseMatches.length;
               matchIndex++) {
+            Map matchJson = responseMatches[matchIndex]['match'];
             var newMatch = Match();
             Provider.of<StoreProvider>(context, listen: false)
                 .stores
                 .forEach((store) {
-              if (store.idStore == responseMatches[matchIndex]['idStore']) {
+              if (store.idStore == matchJson['IdStore']) {
                 newMatch.store = store;
               }
             });
             Provider.of<CategoriesProvider>(context, listen: false)
                 .sports
                 .forEach((sport) {
-              if (sport.idSport == responseMatches[matchIndex]['idSport']) {
+              if (sport.idSport == matchJson['IdSport']) {
                 newMatch.sport = sport;
               }
             });
-            newMatch.day = DateFormat("yyyy-MM-dd")
-                .parse(responseMatches[matchIndex]['date']);
-            newMatch.idMatch = responseMatches[matchIndex]['idMatch'];
-            newMatch.timeInt = responseMatches[matchIndex]['timeInt'];
-            newMatch.timeBegin = responseMatches[matchIndex]['timeBegin'];
-            newMatch.timeFinish = responseMatches[matchIndex]['timeEnd'];
-            newMatch.userCreator = responseMatches[matchIndex]['userCreator'];
-            newMatch.matchUrl = responseMatches[matchIndex]['matchUrl'];
+            newMatch.day = DateFormat("yyyy-MM-dd").parse(matchJson['Date']);
+            newMatch.idMatch = matchJson['IdMatch'];
+            newMatch.timeInt = matchJson['TimeInteger'];
+            newMatch.timeBegin = matchJson['TimeBegin'];
+            newMatch.timeFinish = matchJson['TimeEnd'];
+            newMatch.matchUrl = matchJson['MatchUrl'];
+            newMatch.canceled = matchJson['Canceled'];
+            newMatch.userCreator = responseMatches[matchIndex]['matchCreator'];
             Provider.of<UserProvider>(context, listen: false)
                 .addMatch(newMatch);
           }
