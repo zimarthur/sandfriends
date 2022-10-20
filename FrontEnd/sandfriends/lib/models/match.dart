@@ -12,6 +12,12 @@ class Match {
     _store = value;
   }
 
+  bool? _canceled;
+  bool? get canceled => _canceled;
+  set canceled(bool? value) {
+    _canceled = value;
+  }
+
   int? _idMatch;
   int? get idMatch => _idMatch;
   set idMatch(int? value) {
@@ -90,5 +96,23 @@ class Match {
     _creatorNotes = value;
   }
 
+  bool _isOpenMatch = false;
+  bool get isOpenMatch => _isOpenMatch;
+  set isOpenMatch(bool value) {
+    _isOpenMatch = value;
+  }
+
+  int _maxUsers = 0;
+  int get maxUsers => _maxUsers;
+  set maxUsers(int value) {
+    _maxUsers = value;
+  }
+
   List<MatchMember> matchMembers = [];
+
+  int get activeMatchMembers {
+    return matchMembers
+        .where((element) => element.waitingApproval == false)
+        .length;
+  }
 }
