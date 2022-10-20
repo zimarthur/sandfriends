@@ -19,7 +19,7 @@ class SFScaffold extends StatefulWidget {
   final Widget? modalWidget;
   final Widget child;
   final VoidCallback? onTapBackground;
-  bool? resizeToAvoidBottomInset = true;
+  bool resizeToAvoidBottomInset = false;
 
   SFScaffold({
     required this.titleText,
@@ -30,7 +30,6 @@ class SFScaffold extends StatefulWidget {
     this.modalWidget,
     this.onTapBackground,
     required this.child,
-    this.resizeToAvoidBottomInset,
   });
 
   @override
@@ -58,25 +57,32 @@ class _SFScaffoldState extends State<SFScaffold> {
                 children: [
                   Container(
                     height: 50,
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 11),
+                    //padding: EdgeInsets.symmetric(horizontal: 16, vertical: 11),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: Container(
-                            width: width * 0.2,
-                            alignment: Alignment.centerLeft,
-                            child: InkWell(
-                              onTap: widget.onTapReturn,
-                              child: SvgPicture.asset(
-                                r'assets\icon\arrow_left.svg',
-                                height: 8.7,
-                                width: 13.2,
-                                color: widget.appBarType == AppBarType.Primary
-                                    ? AppTheme.colors.secondaryBack
-                                    : AppTheme.colors.primaryBlue,
+                          child: Row(
+                            children: [
+                              InkWell(
+                                onTap: widget.onTapReturn,
+                                child: Container(
+                                  width: width * 0.15,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 11),
+                                  alignment: Alignment.centerLeft,
+                                  child: SvgPicture.asset(
+                                    r'assets\icon\arrow_left.svg',
+                                    width: width * 0.05,
+                                    color:
+                                        widget.appBarType == AppBarType.Primary
+                                            ? AppTheme.colors.secondaryBack
+                                            : AppTheme.colors.primaryBlue,
+                                  ),
+                                ),
                               ),
-                            ),
+                              Expanded(child: Container()),
+                            ],
                           ),
                         ),
                         Text(
@@ -94,6 +100,8 @@ class _SFScaffoldState extends State<SFScaffold> {
                               )
                             : Expanded(
                                 child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 11),
                                   child: widget.rightWidget!,
                                   alignment: Alignment.centerRight,
                                 ),
