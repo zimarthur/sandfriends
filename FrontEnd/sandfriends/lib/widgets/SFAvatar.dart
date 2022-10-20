@@ -23,18 +23,40 @@ class SFAvatar extends StatelessWidget {
     this.onTap,
   });
 
+  Color? rankTile;
+  Color? avatarBackground;
+
   @override
   Widget build(BuildContext context) {
+    if (showRank) {
+      var selectedSportId = sport!.idSport;
+      var selectedRank = user.rank
+          .where((rank) => rank.sport.idSport == selectedSportId)
+          .first;
+      if (selectedRank.color == "0") {
+        rankTile = Colors.transparent;
+        avatarBackground = AppTheme.colors.primaryBlue;
+      } else {
+        rankTile =
+            Color(int.parse("0xFF${selectedRank.color.replaceAll("#", "")}"));
+        avatarBackground =
+            Color(int.parse("0xFF${selectedRank.color.replaceAll("#", "")}"));
+      }
+    } else {
+      rankTile = Colors.transparent;
+      avatarBackground = AppTheme.colors.primaryBlue;
+    }
+
     return InkWell(
       onTap: onTap,
       child: CircleAvatar(
-        backgroundColor: colorFromString(),
+        backgroundColor: rankTile,
         radius: height * 0.5,
         child: CircleAvatar(
           backgroundColor: AppTheme.colors.secondaryPaper,
           radius: height * 0.45,
           child: CircleAvatar(
-            backgroundColor: colorFromString(),
+            backgroundColor: avatarBackground,
             radius: height * 0.42,
             child: editFile != null
                 ? AspectRatio(
@@ -49,7 +71,7 @@ class SFAvatar extends StatelessWidget {
                       ),
                     ),
                   )
-                : user.photo == null
+                : user.photo == null || user.photo!.isEmpty
                     ? Container(
                         height: height * 0.42,
                         width: height * 0.42,
@@ -64,26 +86,19 @@ class SFAvatar extends StatelessWidget {
                           ),
                         ),
                       )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(height * 0.42),
-                        child: Image.network(
-                            "https://www.sandfriends.com.br/img/${user.photo!}"),
+                    : AspectRatio(
+                        aspectRatio: 1 / 1,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(height * 0.42),
+                          child: Image.network(
+                            user.photo!,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
           ),
         ),
       ),
     );
-  }
-
-  Color colorFromString() {
-    if (showRank) {
-      var selectedSportId = sport!.idSport;
-      var selectedRank = user.rank
-          .where((rank) => rank.sport.idSport == selectedSportId)
-          .first;
-      return Color(int.parse("0xFF${selectedRank.color.replaceAll("#", "")}"));
-    } else {
-      return AppTheme.colors.primaryBlue;
-    }
   }
 }
