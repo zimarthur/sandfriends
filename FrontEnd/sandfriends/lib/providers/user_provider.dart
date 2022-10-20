@@ -14,12 +14,20 @@ class UserProvider with ChangeNotifier {
   User? get user => _user;
   set user(User? value) {
     _user = value;
-    notifyListeners();
   }
 
-  List<Match> _matchList = [];
-  List<Match> get matchList {
-    _matchList.sort(
+  List<Match> get nextMatchList {
+    var filteredList = matchList.where((match) {
+      if ((match.day!.isAfter(DateTime.now()) ||
+              (match.day! == DateTime.now() &&
+                  match.timeInt > DateTime.now().hour)) &&
+          (match.canceled == false)) {
+        return true;
+      } else {
+        return false;
+      }
+    }).toList();
+    filteredList.sort(
       (a, b) {
         int compare = a.day!.compareTo(b.day!);
 
@@ -30,10 +38,22 @@ class UserProvider with ChangeNotifier {
         }
       },
     );
-    _matchList.sort(((a, b) => a.day!.compareTo(b.day!)));
-    for (int i = 0; i < _matchList.length; i++) {
-      print(_matchList[i].day);
-    }
+    return filteredList;
+  }
+
+  List<Match> _matchList = [];
+  List<Match> get matchList {
+    _matchList.sort(
+      (a, b) {
+        int compare = b.day!.compareTo(a.day!);
+
+        if (compare == 0) {
+          return b.timeInt.compareTo(a.timeInt);
+        } else {
+          return compare;
+        }
+      },
+    );
     return _matchList;
   }
 
@@ -84,6 +104,11 @@ class UserProvider with ChangeNotifier {
       sidePreference: sidePreference,
       photo: json['Photo'],
     );
+    for (int i = 0; i < categories.sports.length; i++) {
+      if (json['IdSport'] == categories.sports[i].idSport) {
+        user!.preferenceSport = categories.sports[i];
+      }
+    }
   }
 
   void userRankFromJson(List<dynamic> response, CategoriesProvider categories) {
