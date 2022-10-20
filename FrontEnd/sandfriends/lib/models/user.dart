@@ -5,6 +5,7 @@ import 'package:sandfriends/models/region.dart';
 import 'rank.dart';
 import 'side_preference.dart';
 import 'gender.dart';
+import 'sport.dart';
 
 class User {
   int? idUser;
@@ -21,6 +22,7 @@ class User {
   List<MatchCounter> matchCounter = [];
   String? email;
   Region? region;
+  Sport? preferenceSport;
 
   User({
     required this.idUser,
