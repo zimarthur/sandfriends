@@ -5,7 +5,7 @@ class SandFriendsNavBar extends StatelessWidget {
   const SandFriendsNavBar({
     Key? key,
     this.selectedIndex = 1,
-    this.iconSize = 32,
+    this.iconSize = 24,
     this.animationDuration = const Duration(milliseconds: 350),
     this.mainAxisAlignment = MainAxisAlignment.spaceEvenly,
     required this.items,
@@ -23,7 +23,7 @@ class SandFriendsNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 76,
+      height: 60,
       decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -91,12 +91,12 @@ class _ItemWidget extends StatelessWidget {
             curve: Curves.ease,
             duration: animationDuration,
             margin: const EdgeInsets.only(top: 8),
-            width: 44,
+            width: 32,
             height: 4,
             decoration: myBoxDecoration,
           ),
           Container(
-              margin: const EdgeInsets.only(top: 10),
+              margin: const EdgeInsets.only(top: 8),
               width: iconSize,
               height: iconSize,
               child: myImage),
