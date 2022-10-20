@@ -9,19 +9,20 @@ class SFButton extends StatefulWidget {
   final String buttonLabel;
   final ButtonType buttonType;
   final VoidCallback? onTap;
-  final double fontSize;
   final String iconPath;
   final double iconSize;
   final EdgeInsets? textPadding;
+  final bool? iconFirst;
 
-  const SFButton(
-      {required this.buttonLabel,
-      required this.buttonType,
-      required this.onTap,
-      this.fontSize = 14,
-      this.iconPath = "",
-      this.iconSize = 14,
-      this.textPadding});
+  const SFButton({
+    required this.buttonLabel,
+    required this.buttonType,
+    required this.onTap,
+    this.iconPath = "",
+    this.iconSize = 14,
+    this.textPadding,
+    this.iconFirst = false,
+  });
 
   @override
   State<SFButton> createState() => _SFButtonState();
@@ -47,6 +48,17 @@ class _SFButtonState extends State<SFButton> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            widget.iconPath == "" || widget.iconFirst == false
+                ? Container()
+                : Container(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: SvgPicture.asset(
+                      widget.iconPath,
+                      color: widget.buttonType == ButtonType.Secondary
+                          ? AppTheme.colors.primaryBlue
+                          : AppTheme.colors.textWhite,
+                    ),
+                  ),
             Padding(
               padding: widget.textPadding == null
                   ? const EdgeInsets.all(0)
@@ -64,13 +76,12 @@ class _SFButtonState extends State<SFButton> {
                 ),
               ),
             ),
-            widget.iconPath == ""
+            widget.iconPath == "" || widget.iconFirst == true
                 ? Container()
                 : Container(
                     padding: const EdgeInsets.only(left: 10),
                     child: SvgPicture.asset(
                       widget.iconPath,
-                      height: widget.iconSize,
                       color: widget.buttonType == ButtonType.Secondary
                           ? AppTheme.colors.primaryBlue
                           : AppTheme.colors.textWhite,
