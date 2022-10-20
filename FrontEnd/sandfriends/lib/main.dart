@@ -12,7 +12,9 @@ import 'package:sandfriends/providers/user_provider.dart';
 import 'package:sandfriends/screens/court_screen.dart';
 import 'package:sandfriends/screens/login/load_login.dart';
 import 'package:sandfriends/screens/match_search_screen.dart';
+import 'package:sandfriends/screens/open_matches_screen.dart';
 import 'package:sandfriends/screens/sport_selection_screen.dart';
+import 'package:sandfriends/screens/user_match_screen.dart';
 import './providers/redirect_provider.dart';
 import './screens/login/change_password.dart';
 import 'package:sandfriends/screens/login/email_validation.dart';
@@ -21,7 +23,7 @@ import '../api/google_signin_api.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:intl/intl.dart';
+import 'package:flutter/services.dart';
 
 import 'models/gender.dart';
 import 'models/rank.dart';
@@ -55,7 +57,10 @@ bool? isAppInit;
 bool _initialUriIsHandled = false;
 
 Future<void> main() async {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((value) => runApp(MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -247,6 +252,18 @@ class _MyAppState extends State<MyApp> {
             );
           }),
       GoRoute(
+        name: 'open_matches_screen',
+        path: '/open_matches_screen',
+        builder: (BuildContext context, GoRouterState state) =>
+            OpenMatchesScreen(),
+      ),
+      GoRoute(
+        name: 'user_match_screen',
+        path: '/user_match_screen',
+        builder: (BuildContext context, GoRouterState state) =>
+            UserMatchScreen(),
+      ),
+      GoRoute(
         name: 'match_search_screen',
         path: '/match_search_screen',
         builder: (BuildContext context, GoRouterState state) =>
@@ -292,7 +309,7 @@ class _MyAppState extends State<MyApp> {
         name: 'new_user_welcome',
         path: '/new_user_welcome',
         builder: (BuildContext context, GoRouterState state) =>
-            const NewUserWelcome(),
+            NewUserWelcome(),
       ),
       GoRoute(
         name: 'login_signup',
@@ -404,27 +421,6 @@ class _MyAppState extends State<MyApp> {
         if (response.statusCode == 200) {
           Map<String, dynamic> responseBody = json.decode(response.body);
           final responseLogin = responseBody['login'];
-          final responseUser = responseBody['user'];
-          final responseUserRanks = responseBody['userRanks'];
-          final responseUserMatchCounter = responseBody['matchCounter'];
-          final responseUserCity = responseBody['userCity'];
-          final responseUserState = responseBody['userState'];
-
-          userProvider.userFromJson(responseUser, categoriesProvider);
-          userProvider.userRankFromJson(responseUserRanks, categoriesProvider);
-          userProvider.userMatchCounterFromJson(
-              responseUserMatchCounter, categoriesProvider);
-          userProvider.user!.email = responseBody['userEmail'];
-
-          if (responseUserState != "" && responseUserCity != "") {
-            userProvider.user!.region = Region(
-                idState: responseUserState['IdState'],
-                state: responseUserState['State'],
-                uf: responseUserState['UF']);
-            userProvider.user!.region!.selectedCity = City(
-                cityId: responseUserCity['IdCity'],
-                city: responseUserCity['City']);
-          }
 
           final newAccessToken = responseLogin['AccessToken'];
           await storage.write(key: "AccessToken", value: newAccessToken);
@@ -433,6 +429,28 @@ class _MyAppState extends State<MyApp> {
           } else if (responseLogin['IsNewUser'] == true) {
             redirecter.routeRedirect = '/new_user_welcome';
           } else {
+            final responseUser = responseBody['user'];
+            final responseUserRanks = responseBody['userRanks'];
+            final responseUserMatchCounter = responseBody['matchCounter'];
+            final responseUserCity = responseBody['userCity'];
+            final responseUserState = responseBody['userState'];
+
+            userProvider.userFromJson(responseUser, categoriesProvider);
+            userProvider.userRankFromJson(
+                responseUserRanks, categoriesProvider);
+            userProvider.userMatchCounterFromJson(
+                responseUserMatchCounter, categoriesProvider);
+            userProvider.user!.email = responseBody['userEmail'];
+
+            if (responseUserState != "" && responseUserCity != "") {
+              userProvider.user!.region = Region(
+                  idState: responseUserState['IdState'],
+                  state: responseUserState['State'],
+                  uf: responseUserState['UF']);
+              userProvider.user!.region!.selectedCity = City(
+                  cityId: responseUserCity['IdCity'],
+                  city: responseUserCity['City']);
+            }
             redirecter.routeRedirect = '/home/feed_screen';
           }
         } else {
