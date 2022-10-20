@@ -83,6 +83,9 @@ class _UserDetailScreen extends State<UserDetailScreen> {
       region: context.read<UserProvider>().user!.region,
       email: context.read<UserProvider>().user!.email,
     );
+    referenceUserInfo!.preferenceSport =
+        context.read<UserProvider>().user!.preferenceSport;
+    print(context.read<UserProvider>().user!.photo);
     for (int userRanks = 0;
         userRanks <
             Provider.of<UserProvider>(context, listen: false).user!.rank.length;
@@ -247,83 +250,124 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                     ),
                   ),
                   Container(
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.04),
-                      child: SFDropdown(
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            for (int i = 0;
-                                i <
-                                    Provider.of<CategoriesProvider>(context,
-                                            listen: false)
-                                        .sports
-                                        .length;
-                                i++) {
-                              if (Provider.of<CategoriesProvider>(context,
-                                          listen: false)
-                                      .sports[i]
-                                      .description ==
-                                  newValue) {
-                                sportValue = Provider.of<CategoriesProvider>(
-                                        context,
-                                        listen: false)
-                                    .sports[i];
-                              }
-                            }
+                    padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: SFDropdown(
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                for (int i = 0;
+                                    i <
+                                        Provider.of<CategoriesProvider>(context,
+                                                listen: false)
+                                            .sports
+                                            .length;
+                                    i++) {
+                                  if (Provider.of<CategoriesProvider>(context,
+                                              listen: false)
+                                          .sports[i]
+                                          .description ==
+                                      newValue) {
+                                    sportValue =
+                                        Provider.of<CategoriesProvider>(context,
+                                                listen: false)
+                                            .sports[i];
+                                  }
+                                }
 
-                            for (int j = 0;
-                                j <
-                                    Provider.of<UserProvider>(context,
+                                for (int j = 0;
+                                    j <
+                                        Provider.of<UserProvider>(context,
+                                                listen: false)
+                                            .user!
+                                            .rank
+                                            .length;
+                                    j++) {
+                                  if (Provider.of<UserProvider>(context,
+                                              listen: false)
+                                          .user!
+                                          .rank[j]
+                                          .sport ==
+                                      sportValue) {
+                                    rankValue = Provider.of<UserProvider>(
+                                            context,
                                             listen: false)
                                         .user!
-                                        .rank
-                                        .length;
-                                j++) {
-                              if (Provider.of<UserProvider>(context,
-                                          listen: false)
-                                      .user!
-                                      .rank[j]
-                                      .sport ==
-                                  sportValue) {
-                                rankValue = Provider.of<UserProvider>(context,
-                                        listen: false)
-                                    .user!
-                                    .rank[j];
+                                        .rank[j];
+                                  }
+                                }
+                                for (int k = 0;
+                                    k <
+                                        Provider.of<UserProvider>(context,
+                                                listen: false)
+                                            .user!
+                                            .matchCounter
+                                            .length;
+                                    k++) {
+                                  if (Provider.of<UserProvider>(context,
+                                              listen: false)
+                                          .user!
+                                          .matchCounter[k]
+                                          .sport ==
+                                      sportValue) {
+                                    matchCounterValue =
+                                        Provider.of<UserProvider>(context,
+                                                listen: false)
+                                            .user!
+                                            .matchCounter[k];
+                                  }
+                                }
+                              });
+                            },
+                            controller: sportValue!.description,
+                            labelText: "",
+                            items: Provider.of<CategoriesProvider>(context,
+                                    listen: false)
+                                .sports
+                                .map((e) => e.description)
+                                .toList(),
+                            validator: (value) {
+                              return null;
+                            },
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              Provider.of<UserProvider>(context, listen: false)
+                                  .user!
+                                  .preferenceSport = sportValue;
+                              if (sportValue!.idSport !=
+                                  referenceUserInfo!.preferenceSport!.idSport) {
+                                isEdited = true;
+                              } else {
+                                isEdited = false;
                               }
-                            }
-                            for (int k = 0;
-                                k <
-                                    Provider.of<UserProvider>(context,
-                                            listen: false)
-                                        .user!
-                                        .matchCounter
-                                        .length;
-                                k++) {
-                              if (Provider.of<UserProvider>(context,
-                                          listen: false)
-                                      .user!
-                                      .matchCounter[k]
-                                      .sport ==
-                                  sportValue) {
-                                matchCounterValue = Provider.of<UserProvider>(
-                                        context,
-                                        listen: false)
-                                    .user!
-                                    .matchCounter[k];
-                              }
-                            }
-                          });
-                        },
-                        controller: sportValue!.description,
-                        labelText: "",
-                        items: Provider.of<CategoriesProvider>(context,
-                                listen: false)
-                            .sports
-                            .map((e) => e.description)
-                            .toList(),
-                        validator: (value) {
-                          return null;
-                        },
-                      )),
+                            });
+                          },
+                          child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: width * 0.02,
+                              ),
+                              child: sportValue!.idSport ==
+                                      Provider.of<UserProvider>(context,
+                                              listen: false)
+                                          .user!
+                                          .preferenceSport!
+                                          .idSport
+                                  ? SvgPicture.asset(
+                                      r"assets\icon\favorite_selected.svg",
+                                      width: width * 0.06,
+                                    )
+                                  : SvgPicture.asset(
+                                      r"assets\icon\favorite_unselected.svg",
+                                      width: width * 0.06,
+                                    )),
+                        ),
+                      ],
+                    ),
+                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: width * 0.05),
                     child: Text(
@@ -1543,9 +1587,17 @@ class _UserDetailScreen extends State<UserDetailScreen> {
     const storage = FlutterSecureStorage();
     String? accessToken = await storage.read(key: "AccessToken");
 
-    File imageFile = new File(imagePath!);
-    List<int> imageBytes = imageFile.readAsBytesSync();
-    String base64Image = base64Encode(imageBytes);
+    String photo = "";
+    if (Provider.of<UserProvider>(context, listen: false).user!.photo != null) {
+      photo = Provider.of<UserProvider>(context, listen: false).user!.photo!;
+    }
+    File imageFile;
+    List<int> imageBytes;
+    if (imagePath != null) {
+      imageFile = File(imagePath!);
+      imageBytes = imageFile.readAsBytesSync();
+      photo = base64Encode(imageBytes);
+    }
 
     if (accessToken != null) {
       setState(() {
@@ -1589,10 +1641,14 @@ class _UserDetailScreen extends State<UserDetailScreen> {
           'PhoneNumber': Provider.of<UserProvider>(context, listen: false)
               .user!
               .phoneNumber!,
-          'IdGender': Provider.of<UserProvider>(context, listen: false)
-              .user!
-              .gender!
-              .idGender,
+          'IdGender':
+              Provider.of<UserProvider>(context, listen: false).user!.gender ==
+                      null
+                  ? ""
+                  : Provider.of<UserProvider>(context, listen: false)
+                      .user!
+                      .gender!
+                      .idGender,
           'Birthday': birthdayController.text.isEmpty
               ? ""
               : DateTimeConverter(
@@ -1606,13 +1662,16 @@ class _UserDetailScreen extends State<UserDetailScreen> {
               ? ""
               : Provider.of<UserProvider>(context, listen: false).user!.height!,
           'SidePreference': Provider.of<UserProvider>(context, listen: false)
-              .user!
-              .sidePreference!
-              .idSidePreference,
+                      .user!
+                      .sidePreference ==
+                  null
+              ? ""
+              : Provider.of<UserProvider>(context, listen: false)
+                  .user!
+                  .sidePreference!
+                  .idSidePreference,
           'Rank': rankJson,
-          'Photo': imagePath == null
-              ? Provider.of<UserProvider>(context, listen: false).user!.photo!
-              : base64Image,
+          'Photo': photo,
           'IdCity':
               Provider.of<UserProvider>(context, listen: false).user!.region ==
                       null
@@ -1622,6 +1681,10 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                       .region!
                       .selectedCity!
                       .cityId,
+          'IdSport': Provider.of<UserProvider>(context, listen: false)
+              .user!
+              .preferenceSport!
+              .idSport,
         }),
       );
       if (response.statusCode == 200) {
@@ -1634,6 +1697,11 @@ class _UserDetailScreen extends State<UserDetailScreen> {
               message: "Suas informações foram atualizadas!",
               onTap: () {
                 setState(() {
+                  Map<String, dynamic> responseBody =
+                      json.decode(response.body);
+                  Provider.of<UserProvider>(context, listen: false)
+                      .user!
+                      .photo = responseBody['Photo'];
                   setReferenceUserInfo(context);
                   showModal = false;
                 });
