@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:sandfriends/widgets/SFAvatar.dart';
 
 import '../theme/app_theme.dart';
 import '../models/match.dart';
@@ -37,7 +38,8 @@ class SFOpenMatchHorizontal extends StatelessWidget {
           Container(
             width: 4,
             decoration: BoxDecoration(
-              color: AppTheme.colors.secondaryYellow,
+              color: Color(int.parse(
+                  "0xFF${match.matchCreator!.rank.first.color.replaceAll("#", "")}")),
               borderRadius: BorderRadius.circular(16),
             ),
             margin: EdgeInsets.only(right: width * 0.02),
@@ -52,31 +54,12 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                       children: [
                         Container(
                           width: width * 0.2,
-                          child: CircleAvatar(
-                            backgroundColor: AppTheme.colors.primaryBlue,
-                            radius: 30,
-                            child: CircleAvatar(
-                              backgroundColor: AppTheme.colors.secondaryPaper,
-                              radius: 28,
-                              child: CircleAvatar(
-                                backgroundColor: AppTheme.colors.primaryBlue,
-                                radius: 25,
-                                child: Container(
-                                  height: 20,
-                                  width: 23,
-                                  child: FittedBox(
-                                    fit: BoxFit.fitHeight,
-                                    child: Text(
-                                      "${match.matchCreator!.firstName![0].toUpperCase()}${match.matchCreator!.lastName![0].toUpperCase()}",
-                                      style: TextStyle(
-                                        color: AppTheme.colors.secondaryBack,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                          child: SFAvatar(
+                            height: 60,
+                            showRank: true,
+                            user: match.matchCreator!,
+                            editFile: null,
+                            sport: match.sport,
                           ),
                         ),
                         Expanded(
@@ -107,14 +90,15 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                               horizontal: width * 0.02,
                             ),
                             decoration: BoxDecoration(
-                              color: AppTheme.colors.secondaryYellow,
+                              color: Color(int.parse(
+                                  "0xFF${match.matchCreator!.rank.first.color.replaceAll("#", "")}")),
                               borderRadius: BorderRadius.circular(16),
                             ),
                             child: Row(
                               children: [
                                 SvgPicture.asset(
                                   r'assets\icon\users.svg',
-                                  color: AppTheme.colors.primaryBlue,
+                                  color: AppTheme.colors.textWhite,
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(right: width * 0.02),
@@ -126,7 +110,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                                           ? "resta 1 vaga"
                                           : "restam ${match.remainingSlots} vagas",
                                       style: TextStyle(
-                                        color: AppTheme.colors.primaryBlue,
+                                        color: AppTheme.colors.textWhite,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
@@ -151,7 +135,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                       padding: EdgeInsets.only(right: width * 0.01),
                     ),
                     Text(
-                      "Iniciante",
+                      match.matchCreator!.rank.first.name,
                       style: TextStyle(
                         color: AppTheme.colors.primaryBlue,
                       ),

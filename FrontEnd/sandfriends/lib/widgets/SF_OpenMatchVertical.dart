@@ -5,12 +5,14 @@ import 'package:intl/intl.dart';
 
 import '../theme/app_theme.dart';
 import '../models/match.dart';
+import 'SFAvatar.dart';
 import 'SF_Button.dart';
 
 class SFOpenMatchVertical extends StatelessWidget {
   final Match match;
+  final VoidCallback? buttonCallback;
 
-  SFOpenMatchVertical({required this.match});
+  SFOpenMatchVertical({required this.match, required this.buttonCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,8 @@ class SFOpenMatchVertical extends StatelessWidget {
               right: 12,
             ),
             decoration: BoxDecoration(
-              color: AppTheme.colors.secondaryYellow,
+              color: Color(int.parse(
+                  "0xFF${match.matchCreator!.rank.first.color.replaceAll("#", "")}")),
               borderRadius: BorderRadius.circular(16),
             ),
           ),
@@ -59,31 +62,12 @@ class SFOpenMatchVertical extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            CircleAvatar(
-                              backgroundColor: AppTheme.colors.primaryBlue,
-                              radius: 36,
-                              child: CircleAvatar(
-                                backgroundColor: AppTheme.colors.secondaryPaper,
-                                radius: 34,
-                                child: CircleAvatar(
-                                  backgroundColor: AppTheme.colors.primaryBlue,
-                                  radius: 32,
-                                  child: Container(
-                                    height: 34,
-                                    width: 34,
-                                    child: FittedBox(
-                                      fit: BoxFit.fitHeight,
-                                      child: Text(
-                                        "${match.matchCreator!.firstName![0].toUpperCase()}${match.matchCreator!.lastName![0].toUpperCase()}",
-                                        style: TextStyle(
-                                          color: AppTheme.colors.secondaryBack,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                            SFAvatar(
+                              height: 72,
+                              showRank: true,
+                              user: match.matchCreator!,
+                              editFile: null,
+                              sport: match.sport,
                             ),
                             Row(
                               children: [
@@ -95,7 +79,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                                   padding: EdgeInsets.only(right: width * 0.01),
                                 ),
                                 Text(
-                                  "Iniciante",
+                                  match.matchCreator!.rank.first.name,
                                   style: TextStyle(
                                     color: AppTheme.colors.primaryBlue,
                                   ),
@@ -236,14 +220,15 @@ class SFOpenMatchVertical extends StatelessWidget {
                     buttonLabel: "Quero jogar",
                     iconPath: r'assets\icon\user_plus.svg',
                     buttonType: ButtonType.Secondary,
-                    onTap: () {
-                      context.goNamed('match_screen', params: {
-                        'matchUrl': match.matchUrl,
-                        'returnTo': 'match_search_screen',
-                        'returnToParam': 'null',
-                        'returnToParamValue': 'null',
-                      });
-                    },
+                    onTap: buttonCallback,
+                    // () {
+                    //   context.goNamed('match_screen', params: {
+                    //     'matchUrl': match.matchUrl,
+                    //     'returnTo': 'match_search_screen',
+                    //     'returnToParam': 'null',
+                    //     'returnToParamValue': 'null',
+                    //   });
+                    // },
                   ),
                 ),
               ],
