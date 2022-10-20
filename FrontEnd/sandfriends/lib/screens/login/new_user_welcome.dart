@@ -1,57 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sandfriends/models/enums.dart';
 import 'package:sandfriends/widgets/SF_Button.dart';
+import 'package:sandfriends/widgets/SF_Scaffold.dart';
 
 import '../../theme/app_theme.dart';
 import '../../widgets/SF_Button.dart';
 
 class NewUserWelcome extends StatelessWidget {
-  const NewUserWelcome({Key? key}) : super(key: key);
+  bool showModal = false;
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: SafeArea(
-          child: Container(
-            color: AppTheme.colors.secondaryBack,
-            padding: const EdgeInsets.all(17),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    context.goNamed('login_signup');
-                  },
-                  child: SvgPicture.asset(
-                    r'assets\icon\arrow_left.svg',
-                    height: 8.7,
-                    width: 13.2,
-                  ),
-                ),
-                Text(
-                  "Boas-vindas",
-                  style: TextStyle(
-                    color: AppTheme.colors.primaryBlue,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SvgPicture.asset(
-                  r'assets\icon\info.svg',
-                  height: 15,
-                  width: 15,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-      body: Container(
+    return SFScaffold(
+      titleText: "Boas-vindas",
+      onTapReturn: () {
+        context.goNamed('login_signup');
+      },
+      appBarType: AppBarType.Primary,
+      showModal: showModal,
+      child: Container(
         color: AppTheme.colors.secondaryBack,
         width: double.infinity,
         child: Column(
