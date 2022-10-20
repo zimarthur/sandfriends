@@ -131,8 +131,8 @@ flutter:
     - assets\icon\users.svg
     - assets\icon\user_plus.svg
     - assets\icon\edit.svg
-
-    - assets\match.json
+    - assets\icon\favorite_selected.svg
+    - assets\icon\favorite_unselected.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
