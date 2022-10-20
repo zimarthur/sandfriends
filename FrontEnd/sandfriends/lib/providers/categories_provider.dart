@@ -108,4 +108,19 @@ class CategoriesProvider with ChangeNotifier {
         ranks.isEmpty ||
         sidePreferences.isEmpty);
   }
+
+  List monthsPortuguese = [
+    'Jan',
+    'Fev',
+    'Mar',
+    'Abr',
+    'Mai',
+    'Jun',
+    'Jul',
+    'Ago',
+    'Set',
+    'Out',
+    'Nov',
+    'Dez'
+  ];
 }
