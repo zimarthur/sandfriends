@@ -11,6 +11,7 @@ import 'package:sandfriends/models/store_day.dart';
 import 'package:sandfriends/models/court_available_hours.dart';
 import 'package:sandfriends/models/court.dart';
 import 'package:sandfriends/models/user.dart';
+import 'package:sandfriends/providers/categories_provider.dart';
 import 'package:sandfriends/providers/court_provider.dart';
 import 'package:sandfriends/providers/store_provider.dart';
 import 'package:sandfriends/providers/user_provider.dart';
@@ -709,16 +710,16 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                             margin: EdgeInsets
                                                                 .symmetric(
                                                               vertical:
-                                                                  height * 0.02,
+                                                                  height * 0.04,
                                                             ),
                                                             alignment: Alignment
                                                                 .center,
                                                             child: Text(
-                                                              "Nenhuma quadra encontrada para os filtros selecionados.",
+                                                              "Nenhuma horário disponível",
                                                               style: TextStyle(
                                                                 color: AppTheme
                                                                     .colors
-                                                                    .textDarkGrey,
+                                                                    .textLightGrey,
                                                               ),
                                                             ),
                                                           ),
@@ -825,13 +826,13 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                                                 ),
                                                                                 Container(
                                                                                   margin: EdgeInsets.symmetric(
-                                                                                    vertical: height * 0.02,
+                                                                                    vertical: height * 0.04,
                                                                                   ),
                                                                                   alignment: Alignment.center,
                                                                                   child: Text(
-                                                                                    "Nenhuma partida aberta encontrada para os filtros selecionados.",
+                                                                                    "Sem partidas abertas",
                                                                                     style: TextStyle(
-                                                                                      color: AppTheme.colors.textDarkGrey,
+                                                                                      color: AppTheme.colors.textLightGrey,
                                                                                     ),
                                                                                   ),
                                                                                 ),
@@ -1083,18 +1084,18 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                                     .symmetric(
                                                                   vertical:
                                                                       height *
-                                                                          0.02,
+                                                                          0.04,
                                                                 ),
                                                                 alignment:
                                                                     Alignment
                                                                         .center,
                                                                 child: Text(
-                                                                  "Nenhuma quadra encontrada para os filtros selecionados.",
+                                                                  "Nenhuma horário disponível",
                                                                   style:
                                                                       TextStyle(
                                                                     color: AppTheme
                                                                         .colors
-                                                                        .textDarkGrey,
+                                                                        .textLightGrey,
                                                                   ),
                                                                 ),
                                                               )
@@ -1281,16 +1282,21 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                                   Alignment
                                                                       .center,
                                                               child: Text(
-                                                                "Nenhuma partida aberta encontrada para os filtros selecionados.",
+                                                                "Sem partidas abertas",
                                                                 style:
                                                                     TextStyle(
                                                                   color: AppTheme
                                                                       .colors
-                                                                      .textDarkGrey,
+                                                                      .textLightGrey,
                                                                 ),
                                                               ),
                                                             )
                                                           : SFOpenMatchVertical(
+                                                              buttonCallback:
+                                                                  () {
+                                                                context.go(
+                                                                    '/match_screen/${Provider.of<MatchProvider>(context, listen: false).openMatchList[index].matchUrl}/match_search_screen/null/null');
+                                                              },
                                                               match: Provider.of<
                                                                           MatchProvider>(
                                                                       context,
@@ -1526,6 +1532,8 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
               Map openCourtJson = responseOpenMatches[i];
               Map openCourtDetailsJson = openCourtJson['MatchDetails'];
               Map openCourtMatchCreatorJson = openCourtJson['MatchCreator'];
+              Map openCourtMatchCreatorRankJson =
+                  openCourtJson['MatchCreatorRank'];
 
               var newOpenMatch = Match();
               newOpenMatch.remainingSlots = openCourtJson['SlotsRemaining'];
@@ -1551,6 +1559,21 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                 if (court.idStoreCourt ==
                     openCourtDetailsJson['IdStoreCourt']) {
                   newOpenMatch.court = court;
+                }
+              });
+              Provider.of<CategoriesProvider>(context, listen: false)
+                  .sports
+                  .forEach((sport) {
+                if (sport.idSport == openCourtDetailsJson['IdSport']) {
+                  newOpenMatch.sport = sport;
+                }
+              });
+              Provider.of<CategoriesProvider>(context, listen: false)
+                  .ranks
+                  .forEach((rank) {
+                if (rank.idRankCategory ==
+                    openCourtMatchCreatorRankJson['IdRankCategory']) {
+                  newOpenMatch.matchCreator!.rank.add(rank);
                 }
               });
               newOpenMatch.idMatch = openCourtDetailsJson['IdMatch'];
