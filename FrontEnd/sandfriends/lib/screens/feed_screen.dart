@@ -18,7 +18,7 @@ import '../models/enums.dart';
 import '../models/gender.dart';
 import '../models/sport.dart';
 import '../models/store.dart';
-import '../models/user.dart';
+import '../models/notification_sf.dart';
 import '../providers/redirect_provider.dart';
 import '../providers/store_provider.dart';
 import '../providers/user_provider.dart';
@@ -72,8 +72,29 @@ class _FeedScreenState extends State<FeedScreen> {
             alignment: Alignment.bottomLeft,
             padding: EdgeInsets.symmetric(
                 vertical: height * 0.01, horizontal: width * 0.01),
-            child: SvgPicture.asset(
-              r"assets\icon\sandfriends_negative.svg",
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SvgPicture.asset(
+                  r"assets\icon\sandfriends_negative.svg",
+                ),
+                InkWell(
+                  onTap: () {
+                    context.goNamed('notification_screen');
+                  },
+                  child: Container(
+                    height: height * 0.05,
+                    padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                    child: SvgPicture.asset(
+                      Provider.of<UserProvider>(context, listen: false)
+                              .notificationList
+                              .any((notification) => notification.seen == false)
+                          ? r"assets\icon\notification_on.svg"
+                          : r"assets\icon\notification_off.svg",
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           isLoading
@@ -592,12 +613,50 @@ class _FeedScreenState extends State<FeedScreen> {
       if (mounted) {
         if (response.statusCode == 200) {
           Provider.of<UserProvider>(context, listen: false).clearMatchList();
+          Provider.of<UserProvider>(context, listen: false)
+              .clearNotificationList();
           Map<String, dynamic> responseBody = json.decode(response.body);
           final responseMatches = responseBody['userMatches'];
           final responseStores = responseBody['stores'];
+          final responseNotifications = responseBody['notifications'];
 
           Provider.of<UserProvider>(context, listen: false).openMatchesCounter =
               responseBody['openMatchesCounter'];
+
+          for (int i = 0; i < responseNotifications.length; i++) {
+            Map notificationJson = responseNotifications[i];
+            Map notificationMatchJson = notificationJson['Match'];
+
+            var newMatch = Match();
+
+            Provider.of<StoreProvider>(context, listen: false)
+                .stores
+                .forEach((store) {
+              if (store.idStore == notificationMatchJson['IdStore']) {
+                newMatch.store = store;
+              }
+            });
+
+            newMatch.idMatch = notificationMatchJson['IdMatch'];
+            newMatch.day =
+                DateFormat("yyyy-MM-dd").parse(notificationMatchJson['Date']);
+            newMatch.idMatch = notificationMatchJson['IdMatch'];
+            newMatch.timeInt = notificationMatchJson['TimeInteger'];
+            newMatch.timeBegin = notificationMatchJson['TimeBegin'];
+            newMatch.timeFinish = notificationMatchJson['TimeEnd'];
+            newMatch.matchUrl = notificationMatchJson['MatchUrl'];
+            newMatch.canceled = notificationMatchJson['Canceled'];
+
+            NotificationSF newNotification = NotificationSF(
+              idNotification: notificationJson['IdNotification'],
+              message: notificationJson['Message'],
+              colorString: notificationJson['Color'],
+              match: newMatch,
+              seen: notificationJson['Seen'],
+            );
+            Provider.of<UserProvider>(context, listen: false)
+                .addNotification(newNotification);
+          }
 
           for (int i = 0; i < responseStores.length; i++) {
             Store newStore = Store();

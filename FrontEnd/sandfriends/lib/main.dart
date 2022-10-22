@@ -12,6 +12,7 @@ import 'package:sandfriends/providers/user_provider.dart';
 import 'package:sandfriends/screens/court_screen.dart';
 import 'package:sandfriends/screens/login/load_login.dart';
 import 'package:sandfriends/screens/match_search_screen.dart';
+import 'package:sandfriends/screens/notification_screen.dart';
 import 'package:sandfriends/screens/open_matches_screen.dart';
 import 'package:sandfriends/screens/sport_selection_screen.dart';
 import 'package:sandfriends/screens/user_match_screen.dart';
@@ -256,6 +257,12 @@ class _MyAppState extends State<MyApp> {
         path: '/open_matches_screen',
         builder: (BuildContext context, GoRouterState state) =>
             OpenMatchesScreen(),
+      ),
+      GoRoute(
+        name: 'notification_screen',
+        path: '/notification_screen',
+        builder: (BuildContext context, GoRouterState state) =>
+            NotificationScreen(),
       ),
       GoRoute(
         name: 'user_match_screen',

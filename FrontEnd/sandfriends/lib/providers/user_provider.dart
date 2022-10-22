@@ -6,6 +6,7 @@ import 'package:sandfriends/providers/categories_provider.dart';
 import '../models/match.dart';
 import 'package:intl/intl.dart';
 
+import '../models/notification_sf.dart';
 import '../models/rank.dart';
 import '../models/user.dart';
 
@@ -170,5 +171,29 @@ class UserProvider with ChangeNotifier {
   int get openMatchesCounter => _openMatchesCounter;
   set openMatchesCounter(int value) {
     _openMatchesCounter = value;
+  }
+
+  List<NotificationSF> _notificationList = [];
+  List<NotificationSF> get notificationList {
+    _notificationList.sort(
+      (a, b) {
+        int compare = b.idNotification.compareTo(a.idNotification);
+
+        if (compare == 0) {
+          return b.idNotification.compareTo(a.idNotification);
+        } else {
+          return compare;
+        }
+      },
+    );
+    return _notificationList;
+  }
+
+  void clearNotificationList() {
+    _notificationList.clear();
+  }
+
+  void addNotification(NotificationSF notification) {
+    _notificationList.add(notification);
   }
 }
