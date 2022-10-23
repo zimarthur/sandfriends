@@ -20,8 +20,6 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   bool showModal = false;
-  var myUser =
-      User(idUser: -1, firstName: "Arthur", lastName: "Zim", photo: "");
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -68,7 +66,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           : AppTheme.colors.primaryLightBlue.withOpacity(0.6),
                     ),
                     margin: EdgeInsets.symmetric(
-                        vertical: height * 0.01, horizontal: width * 0.02),
+                        vertical: height * 0.005, horizontal: width * 0.02),
                     padding: EdgeInsets.symmetric(
                         horizontal: width * 0.02, vertical: height * 0.02),
                     child: Row(
@@ -79,7 +77,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             children: [
                               SFAvatar(
                                   height: width * 0.2,
-                                  user: myUser,
+                                  user: Provider.of<UserProvider>(context,
+                                          listen: false)
+                                      .notificationList[index]
+                                      .user,
                                   showRank: false),
                               Positioned(
                                 bottom: 0,
@@ -132,7 +133,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                           ),
                                         ),
                                         Text(
-                                          "${DateFormat("dd/MM/yyyy").format(Provider.of<UserProvider>(context, listen: false).notificationList[index].match.day!)} às ${Provider.of<UserProvider>(context, listen: false).notificationList[index].match.timeBegin}",
+                                          "${DateFormat("dd/MM/yyyy").format(Provider.of<UserProvider>(context, listen: false).notificationList[index].match.date)} às ${Provider.of<UserProvider>(context, listen: false).notificationList[index].match.timeBegin}",
                                           style: TextStyle(
                                             color: AppTheme.colors.textBlue,
                                           ),

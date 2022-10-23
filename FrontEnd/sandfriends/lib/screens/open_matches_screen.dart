@@ -105,100 +105,12 @@ class _OpenMatchesScreenState extends State<OpenMatchesScreen> {
 
         final responseBody = json.decode(response.body);
         final responseOpenMatches = responseBody['OpenMatches'];
-        final responseStores = responseBody['Stores'];
-        final responseCourts = responseBody['Courts'];
-
-        for (int i = 0; i < responseStores.length; i++) {
-          Store newStore = Store();
-          Map storeJson = responseStores[i];
-          Map storeDetailsJson = storeJson['Store'];
-          var storePhotosJson = storeJson['StorePhoto'];
-          newStore.idStore = storeDetailsJson['IdStore'];
-          newStore.name = storeDetailsJson['Name'];
-          newStore.address = storeDetailsJson['Address'];
-          newStore.latitude = storeDetailsJson['Latitude'];
-          newStore.longitude = storeDetailsJson['Longitude'];
-          newStore.imageUrl = storeDetailsJson['Logo'];
-          newStore.descriptionText = storeDetailsJson['Description'];
-          newStore.instagram = storeDetailsJson['Instagram'];
-          newStore.phone = storeDetailsJson['PhoneNumber1'];
-          for (int photoIndex = 0;
-              photoIndex < storePhotosJson.length;
-              photoIndex++) {
-            Map photo = storePhotosJson[photoIndex];
-            newStore.addPhoto(photo['Photo']);
-          }
-          Provider.of<StoreProvider>(context, listen: false).addStore(newStore);
-        }
-
-        for (int i = 0; i < responseCourts.length; i++) {
-          Map courtJson = responseCourts[i];
-          Provider.of<CourtProvider>(context, listen: false).addCourt(
-            Court(
-              courtJson['IdStoreCourt'],
-              courtJson['Description'],
-              courtJson['IsIndoor'],
-            ),
-          );
-        }
 
         for (int i = 0; i < responseOpenMatches.length; i++) {
-          Map openCourtJson = responseOpenMatches[i];
-          Map openCourtDetailsJson = openCourtJson['MatchDetails'];
-          Map openCourtMatchCreatorJson = openCourtJson['MatchCreator'];
-          Map openCourtMatchCreatorRankJson = openCourtJson['MatchCreatorRank'];
-
-          var newOpenMatch = Match();
-          newOpenMatch.remainingSlots = openCourtJson['SlotsRemaining'];
-          var matchCreator = User(
-            idUser: openCourtMatchCreatorJson['IdUser'],
-            firstName: openCourtMatchCreatorJson['FirstName'],
-            lastName: openCourtMatchCreatorJson['LastName'],
-            photo: openCourtMatchCreatorJson['Photo'],
-          );
-
-          newOpenMatch.matchCreator = matchCreator;
-
-          Provider.of<StoreProvider>(context, listen: false)
-              .stores
-              .forEach((store) {
-            if (store.idStore == openCourtDetailsJson['IdStore']) {
-              newOpenMatch.store = store;
-            }
-          });
-          Provider.of<CourtProvider>(context, listen: false)
-              .courts
-              .forEach((court) {
-            if (court.idStoreCourt == openCourtDetailsJson['IdStoreCourt']) {
-              newOpenMatch.court = court;
-            }
-          });
-          Provider.of<CategoriesProvider>(context, listen: false)
-              .sports
-              .forEach((sport) {
-            if (sport.idSport == openCourtDetailsJson['IdSport']) {
-              newOpenMatch.sport = sport;
-            }
-          });
-          Provider.of<CategoriesProvider>(context, listen: false)
-              .ranks
-              .forEach((rank) {
-            if (rank.idRankCategory ==
-                openCourtMatchCreatorRankJson['IdRankCategory']) {
-              newOpenMatch.matchCreator!.rank.add(rank);
-            }
-          });
-          newOpenMatch.idMatch = openCourtDetailsJson['IdMatch'];
-          newOpenMatch.price = openCourtDetailsJson['Cost'];
-          newOpenMatch.day = DateTime.parse(openCourtDetailsJson['Date']);
-          newOpenMatch.matchUrl = openCourtDetailsJson['MatchUrl'];
-          newOpenMatch.timeBegin = openCourtDetailsJson['TimeBegin'];
-          newOpenMatch.timeFinish = openCourtDetailsJson['TimeEnd'];
-          newOpenMatch.timeInt = openCourtDetailsJson['TimeInteger'];
-
           Provider.of<MatchProvider>(context, listen: false)
-              .addOpenMatch(newOpenMatch);
+              .addOpenMatch(matchFromJson(responseOpenMatches[i]));
         }
+
         setState(() {
           isLoading = false;
         });

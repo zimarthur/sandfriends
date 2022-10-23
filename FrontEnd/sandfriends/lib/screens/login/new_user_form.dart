@@ -292,10 +292,10 @@ class _NewUserFormState extends State<NewUserForm> {
                       buttonLabel: Provider.of<UserProvider>(context,
                                       listen: false)
                                   .user!
-                                  .region ==
+                                  .city ==
                               null
                           ? "Selecione sua cidade"
-                          : "${Provider.of<UserProvider>(context, listen: false).user!.region!.selectedCity!.city} / ${Provider.of<UserProvider>(context, listen: false).user!.region!.uf}",
+                          : "${Provider.of<UserProvider>(context, listen: false).user!.city!.city} / ${Provider.of<UserProvider>(context, listen: false).user!.city!.state!.uf}",
                       buttonType: ButtonType.Secondary,
                       iconPath: r"assets\icon\location_ping.svg",
                       onTap: () {
@@ -336,32 +336,25 @@ class _NewUserFormState extends State<NewUserForm> {
                                                       if (cityList.city ==
                                                           city.city) {
                                                         Provider.of<UserProvider>(
-                                                                    context,
-                                                                    listen: false)
-                                                                .user!
-                                                                .region =
-                                                            Region(
-                                                                idState:
-                                                                    allRegions[
-                                                                            index]
-                                                                        .idState,
-                                                                state: allRegions[
-                                                                        index]
-                                                                    .state,
-                                                                uf: allRegions[
-                                                                        index]
-                                                                    .uf);
-                                                        Provider.of<UserProvider>(
-                                                                    context,
-                                                                    listen: false)
-                                                                .user!
-                                                                .region!
-                                                                .selectedCity =
-                                                            City(
-                                                                cityId: cityList
-                                                                    .cityId,
-                                                                city: cityList
-                                                                    .city);
+                                                                context,
+                                                                listen: false)
+                                                            .user!
+                                                            .city = City(
+                                                          cityId:
+                                                              cityList.cityId,
+                                                          city: cityList.city,
+                                                          state: Region(
+                                                              idState:
+                                                                  allRegions[
+                                                                          index]
+                                                                      .idState,
+                                                              state: allRegions[
+                                                                      index]
+                                                                  .state,
+                                                              uf: allRegions[
+                                                                      index]
+                                                                  .uf),
+                                                        );
                                                       }
                                                     });
                                                   }
@@ -455,8 +448,7 @@ class _NewUserFormState extends State<NewUserForm> {
   }
 
   void formValidation() {
-    if (Provider.of<UserProvider>(context, listen: false).user!.region !=
-            null &&
+    if (Provider.of<UserProvider>(context, listen: false).user!.city != null &&
         Provider.of<UserProvider>(context, listen: false)
                 .user!
                 .preferenceSport !=
@@ -520,8 +512,7 @@ class _NewUserFormState extends State<NewUserForm> {
           'PhoneNumber': PhonenumberConverter(phoneNumberController.text),
           'IdCity': Provider.of<UserProvider>(context, listen: false)
               .user!
-              .region!
-              .selectedCity!
+              .city!
               .cityId,
           'IdSport': Provider.of<UserProvider>(context, listen: false)
               .user!

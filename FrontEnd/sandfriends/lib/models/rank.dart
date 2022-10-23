@@ -15,3 +15,14 @@ class Rank {
     required this.color,
   });
 }
+
+Rank rankFromJson(Map<String, dynamic> json) {
+  var newRank = Rank(
+    idRankCategory: json['RankCategory']['IdRankCategory'],
+    sport: sportFromJson(json['RankCategory']['Sport']),
+    rankSportLevel: json['RankCategory']['RankSportLevel'],
+    name: json['RankCategory']['RankName'],
+    color: json['RankCategory']['RankColor'],
+  );
+  return newRank;
+}

@@ -1,3 +1,5 @@
+import 'package:sandfriends/models/user.dart';
+
 import 'match.dart';
 
 class NotificationSF {
@@ -6,6 +8,7 @@ class NotificationSF {
   final String colorString;
   final Match match;
   final bool seen;
+  final User user;
 
   NotificationSF({
     required this.idNotification,
@@ -13,5 +16,22 @@ class NotificationSF {
     required this.colorString,
     required this.match,
     required this.seen,
+    required this.user,
   });
+}
+
+NotificationSF notificationFromJson(Map<String, dynamic> json) {
+  var newNotification = NotificationSF(
+    idNotification: json['IdNotification'],
+    message: json['Message'],
+    colorString: json['Color'],
+    match: matchFromJson(
+      json['Match'],
+    ),
+    seen: json['Seen'],
+    user: userFromJson(
+      json['User'],
+    ),
+  );
+  return newNotification;
 }

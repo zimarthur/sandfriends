@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/models/match.dart';
 import 'package:sandfriends/models/rank.dart';
 import 'package:sandfriends/models/side_preference.dart';
+import 'package:sandfriends/models/user.dart';
 import 'package:sandfriends/providers/categories_provider.dart';
 import 'package:sandfriends/theme/app_theme.dart';
 import 'package:http/http.dart' as http;
@@ -296,7 +297,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                         Radius.circular(16),
                                                   ),
                                                   child: Image.network(
-                                                      '${Provider.of<UserProvider>(context).nextMatchList[index].sport!.photoUrl}',
+                                                      '${Provider.of<UserProvider>(context).nextMatchList[index].sport.photoUrl}',
                                                       width: width * 0.55,
                                                       fit: BoxFit.fill),
                                                 ),
@@ -325,7 +326,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                         child: FittedBox(
                                                           fit: BoxFit.fitHeight,
                                                           child: Text(
-                                                            "${Provider.of<UserProvider>(context).nextMatchList[index].day!.day}",
+                                                            "${Provider.of<UserProvider>(context).nextMatchList[index].date.day}",
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
@@ -338,7 +339,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                         child: FittedBox(
                                                           fit: BoxFit.fitHeight,
                                                           child: Text(
-                                                            "${Provider.of<CategoriesProvider>(context, listen: false).monthsPortuguese[Provider.of<UserProvider>(context).nextMatchList[index].day!.month - 1]}",
+                                                            "${Provider.of<CategoriesProvider>(context, listen: false).monthsPortuguese[Provider.of<UserProvider>(context).nextMatchList[index].date.month - 1]}",
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
@@ -367,7 +368,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                         child: FittedBox(
                                                           fit: BoxFit.fitWidth,
                                                           child: Text(
-                                                            "Partida de ${Provider.of<UserProvider>(context).nextMatchList[index].userCreator}",
+                                                            "Partida de ${Provider.of<UserProvider>(context).nextMatchList[index].matchCreator.firstName}",
                                                             style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -437,7 +438,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                                         0.01),
                                                               ),
                                                               Text(
-                                                                "${Provider.of<UserProvider>(context).nextMatchList[index].store!.name}",
+                                                                "${Provider.of<UserProvider>(context).nextMatchList[index].court.store.name}",
                                                                 style:
                                                                     TextStyle(
                                                                   color: AppTheme
@@ -606,7 +607,6 @@ class _FeedScreenState extends State<FeedScreen> {
         body: jsonEncode(
           <String, Object>{
             'AccessToken': accessToken,
-            'UserCityId': userCityId == null ? -1 : int.parse(userCityId),
           },
         ),
       );
@@ -616,101 +616,37 @@ class _FeedScreenState extends State<FeedScreen> {
           Provider.of<UserProvider>(context, listen: false)
               .clearNotificationList();
           Map<String, dynamic> responseBody = json.decode(response.body);
-          final responseMatches = responseBody['userMatches'];
-          final responseStores = responseBody['stores'];
-          final responseNotifications = responseBody['notifications'];
-
+          final responseMatches = responseBody['UserMatches'];
+          final responseNotifications = responseBody['Notifications'];
+          var myList = [];
+          //Set OpenMatchesCounter
           Provider.of<UserProvider>(context, listen: false).openMatchesCounter =
-              responseBody['openMatchesCounter'];
+              responseBody['OpenMatchesCounter'];
+          //
 
+          //SET notifications
           for (int i = 0; i < responseNotifications.length; i++) {
-            Map notificationJson = responseNotifications[i];
-            Map notificationMatchJson = notificationJson['Match'];
-
-            var newMatch = Match();
-
-            Provider.of<StoreProvider>(context, listen: false)
-                .stores
-                .forEach((store) {
-              if (store.idStore == notificationMatchJson['IdStore']) {
-                newMatch.store = store;
-              }
-            });
-
-            newMatch.idMatch = notificationMatchJson['IdMatch'];
-            newMatch.day =
-                DateFormat("yyyy-MM-dd").parse(notificationMatchJson['Date']);
-            newMatch.idMatch = notificationMatchJson['IdMatch'];
-            newMatch.timeInt = notificationMatchJson['TimeInteger'];
-            newMatch.timeBegin = notificationMatchJson['TimeBegin'];
-            newMatch.timeFinish = notificationMatchJson['TimeEnd'];
-            newMatch.matchUrl = notificationMatchJson['MatchUrl'];
-            newMatch.canceled = notificationMatchJson['Canceled'];
-
-            NotificationSF newNotification = NotificationSF(
-              idNotification: notificationJson['IdNotification'],
-              message: notificationJson['Message'],
-              colorString: notificationJson['Color'],
-              match: newMatch,
-              seen: notificationJson['Seen'],
-            );
-            Provider.of<UserProvider>(context, listen: false)
-                .addNotification(newNotification);
+            myList.add(notificationFromJson(responseNotifications[i]));
+            Provider.of<UserProvider>(context, listen: false).addNotification(
+                notificationFromJson(responseNotifications[i]));
           }
-
-          for (int i = 0; i < responseStores.length; i++) {
-            Store newStore = Store();
-            Map storeJson = responseStores[i]['store'];
-            newStore.idStore = storeJson['IdStore'];
-            newStore.name = storeJson['Name'];
-            newStore.address = storeJson['Address'];
-            newStore.latitude = storeJson['Latitude'];
-            newStore.longitude = storeJson['Longitude'];
-            newStore.imageUrl = storeJson['Logo'];
-            newStore.descriptionText = storeJson['Description'];
-            newStore.instagram = storeJson['Instagram'];
-            newStore.phone = storeJson['PhoneNumber1'];
-            for (int photoIndex = 0;
-                photoIndex < responseStores[i]['storePhotos'].length;
-                photoIndex++) {
-              Map photo = responseStores[i]['storePhotos'][photoIndex];
-              newStore.addPhoto(photo['Photo']);
-            }
-
-            Provider.of<StoreProvider>(context, listen: false)
-                .addStore(newStore);
-          }
-
+          //
+          myList.clear();
+          //SET user matches
           for (int matchIndex = 0;
               matchIndex < responseMatches.length;
               matchIndex++) {
-            Map matchJson = responseMatches[matchIndex]['match'];
-            var newMatch = Match();
-            Provider.of<StoreProvider>(context, listen: false)
-                .stores
-                .forEach((store) {
-              if (store.idStore == matchJson['IdStore']) {
-                newMatch.store = store;
-              }
-            });
-            Provider.of<CategoriesProvider>(context, listen: false)
-                .sports
-                .forEach((sport) {
-              if (sport.idSport == matchJson['IdSport']) {
-                newMatch.sport = sport;
-              }
-            });
-            newMatch.day = DateFormat("yyyy-MM-dd").parse(matchJson['Date']);
-            newMatch.idMatch = matchJson['IdMatch'];
-            newMatch.timeInt = matchJson['TimeInteger'];
-            newMatch.timeBegin = matchJson['TimeBegin'];
-            newMatch.timeFinish = matchJson['TimeEnd'];
-            newMatch.matchUrl = matchJson['MatchUrl'];
-            newMatch.canceled = matchJson['Canceled'];
-            newMatch.userCreator = responseMatches[matchIndex]['matchCreator'];
-            Provider.of<UserProvider>(context, listen: false)
-                .addMatch(newMatch);
+            myList.add(matchFromJson(
+              responseMatches[matchIndex],
+            ));
+            Provider.of<UserProvider>(context, listen: false).addMatch(
+              matchFromJson(
+                responseMatches[matchIndex],
+              ),
+            );
           }
+          myList.clear();
+          //
           setState(() {
             isLoading = false;
           });

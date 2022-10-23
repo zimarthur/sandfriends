@@ -80,12 +80,12 @@ class _UserDetailScreen extends State<UserDetailScreen> {
       height: context.read<UserProvider>().user!.height,
       sidePreference: context.read<UserProvider>().user!.sidePreference,
       photo: context.read<UserProvider>().user!.photo,
-      region: context.read<UserProvider>().user!.region,
+      city: context.read<UserProvider>().user!.city,
       email: context.read<UserProvider>().user!.email,
     );
     referenceUserInfo!.preferenceSport =
         context.read<UserProvider>().user!.preferenceSport;
-    print(context.read<UserProvider>().user!.photo);
+
     for (int userRanks = 0;
         userRanks <
             Provider.of<UserProvider>(context, listen: false).user!.rank.length;
@@ -177,8 +177,9 @@ class _UserDetailScreen extends State<UserDetailScreen> {
           if (Provider.of<UserProvider>(context, listen: false)
                   .user!
                   .matchCounter[i]
-                  .sport ==
-              sportValue) {
+                  .sport
+                  .idSport ==
+              sportValue!.idSport) {
             matchCounterValue =
                 Provider.of<UserProvider>(context, listen: false)
                     .user!
@@ -288,8 +289,9 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                               listen: false)
                                           .user!
                                           .rank[j]
-                                          .sport ==
-                                      sportValue) {
+                                          .sport
+                                          .idSport ==
+                                      sportValue!.idSport) {
                                     rankValue = Provider.of<UserProvider>(
                                             context,
                                             listen: false)
@@ -309,8 +311,9 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                               listen: false)
                                           .user!
                                           .matchCounter[k]
-                                          .sport ==
-                                      sportValue) {
+                                          .sport
+                                          .idSport ==
+                                      sportValue!.idSport) {
                                     matchCounterValue =
                                         Provider.of<UserProvider>(context,
                                                 listen: false)
@@ -555,10 +558,10 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                                                   context,
                                                                   listen: false)
                                                               .user!
-                                                              .region ==
+                                                              .city ==
                                                           null
                                                       ? "-"
-                                                      : "${Provider.of<UserProvider>(context, listen: false).user!.region!.selectedCity!.city} / ${Provider.of<UserProvider>(context, listen: false).user!.region!.uf}",
+                                                      : "${Provider.of<UserProvider>(context, listen: false).user!.city!.city} / ${Provider.of<UserProvider>(context, listen: false).user!.city!.state!.uf}",
                                                   style: TextStyle(
                                                     color: AppTheme
                                                         .colors.textDarkGrey,
@@ -1456,32 +1459,28 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                       region.cities.forEach((cityList) {
                                         if (cityList.city == city.city) {
                                           Provider.of<UserProvider>(context,
-                                                      listen: false)
-                                                  .user!
-                                                  .region =
-                                              Region(
-                                                  idState:
-                                                      allRegions[index].idState,
-                                                  state:
-                                                      allRegions[index].state,
-                                                  uf: allRegions[index].uf);
-                                          Provider.of<UserProvider>(context,
-                                                      listen: false)
-                                                  .user!
-                                                  .region!
-                                                  .selectedCity =
-                                              City(
-                                                  cityId: cityList.cityId,
-                                                  city: cityList.city);
+                                                  listen: false)
+                                              .user!
+                                              .city = City(
+                                            cityId: cityList.cityId,
+                                            city: cityList.city,
+                                            state: Region(
+                                              idState:
+                                                  allRegions[index].idState,
+                                              state: allRegions[index].state,
+                                              uf: allRegions[index].uf,
+                                            ),
+                                          );
                                         }
                                       });
                                     }
                                   });
-                                  if (referenceUserInfo!.region !=
+                                  if (referenceUserInfo!.city!.cityId !=
                                       Provider.of<UserProvider>(context,
                                               listen: false)
                                           .user!
-                                          .region!) {
+                                          .city!
+                                          .cityId) {
                                     isEdited = true;
                                   } else {
                                     isEdited = false;
@@ -1673,13 +1672,12 @@ class _UserDetailScreen extends State<UserDetailScreen> {
           'Rank': rankJson,
           'Photo': photo,
           'IdCity':
-              Provider.of<UserProvider>(context, listen: false).user!.region ==
+              Provider.of<UserProvider>(context, listen: false).user!.city ==
                       null
                   ? ""
                   : Provider.of<UserProvider>(context, listen: false)
                       .user!
-                      .region!
-                      .selectedCity!
+                      .city!
                       .cityId,
           'IdSport': Provider.of<UserProvider>(context, listen: false)
               .user!
@@ -1737,8 +1735,8 @@ class _UserDetailScreen extends State<UserDetailScreen> {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> responseBody = json.decode(response.body);
-      final responseCities = responseBody['cities'];
-      final responseStates = responseBody['states'];
+      final responseCities = responseBody['Cities'];
+      final responseStates = responseBody['States'];
 
       allRegions.clear();
 
@@ -1756,7 +1754,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
             allRegionsIndex < allRegions.length;
             allRegionsIndex++) {
           if (allRegions[allRegionsIndex].idState ==
-              responseCities[cityIndex]['IdState']) {
+              responseCities[cityIndex]['State']['IdState']) {
             allRegions[allRegionsIndex].cities.add(City(
                   cityId: responseCities[cityIndex]['IdCity'],
                   city: responseCities[cityIndex]['City'],

@@ -7,3 +7,11 @@ class SidePreference {
     required this.name,
   });
 }
+
+SidePreference sidePreferenceFromJson(Map<String, dynamic> json) {
+  var newSidePreference = SidePreference(
+    idSidePreference: json['IdSidePreferenceCategory'],
+    name: json['SidePreferenceName'],
+  );
+  return newSidePreference;
+}

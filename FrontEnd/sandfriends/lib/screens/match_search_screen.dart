@@ -1429,24 +1429,26 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
             final responseOpenMatches = responseBody['OpenMatches'];
 
             for (int i = 0; i < responseStores.length; i++) {
-              Store newStore = Store();
               Map storeJson = responseStores[i];
               Map storeDetailsJson = storeJson['Store'];
               var storePhotosJson = storeJson['StorePhoto'];
-              newStore.idStore = storeDetailsJson['IdStore'];
-              newStore.name = storeDetailsJson['Name'];
-              newStore.address = storeDetailsJson['Address'];
-              newStore.latitude = storeDetailsJson['Latitude'];
-              newStore.longitude = storeDetailsJson['Longitude'];
-              newStore.imageUrl = storeDetailsJson['Logo'];
-              newStore.descriptionText = storeDetailsJson['Description'];
-              newStore.instagram = storeDetailsJson['Instagram'];
-              newStore.phone = storeDetailsJson['PhoneNumber1'];
+              Store newStore = Store(
+                idStore: storeDetailsJson['IdStore'],
+                name: storeDetailsJson['Name'],
+                address: storeDetailsJson['Address'],
+                latitude: storeDetailsJson['Latitude'],
+                longitude: storeDetailsJson['Longitude'],
+                imageUrl: storeDetailsJson['Logo'],
+                descriptionText: storeDetailsJson['Description'],
+                instagram: storeDetailsJson['Instagram'],
+                phone: storeDetailsJson['PhoneNumber1'],
+              );
+
               for (int photoIndex = 0;
                   photoIndex < storePhotosJson.length;
                   photoIndex++) {
                 Map photo = storePhotosJson[photoIndex];
-                newStore.addPhoto(photo['Photo']);
+                newStore.photos.add(photo['Photo']);
               }
               Provider.of<StoreProvider>(context, listen: false)
                   .addStore(newStore);
@@ -1454,16 +1456,11 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
 
             for (int i = 0; i < responseCourts.length; i++) {
               Map courtJson = responseCourts[i];
-              Provider.of<CourtProvider>(context, listen: false).addCourt(
-                Court(
-                  courtJson['IdStoreCourt'],
-                  courtJson['Description'],
-                  courtJson['IsIndoor'],
-                ),
-              );
+              Provider.of<CourtProvider>(context, listen: false)
+                  .addCourt(courtFromJson(responseCourts[i]));
             }
 
-            StoreDay storeDay = StoreDay();
+            var newStore;
             int courtIndexTotal = 0;
             for (int dateIndex = 0;
                 dateIndex < responseDates.length;
@@ -1477,10 +1474,14 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                     .stores
                     .forEach((store) {
                   if (store.idStore == secondLevel['IdStore']) {
-                    storeDay.store = store;
+                    newStore = store;
                   }
                 });
-                storeDay.day = firstLevel['Date'];
+                StoreDay storeDay = StoreDay(
+                  store: newStore,
+                  day: firstLevel['Date'],
+                );
+
                 for (int availableHoursIndex = 0;
                     availableHoursIndex < secondLevel['Available'].length;
                     availableHoursIndex++) {
@@ -1524,68 +1525,13 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                 Provider.of<MatchProvider>(context, listen: false)
                     .addStoreDay(storeDay);
 
-                storeDay = StoreDay();
+                //storeDay = StoreDay();
               }
             }
 
             for (int i = 0; i < responseOpenMatches.length; i++) {
-              Map openCourtJson = responseOpenMatches[i];
-              Map openCourtDetailsJson = openCourtJson['MatchDetails'];
-              Map openCourtMatchCreatorJson = openCourtJson['MatchCreator'];
-              Map openCourtMatchCreatorRankJson =
-                  openCourtJson['MatchCreatorRank'];
-
-              var newOpenMatch = Match();
-              newOpenMatch.remainingSlots = openCourtJson['SlotsRemaining'];
-              var matchCreator = User(
-                idUser: openCourtMatchCreatorJson['IdUser'],
-                firstName: openCourtMatchCreatorJson['FirstName'],
-                lastName: openCourtMatchCreatorJson['LastName'],
-                photo: openCourtMatchCreatorJson['Photo'],
-              );
-
-              newOpenMatch.matchCreator = matchCreator;
-
-              Provider.of<StoreProvider>(context, listen: false)
-                  .stores
-                  .forEach((store) {
-                if (store.idStore == openCourtDetailsJson['IdStore']) {
-                  newOpenMatch.store = store;
-                }
-              });
-              Provider.of<CourtProvider>(context, listen: false)
-                  .courts
-                  .forEach((court) {
-                if (court.idStoreCourt ==
-                    openCourtDetailsJson['IdStoreCourt']) {
-                  newOpenMatch.court = court;
-                }
-              });
-              Provider.of<CategoriesProvider>(context, listen: false)
-                  .sports
-                  .forEach((sport) {
-                if (sport.idSport == openCourtDetailsJson['IdSport']) {
-                  newOpenMatch.sport = sport;
-                }
-              });
-              Provider.of<CategoriesProvider>(context, listen: false)
-                  .ranks
-                  .forEach((rank) {
-                if (rank.idRankCategory ==
-                    openCourtMatchCreatorRankJson['IdRankCategory']) {
-                  newOpenMatch.matchCreator!.rank.add(rank);
-                }
-              });
-              newOpenMatch.idMatch = openCourtDetailsJson['IdMatch'];
-              newOpenMatch.price = openCourtDetailsJson['Cost'];
-              newOpenMatch.day = DateTime.parse(openCourtDetailsJson['Date']);
-              newOpenMatch.matchUrl = openCourtDetailsJson['MatchUrl'];
-              newOpenMatch.timeBegin = openCourtDetailsJson['TimeBegin'];
-              newOpenMatch.timeFinish = openCourtDetailsJson['TimeEnd'];
-              newOpenMatch.timeInt = openCourtDetailsJson['TimeInteger'];
-
               Provider.of<MatchProvider>(context, listen: false)
-                  .addOpenMatch(newOpenMatch);
+                  .addOpenMatch(responseOpenMatches[i]);
             }
 
             Provider.of<MatchProvider>(context, listen: false).searchStatus =
@@ -1616,8 +1562,8 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
       Provider.of<MatchProvider>(context, listen: false).clearRegions();
 
       Map<String, dynamic> responseBody = json.decode(response.body);
-      final responseCities = responseBody['cities'];
-      final responseStates = responseBody['states'];
+      final responseCities = responseBody['Cities'];
+      final responseStates = responseBody['States'];
 
       for (int stateIndex = 0;
           stateIndex < responseStates.length;
@@ -1640,7 +1586,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
           if (Provider.of<MatchProvider>(context, listen: false)
                   .availableRegions[allRegionsIndex]
                   .idState ==
-              responseCities[cityIndex]['IdState']) {
+              responseCities[cityIndex]['State']['IdState']) {
             Provider.of<MatchProvider>(context, listen: false)
                 .availableRegions[allRegionsIndex]
                 .cities
@@ -1665,26 +1611,46 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                 children: [
                   Provider.of<UserProvider>(context, listen: false)
                               .user!
-                              .region ==
+                              .city ==
                           null
                       ? Container()
                       : InkWell(
                           onTap: () {
                             setState(() {
-                              Provider.of<MatchProvider>(context, listen: false)
-                                  .selectedRegion = Provider.of<UserProvider>(
-                                      context,
-                                      listen: false)
-                                  .user!
-                                  .region;
-                              Provider.of<MatchProvider>(context, listen: false)
-                                  .selectedRegion!
-                                  .selectedCity = Provider.of<UserProvider>(
-                                      context,
-                                      listen: false)
-                                  .user!
-                                  .region!
-                                  .selectedCity;
+                              _availableRegions.forEach((region) {
+                                if (region.idState ==
+                                    Provider.of<UserProvider>(context,
+                                            listen: false)
+                                        .user!
+                                        .city!
+                                        .state!
+                                        .idState) {
+                                  region.cities.forEach((cityList) {
+                                    if (cityList.cityId ==
+                                        Provider.of<UserProvider>(context,
+                                                listen: false)
+                                            .user!
+                                            .city!
+                                            .cityId) {
+                                      Provider.of<MatchProvider>(context,
+                                              listen: false)
+                                          .selectedRegion = Region(
+                                        idState: region.idState,
+                                        state: region.state,
+                                        uf: region.uf,
+                                      );
+                                      Provider.of<MatchProvider>(context,
+                                                  listen: false)
+                                              .selectedRegion!
+                                              .selectedCity =
+                                          City(
+                                              cityId: cityList.cityId,
+                                              city: cityList.city);
+                                    }
+                                  });
+                                }
+                              });
+
                               Provider.of<MatchProvider>(context, listen: false)
                                   .regionText = Provider.of<MatchProvider>(
                                           context,
@@ -1720,7 +1686,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                     ),
                                   ),
                                   Text(
-                                    "${Provider.of<UserProvider>(context, listen: false).user!.region!.selectedCity!.city} / ${Provider.of<UserProvider>(context, listen: false).user!.region!.uf}",
+                                    "${Provider.of<UserProvider>(context, listen: false).user!.city!.city} / ${Provider.of<UserProvider>(context, listen: false).user!.city!.state!.uf}",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: AppTheme.colors.textBlue,

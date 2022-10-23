@@ -7,3 +7,11 @@ class Gender {
     required this.name,
   });
 }
+
+Gender genderFromJson(Map<String, dynamic> json) {
+  var newGender = Gender(
+    idGender: json['IdGenderCategory'],
+    name: json['GenderName'],
+  );
+  return newGender;
+}

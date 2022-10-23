@@ -44,7 +44,7 @@ class SFOpenMatchVertical extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: Color(int.parse(
-                  "0xFF${match.matchCreator!.rank.first.color.replaceAll("#", "")}")),
+                  "0xFF${match.matchCreator.rank.first.color.replaceAll("#", "")}")),
               borderRadius: BorderRadius.circular(16),
             ),
           ),
@@ -65,7 +65,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                             SFAvatar(
                               height: 72,
                               showRank: true,
-                              user: match.matchCreator!,
+                              user: match.matchCreator,
                               editFile: null,
                               sport: match.sport,
                             ),
@@ -79,7 +79,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                                   padding: EdgeInsets.only(right: width * 0.01),
                                 ),
                                 Text(
-                                  match.matchCreator!.rank.first.name,
+                                  match.matchCreator.rank.first.name,
                                   style: TextStyle(
                                     color: AppTheme.colors.primaryBlue,
                                   ),
@@ -102,7 +102,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                                 child: FittedBox(
                                   fit: BoxFit.fitHeight,
                                   child: Text(
-                                    "Partida de ${match.matchCreator!.firstName}",
+                                    "Partida de ${match.matchCreator.firstName}",
                                     style: TextStyle(
                                       color: AppTheme.colors.primaryBlue,
                                       fontWeight: FontWeight.w700,
@@ -162,7 +162,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                                             right: width * 0.01),
                                       ),
                                       Text(
-                                        "${DateFormat("dd/MM/yyyy").format(match.day!)}",
+                                        "${DateFormat("dd/MM/yyyy").format(match.date)}",
                                         style: TextStyle(
                                           color: AppTheme.colors.primaryBlue,
                                         ),
@@ -200,7 +200,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                                         EdgeInsets.only(right: width * 0.01),
                                   ),
                                   Text(
-                                    match.store!.name,
+                                    match.court.store.name,
                                     style: TextStyle(
                                       color: AppTheme.colors.primaryBlue,
                                     ),

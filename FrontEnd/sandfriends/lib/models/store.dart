@@ -1,65 +1,42 @@
 class Store {
-  int _idStore = 0;
-  int get idStore => _idStore;
-  set idStore(int value) {
-    _idStore = value;
-  }
+  final int idStore;
+  final String name;
+  final String address;
+  final String latitude;
+  final String longitude;
+  final String imageUrl;
+  final String descriptionText;
+  final String instagram;
+  final String phone;
+  List<String> photos = [];
 
-  String _name = "sf";
-  String get name => _name;
-  set name(String value) {
-    _name = value;
-  }
+  Store({
+    required this.idStore,
+    required this.name,
+    required this.address,
+    required this.latitude,
+    required this.longitude,
+    required this.imageUrl,
+    required this.descriptionText,
+    required this.instagram,
+    required this.phone,
+  });
+}
 
-  String _address = "sf";
-  String get address => _address;
-  set address(String value) {
-    _address = value;
+Store storeFromJson(Map<String, dynamic> json) {
+  var newStore = Store(
+    idStore: json['IdStore'],
+    name: json['Name'],
+    address: json['Address'],
+    latitude: json['Latitude'],
+    longitude: json['Longitude'],
+    imageUrl: json['Logo'],
+    descriptionText: json['Description'],
+    instagram: json['Instagram'],
+    phone: json['PhoneNumber1'],
+  );
+  for (int i = 0; i < json['StorePhotos'].length; i++) {
+    newStore.photos.add(json['StorePhotos'][i]['Photo']);
   }
-
-  String _latitude = "sf";
-  String get latitude => _latitude;
-  set latitude(String value) {
-    _latitude = value;
-  }
-
-  String _longitude = "sf";
-  String get longitude => _longitude;
-  set longitude(String value) {
-    _longitude = value;
-  }
-
-  String _imageUrl = "sf";
-  String get imageUrl => _imageUrl;
-  set imageUrl(String value) {
-    _imageUrl = value;
-  }
-
-  String _descriptionText = "sf";
-  String get descriptionText => _descriptionText;
-  set descriptionText(String value) {
-    _descriptionText = value;
-  }
-
-  String _instagram = "sf";
-  String get instagram => _instagram;
-  set instagram(String value) {
-    _instagram = value;
-  }
-
-  String _phone = "sf";
-  String get phone => _phone;
-  set phone(String value) {
-    _phone = value;
-  }
-
-  List<String> _photos = [];
-  List<String> get photos => _photos;
-  void addPhoto(String value) {
-    _photos.add(value);
-  }
-
-  void clearPhotos() {
-    _photos.clear();
-  }
+  return newStore;
 }

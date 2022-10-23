@@ -50,7 +50,7 @@ final loginInfo = Login();
 final match = MatchProvider();
 
 final categoriesProvider = CategoriesProvider();
-final userProvider = UserProvider();
+var userProvider = UserProvider();
 
 bool needsRedirect = false;
 bool? isAppInit;
@@ -359,14 +359,14 @@ class _MyAppState extends State<MyApp> {
 
     if (mounted) {
       if (response.statusCode == 200) {
-        userProvider.clearMatchList();
+        if (userProvider != null) userProvider.clearMatchList();
         categoriesProvider.clearCategories();
         Map<String, dynamic> responseBody = json.decode(response.body);
 
-        final responseSports = responseBody['sports'];
-        final responseGenders = responseBody['genders'];
-        final responseRanks = responseBody['ranks'];
-        final responseSidePreferences = responseBody['sidePreferences'];
+        final responseSports = responseBody['Sports'];
+        final responseGenders = responseBody['Genders'];
+        final responseRanks = responseBody['Ranks'];
+        final responseSidePreferences = responseBody['SidePreferences'];
 
         for (int i = 0; i < responseSports.length; i++) {
           Map sportJson = responseSports[i];
@@ -393,19 +393,18 @@ class _MyAppState extends State<MyApp> {
         }
         for (int i = 0; i < responseRanks.length; i++) {
           Map rankJson = responseRanks[i];
-          for (int j = 0; j < categoriesProvider.sports.length; j++) {
-            if (categoriesProvider.sports[j].idSport == rankJson['IdSport']) {
-              Rank newRank = Rank(
-                idRankCategory: rankJson['IdRankCategory'],
-                sport: categoriesProvider.sports[j],
-                rankSportLevel: rankJson['RankSportLevel'],
-                name: rankJson['RankName'],
-                color: rankJson['RankColor'],
-              );
-              categoriesProvider.addRank(newRank);
-              break;
-            }
-          }
+          Rank newRank = Rank(
+            idRankCategory: rankJson['IdRankCategory'],
+            sport: Sport(
+              idSport: rankJson['Sport']['IdSport'],
+              description: rankJson['Sport']['Description'],
+              photoUrl: rankJson['Sport']['SportPhoto'],
+            ),
+            rankSportLevel: rankJson['RankSportLevel'],
+            name: rankJson['RankName'],
+            color: rankJson['RankColor'],
+          );
+          categoriesProvider.addRank(newRank);
         }
       }
       const storage = FlutterSecureStorage();
@@ -427,37 +426,23 @@ class _MyAppState extends State<MyApp> {
         );
         if (response.statusCode == 200) {
           Map<String, dynamic> responseBody = json.decode(response.body);
-          final responseLogin = responseBody['login'];
+          final responseLogin = responseBody['UserLogin'];
 
           final newAccessToken = responseLogin['AccessToken'];
           await storage.write(key: "AccessToken", value: newAccessToken);
+
           if (responseLogin['EmailConfirmationDate'] == null) {
             redirecter.routeRedirect = '/login_signup';
           } else if (responseLogin['IsNewUser'] == true) {
             redirecter.routeRedirect = '/new_user_welcome';
           } else {
-            final responseUser = responseBody['user'];
-            final responseUserRanks = responseBody['userRanks'];
-            final responseUserMatchCounter = responseBody['matchCounter'];
-            final responseUserCity = responseBody['userCity'];
-            final responseUserState = responseBody['userState'];
+            final responseUser = responseBody['User'];
+            final responseUserMatchCounter = responseBody['MatchCounter'];
 
-            userProvider.userFromJson(responseUser, categoriesProvider);
-            userProvider.userRankFromJson(
-                responseUserRanks, categoriesProvider);
+            userProvider.user = userFromJson(responseUser);
             userProvider.userMatchCounterFromJson(
                 responseUserMatchCounter, categoriesProvider);
-            userProvider.user!.email = responseBody['userEmail'];
 
-            if (responseUserState != "" && responseUserCity != "") {
-              userProvider.user!.region = Region(
-                  idState: responseUserState['IdState'],
-                  state: responseUserState['State'],
-                  uf: responseUserState['UF']);
-              userProvider.user!.region!.selectedCity = City(
-                  cityId: responseUserCity['IdCity'],
-                  city: responseUserCity['City']);
-            }
             redirecter.routeRedirect = '/home/feed_screen';
           }
         } else {
@@ -470,7 +455,7 @@ class _MyAppState extends State<MyApp> {
       }
     } else {
       redirecter.routeRedirect = '/login_signup';
-      print("Deu pau carregando categores");
+      print("Deu pau carregando categories");
     }
   }
 }

@@ -176,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (response.statusCode == 200) {
         Map<String, dynamic> responseBody = json.decode(response.body);
-        final responseLogin = responseBody['login'];
+        final responseLogin = responseBody['UserLogin'];
 
         final newAccessToken = responseLogin['AccessToken'];
 
@@ -191,38 +191,15 @@ class _LoginScreenState extends State<LoginScreen> {
               idUser: -1, firstName: "", lastName: "", photo: "", email: email);
           context.goNamed('new_user_welcome');
         } else {
-          final responseUser = responseBody['user'];
-          final responseUserRanks = responseBody['userRanks'];
-          final responseUserMatchCounter = responseBody['matchCounter'];
-          final responseUserCity = responseBody['userCity'];
-          final responseUserState = responseBody['userState'];
+          final responseUser = responseBody['User'];
+          final responseUserMatchCounter = responseBody['MatchCounter'];
 
-          Provider.of<UserProvider>(context, listen: false).userFromJson(
-              responseUser,
-              Provider.of<CategoriesProvider>(context, listen: false));
-          Provider.of<UserProvider>(context, listen: false).userRankFromJson(
-              responseUserRanks,
-              Provider.of<CategoriesProvider>(context, listen: false));
+          Provider.of<UserProvider>(context, listen: false).user =
+              userFromJson(responseUser);
+
           Provider.of<UserProvider>(context, listen: false)
               .userMatchCounterFromJson(responseUserMatchCounter,
                   Provider.of<CategoriesProvider>(context, listen: false));
-          Provider.of<UserProvider>(context, listen: false).user!.email =
-              responseBody['userEmail'];
-
-          if (responseUserState != "" && responseUserCity != "") {
-            Provider.of<UserProvider>(context, listen: false).user!.region =
-                Region(
-                    idState: responseUserState['IdState'],
-                    state: responseUserState['State'],
-                    uf: responseUserState['UF']);
-            Provider.of<UserProvider>(context, listen: false)
-                    .user!
-                    .region!
-                    .selectedCity =
-                City(
-                    cityId: responseUserCity['IdCity'],
-                    city: responseUserCity['City']);
-          }
           context.goNamed('home', params: {'initialPage': 'feed_screen'});
         }
       } else if (response.statusCode == 404) {

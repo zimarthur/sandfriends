@@ -7,8 +7,11 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/main.dart';
 import 'package:sandfriends/models/court.dart';
 import 'package:sandfriends/models/enums.dart';
+import 'package:sandfriends/models/gender.dart';
 import 'package:sandfriends/models/match_counter.dart';
 import 'package:sandfriends/models/match_member.dart';
+import 'package:sandfriends/models/rank.dart';
+import 'package:sandfriends/models/side_preference.dart';
 import 'package:sandfriends/models/store_day.dart';
 import 'package:sandfriends/providers/user_provider.dart';
 import 'package:sandfriends/widgets/SFAvatar.dart';
@@ -60,7 +63,7 @@ class _MatchScreenState extends State<MatchScreen> {
   bool isUserInMatch = false;
   bool matchExpired = false;
 
-  Match currentMatch = Match();
+  Match? currentMatch;
 
   bool controllerHasChanged = false;
 
@@ -86,7 +89,9 @@ class _MatchScreenState extends State<MatchScreen> {
         });
       },
       appBarType: AppBarType.Primary,
-      titleText: "Partida de ${currentMatch.userCreator}",
+      titleText: currentMatch == null
+          ? ""
+          : "Partida de ${currentMatch!.matchCreator.firstName}",
       onTapReturn: () {
         if (widget.returnToParam == null) {
           context.goNamed(
@@ -126,8 +131,9 @@ class _MatchScreenState extends State<MatchScreen> {
                           setState(() {
                             isLoading = true;
                           });
-                          var auxStoreDay = StoreDay();
-                          auxStoreDay.store = currentMatch.store!;
+                          var auxStoreDay =
+                              StoreDay(store: currentMatch!.court.store);
+
                           Provider.of<MatchProvider>(context, listen: false)
                               .selectedStoreDay = auxStoreDay;
                           context.goNamed('court_screen', params: {
@@ -163,7 +169,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                       //IMAGEURL
                                       borderRadius: BorderRadius.circular(16.0),
                                       child: Image.network(
-                                        currentMatch.store!.imageUrl,
+                                        currentMatch!.court.store.imageUrl,
                                         height: height * 0.13,
                                         width: height * 0.13,
                                       ),
@@ -179,7 +185,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          currentMatch.store!.name,
+                                          currentMatch!.court.store.name,
                                           textScaleFactor: 1.5,
                                           style: TextStyle(
                                               fontWeight: FontWeight.w700,
@@ -199,7 +205,8 @@ class _MatchScreenState extends State<MatchScreen> {
                                                     right: width * 0.02)),
                                             Expanded(
                                               child: Text(
-                                                "${currentMatch.store!.address}",
+                                                currentMatch!
+                                                    .court.store.address,
                                                 style: TextStyle(
                                                   color: AppTheme
                                                       .colors.primaryBlue,
@@ -213,11 +220,11 @@ class _MatchScreenState extends State<MatchScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              currentMatch
-                                                  .court!.storeCourtName,
+                                              currentMatch!
+                                                  .court.storeCourtName,
                                             ),
                                             Text(
-                                              currentMatch.court!.isIndoor
+                                              currentMatch!.court.isIndoor
                                                   ? "Quadra Coberta"
                                                   : "Quadra Descoberta",
                                               textScaleFactor: 0.8,
@@ -237,8 +244,8 @@ class _MatchScreenState extends State<MatchScreen> {
                         ),
                       ),
                       isUserMatchCreator == false &&
-                              (currentMatch.creatorNotes == "" ||
-                                  currentMatch.creatorNotes == null)
+                              (currentMatch!.creatorNotes == "" ||
+                                  currentMatch!.creatorNotes == null)
                           ? Container()
                           : Column(
                               children: [
@@ -261,7 +268,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                       child: FittedBox(
                                         fit: BoxFit.fitHeight,
                                         child: Text(
-                                          "Recado de ${currentMatch.userCreator}",
+                                          "Recado de ${currentMatch!.matchCreator.firstName}",
                                           style: TextStyle(
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -297,7 +304,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                                 setState(() {
                                                   if (creatorNotesController
                                                           .text !=
-                                                      currentMatch
+                                                      currentMatch!
                                                           .creatorNotes) {
                                                     controllerHasChanged = true;
                                                   } else {
@@ -316,7 +323,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                         )
                                       : Container(
                                           child:
-                                              Text(currentMatch.creatorNotes),
+                                              Text(currentMatch!.creatorNotes),
                                           width: double.infinity),
                                 ),
                               ],
@@ -361,7 +368,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                           "Data:",
                                         ),
                                         Text(
-                                          "${DateFormat("dd/MM/yyyy").format(currentMatch.day!)}",
+                                          "${DateFormat("dd/MM/yyyy").format(currentMatch!.date)}",
                                           style: TextStyle(
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -376,7 +383,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                           "Horário:",
                                         ),
                                         Text(
-                                          "${currentMatch.timeBegin} - ${currentMatch.timeFinish}",
+                                          "${currentMatch!.timeBegin} - ${currentMatch!.timeFinish}",
                                           style: TextStyle(
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -391,7 +398,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                           "Preço:",
                                         ),
                                         Text(
-                                          "R\$ ${currentMatch.price}",
+                                          "R\$ ${currentMatch!.cost}",
                                           style: TextStyle(
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -406,7 +413,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                           "Esporte:",
                                         ),
                                         Text(
-                                          "${currentMatch.sport!.description}",
+                                          "${currentMatch!.sport.description}",
                                           style: TextStyle(
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -436,8 +443,8 @@ class _MatchScreenState extends State<MatchScreen> {
                               fit: BoxFit.fitHeight,
                               child: Text(
                                 referenceIsOpenMatch
-                                    ? "Jogadores (${currentMatch.activeMatchMembers}/${referenceMaxUsers})"
-                                    : "Jogadores (${currentMatch.activeMatchMembers})",
+                                    ? "Jogadores (${currentMatch!.activeMatchMembers}/${referenceMaxUsers})"
+                                    : "Jogadores (${currentMatch!.activeMatchMembers})",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -451,7 +458,7 @@ class _MatchScreenState extends State<MatchScreen> {
                             horizontal: width * 0.05, vertical: height * 0.02),
                         child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: currentMatch.matchMembers.length,
+                          itemCount: currentMatch!.members.length,
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
@@ -470,11 +477,11 @@ class _MatchScreenState extends State<MatchScreen> {
                                             children: [
                                               SFAvatar(
                                                 height: height * 0.15,
-                                                user: currentMatch
-                                                    .matchMembers[index].user!,
+                                                user: currentMatch!
+                                                    .members[index].user,
                                                 showRank: true,
                                                 editFile: null,
-                                                sport: currentMatch.sport,
+                                                sport: currentMatch!.sport,
                                               ),
                                               Container(
                                                 height: height * 0.12,
@@ -485,7 +492,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                                       child: FittedBox(
                                                         fit: BoxFit.fitHeight,
                                                         child: Text(
-                                                          "${currentMatch.matchMembers[index].user!.firstName} ${currentMatch.matchMembers[index].user!.lastName}",
+                                                          "${currentMatch!.members[index].user.firstName} ${currentMatch!.members[index].user.lastName}",
                                                           style: TextStyle(
                                                             color: AppTheme
                                                                 .colors
@@ -501,16 +508,16 @@ class _MatchScreenState extends State<MatchScreen> {
                                                       child: FittedBox(
                                                         fit: BoxFit.fitHeight,
                                                         child: Text(
-                                                          currentMatch
-                                                                      .matchMembers[
+                                                          currentMatch!
+                                                                      .members[
                                                                           index]
-                                                                      .user!
+                                                                      .user
                                                                       .matchCounter[
                                                                           0]
                                                                       .total ==
                                                                   1
-                                                              ? "${currentMatch.matchMembers[index].user!.matchCounter[0].total} jogo"
-                                                              : "${currentMatch.matchMembers[index].user!.matchCounter[0].total} jogos",
+                                                              ? "${currentMatch!.members[index].user.matchCounter[0].total} jogo"
+                                                              : "${currentMatch!.members[index].user.matchCounter[0].total} jogos",
                                                           style: TextStyle(
                                                             color: AppTheme
                                                                 .colors
@@ -524,23 +531,23 @@ class _MatchScreenState extends State<MatchScreen> {
                                                       child: FittedBox(
                                                         fit: BoxFit.fitHeight,
                                                         child: Text(
-                                                          currentMatch
-                                                                      .matchMembers[
+                                                          currentMatch!
+                                                                      .members[
                                                                           index]
-                                                                      .user!
+                                                                      .user
                                                                       .age ==
                                                                   null
                                                               ? ""
-                                                              : currentMatch
-                                                                          .matchMembers[
+                                                              : currentMatch!
+                                                                          .members[
                                                                               index]
-                                                                          .user!
+                                                                          .user
                                                                           .age! <
                                                                       18
                                                                   ? "Sub-18"
-                                                                  : currentMatch
-                                                                              .matchMembers[index]
-                                                                              .user!
+                                                                  : currentMatch!
+                                                                              .members[index]
+                                                                              .user
                                                                               .age! <
                                                                           40
                                                                       ? "Sub-40"
@@ -576,14 +583,14 @@ class _MatchScreenState extends State<MatchScreen> {
                                                             fit: BoxFit
                                                                 .fitHeight,
                                                             child: Text(
-                                                              currentMatch
-                                                                          .matchMembers[
+                                                              currentMatch!
+                                                                          .members[
                                                                               index]
-                                                                          .user!
-                                                                          .region ==
+                                                                          .user
+                                                                          .city ==
                                                                       null
                                                                   ? "-"
-                                                                  : "${currentMatch.matchMembers[index].user!.region!.selectedCity!.city} / ${currentMatch.matchMembers[index].user!.region!.uf}",
+                                                                  : "${currentMatch!.members[index].user.city!.city} / ${currentMatch!.members[index].user.city!.state!.uf}",
                                                               style: TextStyle(
                                                                 color: AppTheme
                                                                     .colors
@@ -614,16 +621,13 @@ class _MatchScreenState extends State<MatchScreen> {
                                                 children: [
                                                   Text("Gênero:"),
                                                   Text(
-                                                    currentMatch
-                                                                .matchMembers[
-                                                                    index]
-                                                                .user!
-                                                                .gender ==
+                                                    currentMatch!.members[index]
+                                                                .user.gender ==
                                                             null
                                                         ? "-"
-                                                        : currentMatch
-                                                            .matchMembers[index]
-                                                            .user!
+                                                        : currentMatch!
+                                                            .members[index]
+                                                            .user
                                                             .gender!
                                                             .name,
                                                     style: TextStyle(
@@ -642,11 +646,8 @@ class _MatchScreenState extends State<MatchScreen> {
                                                   Text("Rank:"),
                                                   ////////SFRANK
                                                   Text(
-                                                    currentMatch
-                                                        .matchMembers[index]
-                                                        .user!
-                                                        .rank[0]
-                                                        .name,
+                                                    currentMatch!.members[index]
+                                                        .user.rank[0].name,
                                                     style: TextStyle(
                                                         color: AppTheme
                                                             .colors.textBlue,
@@ -662,16 +663,15 @@ class _MatchScreenState extends State<MatchScreen> {
                                                 children: [
                                                   Text("Mão:"),
                                                   Text(
-                                                    currentMatch
-                                                                .matchMembers[
-                                                                    index]
-                                                                .user!
+                                                    currentMatch!
+                                                                .members[index]
+                                                                .user
                                                                 .sidePreference ==
                                                             null
                                                         ? "-"
-                                                        : currentMatch
-                                                            .matchMembers[index]
-                                                            .user!
+                                                        : currentMatch!
+                                                            .members[index]
+                                                            .user
                                                             .sidePreference!
                                                             .name,
                                                     style: TextStyle(
@@ -689,14 +689,11 @@ class _MatchScreenState extends State<MatchScreen> {
                                                 children: [
                                                   Text("Altura:"),
                                                   Text(
-                                                    currentMatch
-                                                                .matchMembers[
-                                                                    index]
-                                                                .user!
-                                                                .height ==
+                                                    currentMatch!.members[index]
+                                                                .user.height ==
                                                             null
                                                         ? "-"
-                                                        : "${currentMatch.matchMembers[index].user!.height!}m",
+                                                        : "${currentMatch!.members[index].user.height!}m",
                                                     style: TextStyle(
                                                         color: AppTheme
                                                             .colors.textBlue,
@@ -709,8 +706,8 @@ class _MatchScreenState extends State<MatchScreen> {
                                           ),
                                         ),
                                         isUserMatchCreator &&
-                                                currentMatch.matchMembers[index]
-                                                        .user!.idUser !=
+                                                currentMatch!.members[index]
+                                                        .user.idUser !=
                                                     Provider.of<UserProvider>(
                                                             context,
                                                             listen: false)
@@ -730,10 +727,9 @@ class _MatchScreenState extends State<MatchScreen> {
                                                                 height * 0.01),
                                                     onTap: () {
                                                       RemoveMatchMember(
-                                                          currentMatch
-                                                              .matchMembers[
-                                                                  index]
-                                                              .user!
+                                                          currentMatch!
+                                                              .members[index]
+                                                              .user
                                                               .idUser!);
                                                     }),
                                               )
@@ -763,8 +759,8 @@ class _MatchScreenState extends State<MatchScreen> {
                                       height: height * 0.05,
                                       width: double.infinity,
                                       decoration: BoxDecoration(
-                                        color: currentMatch.matchMembers[index]
-                                                .waitingApproval!
+                                        color: currentMatch!
+                                                .members[index].waitingApproval
                                             ? AppTheme.colors.secondaryYellow
                                             : AppTheme.colors.primaryLightBlue,
                                         borderRadius: BorderRadius.circular(8),
@@ -773,8 +769,8 @@ class _MatchScreenState extends State<MatchScreen> {
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              currentMatch.matchMembers[index]
-                                                  .user!.firstName!,
+                                              currentMatch!.members[index].user
+                                                  .firstName!,
                                               style: TextStyle(
                                                 color:
                                                     AppTheme.colors.textWhite,
@@ -782,7 +778,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                               ),
                                             ),
                                           ),
-                                          currentMatch.matchMembers[index]
+                                          currentMatch!.members[index]
                                                           .waitingApproval ==
                                                       true &&
                                                   isUserMatchCreator == false
@@ -811,8 +807,8 @@ class _MatchScreenState extends State<MatchScreen> {
                                                   ),
                                                 )
                                               : Container(),
-                                          currentMatch.matchMembers[index]
-                                                      .waitingApproval! &&
+                                          currentMatch!.members[index]
+                                                      .waitingApproval &&
                                                   isUserMatchCreator &&
                                                   matchExpired == false
                                               ? Row(
@@ -825,10 +821,10 @@ class _MatchScreenState extends State<MatchScreen> {
                                                       child: InkWell(
                                                         onTap: () =>
                                                             InvitationResponse(
-                                                                currentMatch
-                                                                    .matchMembers[
+                                                                currentMatch!
+                                                                    .members[
                                                                         index]
-                                                                    .user!
+                                                                    .user
                                                                     .idUser!,
                                                                 true),
                                                         child: SvgPicture.asset(
@@ -847,10 +843,10 @@ class _MatchScreenState extends State<MatchScreen> {
                                                       child: InkWell(
                                                         onTap: () =>
                                                             InvitationResponse(
-                                                                currentMatch
-                                                                    .matchMembers[
+                                                                currentMatch!
+                                                                    .members[
                                                                         index]
-                                                                    .user!
+                                                                    .user
                                                                     .idUser!,
                                                                 false),
                                                         child: SvgPicture.asset(
@@ -872,9 +868,8 @@ class _MatchScreenState extends State<MatchScreen> {
                                         height: height * 0.064,
                                         showRank: true,
                                         editFile: null,
-                                        user: currentMatch
-                                            .matchMembers[index].user!,
-                                        sport: currentMatch.sport,
+                                        user: currentMatch!.members[index].user,
+                                        sport: currentMatch!.sport,
                                       ),
                                     ),
                                   ],
@@ -901,11 +896,11 @@ class _MatchScreenState extends State<MatchScreen> {
                                       child: InkWell(
                                         onTap: () {
                                           setState(() {
-                                            currentMatch.isOpenMatch =
-                                                !currentMatch.isOpenMatch;
-                                            if (currentMatch.isOpenMatch ==
+                                            currentMatch!.isOpenMatch =
+                                                !currentMatch!.isOpenMatch;
+                                            if (currentMatch!.isOpenMatch ==
                                                 referenceIsOpenMatch) {
-                                              currentMatch.maxUsers =
+                                              currentMatch!.maxUsers =
                                                   referenceMaxUsers;
                                             }
                                           });
@@ -915,15 +910,16 @@ class _MatchScreenState extends State<MatchScreen> {
                                             Checkbox(
                                                 activeColor:
                                                     AppTheme.colors.textBlue,
-                                                value: currentMatch.isOpenMatch,
+                                                value:
+                                                    currentMatch!.isOpenMatch,
                                                 onChanged: (value) {
                                                   setState(() {
-                                                    currentMatch.isOpenMatch =
+                                                    currentMatch!.isOpenMatch =
                                                         value!;
-                                                    if (currentMatch
+                                                    if (currentMatch!
                                                             .isOpenMatch ==
                                                         referenceIsOpenMatch) {
-                                                      currentMatch.maxUsers =
+                                                      currentMatch!.maxUsers =
                                                           referenceMaxUsers;
                                                     }
                                                   });
@@ -936,7 +932,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                                   "Partida Aberta",
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w700,
-                                                    color: currentMatch
+                                                    color: currentMatch!
                                                                 .isOpenMatch ==
                                                             false
                                                         ? AppTheme
@@ -952,20 +948,20 @@ class _MatchScreenState extends State<MatchScreen> {
                                       ),
                                     ),
                                     referenceIsOpenMatch !=
-                                                currentMatch.isOpenMatch ||
+                                                currentMatch!.isOpenMatch ||
                                             referenceMaxUsers !=
-                                                currentMatch.maxUsers
+                                                currentMatch!.maxUsers
                                         ? SFButton(
                                             textPadding:
                                                 EdgeInsets.all(width * 0.02),
                                             buttonLabel: "Salvar",
                                             buttonType: ButtonType.Primary,
                                             onTap: () {
-                                              if (currentMatch.isOpenMatch ==
+                                              if (currentMatch!.isOpenMatch ==
                                                       true &&
-                                                  currentMatch.maxUsers <=
-                                                      currentMatch.matchMembers
-                                                          .length) {
+                                                  currentMatch!.maxUsers <=
+                                                      currentMatch!
+                                                          .members.length) {
                                                 setState(() {
                                                   modalWidget = SFModalMessage(
                                                     modalStatus:
@@ -987,7 +983,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                         : Container(),
                                   ],
                                 ),
-                                currentMatch.isOpenMatch == false
+                                currentMatch!.isOpenMatch == false
                                     ? Text(
                                         "Torne a partida aberta para permitir que novos jogadores solicitem para jogar com você!",
                                         style: TextStyle(
@@ -1022,12 +1018,8 @@ class _MatchScreenState extends State<MatchScreen> {
                                                   InkWell(
                                                     onTap: () {
                                                       setState(() {
-                                                        if (currentMatch
-                                                                .maxUsers >
-                                                            1) {
-                                                          currentMatch
-                                                              .maxUsers--;
-                                                        }
+                                                        currentMatch!
+                                                            .reduceMaxUser();
                                                       });
                                                     },
                                                     child: Container(
@@ -1061,7 +1053,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                                     child: FittedBox(
                                                       fit: BoxFit.fitHeight,
                                                       child: Text(
-                                                        "${currentMatch.maxUsers}",
+                                                        "${currentMatch!.maxUsers}",
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight
@@ -1072,7 +1064,8 @@ class _MatchScreenState extends State<MatchScreen> {
                                                   InkWell(
                                                     onTap: () {
                                                       setState(() {
-                                                        currentMatch.maxUsers++;
+                                                        currentMatch!
+                                                            .increaseMaxUser();
                                                       });
                                                     },
                                                     child: Container(
@@ -1130,7 +1123,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                           iconPath: r"assets\icon\share.svg",
                                           onTap: () async {
                                             await Share.share(
-                                                'Entre na minha partida!\n https://www.sandfriends.com.br/redirect/?ct=mtch&bd=${currentMatch.matchUrl}');
+                                                'Entre na minha partida!\n https://www.sandfriends.com.br/redirect/?ct=mtch&bd=${currentMatch!.matchUrl}');
                                           },
                                         ),
                                       )
@@ -1229,48 +1222,28 @@ class _MatchScreenState extends State<MatchScreen> {
             },
           ),
         );
+
         if (response.statusCode == 200) {
           Map<String, dynamic> responseBody = json.decode(response.body);
-          final responseLogin = responseBody['login'];
-          final responseUser = responseBody['user'];
-          final responseUserRanks = responseBody['userRanks'];
-          final responseUserMatchCounter = responseBody['matchCounter'];
-          final responseUserCity = responseBody['userCity'];
-          final responseUserState = responseBody['userState'];
 
-          Provider.of<UserProvider>(context, listen: false).userFromJson(
-              responseUser,
-              Provider.of<CategoriesProvider>(context, listen: false));
-          Provider.of<UserProvider>(context, listen: false).userRankFromJson(
-              responseUserRanks,
-              Provider.of<CategoriesProvider>(context, listen: false));
-          Provider.of<UserProvider>(context, listen: false)
-              .userMatchCounterFromJson(responseUserMatchCounter,
-                  Provider.of<CategoriesProvider>(context, listen: false));
-          Provider.of<UserProvider>(context, listen: false).user!.email =
-              responseBody['userEmail'];
-
-          Provider.of<UserProvider>(context, listen: false).user!.region =
-              Region(
-                  idState: responseUserState['IdState'],
-                  state: responseUserState['State'],
-                  uf: responseUserState['UF']);
-          Provider.of<UserProvider>(context, listen: false)
-                  .user!
-                  .region!
-                  .selectedCity =
-              City(
-                  cityId: responseUserCity['IdCity'],
-                  city: responseUserCity['City']);
+          final responseLogin = responseBody['UserLogin'];
 
           final newAccessToken = responseLogin['AccessToken'];
           await storage.write(key: "AccessToken", value: newAccessToken);
+
           if (responseLogin['EmailConfirmationDate'] == null) {
             context.goNamed('login_signup');
           } else if (responseLogin['IsNewUser'] == true) {
             context.goNamed('new_user_welcome');
           } else {
-            context.go('/home/feed_screen');
+            final responseUser = responseBody['User'];
+            final responseUserMatchCounter = responseBody['MatchCounter'];
+
+            Provider.of<UserProvider>(context, listen: false).user =
+                userFromJson(responseUser);
+            Provider.of<UserProvider>(context, listen: false)
+                .userMatchCounterFromJson(
+                    responseUserMatchCounter, categoriesProvider);
           }
         } else {
           //o token não é valido
@@ -1286,242 +1259,49 @@ class _MatchScreenState extends State<MatchScreen> {
 
     if (response.statusCode == 200) {
       if (mounted) {
-        currentMatch = Match();
         Map<String, dynamic> responseBody = json.decode(response.body);
-        final responseMatch = responseBody['match'];
-        final responseMatchMembers = responseBody['matchMembers'];
-        final responseStoreCourt = responseBody['storeCourt'];
-        final responseUsers = responseBody['users'];
-        final responseStore = responseBody['store'];
-        final responseStorePhoto = responseBody['storePhotos'];
-        final responseSports = responseBody['sports'];
-        final responseUsersMatchCounter = responseBody['usersMatchCounter'];
-        final responseUsersRanks = responseBody['userRanks'];
+        final responseMatch = responseBody['Match'];
+        final responseUsersMatchCounter = responseBody['UsersMatchCounter'];
 
-        if (Provider.of<CategoriesProvider>(context, listen: false)
-            .sports
-            .isEmpty) {
-          for (int i = 0; i < responseSports.length; i++) {
-            Provider.of<CategoriesProvider>(context, listen: false).sports.add(
-                  Sport(
-                    idSport: responseSports[i]['IdSport'],
-                    description: responseSports[i]['Description'],
-                    photoUrl: responseSports[i]['SportPhoto'],
-                  ),
-                );
-          }
-        }
-        if (Provider.of<StoreProvider>(context, listen: false).stores.isEmpty) {
-          var newStore = Store();
-          newStore.idStore = responseStore['IdStore'];
-          newStore.name = responseStore['Name'];
-          newStore.address = responseStore['Address'];
-          newStore.latitude = responseStore['Latitude'];
-          newStore.longitude = responseStore['Longitude'];
-          newStore.imageUrl = responseStore['Logo'];
-          newStore.descriptionText = responseStore['Description'];
-          newStore.instagram = responseStore['Instagram'];
-          newStore.phone = responseStore['PhoneNumber1'];
-          for (int photoIndex = 0;
-              photoIndex < responseStorePhoto.length;
-              photoIndex++) {
-            newStore.addPhoto(responseStorePhoto[photoIndex]['Photo']);
-          }
-          Provider.of<StoreProvider>(context, listen: false)
-              .stores
-              .add(newStore);
-        }
-        List<User> usersList = [];
-        for (int i = 0; i < responseUsers.length; i++) {
-          var gender;
-          var sidePreference;
-          for (int j = 0;
-              j <
-                  Provider.of<CategoriesProvider>(context, listen: false)
-                      .genders
-                      .length;
-              j++) {
-            if (Provider.of<CategoriesProvider>(context, listen: false)
-                    .genders[j]
-                    .idGender ==
-                responseUsers[i]['IdGenderCategory']) {
-              gender = Provider.of<CategoriesProvider>(context, listen: false)
-                  .genders[j];
-            }
-          }
-          for (int k = 0;
-              k <
-                  Provider.of<CategoriesProvider>(context, listen: false)
-                      .sidePreferences
-                      .length;
-              k++) {
-            if (Provider.of<CategoriesProvider>(context, listen: false)
-                    .sidePreferences[k]
-                    .idSidePreference ==
-                responseUsers[i]['IdSidePreferenceCategory']) {
-              sidePreference =
-                  Provider.of<CategoriesProvider>(context, listen: false)
-                      .sidePreferences[k];
-            }
-          }
-          var newUser = User(
-            idUser: responseUsers[i]['IdUser'],
-            firstName: responseUsers[i]['FirstName'],
-            lastName: responseUsers[i]['LastName'],
-            phoneNumber: responseUsers[i]['PhoneNumber'],
-            gender: gender,
-            birthday: responseUsers[i]['Birthday'],
-            age: responseUsers[i]['Age'],
-            height: responseUsers[i]['Height'],
-            sidePreference: sidePreference,
-            photo: responseUsers[i]['Photo'],
-          );
-
-          bool foundUserRank = false;
-          var newRank;
-          for (int userRanksIndex = 0;
-              userRanksIndex < responseUsersRanks.length;
-              userRanksIndex++) {
-            if (responseUsersRanks[userRanksIndex]['IdUser'] ==
-                newUser.idUser) {
-              Provider.of<CategoriesProvider>(context, listen: false)
-                  .ranks
-                  .forEach((rank) {
-                if (rank.idRankCategory ==
-                    responseUsersRanks[userRanksIndex]['IdRankCategory']) {
-                  newRank = rank;
-                  foundUserRank = true;
-                }
-              });
-            }
-          }
-          if (foundUserRank == false) {
-            Provider.of<CategoriesProvider>(context, listen: false)
-                .ranks
-                .forEach((rank) {
-              if ((rank.rankSportLevel == 0) &&
-                  (rank.sport.idSport == responseMatch['IdSport'])) {
-                newRank = rank;
-              }
-            });
-          }
-          newUser.rank.add(newRank);
-
-          for (int matchCounterIndex = 0;
-              matchCounterIndex < responseUsersMatchCounter.length;
-              matchCounterIndex++) {
-            if (responseUsersMatchCounter[matchCounterIndex]['IdUser'] ==
-                newUser.idUser) {
-              var newSport;
-              Provider.of<CategoriesProvider>(context, listen: false)
-                  .sports
-                  .forEach((sport) {
-                if (sport.idSport == responseMatch['IdSport']) {
-                  newSport = sport;
-                }
-              });
-              newUser.matchCounter.add(
-                MatchCounter(
-                  total: responseUsersMatchCounter[matchCounterIndex]
-                      ['MatchCounter'],
-                  sport: newSport,
-                ),
-              );
-            }
-          }
-          usersList.add(newUser);
-        }
+        currentMatch = matchFromJson(responseMatch);
 
         isUserInMatch = false;
-        for (int i = 0; i < responseMatchMembers.length; i++) {
-          if (responseMatchMembers[i]['IdUser'] ==
-              Provider.of<UserProvider>(context, listen: false).user!.idUser) {
-            isUserInMatch = true;
-          }
-          for (int userListIndex = 0;
-              userListIndex < usersList.length;
-              userListIndex++) {
-            if (usersList[userListIndex].idUser ==
-                responseMatchMembers[i]['IdUser']) {
-              currentMatch.matchMembers.add(
-                MatchMember(
-                  user: usersList[userListIndex],
-                  idMatchMember: responseMatchMembers[i]['IdMatchMember'],
-                  waitingApproval: responseMatchMembers[i]['WaitingApproval'],
-                  matchCreator: responseMatchMembers[i]['IsMatchCreator'],
-                ),
-              );
-              if (responseMatchMembers[i]['IsMatchCreator'] == true) {
-                currentMatch.userCreator = usersList[userListIndex].firstName!;
-                if (Provider.of<UserProvider>(context, listen: false)
-                        .user!
-                        .idUser ==
-                    usersList[userListIndex].idUser) {
-                  isUserMatchCreator = true;
-                } else {
-                  isUserMatchCreator = false;
-                }
-              }
+        for (int i = 0; i < currentMatch!.members.length; i++) {
+          for (int j = 0; j < responseUsersMatchCounter.length; j++) {
+            if (currentMatch!.members[i].user.idUser ==
+                responseUsersMatchCounter[j]['IdUser']) {
+              currentMatch!.members[i].user.matchCounter.clear();
+              currentMatch!.members[i].user.matchCounter.add(MatchCounter(
+                total: responseUsersMatchCounter[j]['MatchCounter'],
+                sport: currentMatch!.sport,
+              ));
             }
           }
-        }
-        if (isUserMatchCreator == false) {
-          currentMatch.matchMembers = currentMatch.matchMembers
-              .where((member) =>
-                  member.waitingApproval == false ||
-                  member.user!.idUser ==
-                      Provider.of<UserProvider>(context, listen: false)
-                          .user!
-                          .idUser)
-              .toList();
-        }
-        currentMatch.idMatch = responseMatch['IdMatch'];
-        Provider.of<StoreProvider>(context, listen: false)
-            .stores
-            .forEach((store) {
-          if (store.idStore == responseMatch['IdStore']) {
-            currentMatch.store = store;
+          if (currentMatch!.members[i].user.idUser ==
+              Provider.of<UserProvider>(context, listen: false).user!.idUser) {
+            isUserInMatch = true;
+            if (currentMatch!.members[i].isMatchCreator) {
+              isUserMatchCreator = true;
+            } else {
+              isUserMatchCreator = false;
+            }
           }
-        });
-        Provider.of<CategoriesProvider>(context, listen: false)
-            .sports
-            .forEach((sport) {
-          if (sport.idSport == responseMatch['IdSport']) {
-            currentMatch.sport = sport;
-          }
-        });
-        currentMatch.day =
-            DateFormat("yyyy-MM-dd").parse(responseMatch['Date']);
-        currentMatch.idMatch = responseMatch['IdMatch'];
-        currentMatch.timeBegin = responseMatch['TimeBegin'];
-        currentMatch.timeFinish = responseMatch['TimeEnd'];
-        currentMatch.price = responseMatch['Cost'];
-        currentMatch.matchUrl = responseMatch['MatchUrl'];
-        currentMatch.creatorNotes = responseMatch['CreatorNotes'];
-        currentMatch.canceled = responseMatch['Canceled'];
-        currentMatch.isOpenMatch = responseMatch['OpenUsers'];
-        if (responseMatch['MaxUsers'] == 0) {
-          currentMatch.maxUsers = 4;
-        } else {
-          currentMatch.maxUsers = responseMatch['MaxUsers'];
         }
 
         referenceIsOpenMatch = responseMatch['OpenUsers'];
-        if (responseMatch['MaxUsers'] == 0) {
+        if (currentMatch!.maxUsers == 0) {
+          currentMatch!.maxUsers = 4;
           referenceMaxUsers = 4;
         } else {
-          referenceMaxUsers = responseMatch['MaxUsers'];
+          referenceMaxUsers = currentMatch!.maxUsers;
         }
 
-        creatorNotesController.text = currentMatch.creatorNotes;
+        creatorNotesController.text = currentMatch!.creatorNotes;
 
-        currentMatch.court = Court(responseStoreCourt['IdStoreCourt'],
-            responseStoreCourt['Description'], responseStoreCourt['IsIndoor']);
-
-        if ((currentMatch.day!.isBefore(DateTime.now())) ||
-            ((currentMatch.day!.day == DateTime.now().day) &&
-                (currentMatch.timeInt < DateTime.now().hour)) ||
-            (currentMatch.canceled == true)) {
+        if ((currentMatch!.date.isBefore(DateTime.now())) ||
+            ((currentMatch!.date.day == DateTime.now().day) &&
+                (currentMatch!.timeInt < DateTime.now().hour)) ||
+            (currentMatch!.canceled == true)) {
           matchExpired = true;
         }
         setState(() {
@@ -1545,7 +1325,7 @@ class _MatchScreenState extends State<MatchScreen> {
         },
         body: jsonEncode(<String, Object>{
           'accessToken': accessToken,
-          'idMatch': currentMatch.idMatch!,
+          'idMatch': currentMatch!.idMatch,
           'idUser': idUser,
           'accepted': accepted,
         }),
@@ -1586,7 +1366,7 @@ class _MatchScreenState extends State<MatchScreen> {
         },
         body: jsonEncode(<String, Object>{
           'accessToken': accessToken,
-          'idMatch': currentMatch.idMatch!,
+          'idMatch': currentMatch!.idMatch,
         }),
       );
 
@@ -1624,16 +1404,16 @@ class _MatchScreenState extends State<MatchScreen> {
         },
         body: jsonEncode(<String, Object>{
           'accessToken': accessToken,
-          'idMatch': currentMatch.idMatch!,
-          'isOpenMatch': currentMatch.isOpenMatch,
-          'maxUsers': currentMatch.maxUsers,
+          'idMatch': currentMatch!.idMatch,
+          'isOpenMatch': currentMatch!.isOpenMatch,
+          'maxUsers': currentMatch!.maxUsers,
         }),
       );
 
       if (response.statusCode == 200) {
         setState(() {
-          referenceIsOpenMatch = currentMatch.isOpenMatch;
-          referenceMaxUsers = currentMatch.maxUsers;
+          referenceIsOpenMatch = currentMatch!.isOpenMatch;
+          referenceMaxUsers = currentMatch!.maxUsers;
           isLoading = false;
           modalWidget = SFModalMessage(
             modalStatus: GenericStatus.Success,
@@ -1648,7 +1428,7 @@ class _MatchScreenState extends State<MatchScreen> {
         });
       } else {
         setState(() {
-          currentMatch.creatorNotes = creatorNotesController.text;
+          currentMatch!.creatorNotes = creatorNotesController.text;
           isLoading = false;
           modalWidget = SFModalMessage(
             modalStatus: GenericStatus.Success,
@@ -1680,14 +1460,14 @@ class _MatchScreenState extends State<MatchScreen> {
         },
         body: jsonEncode(<String, Object>{
           'accessToken': accessToken,
-          'idMatch': currentMatch.idMatch!,
+          'idMatch': currentMatch!.idMatch,
           'newCreatorNotes': creatorNotesController.text,
         }),
       );
 
       if (response.statusCode == 200) {
         setState(() {
-          currentMatch.creatorNotes = creatorNotesController.text;
+          currentMatch!.creatorNotes = creatorNotesController.text;
           isLoading = false;
           modalWidget = SFModalMessage(
             modalStatus: GenericStatus.Success,
@@ -1719,7 +1499,7 @@ class _MatchScreenState extends State<MatchScreen> {
         },
         body: jsonEncode(<String, Object>{
           'accessToken': accessToken,
-          'idMatch': currentMatch.idMatch!,
+          'idMatch': currentMatch!.idMatch,
         }),
       );
 
@@ -1757,7 +1537,7 @@ class _MatchScreenState extends State<MatchScreen> {
         },
         body: jsonEncode(<String, Object>{
           'accessToken': accessToken,
-          'idMatch': currentMatch.idMatch!,
+          'idMatch': currentMatch!.idMatch,
         }),
       );
 
@@ -1798,7 +1578,7 @@ class _MatchScreenState extends State<MatchScreen> {
         },
         body: jsonEncode(<String, Object>{
           'accessToken': accessToken,
-          'idMatch': currentMatch.idMatch!,
+          'idMatch': currentMatch!.idMatch,
           'idUserDelete': idUserDelete,
         }),
       );

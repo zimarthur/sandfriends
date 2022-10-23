@@ -165,9 +165,10 @@ class _CourtScreenState extends State<CourtScreen> {
         }
         if (availableHoursList.length > 0) {
           Court newCourt = Court(
-            selectedStoreDay.courts[courtIndex].idStoreCourt,
-            selectedStoreDay.courts[courtIndex].storeCourtName,
-            selectedStoreDay.courts[courtIndex].isIndoor,
+            store: selectedStoreDay.store,
+            idStoreCourt: selectedStoreDay.courts[courtIndex].idStoreCourt,
+            storeCourtName: selectedStoreDay.courts[courtIndex].storeCourtName,
+            isIndoor: selectedStoreDay.courts[courtIndex].isIndoor,
           );
           newCourt.availableHours = List.from(availableHoursList);
           availableCourts.add(newCourt);
@@ -379,7 +380,7 @@ class _CourtScreenState extends State<CourtScreen> {
                                   Provider.of<MatchProvider>(context,
                                           listen: false)
                                       .selectedStoreDay!
-                                      .day,
+                                      .day!,
                                   style: TextStyle(
                                       color: AppTheme.colors.primaryBlue,
                                       fontWeight: FontWeight.w700),
@@ -810,10 +811,6 @@ class _CourtScreenState extends State<CourtScreen> {
         },
         body: jsonEncode(<String, Object>{
           "accessToken": accessToken,
-          "idStore": Provider.of<MatchProvider>(context, listen: false)
-              .selectedStoreDay!
-              .store
-              .idStore,
           "idStoreCourt": Provider.of<MatchProvider>(context, listen: false)
               .selectedStoreDay!
               .courts[Provider.of<MatchProvider>(context, listen: false)
@@ -825,7 +822,7 @@ class _CourtScreenState extends State<CourtScreen> {
           "date": DateFormat('yyyy-MM-dd').format(DateFormat('dd/MM/yyyy')
               .parse(Provider.of<MatchProvider>(context, listen: false)
                   .selectedStoreDay!
-                  .day)),
+                  .day!)),
           "timeBegin": Provider.of<MatchProvider>(context, listen: false)
               .selectedTime
               .first

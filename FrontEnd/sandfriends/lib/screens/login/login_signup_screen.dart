@@ -181,10 +181,12 @@ Future<void> ValidateLogin(BuildContext context, String email) async {
 
     await storage.write(key: "AccessToken", value: newAccessToken);
 
-    if (responseBody['IsNewUser'] == true) {
+    final responseLogin = responseBody['UserLogin'];
+
+    if (responseLogin['IsNewUser'] == true) {
       context.goNamed('new_user_welcome');
     } else {
-      context.goNamed('home');
+      context.goNamed('home', params: {'initialPage': 'feed_screen'});
     }
   } else {
     context.goNamed('login_signup');

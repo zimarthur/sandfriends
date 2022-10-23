@@ -14,7 +14,7 @@ class MatchProvider with ChangeNotifier {
   void ResetProviderAtributes() {
     searchStatus = EnumSearchStatus.NoFilterApplied;
     _indexSelectedTime.clear();
-    selectedStoreDay = StoreDay();
+    selectedStoreDay = null;
     _selectedTime.clear();
     _storeDayList.clear();
   }

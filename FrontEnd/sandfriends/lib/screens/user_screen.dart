@@ -124,10 +124,10 @@ class _UserScreenState extends State<UserScreen> {
                                         Provider.of<UserProvider>(context,
                                                         listen: false)
                                                     .user!
-                                                    .region ==
+                                                    .city ==
                                                 null
                                             ? "-"
-                                            : "${Provider.of<UserProvider>(context, listen: false).user!.region!.selectedCity!.city} / ${Provider.of<UserProvider>(context, listen: false).user!.region!.uf}",
+                                            : "${Provider.of<UserProvider>(context, listen: false).user!.city!.city} / ${Provider.of<UserProvider>(context, listen: false).user!.city!.state!.uf}",
                                         style: TextStyle(
                                             color: AppTheme.colors.textWhite),
                                       ),

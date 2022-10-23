@@ -4,5 +4,10 @@ class CourtAvailableHours {
   String hourFinish;
   int price;
 
-  CourtAvailableHours(this.hour, this.hourIndex, this.hourFinish, this.price);
+  CourtAvailableHours(
+    this.hour,
+    this.hourIndex,
+    this.hourFinish,
+    this.price,
+  );
 }

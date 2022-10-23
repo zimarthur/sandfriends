@@ -109,6 +109,7 @@ class CategoriesProvider with ChangeNotifier {
         sidePreferences.isEmpty);
   }
 
+  //MONTHS
   List monthsPortuguese = [
     'Jan',
     'Fev',
