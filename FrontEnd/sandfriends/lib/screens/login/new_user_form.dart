@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +15,6 @@ import '../../models/city.dart';
 import '../../models/region.dart';
 import '../../providers/user_provider.dart';
 import '../../widgets/SFLoading.dart';
-import '../../widgets/SF_Dropdown.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/SF_Button.dart';
 import '../../widgets/SF_TextField.dart';
@@ -102,7 +100,7 @@ class _NewUserFormState extends State<NewUserForm> {
       child: isLoading
           ? Container(
               color: AppTheme.colors.primaryBlue.withOpacity(0.3),
-              child: Center(
+              child: const Center(
                 child: SFLoading(),
               ),
             )
@@ -189,7 +187,7 @@ class _NewUserFormState extends State<NewUserForm> {
                                     ),
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                   height: height * 0.3,
                                   child: ListView.builder(
                                     shrinkWrap: true,
@@ -305,7 +303,7 @@ class _NewUserFormState extends State<NewUserForm> {
                         });
                         GetAllCities(context).then((value) {
                           setState(() {
-                            modalWidget = Container(
+                            modalWidget = SizedBox(
                               height: height * 0.7,
                               child: ListView.builder(
                                 itemCount: allRegions.length,
@@ -313,7 +311,7 @@ class _NewUserFormState extends State<NewUserForm> {
                                   return ExpansionTile(
                                     title: Text(
                                       allRegions[index].state,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -328,11 +326,10 @@ class _NewUserFormState extends State<NewUserForm> {
                                             ),
                                             onTap: () {
                                               setState(() {
-                                                allRegions.forEach((region) {
+                                                for (var region in allRegions) {
                                                   if (region.state ==
                                                       allRegions[index].state) {
-                                                    region.cities
-                                                        .forEach((cityList) {
+                                                    for (var cityList in region.cities) {
                                                       if (cityList.city ==
                                                           city.city) {
                                                         Provider.of<UserProvider>(
@@ -356,9 +353,9 @@ class _NewUserFormState extends State<NewUserForm> {
                                                                   .uf),
                                                         );
                                                       }
-                                                    });
+                                                    }
                                                   }
-                                                });
+                                                }
                                                 formValidation();
                                                 showModal = false;
                                               });
@@ -411,7 +408,7 @@ class _NewUserFormState extends State<NewUserForm> {
                                       ..onTap = () {
                                         print('Terms of Service"');
                                       }),
-                                TextSpan(text: "."),
+                                const TextSpan(text: "."),
                               ],
                             ),
                           )

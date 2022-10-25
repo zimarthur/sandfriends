@@ -8,7 +8,6 @@ import 'package:sandfriends/widgets/SF_Button.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../models/enums.dart';
 import '../theme/app_theme.dart';
 import '../providers/match_provider.dart';
 
@@ -74,7 +73,7 @@ class _SportSelectionScreenState extends State<SportSelectionScreen> {
                 child: Provider.of<CategoriesProvider>(context, listen: false)
                         .sports
                         .isEmpty
-                    ? Expanded(
+                    ? const Expanded(
                         child: Center(
                           child: SFLoading(),
                         ),

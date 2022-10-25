@@ -2,20 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/models/enums.dart';
 import 'package:sandfriends/widgets/SF_Scaffold.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/court.dart';
-import '../models/store.dart';
-import '../models/user.dart';
-import '../providers/categories_provider.dart';
-import '../providers/court_provider.dart';
 import '../providers/match_provider.dart';
-import '../providers/store_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/SFLoading.dart';
 import '../models/match.dart';
@@ -56,7 +49,7 @@ class _OpenMatchesScreenState extends State<OpenMatchesScreen> {
                 ),
                 Container(
                   color: AppTheme.colors.primaryBlue.withOpacity(0.3),
-                  child: Center(
+                  child: const Center(
                     child: SFLoading(),
                   ),
                 )

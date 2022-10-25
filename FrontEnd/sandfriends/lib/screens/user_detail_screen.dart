@@ -12,7 +12,6 @@ import 'package:sandfriends/models/enums.dart';
 import 'package:sandfriends/models/match_counter.dart';
 import 'package:sandfriends/models/region.dart';
 import 'package:sandfriends/providers/categories_provider.dart';
-import 'package:sandfriends/theme/colors.dart';
 import 'package:sandfriends/widgets/SF_Scaffold.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -214,7 +213,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
         context.goNamed('home', params: {'initialPage': 'user_screen'});
       },
       appBarType: AppBarType.Secondary,
-      rightWidget: Container(
+      rightWidget: SizedBox(
         width: width * 0.2,
         child: SFButton(
           buttonLabel: "Salvar",
@@ -229,7 +228,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
       child: isLoading
           ? Container(
               color: AppTheme.colors.primaryBlue.withOpacity(0.3),
-              child: Center(
+              child: const Center(
                 child: SFLoading(),
               ),
             )
@@ -400,7 +399,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Container(
+                          SizedBox(
                             height: height * 0.28,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -410,7 +409,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                     UpdateField(
                                         EnumProfileFields.Photo, context);
                                   },
-                                  child: Container(
+                                  child: SizedBox(
                                     height: height * 0.15,
                                     width: height * 0.2,
                                     child: Stack(
@@ -438,7 +437,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                     ),
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                   height: height * 0.12,
                                   child: Column(
                                     children: [
@@ -447,7 +446,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                           UpdateField(
                                               EnumProfileFields.Name, context);
                                         },
-                                        child: Container(
+                                        child: SizedBox(
                                           height: height * 0.04,
                                           child: FittedBox(
                                             fit: BoxFit.fitHeight,
@@ -463,7 +462,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                           ),
                                         ),
                                       ),
-                                      Container(
+                                      SizedBox(
                                         height: height * 0.025,
                                         child: FittedBox(
                                           fit: BoxFit.fitHeight,
@@ -483,7 +482,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                           UpdateField(
                                               EnumProfileFields.Age, context);
                                         },
-                                        child: Container(
+                                        child: SizedBox(
                                           height: height * 0.025,
                                           child: FittedBox(
                                             fit: BoxFit.fitHeight,
@@ -523,9 +522,9 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                       InkWell(
                                         onTap: () {
                                           setState(() {
-                                            modalWidget = Container(
+                                            modalWidget = SizedBox(
                                               height: height * 0.7,
-                                              child: Center(
+                                              child: const Center(
                                                 child: SFLoading(),
                                               ),
                                             );
@@ -549,7 +548,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                                 right: width * 0.01,
                                               ),
                                             ),
-                                            Container(
+                                            SizedBox(
                                               height: height * 0.025,
                                               child: FittedBox(
                                                 fit: BoxFit.fitHeight,
@@ -580,7 +579,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                               ],
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             height: height * 0.2,
                             width: width * 0.6,
                             child: Column(
@@ -590,7 +589,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("Gênero:"),
+                                    const Text("Gênero:"),
                                     InkWell(
                                       onTap: () {
                                         if (Provider.of<UserProvider>(context,
@@ -655,7 +654,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("Rank:"),
+                                    const Text("Rank:"),
                                     InkWell(
                                       onTap: () {
                                         Rank userRankOnSport =
@@ -713,7 +712,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("Mão/Pé:"),
+                                    const Text("Mão/Pé:"),
                                     InkWell(
                                       onTap: () {
                                         if (Provider.of<UserProvider>(context,
@@ -779,7 +778,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("Altura:"),
+                                    const Text("Altura:"),
                                     InkWell(
                                       onTap: () {
                                         UpdateField(
@@ -1117,7 +1116,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
+                SizedBox(
                   height: height * 0.3,
                   child: ListView.builder(
                     shrinkWrap: true,
@@ -1212,7 +1211,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
+                SizedBox(
                   height: height * 0.3,
                   child: ListView.builder(
                     shrinkWrap: true,
@@ -1309,7 +1308,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
+                SizedBox(
                   height: height * 0.3,
                   child: ListView.builder(
                     shrinkWrap: true,
@@ -1430,7 +1429,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
           });
           GetAllCities(context).then((value) {
             setState(() {
-              modalWidget = Container(
+              modalWidget = SizedBox(
                 height: height * 0.7,
                 child: ListView.builder(
                   itemCount: allRegions.length,
@@ -1438,7 +1437,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                     return ExpansionTile(
                       title: Text(
                         allRegions[index].state,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -1453,10 +1452,10 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                               ),
                               onTap: () {
                                 setState(() {
-                                  allRegions.forEach((region) {
+                                  for (var region in allRegions) {
                                     if (region.state ==
                                         allRegions[index].state) {
-                                      region.cities.forEach((cityList) {
+                                      for (var cityList in region.cities) {
                                         if (cityList.city == city.city) {
                                           Provider.of<UserProvider>(context,
                                                   listen: false)
@@ -1472,9 +1471,9 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                             ),
                                           );
                                         }
-                                      });
+                                      }
                                     }
-                                  });
+                                  }
                                   if (referenceUserInfo!.city!.cityId !=
                                       Provider.of<UserProvider>(context,
                                               listen: false)

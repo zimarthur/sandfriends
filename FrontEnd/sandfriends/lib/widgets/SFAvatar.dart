@@ -72,7 +72,7 @@ class SFAvatar extends StatelessWidget {
                     ),
                   )
                 : user.photo == null || user.photo!.isEmpty
-                    ? Container(
+                    ? SizedBox(
                         height: height * 0.42,
                         width: height * 0.42,
                         child: FittedBox(

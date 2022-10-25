@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../theme/app_theme.dart';
@@ -12,7 +11,7 @@ class SFOpenMatchVertical extends StatelessWidget {
   final Match match;
   final VoidCallback? buttonCallback;
 
-  SFOpenMatchVertical({required this.match, required this.buttonCallback});
+  const SFOpenMatchVertical({required this.match, required this.buttonCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class SFOpenMatchVertical extends StatelessWidget {
         horizontal: width * 0.02,
         vertical: height * 0.01,
       ),
-      padding: EdgeInsets.all(
+      padding: const EdgeInsets.all(
         12,
       ),
       decoration: BoxDecoration(
@@ -39,7 +38,7 @@ class SFOpenMatchVertical extends StatelessWidget {
         children: [
           Container(
             width: 4,
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               right: 12,
             ),
             decoration: BoxDecoration(
@@ -52,11 +51,11 @@ class SFOpenMatchVertical extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
+                SizedBox(
                   height: 105,
                   child: Row(
                     children: [
-                      Container(
+                      SizedBox(
                         width: 92,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,7 +96,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
+                              SizedBox(
                                 height: 20,
                                 child: FittedBox(
                                   fit: BoxFit.fitHeight,
@@ -113,7 +112,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                               IntrinsicWidth(
                                 child: Container(
                                   height: 24,
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                     horizontal: 12,
                                     vertical: 5,
                                   ),
@@ -162,7 +161,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                                             right: width * 0.01),
                                       ),
                                       Text(
-                                        "${DateFormat("dd/MM/yyyy").format(match.date)}",
+                                        DateFormat("dd/MM/yyyy").format(match.date),
                                         style: TextStyle(
                                           color: AppTheme.colors.primaryBlue,
                                         ),
@@ -214,7 +213,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 30,
                   child: SFButton(
                     buttonLabel: "Quero jogar",

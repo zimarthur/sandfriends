@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:sandfriends/models/city.dart';
 import 'package:sandfriends/models/match_counter.dart';
-import 'package:sandfriends/models/region.dart';
 
 import 'rank.dart';
 import 'side_preference.dart';
@@ -47,8 +45,8 @@ User userFromJson(Map<String, dynamic> json) {
     idUser: json['IdUser'],
     firstName: json['FirstName'],
     lastName: json['LastName'],
-    age: json['Age'] ?? null,
-    birthday: json['Birthday'] ?? null,
+    age: json['Age'],
+    birthday: json['Birthday'],
     email: json['Email'],
     gender: json['GenderCategory'] == null
         ? null

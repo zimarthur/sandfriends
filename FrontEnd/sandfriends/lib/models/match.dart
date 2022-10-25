@@ -78,7 +78,8 @@ class Match {
 Match matchFromJson(Map<String, dynamic> json) {
   var newMatch = Match(
     idMatch: json['IdMatch'],
-    date: DateFormat('yyyy-MM-dd').parse(json['Date']),
+    date: DateFormat('yyyy-MM-dd HH:mm')
+        .parse("${json['Date']} ${json['TimeBegin']}"),
     cost: json['Cost'],
     timeInt: json['TimeInteger'],
     timeBegin: json['TimeBegin'],

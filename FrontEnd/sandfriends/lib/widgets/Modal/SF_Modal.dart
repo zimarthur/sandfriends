@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/theme/app_theme.dart';
-import '../../models/validators.dart';
-import '../SF_Button.dart';
-import '../SF_TextField.dart';
-import '../../models/enums.dart';
 
 class SFModal extends StatefulWidget {
   final Widget child;
   final VoidCallback onTapBackground;
 
-  SFModal({
+  const SFModal({
     required this.child,
     required this.onTapBackground,
   });

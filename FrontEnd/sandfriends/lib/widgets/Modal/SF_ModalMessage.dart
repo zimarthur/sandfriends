@@ -10,7 +10,7 @@ class SFModalMessage extends StatefulWidget {
   final String message;
   final VoidCallback? onTap;
 
-  SFModalMessage(
+  const SFModalMessage(
       {required this.modalStatus, required this.message, required this.onTap});
 
   @override
@@ -52,7 +52,7 @@ class _SFModalMessageState extends State<SFModalMessage> {
           ),
           SizedBox(
             width: double.infinity,
-            child: Container(
+            child: SizedBox(
               height: height * 0.05,
               child: SFButton(
                 buttonLabel: "Concluído",

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/store.dart';
 
 class StoreProvider with ChangeNotifier {
-  List<Store> _stores = [];
+  final List<Store> _stores = [];
   List<Store> get stores => _stores;
   void addStore(Store store) {
     bool isNewStore = true;

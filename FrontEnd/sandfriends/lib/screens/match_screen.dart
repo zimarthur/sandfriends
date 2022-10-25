@@ -5,13 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/main.dart';
-import 'package:sandfriends/models/court.dart';
 import 'package:sandfriends/models/enums.dart';
-import 'package:sandfriends/models/gender.dart';
 import 'package:sandfriends/models/match_counter.dart';
-import 'package:sandfriends/models/match_member.dart';
-import 'package:sandfriends/models/rank.dart';
-import 'package:sandfriends/models/side_preference.dart';
 import 'package:sandfriends/models/store_day.dart';
 import 'package:sandfriends/providers/user_provider.dart';
 import 'package:sandfriends/widgets/SFAvatar.dart';
@@ -22,16 +17,10 @@ import 'package:sandfriends/widgets/SF_TextField.dart';
 import 'dart:convert';
 import 'package:share_plus/share_plus.dart';
 
-import '../models/city.dart';
-import '../models/region.dart';
-import '../models/sport.dart';
-import '../models/store.dart';
 import '../models/user.dart';
 import '../models/validators.dart';
 import '../providers/match_provider.dart';
 import '../models/match.dart';
-import '../providers/categories_provider.dart';
-import '../providers/store_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/Modal/SF_ModalMessage.dart';
 import '../widgets/SFLoading.dart';
@@ -44,7 +33,7 @@ class MatchScreen extends StatefulWidget {
   final String? returnToParam;
   final String? returnToParamValue;
 
-  MatchScreen({
+  const MatchScreen({
     required this.matchUrl,
     required this.returnTo,
     this.returnToParam,
@@ -115,7 +104,7 @@ class _MatchScreenState extends State<MatchScreen> {
                     Container(
                       //loading
                       color: AppTheme.colors.primaryBlue.withOpacity(0.3),
-                      child: Center(
+                      child: const Center(
                         child: SFLoading(),
                       ),
                     )
@@ -143,7 +132,7 @@ class _MatchScreenState extends State<MatchScreen> {
                             'returnToParamValue': '${widget.matchUrl}',
                           });
                         },
-                        child: Container(
+                        child: SizedBox(
                           height: height * 0.2,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,7 +141,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                 //LOCAL
                                 height: height * 0.03,
                                 margin: EdgeInsets.only(top: height * 0.01),
-                                child: FittedBox(
+                                child: const FittedBox(
                                   fit: BoxFit.fitHeight,
                                   child: Text(
                                     "Local",
@@ -244,8 +233,7 @@ class _MatchScreenState extends State<MatchScreen> {
                         ),
                       ),
                       isUserMatchCreator == false &&
-                              (currentMatch!.creatorNotes == "" ||
-                                  currentMatch!.creatorNotes == null)
+                              (currentMatch!.creatorNotes == "")
                           ? Container()
                           : Column(
                               children: [
@@ -269,7 +257,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                         fit: BoxFit.fitHeight,
                                         child: Text(
                                           "Recado de ${currentMatch!.matchCreator.firstName}",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
@@ -321,7 +309,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                                   creatorNotesController,
                                               validator: max255),
                                         )
-                                      : Container(
+                                      : SizedBox(
                                           child:
                                               Text(currentMatch!.creatorNotes),
                                           width: double.infinity),
@@ -335,22 +323,56 @@ class _MatchScreenState extends State<MatchScreen> {
                           color: AppTheme.colors.textLightGrey,
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: height * 0.3,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              height: height * 0.03,
-                              child: FittedBox(
-                                fit: BoxFit.fitHeight,
-                                child: Text(
-                                  "Detalhes da Partida",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  height: height * 0.03,
+                                  child: const FittedBox(
+                                    fit: BoxFit.fitHeight,
+                                    child: Text(
+                                      "Detalhes da Partida",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                                currentMatch!.canceled
+                                    ? SizedBox(
+                                        height: height * 0.03,
+                                        child: const FittedBox(
+                                          fit: BoxFit.fitHeight,
+                                          child: Text(
+                                            "Cancelada",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.red),
+                                          ),
+                                        ),
+                                      )
+                                    : currentMatch!.date
+                                            .isBefore(DateTime.now())
+                                        ? SizedBox(
+                                            height: height * 0.03,
+                                            child: FittedBox(
+                                              fit: BoxFit.fitHeight,
+                                              child: Text(
+                                                "Encerrada",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: AppTheme
+                                                        .colors.textLightGrey),
+                                              ),
+                                            ),
+                                          )
+                                        : Container()
+                              ],
                             ),
                             Expanded(
                               child: Padding(
@@ -364,12 +386,12 @@ class _MatchScreenState extends State<MatchScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
+                                        const Text(
                                           "Data:",
                                         ),
                                         Text(
-                                          "${DateFormat("dd/MM/yyyy").format(currentMatch!.date)}",
-                                          style: TextStyle(
+                                          DateFormat("dd/MM/yyyy").format(currentMatch!.date),
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
@@ -379,12 +401,12 @@ class _MatchScreenState extends State<MatchScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
+                                        const Text(
                                           "Horário:",
                                         ),
                                         Text(
                                           "${currentMatch!.timeBegin} - ${currentMatch!.timeFinish}",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
@@ -394,12 +416,12 @@ class _MatchScreenState extends State<MatchScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
+                                        const Text(
                                           "Preço:",
                                         ),
                                         Text(
                                           "R\$ ${currentMatch!.cost}",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
@@ -409,12 +431,12 @@ class _MatchScreenState extends State<MatchScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
+                                        const Text(
                                           "Esporte:",
                                         ),
                                         Text(
-                                          "${currentMatch!.sport.description}",
-                                          style: TextStyle(
+                                          currentMatch!.sport.description,
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
@@ -437,15 +459,15 @@ class _MatchScreenState extends State<MatchScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
+                          SizedBox(
                             height: height * 0.03,
                             child: FittedBox(
                               fit: BoxFit.fitHeight,
                               child: Text(
                                 referenceIsOpenMatch
-                                    ? "Jogadores (${currentMatch!.activeMatchMembers}/${referenceMaxUsers})"
+                                    ? "Jogadores (${currentMatch!.activeMatchMembers}/$referenceMaxUsers)"
                                     : "Jogadores (${currentMatch!.activeMatchMembers})",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -460,422 +482,455 @@ class _MatchScreenState extends State<MatchScreen> {
                           shrinkWrap: true,
                           itemCount: currentMatch!.members.length,
                           itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () {
-                                setState(() {
-                                  modalWidget = Container(
-                                    height: height * 0.6,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Container(
-                                          height: height * 0.28,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              SFAvatar(
-                                                height: height * 0.15,
-                                                user: currentMatch!
-                                                    .members[index].user,
-                                                showRank: true,
-                                                editFile: null,
-                                                sport: currentMatch!.sport,
-                                              ),
-                                              Container(
-                                                height: height * 0.12,
-                                                child: Column(
-                                                  children: [
-                                                    Container(
-                                                      height: height * 0.04,
-                                                      child: FittedBox(
-                                                        fit: BoxFit.fitHeight,
-                                                        child: Text(
-                                                          "${currentMatch!.members[index].user.firstName} ${currentMatch!.members[index].user.lastName}",
-                                                          style: TextStyle(
-                                                            color: AppTheme
-                                                                .colors
-                                                                .textBlue,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      height: height * 0.025,
-                                                      child: FittedBox(
-                                                        fit: BoxFit.fitHeight,
-                                                        child: Text(
-                                                          currentMatch!
-                                                                      .members[
-                                                                          index]
-                                                                      .user
-                                                                      .matchCounter[
-                                                                          0]
-                                                                      .total ==
-                                                                  1
-                                                              ? "${currentMatch!.members[index].user.matchCounter[0].total} jogo"
-                                                              : "${currentMatch!.members[index].user.matchCounter[0].total} jogos",
-                                                          style: TextStyle(
-                                                            color: AppTheme
-                                                                .colors
-                                                                .textDarkGrey,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      height: height * 0.025,
-                                                      child: FittedBox(
-                                                        fit: BoxFit.fitHeight,
-                                                        child: Text(
-                                                          currentMatch!
-                                                                      .members[
-                                                                          index]
-                                                                      .user
-                                                                      .age ==
-                                                                  null
-                                                              ? ""
-                                                              : currentMatch!
-                                                                          .members[
-                                                                              index]
-                                                                          .user
-                                                                          .age! <
-                                                                      18
-                                                                  ? "Sub-18"
-                                                                  : currentMatch!
-                                                                              .members[index]
-                                                                              .user
-                                                                              .age! <
-                                                                          40
-                                                                      ? "Sub-40"
-                                                                      : "40+",
-                                                          style: TextStyle(
-                                                            color: AppTheme
-                                                                .colors
-                                                                .textDarkGrey,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                          r'assets\icon\location_ping.svg',
-                                                          color: AppTheme.colors
-                                                              .textDarkGrey,
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                            right: width * 0.01,
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height:
-                                                              height * 0.025,
-                                                          child: FittedBox(
-                                                            fit: BoxFit
-                                                                .fitHeight,
-                                                            child: Text(
-                                                              currentMatch!
-                                                                          .members[
-                                                                              index]
-                                                                          .user
-                                                                          .city ==
-                                                                      null
-                                                                  ? "-"
-                                                                  : "${currentMatch!.members[index].user.city!.city} / ${currentMatch!.members[index].user.city!.state!.uf}",
-                                                              style: TextStyle(
-                                                                color: AppTheme
-                                                                    .colors
-                                                                    .textDarkGrey,
-                                                              ),
+                            if (currentMatch!.members[index].quit == true ||
+                                (currentMatch!.members[index].refused ==
+                                    true) ||
+                                ((currentMatch!
+                                            .members[index].waitingApproval ==
+                                        true) &&
+                                    (isUserMatchCreator == false))) {
+                              return Container();
+                            } else {
+                              return InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    modalWidget = SizedBox(
+                                      height: height * 0.6,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          SizedBox(
+                                            height: height * 0.28,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                SFAvatar(
+                                                  height: height * 0.15,
+                                                  user: currentMatch!
+                                                      .members[index].user,
+                                                  showRank: true,
+                                                  editFile: null,
+                                                  sport: currentMatch!.sport,
+                                                ),
+                                                SizedBox(
+                                                  height: height * 0.12,
+                                                  child: Column(
+                                                    children: [
+                                                      SizedBox(
+                                                        height: height * 0.04,
+                                                        child: FittedBox(
+                                                          fit: BoxFit.fitHeight,
+                                                          child: Text(
+                                                            "${currentMatch!.members[index].user.firstName} ${currentMatch!.members[index].user.lastName}",
+                                                            style: TextStyle(
+                                                              color: AppTheme
+                                                                  .colors
+                                                                  .textBlue,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
                                                             ),
                                                           ),
                                                         ),
-                                                      ],
+                                                      ),
+                                                      SizedBox(
+                                                        height: height * 0.025,
+                                                        child: FittedBox(
+                                                          fit: BoxFit.fitHeight,
+                                                          child: Text(
+                                                            currentMatch!
+                                                                        .members[
+                                                                            index]
+                                                                        .user
+                                                                        .matchCounter[
+                                                                            0]
+                                                                        .total ==
+                                                                    1
+                                                                ? "${currentMatch!.members[index].user.matchCounter[0].total} jogo"
+                                                                : "${currentMatch!.members[index].user.matchCounter[0].total} jogos",
+                                                            style: TextStyle(
+                                                              color: AppTheme
+                                                                  .colors
+                                                                  .textDarkGrey,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: height * 0.025,
+                                                        child: FittedBox(
+                                                          fit: BoxFit.fitHeight,
+                                                          child: Text(
+                                                            currentMatch!
+                                                                        .members[
+                                                                            index]
+                                                                        .user
+                                                                        .age ==
+                                                                    null
+                                                                ? ""
+                                                                : currentMatch!
+                                                                            .members[
+                                                                                index]
+                                                                            .user
+                                                                            .age! <
+                                                                        18
+                                                                    ? "Sub-18"
+                                                                    : currentMatch!.members[index].user.age! <
+                                                                            40
+                                                                        ? "Sub-40"
+                                                                        : "40+",
+                                                            style: TextStyle(
+                                                              color: AppTheme
+                                                                  .colors
+                                                                  .textDarkGrey,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          SvgPicture.asset(
+                                                            r'assets\icon\location_ping.svg',
+                                                            color: AppTheme
+                                                                .colors
+                                                                .textDarkGrey,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                              right:
+                                                                  width * 0.01,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height:
+                                                                height * 0.025,
+                                                            child: FittedBox(
+                                                              fit: BoxFit
+                                                                  .fitHeight,
+                                                              child: Text(
+                                                                currentMatch!
+                                                                            .members[index]
+                                                                            .user
+                                                                            .city ==
+                                                                        null
+                                                                    ? "-"
+                                                                    : "${currentMatch!.members[index].user.city!.city} / ${currentMatch!.members[index].user.city!.state!.uf}",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: AppTheme
+                                                                      .colors
+                                                                      .textDarkGrey,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: height * 0.2,
+                                            width: width * 0.6,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    const Text("Gênero:"),
+                                                    Text(
+                                                      currentMatch!
+                                                                  .members[
+                                                                      index]
+                                                                  .user
+                                                                  .gender ==
+                                                              null
+                                                          ? "-"
+                                                          : currentMatch!
+                                                              .members[index]
+                                                              .user
+                                                              .gender!
+                                                              .name,
+                                                      style: TextStyle(
+                                                          color: AppTheme
+                                                              .colors.textBlue,
+                                                          fontWeight:
+                                                              FontWeight.w700),
                                                     ),
                                                   ],
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          height: height * 0.2,
-                                          width: width * 0.6,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text("Gênero:"),
-                                                  Text(
-                                                    currentMatch!.members[index]
-                                                                .user.gender ==
-                                                            null
-                                                        ? "-"
-                                                        : currentMatch!
-                                                            .members[index]
-                                                            .user
-                                                            .gender!
-                                                            .name,
-                                                    style: TextStyle(
-                                                        color: AppTheme
-                                                            .colors.textBlue,
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text("Rank:"),
-                                                  ////////SFRANK
-                                                  Text(
-                                                    currentMatch!.members[index]
-                                                        .user.rank[0].name,
-                                                    style: TextStyle(
-                                                        color: AppTheme
-                                                            .colors.textBlue,
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text("Mão:"),
-                                                  Text(
-                                                    currentMatch!
-                                                                .members[index]
-                                                                .user
-                                                                .sidePreference ==
-                                                            null
-                                                        ? "-"
-                                                        : currentMatch!
-                                                            .members[index]
-                                                            .user
-                                                            .sidePreference!
-                                                            .name,
-                                                    style: TextStyle(
-                                                        color: AppTheme
-                                                            .colors.textBlue,
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text("Altura:"),
-                                                  Text(
-                                                    currentMatch!.members[index]
-                                                                .user.height ==
-                                                            null
-                                                        ? "-"
-                                                        : "${currentMatch!.members[index].user.height!}m",
-                                                    style: TextStyle(
-                                                        color: AppTheme
-                                                            .colors.textBlue,
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        isUserMatchCreator &&
-                                                currentMatch!.members[index]
-                                                        .user.idUser !=
-                                                    Provider.of<UserProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .user!
-                                                        .idUser &&
-                                                matchExpired == false
-                                            ? Container(
-                                                width: width * 0.5,
-                                                child: SFButton(
-                                                    buttonLabel:
-                                                        "Excluir Jogador",
-                                                    buttonType:
-                                                        ButtonType.Primary,
-                                                    textPadding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical:
-                                                                height * 0.01),
-                                                    onTap: () {
-                                                      RemoveMatchMember(
-                                                          currentMatch!
-                                                              .members[index]
-                                                              .user
-                                                              .idUser!);
-                                                    }),
-                                              )
-                                            : Container(),
-                                      ],
-                                    ),
-                                  );
-
-                                  showModal = true;
-                                });
-                              },
-                              child: Container(
-                                height: height * 0.08,
-                                margin: EdgeInsets.symmetric(
-                                    vertical: height * 0.005),
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        left: height * 0.04,
-                                        bottom: height * 0.015,
-                                        top: height * 0.015,
-                                      ),
-                                      padding:
-                                          EdgeInsets.only(left: height * 0.06),
-                                      alignment: Alignment.centerLeft,
-                                      height: height * 0.05,
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: currentMatch!
-                                                .members[index].waitingApproval
-                                            ? AppTheme.colors.secondaryYellow
-                                            : AppTheme.colors.primaryLightBlue,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              currentMatch!.members[index].user
-                                                  .firstName!,
-                                              style: TextStyle(
-                                                color:
-                                                    AppTheme.colors.textWhite,
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                            ),
-                                          ),
-                                          currentMatch!.members[index]
-                                                          .waitingApproval ==
-                                                      true &&
-                                                  isUserMatchCreator == false
-                                              ? Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      horizontal: width * 0.01),
-                                                  padding: EdgeInsets.symmetric(
-                                                    horizontal: width * 0.02,
-                                                    vertical: width * 0.01,
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                    color: AppTheme
-                                                        .colors.secondaryPaper,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            16),
-                                                  ),
-                                                  child: Text(
-                                                    "Solic. Enviada",
-                                                    style: TextStyle(
-                                                      color: AppTheme.colors
-                                                          .secondaryYellow,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                    ),
-                                                  ),
-                                                )
-                                              : Container(),
-                                          currentMatch!.members[index]
-                                                      .waitingApproval &&
-                                                  isUserMatchCreator &&
-                                                  matchExpired == false
-                                              ? Row(
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
-                                                    Container(
-                                                      margin:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal:
-                                                                  width * 0.02),
-                                                      child: InkWell(
-                                                        onTap: () =>
-                                                            InvitationResponse(
-                                                                currentMatch!
-                                                                    .members[
-                                                                        index]
-                                                                    .user
-                                                                    .idUser!,
-                                                                true),
-                                                        child: SvgPicture.asset(
-                                                          r'assets\icon\confirm.svg',
-                                                          color: AppTheme.colors
-                                                              .secondaryGreen,
-                                                          height: height * 0.03,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      margin:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal:
-                                                                  width * 0.02),
-                                                      child: InkWell(
-                                                        onTap: () =>
-                                                            InvitationResponse(
-                                                                currentMatch!
-                                                                    .members[
-                                                                        index]
-                                                                    .user
-                                                                    .idUser!,
-                                                                false),
-                                                        child: SvgPicture.asset(
-                                                          r'assets\icon\cancel.svg',
-                                                          color: Colors.red,
-                                                          height: height * 0.03,
-                                                        ),
-                                                      ),
+                                                    const Text("Rank:"),
+                                                    ////////SFRANK
+                                                    Text(
+                                                      currentMatch!
+                                                          .members[index]
+                                                          .user
+                                                          .rank[0]
+                                                          .name,
+                                                      style: TextStyle(
+                                                          color: AppTheme
+                                                              .colors.textBlue,
+                                                          fontWeight:
+                                                              FontWeight.w700),
                                                     ),
                                                   ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    const Text("Mão:"),
+                                                    Text(
+                                                      currentMatch!
+                                                                  .members[
+                                                                      index]
+                                                                  .user
+                                                                  .sidePreference ==
+                                                              null
+                                                          ? "-"
+                                                          : currentMatch!
+                                                              .members[index]
+                                                              .user
+                                                              .sidePreference!
+                                                              .name,
+                                                      style: TextStyle(
+                                                          color: AppTheme
+                                                              .colors.textBlue,
+                                                          fontWeight:
+                                                              FontWeight.w700),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    const Text("Altura:"),
+                                                    Text(
+                                                      currentMatch!
+                                                                  .members[
+                                                                      index]
+                                                                  .user
+                                                                  .height ==
+                                                              null
+                                                          ? "-"
+                                                          : "${currentMatch!.members[index].user.height!}m",
+                                                      style: TextStyle(
+                                                          color: AppTheme
+                                                              .colors.textBlue,
+                                                          fontWeight:
+                                                              FontWeight.w700),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          isUserMatchCreator &&
+                                                  currentMatch!.members[index]
+                                                          .user.idUser !=
+                                                      Provider.of<UserProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .user!
+                                                          .idUser &&
+                                                  matchExpired == false
+                                              ? SizedBox(
+                                                  width: width * 0.5,
+                                                  child: SFButton(
+                                                      buttonLabel:
+                                                          "Excluir Jogador",
+                                                      buttonType:
+                                                          ButtonType.Primary,
+                                                      textPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: height *
+                                                                  0.01),
+                                                      onTap: () {
+                                                        RemoveMatchMember(
+                                                            currentMatch!
+                                                                .members[index]
+                                                                .user
+                                                                .idUser!);
+                                                      }),
                                                 )
                                               : Container(),
                                         ],
                                       ),
-                                    ),
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      child: SFAvatar(
-                                        height: height * 0.064,
-                                        showRank: true,
-                                        editFile: null,
-                                        user: currentMatch!.members[index].user,
-                                        sport: currentMatch!.sport,
+                                    );
+
+                                    showModal = true;
+                                  });
+                                },
+                                child: Container(
+                                  height: height * 0.08,
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: height * 0.005),
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                          left: height * 0.04,
+                                          bottom: height * 0.015,
+                                          top: height * 0.015,
+                                        ),
+                                        padding: EdgeInsets.only(
+                                            left: height * 0.06),
+                                        alignment: Alignment.centerLeft,
+                                        height: height * 0.05,
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: currentMatch!.members[index]
+                                                  .waitingApproval
+                                              ? AppTheme.colors.secondaryYellow
+                                              : AppTheme
+                                                  .colors.primaryLightBlue,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                currentMatch!.members[index]
+                                                    .user.firstName!,
+                                                style: TextStyle(
+                                                  color:
+                                                      AppTheme.colors.textWhite,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                            ),
+                                            currentMatch!.members[index]
+                                                            .waitingApproval ==
+                                                        true &&
+                                                    isUserMatchCreator == false
+                                                ? Container(
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal:
+                                                                width * 0.01),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                      horizontal: width * 0.02,
+                                                      vertical: width * 0.01,
+                                                    ),
+                                                    decoration: BoxDecoration(
+                                                      color: AppTheme.colors
+                                                          .secondaryPaper,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              16),
+                                                    ),
+                                                    child: Text(
+                                                      "Solic. Enviada",
+                                                      style: TextStyle(
+                                                        color: AppTheme.colors
+                                                            .secondaryYellow,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Container(),
+                                            currentMatch!.members[index]
+                                                        .waitingApproval &&
+                                                    isUserMatchCreator &&
+                                                    matchExpired == false
+                                                ? Row(
+                                                    children: [
+                                                      Container(
+                                                        margin: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    width *
+                                                                        0.02),
+                                                        child: InkWell(
+                                                          onTap: () =>
+                                                              InvitationResponse(
+                                                                  currentMatch!
+                                                                      .members[
+                                                                          index]
+                                                                      .user
+                                                                      .idUser!,
+                                                                  true),
+                                                          child:
+                                                              SvgPicture.asset(
+                                                            r'assets\icon\confirm.svg',
+                                                            color: AppTheme
+                                                                .colors
+                                                                .secondaryGreen,
+                                                            height:
+                                                                height * 0.03,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        margin: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    width *
+                                                                        0.02),
+                                                        child: InkWell(
+                                                          onTap: () =>
+                                                              InvitationResponse(
+                                                                  currentMatch!
+                                                                      .members[
+                                                                          index]
+                                                                      .user
+                                                                      .idUser!,
+                                                                  false),
+                                                          child:
+                                                              SvgPicture.asset(
+                                                            r'assets\icon\cancel.svg',
+                                                            color: Colors.red,
+                                                            height:
+                                                                height * 0.03,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                : Container(),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                      Container(
+                                        alignment: Alignment.centerLeft,
+                                        child: SFAvatar(
+                                          height: height * 0.064,
+                                          showRank: true,
+                                          editFile: null,
+                                          user:
+                                              currentMatch!.members[index].user,
+                                          sport: currentMatch!.sport,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
+                              );
+                            }
                           },
                         ),
                       ),
@@ -924,7 +979,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                                     }
                                                   });
                                                 }),
-                                            Container(
+                                            SizedBox(
                                               height: height * 0.03,
                                               child: FittedBox(
                                                 fit: BoxFit.fitHeight,
@@ -1000,7 +1055,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            Text(
+                                            const Text(
                                               "Quantos jogadores sua partida deve ter?",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w500),
@@ -1048,13 +1103,13 @@ class _MatchScreenState extends State<MatchScreen> {
                                                       ),
                                                     ),
                                                   ),
-                                                  Container(
+                                                  SizedBox(
                                                     height: height * 0.04,
                                                     child: FittedBox(
                                                       fit: BoxFit.fitHeight,
                                                       child: Text(
                                                         "${currentMatch!.maxUsers}",
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w500),
@@ -1115,7 +1170,7 @@ class _MatchScreenState extends State<MatchScreen> {
                           ? Column(
                               children: [
                                 matchExpired == false
-                                    ? Container(
+                                    ? SizedBox(
                                         height: height * 0.05,
                                         child: SFButton(
                                           buttonLabel: "Convidar Jogadores",
@@ -1134,7 +1189,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                   ),
                                 ),
                                 matchExpired == false
-                                    ? Container(
+                                    ? SizedBox(
                                         height: height * 0.05,
                                         child: SFButton(
                                           buttonLabel: "Cancelar Partida",
@@ -1156,7 +1211,7 @@ class _MatchScreenState extends State<MatchScreen> {
                               ? Column(
                                   children: [
                                     matchExpired == false
-                                        ? Container(
+                                        ? SizedBox(
                                             height: height * 0.05,
                                             child: SFButton(
                                               buttonLabel: "Sair da Partida",
@@ -1177,7 +1232,7 @@ class _MatchScreenState extends State<MatchScreen> {
                               : matchExpired == false
                                   ? Column(
                                       children: [
-                                        Container(
+                                        SizedBox(
                                           height: height * 0.05,
                                           child: SFButton(
                                             buttonLabel: "Entrar na Partida",
@@ -1204,6 +1259,9 @@ class _MatchScreenState extends State<MatchScreen> {
   }
 
   Future<void> GetMatchInfo() async {
+    setState(() {
+      isLoading = true;
+    });
     if (Provider.of<UserProvider>(context, listen: false).user == null) {
       const storage = FlutterSecureStorage();
       String? accessToken = await storage.read(key: "AccessToken");

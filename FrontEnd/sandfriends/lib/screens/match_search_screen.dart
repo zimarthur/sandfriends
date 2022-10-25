@@ -7,11 +7,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/models/store.dart';
 import 'package:sandfriends/models/store_day.dart';
 import 'package:sandfriends/models/court_available_hours.dart';
 import 'package:sandfriends/models/court.dart';
-import 'package:sandfriends/models/user.dart';
-import 'package:sandfriends/providers/categories_provider.dart';
 import 'package:sandfriends/providers/court_provider.dart';
 import 'package:sandfriends/providers/store_provider.dart';
 import 'package:sandfriends/providers/user_provider.dart';
@@ -25,7 +24,6 @@ import 'package:time_range/time_range.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
-import '../models/match.dart';
 import '../models/city.dart';
 import '../models/region.dart';
 import '../models/enums.dart';
@@ -54,7 +52,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
   bool showModal = false;
   Widget? modalWidget;
 
-  RangeValues _currentRangeValues = RangeValues(0, 23);
+  final RangeValues _currentRangeValues = const RangeValues(0, 23);
 
   TimeRangeResult? timePickerRange;
   final defaultTimePickerRange = TimeRangeResult(
@@ -63,9 +61,9 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
   );
 
   final Map<int, Widget> segmentedTexts = <int, Widget>{
-    0: Text("Todos"),
-    1: Text("Quadras"),
-    2: Text("Partidas"),
+    0: const Text("Todos"),
+    1: const Text("Quadras"),
+    2: const Text("Partidas"),
   };
   int segmentedTextValue = 0;
 
@@ -86,10 +84,8 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
 
     if (Provider.of<MatchProvider>(context, listen: false).needsRefresh ==
         true) {
-      if (Provider.of<MatchProvider>(context, listen: false).selectedDates ==
-              null ||
-          Provider.of<MatchProvider>(context, listen: false).selectedRegion ==
-              null) {
+      if (Provider.of<MatchProvider>(context, listen: false).selectedRegion ==
+          null) {
         Provider.of<MatchProvider>(context, listen: false).storeDayList.clear();
       } else {
         loadDates();
@@ -130,9 +126,9 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                         onTap: () {
                           setState(() {
                             showModal = true;
-                            modalWidget = Container(
+                            modalWidget = SizedBox(
                               height: height * 0.7,
-                              child: Center(
+                              child: const Center(
                                 child: SFLoading(),
                               ),
                             );
@@ -353,17 +349,17 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                         padding: EdgeInsets.symmetric(
                                             vertical: height * 0.02),
                                         child: TimeRange(
-                                          fromTitle: Text(
+                                          fromTitle: const Text(
                                             'De',
                                           ),
-                                          toTitle: Text(
+                                          toTitle: const Text(
                                             'Até',
                                           ),
                                           titlePadding: 20,
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                               fontWeight: FontWeight.normal,
                                               color: Colors.black87),
-                                          activeTextStyle: TextStyle(
+                                          activeTextStyle: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white),
                                           borderColor:
@@ -376,10 +372,10 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                       context,
                                                       listen: false)
                                                   .selectedTimeRange,
-                                          firstTime:
-                                              TimeOfDay(hour: 1, minute: 0),
-                                          lastTime:
-                                              TimeOfDay(hour: 23, minute: 00),
+                                          firstTime: const TimeOfDay(
+                                              hour: 1, minute: 0),
+                                          lastTime: const TimeOfDay(
+                                              hour: 23, minute: 00),
                                           timeStep: 60,
                                           timeBlock: 60,
                                           onRangeCompleted: (range) => setState(
@@ -896,10 +892,9 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                             child: Row(
                                                               children: [
                                                                 Container(
-                                                                  padding: EdgeInsets
-                                                                      .only(
-                                                                          right:
-                                                                              5),
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      right: 5),
                                                                   child: SvgPicture
                                                                       .asset(
                                                                           r'assets\icon\calendar.svg'),
@@ -1113,7 +1108,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                                                 Row(
                                                                               children: [
                                                                                 Container(
-                                                                                  padding: EdgeInsets.only(right: 5),
+                                                                                  padding: const EdgeInsets.only(right: 5),
                                                                                   child: SvgPicture.asset(r'assets\icon\calendar.svg'),
                                                                                 ),
                                                                                 Text(
@@ -1359,7 +1354,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
           isLoading
               ? Container(
                   color: AppTheme.colors.primaryBlue.withOpacity(0.3),
-                  child: Center(
+                  child: const Center(
                     child: SFLoading(),
                   ),
                 )
@@ -1601,7 +1596,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
       List<Region> _availableRegions =
           Provider.of<MatchProvider>(context, listen: false).availableRegions;
 
-      modalWidget = Container(
+      modalWidget = SizedBox(
         height: height * 0.7,
         child: ListView.builder(
           itemCount: _availableRegions.length,
@@ -1617,7 +1612,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                       : InkWell(
                           onTap: () {
                             setState(() {
-                              _availableRegions.forEach((region) {
+                              for (var region in _availableRegions) {
                                 if (region.idState ==
                                     Provider.of<UserProvider>(context,
                                             listen: false)
@@ -1625,7 +1620,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                         .city!
                                         .state!
                                         .idState) {
-                                  region.cities.forEach((cityList) {
+                                  for (var cityList in region.cities) {
                                     if (cityList.cityId ==
                                         Provider.of<UserProvider>(context,
                                                 listen: false)
@@ -1647,9 +1642,9 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                               cityId: cityList.cityId,
                                               city: cityList.city);
                                     }
-                                  });
+                                  }
                                 }
-                              });
+                              }
 
                               Provider.of<MatchProvider>(context, listen: false)
                                   .regionText = Provider.of<MatchProvider>(
@@ -1700,7 +1695,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                   ExpansionTile(
                     title: Text(
                       _availableRegions[index].state,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -1715,10 +1710,10 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                             ),
                             onTap: () {
                               setState(() {
-                                _availableRegions.forEach((region) {
+                                for (var region in _availableRegions) {
                                   if (region.state ==
                                       _availableRegions[index].state) {
-                                    region.cities.forEach((cityList) {
+                                    for (var cityList in region.cities) {
                                       if (cityList.city == city.city) {
                                         Provider.of<MatchProvider>(context,
                                                 listen: false)
@@ -1736,9 +1731,9 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                 cityId: cityList.cityId,
                                                 city: cityList.city);
                                       }
-                                    });
+                                    }
                                   }
-                                });
+                                }
                                 Provider.of<MatchProvider>(context,
                                         listen: false)
                                     .regionText = Provider.of<MatchProvider>(
@@ -1765,7 +1760,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
               return ExpansionTile(
                 title: Text(
                   _availableRegions[index].state,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -1780,10 +1775,10 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                         ),
                         onTap: () {
                           setState(() {
-                            _availableRegions.forEach((region) {
+                            for (var region in _availableRegions) {
                               if (region.state ==
                                   _availableRegions[index].state) {
-                                region.cities.forEach((cityList) {
+                                for (var cityList in region.cities) {
                                   if (cityList.city == city.city) {
                                     Provider.of<MatchProvider>(context,
                                             listen: false)
@@ -1800,9 +1795,9 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                             cityId: cityList.cityId,
                                             city: cityList.city);
                                   }
-                                });
+                                }
                               }
-                            });
+                            }
                             Provider.of<MatchProvider>(context, listen: false)
                                 .regionText = Provider.of<MatchProvider>(
                                         context,

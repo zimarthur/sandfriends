@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../theme/app_theme.dart';
 
-enum ButtonType { Primary, Secondary, Disabled }
+enum ButtonType { Primary, Secondary, Disabled, YellowPrimary, YellowSecondary }
 
 class SFButton extends StatefulWidget {
   final String buttonLabel;
@@ -37,13 +37,18 @@ class _SFButtonState extends State<SFButton> {
         decoration: BoxDecoration(
           color: widget.buttonType == ButtonType.Primary
               ? AppTheme.colors.primaryBlue
-              : widget.buttonType == ButtonType.Secondary
-                  ? AppTheme.colors.secondaryPaper
-                  : AppTheme.colors.textDisabled,
+              : widget.buttonType == ButtonType.YellowPrimary
+                  ? AppTheme.colors.secondaryYellow
+                  : widget.buttonType == ButtonType.Secondary ||
+                          widget.buttonType == ButtonType.YellowSecondary
+                      ? AppTheme.colors.secondaryPaper
+                      : AppTheme.colors.textDisabled,
           borderRadius: BorderRadius.circular(16.0),
           border: widget.buttonType == ButtonType.Secondary
               ? Border.all(color: AppTheme.colors.primaryBlue, width: 1)
-              : null,
+              : widget.buttonType == ButtonType.YellowSecondary
+                  ? Border.all(color: AppTheme.colors.secondaryYellow, width: 1)
+                  : null,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +61,9 @@ class _SFButtonState extends State<SFButton> {
                       widget.iconPath,
                       color: widget.buttonType == ButtonType.Secondary
                           ? AppTheme.colors.primaryBlue
-                          : AppTheme.colors.textWhite,
+                          : widget.buttonType == ButtonType.YellowSecondary
+                              ? AppTheme.colors.secondaryYellow
+                              : AppTheme.colors.textWhite,
                     ),
                   ),
             Padding(
@@ -71,7 +78,9 @@ class _SFButtonState extends State<SFButton> {
                     fontWeight: FontWeight.bold,
                     color: widget.buttonType == ButtonType.Secondary
                         ? AppTheme.colors.primaryBlue
-                        : AppTheme.colors.textWhite,
+                        : widget.buttonType == ButtonType.YellowSecondary
+                            ? AppTheme.colors.secondaryYellow
+                            : AppTheme.colors.textWhite,
                   ),
                 ),
               ),
@@ -84,7 +93,9 @@ class _SFButtonState extends State<SFButton> {
                       widget.iconPath,
                       color: widget.buttonType == ButtonType.Secondary
                           ? AppTheme.colors.primaryBlue
-                          : AppTheme.colors.textWhite,
+                          : widget.buttonType == ButtonType.YellowSecondary
+                              ? AppTheme.colors.secondaryYellow
+                              : AppTheme.colors.textWhite,
                     ),
                   ),
           ],

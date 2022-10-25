@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/screens/sport_selection_screen.dart';
 import 'package:sandfriends/widgets/SF_NavBar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:intl/intl.dart';
 
-import '../models/rank.dart';
-import '../models/match.dart';
-import '../models/side_preference.dart';
 import '../providers/redirect_provider.dart';
-import '../widgets/SFLoading.dart';
 import 'feed_screen.dart';
 import 'user_screen.dart';
 import '../theme/app_theme.dart';

@@ -14,7 +14,6 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/enums.dart';
-import '../models/user.dart';
 import '../models/validators.dart';
 import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
@@ -47,12 +46,12 @@ class _UserScreenState extends State<UserScreen> {
                   onTap: () {
                     context.goNamed('user_detail');
                   },
-                  child: Container(
+                  child: SizedBox(
                     height: height * 0.48,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
+                        SizedBox(
                           height: height * 0.28,
                           child: Column(
                             children: [
@@ -209,7 +208,7 @@ class _UserScreenState extends State<UserScreen> {
                           setState(() {
                             feedbackController.text = "";
                             modalWidget = SFModal(
-                              child: Container(
+                              child: SizedBox(
                                 height: height * 0.6,
                                 child: Column(
                                   mainAxisAlignment:
@@ -270,9 +269,9 @@ class _UserScreenState extends State<UserScreen> {
                                                 setState(() {
                                                   modalWidget = SFModal(
                                                     onTapBackground: () {},
-                                                    child: Container(
+                                                    child: SizedBox(
                                                       height: height * 0.6,
-                                                      child: SFLoading(),
+                                                      child: const SFLoading(),
                                                     ),
                                                   );
                                                 });

@@ -3,13 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/models/enums.dart';
-import 'package:sandfriends/models/user.dart';
 import 'package:sandfriends/widgets/SF_Scaffold.dart';
 
 import '../providers/categories_provider.dart';
 import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
-import '../models/match.dart';
 
 class UserMatchScreen extends StatefulWidget {
   @override
@@ -57,7 +55,7 @@ class _UserMatchScreenState extends State<UserMatchScreen> {
                       color: AppTheme.colors.textLightGrey,
                       blurRadius: 2.0,
                       spreadRadius: 0.0,
-                      offset: Offset(1.0, 1.0),
+                      offset: const Offset(1.0, 1.0),
                     )
                   ],
                   color: AppTheme.colors.secondaryPaper,
@@ -79,7 +77,7 @@ class _UserMatchScreenState extends State<UserMatchScreen> {
                           topRight: Radius.circular(16),
                         ),
                         child: Image.network(
-                            '${Provider.of<UserProvider>(context).matchList[index].sport.photoUrl}',
+                            Provider.of<UserProvider>(context).matchList[index].sport.photoUrl,
                             width: double.infinity,
                             fit: BoxFit.fill),
                       ),
@@ -98,23 +96,23 @@ class _UserMatchScreenState extends State<UserMatchScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
+                            SizedBox(
                               height: height * 0.03,
                               child: FittedBox(
                                 fit: BoxFit.fitHeight,
                                 child: Text(
                                   "${Provider.of<UserProvider>(context).matchList[index].date.day}",
-                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                  style: const TextStyle(fontWeight: FontWeight.w600),
                                 ),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               height: height * 0.025,
                               child: FittedBox(
                                 fit: BoxFit.fitHeight,
                                 child: Text(
                                   "${Provider.of<CategoriesProvider>(context, listen: false).monthsPortuguese[Provider.of<UserProvider>(context).matchList[index].date.month - 1]}",
-                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                  style: const TextStyle(fontWeight: FontWeight.w600),
                                 ),
                               ),
                             ),
@@ -131,7 +129,7 @@ class _UserMatchScreenState extends State<UserMatchScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Container(
+                            SizedBox(
                               height: height * 0.03,
                               child: FittedBox(
                                 fit: BoxFit.fitWidth,
@@ -187,7 +185,7 @@ class _UserMatchScreenState extends State<UserMatchScreen> {
                                           EdgeInsets.only(right: width * 0.01),
                                     ),
                                     Text(
-                                      "${Provider.of<UserProvider>(context).matchList[index].court.store.name}",
+                                      Provider.of<UserProvider>(context).matchList[index].court.store.name,
                                       style: TextStyle(
                                         color: AppTheme.colors.textDarkGrey,
                                       ),
@@ -203,19 +201,10 @@ class _UserMatchScreenState extends State<UserMatchScreen> {
                     Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
-                          color: ((Provider.of<UserProvider>(context)
-                                      .matchList[index]
-                                      .date
-                                      .isBefore(DateTime.now())) ||
-                                  ((Provider.of<UserProvider>(context)
-                                              .matchList[index]
-                                              .date
-                                              .day ==
-                                          DateTime.now().day) &&
-                                      (Provider.of<UserProvider>(context)
-                                              .matchList[index]
-                                              .timeInt <
-                                          DateTime.now().hour)))
+                          color: Provider.of<UserProvider>(context)
+                                  .matchList[index]
+                                  .date
+                                  .isBefore(DateTime.now())
                               ? AppTheme.colors.textLightGrey.withOpacity(0.6)
                               : Colors.transparent),
                     ),
@@ -231,25 +220,16 @@ class _UserMatchScreenState extends State<UserMatchScreen> {
                                   horizontal: width * 0.02,
                                   vertical: width * 0.01),
                               decoration: BoxDecoration(
-                                color: ((Provider.of<UserProvider>(context)
-                                            .matchList[index]
-                                            .date
-                                            .isBefore(DateTime.now())) ||
-                                        ((Provider.of<UserProvider>(context)
-                                                    .matchList[index]
-                                                    .date
-                                                    .day ==
-                                                DateTime.now().day) &&
-                                            (Provider.of<UserProvider>(context)
-                                                    .matchList[index]
-                                                    .timeInt <
-                                                DateTime.now().hour)))
+                                color: Provider.of<UserProvider>(context)
+                                        .matchList[index]
+                                        .date
+                                        .isBefore(DateTime.now())
                                     ? Colors.red.withOpacity(0.6)
                                     : Colors.red,
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Text(
-                                "Cancelado",
+                                "Cancelada",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: AppTheme.colors.textWhite,

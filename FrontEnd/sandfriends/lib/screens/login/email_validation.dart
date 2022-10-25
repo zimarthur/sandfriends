@@ -7,7 +7,6 @@ import 'package:sandfriends/widgets/Modal/SF_ModalMessage.dart';
 import 'dart:convert';
 
 import '../../models/enums.dart';
-import '../../models/user.dart';
 import '../../providers/login_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/Modal/SF_Modal.dart';

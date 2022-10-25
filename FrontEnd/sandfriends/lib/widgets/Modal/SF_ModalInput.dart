@@ -76,7 +76,7 @@ class _SFModalInputState extends State<SFModalInput> {
           ),
           SizedBox(
             width: double.infinity,
-            child: Container(
+            child: SizedBox(
               height: height * 0.05,
               child: SFButton(
                 buttonLabel: "Concluído",

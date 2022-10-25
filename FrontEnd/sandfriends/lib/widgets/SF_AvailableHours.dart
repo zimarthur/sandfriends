@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/providers/match_provider.dart';
 
 import '../models/court_available_hours.dart';
-import '../models/store_day.dart';
 import '../theme/app_theme.dart';
 
 class SFAvailableHours extends StatefulWidget {
@@ -81,7 +80,7 @@ class _SFAvailableHoursState extends State<SFAvailableHours> {
             border: Border.all(color: AppTheme.colors.primaryBlue, width: 1),
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             child: Column(
               children: [
                 Row(

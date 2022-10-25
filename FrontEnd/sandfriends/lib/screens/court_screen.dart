@@ -45,7 +45,7 @@ class _CourtScreenState extends State<CourtScreen> {
   bool showModal = false;
   Widget? modalWidget;
   bool viewOnly = true;
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   List<Court> availableCourts = [];
 
@@ -60,7 +60,7 @@ class _CourtScreenState extends State<CourtScreen> {
   }
 
   GoogleMapController? mapController; //contrller for Google map
-  Set<Marker> markers = Set(); //markers for google map
+  Set<Marker> markers = {}; //markers for google map
   LatLng? showLocation;
 
   @override
@@ -163,7 +163,7 @@ class _CourtScreenState extends State<CourtScreen> {
                     .courts[courtIndex].availableHours[hourIndex].price));
           }
         }
-        if (availableHoursList.length > 0) {
+        if (availableHoursList.isNotEmpty) {
           Court newCourt = Court(
             store: selectedStoreDay.store,
             idStoreCourt: selectedStoreDay.courts[courtIndex].idStoreCourt,
@@ -185,7 +185,7 @@ class _CourtScreenState extends State<CourtScreen> {
             children: [
               Stack(
                 children: [
-                  Container(
+                  SizedBox(
                     height: height * 0.40,
                     width: width,
                     child: Stack(
@@ -194,7 +194,7 @@ class _CourtScreenState extends State<CourtScreen> {
                         ListView.builder(
                           controller: _controller,
                           scrollDirection: Axis.horizontal,
-                          physics: PageScrollPhysics(),
+                          physics: const PageScrollPhysics(),
                           itemCount:
                               Provider.of<MatchProvider>(context, listen: false)
                                   .selectedStoreDay!
@@ -202,7 +202,7 @@ class _CourtScreenState extends State<CourtScreen> {
                                   .photos
                                   .length,
                           itemBuilder: ((context, index) {
-                            return Container(
+                            return SizedBox(
                               width: width,
                               child: FittedBox(
                                 fit: BoxFit.cover,
@@ -218,7 +218,7 @@ class _CourtScreenState extends State<CourtScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(bottom: height * 0.06),
-                          child: Container(
+                          child: SizedBox(
                             height: width * 0.02,
                             width: width *
                                 0.04 *
@@ -272,9 +272,9 @@ class _CourtScreenState extends State<CourtScreen> {
                     height: height * 0.15,
                     decoration: BoxDecoration(
                       color: AppTheme.colors.secondaryBack,
-                      borderRadius: BorderRadius.only(
-                        topLeft: const Radius.circular(30.0),
-                        topRight: const Radius.circular(30.0),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(30.0),
+                        topRight: Radius.circular(30.0),
                       ),
                     ),
                     child: Padding(
@@ -304,7 +304,7 @@ class _CourtScreenState extends State<CourtScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       height: height * 0.05,
                                       child: FittedBox(
                                         fit: BoxFit.fitWidth,
@@ -403,7 +403,7 @@ class _CourtScreenState extends State<CourtScreen> {
                           ListView.builder(
                             padding: EdgeInsets.zero,
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: availableCourts.length,
                             itemBuilder: (context, indexcourt) {
                               return Padding(
@@ -441,7 +441,7 @@ class _CourtScreenState extends State<CourtScreen> {
                                         ],
                                       ),
                                     ),
-                                    Container(
+                                    SizedBox(
                                       height: 50,
                                       child: ListView.builder(
                                         scrollDirection: Axis.horizontal,
@@ -560,12 +560,15 @@ class _CourtScreenState extends State<CourtScreen> {
                             color: AppTheme.colors.primaryBlue,
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: height * 0.025,
                           child: FittedBox(
                             fit: BoxFit.fitHeight,
                             child: Text(
-                              "${Provider.of<MatchProvider>(context, listen: false).selectedStoreDay!.store.phone}",
+                              Provider.of<MatchProvider>(context, listen: false)
+                                  .selectedStoreDay!
+                                  .store
+                                  .phone,
                               style: TextStyle(
                                 color: AppTheme.colors.primaryBlue,
                               ),
@@ -612,12 +615,15 @@ class _CourtScreenState extends State<CourtScreen> {
                             color: AppTheme.colors.primaryBlue,
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: height * 0.025,
                           child: FittedBox(
                             fit: BoxFit.fitHeight,
                             child: Text(
-                              "${Provider.of<MatchProvider>(context, listen: false).selectedStoreDay!.store.instagram}",
+                              Provider.of<MatchProvider>(context, listen: false)
+                                  .selectedStoreDay!
+                                  .store
+                                  .instagram,
                               style: TextStyle(
                                 color: AppTheme.colors.primaryBlue,
                               ),
@@ -719,7 +725,8 @@ class _CourtScreenState extends State<CourtScreen> {
                                         .indexSelectedTime
                                         .isEmpty
                                     ? "${Provider.of<MatchProvider>(context).selectedTime.first.hour} -"
-                                    : "${Provider.of<MatchProvider>(context).matchDetailsTime}",
+                                    : Provider.of<MatchProvider>(context)
+                                        .matchDetailsTime,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: height * 0.02,
@@ -753,7 +760,7 @@ class _CourtScreenState extends State<CourtScreen> {
                                       .indexSelectedTime
                                       .isEmpty
                                   ? ButtonType.Disabled
-                                  : ButtonType.Primary,
+                                  : ButtonType.YellowPrimary,
                               textPadding: EdgeInsets.all(width * 0.03),
                               onTap: () {
                                 if (Provider.of<MatchProvider>(context,
@@ -784,7 +791,7 @@ class _CourtScreenState extends State<CourtScreen> {
           isLoading
               ? Container(
                   color: AppTheme.colors.primaryBlue.withOpacity(0.3),
-                  child: Center(
+                  child: const Center(
                     child: SFLoading(),
                   ),
                 )

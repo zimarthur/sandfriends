@@ -15,7 +15,7 @@ class SFCourtCard extends StatefulWidget {
   final int widgetIndexStore;
   final VoidCallback onOnTap;
 
-  SFCourtCard(
+  const SFCourtCard(
       {required this.storeDay,
       required this.widgetIndexStore,
       required this.onOnTap});
@@ -106,7 +106,7 @@ class _SFCourtCardState extends State<SFCourtCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: Row(
                 children: [
                   ClipRRect(
@@ -117,7 +117,7 @@ class _SFCourtCardState extends State<SFCourtCard> {
                       width: 82,
                     ),
                   ),
-                  Padding(padding: EdgeInsets.only(right: 12)),
+                  const Padding(padding: EdgeInsets.only(right: 12)),
                   Expanded(
                       child: SizedBox(
                     height: 82,
@@ -169,7 +169,7 @@ class _SFCourtCardState extends State<SFCourtCard> {
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               height: 50,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -188,11 +188,11 @@ class _SFCourtCardState extends State<SFCourtCard> {
               padding: EdgeInsets.symmetric(
                   horizontal: width * 0.03, vertical: height * 0.01),
               child: SFButton(
-                  buttonLabel: "Agendar Horário",
+                  buttonLabel: "Prosseguir",
                   buttonType: isSelectedCourt(context, true)
                       ? ButtonType.Primary
                       : ButtonType.Disabled,
-                  textPadding: EdgeInsets.symmetric(vertical: 5),
+                  textPadding: const EdgeInsets.symmetric(vertical: 5),
                   onTap: () {
                     if (isSelectedCourt(context, false)) {
                       widget.onOnTap();

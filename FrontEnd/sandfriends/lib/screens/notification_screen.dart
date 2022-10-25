@@ -9,7 +9,6 @@ import 'package:sandfriends/widgets/SFAvatar.dart';
 import 'package:sandfriends/widgets/SF_Scaffold.dart';
 
 import '../models/enums.dart';
-import '../models/user.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -42,7 +41,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   onTap: () {
                     context.goNamed('match_screen', params: {
                       'matchUrl':
-                          "${Provider.of<UserProvider>(context, listen: false).notificationList[index].match.matchUrl}",
+                          Provider.of<UserProvider>(context, listen: false).notificationList[index].match.matchUrl,
                       'returnTo': 'notification_screen',
                       'returnToParam': 'null',
                       'returnToParamValue': 'null',
@@ -71,7 +70,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         horizontal: width * 0.02, vertical: height * 0.02),
                     child: Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: width * 0.2,
                           child: Stack(
                             children: [
@@ -103,7 +102,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           ),
                         ),
                         Expanded(
-                          child: Container(
+                          child: SizedBox(
                             height: width * 0.2,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -116,7 +115,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                         .notificationList[index]
                                         .message,
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),

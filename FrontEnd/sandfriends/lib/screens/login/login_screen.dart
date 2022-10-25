@@ -12,14 +12,11 @@ import 'package:sandfriends/widgets/Modal/SF_ModalInput.dart';
 import 'package:sandfriends/widgets/Modal/SF_ModalMessage.dart';
 import 'package:sandfriends/widgets/SF_Scaffold.dart';
 
-import '../../models/city.dart';
 import '../../models/enums.dart';
-import '../../models/region.dart';
 import '../../providers/user_provider.dart';
 import '../../widgets/SF_Button.dart';
 import '../../widgets/SF_TextField.dart';
 import '../../theme/app_theme.dart';
-import '../../widgets/Modal/SF_Modal.dart';
 import '../../models/validators.dart';
 
 final _loginFormKey = GlobalKey<FormState>();

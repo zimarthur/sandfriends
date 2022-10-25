@@ -8,7 +8,6 @@ import '../models/region.dart';
 import '../models/enums.dart';
 import '../models/sport.dart';
 import '../models/match.dart';
-import '../models/user.dart';
 
 class MatchProvider with ChangeNotifier {
   void ResetProviderAtributes() {
@@ -61,7 +60,7 @@ class MatchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<StoreDay> _storeDayList = [];
+  final List<StoreDay> _storeDayList = [];
   List<StoreDay> get storeDayList => _storeDayList;
   void addStoreDay(StoreDay storeDay) {
     _storeDayList.add(storeDay);
@@ -73,7 +72,7 @@ class MatchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<Match> _openMatchList = [];
+  final List<Match> _openMatchList = [];
   List<Match> get openMatchList => _openMatchList;
   void addOpenMatch(Match match) {
     _openMatchList.add(match);
@@ -85,7 +84,7 @@ class MatchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<Region> _availableRegions = [];
+  final List<Region> _availableRegions = [];
   List<Region> get availableRegions => _availableRegions;
   void addRegion(Region region) {
     _availableRegions.add(region);

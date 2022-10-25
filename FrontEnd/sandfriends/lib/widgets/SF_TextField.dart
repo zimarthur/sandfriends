@@ -54,8 +54,8 @@ class _SFTextFieldState extends State<SFTextField> {
           : _passwordVisible
               ? false
               : true,
-      onChanged: widget.onChanged == null ? (value) {} : widget.onChanged,
-      minLines: widget.minLines == null ? 1 : widget.minLines,
+      onChanged: widget.onChanged ?? (value) {},
+      minLines: widget.minLines ?? 1,
       maxLines:
           widget.pourpose == TextFieldPourpose.Multiline ? widget.maxLines : 1,
       enableSuggestions: false,

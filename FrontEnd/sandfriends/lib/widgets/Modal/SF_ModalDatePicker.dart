@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../theme/app_theme.dart';
 import '../SF_Button.dart';
-import '../../providers/match_provider.dart';
 
 var today = DateUtils.dateOnly(DateTime.now());
 

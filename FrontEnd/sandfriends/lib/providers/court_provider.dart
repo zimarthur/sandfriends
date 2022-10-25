@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/court.dart';
 
 class CourtProvider with ChangeNotifier {
-  List<Court> _courts = [];
+  final List<Court> _courts = [];
   List<Court> get courts => _courts;
   void addCourt(Court court) {
     bool isNewCourt = true;

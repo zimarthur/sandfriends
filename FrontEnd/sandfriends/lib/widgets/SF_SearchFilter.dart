@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/match_provider.dart';
 import '../theme/app_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

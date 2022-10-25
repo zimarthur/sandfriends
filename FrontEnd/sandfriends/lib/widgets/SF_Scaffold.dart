@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:sandfriends/models/enums.dart';
 import 'package:sandfriends/widgets/Modal/SF_Modal.dart';
 
-import '../providers/match_provider.dart';
 import '../theme/app_theme.dart';
-import 'SF_Button.dart';
 
 class SFScaffold extends StatefulWidget {
   final String titleText;
@@ -50,12 +46,12 @@ class _SFScaffoldState extends State<SFScaffold> {
       body: SafeArea(
         child: Stack(
           children: [
-            Container(
+            SizedBox(
               width: width,
               height: height,
               child: Column(
                 children: [
-                  Container(
+                  SizedBox(
                     height: 50,
                     //padding: EdgeInsets.symmetric(horizontal: 16, vertical: 11),
                     child: Row(

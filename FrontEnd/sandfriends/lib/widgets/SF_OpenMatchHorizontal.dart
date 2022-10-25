@@ -11,7 +11,7 @@ import 'SF_Button.dart';
 class SFOpenMatchHorizontal extends StatelessWidget {
   final Match match;
 
-  SFOpenMatchHorizontal({required this.match});
+  const SFOpenMatchHorizontal({required this.match});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: width * 0.2,
                           child: SFAvatar(
                             height: 60,
@@ -155,7 +155,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                           padding: EdgeInsets.only(right: width * 0.01),
                         ),
                         Text(
-                          "${DateFormat("dd/MM/yyyy").format(match.date)}",
+                          DateFormat("dd/MM/yyyy").format(match.date),
                           style: TextStyle(
                             color: AppTheme.colors.primaryBlue,
                           ),
