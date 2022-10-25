@@ -14,7 +14,7 @@ class CategoriesProvider with ChangeNotifier {
   }
 
   // Sports
-  List<Sport> _sports = [];
+  final List<Sport> _sports = [];
   List<Sport> get sports => _sports;
   void addSport(Sport sport) {
     bool isNewSport = true;
@@ -36,7 +36,7 @@ class CategoriesProvider with ChangeNotifier {
   }
 
   // Genders
-  List<Gender> _genders = [];
+  final List<Gender> _genders = [];
   List<Gender> get genders => _genders;
   void addGender(Gender gender) {
     bool isNewGender = true;
@@ -58,7 +58,7 @@ class CategoriesProvider with ChangeNotifier {
   }
 
   // Ranks
-  List<Rank> _ranks = [];
+  final List<Rank> _ranks = [];
   List<Rank> get ranks => _ranks;
   void addRank(Rank rank) {
     bool isNewRank = true;
@@ -80,7 +80,7 @@ class CategoriesProvider with ChangeNotifier {
   }
 
   // Side Preferences
-  List<SidePreference> _sidePreferences = [];
+  final List<SidePreference> _sidePreferences = [];
   List<SidePreference> get sidePreferences => _sidePreferences;
   void addSidePreference(SidePreference sidePreference) {
     bool isNewSidePreference = true;
@@ -123,5 +123,20 @@ class CategoriesProvider with ChangeNotifier {
     'Out',
     'Nov',
     'Dez'
+  ];
+
+  List monthsPortugueseComplete = [
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro'
   ];
 }
