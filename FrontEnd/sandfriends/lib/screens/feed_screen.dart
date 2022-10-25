@@ -2,26 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/models/match.dart';
-import 'package:sandfriends/models/rank.dart';
-import 'package:sandfriends/models/side_preference.dart';
-import 'package:sandfriends/models/user.dart';
+import 'package:sandfriends/models/reward.dart';
 import 'package:sandfriends/providers/categories_provider.dart';
 import 'package:sandfriends/theme/app_theme.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sandfriends/widgets/SFLoading.dart';
 
 import '../models/enums.dart';
-import '../models/gender.dart';
-import '../models/sport.dart';
-import '../models/store.dart';
 import '../models/notification_sf.dart';
 import '../providers/redirect_provider.dart';
-import '../providers/store_provider.dart';
 import '../providers/user_provider.dart';
 import '../providers/categories_provider.dart';
 
@@ -33,7 +25,9 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   bool isLoading = true;
 
+  @override
   void initState() {
+    super.initState();
     if (Provider.of<UserProvider>(context, listen: false).matchList.isEmpty ||
         Provider.of<UserProvider>(context, listen: false)
             .nextMatchNeedsRefresh) {
@@ -43,7 +37,6 @@ class _FeedScreenState extends State<FeedScreen> {
     } else {
       isLoading = false;
     }
-    super.initState();
   }
 
   @override
@@ -99,7 +92,7 @@ class _FeedScreenState extends State<FeedScreen> {
             ),
           ),
           isLoading
-              ? Expanded(
+              ? const Expanded(
                   child: Center(
                     child: SFLoading(),
                   ),
@@ -156,7 +149,7 @@ class _FeedScreenState extends State<FeedScreen> {
                               ],
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             height: height * 0.25,
                             child: Provider.of<UserProvider>(context)
                                     .nextMatchList
@@ -249,7 +242,11 @@ class _FeedScreenState extends State<FeedScreen> {
                                           context
                                               .goNamed('match_screen', params: {
                                             'matchUrl':
-                                                "${Provider.of<UserProvider>(context, listen: false).nextMatchList[index].matchUrl}",
+                                                Provider.of<UserProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .nextMatchList[index]
+                                                    .matchUrl,
                                             'returnTo': 'home',
                                             'returnToParam': 'initialPage',
                                             'returnToParamValue': 'feed_screen',
@@ -267,7 +264,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                     .colors.textLightGrey,
                                                 blurRadius: 2.0,
                                                 spreadRadius: 0.0,
-                                                offset: Offset(1.0, 1.0),
+                                                offset: const Offset(1.0, 1.0),
                                               )
                                             ],
                                             color:
@@ -297,7 +294,11 @@ class _FeedScreenState extends State<FeedScreen> {
                                                         Radius.circular(16),
                                                   ),
                                                   child: Image.network(
-                                                      '${Provider.of<UserProvider>(context).nextMatchList[index].sport.photoUrl}',
+                                                      Provider.of<UserProvider>(
+                                                              context)
+                                                          .nextMatchList[index]
+                                                          .sport
+                                                          .photoUrl,
                                                       width: width * 0.55,
                                                       fit: BoxFit.fill),
                                                 ),
@@ -321,26 +322,26 @@ class _FeedScreenState extends State<FeedScreen> {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Container(
+                                                      SizedBox(
                                                         height: height * 0.03,
                                                         child: FittedBox(
                                                           fit: BoxFit.fitHeight,
                                                           child: Text(
                                                             "${Provider.of<UserProvider>(context).nextMatchList[index].date.day}",
-                                                            style: TextStyle(
+                                                            style: const TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w600),
                                                           ),
                                                         ),
                                                       ),
-                                                      Container(
+                                                      SizedBox(
                                                         height: height * 0.025,
                                                         child: FittedBox(
                                                           fit: BoxFit.fitHeight,
                                                           child: Text(
                                                             "${Provider.of<CategoriesProvider>(context, listen: false).monthsPortuguese[Provider.of<UserProvider>(context).nextMatchList[index].date.month - 1]}",
-                                                            style: TextStyle(
+                                                            style: const TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w600),
@@ -363,7 +364,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                         MainAxisAlignment
                                                             .spaceEvenly,
                                                     children: [
-                                                      Container(
+                                                      SizedBox(
                                                         height: height * 0.03,
                                                         child: FittedBox(
                                                           fit: BoxFit.fitWidth,
@@ -438,7 +439,13 @@ class _FeedScreenState extends State<FeedScreen> {
                                                                         0.01),
                                                               ),
                                                               Text(
-                                                                "${Provider.of<UserProvider>(context).nextMatchList[index].court.store.name}",
+                                                                Provider.of<UserProvider>(
+                                                                        context)
+                                                                    .nextMatchList[
+                                                                        index]
+                                                                    .court
+                                                                    .store
+                                                                    .name,
                                                                 style:
                                                                     TextStyle(
                                                                   color: AppTheme
@@ -556,33 +563,79 @@ class _FeedScreenState extends State<FeedScreen> {
                           ],
                         ),
                       ),
-                      Container(
-                        alignment: Alignment.topCenter,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: width * 0.03, vertical: height * 0.02),
-                        margin: EdgeInsets.symmetric(horizontal: width * 0.02),
-                        height: height * 0.15,
-                        decoration: BoxDecoration(
-                          color: AppTheme.colors.secondaryYellow,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              r"assets\icon\star.svg",
-                              color: AppTheme.colors.textWhite,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: width * 0.02),
-                            ),
-                            Text(
-                              "Recompensas",
-                              style: TextStyle(
-                                color: AppTheme.colors.textWhite,
-                                fontWeight: FontWeight.w700,
+                      InkWell(
+                        onTap: () => context.goNamed('reward_screen'),
+                        child: Container(
+                          alignment: Alignment.topCenter,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.03,
+                              vertical: height * 0.02),
+                          margin:
+                              EdgeInsets.symmetric(horizontal: width * 0.02),
+                          height: height * 0.15,
+                          decoration: BoxDecoration(
+                            color: AppTheme.colors.secondaryYellow,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    r"assets\icon\star.svg",
+                                    color: AppTheme.colors.textWhite,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(right: width * 0.02),
+                                  ),
+                                  Text(
+                                    "Recompensas (${Provider.of<UserProvider>(context, listen: false).userReward!.userRewardQuantity!}/${Provider.of<UserProvider>(context, listen: false).userReward!.rewardQuantity})",
+                                    style: TextStyle(
+                                      color: AppTheme.colors.textWhite,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
+                              Container(
+                                height: height * 0.07,
+                                alignment: Alignment.center,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: Provider.of<UserProvider>(context,
+                                          listen: false)
+                                      .userReward!
+                                      .rewardQuantity,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: width * 0.035),
+                                      padding: EdgeInsets.all(height * 0.01),
+                                      height: height * 0.07,
+                                      width: height * 0.07,
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.colors.secondaryPaper,
+                                        borderRadius: BorderRadius.circular(
+                                            height * 0.035),
+                                      ),
+                                      child: Provider.of<UserProvider>(context,
+                                                      listen: false)
+                                                  .userReward!
+                                                  .userRewardQuantity! >
+                                              index
+                                          ? SvgPicture.asset(
+                                              r"assets\icon\sandfriends_logo.svg",
+                                            )
+                                          : Container(),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -618,7 +671,16 @@ class _FeedScreenState extends State<FeedScreen> {
           Map<String, dynamic> responseBody = json.decode(response.body);
           final responseMatches = responseBody['UserMatches'];
           final responseNotifications = responseBody['Notifications'];
-          var myList = [];
+          final responseRewards = responseBody['UserRewards'];
+
+          //SET rewards
+          Provider.of<UserProvider>(context, listen: false).userReward =
+              rewardFromJson(responseRewards['Reward']);
+          Provider.of<UserProvider>(context, listen: false)
+              .userReward!
+              .userRewardQuantity = responseRewards['UserRewardQuantity'];
+          //
+
           //Set OpenMatchesCounter
           Provider.of<UserProvider>(context, listen: false).openMatchesCounter =
               responseBody['OpenMatchesCounter'];
@@ -626,26 +688,20 @@ class _FeedScreenState extends State<FeedScreen> {
 
           //SET notifications
           for (int i = 0; i < responseNotifications.length; i++) {
-            myList.add(notificationFromJson(responseNotifications[i]));
             Provider.of<UserProvider>(context, listen: false).addNotification(
                 notificationFromJson(responseNotifications[i]));
           }
           //
-          myList.clear();
           //SET user matches
           for (int matchIndex = 0;
               matchIndex < responseMatches.length;
               matchIndex++) {
-            myList.add(matchFromJson(
-              responseMatches[matchIndex],
-            ));
             Provider.of<UserProvider>(context, listen: false).addMatch(
               matchFromJson(
                 responseMatches[matchIndex],
               ),
             );
           }
-          myList.clear();
           //
           setState(() {
             isLoading = false;

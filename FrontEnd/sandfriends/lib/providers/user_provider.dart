@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:sandfriends/models/city.dart';
-import 'package:sandfriends/models/gender.dart';
 import 'package:sandfriends/models/match.dart';
 import 'package:sandfriends/models/match_counter.dart';
-import 'package:sandfriends/models/region.dart';
-import 'package:sandfriends/models/side_preference.dart';
+import 'package:sandfriends/models/reward.dart';
 import 'package:sandfriends/models/sport.dart';
 import 'package:sandfriends/providers/categories_provider.dart';
 import '../models/match.dart';
-import 'package:intl/intl.dart';
 
 import '../models/notification_sf.dart';
-import '../models/rank.dart';
 import '../models/user.dart';
 
 class UserProvider with ChangeNotifier {
@@ -24,10 +18,7 @@ class UserProvider with ChangeNotifier {
 
   List<Match> get nextMatchList {
     var filteredList = matchList.where((match) {
-      if ((match.date.isAfter(DateTime.now()) ||
-              (match.date == DateTime.now() &&
-                  match.timeInt > DateTime.now().hour)) &&
-          (match.canceled == false)) {
+      if (match.date.isAfter(DateTime.now()) && (match.canceled == false)) {
         return true;
       } else {
         return false;
@@ -47,7 +38,7 @@ class UserProvider with ChangeNotifier {
     return filteredList;
   }
 
-  List<Match> _matchList = [];
+  final List<Match> _matchList = [];
   List<Match> get matchList {
     _matchList.sort(
       (a, b) {
@@ -108,7 +99,7 @@ class UserProvider with ChangeNotifier {
     _openMatchesCounter = value;
   }
 
-  List<NotificationSF> _notificationList = [];
+  final List<NotificationSF> _notificationList = [];
   List<NotificationSF> get notificationList {
     _notificationList.sort(
       (a, b) {
@@ -130,5 +121,11 @@ class UserProvider with ChangeNotifier {
 
   void addNotification(NotificationSF notification) {
     _notificationList.add(notification);
+  }
+
+  Reward? _userReward;
+  Reward? get userReward => _userReward;
+  set userReward(Reward? value) {
+    _userReward = value;
   }
 }

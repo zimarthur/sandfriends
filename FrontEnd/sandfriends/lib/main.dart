@@ -4,8 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/models/city.dart';
-import 'package:sandfriends/models/region.dart';
 import 'package:sandfriends/providers/court_provider.dart';
 import 'package:sandfriends/providers/categories_provider.dart';
 import 'package:sandfriends/providers/user_provider.dart';
@@ -14,6 +12,7 @@ import 'package:sandfriends/screens/login/load_login.dart';
 import 'package:sandfriends/screens/match_search_screen.dart';
 import 'package:sandfriends/screens/notification_screen.dart';
 import 'package:sandfriends/screens/open_matches_screen.dart';
+import 'package:sandfriends/screens/reward_screen.dart';
 import 'package:sandfriends/screens/sport_selection_screen.dart';
 import 'package:sandfriends/screens/user_match_screen.dart';
 import './providers/redirect_provider.dart';
@@ -24,7 +23,6 @@ import '../api/google_signin_api.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter/services.dart';
 
 import 'models/gender.dart';
 import 'models/rank.dart';
@@ -44,6 +42,7 @@ import './providers/store_provider.dart';
 import 'providers/categories_provider.dart';
 import 'models/user.dart';
 import 'screens/match_screen.dart';
+import 'screens/reward_user_screen.dart';
 
 final redirecter = Redirect();
 final loginInfo = Login();
@@ -253,16 +252,27 @@ class _MyAppState extends State<MyApp> {
             );
           }),
       GoRoute(
+        name: 'reward_user_screen',
+        path: '/reward_user_screen',
+        builder: (BuildContext context, GoRouterState state) =>
+            RewardUserScreen(),
+      ),
+      GoRoute(
+        name: 'reward_screen',
+        path: '/reward_screen',
+        builder: (BuildContext context, GoRouterState state) => RewardScreen(),
+      ),
+      GoRoute(
         name: 'open_matches_screen',
         path: '/open_matches_screen',
         builder: (BuildContext context, GoRouterState state) =>
-            OpenMatchesScreen(),
+            const OpenMatchesScreen(),
       ),
       GoRoute(
         name: 'notification_screen',
         path: '/notification_screen',
         builder: (BuildContext context, GoRouterState state) =>
-            NotificationScreen(),
+            const NotificationScreen(),
       ),
       GoRoute(
         name: 'user_match_screen',
@@ -359,7 +369,7 @@ class _MyAppState extends State<MyApp> {
 
     if (mounted) {
       if (response.statusCode == 200) {
-        if (userProvider != null) userProvider.clearMatchList();
+        userProvider.clearMatchList();
         categoriesProvider.clearCategories();
         Map<String, dynamic> responseBody = json.decode(response.body);
 
