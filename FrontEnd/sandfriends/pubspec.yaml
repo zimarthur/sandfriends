@@ -56,6 +56,7 @@ dependencies:
   share_plus: ^4.1.0
   tuple: ^2.0.0
   image_picker: ^0.8.6
+  syncfusion_flutter_gauges: ^20.3.50
 
 dev_dependencies:
   flutter_test:
@@ -135,6 +136,8 @@ flutter:
     - assets\icon\favorite_unselected.svg
     - assets\icon\notification_on.svg
     - assets\icon\notification_off.svg
+    - assets\icon\sandfriends_logo.svg
+    - assets\icon\medal.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
