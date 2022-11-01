@@ -57,6 +57,13 @@ dependencies:
   tuple: ^2.0.0
   image_picker: ^0.8.6
   syncfusion_flutter_gauges: ^20.3.50
+  cached_network_image: ^3.2.0
+  flutter_launcher_icons: ^0.10.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/app_icon.png"
 
 dev_dependencies:
   flutter_test:
@@ -97,6 +104,8 @@ flutter:
     - assets\icon\logo.png
     - assets\icon\logo_brand.png
     - assets\icon\image_login.png
+
+    - assets\icon\app_icon.png
 
     - assets\icon\user.svg
     - assets\icon\trophy.svg
