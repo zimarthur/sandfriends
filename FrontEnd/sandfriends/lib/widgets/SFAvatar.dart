@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sandfriends/theme/app_theme.dart';
+import 'package:sandfriends/widgets/SFLoading.dart';
 
 import '../models/sport.dart';
 import '../models/user.dart';
@@ -90,9 +92,16 @@ class SFAvatar extends StatelessWidget {
                         aspectRatio: 1 / 1,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(height * 0.42),
-                          child: Image.network(
-                            user.photo!,
+                          child: CachedNetworkImage(
+                            imageUrl: user.photo!,
                             fit: BoxFit.cover,
+                            placeholder: (context, url) => Padding(
+                              padding: EdgeInsets.all(height * 0.3),
+                              child: SFLoading(),
+                            ),
+                            errorWidget: (context, url, error) => Center(
+                              child: Icon(Icons.error),
+                            ),
                           ),
                         ),
                       ),

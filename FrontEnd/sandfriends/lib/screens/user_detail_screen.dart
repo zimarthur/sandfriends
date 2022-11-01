@@ -66,6 +66,8 @@ class _UserDetailScreen extends State<UserDetailScreen> {
 
   List<Region> allRegions = [];
 
+  VoidCallback onBackgroundTapFunc = () {};
+
   void setReferenceUserInfo(BuildContext context) {
     imagePath = null;
     referenceUserInfo = User(
@@ -201,6 +203,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
       showModal: showModal,
       modalWidget: modalWidget,
       onTapBackground: () {
+        onBackgroundTapFunc();
         setState(() {
           showModal = false;
         });
@@ -900,6 +903,30 @@ class _UserDetailScreen extends State<UserDetailScreen> {
     setState(() {
       switch (field) {
         case EnumProfileFields.Name:
+          onBackgroundTapFunc = () {
+            if (_userDetailFormKey.currentState?.validate() == true) {
+              if ((referenceUserInfo!.firstName != firstNameController.text) ||
+                  (referenceUserInfo!.lastName != lastNameController.text)) {
+                isEdited = true;
+              } else {
+                isEdited = false;
+              }
+              Provider.of<UserProvider>(context, listen: false)
+                  .user!
+                  .firstName = firstNameController.text;
+              Provider.of<UserProvider>(context, listen: false).user!.lastName =
+                  lastNameController.text;
+            } else {
+              firstNameController.text =
+                  Provider.of<UserProvider>(context, listen: false)
+                      .user!
+                      .firstName!;
+              lastNameController.text =
+                  Provider.of<UserProvider>(context, listen: false)
+                      .user!
+                      .lastName!;
+            }
+          };
           modalWidget = Container(
             padding: EdgeInsets.symmetric(
               horizontal: width * 0.04,
@@ -961,6 +988,50 @@ class _UserDetailScreen extends State<UserDetailScreen> {
           showModal = true;
           break;
         case EnumProfileFields.Age:
+          onBackgroundTapFunc = () {
+            if (_userDetailFormKey.currentState?.validate() == true) {
+              if (referenceUserInfo!.birthday != birthdayController.text) {
+                isEdited = true;
+              } else {
+                isEdited = false;
+              }
+              if (birthdayController.text.isEmpty) {
+                Provider.of<UserProvider>(context, listen: false)
+                    .user!
+                    .birthday = "-";
+                Provider.of<UserProvider>(context, listen: false).user!.age =
+                    null;
+              } else {
+                DateTime currentDate = DateTime.now();
+                DateTime birthDate =
+                    DateTime.parse(DateTimeConverter(birthdayController.text));
+                int age = currentDate.year - birthDate.year;
+                int month1 = currentDate.month;
+                int month2 = birthDate.month;
+                if (month2 > month1) {
+                  age--;
+                } else if (month1 == month2) {
+                  int day1 = currentDate.day;
+                  int day2 = birthDate.day;
+                  if (day2 > day1) {
+                    age--;
+                  }
+                }
+
+                Provider.of<UserProvider>(context, listen: false)
+                    .user!
+                    .birthday = birthdayController.text;
+                Provider.of<UserProvider>(context, listen: false).user!.age =
+                    age;
+              }
+            } else {
+              birthdayController.text =
+                  Provider.of<UserProvider>(context, listen: false)
+                          .user!
+                          .birthday ??
+                      "";
+            }
+          };
           modalWidget = Container(
             padding: EdgeInsets.symmetric(
               horizontal: width * 0.04,
@@ -1045,6 +1116,35 @@ class _UserDetailScreen extends State<UserDetailScreen> {
           showModal = true;
           break;
         case EnumProfileFields.Height:
+          onBackgroundTapFunc = () {
+            if (_userDetailFormKey.currentState?.validate() == true) {
+              if (heightController.text == "") {
+                if (referenceUserInfo!.height == null) {
+                  isEdited = false;
+                } else {
+                  isEdited = true;
+                }
+                Provider.of<UserProvider>(context, listen: false).user!.height =
+                    null;
+              } else {
+                if (referenceUserInfo!.height !=
+                    double.parse(heightController.text.replaceAll(",", "."))) {
+                  isEdited = true;
+                } else {
+                  isEdited = false;
+                }
+                Provider.of<UserProvider>(context, listen: false).user!.height =
+                    double.parse(heightController.text.replaceAll(",", "."));
+              }
+            } else {
+              heightController.text =
+                  Provider.of<UserProvider>(context, listen: false)
+                      .user!
+                      .height
+                      .toString()
+                      .replaceAll(".", ",");
+            }
+          };
           modalWidget = Container(
             padding: EdgeInsets.symmetric(
               horizontal: width * 0.04,
@@ -1108,6 +1208,21 @@ class _UserDetailScreen extends State<UserDetailScreen> {
           showModal = true;
           break;
         case EnumProfileFields.Gender:
+          onBackgroundTapFunc = () {
+            Provider.of<UserProvider>(context, listen: false).user!.gender =
+                Provider.of<CategoriesProvider>(context, listen: false).genders[
+                    Provider.of<UserProvider>(context, listen: false)
+                        .indexEditModal];
+            if (referenceUserInfo!.gender!.name !=
+                Provider.of<UserProvider>(context, listen: false)
+                    .user!
+                    .gender!
+                    .name) {
+              isEdited = true;
+            } else {
+              isEdited = false;
+            }
+          };
           modalWidget = Container(
             padding: EdgeInsets.symmetric(
               horizontal: width * 0.04,
@@ -1203,6 +1318,24 @@ class _UserDetailScreen extends State<UserDetailScreen> {
           showModal = true;
           break;
         case EnumProfileFields.HandPreference:
+          onBackgroundTapFunc = () {
+            Provider.of<UserProvider>(context, listen: false)
+                    .user!
+                    .sidePreference =
+                Provider.of<CategoriesProvider>(context, listen: false)
+                        .sidePreferences[
+                    Provider.of<UserProvider>(context, listen: false)
+                        .indexEditModal];
+            if (referenceUserInfo!.sidePreference!.name !=
+                Provider.of<UserProvider>(context, listen: false)
+                    .user!
+                    .sidePreference!
+                    .name) {
+              isEdited = true;
+            } else {
+              isEdited = false;
+            }
+          };
           modalWidget = Container(
             padding: EdgeInsets.symmetric(
               horizontal: width * 0.04,
@@ -1300,6 +1433,45 @@ class _UserDetailScreen extends State<UserDetailScreen> {
           break;
 
         case EnumProfileFields.Rank:
+          onBackgroundTapFunc = () {
+            Rank selectedRank = Provider.of<CategoriesProvider>(context,
+                        listen: false)
+                    .ranks
+                    .where((rank) => rank.sport.idSport == sportValue!.idSport)
+                    .toList()[
+                Provider.of<UserProvider>(context, listen: false)
+                    .indexEditModal];
+            for (int i = 0;
+                i <
+                    Provider.of<UserProvider>(context, listen: false)
+                        .user!
+                        .rank
+                        .length;
+                i++) {
+              if (Provider.of<UserProvider>(context, listen: false)
+                      .user!
+                      .rank[i]
+                      .sport
+                      .idSport ==
+                  sportValue!.idSport) {
+                Provider.of<UserProvider>(context, listen: false)
+                    .user!
+                    .rank[i] = selectedRank;
+              }
+            }
+            for (int j = 0; j < referenceUserInfo!.rank.length; j++) {
+              if (referenceUserInfo!.rank[j].sport.idSport ==
+                  sportValue!.idSport) {
+                if (referenceUserInfo!.rank[j].idRankCategory !=
+                    selectedRank.idRankCategory) {
+                  isEdited = true;
+                } else {
+                  isEdited = false;
+                }
+                break;
+              }
+            }
+          };
           modalWidget = Container(
             padding: EdgeInsets.symmetric(
               horizontal: width * 0.04,

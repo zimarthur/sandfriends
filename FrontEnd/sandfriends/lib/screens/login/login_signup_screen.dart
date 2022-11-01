@@ -4,8 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
+import 'package:sandfriends/main.dart';
 
 import '../../api/google_signin_api.dart';
+import '../../providers/user_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/SF_Button.dart';
 
@@ -22,113 +25,118 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
     });
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      body: Container(
-        width: width,
-        height: height,
-        color: AppTheme.colors.secondaryBack,
-        child: SafeArea(
-          child: Column(
-            children: [
-              SizedBox(
-                height: height * 0.4,
-                width: width,
-                child: Stack(
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        body: Container(
+          width: width,
+          height: height,
+          color: AppTheme.colors.secondaryBack,
+          child: SafeArea(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: height * 0.4,
+                  width: width,
+                  child: Stack(
+                    children: [
+                      Container(
+                        alignment: Alignment.topCenter,
+                        child: Image.asset(
+                          r"assets\icon\image_login.png",
+                          height: height * 0.3,
+                          fit: BoxFit.fill,
+                          width: width,
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.bottomCenter,
+                        child: Image.asset(
+                          r"assets\icon\logo_brand.png",
+                          height: height * 0.2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(padding: EdgeInsets.only(bottom: height * 0.14)),
+                Column(
                   children: [
-                    Container(
-                      alignment: Alignment.topCenter,
-                      child: Image.asset(
-                        r"assets\icon\image_login.png",
-                        height: height * 0.3,
-                        fit: BoxFit.fill,
-                        width: width,
+                    SizedBox(
+                      width: double.infinity,
+                      child: Container(
+                        height: height * 0.05,
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.14),
+                        child: SFButton(
+                          buttonLabel: "Login",
+                          buttonType: ButtonType.Primary,
+                          onTap: () => context.goNamed('login'),
+                        ),
                       ),
                     ),
-                    Container(
-                      alignment: Alignment.bottomCenter,
-                      child: Image.asset(
-                        r"assets\icon\logo_brand.png",
-                        height: height * 0.2,
+                    Padding(padding: EdgeInsets.only(bottom: height * 0.02)),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Container(
+                        height: height * 0.05,
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.14),
+                        child: SFButton(
+                          buttonLabel: "Criar conta",
+                          buttonType: ButtonType.Secondary,
+                          onTap: () => context.goNamed('create_account'),
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ),
-              Padding(padding: EdgeInsets.only(bottom: height * 0.14)),
-              Column(
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: Container(
-                      height: height * 0.05,
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.14),
-                      child: SFButton(
-                        buttonLabel: "Login",
-                        buttonType: ButtonType.Primary,
-                        onTap: () => context.goNamed('login'),
-                      ),
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.only(bottom: height * 0.02)),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Container(
-                      height: height * 0.05,
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.14),
-                      child: SFButton(
-                        buttonLabel: "Criar conta",
-                        buttonType: ButtonType.Secondary,
-                        onTap: () => context.goNamed('create_account'),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(padding: EdgeInsets.only(bottom: height * 0.04)),
-              SvgPicture.asset(
-                r'assets\icon\divider.svg',
-              ),
-              Padding(padding: EdgeInsets.only(bottom: height * 0.02)),
-              InkWell(
-                onTap: () {
-                  googleSignIn(context);
-                },
-                highlightColor: AppTheme.colors.primaryBlue,
-                child: Ink(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FittedBox(
-                        fit: BoxFit.fitHeight,
-                        child: Text(
-                          "Entrar com minha conta Google",
-                          style: TextStyle(
-                            color: AppTheme.colors.primaryBlue,
-                            fontWeight: FontWeight.bold,
+                Padding(padding: EdgeInsets.only(bottom: height * 0.04)),
+                SvgPicture.asset(
+                  r'assets\icon\divider.svg',
+                ),
+                Padding(padding: EdgeInsets.only(bottom: height * 0.02)),
+                InkWell(
+                  onTap: () {
+                    googleSignIn(context);
+                  },
+                  highlightColor: AppTheme.colors.primaryBlue,
+                  child: Ink(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FittedBox(
+                          fit: BoxFit.fitHeight,
+                          child: Text(
+                            "Entrar com minha conta Google",
+                            style: TextStyle(
+                              color: AppTheme.colors.primaryBlue,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      SvgPicture.asset(r"assets\icon\google_logo.svg")
-                    ],
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        SvgPicture.asset(r"assets\icon\google_logo.svg")
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Expanded(child: Container()),
-              SizedBox(
-                height: height * 0.06,
-                width: MediaQuery.of(context).size.width,
-                child: FittedBox(
-                  fit: BoxFit.fill,
-                  child: SvgPicture.asset(
-                    r'assets\icon\sand_bar.svg',
-                    alignment: Alignment.bottomCenter,
+                Expanded(child: Container()),
+                SizedBox(
+                  height: height * 0.06,
+                  width: MediaQuery.of(context).size.width,
+                  child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: SvgPicture.asset(
+                      r'assets\icon\sand_bar.svg',
+                      alignment: Alignment.bottomCenter,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -186,6 +194,7 @@ Future<void> ValidateLogin(BuildContext context, String email) async {
     if (responseLogin['IsNewUser'] == true) {
       context.goNamed('new_user_welcome');
     } else {
+      Provider.of<UserProvider>(context, listen: false).resetUserProvider();
       context.goNamed('home', params: {'initialPage': 'feed_screen'});
     }
   } else {

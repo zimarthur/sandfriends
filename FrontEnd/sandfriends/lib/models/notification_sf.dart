@@ -7,7 +7,7 @@ class NotificationSF {
   final String message;
   final String colorString;
   final Match match;
-  final bool seen;
+  bool seen;
   final User user;
 
   NotificationSF({

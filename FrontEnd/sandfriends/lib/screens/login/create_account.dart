@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:sandfriends/widgets/SF_Scaffold.dart';
 
 import '../../widgets/Modal/SF_ModalMessage.dart';
+import '../../widgets/SFLoading.dart';
 import '../../widgets/SF_Button.dart';
 import '../../widgets/SF_TextField.dart';
 import '../../theme/app_theme.dart';
@@ -24,6 +25,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  bool isLoading = false;
   bool showModal = false;
   Widget? modalWidget;
   GenericStatus? modalStatus;
@@ -49,69 +51,74 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       child: Container(
         color: AppTheme.colors.secondaryBack,
         width: double.infinity,
-        child: Form(
-          key: _signupFormKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                r"assets\icon\logo_brand.png",
-                height: height * 0.22,
-              ),
-              Padding(padding: EdgeInsets.only(bottom: height * 0.08)),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                child: SFTextField(
-                  controller: emailController,
-                  labelText: "Digite seu e-mail",
-                  prefixIcon: SvgPicture.asset(r"assets\icon\email.svg"),
-                  pourpose: TextFieldPourpose.Email,
-                  validator: emailValidator,
+        child: isLoading
+            ? Center(
+                child: SFLoading(),
+              )
+            : Form(
+                key: _signupFormKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      r"assets\icon\logo_brand.png",
+                      height: height * 0.22,
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: height * 0.08)),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                      child: SFTextField(
+                        controller: emailController,
+                        labelText: "Digite seu e-mail",
+                        prefixIcon: SvgPicture.asset(r"assets\icon\email.svg"),
+                        pourpose: TextFieldPourpose.Email,
+                        validator: emailValidator,
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: height * 0.025)),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                      child: SFTextField(
+                        controller: passwordController,
+                        labelText: "Digite sua senha",
+                        prefixIcon: SvgPicture.asset(r"assets\icon\lock.svg"),
+                        suffixIcon:
+                            SvgPicture.asset(r"assets\icon\eye_closed.svg"),
+                        suffixIconPressed:
+                            SvgPicture.asset(r"assets\icon\eye_open.svg"),
+                        pourpose: TextFieldPourpose.Password,
+                        validator: passwordValidator,
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: height * 0.13)),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Container(
+                        height: height * 0.05,
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.14),
+                        child: SFButton(
+                          buttonLabel: "Criar Conta",
+                          buttonType: ButtonType.Primary,
+                          onTap: () => CreateAccount(context,
+                              emailController.text, passwordController.text),
+                        ),
+                      ),
+                    ),
+                    Expanded(child: Container()),
+                    SizedBox(
+                      height: height * 0.06,
+                      width: MediaQuery.of(context).size.width,
+                      child: FittedBox(
+                        fit: BoxFit.fill,
+                        child: SvgPicture.asset(
+                          r'assets\icon\sand_bar.svg',
+                          alignment: Alignment.bottomCenter,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Padding(padding: EdgeInsets.only(bottom: height * 0.025)),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                child: SFTextField(
-                  controller: passwordController,
-                  labelText: "Digite sua senha",
-                  prefixIcon: SvgPicture.asset(r"assets\icon\lock.svg"),
-                  suffixIcon: SvgPicture.asset(r"assets\icon\eye_closed.svg"),
-                  suffixIconPressed:
-                      SvgPicture.asset(r"assets\icon\eye_open.svg"),
-                  pourpose: TextFieldPourpose.Password,
-                  validator: passwordValidator,
-                ),
-              ),
-              Padding(padding: EdgeInsets.only(bottom: height * 0.13)),
-              SizedBox(
-                width: double.infinity,
-                child: Container(
-                  height: height * 0.05,
-                  padding: EdgeInsets.symmetric(horizontal: width * 0.14),
-                  child: SFButton(
-                    buttonLabel: "Criar Conta",
-                    buttonType: ButtonType.Primary,
-                    onTap: () => CreateAccount(
-                        context, emailController.text, passwordController.text),
-                  ),
-                ),
-              ),
-              Expanded(child: Container()),
-              SizedBox(
-                height: height * 0.06,
-                width: MediaQuery.of(context).size.width,
-                child: FittedBox(
-                  fit: BoxFit.fill,
-                  child: SvgPicture.asset(
-                    r'assets\icon\sand_bar.svg',
-                    alignment: Alignment.bottomCenter,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -119,6 +126,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   Future<void> CreateAccount(
       BuildContext context, String email, String password) async {
     if (_signupFormKey.currentState?.validate() == true) {
+      setState(() {
+        isLoading = true;
+      });
       var response = await http.post(
         Uri.parse('https://www.sandfriends.com.br/SignIn'),
         headers: <String, String>{
@@ -166,6 +176,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       }
       if (showModal) {
         setState(() {
+          isLoading = false;
           modalWidget = SFModalMessage(
             modalStatus: modalStatus!,
             message: modalMessage!,

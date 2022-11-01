@@ -1,4 +1,3 @@
-
 import 'user.dart';
 
 class MatchMember {
@@ -26,7 +25,7 @@ MatchMember matchMemberFromJson(Map<String, dynamic> json) {
     waitingApproval: json['WaitingApproval'],
     isMatchCreator: json['IsMatchCreator'],
     refused: json['Refused'],
-    quit: json['Quit'],
+    quit: json['Quit'] ?? false,
   );
   return newMatchMember;
 }

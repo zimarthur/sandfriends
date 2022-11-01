@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +10,7 @@ import 'package:sandfriends/widgets/SF_Button.dart';
 
 import '../models/store_day.dart';
 import '../theme/app_theme.dart';
+import 'SFLoading.dart';
 
 class SFCourtCard extends StatefulWidget {
   final StoreDay storeDay;
@@ -111,10 +113,27 @@ class _SFCourtCardState extends State<SFCourtCard> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
-                    child: Image.network(
-                      widget.storeDay.store.imageUrl,
+                    child: CachedNetworkImage(
+                      imageUrl: widget.storeDay.store.imageUrl,
                       height: 82,
                       width: 82,
+                      placeholder: (context, url) => Container(
+                        height: 82,
+                        width: 82,
+                        child: Center(
+                          child: SFLoading(),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Container(
+                        color: AppTheme.colors.textLightGrey.withOpacity(0.5),
+                        height: 82,
+                        width: 82,
+                        child: Center(
+                          child: Icon(
+                            Icons.dangerous,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   const Padding(padding: EdgeInsets.only(right: 12)),

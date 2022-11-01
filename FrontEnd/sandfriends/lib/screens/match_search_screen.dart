@@ -67,6 +67,8 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
   };
   int segmentedTextValue = 0;
 
+  VoidCallback onBackgroundTapFunc = () {};
+
   @override
   Widget build(BuildContext context) {
     Provider.of<Redirect>(context, listen: false).originalPage =
@@ -100,6 +102,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
       showModal: showModal,
       modalWidget: modalWidget,
       onTapBackground: () {
+        onBackgroundTapFunc();
         setState(() {
           showModal = false;
         });
@@ -153,6 +156,55 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                               padding: EdgeInsets.symmetric(
                                   vertical: appBarHeight * 0.02),
                               onTap: () {
+                                onBackgroundTapFunc = () {
+                                  setState(() {
+                                    if (Provider.of<MatchProvider>(context,
+                                            listen: false)
+                                        .selectedDates
+                                        .isNotEmpty) {
+                                      var startDate = ConvertDatetime(
+                                          Provider.of<MatchProvider>(context,
+                                                  listen: false)
+                                              .selectedDates[0]!);
+                                      var endDate = Provider.of<MatchProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .selectedDates
+                                                  .length >
+                                              1
+                                          ? ConvertDatetime(
+                                              Provider.of<MatchProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .selectedDates[1]!)
+                                          : 'null';
+
+                                      if (Provider.of<MatchProvider>(context,
+                                                      listen: false)
+                                                  .selectedDates
+                                                  .length >
+                                              1 &&
+                                          Provider.of<MatchProvider>(context,
+                                                      listen: false)
+                                                  .selectedDates[0] !=
+                                              Provider.of<MatchProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .selectedDates[1]) {
+                                        Provider.of<MatchProvider>(context,
+                                                    listen: false)
+                                                .dateText =
+                                            "${Provider.of<MatchProvider>(context, listen: false).selectedDates[0]!.day.toString().padLeft(2, '0')}/${Provider.of<MatchProvider>(context, listen: false).selectedDates[0]!.month.toString().padLeft(2, '0')} - ${Provider.of<MatchProvider>(context, listen: false).selectedDates[1]!.day.toString().padLeft(2, '0')}/${Provider.of<MatchProvider>(context, listen: false).selectedDates[1]!.month.toString().padLeft(2, '0')}";
+                                      } else {
+                                        Provider.of<MatchProvider>(context,
+                                                    listen: false)
+                                                .dateText =
+                                            "${Provider.of<MatchProvider>(context, listen: false).selectedDates[0]!.day.toString().padLeft(2, '0')}/${Provider.of<MatchProvider>(context, listen: false).selectedDates[0]!.month.toString().padLeft(2, '0')}";
+                                      }
+                                      showModal = false;
+                                    }
+                                  });
+                                };
                                 setState(() {
                                   modalWidget = Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -295,6 +347,20 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                   vertical: appBarHeight * 0.02),
                               onTap: () {
                                 setState(() {
+                                  onBackgroundTapFunc = () {
+                                    setState(() {
+                                      if (Provider.of<MatchProvider>(context,
+                                                  listen: false)
+                                              .selectedTimeRange !=
+                                          null) {
+                                        Provider.of<MatchProvider>(context,
+                                                    listen: false)
+                                                .timeText =
+                                            "${Provider.of<MatchProvider>(context, listen: false).selectedTimeRange!.start.hour.toString().padLeft(2, '0')}:${Provider.of<MatchProvider>(context, listen: false).selectedTimeRange!.start.minute.toString().padLeft(2, '0')} - ${Provider.of<MatchProvider>(context, listen: false).selectedTimeRange!.end.hour.toString().padLeft(2, '0')}:${Provider.of<MatchProvider>(context, listen: false).selectedTimeRange!.end.minute.toString().padLeft(2, '0')}";
+                                      }
+                                      showModal = false;
+                                    });
+                                  };
                                   modalWidget = Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [

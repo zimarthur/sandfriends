@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +9,7 @@ import 'package:sandfriends/widgets/SF_Scaffold.dart';
 import '../providers/categories_provider.dart';
 import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
+import '../widgets/SFLoading.dart';
 
 class UserMatchScreen extends StatefulWidget {
   @override
@@ -76,10 +78,20 @@ class _UserMatchScreenState extends State<UserMatchScreen> {
                           topLeft: Radius.circular(16),
                           topRight: Radius.circular(16),
                         ),
-                        child: Image.network(
-                            Provider.of<UserProvider>(context).matchList[index].sport.photoUrl,
-                            width: double.infinity,
-                            fit: BoxFit.fill),
+                        child: CachedNetworkImage(
+                          imageUrl: Provider.of<UserProvider>(context)
+                              .matchList[index]
+                              .sport
+                              .photoUrl,
+                          fit: BoxFit.fill,
+                          width: double.infinity,
+                          placeholder: (context, url) => Center(
+                            child: SFLoading(),
+                          ),
+                          errorWidget: (context, url, error) => Center(
+                            child: Icon(Icons.dangerous),
+                          ),
+                        ),
                       ),
                     ),
                     Positioned(
@@ -102,7 +114,8 @@ class _UserMatchScreenState extends State<UserMatchScreen> {
                                 fit: BoxFit.fitHeight,
                                 child: Text(
                                   "${Provider.of<UserProvider>(context).matchList[index].date.day}",
-                                  style: const TextStyle(fontWeight: FontWeight.w600),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600),
                                 ),
                               ),
                             ),
@@ -112,7 +125,8 @@ class _UserMatchScreenState extends State<UserMatchScreen> {
                                 fit: BoxFit.fitHeight,
                                 child: Text(
                                   "${Provider.of<CategoriesProvider>(context, listen: false).monthsPortuguese[Provider.of<UserProvider>(context).matchList[index].date.month - 1]}",
-                                  style: const TextStyle(fontWeight: FontWeight.w600),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600),
                                 ),
                               ),
                             ),
@@ -185,7 +199,11 @@ class _UserMatchScreenState extends State<UserMatchScreen> {
                                           EdgeInsets.only(right: width * 0.01),
                                     ),
                                     Text(
-                                      Provider.of<UserProvider>(context).matchList[index].court.store.name,
+                                      Provider.of<UserProvider>(context)
+                                          .matchList[index]
+                                          .court
+                                          .store
+                                          .name,
                                       style: TextStyle(
                                         color: AppTheme.colors.textDarkGrey,
                                       ),

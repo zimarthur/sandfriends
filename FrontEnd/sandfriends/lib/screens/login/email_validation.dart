@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:sandfriends/providers/redirect_provider.dart';
 import 'package:sandfriends/widgets/Modal/SF_ModalMessage.dart';
 import 'dart:convert';
 
@@ -31,6 +32,7 @@ class _EmailValidationState extends State<EmailValidation> {
   Widget build(BuildContext context) {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       showModal = false;
+
       ConfirmEmail(context);
     });
 

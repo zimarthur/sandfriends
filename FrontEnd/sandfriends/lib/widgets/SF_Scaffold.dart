@@ -7,7 +7,7 @@ import '../theme/app_theme.dart';
 
 class SFScaffold extends StatefulWidget {
   final String titleText;
-  final VoidCallback? onTapReturn;
+  final Function()? onTapReturn;
 
   final Widget? rightWidget;
   final AppBarType appBarType;
@@ -38,84 +38,90 @@ class _SFScaffoldState extends State<SFScaffold> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-      backgroundColor: widget.appBarType == AppBarType.Primary
-          ? AppTheme.colors.primaryBlue
-          : AppTheme.colors.secondaryBack,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            SizedBox(
-              width: width,
-              height: height,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 50,
-                    //padding: EdgeInsets.symmetric(horizontal: 16, vertical: 11),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              InkWell(
-                                onTap: widget.onTapReturn,
-                                child: Container(
-                                  width: width * 0.15,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 11),
-                                  alignment: Alignment.centerLeft,
-                                  child: SvgPicture.asset(
-                                    r'assets\icon\arrow_left.svg',
-                                    width: width * 0.05,
-                                    color:
-                                        widget.appBarType == AppBarType.Primary
-                                            ? AppTheme.colors.secondaryBack
-                                            : AppTheme.colors.primaryBlue,
+    return WillPopScope(
+      onWillPop: () async {
+        widget.onTapReturn!();
+        return false;
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+        backgroundColor: widget.appBarType == AppBarType.Primary
+            ? AppTheme.colors.primaryBlue
+            : AppTheme.colors.secondaryBack,
+        body: SafeArea(
+          child: Stack(
+            children: [
+              SizedBox(
+                width: width,
+                height: height,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 50,
+                      //padding: EdgeInsets.symmetric(horizontal: 16, vertical: 11),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                InkWell(
+                                  onTap: widget.onTapReturn,
+                                  child: Container(
+                                    width: width * 0.15,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 11),
+                                    alignment: Alignment.centerLeft,
+                                    child: SvgPicture.asset(
+                                      r'assets\icon\arrow_left.svg',
+                                      width: width * 0.05,
+                                      color: widget.appBarType ==
+                                              AppBarType.Primary
+                                          ? AppTheme.colors.secondaryBack
+                                          : AppTheme.colors.primaryBlue,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Expanded(child: Container()),
-                            ],
+                                Expanded(child: Container()),
+                              ],
+                            ),
                           ),
-                        ),
-                        Text(
-                          widget.titleText,
-                          style: TextStyle(
-                            color: widget.appBarType == AppBarType.Primary
-                                ? AppTheme.colors.secondaryBack
-                                : AppTheme.colors.primaryBlue,
-                            fontWeight: FontWeight.w500,
+                          Text(
+                            widget.titleText,
+                            style: TextStyle(
+                              color: widget.appBarType == AppBarType.Primary
+                                  ? AppTheme.colors.secondaryBack
+                                  : AppTheme.colors.primaryBlue,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        widget.rightWidget == null
-                            ? Expanded(
-                                child: Container(),
-                              )
-                            : Expanded(
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 11),
-                                  child: widget.rightWidget!,
-                                  alignment: Alignment.centerRight,
+                          widget.rightWidget == null
+                              ? Expanded(
+                                  child: Container(),
+                                )
+                              : Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 11),
+                                    child: widget.rightWidget!,
+                                    alignment: Alignment.centerRight,
+                                  ),
                                 ),
-                              ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Expanded(child: widget.child)
-                ],
+                    Expanded(child: widget.child)
+                  ],
+                ),
               ),
-            ),
-            widget.showModal
-                ? SFModal(
-                    child: widget.modalWidget!,
-                    onTapBackground: widget.onTapBackground!,
-                  )
-                : Container()
-          ],
+              widget.showModal
+                  ? SFModal(
+                      child: widget.modalWidget!,
+                      onTapBackground: widget.onTapBackground!,
+                    )
+                  : Container()
+            ],
+          ),
         ),
       ),
     );

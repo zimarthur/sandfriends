@@ -10,6 +10,7 @@ import 'dart:convert';
 import '../../models/enums.dart';
 import '../../models/validators.dart';
 import '../../providers/login_provider.dart';
+import '../../providers/redirect_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/Modal/SF_Modal.dart';
 import '../../widgets/Modal/SF_ModalMessage.dart';
@@ -30,20 +31,6 @@ class _ChangePasswordState extends State<ChangePassword> {
   GenericStatus? modalStatus = GenericStatus.Success;
   String? modalMessage = "";
   Widget? modalWidget;
-  /*SFModalInput(
-      formKey: _newPasswordFormKey,
-      inputMessage: 'senha',
-      textController: modalController,
-      textFieldPourpose: TextFieldPourpose.Password,
-      validator: passwordValidator,
-      message: 'digite sua nova senha',
-      modalStatus: GenericStatus.Success,
-      onTap: () {
-        setState(() {
-          SetNewPassword(context);
-        });
-      },
-    );*/
 
   EnumChangePasswordStatus? changePasswordStatus;
 
@@ -58,7 +45,6 @@ class _ChangePasswordState extends State<ChangePassword> {
             color: AppTheme.colors.secondaryBack,
             child: Stack(
               children: [
-                const Text("password link"),
                 Positioned.fill(
                   child: SvgPicture.asset(
                     r'assets\icon\sand_bar.svg',
@@ -100,28 +86,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                         )
                       : modalWidget!)
               : Container()
-          /*showModal
-              ? Form(
-                  key: _newPasswordFormKey,
-                  child: SFModal(
-                    picturePath: modalImagePath,
-                    message: modalMessage,
-                    showModal: showModal,
-                    pourpose: modalPourpose,
-                    textController: modalController,
-                    onTap: () {
-                      setState(() {
-                        if (modalPourpose == ModalPourpose.Password) {
-                          SetNewPassword(context);
-                        } else {
-                          showModal = false;
-                          context.goNamed('login_signup');
-                        }
-                      });
-                    },
-                  ),
-                )
-              : Container()*/
         ],
       ),
     );

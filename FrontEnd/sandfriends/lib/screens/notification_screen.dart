@@ -41,10 +41,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   onTap: () {
                     context.goNamed('match_screen', params: {
                       'matchUrl':
-                          Provider.of<UserProvider>(context, listen: false).notificationList[index].match.matchUrl,
+                          Provider.of<UserProvider>(context, listen: false)
+                              .notificationList[index]
+                              .match
+                              .matchUrl,
                       'returnTo': 'notification_screen',
                       'returnToParam': 'null',
                       'returnToParamValue': 'null',
+                    });
+                    setState(() {
+                      Provider.of<UserProvider>(context, listen: false)
+                          .notificationList[index]
+                          .seen = true;
                     });
                   },
                   child: Container(

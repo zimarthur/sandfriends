@@ -19,6 +19,7 @@ class Match {
   String creatorNotes;
   final Court court;
   final Sport sport;
+  final String canCancelUpTo;
   List<MatchMember> members = [];
 
   User get matchCreator =>
@@ -72,6 +73,7 @@ class Match {
     required this.creatorNotes,
     required this.court,
     required this.sport,
+    required this.canCancelUpTo,
   });
 }
 
@@ -91,6 +93,7 @@ Match matchFromJson(Map<String, dynamic> json) {
     creatorNotes: json['CreatorNotes'],
     court: courtFromJson(json['StoreCourt']),
     sport: sportFromJson(json['Sport']),
+    canCancelUpTo: json['CanCancelUpTo'],
   );
   for (int i = 0; i < json['Members'].length; i++) {
     newMatch.members.add(matchMemberFromJson(json['Members'][i]));

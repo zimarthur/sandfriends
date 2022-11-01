@@ -53,36 +53,43 @@ class _MyStatefulWidgetState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView(
-        controller: Provider.of<Redirect>(context).pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: _widgetOptions,
-      ),
-      bottomNavigationBar: SandFriendsNavBar(
-        onItemSelected: _onItemTapped,
-        selectedIndex: Provider.of<Redirect>(context).selectedPageIndex!,
-        items: [
-          SandFriendsNavBarItem(
-            image: SvgPicture.asset(r"assets\icon\navigation\user_screen.svg"),
-            imageActive: SvgPicture.asset(
-                r"assets\icon\navigation\user_screen_selected.svg"),
-            tabColor: AppTheme.colors.primaryBlue,
-          ),
-          SandFriendsNavBarItem(
-            image: SvgPicture.asset(r"assets\icon\navigation\feed_screen.svg"),
-            imageActive: SvgPicture.asset(
-                r"assets\icon\navigation\feed_screen_selected.svg"),
-            tabColor: AppTheme.colors.primaryBlue,
-          ),
-          SandFriendsNavBarItem(
-            image:
-                SvgPicture.asset(r"assets\icon\navigation\schedule_screen.svg"),
-            imageActive: SvgPicture.asset(
-                r"assets\icon\navigation\schedule_screen_selected.svg"),
-            tabColor: AppTheme.colors.primaryBlue,
-          ),
-        ],
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        body: PageView(
+          controller: Provider.of<Redirect>(context).pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: _widgetOptions,
+        ),
+        bottomNavigationBar: SandFriendsNavBar(
+          onItemSelected: _onItemTapped,
+          selectedIndex: Provider.of<Redirect>(context).selectedPageIndex!,
+          items: [
+            SandFriendsNavBarItem(
+              image:
+                  SvgPicture.asset(r"assets\icon\navigation\user_screen.svg"),
+              imageActive: SvgPicture.asset(
+                  r"assets\icon\navigation\user_screen_selected.svg"),
+              tabColor: AppTheme.colors.primaryBlue,
+            ),
+            SandFriendsNavBarItem(
+              image:
+                  SvgPicture.asset(r"assets\icon\navigation\feed_screen.svg"),
+              imageActive: SvgPicture.asset(
+                  r"assets\icon\navigation\feed_screen_selected.svg"),
+              tabColor: AppTheme.colors.primaryBlue,
+            ),
+            SandFriendsNavBarItem(
+              image: SvgPicture.asset(
+                  r"assets\icon\navigation\schedule_screen.svg"),
+              imageActive: SvgPicture.asset(
+                  r"assets\icon\navigation\schedule_screen_selected.svg"),
+              tabColor: AppTheme.colors.primaryBlue,
+            ),
+          ],
+        ),
       ),
     );
   }

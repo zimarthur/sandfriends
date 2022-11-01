@@ -10,6 +10,13 @@ import '../models/notification_sf.dart';
 import '../models/user.dart';
 
 class UserProvider with ChangeNotifier {
+  void resetUserProvider() {
+    user = null;
+    clearMatchList();
+    _openMatchesCounter = 0;
+    _notificationList.clear();
+  }
+
   User? _user;
   User? get user => _user;
   set user(User? value) {
@@ -40,7 +47,20 @@ class UserProvider with ChangeNotifier {
 
   final List<Match> _matchList = [];
   List<Match> get matchList {
-    _matchList.sort(
+    List<Match> filteredMatchList;
+    filteredMatchList = _matchList.where((match) {
+      for (int i = 0; i < match.members.length; i++) {
+        if (match.members[i].user.idUser == user!.idUser) {
+          if (match.members[i].refused == false &&
+              match.members[i].waitingApproval == false &&
+              match.members[i].quit == false) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }).toList();
+    filteredMatchList.sort(
       (a, b) {
         int compare = b.date.compareTo(a.date);
 
@@ -51,7 +71,7 @@ class UserProvider with ChangeNotifier {
         }
       },
     );
-    return _matchList;
+    return filteredMatchList;
   }
 
   void addMatch(Match newMatch) {

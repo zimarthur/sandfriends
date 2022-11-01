@@ -329,7 +329,8 @@ class _NewUserFormState extends State<NewUserForm> {
                                                 for (var region in allRegions) {
                                                   if (region.state ==
                                                       allRegions[index].state) {
-                                                    for (var cityList in region.cities) {
+                                                    for (var cityList
+                                                        in region.cities) {
                                                       if (cityList.city ==
                                                           city.city) {
                                                         Provider.of<UserProvider>(

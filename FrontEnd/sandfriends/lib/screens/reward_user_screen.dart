@@ -103,7 +103,10 @@ class _RewardUserScreenState extends State<RewardUserScreen> {
                                           children: [
                                             Row(
                                               children: [
-                                                Text("Objetivo: "),
+                                                Container(
+                                                  width: width * 0.25,
+                                                  child: Text("Objetivo: "),
+                                                ),
                                                 Padding(
                                                     padding: EdgeInsets.only(
                                                         right: width * 0.02)),
@@ -123,7 +126,10 @@ class _RewardUserScreenState extends State<RewardUserScreen> {
                                             ),
                                             Row(
                                               children: [
-                                                Text("Recompensa: "),
+                                                Container(
+                                                  width: width * 0.25,
+                                                  child: Text("Recompensa: "),
+                                                ),
                                                 Padding(
                                                     padding: EdgeInsets.only(
                                                         right: width * 0.02)),
@@ -131,6 +137,31 @@ class _RewardUserScreenState extends State<RewardUserScreen> {
                                                   child: Text(
                                                     userRewards[index]
                                                         .selectedReward!,
+                                                    textAlign: TextAlign.center,
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  width: width * 0.25,
+                                                  child: Flexible(
+                                                    child: Text("Local: "),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: width * 0.02)),
+                                                Expanded(
+                                                  child: Text(
+                                                    userRewards[index]
+                                                        .store!
+                                                        .name,
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
                                                       fontWeight:
