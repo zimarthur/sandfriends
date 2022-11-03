@@ -919,7 +919,7 @@ class _CourtScreenState extends State<CourtScreen> {
                 Provider.of<MatchProvider>(context, listen: false)
                     .needsRefresh = true;
                 Provider.of<UserProvider>(context, listen: false)
-                    .nextMatchNeedsRefresh = true;
+                    .feedNeedsRefresh = true;
               });
             },
           );

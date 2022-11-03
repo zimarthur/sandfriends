@@ -3,7 +3,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../theme/app_theme.dart';
 
-enum ButtonType { Primary, Secondary, Disabled, YellowPrimary, YellowSecondary }
+enum ButtonType {
+  Primary,
+  Secondary,
+  Disabled,
+  YellowPrimary,
+  YellowSecondary,
+  LightBlue
+}
 
 class SFButton extends StatefulWidget {
   final String buttonLabel;
@@ -39,10 +46,12 @@ class _SFButtonState extends State<SFButton> {
               ? AppTheme.colors.primaryBlue
               : widget.buttonType == ButtonType.YellowPrimary
                   ? AppTheme.colors.secondaryYellow
-                  : widget.buttonType == ButtonType.Secondary ||
-                          widget.buttonType == ButtonType.YellowSecondary
-                      ? AppTheme.colors.secondaryPaper
-                      : AppTheme.colors.textDisabled,
+                  : widget.buttonType == ButtonType.LightBlue
+                      ? AppTheme.colors.primaryLightBlue
+                      : widget.buttonType == ButtonType.Secondary ||
+                              widget.buttonType == ButtonType.YellowSecondary
+                          ? AppTheme.colors.secondaryPaper
+                          : AppTheme.colors.textDisabled,
           borderRadius: BorderRadius.circular(16.0),
           border: widget.buttonType == ButtonType.Secondary
               ? Border.all(color: AppTheme.colors.primaryBlue, width: 1)

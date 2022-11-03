@@ -1700,7 +1700,7 @@ class _MatchScreenState extends State<MatchScreen> {
                 Provider.of<MatchProvider>(context, listen: false)
                     .needsRefresh = true;
                 Provider.of<UserProvider>(context, listen: false)
-                    .nextMatchNeedsRefresh = true;
+                    .feedNeedsRefresh = true;
               });
             },
           );

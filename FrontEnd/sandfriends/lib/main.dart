@@ -12,6 +12,7 @@ import 'package:sandfriends/screens/login/load_login.dart';
 import 'package:sandfriends/screens/match_search_screen.dart';
 import 'package:sandfriends/screens/notification_screen.dart';
 import 'package:sandfriends/screens/open_matches_screen.dart';
+import 'package:sandfriends/screens/recurrent_match_screen.dart';
 import 'package:sandfriends/screens/reward_screen.dart';
 import 'package:sandfriends/screens/sport_selection_screen.dart';
 import 'package:sandfriends/screens/user_match_screen.dart';
@@ -251,6 +252,12 @@ class _MyAppState extends State<MyApp> {
                   returnToParamValue == 'null' ? null : returnToParamValue,
             );
           }),
+      GoRoute(
+        name: 'recurrent_match_screen',
+        path: '/recurrent_match_screen',
+        builder: (BuildContext context, GoRouterState state) =>
+            RecurrentMatchScreen(),
+      ),
       GoRoute(
         name: 'reward_user_screen',
         path: '/reward_user_screen',

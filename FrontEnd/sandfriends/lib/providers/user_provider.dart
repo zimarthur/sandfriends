@@ -82,10 +82,10 @@ class UserProvider with ChangeNotifier {
     _matchList.clear();
   }
 
-  bool _nextMatchNeedsRefresh = false;
-  bool get nextMatchNeedsRefresh => _nextMatchNeedsRefresh;
-  set nextMatchNeedsRefresh(bool value) {
-    _nextMatchNeedsRefresh = value;
+  bool _feedNeedsRefresh = true;
+  bool get feedNeedsRefresh => _feedNeedsRefresh;
+  set feedNeedsRefresh(bool value) {
+    _feedNeedsRefresh = value;
   }
 
   int _indexEditModal = 0;

@@ -146,7 +146,9 @@ flutter:
     - assets\icon\notification_on.svg
     - assets\icon\notification_off.svg
     - assets\icon\sandfriends_logo.svg
+    - assets\icon\sandfriends_logo_disabled.svg
     - assets\icon\medal.svg
+    - assets\icon\recurrent_calendar.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

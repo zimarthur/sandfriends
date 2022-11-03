@@ -29,11 +29,9 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   void initState() {
     super.initState();
-    if (Provider.of<UserProvider>(context, listen: false).matchList.isEmpty ||
-        Provider.of<UserProvider>(context, listen: false)
-            .nextMatchNeedsRefresh) {
+    if (Provider.of<UserProvider>(context, listen: false).feedNeedsRefresh) {
       GetUserInfo();
-      Provider.of<UserProvider>(context, listen: false).nextMatchNeedsRefresh =
+      Provider.of<UserProvider>(context, listen: false).feedNeedsRefresh =
           false;
     } else {
       isLoading = false;
@@ -527,37 +525,43 @@ class _FeedScreenState extends State<FeedScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                  alignment: Alignment.topCenter,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: width * 0.03,
-                                      vertical: height * 0.02),
-                                  width: width * 0.47,
-                                  height: height * 0.15,
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.colors.primaryLightBlue,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        r"assets\icon\email.svg",
-                                        color: AppTheme.colors.textWhite,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            right: width * 0.02),
-                                      ),
-                                      Flexible(
-                                        child: Text(
-                                          "Convites",
-                                          style: TextStyle(
-                                            color: AppTheme.colors.textWhite,
-                                            fontWeight: FontWeight.w700,
+                                InkWell(
+                                  onTap: () =>
+                                      context.goNamed('recurrent_match_screen'),
+                                  child: Container(
+                                    alignment: Alignment.topCenter,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: width * 0.03,
+                                        vertical: height * 0.02),
+                                    width: width * 0.47,
+                                    height: height * 0.15,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.colors.primaryLightBlue,
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Icon(
+                                          Icons.restore,
+                                          color: AppTheme.colors.textWhite,
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              right: width * 0.02),
+                                        ),
+                                        Flexible(
+                                          child: Text(
+                                            "Área do Mensalista",
+                                            style: TextStyle(
+                                              color: AppTheme.colors.textWhite,
+                                              fontWeight: FontWeight.w700,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 InkWell(
@@ -580,6 +584,8 @@ class _FeedScreenState extends State<FeedScreen> {
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         SvgPicture.asset(
                                           r"assets\icon\trophy.svg",
@@ -595,14 +601,14 @@ class _FeedScreenState extends State<FeedScreen> {
                                                             listen: false)
                                                         .openMatchesCounter ==
                                                     0
-                                                ? "Não há partidas abertas"
+                                                ? "Não há partidas abertas perto de você"
                                                 : Provider.of<UserProvider>(
                                                                 context,
                                                                 listen: false)
                                                             .openMatchesCounter ==
                                                         1
-                                                    ? "Existe 1 partida aberta"
-                                                    : "Existem ${Provider.of<UserProvider>(context, listen: false).openMatchesCounter} partidas abertas",
+                                                    ? "Existe 1 partida aberta perto de você"
+                                                    : "Existem ${Provider.of<UserProvider>(context, listen: false).openMatchesCounter} partidas abertas perto de você",
                                             style: TextStyle(
                                               color: AppTheme.colors.textWhite,
                                               fontWeight: FontWeight.w700,
@@ -667,7 +673,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                       itemBuilder: (context, index) {
                                         return Container(
                                           margin: EdgeInsets.symmetric(
-                                              horizontal: width * 0.035),
+                                              horizontal: width * 0.015),
                                           padding:
                                               EdgeInsets.all(height * 0.01),
                                           height: height * 0.07,
