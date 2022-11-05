@@ -49,12 +49,12 @@ class _SFCourtCardState extends State<SFCourtCard> {
           hoursIndex <
               widget.storeDay.courts[courtsIndex].availableHours.length;
           hoursIndex++) {
+        newHour = true;
+
         for (int i = 0; i < availableHours.length; i++) {
           if (availableHours[i].hourIndex ==
               widget.storeDay.courts[courtsIndex].availableHours[hoursIndex]
                   .hourIndex) {
-            newHour = false;
-
             if (availableHours[i].price.toInt() >
                 widget.storeDay.courts[courtsIndex].availableHours[hoursIndex]
                     .price
@@ -62,6 +62,8 @@ class _SFCourtCardState extends State<SFCourtCard> {
               availableHours[i].price = widget.storeDay.courts[courtsIndex]
                   .availableHours[hoursIndex].price;
             }
+            newHour = false;
+            break;
           }
         }
         if (newHour == true || availableHours.isEmpty) {
@@ -74,16 +76,20 @@ class _SFCourtCardState extends State<SFCourtCard> {
                   .hourFinish,
               widget.storeDay.courts[courtsIndex].availableHours[hoursIndex]
                   .price));
-          newHour = true;
-          /*print(
-              "new hour: ${widget.storeDay.courts[courtsIndex].availableHours[hoursIndex].hourIndex}");*/
         }
-        /*else {
-          print(
-              "NOT new hour: ${widget.storeDay.courts[courtsIndex].availableHours[hoursIndex].hourIndex}");
-        }*/
       }
     }
+    availableHours.sort(
+      (a, b) {
+        int compare = a.hourIndex.compareTo(b.hourIndex);
+
+        if (compare == 0) {
+          return a.hourIndex.compareTo(b.hourIndex);
+        } else {
+          return compare;
+        }
+      },
+    );
   }
 
   @override
@@ -217,9 +223,44 @@ class _SFCourtCardState extends State<SFCourtCard> {
                       widget.onOnTap();
                       Provider.of<MatchProvider>(context, listen: false)
                           .selectedStoreDay = widget.storeDay;
-                      Provider.of<MatchProvider>(context, listen: false)
-                          .indexSelectedTime
-                          .clear();
+                      //encontrar qual quadra tinha o preço do "anuncio" do courtcard
+
+                      bool foundHour = false;
+                      for (int i = 0;
+                          i <
+                              Provider.of<MatchProvider>(context, listen: false)
+                                  .selectedStoreDay!
+                                  .courts
+                                  .length;
+                          i++) {
+                        for (int j = 0;
+                            j <
+                                Provider.of<MatchProvider>(context,
+                                        listen: false)
+                                    .selectedStoreDay!
+                                    .courts[i]
+                                    .availableHours
+                                    .length;
+                            j++) {
+                          if (Provider.of<MatchProvider>(context, listen: false)
+                                  .selectedStoreDay!
+                                  .courts[i]
+                                  .availableHours[j]
+                                  .hourIndex ==
+                              Provider.of<MatchProvider>(context, listen: false)
+                                  .selectedTime[0]
+                                  .hourIndex) {
+                            Provider.of<MatchProvider>(context, listen: false)
+                                .indexSelectedCourt = i;
+                            foundHour = true;
+                            break;
+                          }
+                        }
+                        if (foundHour) {
+                          break;
+                        }
+                      }
+
                       context.goNamed('court_screen', params: {
                         'viewOnly': 'null',
                         'returnTo': 'match_search_screen',

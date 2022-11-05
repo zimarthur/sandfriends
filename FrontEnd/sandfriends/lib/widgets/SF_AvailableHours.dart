@@ -25,15 +25,16 @@ class SFAvailableHours extends StatefulWidget {
 
 class _SFAvailableHoursState extends State<SFAvailableHours> {
   bool isSelectedHour(BuildContext context) {
+    //para o match search screen (cada court ali seria um estabelecimento)
     if ((Provider.of<MatchProvider>(context).indexSelectedCourt ==
             widget.widgetIndexStore) &&
-        (Provider.of<MatchProvider>(context)
-            .indexSelectedTime
-            .contains(widget.widgetIndexTime))) {
+        (Provider.of<MatchProvider>(context).selectedTime.any((element) =>
+            element.hourIndex ==
+            widget.availableHours[widget.widgetIndexTime].hourIndex))) {
       return true;
-    } else {
-      return false;
     }
+
+    return false;
   }
 
   @override
@@ -41,31 +42,101 @@ class _SFAvailableHoursState extends State<SFAvailableHours> {
     return InkWell(
       onTap: () {
         setState(() {
-          Provider.of<MatchProvider>(context, listen: false)
-              .indexSelectedCourt = widget.widgetIndexStore;
-          Provider.of<MatchProvider>(context, listen: false)
-              .indexSelectedTime
-              .clear();
-          Provider.of<MatchProvider>(context, listen: false)
-              .selectedTime
-              .clear();
           if (widget.multipleSelection) {
-            for (int i = 0; i < widget.widgetIndexTime + 1; i++) {
-              Provider.of<MatchProvider>(context, listen: false)
-                  .indexSelectedTime
-                  .add(i);
+            // for (int i = 0; i < widget.widgetIndexTime + 1; i++) {
+            //   Provider.of<MatchProvider>(context, listen: false)
+            //       .indexSelectedTime
+            //       .add(i);
+            //   Provider.of<MatchProvider>(context, listen: false)
+            //       .selectedTime
+            //       .add(widget.availableHours[i]);
+            // }
+
+            //obtem maiores e menores horas selecionadas
+            int minValue = 0;
+            int maxValue = 0;
+            if (Provider.of<MatchProvider>(context, listen: false)
+                .selectedTime
+                .isNotEmpty) {
+              minValue = Provider.of<MatchProvider>(context, listen: false)
+                  .selectedTime
+                  .reduce((a, b) => a.hourIndex < b.hourIndex ? a : b)
+                  .hourIndex;
+              maxValue = Provider.of<MatchProvider>(context, listen: false)
+                  .selectedTime
+                  .reduce((a, b) => a.hourIndex > b.hourIndex ? a : b)
+                  .hourIndex;
+            }
+
+            //verifica se o horario clicado é igual ao max +1 ou min - 1
+            if ((widget.availableHours[widget.widgetIndexTime].hourIndex >
+                            maxValue + 1 ||
+                        widget.availableHours[widget.widgetIndexTime]
+                                .hourIndex <
+                            minValue - 1 ||
+                        (widget.availableHours[widget.widgetIndexTime]
+                                    .hourIndex <
+                                maxValue &&
+                            widget.availableHours[widget.widgetIndexTime]
+                                    .hourIndex >
+                                minValue)) &&
+                    Provider.of<MatchProvider>(context, listen: false)
+                        .selectedTime
+                        .isNotEmpty ||
+                (Provider.of<MatchProvider>(context, listen: false)
+                        .indexSelectedCourt !=
+                    widget.widgetIndexStore)) {
               Provider.of<MatchProvider>(context, listen: false)
                   .selectedTime
-                  .add(widget.availableHours[i]);
+                  .clear();
+
+              Provider.of<MatchProvider>(context, listen: false)
+                  .selectedTime
+                  .add(widget.availableHours[widget.widgetIndexTime]);
+            } else {
+              //verifica se o horario clicado ja tava selecionado
+              if (Provider.of<MatchProvider>(context, listen: false)
+                  .selectedTime
+                  .any((element) =>
+                      element.hourIndex ==
+                      widget
+                          .availableHours[widget.widgetIndexTime].hourIndex)) {
+                Provider.of<MatchProvider>(context, listen: false)
+                    .selectedTime
+                    .removeWhere((element) =>
+                        element.hourIndex ==
+                        widget
+                            .availableHours[widget.widgetIndexTime].hourIndex);
+              } else {
+                Provider.of<MatchProvider>(context, listen: false)
+                    .selectedTime
+                    .add(widget.availableHours[widget.widgetIndexTime]);
+              }
             }
+            Provider.of<MatchProvider>(context, listen: false)
+                .selectedTime
+                .sort(
+              (a, b) {
+                int compare = a.hourIndex.compareTo(b.hourIndex);
+
+                if (compare == 0) {
+                  return a.hourIndex.compareTo(b.hourIndex);
+                } else {
+                  return compare;
+                }
+              },
+            );
           } else {
             Provider.of<MatchProvider>(context, listen: false)
-                .indexSelectedTime
-                .add(widget.widgetIndexTime);
+                .selectedTime
+                .clear();
+
             Provider.of<MatchProvider>(context, listen: false)
                 .selectedTime
                 .add(widget.availableHours[widget.widgetIndexTime]);
           }
+          Provider.of<MatchProvider>(context, listen: false)
+              .indexSelectedCourt = widget.widgetIndexStore;
         });
       },
       child: Container(

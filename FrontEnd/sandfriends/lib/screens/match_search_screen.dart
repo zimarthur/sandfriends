@@ -993,6 +993,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                                       .selectedStoreDay =
                                                                   storeDayList[
                                                                       index];
+
                                                               context.goNamed(
                                                                   'court_screen',
                                                                   params: {

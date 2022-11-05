@@ -48,7 +48,7 @@ class _CourtScreenState extends State<CourtScreen> {
   bool viewOnly = true;
   final ScrollController _controller = ScrollController();
 
-  List<Court> availableCourts = [];
+  //List<Court> availableCourts = [];
 
   void _onScrollEvent() {
     if (_controller.position.pixels.toInt() %
@@ -110,73 +110,72 @@ class _CourtScreenState extends State<CourtScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    // if (viewOnly == false) {
+    //   availableCourts.clear();
 
-    if (viewOnly == false) {
-      availableCourts.clear();
+    //   StoreDay selectedStoreDay =
+    //       Provider.of<MatchProvider>(context, listen: false).selectedStoreDay!;
+    //   int selectedTime = Provider.of<MatchProvider>(context, listen: false)
+    //       .selectedTime
+    //       .first
+    //       .hourIndex;
+    //   bool newHour = false;
+    //   int lastAvailableHour = -1;
+    //   int hourIndexPace;
 
-      StoreDay selectedStoreDay =
-          Provider.of<MatchProvider>(context, listen: false).selectedStoreDay!;
-      int selectedTime = Provider.of<MatchProvider>(context, listen: false)
-          .selectedTime
-          .first
-          .hourIndex;
-      bool newHour = false;
-      int lastAvailableHour = -1;
-      int hourIndexPace;
+    //   List<CourtAvailableHours> availableHoursList = [];
 
-      List<CourtAvailableHours> availableHoursList = [];
-
-      for (int courtIndex = 0;
-          courtIndex < selectedStoreDay.courts.length;
-          courtIndex++) {
-        lastAvailableHour = -1;
-        for (int hourIndex = 0;
-            hourIndex <
-                selectedStoreDay.courts[courtIndex].availableHours.length;
-            hourIndex++) {
-          if (selectedStoreDay
-                  .courts[courtIndex].availableHours[hourIndex].hourIndex ==
-              selectedTime) {
-            lastAvailableHour = selectedTime;
-            newHour = true;
-          } else if (selectedStoreDay
-                  .courts[courtIndex].availableHours[hourIndex].hourIndex >
-              selectedTime) {
-            if (selectedStoreDay.courts[courtIndex].availableHours[hourIndex]
-                        .hourIndex -
-                    lastAvailableHour ==
-                1) {
-              lastAvailableHour = selectedStoreDay
-                  .courts[courtIndex].availableHours[hourIndex].hourIndex;
-              newHour = true;
-            }
-          }
-          if (newHour) {
-            newHour = false;
-            availableHoursList.add(CourtAvailableHours(
-                selectedStoreDay
-                    .courts[courtIndex].availableHours[hourIndex].hour,
-                selectedStoreDay
-                    .courts[courtIndex].availableHours[hourIndex].hourIndex,
-                selectedStoreDay
-                    .courts[courtIndex].availableHours[hourIndex].hourFinish,
-                selectedStoreDay
-                    .courts[courtIndex].availableHours[hourIndex].price));
-          }
-        }
-        if (availableHoursList.isNotEmpty) {
-          Court newCourt = Court(
-            store: selectedStoreDay.store,
-            idStoreCourt: selectedStoreDay.courts[courtIndex].idStoreCourt,
-            storeCourtName: selectedStoreDay.courts[courtIndex].storeCourtName,
-            isIndoor: selectedStoreDay.courts[courtIndex].isIndoor,
-          );
-          newCourt.availableHours = List.from(availableHoursList);
-          availableCourts.add(newCourt);
-          availableHoursList.clear();
-        }
-      }
-    }
+    //   for (int courtIndex = 0;
+    //       courtIndex < selectedStoreDay.courts.length;
+    //       courtIndex++) {
+    //     lastAvailableHour = -1;
+    //     for (int hourIndex = 0;
+    //         hourIndex <
+    //             selectedStoreDay.courts[courtIndex].availableHours.length;
+    //         hourIndex++) {
+    //       if (selectedStoreDay
+    //               .courts[courtIndex].availableHours[hourIndex].hourIndex ==
+    //           selectedTime) {
+    //         lastAvailableHour = selectedTime;
+    //         newHour = true;
+    //       } else if (selectedStoreDay
+    //               .courts[courtIndex].availableHours[hourIndex].hourIndex >
+    //           selectedTime) {
+    //         if (selectedStoreDay.courts[courtIndex].availableHours[hourIndex]
+    //                     .hourIndex -
+    //                 lastAvailableHour ==
+    //             1) {
+    //           lastAvailableHour = selectedStoreDay
+    //               .courts[courtIndex].availableHours[hourIndex].hourIndex;
+    //           newHour = true;
+    //         }
+    //       }
+    //       if (newHour) {
+    //         newHour = false;
+    //         availableHoursList.add(CourtAvailableHours(
+    //             selectedStoreDay
+    //                 .courts[courtIndex].availableHours[hourIndex].hour,
+    //             selectedStoreDay
+    //                 .courts[courtIndex].availableHours[hourIndex].hourIndex,
+    //             selectedStoreDay
+    //                 .courts[courtIndex].availableHours[hourIndex].hourFinish,
+    //             selectedStoreDay
+    //                 .courts[courtIndex].availableHours[hourIndex].price));
+    //       }
+    //     }
+    //     if (availableHoursList.isNotEmpty) {
+    //       Court newCourt = Court(
+    //         store: selectedStoreDay.store,
+    //         idStoreCourt: selectedStoreDay.courts[courtIndex].idStoreCourt,
+    //         storeCourtName: selectedStoreDay.courts[courtIndex].storeCourtName,
+    //         isIndoor: selectedStoreDay.courts[courtIndex].isIndoor,
+    //       );
+    //       newCourt.availableHours = List.from(availableHoursList);
+    //       availableCourts.add(newCourt);
+    //       availableHoursList.clear();
+    //     }
+    //   }
+    // }
 
     return WillPopScope(
       onWillPop: () async {
@@ -205,6 +204,7 @@ class _CourtScreenState extends State<CourtScreen> {
             'returnToParamValue': returnToParamValue
           });
         }
+
         return false;
       },
       child: Scaffold(
@@ -449,7 +449,12 @@ class _CourtScreenState extends State<CourtScreen> {
                               padding:
                                   EdgeInsets.symmetric(vertical: height * 0.01),
                               child: Text(
-                                availableCourts.length > 1
+                                Provider.of<MatchProvider>(context,
+                                                listen: false)
+                                            .selectedStoreDay!
+                                            .courts
+                                            .length >
+                                        1
                                     ? "Selecione a quadra e a duração do jogo"
                                     : "Selecione a duração do jogo",
                                 style: TextStyle(
@@ -461,7 +466,11 @@ class _CourtScreenState extends State<CourtScreen> {
                               padding: EdgeInsets.zero,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: availableCourts.length,
+                              itemCount: Provider.of<MatchProvider>(context,
+                                      listen: false)
+                                  .selectedStoreDay!
+                                  .courts
+                                  .length,
                               itemBuilder: (context, indexcourt) {
                                 return Padding(
                                   padding: EdgeInsets.symmetric(
@@ -480,7 +489,11 @@ class _CourtScreenState extends State<CourtScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              availableCourts[indexcourt]
+                                              Provider.of<MatchProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .selectedStoreDay!
+                                                  .courts[indexcourt]
                                                   .storeCourtName,
                                               style: TextStyle(
                                                 color:
@@ -488,7 +501,11 @@ class _CourtScreenState extends State<CourtScreen> {
                                               ),
                                             ),
                                             Text(
-                                              availableCourts[indexcourt]
+                                              Provider.of<MatchProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .selectedStoreDay!
+                                                      .courts[indexcourt]
                                                       .isIndoor
                                                   ? "Quadra Coberta"
                                                   : "Quadra Descoberta",
@@ -504,13 +521,21 @@ class _CourtScreenState extends State<CourtScreen> {
                                         height: 50,
                                         child: ListView.builder(
                                           scrollDirection: Axis.horizontal,
-                                          itemCount: availableCourts[indexcourt]
+                                          itemCount: Provider.of<MatchProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .selectedStoreDay!
+                                              .courts[indexcourt]
                                               .availableHours
                                               .length,
                                           itemBuilder: ((context, indexHour) {
                                             return SFAvailableHours(
                                               availableHours:
-                                                  availableCourts[indexcourt]
+                                                  Provider.of<MatchProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .selectedStoreDay!
+                                                      .courts[indexcourt]
                                                       .availableHours,
                                               widgetIndexTime: indexHour,
                                               widgetIndexStore: indexcourt,
@@ -710,7 +735,7 @@ class _CourtScreenState extends State<CourtScreen> {
                   Provider.of<MatchProvider>(context, listen: false)
                       .indexSelectedCourt = -1;
                   Provider.of<MatchProvider>(context, listen: false)
-                      .indexSelectedTime
+                      .selectedTime
                       .clear();
                   Provider.of<MatchProvider>(context, listen: false)
                       .selectedTime
@@ -783,9 +808,9 @@ class _CourtScreenState extends State<CourtScreen> {
                                 Text(
                                   Provider.of<MatchProvider>(context,
                                               listen: false)
-                                          .indexSelectedTime
+                                          .selectedTime
                                           .isEmpty
-                                      ? "${Provider.of<MatchProvider>(context).selectedTime.first.hour} -"
+                                      ? " -"
                                       : Provider.of<MatchProvider>(context)
                                           .matchDetailsTime,
                                   style: TextStyle(
@@ -797,7 +822,7 @@ class _CourtScreenState extends State<CourtScreen> {
                                 Text(
                                   Provider.of<MatchProvider>(context,
                                               listen: false)
-                                          .indexSelectedTime
+                                          .selectedTime
                                           .isEmpty
                                       ? "R\$ -"
                                       : "R\$${Provider.of<MatchProvider>(context).matchDetailsPrice}",
@@ -818,7 +843,7 @@ class _CourtScreenState extends State<CourtScreen> {
                                 buttonLabel: "Agendar",
                                 buttonType: Provider.of<MatchProvider>(context,
                                             listen: false)
-                                        .indexSelectedTime
+                                        .selectedTime
                                         .isEmpty
                                     ? ButtonType.Disabled
                                     : ButtonType.YellowPrimary,
@@ -826,7 +851,7 @@ class _CourtScreenState extends State<CourtScreen> {
                                 onTap: () {
                                   if (Provider.of<MatchProvider>(context,
                                           listen: false)
-                                      .indexSelectedTime
+                                      .selectedTime
                                       .isNotEmpty) {
                                     setState(() {
                                       isLoading = true;

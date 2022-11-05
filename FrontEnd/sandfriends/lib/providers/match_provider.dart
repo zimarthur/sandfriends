@@ -12,7 +12,7 @@ import '../models/match.dart';
 class MatchProvider with ChangeNotifier {
   void ResetProviderAtributes() {
     searchStatus = EnumSearchStatus.NoFilterApplied;
-    _indexSelectedTime.clear();
+
     selectedStoreDay = null;
     _selectedTime.clear();
     _storeDayList.clear();
@@ -38,12 +38,10 @@ class MatchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<int> _indexSelectedTime =
-      []; //para saber qual horario tem que ter highlight
-  List<int> get indexSelectedTime => _indexSelectedTime;
-  set indexSelectedTime(List<int> value) {
-    _indexSelectedTime = value;
-    notifyListeners();
+  int _startingHourCourt = 0;
+  int get startingHourCourt => _startingHourCourt;
+  set startingHourCourt(int value) {
+    _startingHourCourt = value;
   }
 
   StoreDay? _selectedStoreDay;
@@ -172,8 +170,8 @@ class MatchProvider with ChangeNotifier {
     return totalPrice;
   }
 
-  String get matchDetailsCourt {
-    return selectedStoreDay!.courts[indexSelectedCourt!].storeCourtName;
+  int get matchDetailsCourt {
+    return selectedStoreDay!.courts[indexSelectedCourt!].idStoreCourt;
   }
 
   bool _needsRefresh = false;
