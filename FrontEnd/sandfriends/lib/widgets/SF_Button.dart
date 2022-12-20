@@ -9,7 +9,8 @@ enum ButtonType {
   Disabled,
   YellowPrimary,
   YellowSecondary,
-  LightBlue
+  LightBluePrimary,
+  LightBlueSecondary,
 }
 
 class SFButton extends StatefulWidget {
@@ -46,10 +47,10 @@ class _SFButtonState extends State<SFButton> {
               ? AppTheme.colors.primaryBlue
               : widget.buttonType == ButtonType.YellowPrimary
                   ? AppTheme.colors.secondaryYellow
-                  : widget.buttonType == ButtonType.LightBlue
+                  : widget.buttonType == ButtonType.LightBluePrimary
                       ? AppTheme.colors.primaryLightBlue
                       : widget.buttonType == ButtonType.Secondary ||
-                              widget.buttonType == ButtonType.YellowSecondary
+                              widget.buttonType == ButtonType.YellowSecondary ||widget.buttonType == ButtonType.LightBlueSecondary
                           ? AppTheme.colors.secondaryPaper
                           : AppTheme.colors.textDisabled,
           borderRadius: BorderRadius.circular(16.0),
@@ -72,6 +73,8 @@ class _SFButtonState extends State<SFButton> {
                           ? AppTheme.colors.primaryBlue
                           : widget.buttonType == ButtonType.YellowSecondary
                               ? AppTheme.colors.secondaryYellow
+                              : widget.buttonType == ButtonType.LightBlueSecondary
+                              ? AppTheme.colors.secondaryLightBlue
                               : AppTheme.colors.textWhite,
                     ),
                   ),
@@ -89,6 +92,8 @@ class _SFButtonState extends State<SFButton> {
                         ? AppTheme.colors.primaryBlue
                         : widget.buttonType == ButtonType.YellowSecondary
                             ? AppTheme.colors.secondaryYellow
+                            : widget.buttonType == ButtonType.LightBlueSecondary
+                            ? AppTheme.colors.secondaryLightBlue
                             : AppTheme.colors.textWhite,
                   ),
                 ),
@@ -104,6 +109,8 @@ class _SFButtonState extends State<SFButton> {
                           ? AppTheme.colors.primaryBlue
                           : widget.buttonType == ButtonType.YellowSecondary
                               ? AppTheme.colors.secondaryYellow
+                            : widget.buttonType == ButtonType.LightBlueSecondary
+                              ? AppTheme.colors.secondaryLightBlue
                               : AppTheme.colors.textWhite,
                     ),
                   ),

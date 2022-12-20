@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/models/sport.dart';
 import 'package:sandfriends/providers/categories_provider.dart';
+import 'package:sandfriends/providers/recurrent_match_provider.dart';
 import 'package:sandfriends/widgets/SFLoading.dart';
 import 'package:sandfriends/widgets/SF_Button.dart';
 import 'package:http/http.dart' as http;
@@ -12,6 +13,12 @@ import '../theme/app_theme.dart';
 import '../providers/match_provider.dart';
 
 class SportSelectionScreen extends StatefulWidget {
+  final bool recurrentMatch;
+
+  const SportSelectionScreen({
+    Key? key,
+    this.recurrentMatch = false,
+  }) : super(key: key);
   @override
   State<SportSelectionScreen> createState() => _SportSelectionScreenState();
 }
@@ -59,7 +66,9 @@ class _SportSelectionScreenState extends State<SportSelectionScreen> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height - 75;
     return Container(
-      color: AppTheme.colors.primaryBlue,
+      color: widget.recurrentMatch
+          ? AppTheme.colors.secondaryLightBlue
+          : AppTheme.colors.primaryBlue,
       child: SafeArea(
         child: Column(
           children: [
@@ -110,25 +119,39 @@ class _SportSelectionScreenState extends State<SportSelectionScreen> {
                                   listen: false)
                               .sports[index]
                               .description,
-                          buttonType: ButtonType.Secondary,
+                          buttonType: widget.recurrentMatch
+                              ? ButtonType.LightBlueSecondary
+                              : ButtonType.Secondary,
                           textPadding:
                               EdgeInsets.symmetric(vertical: height * 0.025),
                           onTap: () {
-                            if (Provider.of<MatchProvider>(context,
+                            if (!widget.recurrentMatch) {
+                              if (Provider.of<MatchProvider>(context,
+                                          listen: false)
+                                      .selectedSport !=
+                                  Provider.of<CategoriesProvider>(context,
+                                          listen: false)
+                                      .sports[index]) {
+                                Provider.of<MatchProvider>(context,
                                         listen: false)
-                                    .selectedSport !=
-                                Provider.of<CategoriesProvider>(context,
-                                        listen: false)
-                                    .sports[index]) {
+                                    .ResetProviderAtributes();
+                              }
                               Provider.of<MatchProvider>(context, listen: false)
-                                  .ResetProviderAtributes();
+                                      .selectedSport =
+                                  Provider.of<CategoriesProvider>(context,
+                                          listen: false)
+                                      .sports[index];
+                              context.goNamed('match_search_screen');
+                            } else {
+                              Provider.of<RecurrentMatchProvider>(context,
+                                          listen: false)
+                                      .selectedSport =
+                                  Provider.of<CategoriesProvider>(context,
+                                          listen: false)
+                                      .sports[index];
+
+                              context.goNamed('recurrent_match_search_screen');
                             }
-                            Provider.of<MatchProvider>(context, listen: false)
-                                    .selectedSport =
-                                Provider.of<CategoriesProvider>(context,
-                                        listen: false)
-                                    .sports[index];
-                            context.goNamed('match_search_screen');
                           }),
                     );
                   }),

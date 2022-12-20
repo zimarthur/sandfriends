@@ -115,6 +115,7 @@ flutter:
     - assets\icon\arrow_right.png
     - assets\icon\arrow_left.svg
     - assets\icon\arrow_down.svg
+    - assets\icon\arrow_up.svg
     - assets\icon\info.svg
     - assets\icon\email.svg
     - assets\icon\lock.svg

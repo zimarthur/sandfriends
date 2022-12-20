@@ -40,7 +40,7 @@ class _MyStatefulWidgetState extends State<HomeScreen> {
     _widgetOptions = <Widget>[
       UserScreen(),
       FeedScreen(),
-      SportSelectionScreen(),
+      SportSelectionScreen(recurrentMatch: false),
     ];
   }
 

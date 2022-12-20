@@ -1,5 +1,7 @@
 enum EnumSignupStatus { Success, Failed, AccountAlreadyExists }
+
 enum EnumLoginStatus { Success, Failed }
+
 enum EnumChangePasswordStatus {
   Success,
   WrongEmail,
@@ -7,7 +9,7 @@ enum EnumChangePasswordStatus {
   NotConfirmedEmail
 }
 
-enum AppBarType { Primary, Secondary }
+enum AppBarType { Primary, Secondary, PrimaryLightBlue }
 
 enum GenericStatus { Success, Failed }
 

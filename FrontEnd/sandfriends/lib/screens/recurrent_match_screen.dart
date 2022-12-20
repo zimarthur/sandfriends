@@ -28,6 +28,8 @@ class _RecurrentMatchScreenState extends State<RecurrentMatchScreen> {
   bool showModal = false;
   bool isLoading = false;
 
+  int selectedRecurrentMatch = -1;
+
   List<RecurrentMatch> recurrentMatches = [];
 
   @override
@@ -215,249 +217,718 @@ class _RecurrentMatchScreenState extends State<RecurrentMatchScreen> {
                         ],
                       ),
                     ),
-                    Expanded(
-                      child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: width * 0.05,
-                          ),
-                          color: AppTheme.colors.secondaryPaper,
-                          child: recurrentMatches.isEmpty
-                              ? Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Você não tem nenhum horário mensalista.",
-                                        style: TextStyle(
-                                            color:
-                                                AppTheme.colors.textDarkGrey),
-                                      )
-                                    ],
+                    selectedRecurrentMatch == -1
+                        ? Expanded(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: width * 0.05,
+                              ),
+                              color: AppTheme.colors.secondaryPaper,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                      child: recurrentMatches.isEmpty
+                                          ? Center(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "Você não tem nenhum horário mensalista.",
+                                                    style: TextStyle(
+                                                        color: AppTheme.colors
+                                                            .textDarkGrey),
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          : ListView.builder(
+                                              padding: EdgeInsets.zero,
+                                              itemCount:
+                                                  recurrentMatches.length,
+                                              itemBuilder: (context, index) {
+                                                return InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      selectedRecurrentMatch =
+                                                          index;
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                      vertical: height * 0.01,
+                                                    ),
+                                                    height: 160,
+                                                    width: double.infinity,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        color: AppTheme.colors
+                                                            .primaryLightBlue,
+                                                        width: 1,
+                                                      ),
+                                                      color: AppTheme.colors
+                                                          .secondaryLightBlue
+                                                          .withOpacity(0.1),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              16),
+                                                    ),
+                                                    child: Column(
+                                                      children: [
+                                                        Container(
+                                                          height: 25,
+                                                          width:
+                                                              double.infinity,
+                                                          alignment:
+                                                              Alignment.center,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: AppTheme
+                                                                .colors
+                                                                .primaryLightBlue,
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .only(
+                                                              topLeft: Radius
+                                                                  .circular(15),
+                                                              topRight: Radius
+                                                                  .circular(15),
+                                                            ),
+                                                          ),
+                                                          child: Text(
+                                                            "${Provider.of<CategoriesProvider>(context, listen: false).weekDaysPortuguese[recurrentMatches[index].weekday]}:  ${recurrentMatches[index].timeBegin} - ${recurrentMatches[index].timeEnd}",
+                                                            style: TextStyle(
+                                                                color: AppTheme
+                                                                    .colors
+                                                                    .textWhite,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          height: 100,
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10,
+                                                                  vertical: 10),
+                                                          child: Row(
+                                                            children: [
+                                                              ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            16.0),
+                                                                child:
+                                                                    CachedNetworkImage(
+                                                                  imageUrl: recurrentMatches[
+                                                                          index]
+                                                                      .court
+                                                                      .store
+                                                                      .imageUrl,
+                                                                  height: 80,
+                                                                  width: 80,
+                                                                  placeholder: (context,
+                                                                          url) =>
+                                                                      Container(
+                                                                    height: 80,
+                                                                    width: 80,
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          SFLoading(),
+                                                                    ),
+                                                                  ),
+                                                                  errorWidget: (context,
+                                                                          url,
+                                                                          error) =>
+                                                                      Container(
+                                                                    height: 80,
+                                                                    width: 80,
+                                                                    color: AppTheme
+                                                                        .colors
+                                                                        .textLightGrey
+                                                                        .withOpacity(
+                                                                            0.5),
+                                                                    child:
+                                                                        Center(
+                                                                      child: Icon(
+                                                                          Icons
+                                                                              .dangerous),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .only(
+                                                                  right: 20,
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                  child:
+                                                                      Container(
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceEvenly,
+                                                                  children: [
+                                                                    Row(
+                                                                      children: [
+                                                                        SvgPicture
+                                                                            .asset(
+                                                                          r'assets\icon\location_ping.svg',
+                                                                          color: AppTheme
+                                                                              .colors
+                                                                              .textDarkGrey,
+                                                                          width:
+                                                                              15,
+                                                                        ),
+                                                                        Padding(
+                                                                            padding:
+                                                                                EdgeInsets.only(right: width * 0.02)),
+                                                                        Expanded(
+                                                                          child:
+                                                                              Text(
+                                                                            recurrentMatches[index].court.store.name,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: AppTheme.colors.textDarkGrey,
+                                                                              fontWeight: FontWeight.w500,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Text(
+                                                                              "Partidas jogadas:",
+                                                                              style: TextStyle(
+                                                                                color: AppTheme.colors.textDarkGrey,
+                                                                              ),
+                                                                            ),
+                                                                            Text(
+                                                                              "${recurrentMatches[index].recurrentMatchesCounter}",
+                                                                              style: TextStyle(
+                                                                                fontWeight: FontWeight.w500,
+                                                                                color: AppTheme.colors.textDarkGrey,
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Text(
+                                                                              "Mensalista desde: ",
+                                                                              style: TextStyle(
+                                                                                color: AppTheme.colors.textDarkGrey,
+                                                                              ),
+                                                                            ),
+                                                                            Text(
+                                                                              "${DateFormat("dd/MM/yyyy").format(recurrentMatches[index].creationDate)}",
+                                                                              style: TextStyle(
+                                                                                fontWeight: FontWeight.w500,
+                                                                                color: AppTheme.colors.textDarkGrey,
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              )),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 5),
+                                                          child:
+                                                              SvgPicture.asset(
+                                                            r"assets\icon\arrow_down.svg",
+                                                            color: AppTheme
+                                                                .colors
+                                                                .secondaryLightBlue,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            )),
+                                  Container(
+                                    color: AppTheme.colors.secondaryPaper,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: width * 0.04,
+                                        vertical: height * 0.02),
+                                    child: SFButton(
+                                      buttonLabel: "Buscar Quadras Mensalistas",
+                                      buttonType: ButtonType.LightBluePrimary,
+                                      onTap: () {
+                                        context.goNamed(
+                                            'recurrent_match_sport_selection_screen');
+                                      },
+                                      textPadding: EdgeInsets.symmetric(
+                                          vertical: height * 0.01),
+                                    ),
                                   ),
-                                )
-                              : ListView.builder(
-                                  padding: EdgeInsets.zero,
-                                  itemCount: recurrentMatches.length,
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      margin: EdgeInsets.symmetric(
-                                        vertical: height * 0.01,
-                                      ),
-                                      height: 140,
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
+                                ],
+                              ),
+                            ),
+                          )
+                        : Expanded(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: width * 0.05,
+                              ),
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    selectedRecurrentMatch = -1;
+                                  });
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(
+                                    vertical: height * 0.01,
+                                  ),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: AppTheme.colors.primaryLightBlue,
+                                      width: 1,
+                                    ),
+                                    color: AppTheme.colors.secondaryLightBlue
+                                        .withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: 25,
+                                        width: double.infinity,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
                                           color:
                                               AppTheme.colors.primaryLightBlue,
-                                          width: 1,
-                                        ),
-                                        color: AppTheme
-                                            .colors.secondaryLightBlue
-                                            .withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: 25,
-                                            width: double.infinity,
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                              color: AppTheme
-                                                  .colors.primaryLightBlue,
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                topLeft: Radius.circular(15),
-                                                topRight: Radius.circular(15),
-                                              ),
-                                            ),
-                                            child: Text(
-                                              "${Provider.of<CategoriesProvider>(context, listen: false).weekDaysPortuguese[recurrentMatches[index].weekday]}:  ${recurrentMatches[index].timeBegin} - ${recurrentMatches[index].timeEnd}",
-                                              style: TextStyle(
-                                                  color:
-                                                      AppTheme.colors.textWhite,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
+                                          borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(15),
+                                            topRight: Radius.circular(15),
                                           ),
-                                          Expanded(
-                                            child: Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 10, vertical: 10),
-                                              child: Row(
-                                                children: [
-                                                  ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            16.0),
-                                                    child: CachedNetworkImage(
-                                                      imageUrl:
-                                                          recurrentMatches[
-                                                                  index]
-                                                              .court
-                                                              .store
-                                                              .imageUrl,
-                                                      height: 80,
-                                                      width: 80,
-                                                      placeholder:
-                                                          (context, url) =>
-                                                              Container(
+                                        ),
+                                        child: Text(
+                                          "${Provider.of<CategoriesProvider>(context, listen: false).weekDaysPortuguese[recurrentMatches[selectedRecurrentMatch].weekday]}:  ${recurrentMatches[selectedRecurrentMatch].timeBegin} - ${recurrentMatches[selectedRecurrentMatch].timeEnd}",
+                                          style: TextStyle(
+                                              color: AppTheme.colors.textWhite,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 10),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                height: 100,
+                                                child: Row(
+                                                  children: [
+                                                    ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              16.0),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: recurrentMatches[
+                                                                selectedRecurrentMatch]
+                                                            .court
+                                                            .store
+                                                            .imageUrl,
                                                         height: 80,
                                                         width: 80,
-                                                        child: Center(
-                                                          child: SFLoading(),
+                                                        placeholder:
+                                                            (context, url) =>
+                                                                Container(
+                                                          height: 80,
+                                                          width: 80,
+                                                          child: Center(
+                                                            child: SFLoading(),
+                                                          ),
                                                         ),
-                                                      ),
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          Container(
-                                                        height: 80,
-                                                        width: 80,
-                                                        color: AppTheme.colors
-                                                            .textLightGrey
-                                                            .withOpacity(0.5),
-                                                        child: Center(
-                                                          child: Icon(
-                                                              Icons.dangerous),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Container(
+                                                          height: 80,
+                                                          width: 80,
+                                                          color: AppTheme.colors
+                                                              .textLightGrey
+                                                              .withOpacity(0.5),
+                                                          child: Center(
+                                                            child: Icon(Icons
+                                                                .dangerous),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                      right: 20,
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                        right: 20,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Expanded(
+                                                    Expanded(
                                                       child: Container(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceEvenly,
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                SvgPicture
+                                                                    .asset(
+                                                                  r'assets\icon\location_ping.svg',
+                                                                  color: AppTheme
+                                                                      .colors
+                                                                      .textDarkGrey,
+                                                                  width: 15,
+                                                                ),
+                                                                Padding(
+                                                                    padding: EdgeInsets.only(
+                                                                        right: width *
+                                                                            0.02)),
+                                                                Expanded(
+                                                                  child: Text(
+                                                                    recurrentMatches[
+                                                                            selectedRecurrentMatch]
+                                                                        .court
+                                                                        .store
+                                                                        .name,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: AppTheme
+                                                                          .colors
+                                                                          .textDarkGrey,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Text(
+                                                                      "Partidas jogadas:",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: AppTheme
+                                                                            .colors
+                                                                            .textDarkGrey,
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      "${recurrentMatches[selectedRecurrentMatch].recurrentMatchesCounter}",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        color: AppTheme
+                                                                            .colors
+                                                                            .textDarkGrey,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Text(
+                                                                      "Mensalista desde: ",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: AppTheme
+                                                                            .colors
+                                                                            .textDarkGrey,
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      "${DateFormat("dd/MM/yyyy").format(recurrentMatches[selectedRecurrentMatch].creationDate)}",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        color: AppTheme
+                                                                            .colors
+                                                                            .textDarkGrey,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Container(
+                                                    width: double.infinity,
                                                     child: Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
                                                               .start,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
                                                       children: [
-                                                        Row(
+                                                        Text(
+                                                          "Partidas nesse mês:",
+                                                          style: TextStyle(
+                                                            color: AppTheme
+                                                                .colors
+                                                                .primaryLightBlue,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Container(
+                                                        height: 80,
+                                                        width: 60,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          border: Border.all(
+                                                            color: AppTheme
+                                                                .colors
+                                                                .primaryLightBlue,
+                                                            width: 0.5,
+                                                          ),
+                                                          color: AppTheme.colors
+                                                              .secondaryPaper,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(16),
+                                                        ),
+                                                        child: Column(
                                                           children: [
-                                                            SvgPicture.asset(
-                                                              r'assets\icon\location_ping.svg',
-                                                              color: AppTheme
-                                                                  .colors
-                                                                  .textDarkGrey,
-                                                              width: 15,
-                                                            ),
-                                                            Padding(
-                                                                padding: EdgeInsets.only(
-                                                                    right: width *
-                                                                        0.02)),
                                                             Expanded(
-                                                              child: Text(
-                                                                recurrentMatches[
-                                                                        index]
-                                                                    .court
-                                                                    .store
-                                                                    .name,
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: AppTheme
-                                                                      .colors
-                                                                      .textDarkGrey,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
+                                                              child: Column(
+                                                                children: [
+                                                                  Container(
+                                                                    height: 20,
+                                                                    child:
+                                                                        FittedBox(
+                                                                      fit: BoxFit
+                                                                          .fill,
+                                                                      child:
+                                                                          Text(
+                                                                        "OUT",
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color: AppTheme
+                                                                              .colors
+                                                                              .textDarkGrey,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child:
+                                                                        FittedBox(
+                                                                      fit: BoxFit
+                                                                          .fill,
+                                                                      child:
+                                                                          Text(
+                                                                        "15",
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color: AppTheme
+                                                                              .colors
+                                                                              .textDarkGrey,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              height: 10,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: AppTheme
+                                                                    .colors
+                                                                    .primaryLightBlue,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .only(
+                                                                  bottomLeft: Radius
+                                                                      .circular(
+                                                                          16.0),
+                                                                  bottomRight: Radius
+                                                                      .circular(
+                                                                          16.0),
                                                                 ),
                                                               ),
                                                             ),
                                                           ],
                                                         ),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Text(
-                                                                  "Partidas jogadas:",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: AppTheme
-                                                                        .colors
-                                                                        .textDarkGrey,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  "${recurrentMatches[index].recurrentMatchesCounter}",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    color: AppTheme
-                                                                        .colors
-                                                                        .textDarkGrey,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Text(
-                                                                  "Mensalista desde: ",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: AppTheme
-                                                                        .colors
-                                                                        .textDarkGrey,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  "${DateFormat("dd/MM/yyyy").format(recurrentMatches[index].creationDate)}",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    color: AppTheme
-                                                                        .colors
-                                                                        .textDarkGrey,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ],
                                               ),
-                                            ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Pagamentos:",
+                                                    style: TextStyle(
+                                                      color: AppTheme.colors
+                                                          .primaryLightBlue,
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        "4 Partidas (R\$ 90):",
+                                                        style: TextStyle(
+                                                          color: AppTheme.colors
+                                                              .textDarkGrey,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        "R\$ 360",
+                                                        style: TextStyle(
+                                                          color: AppTheme.colors
+                                                              .textDarkGrey,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        "Última Renovação:",
+                                                        style: TextStyle(
+                                                          color: AppTheme.colors
+                                                              .textDarkGrey,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        "10/12/2022",
+                                                        style: TextStyle(
+                                                          color: AppTheme.colors
+                                                              .textDarkGrey,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        "Vencimento:",
+                                                        style: TextStyle(
+                                                          color: AppTheme.colors
+                                                              .textDarkGrey,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        "01/01/2023",
+                                                        style: TextStyle(
+                                                          color: AppTheme.colors
+                                                              .secondaryYellow,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    );
-                                  },
-                                )),
-                    ),
-                    Container(
-                      color: AppTheme.colors.secondaryPaper,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: width * 0.04, vertical: height * 0.02),
-                      child: SFButton(
-                        buttonLabel: "Buscar Quadras Mensalistas",
-                        buttonType: ButtonType.LightBlue,
-                        onTap: () {},
-                        textPadding:
-                            EdgeInsets.symmetric(vertical: height * 0.01),
-                      ),
-                    ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: width * 0.05,
+                                        ),
+                                        child: SFButton(
+                                          buttonLabel: "Renovar Horário",
+                                          buttonType:
+                                              ButtonType.LightBluePrimary,
+                                          textPadding: EdgeInsets.symmetric(
+                                              vertical: height * 0.01),
+                                          onTap: () {},
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 5),
+                                        child: SvgPicture.asset(
+                                          r"assets\icon\arrow_up.svg",
+                                          color: AppTheme
+                                              .colors.secondaryLightBlue,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
                   ],
                 ),
         ),

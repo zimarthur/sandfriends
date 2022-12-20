@@ -47,7 +47,9 @@ class _SFScaffoldState extends State<SFScaffold> {
         resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
         backgroundColor: widget.appBarType == AppBarType.Primary
             ? AppTheme.colors.primaryBlue
-            : AppTheme.colors.secondaryBack,
+            : widget.appBarType == AppBarType.PrimaryLightBlue
+                ? AppTheme.colors.secondaryLightBlue
+                : AppTheme.colors.secondaryBack,
         body: SafeArea(
           child: Stack(
             children: [
@@ -76,9 +78,9 @@ class _SFScaffoldState extends State<SFScaffold> {
                                       r'assets\icon\arrow_left.svg',
                                       width: width * 0.05,
                                       color: widget.appBarType ==
-                                              AppBarType.Primary
-                                          ? AppTheme.colors.secondaryBack
-                                          : AppTheme.colors.primaryBlue,
+                                              AppBarType.Secondary
+                                          ? AppTheme.colors.primaryBlue
+                                          : AppTheme.colors.secondaryBack,
                                     ),
                                   ),
                                 ),
@@ -89,9 +91,9 @@ class _SFScaffoldState extends State<SFScaffold> {
                           Text(
                             widget.titleText,
                             style: TextStyle(
-                              color: widget.appBarType == AppBarType.Primary
-                                  ? AppTheme.colors.secondaryBack
-                                  : AppTheme.colors.primaryBlue,
+                              color: widget.appBarType == AppBarType.Secondary
+                                  ? AppTheme.colors.primaryBlue
+                                  : AppTheme.colors.secondaryBack,
                               fontWeight: FontWeight.w500,
                             ),
                           ),

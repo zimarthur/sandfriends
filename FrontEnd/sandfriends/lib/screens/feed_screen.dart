@@ -30,9 +30,9 @@ class _FeedScreenState extends State<FeedScreen> {
   void initState() {
     super.initState();
     if (Provider.of<UserProvider>(context, listen: false).feedNeedsRefresh) {
-      GetUserInfo();
-      Provider.of<UserProvider>(context, listen: false).feedNeedsRefresh =
-          false;
+      GetUserInfo().then((value) => Provider.of<UserProvider>(context, listen: false).feedNeedsRefresh =
+          false);
+      
     } else {
       isLoading = false;
     }

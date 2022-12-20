@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/providers/court_provider.dart';
 import 'package:sandfriends/providers/categories_provider.dart';
+import 'package:sandfriends/providers/recurrent_match_provider.dart';
 import 'package:sandfriends/providers/user_provider.dart';
 import 'package:sandfriends/screens/court_screen.dart';
 import 'package:sandfriends/screens/login/load_login.dart';
@@ -13,6 +14,7 @@ import 'package:sandfriends/screens/match_search_screen.dart';
 import 'package:sandfriends/screens/notification_screen.dart';
 import 'package:sandfriends/screens/open_matches_screen.dart';
 import 'package:sandfriends/screens/recurrent_match_screen.dart';
+import 'package:sandfriends/screens/recurrent_match_search_screen.dart';
 import 'package:sandfriends/screens/reward_screen.dart';
 import 'package:sandfriends/screens/sport_selection_screen.dart';
 import 'package:sandfriends/screens/user_match_screen.dart';
@@ -43,6 +45,7 @@ import './providers/store_provider.dart';
 import 'providers/categories_provider.dart';
 import 'models/user.dart';
 import 'screens/match_screen.dart';
+import 'screens/recurrent_match_sport_selection_screen.dart';
 import 'screens/reward_user_screen.dart';
 
 final redirecter = Redirect();
@@ -166,6 +169,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<MatchProvider>(
           create: ((context) => match),
         ),
+        ChangeNotifierProvider<RecurrentMatchProvider>(
+          create: ((context) => RecurrentMatchProvider()),
+        ),
         ChangeNotifierProvider<StoreProvider>(
           create: ((context) => StoreProvider()),
         ),
@@ -252,6 +258,18 @@ class _MyAppState extends State<MyApp> {
                   returnToParamValue == 'null' ? null : returnToParamValue,
             );
           }),
+      GoRoute(
+        name: 'recurrent_match_search_screen',
+        path: '/recurrent_match_search_screen',
+        builder: (BuildContext context, GoRouterState state) =>
+            RecurrentMatchSearchScreen(),
+      ),
+      GoRoute(
+        name: 'recurrent_match_sport_selection_screen',
+        path: '/recurrent_match_sport_selection_screen',
+        builder: (BuildContext context, GoRouterState state) =>
+            RecurrentMatchSportSelectionScreen(),
+      ),
       GoRoute(
         name: 'recurrent_match_screen',
         path: '/recurrent_match_screen',
