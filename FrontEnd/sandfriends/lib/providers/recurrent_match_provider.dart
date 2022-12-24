@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sandfriends/models/court_available_hours.dart';
+import 'package:sandfriends/models/recurrent_match.dart';
 import 'package:sandfriends/models/store_day.dart';
 import 'package:time_range/time_range.dart';
 
@@ -17,6 +18,8 @@ class RecurrentMatchProvider with ChangeNotifier {
     _selectedTime.clear();
     _storeDayList.clear();
   }
+
+  List<RecurrentMatch> recurrentMatchesList = [];
 
   Sport? _selectedSport;
   Sport? get selectedSport => _selectedSport;

@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:sandfriends/models/match.dart';
 
 import 'court.dart';
 
@@ -10,6 +11,7 @@ class RecurrentMatch {
   final String timeEnd;
   final Court court;
   final int recurrentMatchesCounter;
+  final List<Match> monthRecurrentMatches = [];
 
   RecurrentMatch({
     required this.idRecurrentMatch,
@@ -24,15 +26,20 @@ class RecurrentMatch {
 
 RecurrentMatch recurrentMatchFromJson(Map<String, dynamic> json) {
   var newRecurrentMatch = RecurrentMatch(
-    idRecurrentMatch: json['RecurrentMatch']['IdRecurrentMatch'],
-    creationDate: DateFormat('yyyy-MM-dd HH:mm').parse(
-        "${json['RecurrentMatch']['CreationDate']} ${json['RecurrentMatch']['TimeBegin']}"),
-    weekday: json['RecurrentMatch']['Weekday'],
-    timeBegin: json['RecurrentMatch']['TimeBegin'],
-    timeEnd: json['RecurrentMatch']['TimeEnd'],
-    court: courtFromJson(json['RecurrentMatch']['StoreCourt']),
-    recurrentMatchesCounter: json['RecurrentMatchesCounter'],
+    idRecurrentMatch: json['IdRecurrentMatch'],
+    creationDate: DateFormat('yyyy-MM-dd HH:mm')
+        .parse("${json['CreationDate']} ${json['TimeBegin']}"),
+    weekday: json['Weekday'],
+    timeBegin: json['TimeBegin'],
+    timeEnd: json['TimeEnd'],
+    court: courtFromJson(json['StoreCourt']),
+    recurrentMatchesCounter: json['RecurrentMatchCounter'],
   );
+
+  for (int i = 0; i < json['NextRecurrentMatches'].length; i++) {
+    newRecurrentMatch.monthRecurrentMatches
+        .add(matchFromJson(json['NextRecurrentMatches'][i]));
+  }
 
   return newRecurrentMatch;
 }
