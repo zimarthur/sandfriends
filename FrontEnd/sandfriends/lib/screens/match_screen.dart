@@ -133,6 +133,7 @@ class _MatchScreenState extends State<MatchScreen> {
                               'returnTo': 'match_screen',
                               'returnToParam': 'matchUrl',
                               'returnToParamValue': '${widget.matchUrl}',
+                              'isRecurrentMatch': 'null'
                             });
                           },
                           child: SizedBox(

@@ -6,6 +6,7 @@ import 'court.dart';
 class RecurrentMatch {
   final int idRecurrentMatch;
   final DateTime creationDate;
+  final DateTime lastPaymentDate;
   final int weekday;
   final String timeBegin;
   final String timeEnd;
@@ -16,12 +17,21 @@ class RecurrentMatch {
   RecurrentMatch({
     required this.idRecurrentMatch,
     required this.creationDate,
+    required this.lastPaymentDate,
     required this.weekday,
     required this.timeBegin,
     required this.timeEnd,
     required this.court,
     required this.recurrentMatchesCounter,
   });
+
+  int currentMonthPrice() {
+    int priceSum = 0;
+    for (int i = 0; i < monthRecurrentMatches.length; i++) {
+      priceSum += monthRecurrentMatches[i].cost;
+    }
+    return priceSum;
+  }
 }
 
 RecurrentMatch recurrentMatchFromJson(Map<String, dynamic> json) {
@@ -29,6 +39,7 @@ RecurrentMatch recurrentMatchFromJson(Map<String, dynamic> json) {
     idRecurrentMatch: json['IdRecurrentMatch'],
     creationDate: DateFormat('yyyy-MM-dd HH:mm')
         .parse("${json['CreationDate']} ${json['TimeBegin']}"),
+    lastPaymentDate: DateFormat('yyyy-MM-dd').parse(json['LastPaymentDate']),
     weekday: json['Weekday'],
     timeBegin: json['TimeBegin'],
     timeEnd: json['TimeEnd'],

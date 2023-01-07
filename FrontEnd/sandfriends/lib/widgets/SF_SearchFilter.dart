@@ -45,10 +45,11 @@ class _SFSearchFilterState extends State<SFSearchFilter> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  FittedBox(
-                    fit: BoxFit.fitHeight,
+                  Flexible(
                     child: Text(
                       widget.labelText,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: AppTheme.colors.textWhite,
                         fontWeight: FontWeight.w500,

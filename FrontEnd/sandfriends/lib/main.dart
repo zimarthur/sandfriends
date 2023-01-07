@@ -227,18 +227,20 @@ class _MyAppState extends State<MyApp> {
       GoRoute(
           name: 'court_screen',
           path:
-              '/court_screen/:viewOnly/:returnTo/:returnToParam/:returnToParamValue',
+              '/court_screen/:viewOnly/:returnTo/:returnToParam/:returnToParamValue/:isRecurrentMatch',
           builder: (BuildContext context, GoRouterState state) {
             final viewOnly = state.params['viewOnly'];
             final returnTo = state.params['returnTo'];
             final returnToParam = state.params['returnToParam'];
             final returnToParamValue = state.params['returnToParamValue'];
+            final isRecurrentMatch = state.params['isRecurrentMatch'];
             return CourtScreen(
               param: viewOnly,
               returnTo: returnTo!,
               returnToParam: returnToParam == 'null' ? null : returnToParam,
               returnToParamValue:
                   returnToParamValue == 'null' ? null : returnToParamValue,
+              isRecurrentMatch: isRecurrentMatch == 'null' ? false : true,
             );
           }),
       GoRoute(

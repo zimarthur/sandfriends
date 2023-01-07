@@ -11,6 +11,7 @@ import 'package:sandfriends/models/store.dart';
 import 'package:sandfriends/models/store_day.dart';
 import 'package:sandfriends/models/court_available_hours.dart';
 import 'package:sandfriends/models/court.dart';
+import 'package:sandfriends/providers/categories_provider.dart';
 import 'package:sandfriends/providers/court_provider.dart';
 import 'package:sandfriends/providers/store_provider.dart';
 import 'package:sandfriends/providers/user_provider.dart';
@@ -62,6 +63,8 @@ class _RecurrentMatchSearchScreen extends State<RecurrentMatchSearchScreen> {
     double height = MediaQuery.of(context).size.height;
     double appBarHeight = height * 0.3 > 150 ? 150 : height * 0.3;
 
+    final storeDayList =
+        List.from(Provider.of<RecurrentMatchProvider>(context).storeDayList);
     return SFScaffold(
       titleText:
           "Busca Mensalista - ${Provider.of<RecurrentMatchProvider>(context).selectedSport!.description}",
@@ -120,188 +123,172 @@ class _RecurrentMatchSearchScreen extends State<RecurrentMatchSearchScreen> {
                             child: SFSearchFilter(
                               labelText:
                                   Provider.of<RecurrentMatchProvider>(context)
-                                      .dateText,
+                                      .dayText,
                               iconPath: r"assets\icon\calendar.svg",
                               margin: EdgeInsets.only(left: width * 0.02),
                               padding: EdgeInsets.symmetric(
                                   vertical: appBarHeight * 0.02),
                               onTap: () {
-                                onBackgroundTapFunc = () {
-                                  setState(() {
-                                    if (Provider.of<RecurrentMatchProvider>(
-                                            context,
-                                            listen: false)
-                                        .selectedDates
-                                        .isNotEmpty) {
-                                      var startDate = ConvertDatetime(
-                                          Provider.of<RecurrentMatchProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .selectedDates[0]!);
-                                      var endDate =
-                                          Provider.of<RecurrentMatchProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .selectedDates
-                                                      .length >
-                                                  1
-                                              ? ConvertDatetime(Provider.of<
-                                                          RecurrentMatchProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .selectedDates[1]!)
-                                              : 'null';
-
-                                      if (Provider.of<RecurrentMatchProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .selectedDates
-                                                  .length >
-                                              1 &&
-                                          Provider.of<RecurrentMatchProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .selectedDates[0] !=
-                                              Provider.of<RecurrentMatchProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .selectedDates[1]) {
-                                        Provider.of<RecurrentMatchProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .dateText =
-                                            "${Provider.of<RecurrentMatchProvider>(context, listen: false).selectedDates[0]!.day.toString().padLeft(2, '0')}/${Provider.of<RecurrentMatchProvider>(context, listen: false).selectedDates[0]!.month.toString().padLeft(2, '0')} - ${Provider.of<RecurrentMatchProvider>(context, listen: false).selectedDates[1]!.day.toString().padLeft(2, '0')}/${Provider.of<RecurrentMatchProvider>(context, listen: false).selectedDates[1]!.month.toString().padLeft(2, '0')}";
-                                      } else {
-                                        Provider.of<RecurrentMatchProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .dateText =
-                                            "${Provider.of<RecurrentMatchProvider>(context, listen: false).selectedDates[0]!.day.toString().padLeft(2, '0')}/${Provider.of<RecurrentMatchProvider>(context, listen: false).selectedDates[0]!.month.toString().padLeft(2, '0')}";
-                                      }
-                                      showModal = false;
-                                    }
-                                  });
-                                };
                                 setState(() {
-                                  modalWidget = Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(width * 0.03),
-                                        child: CalendarDatePicker2(
-                                            config: CalendarDatePicker2Config(
-                                              weekdayLabels: [
-                                                'Dom',
-                                                'Seg',
-                                                'Ter',
-                                                'Qua',
-                                                'Qui',
-                                                'Sex',
-                                                'Sáb'
-                                              ],
-                                              firstDate: DateTime(today.year,
-                                                  today.month, today.day),
-                                              calendarType:
-                                                  CalendarDatePicker2Type.range,
-                                              selectedDayHighlightColor:
-                                                  AppTheme.colors.primaryBlue,
-                                              weekdayLabelTextStyle:
-                                                  const TextStyle(
-                                                color: Colors.black87,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              controlsTextStyle:
-                                                  const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                  modalWidget = Container(
+                                    height: height * 0.7,
+                                    child: Column(
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: width * 0.1,
+                                              vertical: height * 0.02,
                                             ),
-                                            initialValue: Provider.of<
-                                                        RecurrentMatchProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .selectedDates,
-                                            onValueChanged: (values) {
-                                              setState(() {
-                                                Provider.of<RecurrentMatchProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .selectedDates = values;
-                                              });
-                                            }),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            right: width * 0.15,
-                                            left: width * 0.15,
-                                            bottom: height * 0.03),
-                                        child: SFButton(
-                                          iconPath: r"assets\icon\search.svg",
-                                          buttonLabel: "Aplicar Filtro",
-                                          textPadding: EdgeInsets.symmetric(
-                                              vertical: height * 0.005),
-                                          buttonType: ButtonType.Secondary,
-                                          onTap: () {
-                                            setState(() {
-                                              if (Provider.of<
-                                                          RecurrentMatchProvider>(
+                                            child: ListView.builder(
+                                              itemCount: Provider.of<
+                                                          CategoriesProvider>(
                                                       context,
                                                       listen: false)
-                                                  .selectedDates
-                                                  .isNotEmpty) {
-                                                var startDate = ConvertDatetime(
+                                                  .weekDaysPortuguese
+                                                  .length,
+                                              itemBuilder: (context, index) {
+                                                return InkWell(
+                                                  onTap: () {
                                                     Provider.of<RecurrentMatchProvider>(
                                                             context,
                                                             listen: false)
-                                                        .selectedDates[0]!);
-                                                var endDate = Provider.of<
-                                                                    RecurrentMatchProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .selectedDates
-                                                            .length >
-                                                        1
-                                                    ? ConvertDatetime(Provider
-                                                            .of<RecurrentMatchProvider>(
-                                                                context,
-                                                                listen: false)
-                                                        .selectedDates[1]!)
-                                                    : 'null';
+                                                        .clickedDay(index);
 
-                                                if (Provider.of<RecurrentMatchProvider>(
+                                                    if (Provider.of<RecurrentMatchProvider>(
                                                                 context,
                                                                 listen: false)
-                                                            .selectedDates
-                                                            .length >
-                                                        1 &&
-                                                    Provider.of<RecurrentMatchProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .selectedDates[0] !=
+                                                            .selectedDays
+                                                            .length ==
+                                                        0) {
+                                                      Provider.of<RecurrentMatchProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .dayText = "Dia";
+                                                    } else {
+                                                      Provider.of<RecurrentMatchProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .dayText = "";
+                                                    }
+
+                                                    for (int i = 0;
+                                                        i <
+                                                            Provider.of<RecurrentMatchProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .selectedDays
+                                                                .length;
+                                                        i++) {
+                                                      Provider.of<RecurrentMatchProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .dayText += Provider
+                                                              .of<CategoriesProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                          .shortWeekDaysPortuguese[Provider
+                                                              .of<RecurrentMatchProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                          .selectedDays[i]];
+                                                      if (i !=
+                                                          Provider.of<RecurrentMatchProvider>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .selectedDays
+                                                                  .length -
+                                                              1) {
                                                         Provider.of<RecurrentMatchProvider>(
                                                                 context,
                                                                 listen: false)
-                                                            .selectedDates[1]) {
-                                                  Provider.of<RecurrentMatchProvider>(
-                                                              context,
-                                                              listen: false)
-                                                          .dateText =
-                                                      "${Provider.of<RecurrentMatchProvider>(context, listen: false).selectedDates[0]!.day.toString().padLeft(2, '0')}/${Provider.of<RecurrentMatchProvider>(context, listen: false).selectedDates[0]!.month.toString().padLeft(2, '0')} - ${Provider.of<RecurrentMatchProvider>(context, listen: false).selectedDates[1]!.day.toString().padLeft(2, '0')}/${Provider.of<RecurrentMatchProvider>(context, listen: false).selectedDates[1]!.month.toString().padLeft(2, '0')}";
-                                                } else {
-                                                  Provider.of<RecurrentMatchProvider>(
-                                                              context,
-                                                              listen: false)
-                                                          .dateText =
-                                                      "${Provider.of<RecurrentMatchProvider>(context, listen: false).selectedDates[0]!.day.toString().padLeft(2, '0')}/${Provider.of<RecurrentMatchProvider>(context, listen: false).selectedDates[0]!.month.toString().padLeft(2, '0')}";
-                                                }
-                                                showModal = false;
-                                              }
-                                            });
-                                          },
+                                                            .dayText += "/";
+                                                      }
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(
+                                                        bottom: height * 0.02),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical:
+                                                                height * 0.02,
+                                                            horizontal:
+                                                                width * 0.05),
+                                                    decoration: BoxDecoration(
+                                                      color: AppTheme
+                                                          .colors.secondaryBack,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              16),
+                                                      border: Border.all(
+                                                        color: Provider.of<
+                                                                        RecurrentMatchProvider>(
+                                                                    context)
+                                                                .selectedDays
+                                                                .contains(index)
+                                                            ? AppTheme.colors
+                                                                .secondaryLightBlue
+                                                            : AppTheme.colors
+                                                                .textLightGrey,
+                                                        width: Provider.of<
+                                                                        RecurrentMatchProvider>(
+                                                                    context)
+                                                                .selectedDays
+                                                                .contains(index)
+                                                            ? 2
+                                                            : 1,
+                                                      ),
+                                                    ),
+                                                    child: Text(
+                                                      Provider.of<CategoriesProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .weekDaysPortuguese[
+                                                          index],
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          color: Provider.of<
+                                                                          RecurrentMatchProvider>(
+                                                                      context)
+                                                                  .selectedDays
+                                                                  .contains(
+                                                                      index)
+                                                              ? AppTheme.colors
+                                                                  .secondaryLightBlue
+                                                              : AppTheme.colors
+                                                                  .textDarkGrey),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
                                         ),
-                                      )
-                                    ],
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: height * 0.01,
+                                              horizontal: width * 0.1),
+                                          child: SFButton(
+                                              iconPath:
+                                                  r"assets\icon\search.svg",
+                                              buttonLabel: "Aplicar Filtro",
+                                              textPadding: EdgeInsets.symmetric(
+                                                  vertical:
+                                                      appBarHeight * 0.02),
+                                              buttonType:
+                                                  ButtonType.LightBluePrimary,
+                                              onTap: () {
+                                                setState(() {
+                                                  showModal = false;
+                                                });
+                                              }),
+                                        )
+                                      ],
+                                    ),
                                   );
 
                                   showModal = true;
@@ -361,8 +348,8 @@ class _RecurrentMatchSearchScreen extends State<RecurrentMatchSearchScreen> {
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      color: AppTheme
-                                                          .colors.primaryBlue),
+                                                      color: AppTheme.colors
+                                                          .secondaryLightBlue),
                                                 ),
                                               ),
                                             ),
@@ -373,7 +360,8 @@ class _RecurrentMatchSearchScreen extends State<RecurrentMatchSearchScreen> {
                                                 textPadding: EdgeInsets.all(
                                                     width * 0.01),
                                                 buttonLabel: "Limpar",
-                                                buttonType: ButtonType.Primary,
+                                                buttonType:
+                                                    ButtonType.LightBluePrimary,
                                                 onTap: () {
                                                   setState(() {
                                                     showModal = false;
@@ -399,11 +387,11 @@ class _RecurrentMatchSearchScreen extends State<RecurrentMatchSearchScreen> {
                                           activeTextStyle: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white),
-                                          borderColor:
-                                              AppTheme.colors.primaryBlue,
+                                          borderColor: AppTheme
+                                              .colors.secondaryLightBlue,
                                           backgroundColor: Colors.transparent,
-                                          activeBackgroundColor:
-                                              AppTheme.colors.primaryBlue,
+                                          activeBackgroundColor: AppTheme
+                                              .colors.secondaryLightBlue,
                                           initialRange: Provider.of<
                                                       RecurrentMatchProvider>(
                                                   context,
@@ -432,7 +420,8 @@ class _RecurrentMatchSearchScreen extends State<RecurrentMatchSearchScreen> {
                                             buttonLabel: "Aplicar Filtro",
                                             textPadding: EdgeInsets.symmetric(
                                                 vertical: appBarHeight * 0.02),
-                                            buttonType: ButtonType.Secondary,
+                                            buttonType:
+                                                ButtonType.LightBluePrimary,
                                             onTap: () {
                                               setState(() {
                                                 if (Provider.of<RecurrentMatchProvider>(
@@ -472,38 +461,343 @@ class _RecurrentMatchSearchScreen extends State<RecurrentMatchSearchScreen> {
                           textPadding: EdgeInsets.symmetric(
                               vertical: appBarHeight * 0.02),
                           onTap: () {
-                            // if (Provider.of<RecurrentMatchProvider>(context,
-                            //             listen: false)
-                            //         .selectedDates
-                            //         .isEmpty ||
-                            //     Provider.of<RecurrentMatchProvider>(context,
-                            //                 listen: false)
-                            //             .selectedRegion ==
-                            //         null) {
-                            //   print("erro");
-                            // } else {
-                            //   setState(() {
-                            //     isLoading = true;
-                            //   });
-                            //   Provider.of<RecurrentMatchProvider>(context, listen: false)
-                            //           .selectedTimeRange ??=
-                            //       TimeRangeResult(
-                            //           const TimeOfDay(hour: 1, minute: 00),
-                            //           const TimeOfDay(hour: 23, minute: 00));
-                            // }
+                            if (Provider.of<RecurrentMatchProvider>(context,
+                                        listen: false)
+                                    .selectedDays
+                                    .isEmpty ||
+                                Provider.of<RecurrentMatchProvider>(context,
+                                            listen: false)
+                                        .selectedRegion ==
+                                    null) {
+                              print("erro");
+                            } else {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              Provider.of<RecurrentMatchProvider>(context,
+                                          listen: false)
+                                      .selectedTimeRange ??=
+                                  TimeRangeResult(
+                                      const TimeOfDay(hour: 1, minute: 00),
+                                      const TimeOfDay(hour: 23, minute: 00));
+                              searchRecurrentMatches();
+                            }
                           }),
                     ),
                   ],
                 ),
               ),
               Expanded(
-                child: Container(color: Colors.amber),
+                child: Container(
+                  color: AppTheme.colors.secondaryBack,
+                  child: Provider.of<RecurrentMatchProvider>(context)
+                              .searchStatus ==
+                          EnumSearchStatus.NoFilterApplied
+                      ? Expanded(
+                          child: Container(
+                              color: AppTheme.colors.secondaryBack,
+                              child: Center(
+                                child: Container(
+                                  height: height * 0.2,
+                                  padding: EdgeInsets.only(
+                                      left: width * 0.2, right: width * 0.2),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      SvgPicture.asset(
+                                        r"assets\icon\happy_face.svg",
+                                        height: height * 0.1,
+                                      ),
+                                      SizedBox(
+                                        height: height * 0.05,
+                                        child: FittedBox(
+                                          fit: BoxFit.contain,
+                                          child: Text(
+                                            "Use os filtros para buscar por\n quadras e partidas disponíveis.",
+                                            style: TextStyle(
+                                              color: AppTheme.colors.textBlue,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: height * 0.01 > 4
+                                            ? 4
+                                            : height * 0.01,
+                                        width: width * 0.8,
+                                        color: AppTheme.colors.divider,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )),
+                        )
+                      : Provider.of<RecurrentMatchProvider>(context)
+                                  .searchStatus ==
+                              EnumSearchStatus.NoResultsFound
+                          ? Expanded(
+                              child: Container(
+                                  color: AppTheme.colors.secondaryBack,
+                                  child: Center(
+                                    child: Container(
+                                      height: height * 0.2,
+                                      padding: EdgeInsets.only(
+                                          left: width * 0.2,
+                                          right: width * 0.2),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          SvgPicture.asset(
+                                            r"assets\icon\sad_face.svg",
+                                            height: height * 0.1,
+                                          ),
+                                          SizedBox(
+                                            height: height * 0.05,
+                                            child: FittedBox(
+                                              fit: BoxFit.contain,
+                                              child: Text(
+                                                "Ops! Não encontramos resultados. \nTente outra data ou horário.",
+                                                style: TextStyle(
+                                                  color:
+                                                      AppTheme.colors.textBlue,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: height * 0.01 > 4
+                                                ? 4
+                                                : height * 0.01,
+                                            width: width * 0.8,
+                                            color: AppTheme.colors.divider,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )),
+                            )
+                          : Provider.of<RecurrentMatchProvider>(context)
+                                      .searchStatus ==
+                                  EnumSearchStatus.Results
+                              ? ListView.builder(
+                                  itemCount: storeDayList.isEmpty
+                                      ? 1
+                                      : storeDayList.length,
+                                  itemBuilder: (context, index) {
+                                    return Column(
+                                      children: [
+                                        storeDayList.isEmpty
+                                            ? Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: width * 0.05,
+                                                ),
+                                                margin: EdgeInsets.symmetric(
+                                                  vertical: height * 0.04,
+                                                ),
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "Nenhuma horário disponível",
+                                                  style: TextStyle(
+                                                    color: AppTheme
+                                                        .colors.textLightGrey,
+                                                  ),
+                                                ),
+                                              )
+                                            : Container(
+                                                child: index == 0 ||
+                                                        storeDayList[index]
+                                                                .day !=
+                                                            storeDayList[
+                                                                    index - 1]
+                                                                .day
+                                                    ? Column(
+                                                        children: [
+                                                          Padding(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        width *
+                                                                            0.03,
+                                                                    vertical:
+                                                                        height *
+                                                                            0.02),
+                                                            child: Row(
+                                                              children: [
+                                                                Container(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      right: 5),
+                                                                  child:
+                                                                      SvgPicture
+                                                                          .asset(
+                                                                    r'assets\icon\calendar.svg',
+                                                                    color: AppTheme
+                                                                        .colors
+                                                                        .primaryLightBlue,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  Provider.of<CategoriesProvider>(
+                                                                          context,
+                                                                          listen:
+                                                                              false)
+                                                                      .weekDaysPortuguese[int.parse(storeDayList[
+                                                                          index]
+                                                                      .day)],
+                                                                  style: TextStyle(
+                                                                      color: AppTheme
+                                                                          .colors
+                                                                          .primaryLightBlue,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w700),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          InkWell(
+                                                            onTap: (() {
+                                                              setState(() {
+                                                                isLoading =
+                                                                    true;
+                                                              });
+                                                              Provider.of<MatchProvider>(
+                                                                          context,
+                                                                          listen:
+                                                                              false)
+                                                                      .selectedStoreDay =
+                                                                  storeDayList[
+                                                                      index];
+                                                              context.goNamed(
+                                                                  'court_screen',
+                                                                  params: {
+                                                                    'viewOnly':
+                                                                        'viewOnly',
+                                                                    'returnTo':
+                                                                        'recurrent_match_search_screen',
+                                                                    'returnToParam':
+                                                                        'null',
+                                                                    'returnToParamValue':
+                                                                        'null',
+                                                                    'isRecurrentMatch':
+                                                                        '1',
+                                                                  });
+                                                            }),
+                                                            child: SFCourtCard(
+                                                                isRecurrentMatch:
+                                                                    true,
+                                                                onOnTap: () {
+                                                                  setState(() {
+                                                                    isLoading =
+                                                                        true;
+                                                                  });
+                                                                },
+                                                                widgetIndexStore:
+                                                                    index,
+                                                                storeDay:
+                                                                    storeDayList[
+                                                                        index]),
+                                                          )
+                                                        ],
+                                                      )
+                                                    : InkWell(
+                                                        onTap: (() {
+                                                          Provider.of<MatchProvider>(
+                                                                      context,
+                                                                      listen: false)
+                                                                  .selectedStoreDay =
+                                                              storeDayList[
+                                                                  index];
+                                                          context.goNamed(
+                                                              'court_screen',
+                                                              params: {
+                                                                'viewOnly':
+                                                                    'viewOnly',
+                                                                'returnTo':
+                                                                    'recurrent_match_search_screen',
+                                                                'returnToParam':
+                                                                    'null',
+                                                                'returnToParamValue':
+                                                                    'null',
+                                                                'isRecurrentMatch':
+                                                                    '1',
+                                                              });
+                                                        }),
+                                                        child: SFCourtCard(
+                                                            isRecurrentMatch:
+                                                                true,
+                                                            onOnTap: () {
+                                                              setState(() {
+                                                                isLoading =
+                                                                    true;
+                                                              });
+                                                            },
+                                                            widgetIndexStore:
+                                                                index,
+                                                            storeDay:
+                                                                storeDayList[
+                                                                    index]),
+                                                      ),
+                                              ),
+                                      ],
+                                    );
+                                  },
+                                )
+                              : Expanded(
+                                  child: Container(
+                                    color: AppTheme.colors.secondaryBack,
+                                    child: Center(
+                                      child: Container(
+                                        height: height * 0.2,
+                                        padding: EdgeInsets.only(
+                                            left: width * 0.2,
+                                            right: width * 0.2),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            SvgPicture.asset(
+                                              r"assets\icon\sad_face.svg",
+                                              height: height * 0.1,
+                                            ),
+                                            SizedBox(
+                                              height: height * 0.05,
+                                              child: FittedBox(
+                                                fit: BoxFit.contain,
+                                                child: Text(
+                                                  "Ops! Tivemos um problema. \nTente novamente.",
+                                                  style: TextStyle(
+                                                    color: AppTheme
+                                                        .colors.textBlue,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              height: height * 0.01 > 4
+                                                  ? 4
+                                                  : height * 0.01,
+                                              width: width * 0.8,
+                                              color: AppTheme.colors.divider,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                ),
               )
             ],
           ),
           isLoading
               ? Container(
-                  color: AppTheme.colors.primaryBlue.withOpacity(0.3),
+                  color: AppTheme.colors.secondaryLightBlue.withOpacity(0.3),
                   child: const Center(
                     child: SFLoading(),
                   ),
@@ -799,6 +1093,141 @@ class _RecurrentMatchSearchScreen extends State<RecurrentMatchSearchScreen> {
           },
         ),
       );
+    }
+  }
+
+  Future<void> searchRecurrentMatches() async {
+    const storage = FlutterSecureStorage();
+    String? accessToken = await storage.read(key: "AccessToken");
+    if (accessToken != null) {
+      var response = await http.post(
+        Uri.parse('https://www.sandfriends.com.br/SearchRecurrentMatches'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, Object>{
+          'accessToken': accessToken,
+          'sportId': Provider.of<RecurrentMatchProvider>(context, listen: false)
+              .selectedSport!
+              .idSport
+              .toString(),
+          'cityId': Provider.of<RecurrentMatchProvider>(context, listen: false)
+              .selectedRegion!
+              .selectedCity!
+              .cityId
+              .toString(),
+          'days': Provider.of<RecurrentMatchProvider>(context, listen: false)
+              .selectedDays
+              .join(";"),
+          'timeStart':
+              Provider.of<RecurrentMatchProvider>(context, listen: false)
+                  .selectedTimeRange!
+                  .start
+                  .format(context),
+          'timeEnd': Provider.of<RecurrentMatchProvider>(context, listen: false)
+              .selectedTimeRange!
+              .end
+              .format(context),
+        }),
+      );
+      if (mounted) {
+        if (response.statusCode == 200) {
+          Provider.of<RecurrentMatchProvider>(context, listen: false)
+              .clearStoreDayList();
+          Provider.of<RecurrentMatchProvider>(context, listen: false)
+              .clearOpenMatchList();
+          Provider.of<CourtProvider>(context, listen: false).clearCourts();
+
+          final responseBody = json.decode(response.body);
+          final responseDates = responseBody['Dates'];
+          final responseStores = responseBody['Stores'];
+          final responseCourts = responseBody['Courts'];
+
+          for (int i = 0; i < responseStores.length; i++) {
+            Map storeJson = responseStores[i];
+
+            Provider.of<StoreProvider>(context, listen: false)
+                .addStore(storeFromJson(storeJson['Store']));
+          }
+
+          for (int i = 0; i < responseCourts.length; i++) {
+            Map courtJson = responseCourts[i];
+            Provider.of<CourtProvider>(context, listen: false)
+                .addCourt(courtFromJson(responseCourts[i]));
+          }
+
+          var newStore;
+          int courtIndexTotal = 0;
+          for (int dateIndex = 0;
+              dateIndex < responseDates.length;
+              dateIndex++) {
+            Map firstLevel = responseDates[dateIndex];
+            for (int storeIndex = 0;
+                storeIndex < firstLevel['Places'].length;
+                storeIndex++) {
+              Map secondLevel = firstLevel['Places'][storeIndex];
+              Provider.of<StoreProvider>(context, listen: false)
+                  .stores
+                  .forEach((store) {
+                if (store.idStore == secondLevel['IdStore']) {
+                  newStore = store;
+                }
+              });
+              StoreDay storeDay = StoreDay(
+                store: newStore,
+                day: firstLevel['Date'],
+              );
+
+              for (int availableHoursIndex = 0;
+                  availableHoursIndex < secondLevel['Available'].length;
+                  availableHoursIndex++) {
+                Map thirdLevel = secondLevel['Available'][availableHoursIndex];
+                for (int courtIndex = 0;
+                    courtIndex < thirdLevel['Courts'].length;
+                    courtIndex++) {
+                  Map fourthLevel = thirdLevel['Courts'][courtIndex];
+
+                  bool newcourt = false;
+                  if (storeDay.courts.isEmpty ||
+                      (storeDay.courts.any((court) =>
+                              court.idStoreCourt ==
+                              fourthLevel['IdStoreCourt']) ==
+                          false)) {
+                    newcourt = true;
+                  }
+                  if (newcourt) {
+                    Provider.of<CourtProvider>(context, listen: false)
+                        .courts
+                        .forEach((court) {
+                      if (court.idStoreCourt == fourthLevel['IdStoreCourt']) {
+                        storeDay.courts.add(court);
+                      }
+                    });
+                  }
+                  for (int i = 0; i < storeDay.courts.length; i++) {
+                    if (storeDay.courts[i].idStoreCourt ==
+                        fourthLevel['IdStoreCourt']) {
+                      storeDay.courts[i].availableHours.add(CourtAvailableHours(
+                          thirdLevel['TimeBegin'],
+                          thirdLevel['TimeInteger'],
+                          thirdLevel['TimeFinish'],
+                          fourthLevel['Price']));
+                    }
+                  }
+                }
+              }
+              Provider.of<RecurrentMatchProvider>(context, listen: false)
+                  .addStoreDay(storeDay);
+            }
+          }
+
+          Provider.of<RecurrentMatchProvider>(context, listen: false)
+              .searchStatus = EnumSearchStatus.Results;
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
     }
   }
 }

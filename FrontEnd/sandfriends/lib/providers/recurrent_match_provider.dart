@@ -118,17 +118,25 @@ class RecurrentMatchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<DateTime?> _selectedDates = [];
-  List<DateTime?> get selectedDates => _selectedDates;
-  set selectedDates(List<DateTime?> value) {
-    _selectedDates = value;
+  final List<int> _selectedDays = [];
+  List<int> get selectedDays {
+    _selectedDays.sort();
+    return _selectedDays;
+  }
+
+  void clickedDay(int value) {
+    if (_selectedDays.contains(value)) {
+      _selectedDays.remove(value);
+    } else {
+      _selectedDays.add(value);
+    }
     notifyListeners();
   }
 
-  String _dateText = "Data";
-  String get dateText => _dateText;
-  set dateText(String value) {
-    _dateText = value;
+  String _dayText = "Dia";
+  String get dayText => _dayText;
+  set dayText(String value) {
+    _dayText = value;
     notifyListeners();
   }
 

@@ -277,13 +277,13 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "4 Partidas (R\$ 90):",
+                                        "${widget.recurrentMatch.monthRecurrentMatches.length} Partidas (R\$ ${widget.recurrentMatch.monthRecurrentMatches.first.cost}):",
                                         style: TextStyle(
                                           color: AppTheme.colors.textDarkGrey,
                                         ),
                                       ),
                                       Text(
-                                        "R\$ 360",
+                                        "R\$ ${widget.recurrentMatch.currentMonthPrice()}",
                                         style: TextStyle(
                                           color: AppTheme.colors.textDarkGrey,
                                         ),
@@ -304,7 +304,8 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                         ),
                                       ),
                                       Text(
-                                        "10/12/2022",
+                                        DateFormat("dd/MM/yyyy").format(widget
+                                            .recurrentMatch.lastPaymentDate),
                                         style: TextStyle(
                                           color: AppTheme.colors.textDarkGrey,
                                         ),

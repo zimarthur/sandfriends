@@ -149,4 +149,14 @@ class CategoriesProvider with ChangeNotifier {
     'Sábado',
     'Domingo',
   ];
+
+  List shortWeekDaysPortuguese = [
+    'Seg',
+    'Ter',
+    'Qua',
+    'Qui',
+    'Sex',
+    'Sáb',
+    'Dom',
+  ];
 }

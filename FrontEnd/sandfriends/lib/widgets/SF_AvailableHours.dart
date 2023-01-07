@@ -11,13 +11,14 @@ class SFAvailableHours extends StatefulWidget {
   final int widgetIndexTime;
   final int widgetIndexStore;
   final bool multipleSelection;
+  final bool isRecurrentMatch;
 
-  SFAvailableHours({
-    required this.availableHours,
-    required this.widgetIndexTime,
-    required this.widgetIndexStore,
-    required this.multipleSelection,
-  });
+  SFAvailableHours(
+      {required this.availableHours,
+      required this.widgetIndexTime,
+      required this.widgetIndexStore,
+      required this.multipleSelection,
+      this.isRecurrentMatch = false});
 
   @override
   State<SFAvailableHours> createState() => _SFAvailableHoursState();
@@ -145,10 +146,16 @@ class _SFAvailableHoursState extends State<SFAvailableHours> {
           width: 75,
           decoration: BoxDecoration(
             color: isSelectedHour(context)
-                ? AppTheme.colors.primaryBlue
+                ? widget.isRecurrentMatch
+                    ? AppTheme.colors.primaryLightBlue
+                    : AppTheme.colors.primaryBlue
                 : AppTheme.colors.secondaryPaper,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppTheme.colors.primaryBlue, width: 1),
+            border: Border.all(
+                color: widget.isRecurrentMatch
+                    ? AppTheme.colors.primaryLightBlue
+                    : AppTheme.colors.primaryBlue,
+                width: 1),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -161,7 +168,9 @@ class _SFAvailableHoursState extends State<SFAvailableHours> {
                       r"assets\icon\clock.svg",
                       color: isSelectedHour(context)
                           ? AppTheme.colors.textWhite
-                          : AppTheme.colors.textBlue,
+                          : widget.isRecurrentMatch
+                              ? AppTheme.colors.primaryLightBlue
+                              : AppTheme.colors.primaryBlue,
                     ),
                     Expanded(
                       child: FittedBox(
@@ -171,7 +180,9 @@ class _SFAvailableHoursState extends State<SFAvailableHours> {
                           style: TextStyle(
                             color: isSelectedHour(context)
                                 ? AppTheme.colors.textWhite
-                                : AppTheme.colors.textBlue,
+                                : widget.isRecurrentMatch
+                                    ? AppTheme.colors.primaryLightBlue
+                                    : AppTheme.colors.primaryBlue,
                           ),
                         ),
                       ),
@@ -185,7 +196,9 @@ class _SFAvailableHoursState extends State<SFAvailableHours> {
                       r"assets\icon\payment.svg",
                       color: isSelectedHour(context)
                           ? AppTheme.colors.textWhite
-                          : AppTheme.colors.textBlue,
+                          : widget.isRecurrentMatch
+                              ? AppTheme.colors.primaryLightBlue
+                              : AppTheme.colors.primaryBlue,
                     ),
                     Expanded(
                       child: FittedBox(
@@ -195,7 +208,9 @@ class _SFAvailableHoursState extends State<SFAvailableHours> {
                           style: TextStyle(
                             color: isSelectedHour(context)
                                 ? AppTheme.colors.textWhite
-                                : AppTheme.colors.textBlue,
+                                : widget.isRecurrentMatch
+                                    ? AppTheme.colors.primaryLightBlue
+                                    : AppTheme.colors.primaryBlue,
                           ),
                         ),
                       ),

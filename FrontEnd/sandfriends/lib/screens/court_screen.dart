@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/models/enums.dart';
 import 'package:sandfriends/models/store_day.dart';
+import 'package:sandfriends/providers/categories_provider.dart';
 import 'package:sandfriends/providers/redirect_provider.dart';
 import 'package:sandfriends/theme/app_theme.dart';
 import 'package:sandfriends/widgets/Modal/SF_Modal.dart';
@@ -21,6 +22,7 @@ import 'package:http/http.dart' as http;
 import '../models/court_available_hours.dart';
 import '../models/court.dart';
 import '../providers/match_provider.dart';
+import '../providers/recurrent_match_provider.dart';
 import '../providers/user_provider.dart';
 import '../widgets/SFLoading.dart';
 import '../widgets/SF_AvailableHours.dart';
@@ -31,17 +33,21 @@ class CourtScreen extends StatefulWidget {
     required this.returnTo,
     this.returnToParam,
     this.returnToParamValue,
+    this.isRecurrentMatch = false,
   });
   final String? param;
   final String returnTo;
   final String? returnToParam;
   final String? returnToParamValue;
+  final bool isRecurrentMatch;
 
   @override
   State<CourtScreen> createState() => _CourtScreenState();
 }
 
 class _CourtScreenState extends State<CourtScreen> {
+  Color primaryColor = AppTheme.colors.primaryBlue;
+
   bool isLoading = true;
   bool showModal = false;
   Widget? modalWidget;
@@ -66,6 +72,9 @@ class _CourtScreenState extends State<CourtScreen> {
 
   @override
   void initState() {
+    if (widget.isRecurrentMatch) {
+      primaryColor = AppTheme.colors.primaryLightBlue;
+    }
     _controller.addListener(_onScrollEvent);
     if (widget.param == 'viewOnly') {
       viewOnly = true;
@@ -286,7 +295,7 @@ class _CourtScreenState extends State<CourtScreen> {
                                     child: ClipOval(
                                       child: Container(
                                         color: isIndex
-                                            ? AppTheme.colors.primaryBlue
+                                            ? primaryColor
                                             : AppTheme.colors.secondaryBack,
                                         height: width * 0.02,
                                         width: width * 0.02,
@@ -371,8 +380,7 @@ class _CourtScreenState extends State<CourtScreen> {
                                                 .store
                                                 .name,
                                             style: TextStyle(
-                                              color:
-                                                  AppTheme.colors.primaryBlue,
+                                              color: primaryColor,
                                               fontWeight: FontWeight.w700,
                                             ),
                                           ),
@@ -382,7 +390,7 @@ class _CourtScreenState extends State<CourtScreen> {
                                         children: [
                                           SvgPicture.asset(
                                             r'assets\icon\location_ping.svg',
-                                            color: AppTheme.colors.primaryBlue,
+                                            color: primaryColor,
                                             width: 15,
                                           ),
                                           Padding(
@@ -392,8 +400,7 @@ class _CourtScreenState extends State<CourtScreen> {
                                             child: Text(
                                               "${Provider.of<MatchProvider>(context, listen: false).selectedStoreDay!.store.address} - ${Provider.of<MatchProvider>(context, listen: false).regionText}",
                                               style: TextStyle(
-                                                color:
-                                                    AppTheme.colors.primaryBlue,
+                                                color: primaryColor,
                                               ),
                                             ),
                                           ),
@@ -429,17 +436,29 @@ class _CourtScreenState extends State<CourtScreen> {
                                   EdgeInsets.symmetric(vertical: height * 0.01),
                               child: Row(
                                 children: [
-                                  SvgPicture.asset(r'assets\icon\calendar.svg'),
+                                  SvgPicture.asset(r'assets\icon\calendar.svg',
+                                      color: primaryColor),
                                   Padding(
                                       padding:
                                           EdgeInsets.only(right: width * 0.01)),
                                   Text(
-                                    Provider.of<MatchProvider>(context,
-                                            listen: false)
-                                        .selectedStoreDay!
-                                        .day!,
+                                    widget.isRecurrentMatch
+                                        ? Provider.of<CategoriesProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .weekDaysPortuguese[
+                                            int.parse(
+                                                Provider.of<MatchProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .selectedStoreDay!
+                                                    .day!)]
+                                        : Provider.of<MatchProvider>(context,
+                                                listen: false)
+                                            .selectedStoreDay!
+                                            .day!,
                                     style: TextStyle(
-                                        color: AppTheme.colors.primaryBlue,
+                                        color: primaryColor,
                                         fontWeight: FontWeight.w700),
                                   ),
                                 ],
@@ -496,8 +515,7 @@ class _CourtScreenState extends State<CourtScreen> {
                                                   .courts[indexcourt]
                                                   .storeCourtName,
                                               style: TextStyle(
-                                                color:
-                                                    AppTheme.colors.primaryBlue,
+                                                color: primaryColor,
                                               ),
                                             ),
                                             Text(
@@ -540,6 +558,8 @@ class _CourtScreenState extends State<CourtScreen> {
                                               widgetIndexTime: indexHour,
                                               widgetIndexStore: indexcourt,
                                               multipleSelection: true,
+                                              isRecurrentMatch:
+                                                  widget.isRecurrentMatch,
                                             );
                                           }),
                                         ),
@@ -564,8 +584,7 @@ class _CourtScreenState extends State<CourtScreen> {
                   child: Text(
                     "Sobre a quadra",
                     style: TextStyle(
-                        color: AppTheme.colors.primaryBlue,
-                        fontWeight: FontWeight.w700),
+                        color: primaryColor, fontWeight: FontWeight.w700),
                   ),
                 ),
                 Padding(
@@ -609,8 +628,7 @@ class _CourtScreenState extends State<CourtScreen> {
                   child: Text(
                     "Contato",
                     style: TextStyle(
-                        color: AppTheme.colors.primaryBlue,
-                        fontWeight: FontWeight.w700),
+                        color: primaryColor, fontWeight: FontWeight.w700),
                   ),
                 ),
                 InkWell(
@@ -626,11 +644,10 @@ class _CourtScreenState extends State<CourtScreen> {
                       width: double.infinity,
                       height: height * 0.06,
                       decoration: BoxDecoration(
-                        color: AppTheme.colors.primaryBlue.withOpacity(0.2),
+                        color: primaryColor.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                            color: AppTheme.colors.primaryBlue.withOpacity(0.4),
-                            width: 1),
+                            color: primaryColor.withOpacity(0.4), width: 1),
                       ),
                       child: Row(
                         children: [
@@ -641,7 +658,7 @@ class _CourtScreenState extends State<CourtScreen> {
                               r'assets\icon\whatsapp.svg',
                               height: height * 0.03,
                               width: height * 0.03,
-                              color: AppTheme.colors.primaryBlue,
+                              color: primaryColor,
                             ),
                           ),
                           SizedBox(
@@ -655,7 +672,7 @@ class _CourtScreenState extends State<CourtScreen> {
                                     .store
                                     .phone,
                                 style: TextStyle(
-                                  color: AppTheme.colors.primaryBlue,
+                                  color: primaryColor,
                                 ),
                               ),
                             ),
@@ -682,11 +699,10 @@ class _CourtScreenState extends State<CourtScreen> {
                       width: double.infinity,
                       height: height * 0.06,
                       decoration: BoxDecoration(
-                        color: AppTheme.colors.primaryBlue.withOpacity(0.2),
+                        color: primaryColor.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                            color: AppTheme.colors.primaryBlue.withOpacity(0.4),
-                            width: 1),
+                            color: primaryColor.withOpacity(0.4), width: 1),
                       ),
                       child: Row(
                         children: [
@@ -697,7 +713,7 @@ class _CourtScreenState extends State<CourtScreen> {
                               r'assets\icon\instagram.svg',
                               height: height * 0.03,
                               width: height * 0.03,
-                              color: AppTheme.colors.primaryBlue,
+                              color: primaryColor,
                             ),
                           ),
                           SizedBox(
@@ -711,7 +727,7 @@ class _CourtScreenState extends State<CourtScreen> {
                                     .store
                                     .instagram,
                                 style: TextStyle(
-                                  color: AppTheme.colors.primaryBlue,
+                                  color: primaryColor,
                                 ),
                               ),
                             ),
@@ -776,7 +792,7 @@ class _CourtScreenState extends State<CourtScreen> {
                       shape: BoxShape.circle),
                   child: SvgPicture.asset(
                     r'assets\icon\arrow_left.svg',
-                    color: AppTheme.colors.primaryBlue,
+                    color: primaryColor,
                   ),
                 ),
               ),
@@ -856,7 +872,11 @@ class _CourtScreenState extends State<CourtScreen> {
                                     setState(() {
                                       isLoading = true;
                                     });
-                                    CourtReservation(context);
+                                    if (widget.isRecurrentMatch) {
+                                      RecurrentMatchReservation(context);
+                                    } else {
+                                      CourtReservation(context);
+                                    }
                                   }
                                 }),
                           ),
@@ -876,7 +896,7 @@ class _CourtScreenState extends State<CourtScreen> {
                 : Container(),
             isLoading
                 ? Container(
-                    color: AppTheme.colors.primaryBlue.withOpacity(0.3),
+                    color: primaryColor.withOpacity(0.3),
                     child: const Center(
                       child: SFLoading(),
                     ),
@@ -918,6 +938,79 @@ class _CourtScreenState extends State<CourtScreen> {
                   .selectedStoreDay!
                   .day!)),
           "timeBegin": Provider.of<MatchProvider>(context, listen: false)
+              .selectedTime
+              .first
+              .hour,
+          "timeEnd": Provider.of<MatchProvider>(context, listen: false)
+              .selectedTime
+              .last
+              .hourFinish,
+          "cost": Provider.of<MatchProvider>(context, listen: false)
+              .matchDetailsPrice
+        }),
+      );
+      setState(() {
+        isLoading = false;
+      });
+      if (response.statusCode == 200) {
+        setState(() {
+          modalWidget = SFModalMessage(
+            modalStatus: GenericStatus.Success,
+            message: "Horário Agendado",
+            onTap: () {
+              setState(() {
+                showModal = false;
+                context.goNamed('home', params: {'initialPage': 'feed_screen'});
+                Provider.of<MatchProvider>(context, listen: false)
+                    .needsRefresh = true;
+                Provider.of<UserProvider>(context, listen: false)
+                    .feedNeedsRefresh = true;
+              });
+            },
+          );
+          showModal = true;
+        });
+      } else if (response.statusCode == 413) {
+        setState(() {
+          modalWidget = SFModalMessage(
+            modalStatus: GenericStatus.Failed,
+            message: "Esse Horário não está mais disponível",
+            onTap: () {
+              showModal = false;
+              Provider.of<MatchProvider>(context, listen: false).needsRefresh =
+                  true;
+              context.goNamed('match_search_screen');
+            },
+          );
+          showModal = true;
+        });
+      }
+    }
+  }
+
+  Future<void> RecurrentMatchReservation(BuildContext context) async {
+    const storage = FlutterSecureStorage();
+    String? accessToken = await storage.read(key: "AccessToken");
+    if (accessToken != null) {
+      var response = await http.post(
+        Uri.parse('https://www.sandfriends.com.br/RecurrentMatchReservation'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, Object>{
+          "accessToken": accessToken,
+          "idStoreCourt": Provider.of<MatchProvider>(context, listen: false)
+              .selectedStoreDay!
+              .courts[Provider.of<MatchProvider>(context, listen: false)
+                  .indexSelectedCourt!]
+              .idStoreCourt,
+          "sportId": Provider.of<RecurrentMatchProvider>(context, listen: false)
+              .selectedSport!
+              .idSport,
+          "weekDay": Provider.of<MatchProvider>(context, listen: false)
+              .selectedStoreDay!
+              .day!,
+          "timeStart": Provider.of<MatchProvider>(context, listen: false)
               .selectedTime
               .first
               .hour,

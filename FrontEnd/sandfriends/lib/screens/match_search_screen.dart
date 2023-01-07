@@ -1005,6 +1005,8 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                                         'null',
                                                                     'returnToParamValue':
                                                                         'null',
+                                                                    'isRecurrentMatch':
+                                                                        'null'
                                                                   });
                                                             }),
                                                             child: SFCourtCard(
@@ -1042,6 +1044,8 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                                     'null',
                                                                 'returnToParamValue':
                                                                     'null',
+                                                                'isRecurrentMatch':
+                                                                    'null'
                                                               });
                                                         }),
                                                         child: SFCourtCard(
@@ -1197,6 +1201,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                                                 'returnTo': 'match_search_screen',
                                                                                 'returnToParam': 'null',
                                                                                 'returnToParamValue': 'null',
+                                                                                'isRecurrentMatch': 'null',
                                                                               });
                                                                             }),
                                                                             child: SFCourtCard(
@@ -1222,6 +1227,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                                                 'returnTo': 'match_search_screen',
                                                                                 'returnToParam': 'null',
                                                                                 'returnToParamValue': 'null',
+                                                                                'isRecurrentMatch': 'null'
                                                                               });
                                                                         }),
                                                                         child: SFCourtCard(
@@ -1586,8 +1592,6 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                 }
                 Provider.of<MatchProvider>(context, listen: false)
                     .addStoreDay(storeDay);
-
-                //storeDay = StoreDay();
               }
             }
 

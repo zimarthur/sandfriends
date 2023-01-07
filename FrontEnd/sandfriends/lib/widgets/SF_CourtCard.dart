@@ -16,11 +16,13 @@ class SFCourtCard extends StatefulWidget {
   final StoreDay storeDay;
   final int widgetIndexStore;
   final VoidCallback onOnTap;
+  final bool isRecurrentMatch;
 
   const SFCourtCard(
       {required this.storeDay,
       required this.widgetIndexStore,
-      required this.onOnTap});
+      required this.onOnTap,
+      this.isRecurrentMatch = false});
 
   @override
   State<SFCourtCard> createState() => _SFCourtCardState();
@@ -155,17 +157,26 @@ class _SFCourtCardState extends State<SFCourtCard> {
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 18,
-                              color: AppTheme.colors.primaryBlue),
+                              color: widget.isRecurrentMatch
+                                  ? AppTheme.colors.primaryLightBlue
+                                  : AppTheme.colors.primaryBlue),
                         ),
                         Row(
                           children: [
-                            SvgPicture.asset(r"assets\icon\location_ping.svg"),
+                            SvgPicture.asset(
+                              r"assets\icon\location_ping.svg",
+                              color: widget.isRecurrentMatch
+                                  ? AppTheme.colors.primaryLightBlue
+                                  : AppTheme.colors.primaryBlue,
+                            ),
                             Text(
                               widget.storeDay.store.address,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 10,
-                                  color: AppTheme.colors.primaryBlue),
+                                  color: widget.isRecurrentMatch
+                                      ? AppTheme.colors.primaryLightBlue
+                                      : AppTheme.colors.primaryBlue),
                             ),
                           ],
                         ),
@@ -201,6 +212,7 @@ class _SFCourtCardState extends State<SFCourtCard> {
                 itemCount: availableHours.length,
                 itemBuilder: ((context, index) {
                   return SFAvailableHours(
+                    isRecurrentMatch: widget.isRecurrentMatch,
                     availableHours: availableHours,
                     widgetIndexTime: index,
                     widgetIndexStore: widget.widgetIndexStore,
@@ -215,7 +227,9 @@ class _SFCourtCardState extends State<SFCourtCard> {
               child: SFButton(
                   buttonLabel: "Prosseguir",
                   buttonType: isSelectedCourt(context, true)
-                      ? ButtonType.Primary
+                      ? widget.isRecurrentMatch
+                          ? ButtonType.LightBluePrimary
+                          : ButtonType.Primary
                       : ButtonType.Disabled,
                   textPadding: const EdgeInsets.symmetric(vertical: 5),
                   onTap: () {
@@ -263,9 +277,13 @@ class _SFCourtCardState extends State<SFCourtCard> {
 
                       context.goNamed('court_screen', params: {
                         'viewOnly': 'null',
-                        'returnTo': 'match_search_screen',
+                        'returnTo': widget.isRecurrentMatch
+                            ? 'recurrent_match_search_screen'
+                            : 'match_search_screen',
                         'returnToParam': 'null',
                         'returnToParamValue': 'null',
+                        'isRecurrentMatch':
+                            widget.isRecurrentMatch ? '1' : 'null',
                       });
                     } else {
                       print("seleciona horario antes");
