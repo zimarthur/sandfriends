@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/models/enums.dart';
 
 import '../../theme/app_theme.dart';
-import '../SF_Button.dart';
+import '../../widgets/SF_Button.dart';
 
 class SFModalMessage extends StatefulWidget {
   final GenericStatus modalStatus;

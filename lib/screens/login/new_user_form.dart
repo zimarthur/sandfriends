@@ -14,7 +14,7 @@ import 'dart:convert';
 import '../../models/city.dart';
 import '../../models/region.dart';
 import '../../providers/user_provider.dart';
-import '../../widgets/SFLoading.dart';
+import '../../SharedComponents/View/SFLoading.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/SF_Button.dart';
 import '../../widgets/SF_TextField.dart';

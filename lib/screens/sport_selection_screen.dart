@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/models/sport.dart';
 import 'package:sandfriends/providers/categories_provider.dart';
 import 'package:sandfriends/providers/recurrent_match_provider.dart';
-import 'package:sandfriends/widgets/SFLoading.dart';
+import 'package:sandfriends/SharedComponents/View/SFLoading.dart';
 import 'package:sandfriends/widgets/SF_Button.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

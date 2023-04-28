@@ -17,7 +17,7 @@ import 'package:http/http.dart' as http;
 import '../models/enums.dart';
 import '../providers/categories_provider.dart';
 import '../theme/app_theme.dart';
-import '../widgets/SFLoading.dart';
+import '../SharedComponents/View/SFLoading.dart';
 import '../widgets/SF_RecurrentMatchDateCard.dart';
 
 class RecurrentMatchScreen extends StatefulWidget {

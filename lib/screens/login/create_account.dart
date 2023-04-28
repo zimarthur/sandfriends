@@ -6,8 +6,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandfriends/widgets/SF_Scaffold.dart';
 
-import '../../widgets/Modal/SF_ModalMessage.dart';
-import '../../widgets/SFLoading.dart';
+import '../../SharedComponents/View/SFModalMessage.dart';
+import '../../SharedComponents/View/SFLoading.dart';
 import '../../widgets/SF_Button.dart';
 import '../../widgets/SF_TextField.dart';
 import '../../theme/app_theme.dart';

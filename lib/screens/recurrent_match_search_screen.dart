@@ -16,7 +16,7 @@ import 'package:sandfriends/providers/court_provider.dart';
 import 'package:sandfriends/providers/store_provider.dart';
 import 'package:sandfriends/providers/user_provider.dart';
 import 'package:sandfriends/widgets/Modal/SF_ModalDatePicker.dart';
-import 'package:sandfriends/widgets/SFLoading.dart';
+import 'package:sandfriends/SharedComponents/View/SFLoading.dart';
 import 'package:sandfriends/widgets/SF_CourtCard.dart';
 import 'package:sandfriends/widgets/SF_OpenMatchVertical.dart';
 import 'package:sandfriends/widgets/SF_Scaffold.dart';

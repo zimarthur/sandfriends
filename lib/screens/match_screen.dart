@@ -23,8 +23,8 @@ import '../models/validators.dart';
 import '../providers/match_provider.dart';
 import '../models/match.dart';
 import '../theme/app_theme.dart';
-import '../widgets/Modal/SF_ModalMessage.dart';
-import '../widgets/SFLoading.dart';
+import '../SharedComponents/View/SFModalMessage.dart';
+import '../SharedComponents/View/SFLoading.dart';
 
 final _creatorNotesFormKey = GlobalKey<FormState>();
 

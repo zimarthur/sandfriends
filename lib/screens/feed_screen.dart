@@ -10,7 +10,7 @@ import 'package:sandfriends/providers/categories_provider.dart';
 import 'package:sandfriends/theme/app_theme.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:sandfriends/widgets/SFLoading.dart';
+import 'package:sandfriends/SharedComponents/View/SFLoading.dart';
 
 import '../models/enums.dart';
 import '../models/notification_sf.dart';
@@ -30,9 +30,9 @@ class _FeedScreenState extends State<FeedScreen> {
   void initState() {
     super.initState();
     if (Provider.of<UserProvider>(context, listen: false).feedNeedsRefresh) {
-      GetUserInfo().then((value) => Provider.of<UserProvider>(context, listen: false).feedNeedsRefresh =
-          false);
-      
+      GetUserInfo().then((value) =>
+          Provider.of<UserProvider>(context, listen: false).feedNeedsRefresh =
+              false);
     } else {
       isLoading = false;
     }

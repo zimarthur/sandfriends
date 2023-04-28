@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-import '../theme/app_theme.dart';
+import '../../theme/app_theme.dart';
 
 class SFLoading extends StatelessWidget {
   const SFLoading({Key? key}) : super(key: key);

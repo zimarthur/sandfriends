@@ -8,7 +8,6 @@ import '../theme/app_theme.dart';
 class SFScaffold extends StatefulWidget {
   final String titleText;
   final Function()? onTapReturn;
-
   final Widget? rightWidget;
   final AppBarType appBarType;
   bool showModal;

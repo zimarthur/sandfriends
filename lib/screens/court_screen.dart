@@ -13,7 +13,7 @@ import 'package:sandfriends/providers/categories_provider.dart';
 import 'package:sandfriends/providers/redirect_provider.dart';
 import 'package:sandfriends/theme/app_theme.dart';
 import 'package:sandfriends/widgets/Modal/SF_Modal.dart';
-import 'package:sandfriends/widgets/Modal/SF_ModalMessage.dart';
+import 'package:sandfriends/SharedComponents/View/SFModalMessage.dart';
 import 'package:sandfriends/widgets/SF_Button.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,7 +24,7 @@ import '../models/court.dart';
 import '../providers/match_provider.dart';
 import '../providers/recurrent_match_provider.dart';
 import '../providers/user_provider.dart';
-import '../widgets/SFLoading.dart';
+import '../SharedComponents/View/SFLoading.dart';
 import '../widgets/SF_AvailableHours.dart';
 
 class CourtScreen extends StatefulWidget {

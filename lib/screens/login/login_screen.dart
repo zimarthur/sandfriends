@@ -9,12 +9,12 @@ import 'package:sandfriends/models/user.dart';
 import 'package:sandfriends/providers/categories_provider.dart';
 import 'package:sandfriends/providers/match_provider.dart';
 import 'package:sandfriends/widgets/Modal/SF_ModalInput.dart';
-import 'package:sandfriends/widgets/Modal/SF_ModalMessage.dart';
+import 'package:sandfriends/SharedComponents/View/SFModalMessage.dart';
 import 'package:sandfriends/widgets/SF_Scaffold.dart';
 
 import '../../models/enums.dart';
 import '../../providers/user_provider.dart';
-import '../../widgets/SFLoading.dart';
+import '../../SharedComponents/View/SFLoading.dart';
 import '../../widgets/SF_Button.dart';
 import '../../widgets/SF_TextField.dart';
 import '../../theme/app_theme.dart';

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sandfriends/theme/app_theme.dart';
-import 'package:sandfriends/widgets/SFLoading.dart';
+import 'package:sandfriends/SharedComponents/View/SFLoading.dart';
 
 import '../models/sport.dart';
 import '../models/user.dart';

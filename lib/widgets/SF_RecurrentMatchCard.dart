@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../models/recurrent_match.dart';
 import '../providers/categories_provider.dart';
 import '../theme/app_theme.dart';
-import 'SFLoading.dart';
+import '../SharedComponents/View/SFLoading.dart';
 import 'SF_Button.dart';
 import 'SF_RecurrentMatchDateCard.dart';
 

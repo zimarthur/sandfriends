@@ -13,7 +13,7 @@ import '../../providers/login_provider.dart';
 import '../../providers/redirect_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/Modal/SF_Modal.dart';
-import '../../widgets/Modal/SF_ModalMessage.dart';
+import '../../SharedComponents/View/SFModalMessage.dart';
 
 final _newPasswordFormKey = GlobalKey<FormState>();
 

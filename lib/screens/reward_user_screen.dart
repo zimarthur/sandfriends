@@ -14,7 +14,7 @@ import 'package:http/http.dart' as http;
 import '../providers/categories_provider.dart';
 import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
-import '../widgets/SFLoading.dart';
+import '../SharedComponents/View/SFLoading.dart';
 
 class RewardUserScreen extends StatefulWidget {
   const RewardUserScreen({Key? key}) : super(key: key);

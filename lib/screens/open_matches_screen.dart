@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 
 import '../providers/match_provider.dart';
 import '../theme/app_theme.dart';
-import '../widgets/SFLoading.dart';
+import '../SharedComponents/View/SFLoading.dart';
 import '../models/match.dart';
 import '../widgets/SF_OpenMatchVertical.dart';
 

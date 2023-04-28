@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/widgets/Modal/SF_Modal.dart';
 import 'package:sandfriends/widgets/SFAvatar.dart';
-import 'package:sandfriends/widgets/SFLoading.dart';
+import 'package:sandfriends/SharedComponents/View/SFLoading.dart';
 import 'package:sandfriends/widgets/SF_Button.dart';
 import 'package:sandfriends/widgets/SF_TextField.dart';
 import 'package:http/http.dart' as http;
@@ -17,7 +17,7 @@ import '../models/enums.dart';
 import '../models/validators.dart';
 import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
-import '../widgets/Modal/SF_ModalMessage.dart';
+import '../SharedComponents/View/SFModalMessage.dart';
 
 class UserScreen extends StatefulWidget {
   @override

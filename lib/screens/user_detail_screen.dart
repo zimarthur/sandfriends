@@ -23,9 +23,9 @@ import '../../models/user.dart';
 import '../../providers/user_provider.dart';
 import '../models/rank.dart';
 import '../models/sport.dart';
-import '../widgets/Modal/SF_ModalMessage.dart';
+import '../SharedComponents/View/SFModalMessage.dart';
 import '../widgets/SFAvatar.dart';
-import '../widgets/SFLoading.dart';
+import '../SharedComponents/View/SFLoading.dart';
 
 final _userDetailFormKey = GlobalKey<FormState>();
 final _userPhoneNumberFormKey = GlobalKey<FormState>();

@@ -9,7 +9,7 @@ import 'package:sandfriends/widgets/SF_Scaffold.dart';
 import '../providers/categories_provider.dart';
 import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
-import '../widgets/SFLoading.dart';
+import '../SharedComponents/View/SFLoading.dart';
 
 class UserMatchScreen extends StatefulWidget {
   @override

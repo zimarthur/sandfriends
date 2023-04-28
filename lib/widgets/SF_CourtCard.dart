@@ -10,7 +10,7 @@ import 'package:sandfriends/widgets/SF_Button.dart';
 
 import '../models/store_day.dart';
 import '../theme/app_theme.dart';
-import 'SFLoading.dart';
+import '../SharedComponents/View/SFLoading.dart';
 
 class SFCourtCard extends StatefulWidget {
   final StoreDay storeDay;

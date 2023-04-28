@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandfriends/providers/redirect_provider.dart';
-import 'package:sandfriends/widgets/Modal/SF_ModalMessage.dart';
+import 'package:sandfriends/SharedComponents/View/SFModalMessage.dart';
 import 'dart:convert';
 
 import '../../models/enums.dart';
