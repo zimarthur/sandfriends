@@ -88,10 +88,6 @@ class LoginSignupViewModel extends ChangeNotifier {
               .user
               ?.matchCounterFromJson(
                 responseUserMatchCounter,
-                Provider.of<CategoriesProvider>(
-                  context,
-                  listen: false,
-                ),
               );
           pageStatus = PageStatus.OK;
           notifyListeners();

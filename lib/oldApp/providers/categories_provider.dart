@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sandfriends/oldApp/models/side_preference.dart';
-import '../models/gender.dart';
-import '../models/rank.dart';
-import '../models/sport.dart';
+import 'package:sandfriends/SharedComponents/Model/SidePreference.dart';
+import '../../SharedComponents/Model/Gender.dart';
+import '../../SharedComponents/Model/Rank.dart';
+import '../../SharedComponents/Model/Sport.dart';
 
 class CategoriesProvider with ChangeNotifier {
   void clearCategories() {

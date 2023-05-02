@@ -3,4 +3,5 @@ class ApiEndPoints {
   final String thirdPartyLogin = "/ThirdPartyAuthUser";
   final String changePasswordRequest = "/ChangePasswordRequestUser";
   final String createAccount = "/AddUser";
+  final String validateToken = "/ValidateTokenUser";
 }

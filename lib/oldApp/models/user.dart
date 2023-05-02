@@ -2,10 +2,10 @@ import 'package:sandfriends/oldApp/models/city.dart';
 import 'package:sandfriends/oldApp/models/match_counter.dart';
 
 import '../providers/categories_provider.dart';
-import 'rank.dart';
-import 'side_preference.dart';
-import 'gender.dart';
-import 'sport.dart';
+import '../../SharedComponents/Model/Rank.dart';
+import '../../SharedComponents/Model/SidePreference.dart';
+import '../../SharedComponents/Model/Gender.dart';
+import '../../SharedComponents/Model/Sport.dart';
 
 class User {
   int? idUser;
@@ -49,23 +49,22 @@ class User {
       email: json['Email'],
       gender: json['GenderCategory'] == null
           ? null
-          : genderFromJson(json['GenderCategory'][0]),
+          : Gender.fromJson(json['GenderCategory'][0]),
       phoneNumber: json['PhoneNumber'],
-      preferenceSport: sportFromJson(json['Sport']),
+      preferenceSport: Sport.fromJson(json['Sport']),
       city: cityFromJson(json['City']),
       sidePreference: json['SidePreferenceCategory'] == null
           ? null
-          : sidePreferenceFromJson(json['SidePreferenceCategory'][0]),
+          : SidePreference.fromJson(json['SidePreferenceCategory'][0]),
       photo: json['Photo'],
     );
     for (int i = 0; i < json['Ranks'].length; i++) {
-      newUser.rank.add(rankFromJson(json['Ranks'][i]));
+      newUser.rank.add(Rank.fromJson(json['Ranks'][i]));
     }
     return newUser;
   }
 
-  void matchCounterFromJson(
-      List<dynamic> response, CategoriesProvider categories) {
+  void matchCounterFromJson(List<dynamic> response) {
     matchCounter.clear();
 
     for (int i = 0; i < response.length; i++) {

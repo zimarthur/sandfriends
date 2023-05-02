@@ -12,13 +12,13 @@ import 'package:sandfriends/oldApp/widgets/Modal/SF_ModalInput.dart';
 import 'package:sandfriends/oldApp/widgets/Modal/SFModalMessageCopy.dart';
 import 'package:sandfriends/oldApp/widgets/SF_Scaffold.dart';
 
+import '../../../Utils/validators.dart';
 import '../../models/enums.dart';
 import '../../providers/user_provider.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
 import '../../widgets/SF_Button.dart';
 import '../../widgets/SF_TextField.dart';
 import '../../theme/app_theme.dart';
-import '../../models/validators.dart';
 
 final _loginFormKey = GlobalKey<FormState>();
 final _forgotPasswordFormKey = GlobalKey<FormState>();

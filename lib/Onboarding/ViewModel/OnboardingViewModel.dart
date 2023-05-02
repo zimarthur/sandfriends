@@ -10,7 +10,7 @@ import 'package:sandfriends/Onboarding/View/SportSelectorModal.dart';
 import '../../SharedComponents/View/SFModalMessage.dart';
 import '../../Utils/PageStatus.dart';
 import '../../oldApp/models/city.dart';
-import '../../oldApp/models/sport.dart';
+import '../../SharedComponents/Model/Sport.dart';
 
 class OnboardingViewModel extends ChangeNotifier {
   void initOnboardingViewModel() {

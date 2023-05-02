@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sandfriends/Authentication/CreateAccount/ViewModel/CreateAccountViewModel.dart';
-import 'package:sandfriends/oldApp/models/validators.dart';
 
 import '../../../Utils/Constants.dart';
+import '../../../Utils/validators.dart';
 import '../../../oldApp/widgets/SF_Button.dart';
 import '../../../oldApp/widgets/SF_TextField.dart';
 

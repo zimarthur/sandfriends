@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:sandfriends/oldApp/theme/app_theme.dart';
 import 'package:sandfriends/SharedComponents/View/SFLoading.dart';
 
-import '../models/sport.dart';
+import '../../SharedComponents/Model/Sport.dart';
 import '../models/user.dart';
 
 class SFAvatar extends StatelessWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sandfriends/oldApp/models/match.dart';
 import 'package:sandfriends/oldApp/models/match_counter.dart';
 import 'package:sandfriends/oldApp/models/reward.dart';
-import 'package:sandfriends/oldApp/models/sport.dart';
+import 'package:sandfriends/SharedComponents/Model/Sport.dart';
 import 'package:sandfriends/oldApp/providers/categories_provider.dart';
 import '../models/match.dart';
 

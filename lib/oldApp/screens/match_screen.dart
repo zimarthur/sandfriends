@@ -18,8 +18,9 @@ import 'package:sandfriends/oldApp/widgets/SF_TextField.dart';
 import 'dart:convert';
 import 'package:share_plus/share_plus.dart';
 
+import '../../Utils/validators.dart';
+import '../../main_old.dart';
 import '../models/user.dart';
-import '../models/validators.dart';
 import '../providers/match_provider.dart';
 import '../models/match.dart';
 import '../theme/app_theme.dart';

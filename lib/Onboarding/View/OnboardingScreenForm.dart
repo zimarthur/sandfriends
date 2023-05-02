@@ -82,89 +82,89 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                 onTap: () => widget.viewModel.openSportSelectorModal(),
               ),
               Padding(padding: EdgeInsets.only(bottom: height * 0.03)),
-              SFButton(
-                iconFirst: true,
-                textPadding: EdgeInsets.symmetric(vertical: height * 0.01),
-                buttonLabel: widget.viewModel.userCity == null
-                    ? "Selecione sua cidade"
-                    : "${widget.viewModel.userCity!.city} / ${widget.viewModel.userCity!.state!.uf}",
-                buttonType: ButtonType.Secondary,
-                iconPath: r"assets\icon\location_ping.svg",
-                onTap: () {
-                  setState(() {
-                    showModal = false;
-                    isLoading = true;
-                  });
-                  GetAllCities(context).then((value) {
-                    setState(() {
-                      modalWidget = SizedBox(
-                        height: height * 0.7,
-                        child: ListView.builder(
-                          itemCount: allRegions.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ExpansionTile(
-                              title: Text(
-                                allRegions[index].state,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              children: allRegions[index]
-                                  .cities
-                                  .map(
-                                    (city) => InkWell(
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: height * 0.01),
-                                        child: Text(city.city),
-                                      ),
-                                      onTap: () {
-                                        setState(() {
-                                          for (var region in allRegions) {
-                                            if (region.state ==
-                                                allRegions[index].state) {
-                                              for (var cityList
-                                                  in region.cities) {
-                                                if (cityList.city ==
-                                                    city.city) {
-                                                  Provider.of<UserProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .user!
-                                                      .city = City(
-                                                    cityId: cityList.cityId,
-                                                    city: cityList.city,
-                                                    state: Region(
-                                                        idState:
-                                                            allRegions[index]
-                                                                .idState,
-                                                        state: allRegions[index]
-                                                            .state,
-                                                        uf: allRegions[index]
-                                                            .uf),
-                                                  );
-                                                }
-                                              }
-                                            }
-                                          }
-                                          formValidation();
-                                          showModal = false;
-                                        });
-                                      },
-                                    ),
-                                  )
-                                  .toList(),
-                            );
-                          },
-                        ),
-                      );
-                      isLoading = false;
-                      showModal = true;
-                    });
-                  });
-                },
-              ),
-              Padding(padding: EdgeInsets.only(bottom: height * 0.03)),
+              // SFButton(
+              //   iconFirst: true,
+              //   textPadding: EdgeInsets.symmetric(vertical: height * 0.01),
+              //   buttonLabel: widget.viewModel.userCity == null
+              //       ? "Selecione sua cidade"
+              //       : "${widget.viewModel.userCity!.city} / ${widget.viewModel.userCity!.state!.uf}",
+              //   buttonType: ButtonType.Secondary,
+              //   iconPath: r"assets\icon\location_ping.svg",
+              //   onTap: () {
+              //     setState(() {
+              //       showModal = false;
+              //       isLoading = true;
+              //     });
+              //     GetAllCities(context).then((value) {
+              //       setState(() {
+              //         modalWidget = SizedBox(
+              //           height: height * 0.7,
+              //           child: ListView.builder(
+              //             itemCount: allRegions.length,
+              //             itemBuilder: (BuildContext context, int index) {
+              //               return ExpansionTile(
+              //                 title: Text(
+              //                   allRegions[index].state,
+              //                   style: const TextStyle(
+              //                     fontWeight: FontWeight.w500,
+              //                   ),
+              //                 ),
+              //                 children: allRegions[index]
+              //                     .cities
+              //                     .map(
+              //                       (city) => InkWell(
+              //                         child: Container(
+              //                           padding: EdgeInsets.symmetric(
+              //                               vertical: height * 0.01),
+              //                           child: Text(city.city),
+              //                         ),
+              //                         onTap: () {
+              //                           setState(() {
+              //                             for (var region in allRegions) {
+              //                               if (region.state ==
+              //                                   allRegions[index].state) {
+              //                                 for (var cityList
+              //                                     in region.cities) {
+              //                                   if (cityList.city ==
+              //                                       city.city) {
+              //                                     Provider.of<UserProvider>(
+              //                                             context,
+              //                                             listen: false)
+              //                                         .user!
+              //                                         .city = City(
+              //                                       cityId: cityList.cityId,
+              //                                       city: cityList.city,
+              //                                       state: Region(
+              //                                           idState:
+              //                                               allRegions[index]
+              //                                                   .idState,
+              //                                           state: allRegions[index]
+              //                                               .state,
+              //                                           uf: allRegions[index]
+              //                                               .uf),
+              //                                     );
+              //                                   }
+              //                                 }
+              //                               }
+              //                             }
+              //                             formValidation();
+              //                             showModal = false;
+              //                           });
+              //                         },
+              //                       ),
+              //                     )
+              //                     .toList(),
+              //               );
+              //             },
+              //           ),
+              //         );
+              //         isLoading = false;
+              //         showModal = true;
+              //       });
+              //     });
+              //   },
+              // ),
+              // Padding(padding: EdgeInsets.only(bottom: height * 0.03)),
               InkWell(
                 onTap: () {
                   widget.viewModel.termsAgreeValue =
@@ -219,7 +219,7 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                         if (widget.viewModel.onboardingFormKey.currentState
                                 ?.validate() ==
                             true) {
-                          addUserInfo(context);
+                          // addUserInfo(context);
                         }
                       }
                     },

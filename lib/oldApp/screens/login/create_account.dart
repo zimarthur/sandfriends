@@ -6,13 +6,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandfriends/oldApp/widgets/SF_Scaffold.dart';
 
+import '../../../Utils/validators.dart';
 import '../../widgets/Modal/SFModalMessageCopy.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
 import '../../widgets/SF_Button.dart';
 import '../../widgets/SF_TextField.dart';
 import '../../theme/app_theme.dart';
 import '../../models/enums.dart';
-import '../../models/validators.dart';
 
 final _signupFormKey = GlobalKey<FormState>();
 

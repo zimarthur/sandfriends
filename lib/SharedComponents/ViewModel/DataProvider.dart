@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../oldApp/models/sport.dart';
+import '../Model/Sport.dart';
+import '../Model/Gender.dart';
+import '../Model/Rank.dart';
+import '../Model/SidePreference.dart';
 import '../../oldApp/models/user.dart';
 
 class DataProvider extends ChangeNotifier {
@@ -12,4 +15,7 @@ class DataProvider extends ChangeNotifier {
   }
 
   List<Sport> sports = [];
+  List<Gender> genders = [];
+  List<Rank> ranks = [];
+  List<SidePreference> sidePreferences = [];
 }

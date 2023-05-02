@@ -1,12 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends/oldApp/theme/app_theme.dart';
+import 'package:sandfriends/Utils/Constants.dart';
 
-class LoadLoginScreen extends StatelessWidget {
+import '../ViewModel/LoadLoginViewModel.dart';
+
+class LoadLoginScreen extends StatefulWidget {
   String? externalLink;
   LoadLoginScreen({
     this.externalLink,
   });
+
+  @override
+  State<LoadLoginScreen> createState() => _LoadLoginScreenState();
+}
+
+class _LoadLoginScreenState extends State<LoadLoginScreen> {
+  final viewModel = LoadLoginViewModel();
+
+  @override
+  void initState() {
+    if (widget.externalLink == null) {
+      viewModel.validateLogin(context);
+    } else {
+      viewModel.redirectExternalLogin();
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +33,7 @@ class LoadLoginScreen extends StatelessWidget {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: AppTheme.colors.secondaryBack,
+        color: secondaryBack,
         child: Stack(
           children: [
             Positioned.fill(

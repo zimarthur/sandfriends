@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Authentication/LoadLogin/ViewModel/LoadLoginViewModel.dart';
 import 'package:sandfriends/Authentication/Login/View/ForgotPasswordModal.dart';
 import 'package:sandfriends/Remote/NetworkResponse.dart';
 import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
@@ -56,26 +56,9 @@ class LoginViewModel extends ChangeNotifier {
         if (responseUser['FirstName'] == null) {
           Provider.of<DataProvider>(context, listen: false).user =
               User(email: responseUser['Email']);
-          context.goNamed('new_user_welcome');
+          Navigator.pushNamed(context, '/new_user_welcome');
         } else {
-          final responseUser = responseBody['User'];
-          final responseUserMatchCounter = responseBody['MatchCounter'];
-
-          Provider.of<DataProvider>(context, listen: false).user =
-              User.fromJson(responseUser);
-
-          Provider.of<DataProvider>(context, listen: false)
-              .user
-              ?.matchCounterFromJson(
-                responseUserMatchCounter,
-                Provider.of<CategoriesProvider>(
-                  context,
-                  listen: false,
-                ),
-              );
-          pageStatus = PageStatus.OK;
-          notifyListeners();
-          context.goNamed('home', params: {'initialPage': 'feed_screen'});
+          receiveLoginResponse(context, response.responseBody!);
         }
       } else {
         modalMessage = SFModalMessage(
@@ -141,8 +124,6 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   void goToLoginSignup(BuildContext context) {
-    context.goNamed(
-      'login_signup',
-    );
+    Navigator.pushNamed(context, '/login_signup');
   }
 }

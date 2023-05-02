@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Authentication/LoginSignup/ViewModel/LoginSignupViewModel.dart';
 
@@ -77,7 +76,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               child: SFButton(
                                 buttonLabel: "Login",
                                 buttonType: ButtonType.Primary,
-                                onTap: () => context.goNamed('login'),
+                                onTap: () =>
+                                    Navigator.pushNamed(context, '/login'),
                               ),
                             ),
                           ),
@@ -92,7 +92,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               child: SFButton(
                                 buttonLabel: "Criar conta",
                                 buttonType: ButtonType.Secondary,
-                                onTap: () => context.goNamed('create_account'),
+                                onTap: () => Navigator.pushNamed(
+                                    context, '/create_account'),
                               ),
                             ),
                           ),

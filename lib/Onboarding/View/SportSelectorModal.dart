@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 
-import '../../oldApp/models/sport.dart';
+import '../../SharedComponents/Model/Sport.dart';
 import '../../oldApp/widgets/SF_Button.dart';
 
 class SportSelectorModal extends StatefulWidget {

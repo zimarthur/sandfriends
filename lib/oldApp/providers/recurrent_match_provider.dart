@@ -7,7 +7,7 @@ import 'package:time_range/time_range.dart';
 import '../models/city.dart';
 import '../models/region.dart';
 import '../models/enums.dart';
-import '../models/sport.dart';
+import '../../SharedComponents/Model/Sport.dart';
 import '../models/match.dart';
 
 class RecurrentMatchProvider with ChangeNotifier {

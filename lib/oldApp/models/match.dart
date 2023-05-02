@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 import 'court.dart';
 import 'match_member.dart';
-import 'sport.dart';
+import '../../SharedComponents/Model/Sport.dart';
 import 'user.dart';
 
 class Match {
@@ -92,7 +92,7 @@ Match matchFromJson(Map<String, dynamic> json) {
     matchUrl: json['MatchUrl'],
     creatorNotes: json['CreatorNotes'],
     court: courtFromJson(json['StoreCourt']),
-    sport: sportFromJson(json['Sport']),
+    sport: Sport.fromJson(json['Sport']),
     canCancelUpTo: json['CanCancelUpTo'],
   );
   for (int i = 0; i < json['Members'].length; i++) {
