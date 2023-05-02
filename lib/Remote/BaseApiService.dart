@@ -3,5 +3,5 @@ abstract class BaseApiService {
 
   Future<dynamic> getResponse(String baseUrl, String aditionalUrl);
   Future<dynamic> postResponse(
-      String baseUrl, String aditionalUrl, String body, bool expectResponse);
+      String baseUrl, String aditionalUrl, String body);
 }

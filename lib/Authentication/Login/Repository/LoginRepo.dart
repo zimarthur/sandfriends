@@ -1,4 +1,6 @@
+import 'package:sandfriends/Remote/NetworkResponse.dart';
+
 class LoginRepo {
-  Future login(String email, String password) async {}
-  Future validateLogin(String accessToken) async {}
+  Future<NetworkResponse?> login(String email, String password) async {}
+  Future<NetworkResponse?> forgotPassword(String email) async {}
 }

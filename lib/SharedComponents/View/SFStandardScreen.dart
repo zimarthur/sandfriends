@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends/SharedComponents/View/SFModalMessage.dart';
+import 'package:sandfriends/oldApp/widgets/Modal/SFModalMessageCopy.dart';
 import 'package:sandfriends/SharedComponents/View/SFToolbar.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 
 import '../../Utils/PageStatus.dart';
-import '../../models/enums.dart';
+import '../../oldApp/models/enums.dart';
 import 'SFLoading.dart';
 import 'SFLoading.dart';
+import 'SFModalMessage.dart';
 
 class SFStandardScreen extends StatefulWidget {
-  final String titleText;
+  final String? titleText;
   Widget child;
-  final AppBarType appBarType;
+  final AppBarType? appBarType;
   PageStatus pageStatus;
   final Function()? onTapReturn;
   Widget? modalFormWidget;
@@ -20,17 +21,19 @@ class SFStandardScreen extends StatefulWidget {
   final Widget? rightWidget;
   final VoidCallback? onTapBackground;
   bool resizeToAvoidBottomInset = false;
+  bool enableToolbar;
 
   SFStandardScreen({
-    required this.titleText,
-    required this.onTapReturn,
+    this.titleText,
+    this.onTapReturn,
     required this.pageStatus,
     required this.child,
     this.rightWidget,
-    required this.appBarType,
+    this.appBarType,
     this.modalFormWidget,
     this.messageModalWidget,
     this.onTapBackground,
+    this.enableToolbar = true,
   });
 
   @override
@@ -62,27 +65,32 @@ class _SFStandardScreenState extends State<SFStandardScreen> {
                 height: height,
                 child: Column(
                   children: [
-                    SFToolbar(
-                      titleText: widget.titleText,
-                      onTapReturn: widget.onTapReturn,
-                      appBarType: widget.appBarType,
-                      rightWidget: widget.rightWidget,
-                    ),
+                    widget.enableToolbar
+                        ? SFToolbar(
+                            titleText: widget.titleText!,
+                            onTapReturn: widget.onTapReturn,
+                            appBarType: widget.appBarType!,
+                            rightWidget: widget.rightWidget,
+                          )
+                        : Container(),
                     Expanded(child: widget.child)
                   ],
                 ),
               ),
               widget.pageStatus != PageStatus.OK
-                  ? Container(
-                      color: primaryBlue.withOpacity(0.4),
-                      height: height,
-                      width: width,
-                      child: Center(
-                        child: widget.pageStatus == PageStatus.LOADING
-                            ? const SFLoading()
-                            : widget.pageStatus == PageStatus.FORM
-                                ? widget.modalFormWidget
-                                : widget.messageModalWidget,
+                  ? InkWell(
+                      onTap: widget.onTapBackground,
+                      child: Container(
+                        color: primaryBlue.withOpacity(0.4),
+                        height: height,
+                        width: width,
+                        child: Center(
+                          child: widget.pageStatus == PageStatus.LOADING
+                              ? const SFLoading()
+                              : widget.pageStatus == PageStatus.FORM
+                                  ? widget.modalFormWidget
+                                  : widget.messageModalWidget,
+                        ),
                       ),
                     )
                   : Container(),

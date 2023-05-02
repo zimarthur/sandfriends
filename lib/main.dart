@@ -4,49 +4,51 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/providers/court_provider.dart';
-import 'package:sandfriends/providers/categories_provider.dart';
-import 'package:sandfriends/providers/recurrent_match_provider.dart';
-import 'package:sandfriends/providers/user_provider.dart';
-import 'package:sandfriends/screens/court_screen.dart';
-import 'package:sandfriends/screens/login/load_login.dart';
-import 'package:sandfriends/screens/match_search_screen.dart';
-import 'package:sandfriends/screens/notification_screen.dart';
-import 'package:sandfriends/screens/open_matches_screen.dart';
-import 'package:sandfriends/screens/recurrent_match_screen.dart';
-import 'package:sandfriends/screens/recurrent_match_search_screen.dart';
-import 'package:sandfriends/screens/reward_screen.dart';
-import 'package:sandfriends/screens/sport_selection_screen.dart';
-import 'package:sandfriends/screens/user_match_screen.dart';
-import './providers/redirect_provider.dart';
-import './screens/login/change_password.dart';
-import 'package:sandfriends/screens/login/email_validation.dart';
+import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
+import 'package:sandfriends/oldApp/providers/court_provider.dart';
+import 'package:sandfriends/oldApp/providers/categories_provider.dart';
+import 'package:sandfriends/oldApp/providers/recurrent_match_provider.dart';
+import 'package:sandfriends/oldApp/providers/user_provider.dart';
+import 'package:sandfriends/oldApp/screens/court_screen.dart';
+import 'package:sandfriends/oldApp/screens/login/load_login.dart';
+import 'package:sandfriends/oldApp/screens/match_search_screen.dart';
+import 'package:sandfriends/oldApp/screens/notification_screen.dart';
+import 'package:sandfriends/oldApp/screens/open_matches_screen.dart';
+import 'package:sandfriends/oldApp/screens/recurrent_match_screen.dart';
+import 'package:sandfriends/oldApp/screens/recurrent_match_search_screen.dart';
+import 'package:sandfriends/oldApp/screens/reward_screen.dart';
+import 'package:sandfriends/oldApp/screens/sport_selection_screen.dart';
+import 'package:sandfriends/oldApp/screens/user_match_screen.dart';
+import 'Authentication/CreateAccount/View/CreateAccountScreen.dart';
+import 'Authentication/LoginSignup/View/LoginSignupScreen.dart';
+import 'oldApp/providers/redirect_provider.dart';
 import 'package:uni_links/uni_links.dart';
 import '../api/google_signin_api.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'models/gender.dart';
-import 'models/rank.dart';
-import 'models/side_preference.dart';
-import 'models/sport.dart';
-import 'screens/login/create_account.dart';
-import 'screens/login/new_user_form.dart';
-import 'screens/login/new_user_welcome.dart';
-import 'screens/login/login_screen.dart';
-import 'screens/login/login_signup_screen.dart';
-import '../screens/home_screen.dart';
-import '../screens/user_detail_screen.dart';
-import './theme/app_theme.dart';
-import './providers/login_provider.dart';
-import './providers/match_provider.dart';
-import './providers/store_provider.dart';
-import 'providers/categories_provider.dart';
-import 'models/user.dart';
-import 'screens/match_screen.dart';
-import 'screens/recurrent_match_sport_selection_screen.dart';
-import 'screens/reward_user_screen.dart';
+import 'Authentication/Login/View/LoginScreen.dart';
+import 'oldApp/models/gender.dart';
+import 'oldApp/models/rank.dart';
+import 'oldApp/models/side_preference.dart';
+import 'oldApp/models/sport.dart';
+import 'oldApp/screens/login/create_account.dart';
+import 'oldApp/screens/login/new_user_form.dart';
+import 'oldApp/screens/login/new_user_welcome.dart';
+import 'oldApp/screens/login/login_screen.dart';
+import 'oldApp/screens/login/login_signup_screen.dart';
+import 'oldApp/screens/home_screen.dart';
+import 'oldApp/screens/user_detail_screen.dart';
+import 'oldApp/theme/app_theme.dart';
+import 'oldApp/providers/login_provider.dart';
+import 'oldApp/providers/match_provider.dart';
+import 'oldApp/providers/store_provider.dart';
+import 'oldApp/providers/categories_provider.dart';
+import 'oldApp/models/user.dart';
+import 'oldApp/screens/match_screen.dart';
+import 'oldApp/screens/recurrent_match_sport_selection_screen.dart';
+import 'oldApp/screens/reward_user_screen.dart';
 
 final redirecter = Redirect();
 final loginInfo = Login();
@@ -157,6 +159,9 @@ class _MyAppState extends State<MyApp> {
         /*ChangeNotifierProvider<Redirect>.value(
           value: redirecter,
         ),*/
+        ChangeNotifierProvider<DataProvider>(
+          create: ((context) => DataProvider()),
+        ),
         ChangeNotifierProvider<Redirect>(
           create: ((context) => Redirect()),
         ),
@@ -202,15 +207,7 @@ class _MyAppState extends State<MyApp> {
       if (needsRedirect) {
         needsRedirect = false;
         Uri receivedUri = redirecter.redirect!;
-        if (receivedUri.queryParameters['ct'] == "emcf") {
-          loginInfo.emailConfirmationToken =
-              receivedUri.queryParameters['bd'].toString();
-          return '/email_validation';
-        } else if (receivedUri.queryParameters['ct'] == "cgpw") {
-          loginInfo.changePasswordToken =
-              receivedUri.queryParameters['bd'].toString();
-          return '/change_password';
-        } else if (receivedUri.queryParameters['ct'] == "mtch") {
+        if (receivedUri.queryParameters['ct'] == "mtch") {
           return '/match_screen/${receivedUri.queryParameters['bd'].toString()}/home/initialPage/feed_screen';
         }
       } else {
@@ -324,18 +321,6 @@ class _MyAppState extends State<MyApp> {
         path: '/',
         builder: (BuildContext context, GoRouterState state) =>
             LoadLoginScreen(),
-      ),
-      GoRoute(
-        name: 'change_password',
-        path: '/change_password',
-        builder: (BuildContext context, GoRouterState state) =>
-            const ChangePassword(),
-      ),
-      GoRoute(
-        name: 'email_validation',
-        path: '/email_validation',
-        builder: (BuildContext context, GoRouterState state) =>
-            const EmailValidation(),
       ),
       GoRoute(
         name: 'create_account',
@@ -476,7 +461,7 @@ class _MyAppState extends State<MyApp> {
             final responseUser = responseBody['User'];
             final responseUserMatchCounter = responseBody['MatchCounter'];
 
-            userProvider.user = userFromJson(responseUser);
+            userProvider.user = User.fromJson(responseUser);
             userProvider.userMatchCounterFromJson(
                 responseUserMatchCounter, categoriesProvider);
 
