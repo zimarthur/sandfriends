@@ -5,9 +5,17 @@ import '../Model/Sport.dart';
 import '../Model/Gender.dart';
 import '../Model/Rank.dart';
 import '../Model/SidePreference.dart';
+import '../Model/AppNotification.dart';
 import '../../oldApp/models/user.dart';
 
 class DataProvider extends ChangeNotifier {
+  List<Sport> sports = [];
+  List<Gender> genders = [];
+  List<Rank> ranks = [];
+  List<SidePreference> sidePreferences = [];
+
+  List<Region> regions = [];
+
   User? _user;
   User? get user => _user;
   set user(User? newUser) {
@@ -15,10 +23,5 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Sport> sports = [];
-  List<Gender> genders = [];
-  List<Rank> ranks = [];
-  List<SidePreference> sidePreferences = [];
-
-  List<Region> regions = [];
+  List<AppNotification> notifications = [];
 }

@@ -49,4 +49,8 @@ class HomeViewModel extends ChangeNotifier {
     pageStatus = PageStatus.OK;
     notifyListeners();
   }
+
+  void goToNotificationScreen(BuildContext context) {
+    Navigator.pushNamed(context, '/notification_screen');
+  }
 }
