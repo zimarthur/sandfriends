@@ -25,7 +25,7 @@ import 'package:time_range/time_range.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
-import '../models/city.dart';
+import '../../SharedComponents/Model/City.dart';
 import '../models/region.dart';
 import '../models/enums.dart';
 import '../models/enums.dart';

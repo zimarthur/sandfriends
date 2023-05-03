@@ -1,4 +1,4 @@
-import 'package:sandfriends/oldApp/models/city.dart';
+import 'package:sandfriends/SharedComponents/Model/City.dart';
 import 'package:sandfriends/oldApp/models/match_counter.dart';
 
 import '../providers/categories_provider.dart';
@@ -49,10 +49,11 @@ class User {
       email: json['Email'],
       gender: json['GenderCategory'] == null
           ? null
-          : Gender.fromJson(json['GenderCategory'][0]),
+          : Gender.fromJson(json['GenderCategory']),
       phoneNumber: json['PhoneNumber'],
-      preferenceSport: Sport.fromJson(json['Sport']),
-      city: cityFromJson(json['City']),
+      preferenceSport:
+          json['Sport'] == null ? null : Sport.fromJson(json['Sport']),
+      city: json['City'] == null ? null : City.fromJson(json['City']),
       sidePreference: json['SidePreferenceCategory'] == null
           ? null
           : SidePreference.fromJson(json['SidePreferenceCategory'][0]),

@@ -17,11 +17,11 @@ class Rank {
 
   factory Rank.fromJson(Map<String, dynamic> json) {
     return Rank(
-      idRankCategory: json['RankCategory']['IdRankCategory'],
-      sport: Sport.fromJson(json['RankCategory']['Sport']),
-      rankSportLevel: json['RankCategory']['RankSportLevel'],
-      name: json['RankCategory']['RankName'],
-      color: json['RankCategory']['RankColor'],
+      idRankCategory: json['IdRankCategory'],
+      sport: Sport.fromJson(json['Sport']),
+      rankSportLevel: json['RankSportLevel'],
+      name: json['RankName'],
+      color: json['RankColor'],
     );
   }
 }

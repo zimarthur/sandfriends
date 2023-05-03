@@ -4,7 +4,7 @@ import 'package:sandfriends/oldApp/models/recurrent_match.dart';
 import 'package:sandfriends/oldApp/models/store_day.dart';
 import 'package:time_range/time_range.dart';
 
-import '../models/city.dart';
+import '../../SharedComponents/Model/City.dart';
 import '../models/region.dart';
 import '../models/enums.dart';
 import '../../SharedComponents/Model/Sport.dart';
