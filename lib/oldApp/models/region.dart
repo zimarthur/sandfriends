@@ -1,4 +1,4 @@
-import 'package:sandfriends/oldApp/models/city.dart';
+import 'package:sandfriends/SharedComponents/Model/City.dart';
 
 class Region {
   final int idState;
@@ -21,5 +21,12 @@ Region regionFromJson(Map<String, dynamic> json) {
     state: json['State'],
     uf: json['UF'],
   );
+  for (var city in json['Cities']) {
+    newRegion.cities.add(
+      City.fromJson(
+        city,
+      ),
+    );
+  }
   return newRegion;
 }

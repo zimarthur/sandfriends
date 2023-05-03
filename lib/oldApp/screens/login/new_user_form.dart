@@ -11,7 +11,7 @@ import 'package:sandfriends/oldApp/providers/categories_provider.dart';
 import 'package:sandfriends/oldApp/widgets/SF_Scaffold.dart';
 import 'dart:convert';
 
-import '../../models/city.dart';
+import '../../../SharedComponents/Model/City.dart';
 import '../../models/region.dart';
 import '../../providers/user_provider.dart';
 import '../../../SharedComponents/View/SFLoading.dart';

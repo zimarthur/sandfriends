@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Authentication/LoadLogin/Repository/LoadLoginRepoImp.dart';
@@ -50,7 +49,6 @@ void receiveLoginResponse(BuildContext context, String response) {
   final responseSidePreferences = responseBody['SidePreferences'];
 
   final responseUser = responseBody['User'];
-  final responseUserMatchCounter = responseBody['MatchCounter'];
 
   for (var sport in responseSports) {
     Provider.of<DataProvider>(context, listen: false).sports.add(
@@ -87,9 +85,6 @@ void receiveLoginResponse(BuildContext context, String response) {
   );
   Provider.of<DataProvider>(context, listen: false).user = loggedUser;
 
-  Provider.of<DataProvider>(context, listen: false).user?.matchCounterFromJson(
-        responseUserMatchCounter,
-      );
   if (loggedUser.firstName == null) {
     Navigator.pushNamed(context, '/onboarding');
   } else {

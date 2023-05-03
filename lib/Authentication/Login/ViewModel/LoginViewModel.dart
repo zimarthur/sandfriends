@@ -8,6 +8,7 @@ import 'package:sandfriends/Authentication/LoadLogin/ViewModel/LoadLoginViewMode
 import 'package:sandfriends/Authentication/Login/View/ForgotPasswordModal.dart';
 import 'package:sandfriends/Remote/NetworkResponse.dart';
 import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
+import 'package:sandfriends/Utils/SharedPreferences.dart';
 import 'package:sandfriends/oldApp/models/user.dart';
 import 'package:sandfriends/oldApp/widgets/Modal/SFModalMessageCopy.dart';
 
@@ -46,20 +47,7 @@ class LoginViewModel extends ChangeNotifier {
       if (response == null) return;
       if (response.responseStatus == NetworkResponseStatus.success) {
         if (response.responseBody == null) return;
-        Map<String, dynamic> responseBody = json.decode(response.responseBody!);
-        final responseUser = responseBody['User'];
-
-        final newAccessToken = responseUser['AccessToken'];
-        const storage = FlutterSecureStorage();
-        storage.write(key: "AccessToken", value: newAccessToken);
-
-        if (responseUser['FirstName'] == null) {
-          Provider.of<DataProvider>(context, listen: false).user =
-              User(email: responseUser['Email']);
-          Navigator.pushNamed(context, '/new_user_welcome');
-        } else {
-          receiveLoginResponse(context, response.responseBody!);
-        }
+        receiveLoginResponse(context, response.responseBody!);
       } else {
         modalMessage = SFModalMessage(
           message: response.userMessage.toString(),

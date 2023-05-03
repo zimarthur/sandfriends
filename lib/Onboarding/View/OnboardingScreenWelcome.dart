@@ -31,7 +31,6 @@ class _OnboardingWidgetWelcomeState extends State<OnboardingWidgetWelcome> {
       pageStatus: widget.viewModel.pageStatus,
       appBarType: AppBarType.Secondary,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: width * 0.05),
         color: secondaryBack,
         width: double.infinity,
         child: Container(

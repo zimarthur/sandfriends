@@ -10,13 +10,12 @@ class City {
     required this.city,
     this.state,
   });
-}
 
-City cityFromJson(Map<String, dynamic> json) {
-  var newCity = City(
-    cityId: json['IdCity'],
-    city: json['City'],
-    state: regionFromJson(json['State']),
-  );
-  return newCity;
+  factory City.fromJson(Map<String, dynamic> json) {
+    return City(
+      cityId: json['IdCity'],
+      city: json['City'],
+      //state: regionFromJson(json['State']),
+    );
+  }
 }

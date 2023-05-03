@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sandfriends/oldApp/models/region.dart';
 
 import '../Model/Sport.dart';
 import '../Model/Gender.dart';
@@ -18,4 +19,6 @@ class DataProvider extends ChangeNotifier {
   List<Gender> genders = [];
   List<Rank> ranks = [];
   List<SidePreference> sidePreferences = [];
+
+  List<Region> regions = [];
 }

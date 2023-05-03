@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sandfriends/Authentication/CreateAccount/Repo/CreateAccountRepoImp.dart';
 
 import '../../../Remote/NetworkResponse.dart';
@@ -29,9 +28,7 @@ class CreateAccountViewModel extends ChangeNotifier {
   }
 
   void goToLoginSignup(BuildContext context) {
-    context.goNamed(
-      'login_signup',
-    );
+    Navigator.pushNamed(context, '/login_signup');
   }
 
   void createAccount(BuildContext context) {
@@ -46,7 +43,7 @@ class CreateAccountViewModel extends ChangeNotifier {
           modalMessage = SFModalMessage(
             message: response.responseBody!,
             onTap: () {
-              context.goNamed('login');
+              Navigator.pushNamed(context, '/login');
             },
             isHappy: true,
           );

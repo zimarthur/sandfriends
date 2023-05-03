@@ -1,15 +1,21 @@
+import 'dart:convert';
+
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Onboarding/Repository/OnboardingRepoImp.dart';
+import 'package:sandfriends/Onboarding/View/CitySelectorModal.dart';
 import 'package:sandfriends/Onboarding/View/OnboardingScreenForm.dart';
 import 'package:sandfriends/Onboarding/View/OnboardingScreenWelcome.dart';
 import 'package:sandfriends/Onboarding/View/SportSelectorModal.dart';
+import 'package:sandfriends/Remote/NetworkResponse.dart';
+import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
+import 'package:sandfriends/oldApp/models/region.dart';
 
 import '../../SharedComponents/View/SFModalMessage.dart';
 import '../../Utils/PageStatus.dart';
-import '../../oldApp/models/city.dart';
+import '../../SharedComponents/Model/City.dart';
 import '../../SharedComponents/Model/Sport.dart';
 
 class OnboardingViewModel extends ChangeNotifier {
@@ -40,18 +46,18 @@ class OnboardingViewModel extends ChangeNotifier {
   bool termsAgreeValue = false;
 
   Sport? userSport;
-  City? userCity;
+  Region? userRegion;
 
   bool get isFormValid =>
       userSport != null &&
-      userCity != null &&
+      userRegion != null &&
       firstNameController.text.isNotEmpty &&
       lastNameController.text.isNotEmpty &&
       phoneNumberController.text.isNotEmpty &&
       termsAgreeValue;
 
   void goToLoginSignup(BuildContext context) {
-    context.goNamed('login_signup');
+    Navigator.pushNamed(context, '/login_signup');
   }
 
   void closeModal() {
@@ -69,13 +75,64 @@ class OnboardingViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void openSportSelectorModal() {
+  void openSportSelectorModal(BuildContext context) {
     widgetForm = SportSelectorModal(
-        selectedSport: userSport,
-        onClose: () {
-          pageStatus = PageStatus.OK;
+      sports: Provider.of<DataProvider>(context, listen: false).sports,
+      selectedSport: userSport,
+      onSelectedSport: (newSport) {
+        userSport = newSport;
+        pageStatus = PageStatus.OK;
+        notifyListeners();
+      },
+    );
+    pageStatus = PageStatus.FORM;
+    notifyListeners();
+  }
+
+  void openCitySelectorModal(BuildContext context) {
+    pageStatus = PageStatus.LOADING;
+    notifyListeners();
+    if (Provider.of<DataProvider>(context, listen: false).regions.isEmpty) {
+      onboardingRepo.getAllCities().then((response) {
+        if (response == null) openCitySelectorModal(context);
+        if (response!.responseStatus == NetworkResponseStatus.success) {
+          Map<String, dynamic> responseBody = json.decode(
+            response.responseBody!,
+          );
+          for (var state in responseBody['States']) {
+            Provider.of<DataProvider>(context, listen: false).regions.add(
+                  regionFromJson(
+                    state,
+                  ),
+                );
+          }
+
+          displayCitySelector(context);
+        } else {
+          modalMessage = SFModalMessage(
+            message: response.userMessage!,
+            onTap: () => openCitySelectorModal(context),
+            isHappy: false,
+            buttonText: "Tentar novamente",
+          );
+          pageStatus = PageStatus.ERROR;
           notifyListeners();
-        });
+        }
+      });
+    } else {
+      displayCitySelector(context);
+    }
+  }
+
+  void displayCitySelector(BuildContext context) {
+    widgetForm = CitySelectorModal(
+      regions: Provider.of<DataProvider>(context, listen: false).regions,
+      onSelectedCity: (region) {
+        userRegion = region;
+        pageStatus = PageStatus.OK;
+        notifyListeners();
+      },
+    );
     pageStatus = PageStatus.FORM;
     notifyListeners();
   }
