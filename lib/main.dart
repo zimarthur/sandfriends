@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:sandfriends/Authentication/CreateAccount/View/CreateAccountScreen.dart';
 import 'package:sandfriends/Authentication/Login/View/LoginScreen.dart';
 import 'package:sandfriends/Authentication/LoginSignup/View/LoginSignupScreen.dart';
+import 'package:sandfriends/Home/Model/HomeTabsEnum.dart';
+import 'package:sandfriends/Home/View/HomeScreen.dart';
 import 'package:sandfriends/Onboarding/View/OnboardingScreen.dart';
 import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
 import 'Authentication/LoadLogin/View/LoadLoginScreen.dart';
@@ -95,12 +97,14 @@ class MyApp extends StatelessWidget {
           return null;
         },
         routes: {
-          '/': (BuildContext context) => LoadLoginScreen(),
+          //'/': (BuildContext context) => LoadLoginScreen(),
           '/login_signup': (BuildContext context) => LoginSignupScreen(),
           '/login': (BuildContext context) => LoginScreen(),
           '/create_account': (BuildContext context) => CreateAccountScreen(),
           '/onboarding': (BuildContext context) => OnboardingScreen(),
-          '/home': (BuildContext context) => OnboardingScreen(),
+          '/': (BuildContext context) => HomeScreen(
+                initialTab: HomeTabs.Feed,
+              ),
         },
       ),
     );

@@ -39,6 +39,8 @@ class LoginSignupViewModel extends ChangeNotifier {
         print("nenhuma conta selecionada");
       } else {
         user.authentication.then((googleKey) {
+          pageStatus = PageStatus.LOADING;
+          notifyListeners();
           validateGoogleLogin(context, user.email);
         });
         initGoogle();
@@ -106,5 +108,10 @@ class LoginSignupViewModel extends ChangeNotifier {
         notifyListeners();
       }
     });
+  }
+
+  void closeModal() {
+    pageStatus = PageStatus.OK;
+    notifyListeners();
   }
 }
