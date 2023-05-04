@@ -3,11 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/oldApp/providers/match_provider.dart';
 
-import '../models/court_available_hours.dart';
+import '../../SharedComponents/Model/CourtAvailabeHour.dart';
 import '../theme/app_theme.dart';
 
 class SFAvailableHours extends StatefulWidget {
-  List<CourtAvailableHours> availableHours;
+  List<CourtAvailableHour> availableHours;
   final int widgetIndexTime;
   final int widgetIndexStore;
   final bool multipleSelection;

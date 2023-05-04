@@ -1,4 +1,4 @@
-import '../../SharedComponents/Model/Sport.dart';
+import 'Sport.dart';
 
 class MatchCounter {
   int total;

@@ -9,7 +9,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandfriends/SharedComponents/Model/City.dart';
 import 'package:sandfriends/oldApp/models/enums.dart';
-import 'package:sandfriends/oldApp/models/match_counter.dart';
+import 'package:sandfriends/SharedComponents/Model/MatchCounter.dart';
 import 'package:sandfriends/SharedComponents/Model/Region.dart';
 import 'package:sandfriends/oldApp/providers/categories_provider.dart';
 import 'package:sandfriends/oldApp/widgets/SF_Scaffold.dart';
@@ -71,6 +71,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
   void setReferenceUserInfo(BuildContext context) {
     imagePath = null;
     referenceUserInfo = User(
+      accessToken: "",
       idUser: context.read<UserProvider>().user!.idUser,
       firstName: context.read<UserProvider>().user!.firstName,
       lastName: context.read<UserProvider>().user!.lastName,
@@ -89,12 +90,15 @@ class _UserDetailScreen extends State<UserDetailScreen> {
 
     for (int userRanks = 0;
         userRanks <
-            Provider.of<UserProvider>(context, listen: false).user!.rank.length;
+            Provider.of<UserProvider>(context, listen: false)
+                .user!
+                .ranks
+                .length;
         userRanks++) {
       var auxRank = Provider.of<UserProvider>(context, listen: false)
           .user!
-          .rank[userRanks];
-      referenceUserInfo!.rank.add(Rank(
+          .ranks[userRanks];
+      referenceUserInfo!.ranks.add(Rank(
           idRankCategory: auxRank.idRankCategory,
           sport: auxRank.sport,
           rankSportLevel: auxRank.rankSportLevel,
@@ -156,16 +160,17 @@ class _UserDetailScreen extends State<UserDetailScreen> {
             i <
                 Provider.of<UserProvider>(context, listen: false)
                     .user!
-                    .rank
+                    .ranks
                     .length;
             i++) {
           if (Provider.of<UserProvider>(context, listen: false)
                   .user!
-                  .rank[i]
+                  .ranks[i]
                   .sport ==
               sportValue) {
-            rankValue =
-                Provider.of<UserProvider>(context, listen: false).user!.rank[i];
+            rankValue = Provider.of<UserProvider>(context, listen: false)
+                .user!
+                .ranks[i];
           }
         }
         for (int i = 0;
@@ -284,13 +289,13 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                         Provider.of<UserProvider>(context,
                                                 listen: false)
                                             .user!
-                                            .rank
+                                            .ranks
                                             .length;
                                     j++) {
                                   if (Provider.of<UserProvider>(context,
                                               listen: false)
                                           .user!
-                                          .rank[j]
+                                          .ranks[j]
                                           .sport
                                           .idSport ==
                                       sportValue!.idSport) {
@@ -298,7 +303,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                             context,
                                             listen: false)
                                         .user!
-                                        .rank[j];
+                                        .ranks[j];
                                   }
                                 }
                                 for (int k = 0;
@@ -664,9 +669,9 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                             Provider.of<UserProvider>(context,
                                                     listen: false)
                                                 .user!
-                                                .rank
-                                                .where((rank) =>
-                                                    rank.sport.idSport ==
+                                                .ranks
+                                                .where((ranks) =>
+                                                    ranks.sport.idSport ==
                                                     sportValue!.idSport)
                                                 .first;
                                         List<Rank> possibleRanks =
@@ -674,8 +679,8 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                                     context,
                                                     listen: false)
                                                 .ranks
-                                                .where((rank) =>
-                                                    rank.sport.idSport ==
+                                                .where((ranks) =>
+                                                    ranks.sport.idSport ==
                                                     sportValue!.idSport)
                                                 .toList();
                                         for (int i = 0;
@@ -696,9 +701,9 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                         Provider.of<UserProvider>(context,
                                                 listen: false)
                                             .user!
-                                            .rank
-                                            .where((rank) =>
-                                                rank.sport.idSport ==
+                                            .ranks
+                                            .where((ranks) =>
+                                                ranks.sport.idSport ==
                                                 sportValue!.idSport)
                                             .first
                                             .name,
@@ -1435,34 +1440,34 @@ class _UserDetailScreen extends State<UserDetailScreen> {
         case EnumProfileFields.Rank:
           onBackgroundTapFunc = () {
             Rank selectedRank = Provider.of<CategoriesProvider>(context,
-                        listen: false)
-                    .ranks
-                    .where((rank) => rank.sport.idSport == sportValue!.idSport)
-                    .toList()[
-                Provider.of<UserProvider>(context, listen: false)
-                    .indexEditModal];
+                    listen: false)
+                .ranks
+                .where((ranks) => ranks.sport.idSport == sportValue!.idSport)
+                .toList()[Provider.of<UserProvider>(context,
+                    listen: false)
+                .indexEditModal];
             for (int i = 0;
                 i <
                     Provider.of<UserProvider>(context, listen: false)
                         .user!
-                        .rank
+                        .ranks
                         .length;
                 i++) {
               if (Provider.of<UserProvider>(context, listen: false)
                       .user!
-                      .rank[i]
+                      .ranks[i]
                       .sport
                       .idSport ==
                   sportValue!.idSport) {
                 Provider.of<UserProvider>(context, listen: false)
                     .user!
-                    .rank[i] = selectedRank;
+                    .ranks[i] = selectedRank;
               }
             }
-            for (int j = 0; j < referenceUserInfo!.rank.length; j++) {
-              if (referenceUserInfo!.rank[j].sport.idSport ==
+            for (int j = 0; j < referenceUserInfo!.ranks.length; j++) {
+              if (referenceUserInfo!.ranks[j].sport.idSport ==
                   sportValue!.idSport) {
-                if (referenceUserInfo!.rank[j].idRankCategory !=
+                if (referenceUserInfo!.ranks[j].idRankCategory !=
                     selectedRank.idRankCategory) {
                   isEdited = true;
                 } else {
@@ -1484,12 +1489,12 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                   height: height * 0.3,
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: Provider.of<CategoriesProvider>(context,
-                            listen: false)
-                        .ranks
-                        .where(
-                            (rank) => rank.sport.idSport == sportValue!.idSport)
-                        .length,
+                    itemCount:
+                        Provider.of<CategoriesProvider>(context, listen: false)
+                            .ranks
+                            .where((ranks) =>
+                                ranks.sport.idSport == sportValue!.idSport)
+                            .length,
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
@@ -1523,8 +1528,8 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                             Provider.of<CategoriesProvider>(context,
                                     listen: false)
                                 .ranks
-                                .where((rank) =>
-                                    rank.sport.idSport == sportValue!.idSport)
+                                .where((ranks) =>
+                                    ranks.sport.idSport == sportValue!.idSport)
                                 .toList()[index]
                                 .name,
                             style: TextStyle(
@@ -1550,8 +1555,8 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                                   context,
                                   listen: false)
                               .ranks
-                              .where((rank) =>
-                                  rank.sport.idSport == sportValue!.idSport)
+                              .where((ranks) =>
+                                  ranks.sport.idSport == sportValue!.idSport)
                               .toList()[
                           Provider.of<UserProvider>(context, listen: false)
                               .indexEditModal];
@@ -1559,24 +1564,26 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                           i <
                               Provider.of<UserProvider>(context, listen: false)
                                   .user!
-                                  .rank
+                                  .ranks
                                   .length;
                           i++) {
                         if (Provider.of<UserProvider>(context, listen: false)
                                 .user!
-                                .rank[i]
+                                .ranks[i]
                                 .sport
                                 .idSport ==
                             sportValue!.idSport) {
                           Provider.of<UserProvider>(context, listen: false)
                               .user!
-                              .rank[i] = selectedRank;
+                              .ranks[i] = selectedRank;
                         }
                       }
-                      for (int j = 0; j < referenceUserInfo!.rank.length; j++) {
-                        if (referenceUserInfo!.rank[j].sport.idSport ==
+                      for (int j = 0;
+                          j < referenceUserInfo!.ranks.length;
+                          j++) {
+                        if (referenceUserInfo!.ranks[j].sport.idSport ==
                             sportValue!.idSport) {
-                          if (referenceUserInfo!.rank[j].idRankCategory !=
+                          if (referenceUserInfo!.ranks[j].idRankCategory !=
                               selectedRank.idRankCategory) {
                             isEdited = true;
                           } else {
@@ -1778,7 +1785,7 @@ class _UserDetailScreen extends State<UserDetailScreen> {
           i <
               Provider.of<UserProvider>(context, listen: false)
                   .user!
-                  .rank
+                  .ranks
                   .length;
           i++) {
         rankJson.add({
@@ -1786,11 +1793,11 @@ class _UserDetailScreen extends State<UserDetailScreen> {
               Provider.of<UserProvider>(context, listen: false).user!.idUser,
           "idRankCategory": Provider.of<UserProvider>(context, listen: false)
               .user!
-              .rank[i]
+              .ranks[i]
               .idRankCategory,
           "idSport": Provider.of<UserProvider>(context, listen: false)
               .user!
-              .rank[i]
+              .ranks[i]
               .sport
               .idSport
         });

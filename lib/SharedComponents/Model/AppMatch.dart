@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
-import '../../oldApp/models/court.dart';
-import '../../oldApp/models/match_member.dart';
+import 'Court.dart';
+import 'MatchMember.dart';
 import 'Sport.dart';
 import 'User.dart';
 
@@ -90,12 +90,16 @@ class AppMatch {
       canceled: json['Canceled'],
       matchUrl: json['MatchUrl'],
       creatorNotes: json['CreatorNotes'],
-      court: courtFromJson(json['StoreCourt']),
+      court: Court.fromJson(json['StoreCourt']),
       sport: Sport.fromJson(json['Sport']),
       canCancelUpTo: json['CanCancelUpTo'],
     );
     for (int i = 0; i < json['Members'].length; i++) {
-      newMatch.members.add(matchMemberFromJson(json['Members'][i]));
+      newMatch.members.add(
+        MatchMember.fromJson(
+          json['Members'][i],
+        ),
+      );
     }
     return newMatch;
   }

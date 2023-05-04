@@ -79,8 +79,6 @@ void receiveLoginResponse(BuildContext context, String response) {
   }
 
   setAccessToken(responseUser['AccessToken']);
-  Provider.of<DataProvider>(context, listen: false).accessToken =
-      responseUser['AccessToken'];
 
   User loggedUser = User.fromJson(
     responseUser,

@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandfriends/oldApp/models/enums.dart';
-import 'package:sandfriends/oldApp/models/match_counter.dart';
+import 'package:sandfriends/SharedComponents/Model/MatchCounter.dart';
 import 'package:sandfriends/oldApp/providers/categories_provider.dart';
 import 'package:sandfriends/oldApp/widgets/SF_Scaffold.dart';
 import 'dart:convert';
@@ -49,7 +49,12 @@ class _NewUserFormState extends State<NewUserForm> {
   @override
   void initState() {
     Provider.of<UserProvider>(context, listen: false).user = User(
-        idUser: -1, firstName: "", lastName: "", photo: "", email: "email");
+        accessToken: "",
+        idUser: -1,
+        firstName: "",
+        lastName: "",
+        photo: "",
+        email: "email");
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       setState(() {
         dum = Provider.of<UserProvider>(context, listen: false).user;

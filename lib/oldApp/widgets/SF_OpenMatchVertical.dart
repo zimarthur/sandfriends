@@ -44,7 +44,7 @@ class SFOpenMatchVertical extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: Color(int.parse(
-                  "0xFF${match.matchCreator.rank.first.color.replaceAll("#", "")}")),
+                  "0xFF${match.matchCreator.ranks.first.color.replaceAll("#", "")}")),
               borderRadius: BorderRadius.circular(16),
             ),
           ),
@@ -79,7 +79,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                                   padding: EdgeInsets.only(right: width * 0.01),
                                 ),
                                 Text(
-                                  match.matchCreator.rank.first.name,
+                                  match.matchCreator.ranks.first.name,
                                   style: TextStyle(
                                     color: AppTheme.colors.primaryBlue,
                                   ),

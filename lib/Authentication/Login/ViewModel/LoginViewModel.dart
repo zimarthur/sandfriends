@@ -18,7 +18,7 @@ import '../../../oldApp/providers/categories_provider.dart';
 import '../Repository/LoginRepoImp.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  final _loginRepo = LoginRepoImp();
+  final loginRepo = LoginRepoImp();
 
   PageStatus pageStatus = PageStatus.OK;
   SFModalMessage modalMessage = SFModalMessage(
@@ -41,7 +41,7 @@ class LoginViewModel extends ChangeNotifier {
   void login(BuildContext context) {
     pageStatus = PageStatus.LOADING;
     notifyListeners();
-    _loginRepo
+    loginRepo
         .login(emailController.text, passwordController.text)
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
@@ -71,7 +71,7 @@ class LoginViewModel extends ChangeNotifier {
     if (forgotPasswordFormKey.currentState!.validate()) {
       pageStatus = PageStatus.LOADING;
       notifyListeners();
-      _loginRepo
+      loginRepo
           .forgotPassword(
         forgotPasswordEmailController.text,
       )

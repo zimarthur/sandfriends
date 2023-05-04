@@ -39,7 +39,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
             width: 4,
             decoration: BoxDecoration(
               color: Color(int.parse(
-                  "0xFF${match.matchCreator.rank.first.color.replaceAll("#", "")}")),
+                  "0xFF${match.matchCreator.ranks.first.color.replaceAll("#", "")}")),
               borderRadius: BorderRadius.circular(16),
             ),
             margin: EdgeInsets.only(right: width * 0.02),
@@ -91,7 +91,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                             ),
                             decoration: BoxDecoration(
                               color: Color(int.parse(
-                                  "0xFF${match.matchCreator.rank.first.color.replaceAll("#", "")}")),
+                                  "0xFF${match.matchCreator.ranks.first.color.replaceAll("#", "")}")),
                               borderRadius: BorderRadius.circular(16),
                             ),
                             child: Row(
@@ -135,7 +135,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                       padding: EdgeInsets.only(right: width * 0.01),
                     ),
                     Text(
-                      match.matchCreator.rank.first.name,
+                      match.matchCreator.ranks.first.name,
                       style: TextStyle(
                         color: AppTheme.colors.primaryBlue,
                       ),

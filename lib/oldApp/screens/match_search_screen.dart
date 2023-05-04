@@ -7,10 +7,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/oldApp/models/store.dart';
+import 'package:sandfriends/SharedComponents/Model/Store.dart';
 import 'package:sandfriends/oldApp/models/store_day.dart';
-import 'package:sandfriends/oldApp/models/court_available_hours.dart';
-import 'package:sandfriends/oldApp/models/court.dart';
+import 'package:sandfriends/SharedComponents/Model/CourtAvailabeHour.dart';
+import 'package:sandfriends/SharedComponents/Model/Court.dart';
 import 'package:sandfriends/oldApp/providers/court_provider.dart';
 import 'package:sandfriends/oldApp/providers/store_provider.dart';
 import 'package:sandfriends/oldApp/providers/user_provider.dart';
@@ -30,7 +30,7 @@ import '../models/enums.dart';
 import '../models/enums.dart';
 import '../theme/app_theme.dart';
 import '../widgets/SF_Button.dart';
-import '../models/store.dart';
+import '../../SharedComponents/Model/Store.dart';
 import '../providers/match_provider.dart';
 import '../providers/redirect_provider.dart';
 import '../providers/store_provider.dart';
@@ -1525,7 +1525,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
             for (int i = 0; i < responseCourts.length; i++) {
               Map courtJson = responseCourts[i];
               Provider.of<CourtProvider>(context, listen: false)
-                  .addCourt(courtFromJson(responseCourts[i]));
+                  .addCourt(Court.fromJson(responseCourts[i]));
             }
 
             var newStore;
@@ -1581,7 +1581,7 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                       if (storeDay.courts[i].idStoreCourt ==
                           fourthLevel['IdStoreCourt']) {
                         storeDay.courts[i].availableHours.add(
-                            CourtAvailableHours(
+                            CourtAvailableHour(
                                 thirdLevel['TimeBegin'],
                                 thirdLevel['TimeInteger'],
                                 thirdLevel['TimeFinish'],

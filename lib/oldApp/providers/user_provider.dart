@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sandfriends/SharedComponents/Model/AppMatch.dart';
-import 'package:sandfriends/oldApp/models/match_counter.dart';
+import 'package:sandfriends/SharedComponents/Model/MatchCounter.dart';
 import 'package:sandfriends/SharedComponents/Model/Reward.dart';
 import 'package:sandfriends/SharedComponents/Model/Sport.dart';
 import 'package:sandfriends/oldApp/providers/categories_provider.dart';

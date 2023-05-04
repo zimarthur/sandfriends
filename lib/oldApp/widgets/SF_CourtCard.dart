@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/oldApp/models/court_available_hours.dart';
+import 'package:sandfriends/SharedComponents/Model/CourtAvailabeHour.dart';
 import 'package:sandfriends/oldApp/providers/match_provider.dart';
 import 'package:sandfriends/oldApp/widgets/SF_AvailableHours.dart';
 import 'package:sandfriends/oldApp/widgets/SF_Button.dart';
@@ -39,7 +39,7 @@ class _SFCourtCardState extends State<SFCourtCard> {
     }
   }
 
-  List<CourtAvailableHours> availableHours = [];
+  List<CourtAvailableHour> availableHours = [];
 
   void availableHoursLength() {
     availableHours.clear();
@@ -69,7 +69,7 @@ class _SFCourtCardState extends State<SFCourtCard> {
           }
         }
         if (newHour == true || availableHours.isEmpty) {
-          availableHours.add(CourtAvailableHours(
+          availableHours.add(CourtAvailableHour(
               widget
                   .storeDay.courts[courtsIndex].availableHours[hoursIndex].hour,
               widget.storeDay.courts[courtsIndex].availableHours[hoursIndex]

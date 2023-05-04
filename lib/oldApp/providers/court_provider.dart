@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../models/court.dart';
+import '../../SharedComponents/Model/Court.dart';
 
 class CourtProvider with ChangeNotifier {
   final List<Court> _courts = [];

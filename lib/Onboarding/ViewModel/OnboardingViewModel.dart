@@ -146,7 +146,7 @@ class OnboardingViewModel extends ChangeNotifier {
         notifyListeners();
         onboardingRepo
             .addUserInfo(
-          Provider.of<DataProvider>(context, listen: false).accessToken!,
+          Provider.of<DataProvider>(context, listen: false).user!.accessToken,
           firstNameController.text,
           lastNameController.text,
           phonenumberConverter(phoneNumberController.text),

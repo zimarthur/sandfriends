@@ -7,7 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/oldApp/models/recurrent_match.dart';
+import 'package:sandfriends/SharedComponents/Model/RecurrentMatch.dart';
 import 'package:sandfriends/oldApp/providers/recurrent_match_provider.dart';
 import 'package:sandfriends/oldApp/widgets/SF_Button.dart';
 import 'package:sandfriends/oldApp/widgets/SF_RecurrentMatchCard.dart';
@@ -359,7 +359,7 @@ class _RecurrentMatchScreenState extends State<RecurrentMatchScreen> {
         for (int i = 0; i < responseRecurrentMatches.length; i++) {
           Provider.of<RecurrentMatchProvider>(context, listen: false)
               .recurrentMatchesList
-              .add(recurrentMatchFromJson(responseRecurrentMatches[i]));
+              .add(RecurrentMatch.fromJson(responseRecurrentMatches[i]));
         }
 
         setState(() {

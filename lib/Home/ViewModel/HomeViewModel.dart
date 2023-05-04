@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Home/Repository/HomeRepoImp.dart';
+import 'package:sandfriends/Home/View/User/AppRatingModal.dart';
 import 'package:sandfriends/SharedComponents/Model/AppNotification.dart';
 import 'package:sandfriends/SharedComponents/Model/Reward.dart';
 
@@ -11,6 +12,7 @@ import '../../SharedComponents/Model/AppMatch.dart';
 import '../../SharedComponents/View/SFModalMessage.dart';
 import '../../SharedComponents/ViewModel/DataProvider.dart';
 import '../../Utils/PageStatus.dart';
+import '../../Utils/UrlLauncher.dart';
 import '../Model/HomeTabsEnum.dart';
 import '../View/Feed/FeedWidget.dart';
 import '../View/SportSelector/SportSelectorWidget.dart';
@@ -25,6 +27,7 @@ class HomeViewModel extends ChangeNotifier {
     onTap: () {},
     isHappy: true,
   );
+  Widget? widgetForm;
 
   Widget get displayWidget {
     switch (currentTab) {
@@ -67,7 +70,7 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
     homeRepo
         .getUserInfo(
-            Provider.of<DataProvider>(context, listen: false).accessToken!)
+            Provider.of<DataProvider>(context, listen: false).user!.accessToken)
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         Map<String, dynamic> responseBody = json.decode(
@@ -123,7 +126,68 @@ class HomeViewModel extends ChangeNotifier {
     });
   }
 
+  final feedbackFormKey = GlobalKey<FormState>();
+  TextEditingController feedbackController = TextEditingController();
+
   void goToNotificationScreen(BuildContext context) {
     Navigator.pushNamed(context, '/notification_screen');
+  }
+
+  void validateFeedback(BuildContext context) {
+    if (feedbackFormKey.currentState?.validate() == true) {
+      sendFeedback(context);
+    }
+  }
+
+  void sendFeedback(BuildContext context) {
+    pageStatus = PageStatus.LOADING;
+    notifyListeners();
+    homeRepo
+        .sendFeedback(
+      Provider.of<DataProvider>(context, listen: false).user!.accessToken,
+      feedbackController.text,
+    )
+        .then((response) {
+      if (response.responseStatus == NetworkResponseStatus.success) {
+        pageStatus = PageStatus.OK;
+        notifyListeners();
+      } else {
+        modalMessage = SFModalMessage(
+          message: response.userMessage.toString(),
+          onTap: () {
+            pageStatus = PageStatus.OK;
+            notifyListeners();
+          },
+          isHappy: response.responseStatus == NetworkResponseStatus.alert,
+        );
+      }
+      pageStatus = PageStatus.ERROR;
+      notifyListeners();
+    });
+  }
+
+  void contactSupport() {
+    final url = Uri.parse("https://wa.me/+5551996712775");
+    UrlLauncher(url);
+  }
+
+  void openAppRatingModal() {
+    widgetForm = AppRatingModal(
+      viewModel: this,
+    );
+    pageStatus = PageStatus.FORM;
+    notifyListeners();
+  }
+
+  void goToUSerDetail(BuildContext context) {
+    Navigator.pushNamed(context, '/user_detail');
+  }
+
+  goToUserMatchScreen(BuildContext context) {
+    Navigator.pushNamed(context, '/user_match_screen');
+  }
+
+  logOff(BuildContext context) {
+    Navigator.pushNamed(context, '/login_signup');
   }
 }

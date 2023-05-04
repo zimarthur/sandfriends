@@ -23,4 +23,20 @@ class HomeRepoImp implements HomeRepo {
     );
     return response;
   }
+
+  @override
+  Future<NetworkResponse> sendFeedback(
+      String accessToken, String feedback) async {
+    NetworkResponse response = await _apiService.postResponse(
+      _apiService.sandfriendsUrl,
+      ApiEndPoints().sendFeedback,
+      jsonEncode(
+        <String, Object>{
+          'AccessToken': accessToken,
+          'Feedback': feedback,
+        },
+      ),
+    );
+    return response;
+  }
 }

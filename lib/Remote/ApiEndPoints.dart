@@ -8,6 +8,9 @@ class ApiEndPoints {
   final String createAccount = "/AddUser";
   final String addUserInfo = "/AddUserInfo";
   final String getUserInfo = "/GetUserInfo";
+  final String updateUserInfo = "/UpdateUser";
 
   final String getAllCities = "/GetAllCities";
+
+  final String sendFeedback = "/SendFeedback";
 }

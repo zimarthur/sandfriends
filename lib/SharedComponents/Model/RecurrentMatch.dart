@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:sandfriends/SharedComponents/Model/AppMatch.dart';
 
-import 'court.dart';
+import 'Court.dart';
 
 class RecurrentMatch {
   final int idRecurrentMatch;
@@ -32,25 +32,25 @@ class RecurrentMatch {
     }
     return priceSum;
   }
-}
 
-RecurrentMatch recurrentMatchFromJson(Map<String, dynamic> json) {
-  var newRecurrentMatch = RecurrentMatch(
-    idRecurrentMatch: json['IdRecurrentMatch'],
-    creationDate: DateFormat('yyyy-MM-dd HH:mm')
-        .parse("${json['CreationDate']} ${json['TimeBegin']}"),
-    lastPaymentDate: DateFormat('yyyy-MM-dd').parse(json['LastPaymentDate']),
-    weekday: json['Weekday'],
-    timeBegin: json['TimeBegin'],
-    timeEnd: json['TimeEnd'],
-    court: courtFromJson(json['StoreCourt']),
-    recurrentMatchesCounter: json['RecurrentMatchCounter'],
-  );
+  factory RecurrentMatch.fromJson(Map<String, dynamic> json) {
+    var newRecurrentMatch = RecurrentMatch(
+      idRecurrentMatch: json['IdRecurrentMatch'],
+      creationDate: DateFormat('yyyy-MM-dd HH:mm')
+          .parse("${json['CreationDate']} ${json['TimeBegin']}"),
+      lastPaymentDate: DateFormat('yyyy-MM-dd').parse(json['LastPaymentDate']),
+      weekday: json['Weekday'],
+      timeBegin: json['TimeBegin'],
+      timeEnd: json['TimeEnd'],
+      court: Court.fromJson(json['StoreCourt']),
+      recurrentMatchesCounter: json['RecurrentMatchCounter'],
+    );
 
-  for (int i = 0; i < json['NextRecurrentMatches'].length; i++) {
-    newRecurrentMatch.monthRecurrentMatches
-        .add(AppMatch.fromJson(json['NextRecurrentMatches'][i]));
+    for (int i = 0; i < json['NextRecurrentMatches'].length; i++) {
+      newRecurrentMatch.monthRecurrentMatches
+          .add(AppMatch.fromJson(json['NextRecurrentMatches'][i]));
+    }
+
+    return newRecurrentMatch;
   }
-
-  return newRecurrentMatch;
 }

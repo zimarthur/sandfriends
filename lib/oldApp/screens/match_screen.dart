@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/main.dart';
 import 'package:sandfriends/oldApp/models/enums.dart';
-import 'package:sandfriends/oldApp/models/match_counter.dart';
+import 'package:sandfriends/SharedComponents/Model/MatchCounter.dart';
 import 'package:sandfriends/oldApp/models/store_day.dart';
 import 'package:sandfriends/oldApp/providers/user_provider.dart';
 import 'package:sandfriends/oldApp/widgets/SFAvatar.dart';
@@ -731,7 +731,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                                         currentMatch!
                                                             .members[index]
                                                             .user
-                                                            .rank[0]
+                                                            .ranks[0]
                                                             .name,
                                                         style: TextStyle(
                                                             color: AppTheme

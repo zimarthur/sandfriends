@@ -192,7 +192,12 @@ class _LoginScreenOldState extends State<LoginScreenOld> {
 
         if (responseLogin['IsNewUser'] == true) {
           Provider.of<UserProvider>(context, listen: false).user = User(
-              idUser: -1, firstName: "", lastName: "", photo: "", email: email);
+              accessToken: "",
+              idUser: -1,
+              firstName: "",
+              lastName: "",
+              photo: "",
+              email: email);
           context.goNamed('new_user_welcome');
         } else {
           final responseUser = responseBody['User'];

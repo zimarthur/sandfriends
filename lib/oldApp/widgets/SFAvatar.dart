@@ -32,7 +32,7 @@ class SFAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     if (showRank) {
       var selectedSportId = sport!.idSport;
-      var selectedRank = user.rank
+      var selectedRank = user.ranks
           .where((rank) => rank.sport.idSport == selectedSportId)
           .first;
       if (selectedRank.color == "0") {

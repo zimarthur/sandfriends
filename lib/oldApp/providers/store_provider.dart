@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../models/store.dart';
+import '../../SharedComponents/Model/Store.dart';
 
 class StoreProvider with ChangeNotifier {
   final List<Store> _stores = [];

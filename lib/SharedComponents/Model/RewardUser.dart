@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 import 'Reward.dart';
-import '../../oldApp/models/store.dart';
+import 'Store.dart';
 
 class RewardUser {
   final int idRewardUser;
@@ -30,7 +30,11 @@ class RewardUser {
       rewardClaimedDate: json['RewardClaimedDate'] == null
           ? null
           : DateFormat('yyyy-MM-dd').parse("${json['RewardClaimedDate']}"),
-      store: json['Store'] == null ? null : storeFromJson(json['Store']),
+      store: json['Store'] == null
+          ? null
+          : Store.fromJson(
+              json['Store'],
+            ),
     );
     return newRewardUser;
   }

@@ -19,8 +19,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/court_available_hours.dart';
-import '../models/court.dart';
+import '../../SharedComponents/Model/CourtAvailabeHour.dart';
+import '../../SharedComponents/Model/court.dart';
 import '../providers/match_provider.dart';
 import '../providers/recurrent_match_provider.dart';
 import '../providers/user_provider.dart';
@@ -132,7 +132,7 @@ class _CourtScreenState extends State<CourtScreen> {
     //   int lastAvailableHour = -1;
     //   int hourIndexPace;
 
-    //   List<CourtAvailableHours> availableHoursList = [];
+    //   List<CourtAvailableHour> availableHoursList = [];
 
     //   for (int courtIndex = 0;
     //       courtIndex < selectedStoreDay.courts.length;
@@ -161,7 +161,7 @@ class _CourtScreenState extends State<CourtScreen> {
     //       }
     //       if (newHour) {
     //         newHour = false;
-    //         availableHoursList.add(CourtAvailableHours(
+    //         availableHoursList.add(CourtAvailableHour(
     //             selectedStoreDay
     //                 .courts[courtIndex].availableHours[hourIndex].hour,
     //             selectedStoreDay

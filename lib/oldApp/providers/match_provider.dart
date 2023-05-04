@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/oldApp/models/court_available_hours.dart';
+import 'package:sandfriends/SharedComponents/Model/CourtAvailabeHour.dart';
 import 'package:sandfriends/oldApp/models/store_day.dart';
 import 'package:time_range/time_range.dart';
 
@@ -51,9 +51,9 @@ class MatchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<CourtAvailableHours> _selectedTime = [];
-  List<CourtAvailableHours> get selectedTime => _selectedTime;
-  set selectedTime(List<CourtAvailableHours> value) {
+  List<CourtAvailableHour> _selectedTime = [];
+  List<CourtAvailableHour> get selectedTime => _selectedTime;
+  set selectedTime(List<CourtAvailableHour> value) {
     _selectedTime = value;
     notifyListeners();
   }

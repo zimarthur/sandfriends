@@ -25,13 +25,6 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String? _accessToken;
-  String? get accessToken => _accessToken;
-  set accessToken(String? newaccessToken) {
-    _accessToken = newaccessToken;
-    notifyListeners();
-  }
-
   final List<AppMatch> _matches = [];
   List<AppMatch> get matches {
     List<AppMatch> filteredMatchList;

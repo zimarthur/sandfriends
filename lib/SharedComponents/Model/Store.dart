@@ -21,22 +21,22 @@ class Store {
     required this.instagram,
     required this.phone,
   });
-}
 
-Store storeFromJson(Map<String, dynamic> json) {
-  var newStore = Store(
-    idStore: json['IdStore'],
-    name: json['Name'],
-    address: json['Address'],
-    latitude: json['Latitude'],
-    longitude: json['Longitude'],
-    imageUrl: json['Logo'],
-    descriptionText: json['Description'],
-    instagram: json['Instagram'],
-    phone: json['PhoneNumber1'],
-  );
-  for (int i = 0; i < json['StorePhotos'].length; i++) {
-    newStore.photos.add(json['StorePhotos'][i]['Photo']);
+  factory Store.fromJson(Map<String, dynamic> json) {
+    var newStore = Store(
+      idStore: json['IdStore'],
+      name: json['Name'],
+      address: json['Address'],
+      latitude: json['Latitude'],
+      longitude: json['Longitude'],
+      imageUrl: json['Logo'],
+      descriptionText: json['Description'],
+      instagram: json['Instagram'],
+      phone: json['PhoneNumber1'],
+    );
+    for (int i = 0; i < json['StorePhotos'].length; i++) {
+      newStore.photos.add(json['StorePhotos'][i]['Photo']);
+    }
+    return newStore;
   }
-  return newStore;
 }

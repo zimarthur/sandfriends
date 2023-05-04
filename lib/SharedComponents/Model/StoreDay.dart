@@ -1,5 +1,5 @@
-import 'court.dart';
-import 'store.dart';
+import '../../SharedComponents/Model/Court.dart';
+import '../../SharedComponents/Model/Store.dart';
 
 class StoreDay {
   int? index;
