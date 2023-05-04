@@ -11,7 +11,7 @@ import '../../../SharedComponents/View/SFModalMessage.dart';
 import '../../../SharedComponents/ViewModel/DataProvider.dart';
 import '../../../Utils/PageStatus.dart';
 import '../../../api/google_signin_api.dart';
-import '../../../oldApp/models/user.dart';
+import '../../../SharedComponents/Model/User.dart';
 import '../../../oldApp/providers/categories_provider.dart';
 
 class LoginSignupViewModel extends ChangeNotifier {
@@ -65,9 +65,7 @@ class LoginSignupViewModel extends ChangeNotifier {
     pageStatus = PageStatus.LOADING;
     notifyListeners();
     loginSignupRepo.thirdPartyLogin(email).then((response) {
-      if (response == null) return;
       if (response.responseStatus == NetworkResponseStatus.success) {
-        if (response.responseBody == null) return;
         receiveLoginResponse(context, response.responseBody!);
       } else {
         modalMessage = SFModalMessage(

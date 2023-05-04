@@ -58,6 +58,7 @@ class _SFStandardScreenState extends State<SFStandardScreen> {
                 ? secondaryLightBlue
                 : secondaryBack,
         body: SafeArea(
+          top: widget.enableToolbar,
           child: Stack(
             children: [
               SizedBox(

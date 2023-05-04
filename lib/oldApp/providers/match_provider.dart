@@ -4,10 +4,10 @@ import 'package:sandfriends/oldApp/models/store_day.dart';
 import 'package:time_range/time_range.dart';
 
 import '../../SharedComponents/Model/City.dart';
-import '../models/region.dart';
+import '../../SharedComponents/Model/Region.dart';
 import '../models/enums.dart';
 import '../../SharedComponents/Model/Sport.dart';
-import '../models/match.dart';
+import '../../SharedComponents/Model/AppMatch.dart';
 
 class MatchProvider with ChangeNotifier {
   void ResetProviderAtributes() {
@@ -70,9 +70,9 @@ class MatchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  final List<Match> _openMatchList = [];
-  List<Match> get openMatchList => _openMatchList;
-  void addOpenMatch(Match match) {
+  final List<AppMatch> _openMatchList = [];
+  List<AppMatch> get openMatchList => _openMatchList;
+  void addOpenMatch(AppMatch match) {
     _openMatchList.add(match);
     notifyListeners();
   }

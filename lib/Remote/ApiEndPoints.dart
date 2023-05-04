@@ -6,6 +6,8 @@ class ApiEndPoints {
   final String changePasswordRequest = "/ChangePasswordRequestUser";
 
   final String createAccount = "/AddUser";
+  final String addUserInfo = "/AddUserInfo";
+  final String getUserInfo = "/GetUserInfo";
 
   final String getAllCities = "/GetAllCities";
 }

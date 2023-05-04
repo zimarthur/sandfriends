@@ -6,7 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandfriends/oldApp/widgets/SF_Scaffold.dart';
 
-import '../../../Utils/validators.dart';
+import '../../../Utils/Validators.dart';
 import '../../widgets/Modal/SFModalMessageCopy.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
 import '../../widgets/SF_Button.dart';

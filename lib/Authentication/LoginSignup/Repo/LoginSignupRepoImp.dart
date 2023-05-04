@@ -11,7 +11,7 @@ class LoginSignupRempoImp implements LoginSignupRepo {
   final BaseApiService _apiService = NetworkApiService();
 
   @override
-  Future<NetworkResponse?> thirdPartyLogin(String email) async {
+  Future<NetworkResponse> thirdPartyLogin(String email) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
       ApiEndPoints().thirdPartyLogin,

@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    viewModel.initHomeScreen(widget.initialTab);
+    viewModel.initHomeScreen(widget.initialTab, context);
     super.initState();
   }
 

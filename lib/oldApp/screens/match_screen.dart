@@ -18,11 +18,11 @@ import 'package:sandfriends/oldApp/widgets/SF_TextField.dart';
 import 'dart:convert';
 import 'package:share_plus/share_plus.dart';
 
-import '../../Utils/validators.dart';
+import '../../Utils/Validators.dart';
 import '../../main_old.dart';
-import '../models/user.dart';
+import '../../SharedComponents/Model/User.dart';
 import '../providers/match_provider.dart';
-import '../models/match.dart';
+import '../../SharedComponents/Model/AppMatch.dart';
 import '../theme/app_theme.dart';
 import '../widgets/Modal/SFModalMessageCopy.dart';
 import '../../SharedComponents/View/SFLoading.dart';
@@ -54,7 +54,7 @@ class _MatchScreenState extends State<MatchScreen> {
   bool isUserInMatch = false;
   bool matchExpired = false;
 
-  Match? currentMatch;
+  AppMatch? currentMatch;
 
   bool controllerHasChanged = false;
 
@@ -1404,7 +1404,7 @@ class _MatchScreenState extends State<MatchScreen> {
         final responseMatch = responseBody['Match'];
         final responseUsersMatchCounter = responseBody['UsersMatchCounter'];
 
-        currentMatch = matchFromJson(responseMatch);
+        currentMatch = AppMatch.fromJson(responseMatch);
 
         isUserInMatch = false;
         for (int i = 0; i < currentMatch!.members.length; i++) {

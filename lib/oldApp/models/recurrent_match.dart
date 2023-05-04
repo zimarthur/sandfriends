@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:sandfriends/oldApp/models/match.dart';
+import 'package:sandfriends/SharedComponents/Model/AppMatch.dart';
 
 import 'court.dart';
 
@@ -12,7 +12,7 @@ class RecurrentMatch {
   final String timeEnd;
   final Court court;
   final int recurrentMatchesCounter;
-  final List<Match> monthRecurrentMatches = [];
+  final List<AppMatch> monthRecurrentMatches = [];
 
   RecurrentMatch({
     required this.idRecurrentMatch,
@@ -49,7 +49,7 @@ RecurrentMatch recurrentMatchFromJson(Map<String, dynamic> json) {
 
   for (int i = 0; i < json['NextRecurrentMatches'].length; i++) {
     newRecurrentMatch.monthRecurrentMatches
-        .add(matchFromJson(json['NextRecurrentMatches'][i]));
+        .add(AppMatch.fromJson(json['NextRecurrentMatches'][i]));
   }
 
   return newRecurrentMatch;

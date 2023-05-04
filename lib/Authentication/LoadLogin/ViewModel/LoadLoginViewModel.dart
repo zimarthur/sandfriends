@@ -6,7 +6,7 @@ import 'package:sandfriends/Remote/NetworkResponse.dart';
 import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
 import 'package:sandfriends/Utils/SharedPreferences.dart';
 
-import '../../../oldApp/models/user.dart';
+import '../../../SharedComponents/Model/User.dart';
 import '../../../SharedComponents/Model/Sport.dart';
 import '../../../SharedComponents/Model/Gender.dart';
 import '../../../SharedComponents/Model/Rank.dart';
@@ -21,8 +21,7 @@ class LoadLoginViewModel extends ChangeNotifier {
       goToLoginSignup(context);
     } else {
       loadLoginRepo.validateLogin(accessToken).then((response) {
-        if (response == null) goToLoginSignup(context);
-        if (response!.responseStatus == NetworkResponseStatus.success) {
+        if (response.responseStatus == NetworkResponseStatus.success) {
           receiveLoginResponse(context, response.responseBody!);
         } else {
           goToLoginSignup(context);
@@ -80,6 +79,9 @@ void receiveLoginResponse(BuildContext context, String response) {
   }
 
   setAccessToken(responseUser['AccessToken']);
+  Provider.of<DataProvider>(context, listen: false).accessToken =
+      responseUser['AccessToken'];
+
   User loggedUser = User.fromJson(
     responseUser,
   );

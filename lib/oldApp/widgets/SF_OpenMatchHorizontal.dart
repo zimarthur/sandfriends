@@ -5,11 +5,11 @@ import 'package:intl/intl.dart';
 import 'package:sandfriends/oldApp/widgets/SFAvatar.dart';
 
 import '../theme/app_theme.dart';
-import '../models/match.dart';
+import '../../SharedComponents/Model/AppMatch.dart';
 import 'SF_Button.dart';
 
 class SFOpenMatchHorizontal extends StatelessWidget {
-  final Match match;
+  final AppMatch match;
 
   const SFOpenMatchHorizontal({required this.match});
 

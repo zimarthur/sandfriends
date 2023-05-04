@@ -13,7 +13,7 @@ import 'package:sandfriends/oldApp/widgets/SF_TextField.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../Utils/validators.dart';
+import '../../Utils/Validators.dart';
 import '../models/enums.dart';
 import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';

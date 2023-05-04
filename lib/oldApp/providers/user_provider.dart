@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/oldApp/models/match.dart';
+import 'package:sandfriends/SharedComponents/Model/AppMatch.dart';
 import 'package:sandfriends/oldApp/models/match_counter.dart';
-import 'package:sandfriends/oldApp/models/reward.dart';
+import 'package:sandfriends/SharedComponents/Model/Reward.dart';
 import 'package:sandfriends/SharedComponents/Model/Sport.dart';
 import 'package:sandfriends/oldApp/providers/categories_provider.dart';
-import '../models/match.dart';
+import '../../SharedComponents/Model/AppNotification.dart';
+import '../../SharedComponents/Model/AppMatch.dart';
 
-import '../models/notification_sf.dart';
-import '../models/user.dart';
+import '../../SharedComponents/Model/User.dart';
 
 class UserProvider with ChangeNotifier {
   void resetUserProvider() {
@@ -23,7 +23,7 @@ class UserProvider with ChangeNotifier {
     _user = value;
   }
 
-  List<Match> get nextMatchList {
+  List<AppMatch> get nextMatchList {
     var filteredList = matchList.where((match) {
       if (match.date.isAfter(DateTime.now()) && (match.canceled == false)) {
         return true;
@@ -45,9 +45,9 @@ class UserProvider with ChangeNotifier {
     return filteredList;
   }
 
-  final List<Match> _matchList = [];
-  List<Match> get matchList {
-    List<Match> filteredMatchList;
+  final List<AppMatch> _matchList = [];
+  List<AppMatch> get matchList {
+    List<AppMatch> filteredMatchList;
     filteredMatchList = _matchList.where((match) {
       for (int i = 0; i < match.members.length; i++) {
         if (match.members[i].user.idUser == user!.idUser) {
@@ -74,7 +74,7 @@ class UserProvider with ChangeNotifier {
     return filteredMatchList;
   }
 
-  void addMatch(Match newMatch) {
+  void addMatch(AppMatch newMatch) {
     _matchList.add(newMatch);
   }
 
@@ -119,8 +119,8 @@ class UserProvider with ChangeNotifier {
     _openMatchesCounter = value;
   }
 
-  final List<NotificationSF> _notificationList = [];
-  List<NotificationSF> get notificationList {
+  final List<AppNotification> _notificationList = [];
+  List<AppNotification> get notificationList {
     _notificationList.sort(
       (a, b) {
         int compare = b.idNotification.compareTo(a.idNotification);
@@ -139,7 +139,7 @@ class UserProvider with ChangeNotifier {
     _notificationList.clear();
   }
 
-  void addNotification(NotificationSF notification) {
+  void addNotification(AppNotification notification) {
     _notificationList.add(notification);
   }
 

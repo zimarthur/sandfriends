@@ -1,4 +1,4 @@
-import 'package:sandfriends/oldApp/models/region.dart';
+import 'package:sandfriends/SharedComponents/Model/Region.dart';
 
 class City {
   final int cityId;

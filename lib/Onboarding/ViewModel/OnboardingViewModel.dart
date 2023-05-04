@@ -11,12 +11,15 @@ import 'package:sandfriends/Onboarding/View/OnboardingScreenWelcome.dart';
 import 'package:sandfriends/Onboarding/View/SportSelectorModal.dart';
 import 'package:sandfriends/Remote/NetworkResponse.dart';
 import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
-import 'package:sandfriends/oldApp/models/region.dart';
+import 'package:sandfriends/Utils/SharedPreferences.dart';
+import 'package:sandfriends/Utils/validators.dart';
+import 'package:sandfriends/SharedComponents/Model/Region.dart';
 
 import '../../SharedComponents/View/SFModalMessage.dart';
 import '../../Utils/PageStatus.dart';
 import '../../SharedComponents/Model/City.dart';
 import '../../SharedComponents/Model/Sport.dart';
+import '../../SharedComponents/Model/User.dart';
 
 class OnboardingViewModel extends ChangeNotifier {
   void initOnboardingViewModel() {
@@ -94,8 +97,7 @@ class OnboardingViewModel extends ChangeNotifier {
     notifyListeners();
     if (Provider.of<DataProvider>(context, listen: false).regions.isEmpty) {
       onboardingRepo.getAllCities().then((response) {
-        if (response == null) openCitySelectorModal(context);
-        if (response!.responseStatus == NetworkResponseStatus.success) {
+        if (response.responseStatus == NetworkResponseStatus.success) {
           Map<String, dynamic> responseBody = json.decode(
             response.responseBody!,
           );
@@ -135,5 +137,44 @@ class OnboardingViewModel extends ChangeNotifier {
     );
     pageStatus = PageStatus.FORM;
     notifyListeners();
+  }
+
+  addUserInfo(BuildContext context) {
+    if (isFormValid) {
+      if (onboardingFormKey.currentState?.validate() == true) {
+        pageStatus = PageStatus.LOADING;
+        notifyListeners();
+        onboardingRepo
+            .addUserInfo(
+          Provider.of<DataProvider>(context, listen: false).accessToken!,
+          firstNameController.text,
+          lastNameController.text,
+          phonenumberConverter(phoneNumberController.text),
+          userRegion!.selectedCity!.cityId,
+          userSport!.idSport,
+        )
+            .then((response) {
+          if (response.responseStatus == NetworkResponseStatus.success) {
+            Map<String, dynamic> responseBody = json.decode(
+              response.responseBody!,
+            );
+            Provider.of<DataProvider>(context, listen: false).user =
+                User.fromJson(responseBody['User']);
+            Navigator.pushNamed(context, '/home');
+          } else {
+            modalMessage = SFModalMessage(
+              message: response.userMessage.toString(),
+              onTap: () {
+                pageStatus = PageStatus.OK;
+                notifyListeners();
+              },
+              isHappy: false,
+            );
+            pageStatus = PageStatus.ERROR;
+            notifyListeners();
+          }
+        });
+      }
+    }
   }
 }

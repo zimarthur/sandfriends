@@ -5,10 +5,10 @@ import 'package:sandfriends/oldApp/models/store_day.dart';
 import 'package:time_range/time_range.dart';
 
 import '../../SharedComponents/Model/City.dart';
-import '../models/region.dart';
+import '../../SharedComponents/Model/Region.dart';
 import '../models/enums.dart';
 import '../../SharedComponents/Model/Sport.dart';
-import '../models/match.dart';
+import '../../SharedComponents/Model/AppMatch.dart';
 
 class RecurrentMatchProvider with ChangeNotifier {
   void ResetProviderAtributes() {

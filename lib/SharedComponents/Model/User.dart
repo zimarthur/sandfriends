@@ -1,11 +1,10 @@
 import 'package:sandfriends/SharedComponents/Model/City.dart';
 import 'package:sandfriends/oldApp/models/match_counter.dart';
 
-import '../providers/categories_provider.dart';
-import '../../SharedComponents/Model/Rank.dart';
-import '../../SharedComponents/Model/SidePreference.dart';
-import '../../SharedComponents/Model/Gender.dart';
-import '../../SharedComponents/Model/Sport.dart';
+import 'Rank.dart';
+import 'SidePreference.dart';
+import 'Gender.dart';
+import 'Sport.dart';
 
 class User {
   int? idUser;

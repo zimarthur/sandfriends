@@ -3,12 +3,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 import '../theme/app_theme.dart';
-import '../models/match.dart';
+import '../../SharedComponents/Model/AppMatch.dart';
 import 'SFAvatar.dart';
 import 'SF_Button.dart';
 
 class SFOpenMatchVertical extends StatelessWidget {
-  final Match match;
+  final AppMatch match;
   final VoidCallback? buttonCallback;
 
   const SFOpenMatchVertical(

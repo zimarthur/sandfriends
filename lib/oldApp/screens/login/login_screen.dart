@@ -5,14 +5,14 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:sandfriends/oldApp/models/user.dart';
+import 'package:sandfriends/SharedComponents/Model/User.dart';
 import 'package:sandfriends/oldApp/providers/categories_provider.dart';
 import 'package:sandfriends/oldApp/providers/match_provider.dart';
 import 'package:sandfriends/oldApp/widgets/Modal/SF_ModalInput.dart';
 import 'package:sandfriends/oldApp/widgets/Modal/SFModalMessageCopy.dart';
 import 'package:sandfriends/oldApp/widgets/SF_Scaffold.dart';
 
-import '../../../Utils/validators.dart';
+import '../../../Utils/Validators.dart';
 import '../../models/enums.dart';
 import '../../providers/user_provider.dart';
 import '../../../SharedComponents/View/SFLoading.dart';

@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 import '../providers/match_provider.dart';
 import '../theme/app_theme.dart';
 import '../../SharedComponents/View/SFLoading.dart';
-import '../models/match.dart';
+import '../../SharedComponents/Model/AppMatch.dart';
 import '../widgets/SF_OpenMatchVertical.dart';
 
 class OpenMatchesScreen extends StatefulWidget {
@@ -64,8 +64,8 @@ class _OpenMatchesScreenState extends State<OpenMatchesScreen> {
                 itemBuilder: (context, index) {
                   return SFOpenMatchVertical(
                     buttonCallback: () {
-                      context.go(
-                          '/match_screen/${Provider.of<MatchProvider>(context, listen: false).openMatchList[index].matchUrl}/open_matches_screen/null/null');
+                      // context.go(
+                      //     '/match_screen/${Provider.of<MatchProvider>(context, listen: false).openMatchList[index].matchUrl}/open_matches_screen/null/null');
                     },
                     match: Provider.of<MatchProvider>(context, listen: false)
                         .openMatchList[index],
@@ -101,7 +101,7 @@ class _OpenMatchesScreenState extends State<OpenMatchesScreen> {
 
         for (int i = 0; i < responseOpenMatches.length; i++) {
           Provider.of<MatchProvider>(context, listen: false)
-              .addOpenMatch(matchFromJson(responseOpenMatches[i]));
+              .addOpenMatch(AppMatch.fromJson(responseOpenMatches[i]));
         }
 
         setState(() {

@@ -4,7 +4,7 @@ import 'package:sandfriends/Utils/Constants.dart';
 import 'package:sandfriends/oldApp/widgets/SF_TextField.dart';
 
 import '../../SharedComponents/Model/City.dart';
-import '../../oldApp/models/region.dart';
+import '../../SharedComponents/Model/Region.dart';
 
 class CitySelectorModal extends StatefulWidget {
   List<Region> regions;

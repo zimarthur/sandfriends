@@ -6,7 +6,7 @@ import 'package:sandfriends/oldApp/theme/app_theme.dart';
 import 'package:sandfriends/SharedComponents/View/SFLoading.dart';
 
 import '../../SharedComponents/Model/Sport.dart';
-import '../models/user.dart';
+import '../../SharedComponents/Model/User.dart';
 
 class SFAvatar extends StatelessWidget {
   final double height;

@@ -25,7 +25,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 
 import '../../SharedComponents/Model/City.dart';
-import '../models/region.dart';
+import '../../SharedComponents/Model/Region.dart';
 import '../models/enums.dart';
 import '../models/enums.dart';
 import '../theme/app_theme.dart';
@@ -1362,8 +1362,8 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                                                           : SFOpenMatchVertical(
                                                               buttonCallback:
                                                                   () {
-                                                                context.go(
-                                                                    '/match_screen/${Provider.of<MatchProvider>(context, listen: false).openMatchList[index].matchUrl}/match_search_screen/null/null');
+                                                                // context.go(
+                                                                //     '/match_screen/${Provider.of<MatchProvider>(context, listen: false).openMatchList[index].matchUrl}/match_search_screen/null/null');
                                                               },
                                                               match: Provider.of<
                                                                           MatchProvider>(

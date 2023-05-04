@@ -45,7 +45,7 @@ import 'oldApp/providers/login_provider.dart';
 import 'oldApp/providers/match_provider.dart';
 import 'oldApp/providers/store_provider.dart';
 import 'oldApp/providers/categories_provider.dart';
-import 'oldApp/models/user.dart';
+import 'SharedComponents/Model/User.dart';
 import 'oldApp/screens/match_screen.dart';
 import 'oldApp/screens/recurrent_match_sport_selection_screen.dart';
 import 'oldApp/screens/reward_user_screen.dart';

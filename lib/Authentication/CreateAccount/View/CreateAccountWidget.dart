@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sandfriends/Authentication/CreateAccount/ViewModel/CreateAccountViewModel.dart';
 
 import '../../../Utils/Constants.dart';
-import '../../../Utils/validators.dart';
+import '../../../Utils/Validators.dart';
 import '../../../oldApp/widgets/SF_Button.dart';
 import '../../../oldApp/widgets/SF_TextField.dart';
 

@@ -1,13 +1,12 @@
+import 'package:sandfriends/SharedComponents/Model/User.dart';
 
-import 'package:sandfriends/oldApp/models/user.dart';
-
-import '../../oldApp/models/match.dart';
+import 'AppMatch.dart';
 
 class AppNotification {
   final int idNotification;
   final String message;
   final String colorString;
-  final Match match;
+  final AppMatch match;
   bool seen;
   final User user;
 
@@ -25,7 +24,7 @@ class AppNotification {
       idNotification: json['IdNotification'],
       message: json['Message'],
       colorString: json['Color'],
-      match: matchFromJson(
+      match: AppMatch.fromJson(
         json['Match'],
       ),
       seen: json['Seen'],

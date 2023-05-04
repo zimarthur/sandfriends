@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/oldApp/models/enums.dart';
-import 'package:sandfriends/oldApp/models/reward_user.dart';
+import 'package:sandfriends/SharedComponents/Model/RewardUser.dart';
 import 'package:sandfriends/oldApp/widgets/SF_Scaffold.dart';
 import 'package:http/http.dart' as http;
 
@@ -381,7 +381,7 @@ class _RewardUserScreenState extends State<RewardUserScreen> {
         userRewards.clear();
         Map<String, dynamic> responseBody = json.decode(response.body);
         for (int i = 0; i < responseBody['RewardUser'].length; i++) {
-          userRewards.add(rewardUserFromJson(responseBody['RewardUser'][i]));
+          userRewards.add(RewardUser.fromJson(responseBody['RewardUser'][i]));
         }
         userRewards.sort(
           (a, b) {

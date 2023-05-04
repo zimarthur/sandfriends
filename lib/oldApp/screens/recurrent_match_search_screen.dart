@@ -26,7 +26,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 
 import '../../SharedComponents/Model/City.dart';
-import '../models/region.dart';
+import '../../SharedComponents/Model/Region.dart';
 import '../models/enums.dart';
 import '../models/enums.dart';
 import '../theme/app_theme.dart';

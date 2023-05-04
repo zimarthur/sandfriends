@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Onboarding/ViewModel/OnboardingViewModel.dart';
 import 'package:sandfriends/Utils/Constants.dart';
-import 'package:sandfriends/Utils/validators.dart';
+import 'package:sandfriends/Utils/Validators.dart';
 
 import '../../SharedComponents/View/SFStandardScreen.dart';
 import '../../oldApp/models/enums.dart';
@@ -153,16 +153,7 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                             buttonType: widget.viewModel.isFormValid
                                 ? ButtonType.Primary
                                 : ButtonType.Disabled,
-                            onTap: () {
-                              if (widget.viewModel.isFormValid) {
-                                if (widget.viewModel.onboardingFormKey
-                                        .currentState
-                                        ?.validate() ==
-                                    true) {
-                                  // addUserInfo(context);
-                                }
-                              }
-                            },
+                            onTap: () => widget.viewModel.addUserInfo(context),
                           ),
                         ),
                       ),

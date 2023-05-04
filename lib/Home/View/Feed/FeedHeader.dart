@@ -45,21 +45,21 @@ class _FeedHeaderState extends State<FeedHeader> {
           SvgPicture.asset(
             r"assets\icon\sandfriends_negative.svg",
           ),
-          InkWell(
-            onTap: () {
-              widget.viewModel.goToNotificationScreen();
-            },
-            child: Container(
-              height: widget.height * 0.05,
-              padding: EdgeInsets.symmetric(
-                horizontal: widget.width * 0.05,
-              ),
+          Padding(
+            padding: EdgeInsets.only(
+              right: widget.width * 0.03,
+            ),
+            child: InkWell(
+              onTap: () {
+                widget.viewModel.goToNotificationScreen(context);
+              },
               child: SvgPicture.asset(
                 Provider.of<DataProvider>(context, listen: false)
                         .notifications
                         .any((notification) => notification.seen == false)
                     ? r"assets\icon\notification_on.svg"
                     : r"assets\icon\notification_off.svg",
+                height: 14,
               ),
             ),
           ),

@@ -9,7 +9,7 @@ import 'package:sandfriends/Authentication/Login/View/ForgotPasswordModal.dart';
 import 'package:sandfriends/Remote/NetworkResponse.dart';
 import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
 import 'package:sandfriends/Utils/SharedPreferences.dart';
-import 'package:sandfriends/oldApp/models/user.dart';
+import 'package:sandfriends/SharedComponents/Model/User.dart';
 import 'package:sandfriends/oldApp/widgets/Modal/SFModalMessageCopy.dart';
 
 import '../../../SharedComponents/View/SFModalMessage.dart';
@@ -44,9 +44,7 @@ class LoginViewModel extends ChangeNotifier {
     _loginRepo
         .login(emailController.text, passwordController.text)
         .then((response) {
-      if (response == null) return;
       if (response.responseStatus == NetworkResponseStatus.success) {
-        if (response.responseBody == null) return;
         receiveLoginResponse(context, response.responseBody!);
       } else {
         modalMessage = SFModalMessage(
@@ -78,7 +76,6 @@ class LoginViewModel extends ChangeNotifier {
         forgotPasswordEmailController.text,
       )
           .then((response) {
-        if (response == null) return;
         if (response.responseStatus == NetworkResponseStatus.success) {
           modalMessage = SFModalMessage(
             message:

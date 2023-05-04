@@ -12,13 +12,13 @@ import 'package:sandfriends/oldApp/widgets/SF_Scaffold.dart';
 import 'dart:convert';
 
 import '../../../SharedComponents/Model/City.dart';
-import '../../models/region.dart';
+import '../../../SharedComponents/Model/Region.dart';
 import '../../providers/user_provider.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/SF_Button.dart';
 import '../../widgets/SF_TextField.dart';
-import '../../models/user.dart';
+import '../../../SharedComponents/Model/User.dart';
 
 final _newUserFormKey = GlobalKey<FormState>();
 

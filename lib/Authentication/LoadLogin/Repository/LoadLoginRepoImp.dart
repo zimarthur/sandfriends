@@ -10,7 +10,7 @@ class LoadLoginRepoImp implements LoadLoginRepo {
   final BaseApiService _apiService = NetworkApiService();
 
   @override
-  Future<NetworkResponse?> validateLogin(String accessToken) async {
+  Future<NetworkResponse> validateLogin(String accessToken) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
       ApiEndPoints().validateToken,

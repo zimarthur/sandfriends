@@ -4,8 +4,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/oldApp/models/match.dart';
-import 'package:sandfriends/oldApp/models/reward.dart';
+import 'package:sandfriends/SharedComponents/Model/AppNotification.dart';
+import 'package:sandfriends/SharedComponents/Model/AppMatch.dart';
+import 'package:sandfriends/SharedComponents/Model/Reward.dart';
 import 'package:sandfriends/oldApp/providers/categories_provider.dart';
 import 'package:sandfriends/oldApp/theme/app_theme.dart';
 import 'package:http/http.dart' as http;
@@ -13,7 +14,6 @@ import 'dart:convert';
 import 'package:sandfriends/SharedComponents/View/SFLoading.dart';
 
 import '../models/enums.dart';
-import '../models/notification_sf.dart';
 import '../providers/redirect_provider.dart';
 import '../providers/user_provider.dart';
 import '../providers/categories_provider.dart';
@@ -741,7 +741,7 @@ class _FeedScreenState extends State<FeedScreen> {
 
           //SET rewards
           Provider.of<UserProvider>(context, listen: false).userReward =
-              rewardFromJson(responseRewards['Reward']);
+              Reward.fromJson(responseRewards['Reward']);
           Provider.of<UserProvider>(context, listen: false)
               .userReward!
               .userRewardQuantity = responseRewards['UserRewardQuantity'];
@@ -755,7 +755,7 @@ class _FeedScreenState extends State<FeedScreen> {
           //SET notifications
           for (int i = 0; i < responseNotifications.length; i++) {
             Provider.of<UserProvider>(context, listen: false).addNotification(
-                notificationFromJson(responseNotifications[i]));
+                AppNotification.fromJson(responseNotifications[i]));
           }
           //
           //SET user matches
@@ -763,7 +763,7 @@ class _FeedScreenState extends State<FeedScreen> {
               matchIndex < responseMatches.length;
               matchIndex++) {
             Provider.of<UserProvider>(context, listen: false).addMatch(
-              matchFromJson(
+              AppMatch.fromJson(
                 responseMatches[matchIndex],
               ),
             );

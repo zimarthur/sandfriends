@@ -1,4 +1,4 @@
-import 'user.dart';
+import '../../SharedComponents/Model/User.dart';
 
 class MatchMember {
   final User user;

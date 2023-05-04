@@ -38,7 +38,6 @@ class CreateAccountViewModel extends ChangeNotifier {
       _createAccountRepo
           .createAccount(emailController.text, passwordController.text)
           .then((response) {
-        if (response == null) return;
         if (response.responseStatus == NetworkResponseStatus.success) {
           modalMessage = SFModalMessage(
             message: response.responseBody!,

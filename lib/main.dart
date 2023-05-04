@@ -97,12 +97,12 @@ class MyApp extends StatelessWidget {
           return null;
         },
         routes: {
-          //'/': (BuildContext context) => LoadLoginScreen(),
+          '/': (BuildContext context) => LoadLoginScreen(),
           '/login_signup': (BuildContext context) => LoginSignupScreen(),
           '/login': (BuildContext context) => LoginScreen(),
           '/create_account': (BuildContext context) => CreateAccountScreen(),
           '/onboarding': (BuildContext context) => OnboardingScreen(),
-          '/': (BuildContext context) => HomeScreen(
+          '/home': (BuildContext context) => HomeScreen(
                 initialTab: HomeTabs.Feed,
               ),
         },

@@ -10,7 +10,7 @@ class LoginRepoImp implements LoginRepo {
   final BaseApiService _apiService = NetworkApiService();
 
   @override
-  Future<NetworkResponse?> login(String email, String password) async {
+  Future<NetworkResponse> login(String email, String password) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
       ApiEndPoints().login,
@@ -26,7 +26,7 @@ class LoginRepoImp implements LoginRepo {
   }
 
   @override
-  Future<NetworkResponse?> forgotPassword(String email) async {
+  Future<NetworkResponse> forgotPassword(String email) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
       ApiEndPoints().changePasswordRequest,
