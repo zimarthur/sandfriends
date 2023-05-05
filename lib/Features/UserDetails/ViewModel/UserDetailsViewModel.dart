@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,16 +7,21 @@ import 'package:sandfriends/Features/UserDetails/Repository/UserDetailsRepoImp.d
 import 'package:sandfriends/Features/UserDetails/View/Modal/UserDetailsModalGender.dart';
 import 'package:sandfriends/Features/UserDetails/View/Modal/UserDetailsModalName.dart';
 import 'package:sandfriends/Features/UserDetails/View/Modal/UserDetailsModalSidePreference.dart';
+import 'package:sandfriends/SharedComponents/Model/Rank.dart';
 import 'package:sandfriends/SharedComponents/Model/SidePreference.dart';
 import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
 
+import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/Gender.dart';
+import '../../../SharedComponents/Model/Region.dart';
 import '../../../SharedComponents/Model/Sport.dart';
 import '../../../SharedComponents/Model/User.dart';
+import '../../../SharedComponents/View/CitySelectorModal.dart';
 import '../../../SharedComponents/View/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
 import '../View/Modal/UserDetailsModalAge.dart';
 import '../View/Modal/UserDetailsModalHeight.dart';
+import '../View/Modal/UserDetailsModalRank.dart';
 
 class UserDetailsViewModel extends ChangeNotifier {
   final userDetailsRepo = UserDetailsRepoImp();
@@ -133,7 +140,7 @@ class UserDetailsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void openUserDetailsModal(UserDetailsModals modal) {
+  void openUserDetailsModal(UserDetailsModals modal, BuildContext context) {
     switch (modal) {
       case UserDetailsModals.Name:
         modalForm = UserDetailsModalName(
@@ -151,9 +158,9 @@ class UserDetailsViewModel extends ChangeNotifier {
         );
         break;
       case UserDetailsModals.Rank:
-        // modalForm = UserDetailsModalRank(
-        //   viewModel: this,
-        // );
+        modalForm = UserDetailsModalRank(
+          viewModel: this,
+        );
         break;
       case UserDetailsModals.SidePreference:
         modalForm = UserDetailsModalSidePreference(
@@ -166,9 +173,19 @@ class UserDetailsViewModel extends ChangeNotifier {
         );
         break;
       case UserDetailsModals.Region:
-        // modalForm = UserDetailsModalRegion(
-        //   viewModel: this,
-        // );
+        if (Provider.of<DataProvider>(context, listen: false).regions.isEmpty) {
+          getAllCities(context);
+        }
+        modalForm = CitySelectorModal(
+          regions: Provider.of<DataProvider>(context, listen: false).regions,
+          onSelectedCity: (selectedRegion) {
+            userEdited.city = selectedRegion.selectedCity;
+            pageStatus = PageStatus.OK;
+            notifyListeners();
+          },
+        );
+        pageStatus = PageStatus.FORM;
+        notifyListeners();
         break;
       case UserDetailsModals.Photo:
         // modalForm = UserDetailsModalPhoto(
@@ -177,6 +194,45 @@ class UserDetailsViewModel extends ChangeNotifier {
         break;
     }
     pageStatus = PageStatus.FORM;
+    notifyListeners();
+  }
+
+  void getAllCities(BuildContext context) {
+    pageStatus = PageStatus.LOADING;
+    notifyListeners();
+    userDetailsRepo.getAllCities().then((response) {
+      if (response.responseStatus == NetworkResponseStatus.success) {
+        Map<String, dynamic> responseBody = json.decode(
+          response.responseBody!,
+        );
+        for (var state in responseBody['States']) {
+          Provider.of<DataProvider>(context, listen: false).regions.add(
+                Region.fromJson(
+                  state,
+                ),
+              );
+        }
+        pageStatus = PageStatus.OK;
+        notifyListeners();
+      } else {
+        modalMessage = SFModalMessage(
+          message: response.userMessage!,
+          onTap: () => getAllCities(context),
+          isHappy: false,
+          buttonText: "Tentar novamente",
+        );
+        pageStatus = PageStatus.ERROR;
+        notifyListeners();
+      }
+    });
+  }
+
+  void setUserRank(Rank newRank) {
+    userEdited.ranks.map((rank) {
+      if (rank.sport.idSport == displayedSport.idSport) {
+        rank = newRank;
+      }
+    });
     notifyListeners();
   }
 }

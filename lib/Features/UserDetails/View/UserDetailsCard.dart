@@ -52,8 +52,8 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       InkWell(
-                        onTap: () => widget.viewModel
-                            .openUserDetailsModal(UserDetailsModals.Photo),
+                        onTap: () => widget.viewModel.openUserDetailsModal(
+                            UserDetailsModals.Photo, context),
                         child: SizedBox(
                           height: remainingHeight * 0.5,
                           width: remainingHeight * 0.5,
@@ -86,7 +86,8 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                           children: [
                             InkWell(
                               onTap: () => widget.viewModel
-                                  .openUserDetailsModal(UserDetailsModals.Name),
+                                  .openUserDetailsModal(
+                                      UserDetailsModals.Name, context),
                               child: SizedBox(
                                 height: remainingHeight * 0.15,
                                 width: width,
@@ -115,7 +116,8 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                             ),
                             InkWell(
                               onTap: () => widget.viewModel
-                                  .openUserDetailsModal(UserDetailsModals.Age),
+                                  .openUserDetailsModal(
+                                      UserDetailsModals.Age, context),
                               child: SizedBox(
                                 height: remainingHeight * 0.07,
                                 child: FittedBox(
@@ -140,7 +142,7 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                             InkWell(
                               onTap: () => widget.viewModel
                                   .openUserDetailsModal(
-                                      UserDetailsModals.Region),
+                                      UserDetailsModals.Region, context),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -189,8 +191,8 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   InkWell(
-                    onTap: () => widget.viewModel
-                        .openUserDetailsModal(UserDetailsModals.Gender),
+                    onTap: () => widget.viewModel.openUserDetailsModal(
+                        UserDetailsModals.Gender, context),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -210,7 +212,7 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                   ),
                   InkWell(
                     onTap: () => widget.viewModel
-                        .openUserDetailsModal(UserDetailsModals.Rank),
+                        .openUserDetailsModal(UserDetailsModals.Rank, context),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -232,8 +234,8 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                     ),
                   ),
                   InkWell(
-                    onTap: () => widget.viewModel
-                        .openUserDetailsModal(UserDetailsModals.SidePreference),
+                    onTap: () => widget.viewModel.openUserDetailsModal(
+                        UserDetailsModals.SidePreference, context),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -253,8 +255,8 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                     ),
                   ),
                   InkWell(
-                    onTap: () => widget.viewModel
-                        .openUserDetailsModal(UserDetailsModals.Height),
+                    onTap: () => widget.viewModel.openUserDetailsModal(
+                        UserDetailsModals.Height, context),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Onboarding/Repository/OnboardingRepoImp.dart';
-import 'package:sandfriends/Features/Onboarding/View/CitySelectorModal.dart';
+import 'package:sandfriends/SharedComponents/View/CitySelectorModal.dart';
 import 'package:sandfriends/Features/Onboarding/View/OnboardingScreenForm.dart';
 import 'package:sandfriends/Features/Onboarding/View/OnboardingScreenWelcome.dart';
 import 'package:sandfriends/Features/Onboarding/View/SportSelectorModal.dart';

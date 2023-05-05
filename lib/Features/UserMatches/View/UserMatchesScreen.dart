@@ -15,6 +15,13 @@ class UserMatchesScreen extends StatefulWidget {
 
 class _UserMatchesScreenState extends State<UserMatchesScreen> {
   final viewModel = UserMatchesViewModel();
+
+  @override
+  void initState() {
+    viewModel.initUserMatchesViewModel(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<UserMatchesViewModel>(
