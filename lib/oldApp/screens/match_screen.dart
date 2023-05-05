@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/main.dart';
 import 'package:sandfriends/oldApp/models/enums.dart';
 import 'package:sandfriends/SharedComponents/Model/MatchCounter.dart';
-import 'package:sandfriends/oldApp/models/store_day.dart';
 import 'package:sandfriends/oldApp/providers/user_provider.dart';
 import 'package:sandfriends/oldApp/widgets/SFAvatar.dart';
 import 'package:sandfriends/oldApp/widgets/SF_Button.dart';
@@ -18,6 +17,7 @@ import 'package:sandfriends/oldApp/widgets/SF_TextField.dart';
 import 'dart:convert';
 import 'package:share_plus/share_plus.dart';
 
+import '../../SharedComponents/Model/StoreDay.dart';
 import '../../Utils/Validators.dart';
 import '../../main_old.dart';
 import '../../SharedComponents/Model/User.dart';
@@ -333,7 +333,8 @@ class _MatchScreenState extends State<MatchScreen> {
                                                 maxLines: 5,
                                                 controller:
                                                     creatorNotesController,
-                                                validator: max255),
+                                                validator: (a) =>
+                                                    max255(a, "a")),
                                           )
                                         : SizedBox(
                                             child: Text(

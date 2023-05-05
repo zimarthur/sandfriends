@@ -44,13 +44,56 @@ String? lastNameValidator(String? value) {
   }
 }
 
+String? genderValidator(String? value) {
+  if (value == null || value == "") {
+    return "informe seu gênero";
+  } else {
+    return null;
+  }
+}
+
 String? phoneValidator(String? value) {
-  if (value == null || value.isEmpty) {
+  if (value == null || value.isEmpty || value == "") {
     return "informe seu celular";
   } else {
-    print(value.length);
     if (value.length != 16) {
       return "formato incorreto";
+    } else {
+      return null;
+    }
+  }
+}
+
+String? birthdayValidator(String? value) {
+  if (value == null || value.isEmpty || value == "") {
+    return null;
+  } else {
+    if (value.length != 10) {
+      return "formato incorreto";
+    } else {
+      String convertedDatetime = DateTimeConverter(value);
+      if (DateTime.tryParse(convertedDatetime) == null) {
+        return "data não existe";
+      } else {
+        return null;
+      }
+    }
+  }
+}
+
+String DateTimeConverter(String rawDateTime) {
+  String day = rawDateTime.substring(0, 2);
+  String month = rawDateTime.substring(3, 5);
+  String year = rawDateTime.substring(6, 10);
+  return year + "-" + month + "-" + day;
+}
+
+String? heightValidator(String? value) {
+  if (value == null || value.isEmpty || value == "") {
+    return null;
+  } else {
+    if (value.length < 0 || value.length < 3) {
+      return "valor inválido";
     } else {
       return null;
     }
@@ -63,8 +106,10 @@ String phonenumberConverter(String rawPhonenumber) {
       rawPhonenumber.substring(12, 16);
 }
 
-String? max255(String? value) {
-  if (value!.isNotEmpty && value.length > 255) {
+String? max255(String? value, String stringWhenEmpty) {
+  if (value == null || value.isEmpty) {
+    return stringWhenEmpty;
+  } else if (value.length > 255) {
     return "Máx 255 caracteres";
   } else {
     return null;

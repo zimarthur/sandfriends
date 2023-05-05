@@ -66,7 +66,7 @@ class User {
       phoneNumber: json['PhoneNumber'],
       preferenceSport:
           json['Sport'] == null ? null : Sport.fromJson(json['Sport']),
-      city: json['City'] == null ? null : City.fromJson(json['City']),
+      city: json['City'] == null ? null : City.fromJsonUser(json['City']),
       sidePreference: json['SidePreferenceCategory'] == null
           ? null
           : SidePreference.fromJson(json['SidePreferenceCategory'][0]),

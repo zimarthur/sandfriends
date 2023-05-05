@@ -8,7 +8,6 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/oldApp/models/enums.dart';
-import 'package:sandfriends/oldApp/models/store_day.dart';
 import 'package:sandfriends/oldApp/providers/categories_provider.dart';
 import 'package:sandfriends/oldApp/providers/redirect_provider.dart';
 import 'package:sandfriends/oldApp/theme/app_theme.dart';

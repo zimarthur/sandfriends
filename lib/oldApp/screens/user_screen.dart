@@ -246,7 +246,7 @@ class _UserScreenState extends State<UserScreen> {
                                             pourpose:
                                                 TextFieldPourpose.Multiline,
                                             controller: feedbackController,
-                                            validator: max255,
+                                            validator: (a) => max255(a, "a"),
                                             onChanged: (value) {
                                               setState(() {
                                                 if (value.isNotEmpty) {

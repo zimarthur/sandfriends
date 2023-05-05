@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sandfriends/SharedComponents/Model/CourtAvailabeHour.dart';
-import 'package:sandfriends/oldApp/models/store_day.dart';
 import 'package:time_range/time_range.dart';
 
 import '../../SharedComponents/Model/City.dart';
 import '../../SharedComponents/Model/Region.dart';
+import '../../SharedComponents/Model/StoreDay.dart';
 import '../models/enums.dart';
 import '../../SharedComponents/Model/Sport.dart';
 import '../../SharedComponents/Model/AppMatch.dart';

@@ -8,7 +8,7 @@ import 'package:sandfriends/oldApp/providers/match_provider.dart';
 import 'package:sandfriends/oldApp/widgets/SF_AvailableHours.dart';
 import 'package:sandfriends/oldApp/widgets/SF_Button.dart';
 
-import '../models/store_day.dart';
+import '../../SharedComponents/Model/StoreDay.dart';
 import '../theme/app_theme.dart';
 import '../../SharedComponents/View/SFLoading.dart';
 

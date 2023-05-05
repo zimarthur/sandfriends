@@ -1,13 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:sandfriends/Authentication/CreateAccount/View/CreateAccountScreen.dart';
-import 'package:sandfriends/Authentication/Login/View/LoginScreen.dart';
-import 'package:sandfriends/Authentication/LoginSignup/View/LoginSignupScreen.dart';
-import 'package:sandfriends/Home/Model/HomeTabsEnum.dart';
-import 'package:sandfriends/Home/View/HomeScreen.dart';
-import 'package:sandfriends/Onboarding/View/OnboardingScreen.dart';
+import 'package:sandfriends/Features/Authentication/CreateAccount/View/CreateAccountScreen.dart';
+import 'package:sandfriends/Features/Authentication/Login/View/LoginScreen.dart';
+import 'package:sandfriends/Features/Authentication/LoginSignup/View/LoginSignupScreen.dart';
+import 'package:sandfriends/Features/Home/Model/HomeTabsEnum.dart';
+import 'package:sandfriends/Features/Home/View/HomeScreen.dart';
+import 'package:sandfriends/Features/Onboarding/View/OnboardingScreen.dart';
 import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
-import 'Authentication/LoadLogin/View/LoadLoginScreen.dart';
+import 'Features/Authentication/LoadLogin/View/LoadLoginScreen.dart';
+import 'Features/UserDetails/View/UserDetailsScreen.dart';
+import 'Features/UserMatches/View/UserMatchesScreen.dart';
 import 'Utils/Constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -105,6 +107,9 @@ class MyApp extends StatelessWidget {
           '/home': (BuildContext context) => HomeScreen(
                 initialTab: HomeTabs.Feed,
               ),
+          '/user_details': (BuildContext context) => UserDetailsScreen(),
+          '/user_matches': (BuildContext context) => UserMatchesScreen(),
+          '/user_payments': (BuildContext context) => OnboardingScreen(),
         },
       ),
     );

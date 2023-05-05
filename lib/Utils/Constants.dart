@@ -18,3 +18,5 @@ const textLightGrey = Color.fromRGBO(187, 194, 208, 1);
 const textBlack = Color.fromRGBO(0, 0, 0, 1);
 
 const divider = Color.fromRGBO(218, 219, 223, 1);
+
+const double defaultPadding = 16.0;

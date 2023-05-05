@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -28,14 +29,26 @@ class NetworkApiService extends BaseApiService {
     print(body);
     print(baseUrl);
     print(aditionalUrl);
-    final response = await http.post(
-      Uri.parse(baseUrl + aditionalUrl),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: body,
-    );
-    return returnResponse(response);
+    try {
+      final response = await http
+          .post(
+            Uri.parse(baseUrl + aditionalUrl),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: body,
+          )
+          .timeout(
+            Duration(
+              seconds: 10,
+            ),
+          );
+      return returnResponse(response);
+    } on TimeoutException catch (_) {
+      return NetworkResponse(
+          responseStatus: NetworkResponseStatus.error,
+          userMessage: "Ops, ocorreu um problema de conexão.");
+    }
   }
 
   NetworkResponse returnResponse(http.Response response) {

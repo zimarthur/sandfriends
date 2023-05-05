@@ -18,4 +18,14 @@ class City {
       //state: regionFromJson(json['State']),
     );
   }
+
+  factory City.fromJsonUser(Map<String, dynamic> json) {
+    return City(
+      cityId: json['IdCity'],
+      city: json['City'],
+      state: Region.fromJsonUser(
+        json['State'],
+      ),
+    );
+  }
 }

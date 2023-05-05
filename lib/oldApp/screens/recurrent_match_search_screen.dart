@@ -8,7 +8,6 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/SharedComponents/Model/Store.dart';
-import 'package:sandfriends/oldApp/models/store_day.dart';
 import 'package:sandfriends/SharedComponents/Model/CourtAvailabeHour.dart';
 import 'package:sandfriends/SharedComponents/Model/Court.dart';
 import 'package:sandfriends/oldApp/providers/categories_provider.dart';
@@ -27,6 +26,7 @@ import 'package:http/http.dart' as http;
 
 import '../../SharedComponents/Model/City.dart';
 import '../../SharedComponents/Model/Region.dart';
+import '../../SharedComponents/Model/StoreDay.dart';
 import '../models/enums.dart';
 import '../models/enums.dart';
 import '../theme/app_theme.dart';
