@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sandfriends/SharedComponents/View/SportSelector.dart';
 
 import '../../ViewModel/HomeViewModel.dart';
 
@@ -15,6 +16,12 @@ class SportSelectorWidget extends StatefulWidget {
 class _SportSelectorWidgetState extends State<SportSelectorWidget> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return SportSelector(
+      isRecurrentMatch: false,
+      onSportSelected: (sport) => widget.viewModel.onSportSelected(
+        context,
+        sport,
+      ),
+    );
   }
 }

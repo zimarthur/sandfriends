@@ -19,7 +19,7 @@ import 'package:sandfriends/SharedComponents/View/SFLoading.dart';
 import 'package:sandfriends/oldApp/widgets/SF_CourtCard.dart';
 import 'package:sandfriends/oldApp/widgets/SF_OpenMatchVertical.dart';
 import 'package:sandfriends/oldApp/widgets/SF_Scaffold.dart';
-import 'package:sandfriends/oldApp/widgets/SF_SearchFilter.dart';
+import 'package:sandfriends/Features/MatchSearch/View/SFSearchFilter.dart';
 import 'package:time_range/time_range.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
@@ -95,9 +95,6 @@ class _RecurrentMatchSearchScreen extends State<RecurrentMatchSearchScreen> {
                         labelText: Provider.of<RecurrentMatchProvider>(context)
                             .regionText,
                         iconPath: r"assets\icon\location_ping.svg",
-                        margin: EdgeInsets.only(left: width * 0.02),
-                        padding:
-                            EdgeInsets.symmetric(vertical: appBarHeight * 0.02),
                         onTap: () {
                           setState(() {
                             showModal = true;
@@ -125,9 +122,6 @@ class _RecurrentMatchSearchScreen extends State<RecurrentMatchSearchScreen> {
                                   Provider.of<RecurrentMatchProvider>(context)
                                       .dayText,
                               iconPath: r"assets\icon\calendar.svg",
-                              margin: EdgeInsets.only(left: width * 0.02),
-                              padding: EdgeInsets.symmetric(
-                                  vertical: appBarHeight * 0.02),
                               onTap: () {
                                 setState(() {
                                   modalWidget = Container(
@@ -308,9 +302,6 @@ class _RecurrentMatchSearchScreen extends State<RecurrentMatchSearchScreen> {
                                   Provider.of<RecurrentMatchProvider>(context)
                                       .timeText,
                               iconPath: r"assets\icon\clock.svg",
-                              margin: EdgeInsets.only(left: width * 0.02),
-                              padding: EdgeInsets.symmetric(
-                                  vertical: appBarHeight * 0.02),
                               onTap: () {
                                 setState(() {
                                   onBackgroundTapFunc = () {

@@ -48,13 +48,13 @@ class _NewUserFormState extends State<NewUserForm> {
   User? dum;
   @override
   void initState() {
-    Provider.of<UserProvider>(context, listen: false).user = User(
-        accessToken: "",
-        idUser: -1,
-        firstName: "",
-        lastName: "",
-        photo: "",
-        email: "email");
+    // Provider.of<UserProvider>(context, listen: false).user = User(
+    //     accessToken: "",
+    //     idUser: -1,
+    //     firstName: "",
+    //     lastName: "",
+    //     photo: "",
+    //     email: "email");
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       setState(() {
         dum = Provider.of<UserProvider>(context, listen: false).user;

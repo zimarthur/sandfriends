@@ -48,6 +48,13 @@ class _UserDetailsModalRankState extends State<UserDetailsModalRank> {
         horizontal: width * 0.04,
         vertical: height * 0.04,
       ),
+      decoration: BoxDecoration(
+        color: secondaryPaper,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: primaryDarkBlue, width: 1),
+        boxShadow: const [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
+      ),
+      width: width * 0.9,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -79,7 +86,7 @@ class _UserDetailsModalRankState extends State<UserDetailsModalRank> {
                     ),
                     child: Text(
                       Provider.of<DataProvider>(context, listen: false)
-                          .genders[index]
+                          .ranks[index]
                           .name,
                       style: TextStyle(
                         color: currentRank == availableRanks[index]

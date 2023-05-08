@@ -47,3 +47,11 @@ List shortWeekDaysPortuguese = [
   'Sáb',
   'Dom',
 ];
+
+DateTime stringToDateTime(String stringDateTime) {
+  List<String> dateParts = stringDateTime.split('/');
+  int day = int.parse(dateParts[0]);
+  int month = int.parse(dateParts[1]);
+  int year = int.parse(dateParts[2]);
+  return DateTime(year, month, day);
+}

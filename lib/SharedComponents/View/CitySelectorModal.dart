@@ -8,7 +8,7 @@ import '../Model/Region.dart';
 
 class CitySelectorModal extends StatefulWidget {
   List<Region> regions;
-  Function(Region) onSelectedCity;
+  Function(City) onSelectedCity;
   CitySelectorModal({
     required this.regions,
     required this.onSelectedCity,
@@ -106,11 +106,10 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
                                     child: Text(city.city),
                                   ),
                                   onTap: () => widget.onSelectedCity(
-                                    Region(
-                                      idState: region.idState,
-                                      state: region.state,
-                                      uf: region.uf,
-                                      selectedCity: city,
+                                    City(
+                                      cityId: city.cityId,
+                                      city: city.city,
+                                      state: region,
                                     ),
                                   ),
                                 ),
@@ -128,11 +127,10 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
                           for (var city in region.cities)
                             InkWell(
                               onTap: () => widget.onSelectedCity(
-                                Region(
-                                  idState: region.idState,
-                                  state: region.state,
-                                  uf: region.uf,
-                                  selectedCity: city,
+                                City(
+                                  cityId: city.cityId,
+                                  city: city.city,
+                                  state: region,
                                 ),
                               ),
                               child: SizedBox(

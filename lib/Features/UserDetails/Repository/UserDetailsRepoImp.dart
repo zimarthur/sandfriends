@@ -12,7 +12,7 @@ class UserDetailsRepoImp implements UserDetailsRepo {
   final BaseApiService _apiService = NetworkApiService();
 
   @override
-  Future<NetworkResponse> updateUserInfo(String accessToken, User user) async {
+  Future<NetworkResponse> updateUserInfo(User user) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
       ApiEndPoints().updateUserInfo,

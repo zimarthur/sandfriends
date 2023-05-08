@@ -70,21 +70,21 @@ class _UserDetailScreen extends State<UserDetailScreen> {
 
   void setReferenceUserInfo(BuildContext context) {
     imagePath = null;
-    referenceUserInfo = User(
-      accessToken: "",
-      idUser: context.read<UserProvider>().user!.idUser,
-      firstName: context.read<UserProvider>().user!.firstName,
-      lastName: context.read<UserProvider>().user!.lastName,
-      phoneNumber: context.read<UserProvider>().user!.phoneNumber,
-      gender: context.read<UserProvider>().user!.gender,
-      birthday: context.read<UserProvider>().user!.birthday,
-      age: context.read<UserProvider>().user!.age,
-      height: context.read<UserProvider>().user!.height,
-      sidePreference: context.read<UserProvider>().user!.sidePreference,
-      photo: context.read<UserProvider>().user!.photo,
-      city: context.read<UserProvider>().user!.city,
-      email: context.read<UserProvider>().user!.email,
-    );
+    // referenceUserInfo = User(
+
+    //   accessToken: "",
+    //   idUser: context.read<UserProvider>().user!.idUser,
+    //   firstName: context.read<UserProvider>().user!.firstName,
+    //   lastName: context.read<UserProvider>().user!.lastName,
+    //   phoneNumber: context.read<UserProvider>().user!.phoneNumber,
+    //   gender: context.read<UserProvider>().user!.gender,
+    //   birthday: context.read<UserProvider>().user!.birthday,
+    //   height: context.read<UserProvider>().user!.height,
+    //   sidePreference: context.read<UserProvider>().user!.sidePreference,
+    //   photo: context.read<UserProvider>().user!.photo,
+    //   city: context.read<UserProvider>().user!.city,
+    //   email: context.read<UserProvider>().user!.email,
+    // );
     referenceUserInfo!.preferenceSport =
         context.read<UserProvider>().user!.preferenceSport;
 
@@ -145,9 +145,9 @@ class _UserDetailScreen extends State<UserDetailScreen> {
         if (referenceUserInfo!.phoneNumber != null) {
           phoneNumberController.text = referenceUserInfo!.phoneNumber!;
         }
-        if (referenceUserInfo!.birthday != null) {
-          birthdayController.text = referenceUserInfo!.birthday!;
-        }
+        // if (referenceUserInfo!.birthday != null) {
+        //   birthdayController.text = referenceUserInfo!.birthday!;
+        // }
         if (referenceUserInfo!.height != null) {
           heightController.text = referenceUserInfo!.height.toString();
         }
@@ -344,17 +344,17 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            setState(() {
-                              Provider.of<UserProvider>(context, listen: false)
-                                  .user!
-                                  .preferenceSport = sportValue;
-                              if (sportValue!.idSport !=
-                                  referenceUserInfo!.preferenceSport!.idSport) {
-                                isEdited = true;
-                              } else {
-                                isEdited = false;
-                              }
-                            });
+                            //setState(() {
+                            //   Provider.of<UserProvider>(context, listen: false)
+                            //       .user!
+                            //       .preferenceSport = sportValue;
+                            //   if (sportValue!.idSport !=
+                            //       referenceUserInfo!.preferenceSport!.idSport) {
+                            //     isEdited = true;
+                            //   } else {
+                            //     isEdited = false;
+                            //   }
+                            // });
                           },
                           child: Container(
                               padding: EdgeInsets.symmetric(
@@ -1001,11 +1001,11 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                 isEdited = false;
               }
               if (birthdayController.text.isEmpty) {
-                Provider.of<UserProvider>(context, listen: false)
-                    .user!
-                    .birthday = "-";
-                Provider.of<UserProvider>(context, listen: false).user!.age =
-                    null;
+                // Provider.of<UserProvider>(context, listen: false)
+                //     .user!
+                //     .birthday = "-";
+                // Provider.of<UserProvider>(context, listen: false).user!.age =
+                //     null;
               } else {
                 DateTime currentDate = DateTime.now();
                 DateTime birthDate =
@@ -1023,18 +1023,18 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                   }
                 }
 
-                Provider.of<UserProvider>(context, listen: false)
-                    .user!
-                    .birthday = birthdayController.text;
-                Provider.of<UserProvider>(context, listen: false).user!.age =
-                    age;
+                // Provider.of<UserProvider>(context, listen: false)
+                //     .user!
+                //     .birthday = birthdayController.text;
+                // Provider.of<UserProvider>(context, listen: false).user!.age =
+                //     age;
               }
             } else {
-              birthdayController.text =
-                  Provider.of<UserProvider>(context, listen: false)
-                          .user!
-                          .birthday ??
-                      "";
+              // birthdayController.text =
+              //     Provider.of<UserProvider>(context, listen: false)
+              //             .user!
+              //             .birthday ??
+              //         "";
             }
           };
           modalWidget = Container(
@@ -1079,12 +1079,12 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                             isEdited = false;
                           }
                           if (birthdayController.text.isEmpty) {
-                            Provider.of<UserProvider>(context, listen: false)
-                                .user!
-                                .birthday = "-";
-                            Provider.of<UserProvider>(context, listen: false)
-                                .user!
-                                .age = null;
+                            // Provider.of<UserProvider>(context, listen: false)
+                            //     .user!
+                            //     .birthday = "-";
+                            // Provider.of<UserProvider>(context, listen: false)
+                            //     .user!
+                            //     .age = null;
                           } else {
                             DateTime currentDate = DateTime.now();
                             DateTime birthDate = DateTime.parse(
@@ -1102,12 +1102,12 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                               }
                             }
 
-                            Provider.of<UserProvider>(context, listen: false)
-                                .user!
-                                .birthday = birthdayController.text;
-                            Provider.of<UserProvider>(context, listen: false)
-                                .user!
-                                .age = age;
+                            // Provider.of<UserProvider>(context, listen: false)
+                            //     .user!
+                            //     .birthday = birthdayController.text;
+                            // Provider.of<UserProvider>(context, listen: false)
+                            //     .user!
+                            //     .age = age;
                           }
                           setState(() {
                             showModal = false;
@@ -1826,12 +1826,11 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                       .user!
                       .gender!
                       .idGender,
-          'Birthday': birthdayController.text.isEmpty
-              ? ""
-              : DateTimeConverter(
-                  Provider.of<UserProvider>(context, listen: false)
-                      .user!
-                      .birthday!),
+          'Birthday': birthdayController.text.isEmpty ? "" : "",
+          // : DateTimeConverter(
+          //     Provider.of<UserProvider>(context, listen: false)
+          //         .user!
+          //         .birthday!),
           'Height': Provider.of<UserProvider>(context, listen: false)
                       .user!
                       .height ==

@@ -8,6 +8,7 @@ import 'package:sandfriends/Features/Home/View/HomeScreen.dart';
 import 'package:sandfriends/Features/Onboarding/View/OnboardingScreen.dart';
 import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
 import 'Features/Authentication/LoadLogin/View/LoadLoginScreen.dart';
+import 'Features/MatchSearch/View/MatchSearchScreen.dart';
 import 'Features/UserDetails/View/UserDetailsScreen.dart';
 import 'Features/UserMatches/View/UserMatchesScreen.dart';
 import 'Utils/Constants.dart';
@@ -45,6 +46,18 @@ class MyApp extends StatelessWidget {
           fontFamily: "Lexend",
         ),
         onGenerateRoute: (settings) {
+          String matchSearch = "/match_search";
+          if (settings.name!.startsWith(matchSearch)) {
+            final arguments = settings.arguments as Map;
+
+            return MaterialPageRoute(
+              builder: (context) {
+                return MatchSearchScreen(
+                  sportId: arguments['sportId'],
+                );
+              },
+            );
+          }
           // String newAccountEmployee = '/create_account_employee';
           // String emailConfirmation = '/emcf';
           // String changePassword = '/cgpw';

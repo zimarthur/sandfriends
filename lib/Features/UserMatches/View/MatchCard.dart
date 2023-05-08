@@ -22,7 +22,6 @@ class MatchCard extends StatelessWidget {
         onTap: () =>
             Navigator.pushNamed(context, '/match_screen/${match.matchUrl}'),
         child: Container(
-          height: height,
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -38,7 +37,7 @@ class MatchCard extends StatelessWidget {
           child: Stack(
             children: [
               Container(
-                height: height * 0.17,
+                height: height * 0.6,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16),
@@ -65,19 +64,19 @@ class MatchCard extends StatelessWidget {
               ),
               Positioned(
                 left: width * 0.02,
-                top: height * 0.09,
+                top: height * 0.3,
                 child: Container(
                   decoration: BoxDecoration(
                     color: secondaryPaper.withOpacity(0.9),
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  height: height * 0.07,
-                  width: height * 0.07,
+                  height: height * 0.25,
+                  width: height * 0.25,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        height: height * 0.03,
+                        height: height * 0.1,
                         child: FittedBox(
                           fit: BoxFit.fitHeight,
                           child: Text(
@@ -87,7 +86,7 @@ class MatchCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: height * 0.025,
+                        height: height * 0.08,
                         child: FittedBox(
                           fit: BoxFit.fitHeight,
                           child: Text(
@@ -101,16 +100,16 @@ class MatchCard extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: height * 0.17,
+                top: height * 0.6,
                 child: Container(
                   padding: EdgeInsets.only(left: width * 0.02),
-                  width: width * 0.8,
-                  height: height * 0.08,
+                  width: width,
+                  height: height * 0.4,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       SizedBox(
-                        height: height * 0.03,
+                        height: height * 0.1,
                         child: FittedBox(
                           fit: BoxFit.fitWidth,
                           child: Text(
@@ -124,7 +123,7 @@ class MatchCard extends StatelessWidget {
                       ),
                       Container(
                         margin: EdgeInsets.only(left: width * 0.01),
-                        height: height * 0.02,
+                        height: height * 0.08,
                         alignment: Alignment.centerLeft,
                         child: FittedBox(
                           fit: BoxFit.fitHeight,
@@ -149,7 +148,7 @@ class MatchCard extends StatelessWidget {
                       ),
                       Container(
                         margin: EdgeInsets.only(left: width * 0.01),
-                        height: height * 0.02,
+                        height: height * 0.08,
                         alignment: Alignment.centerLeft,
                         child: FittedBox(
                           fit: BoxFit.fitHeight,

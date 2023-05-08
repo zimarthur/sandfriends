@@ -28,7 +28,6 @@ class FeedRewards extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
@@ -58,38 +57,45 @@ class FeedRewards extends StatelessWidget {
                     ),
                 ],
               ),
-              Container(
-                alignment: Alignment.center,
-                height: height * 0.4,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: Provider.of<DataProvider>(context, listen: false)
-                              .userReward ==
-                          null
-                      ? 0
-                      : Provider.of<DataProvider>(context, listen: false)
-                          .userReward!
-                          .rewardQuantity,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: EdgeInsets.symmetric(horizontal: width * 0.015),
-                      padding: EdgeInsets.all(height * 0.1),
-                      width: height * 0.4,
-                      decoration: BoxDecoration(
-                        color: secondaryPaper,
-                        borderRadius: BorderRadius.circular(height * 0.2),
-                      ),
-                      child: Provider.of<DataProvider>(context, listen: false)
-                                  .userReward!
-                                  .userRewardQuantity! >
-                              index
-                          ? SvgPicture.asset(
-                              r"assets\icon\sandfriends_logo.svg",
-                            )
-                          : Container(),
-                    );
-                  },
+              Expanded(
+                child: Center(
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: height * 0.5,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: Provider.of<DataProvider>(context,
+                                      listen: false)
+                                  .userReward ==
+                              null
+                          ? 0
+                          : Provider.of<DataProvider>(context, listen: false)
+                              .userReward!
+                              .rewardQuantity,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin:
+                              EdgeInsets.symmetric(horizontal: width * 0.015),
+                          padding: EdgeInsets.all(height * 0.1),
+                          width: height * 0.5,
+                          decoration: BoxDecoration(
+                            color: secondaryPaper,
+                            borderRadius: BorderRadius.circular(height * 0.25),
+                          ),
+                          child:
+                              Provider.of<DataProvider>(context, listen: false)
+                                          .userReward!
+                                          .userRewardQuantity! >
+                                      index
+                                  ? SvgPicture.asset(
+                                      r"assets\icon\sandfriends_logo.svg",
+                                    )
+                                  : Container(),
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ),
             ],

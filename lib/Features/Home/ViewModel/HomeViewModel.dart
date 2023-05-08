@@ -6,6 +6,8 @@ import 'package:sandfriends/Features/Home/Repository/HomeRepoImp.dart';
 import 'package:sandfriends/Features/Home/View/User/AppRatingModal.dart';
 import 'package:sandfriends/SharedComponents/Model/AppNotification.dart';
 import 'package:sandfriends/SharedComponents/Model/Reward.dart';
+import 'package:sandfriends/SharedComponents/Model/Sport.dart';
+import 'package:sandfriends/Utils/SharedPreferences.dart';
 
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/AppMatch.dart';
@@ -73,6 +75,8 @@ class HomeViewModel extends ChangeNotifier {
             Provider.of<DataProvider>(context, listen: false).user!.accessToken)
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
+        Provider.of<DataProvider>(context, listen: false).clearUserStats();
+
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
         );
@@ -181,7 +185,7 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void goToUserMatchScreen(BuildContext context) {
-    Navigator.pushNamed(context, '/user_match_screen');
+    Navigator.pushNamed(context, '/user_matches');
   }
 
   void goToNotificationScreen(BuildContext context) {
@@ -189,6 +193,13 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void logOff(BuildContext context) {
+    setAccessToken("");
     Navigator.pushNamed(context, '/login_signup');
+  }
+
+  void onSportSelected(BuildContext context, Sport sport) {
+    Navigator.pushNamed(context, '/match_search', arguments: {
+      'sportId': sport.idSport,
+    });
   }
 }

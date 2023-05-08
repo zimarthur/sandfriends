@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:sandfriends/SharedComponents/Model/City.dart';
 import 'package:sandfriends/SharedComponents/Model/MatchCounter.dart';
+import 'package:sandfriends/Utils/SFDateTime.dart';
 
 import 'Rank.dart';
 import 'SidePreference.dart';
@@ -15,8 +16,7 @@ class User {
   String? lastName;
   String? phoneNumber;
   Gender? gender;
-  String? birthday;
-  int? age;
+  DateTime? birthday;
   double? height;
   SidePreference? sidePreference;
   String? photo;
@@ -36,12 +36,24 @@ class User {
     this.phoneNumber,
     this.gender,
     this.birthday,
-    this.age,
     this.height,
     this.sidePreference,
     this.city,
     this.preferenceSport,
   });
+
+  int? get age {
+    if (birthday == null) return null;
+
+    DateTime today = DateTime.now();
+    int differenceInYears = today.year - birthday!.year;
+
+    if (today.month < birthday!.month ||
+        (today.month == birthday!.month && today.day < birthday!.day)) {
+      differenceInYears--;
+    }
+    return differenceInYears;
+  }
 
   int getUserTotalMatches() {
     return matchCounter
@@ -57,8 +69,8 @@ class User {
       accessToken: json['AccessToken'],
       firstName: json['FirstName'],
       lastName: json['LastName'],
-      age: json['Age'],
-      birthday: json['Birthday'],
+      birthday:
+          json['Birthday'] == null ? null : stringToDateTime(json['Birthday']),
       email: json['Email'],
       gender: json['GenderCategory'] == null
           ? null
@@ -73,7 +85,7 @@ class User {
       photo: json['Photo'],
     );
     for (int i = 0; i < json['Ranks'].length; i++) {
-      newUser.ranks.add(Rank.fromJson(json['Ranks'][i]));
+      newUser.ranks.add(Rank.fromJson(json['Ranks'][i]['RankCategory']));
     }
     return newUser;
   }
@@ -118,5 +130,31 @@ class User {
         ),
       );
     }
+  }
+
+  factory User.copyWith(User refUser) {
+    final user = User(
+      email: refUser.email,
+      accessToken: refUser.accessToken,
+      firstName: refUser.firstName,
+      lastName: refUser.lastName,
+      birthday: refUser.birthday,
+      city: refUser.city,
+      gender: refUser.gender,
+      height: refUser.height,
+      idUser: refUser.idUser,
+      phoneNumber: refUser.phoneNumber,
+      photo: refUser.photo,
+      preferenceSport: refUser.preferenceSport,
+      sidePreference: refUser.sidePreference,
+    );
+    for (var rank in refUser.ranks) {
+      user.ranks.add(
+        Rank.CopyWith(
+          rank,
+        ),
+      );
+    }
+    return user;
   }
 }

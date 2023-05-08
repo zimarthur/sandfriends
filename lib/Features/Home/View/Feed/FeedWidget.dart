@@ -31,6 +31,7 @@ class _FeedWidgetState extends State<FeedWidget> {
         color: secondaryBack,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             FeedHeader(
               viewModel: widget.viewModel,
@@ -46,7 +47,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                       (MediaQuery.of(context).padding.top + height * 0.07),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: width * 0.02),
@@ -63,54 +64,39 @@ class _FeedWidgetState extends State<FeedWidget> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: height * 0.02,
+                      FeedNextMatches(
+                        viewModel: widget.viewModel,
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: width * 0.02),
+                        height: height * 0.2,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: FeedRecurrentMatches(
+                                viewModel: widget.viewModel,
+                              ),
+                            ),
+                            SizedBox(
+                              width: width * 0.03,
+                            ),
+                            Expanded(
+                              child: FeedOpenMatches(
+                                viewModel: widget.viewModel,
+                              ),
+                            ),
+                          ],
                         ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: width * 0.02),
+                        height: height * 0.2,
+                        child: FeedRewards(),
                       ),
                       SizedBox(
-                        height: height * 0.35,
-                        width: width,
-                        child: FeedNextMatches(
-                          viewModel: widget.viewModel,
-                        ),
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                            margin:
-                                EdgeInsets.symmetric(horizontal: width * 0.02),
-                            height: height * 0.16,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: FeedRecurrentMatches(
-                                    viewModel: widget.viewModel,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: width * 0.03,
-                                ),
-                                Expanded(
-                                  child: FeedOpenMatches(
-                                    viewModel: widget.viewModel,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: width * 0.03,
-                          ),
-                          Container(
-                            margin:
-                                EdgeInsets.symmetric(horizontal: width * 0.02),
-                            height: height * 0.2,
-                            child: FeedRewards(),
-                          ),
-                        ],
-                      ),
+                        height: height * 0.01,
+                      )
                     ],
                   ),
                 ),

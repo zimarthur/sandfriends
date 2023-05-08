@@ -15,7 +15,7 @@ class UserMatchesRepoImp implements UserMatchesRepo {
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
-      ApiEndPoints().updateUserInfo,
+      ApiEndPoints().getUserMatches,
       jsonEncode({
         'AccessToken': accessToken,
       }),

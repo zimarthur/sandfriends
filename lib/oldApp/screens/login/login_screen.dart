@@ -191,14 +191,15 @@ class _LoginScreenOldState extends State<LoginScreenOld> {
         await storage.write(key: "AccessToken", value: newAccessToken);
 
         if (responseLogin['IsNewUser'] == true) {
-          Provider.of<UserProvider>(context, listen: false).user = User(
-              accessToken: "",
-              idUser: -1,
-              firstName: "",
-              lastName: "",
-              photo: "",
-              email: email);
-          context.goNamed('new_user_welcome');
+          // Provider.of<UserProvider>(context, listen: false).user = User(
+          //     accessToken: "",
+          //     idUser: -1,
+          //     firstName: "",
+          //     lastName: "",
+          //     phoneNumber: "",
+          //     photo: "",
+          //     email: email);
+          // context.goNamed('new_user_welcome');
         } else {
           final responseUser = responseBody['User'];
           final responseUserMatchCounter = responseBody['MatchCounter'];

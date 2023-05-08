@@ -36,7 +36,7 @@ class UserMatchesViewModel extends ChangeNotifier {
           response.responseBody!,
         );
         Provider.of<DataProvider>(context, listen: false).clearMatches();
-        for (var match in responseBody['Matches']) {
+        for (var match in responseBody['UserMatches']) {
           Provider.of<DataProvider>(context, listen: false).addMatch(
             AppMatch.fromJson(
               match,

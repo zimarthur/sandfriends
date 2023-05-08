@@ -24,4 +24,14 @@ class Rank {
       color: json['RankColor'],
     );
   }
+
+  factory Rank.CopyWith(Rank refRank) {
+    return Rank(
+      idRankCategory: refRank.idRankCategory,
+      sport: refRank.sport,
+      rankSportLevel: refRank.rankSportLevel,
+      name: refRank.name,
+      color: refRank.color,
+    );
+  }
 }

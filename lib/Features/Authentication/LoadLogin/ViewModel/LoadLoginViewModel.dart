@@ -41,6 +41,7 @@ void receiveLoginResponse(BuildContext context, String response) {
   Map<String, dynamic> responseBody = json.decode(
     response,
   );
+  Provider.of<DataProvider>(context, listen: false).clearAll();
 
   final responseSports = responseBody['Sports'];
   final responseGenders = responseBody['Genders'];

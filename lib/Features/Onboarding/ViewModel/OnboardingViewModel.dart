@@ -49,11 +49,11 @@ class OnboardingViewModel extends ChangeNotifier {
   bool termsAgreeValue = false;
 
   Sport? userSport;
-  Region? userRegion;
+  City? userCity;
 
   bool get isFormValid =>
       userSport != null &&
-      userRegion != null &&
+      userCity != null &&
       firstNameController.text.isNotEmpty &&
       lastNameController.text.isNotEmpty &&
       phoneNumberController.text.isNotEmpty &&
@@ -129,8 +129,8 @@ class OnboardingViewModel extends ChangeNotifier {
   void displayCitySelector(BuildContext context) {
     widgetForm = CitySelectorModal(
       regions: Provider.of<DataProvider>(context, listen: false).regions,
-      onSelectedCity: (region) {
-        userRegion = region;
+      onSelectedCity: (city) {
+        userCity = city;
         pageStatus = PageStatus.OK;
         notifyListeners();
       },
@@ -150,7 +150,7 @@ class OnboardingViewModel extends ChangeNotifier {
           firstNameController.text,
           lastNameController.text,
           phonenumberConverter(phoneNumberController.text),
-          userRegion!.selectedCity!.cityId,
+          userCity!.cityId,
           userSport!.idSport,
         )
             .then((response) {

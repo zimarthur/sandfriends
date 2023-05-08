@@ -123,4 +123,20 @@ class DataProvider extends ChangeNotifier {
     _notifications.add(newNotification);
     notifyListeners();
   }
+
+  void clearAll() {
+    _user = null;
+    clearUserStats();
+    genders.clear();
+    ranks.clear();
+    sidePreferences.clear();
+    sports.clear();
+    regions.clear();
+  }
+
+  void clearUserStats() {
+    _matches.clear();
+    _notifications.clear();
+    _openMatchesCounter = 0;
+  }
 }

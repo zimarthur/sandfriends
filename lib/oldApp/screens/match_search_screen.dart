@@ -18,7 +18,7 @@ import 'package:sandfriends/SharedComponents/View/SFLoading.dart';
 import 'package:sandfriends/oldApp/widgets/SF_CourtCard.dart';
 import 'package:sandfriends/oldApp/widgets/SF_OpenMatchVertical.dart';
 import 'package:sandfriends/oldApp/widgets/SF_Scaffold.dart';
-import 'package:sandfriends/oldApp/widgets/SF_SearchFilter.dart';
+import 'package:sandfriends/Features/MatchSearch/View/SFSearchFilter.dart';
 import 'package:time_range/time_range.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
@@ -123,9 +123,6 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                         labelText:
                             Provider.of<MatchProvider>(context).regionText,
                         iconPath: r"assets\icon\location_ping.svg",
-                        margin: EdgeInsets.only(left: width * 0.02),
-                        padding:
-                            EdgeInsets.symmetric(vertical: appBarHeight * 0.02),
                         onTap: () {
                           setState(() {
                             showModal = true;
@@ -152,9 +149,6 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                               labelText:
                                   Provider.of<MatchProvider>(context).dateText,
                               iconPath: r"assets\icon\calendar.svg",
-                              margin: EdgeInsets.only(left: width * 0.02),
-                              padding: EdgeInsets.symmetric(
-                                  vertical: appBarHeight * 0.02),
                               onTap: () {
                                 onBackgroundTapFunc = () {
                                   setState(() {
@@ -342,9 +336,6 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                               labelText:
                                   Provider.of<MatchProvider>(context).timeText,
                               iconPath: r"assets\icon\clock.svg",
-                              margin: EdgeInsets.only(left: width * 0.02),
-                              padding: EdgeInsets.symmetric(
-                                  vertical: appBarHeight * 0.02),
                               onTap: () {
                                 setState(() {
                                   onBackgroundTapFunc = () {

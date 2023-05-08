@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/UserDetails/Repository/UserDetailsRepoImp.dart';
 import 'package:sandfriends/Features/UserDetails/View/Modal/UserDetailsModalGender.dart';
@@ -19,8 +20,10 @@ import '../../../SharedComponents/Model/User.dart';
 import '../../../SharedComponents/View/CitySelectorModal.dart';
 import '../../../SharedComponents/View/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
+import '../../../Utils/SFDateTime.dart';
 import '../View/Modal/UserDetailsModalAge.dart';
 import '../View/Modal/UserDetailsModalHeight.dart';
+import '../View/Modal/UserDetailsModalPhoto.dart';
 import '../View/Modal/UserDetailsModalRank.dart';
 
 class UserDetailsViewModel extends ChangeNotifier {
@@ -37,7 +40,9 @@ class UserDetailsViewModel extends ChangeNotifier {
   String titleText = "Meu Perfil";
 
   late User userEdited;
+  late User userReference;
   late Sport displayedSport;
+
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController phoneNumberController =
@@ -47,22 +52,49 @@ class UserDetailsViewModel extends ChangeNotifier {
   final TextEditingController heightController =
       MaskedTextController(mask: '0,00');
 
-  bool get isEdited => true;
+  bool get isEdited {
+    bool changedRank = false;
+    for (var userEditedRank in userEdited.ranks) {
+      if (userEditedRank.idRankCategory !=
+          userReference.ranks
+              .firstWhere((userRefRank) =>
+                  userRefRank.sport.idSport == userEditedRank.sport.idSport)
+              .idRankCategory) {
+        changedRank = true;
+      }
+    }
+    return userEdited.firstName != userReference.firstName ||
+        userEdited.lastName != userReference.lastName ||
+        userEdited.birthday != userReference.birthday ||
+        userEdited.city != userReference.city ||
+        userEdited.gender != userReference.gender ||
+        userEdited.sidePreference != userReference.sidePreference ||
+        userEdited.height != userReference.height ||
+        userEdited.preferenceSport!.idSport !=
+            userReference.preferenceSport!.idSport ||
+        changedRank;
+  }
+
   final userDetailsNameFormKey = GlobalKey<FormState>();
   final userDetailsAgeFormKey = GlobalKey<FormState>();
   final userDetailsHeightFormKey = GlobalKey<FormState>();
   final userDetailsPhoneNumberFormKey = GlobalKey<FormState>();
 
   void initUserDetailsViewModel(BuildContext context) {
-    userEdited = Provider.of<DataProvider>(context, listen: false).user!;
+    userEdited = User.copyWith(
+      Provider.of<DataProvider>(context, listen: false).user!,
+    );
+    userReference = User.copyWith(
+      Provider.of<DataProvider>(context, listen: false).user!,
+    );
     displayedSport = userEdited.preferenceSport!;
     firstNameController.text = userEdited.firstName!;
     lastNameController.text = userEdited.lastName!;
     phoneNumberController.text = userEdited.phoneNumber!;
-    birthdayController.text = userEdited.birthday ?? "";
+    birthdayController.text = userEdited.birthday.toString();
     heightController.text = userEdited.height.toString();
 
-    if (userEdited.ranks.isEmpty) {
+    if (Provider.of<DataProvider>(context, listen: false).user!.ranks.isEmpty) {
       setDefaultRanks(context);
     }
   }
@@ -71,6 +103,7 @@ class UserDetailsViewModel extends ChangeNotifier {
     Provider.of<DataProvider>(context, listen: false).ranks.forEach((rank) {
       if (rank.rankSportLevel == 0) {
         userEdited.ranks.add(rank);
+        userReference.ranks.add(rank);
       }
     });
   }
@@ -92,7 +125,29 @@ class UserDetailsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateUserInfo(BuildContext context) {}
+  void updateUserInfo(BuildContext context) {
+    if (isEdited) {
+      pageStatus = PageStatus.LOADING;
+      notifyListeners();
+      userDetailsRepo.updateUserInfo(userEdited).then((response) {
+        if (response.responseStatus == NetworkResponseStatus.alert) {
+          Provider.of<DataProvider>(context, listen: false).user =
+              User.copyWith(userEdited);
+          userReference = User.copyWith(userEdited);
+        }
+        modalMessage = SFModalMessage(
+          message: response.userMessage!,
+          onTap: () {
+            pageStatus = PageStatus.OK;
+            notifyListeners();
+          },
+          isHappy: response.responseStatus == NetworkResponseStatus.alert,
+        );
+        pageStatus = PageStatus.ERROR;
+        notifyListeners();
+      });
+    }
+  }
 
   void goToHome(BuildContext context) {
     Navigator.pop(context);
@@ -109,7 +164,7 @@ class UserDetailsViewModel extends ChangeNotifier {
 
   void setUserAge() {
     if (userDetailsPhoneNumberFormKey.currentState?.validate() == true) {
-      userEdited.birthday = birthdayController.text;
+      userEdited.birthday = stringToDateTime(birthdayController.text);
       pageStatus = PageStatus.OK;
 
       notifyListeners();
@@ -175,22 +230,24 @@ class UserDetailsViewModel extends ChangeNotifier {
       case UserDetailsModals.Region:
         if (Provider.of<DataProvider>(context, listen: false).regions.isEmpty) {
           getAllCities(context);
+        } else {
+          modalForm = CitySelectorModal(
+            regions: Provider.of<DataProvider>(context, listen: false).regions,
+            onSelectedCity: (selectedCity) {
+              userEdited.city = selectedCity;
+              pageStatus = PageStatus.OK;
+              notifyListeners();
+            },
+          );
+          pageStatus = PageStatus.FORM;
+          notifyListeners();
         }
-        modalForm = CitySelectorModal(
-          regions: Provider.of<DataProvider>(context, listen: false).regions,
-          onSelectedCity: (selectedRegion) {
-            userEdited.city = selectedRegion.selectedCity;
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          },
-        );
-        pageStatus = PageStatus.FORM;
-        notifyListeners();
+
         break;
       case UserDetailsModals.Photo:
-        // modalForm = UserDetailsModalPhoto(
-        //   viewModel: this,
-        // );
+        modalForm = UserDetailsModalPhoto(
+          viewModel: this,
+        );
         break;
     }
     pageStatus = PageStatus.FORM;
@@ -212,7 +269,15 @@ class UserDetailsViewModel extends ChangeNotifier {
                 ),
               );
         }
-        pageStatus = PageStatus.OK;
+        modalForm = CitySelectorModal(
+          regions: Provider.of<DataProvider>(context, listen: false).regions,
+          onSelectedCity: (selectedCity) {
+            userEdited.city = selectedCity;
+            pageStatus = PageStatus.OK;
+            notifyListeners();
+          },
+        );
+        pageStatus = PageStatus.FORM;
         notifyListeners();
       } else {
         modalMessage = SFModalMessage(
@@ -228,11 +293,10 @@ class UserDetailsViewModel extends ChangeNotifier {
   }
 
   void setUserRank(Rank newRank) {
-    userEdited.ranks.map((rank) {
-      if (rank.sport.idSport == displayedSport.idSport) {
-        rank = newRank;
-      }
-    });
+    userEdited.ranks
+        .removeWhere((rank) => rank.sport.idSport == displayedSport.idSport);
+    userEdited.ranks.add(newRank);
+    pageStatus = PageStatus.OK;
     notifyListeners();
   }
 }
