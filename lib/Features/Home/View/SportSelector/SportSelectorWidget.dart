@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/SharedComponents/View/SportSelector.dart';
 
+import '../../../../SharedComponents/View/SportSelector.dart';
 import '../../ViewModel/HomeViewModel.dart';
 
 class SportSelectorWidget extends StatefulWidget {

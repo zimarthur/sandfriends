@@ -1,21 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Authentication/LoadLogin/ViewModel/LoadLoginViewModel.dart';
-import 'package:sandfriends/Features/Authentication/Login/View/ForgotPasswordModal.dart';
-import 'package:sandfriends/Remote/NetworkResponse.dart';
-import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
-import 'package:sandfriends/Utils/SharedPreferences.dart';
-import 'package:sandfriends/SharedComponents/Model/User.dart';
-import 'package:sandfriends/oldApp/widgets/Modal/SFModalMessageCopy.dart';
 
+import '../../../../Remote/NetworkResponse.dart';
 import '../../../../SharedComponents/View/SFModalMessage.dart';
 import '../../../../Utils/PageStatus.dart';
-import '../../../../oldApp/providers/categories_provider.dart';
+import '../../LoadLogin/ViewModel/LoadLoginViewModel.dart';
 import '../Repository/LoginRepoImp.dart';
+import '../View/ForgotPasswordModal.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final loginRepo = LoginRepoImp();

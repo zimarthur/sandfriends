@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
-import 'package:sandfriends/Utils/Constants.dart';
 
+import '../../../Utils/Constants.dart';
 import '../../../Utils/Validators.dart';
 import '../../../oldApp/widgets/SF_TextField.dart';
+import '../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsPhoneNumber extends StatefulWidget {
   UserDetailsViewModel viewModel;

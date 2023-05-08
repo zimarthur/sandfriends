@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/UserMatches/Repository/UserMatchesRepoImp.dart';
-import 'package:sandfriends/Remote/NetworkResponse.dart';
-import 'package:sandfriends/SharedComponents/Model/AppMatch.dart';
-import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
 
+import '../../../Remote/NetworkResponse.dart';
+import '../../../SharedComponents/Model/AppMatch.dart';
+import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../SharedComponents/View/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
+import '../Repository/UserMatchesRepoImp.dart';
 
 class UserMatchesViewModel extends ChangeNotifier {
   final userMatchesRepo = UserMatchesRepoImp();
@@ -28,16 +28,16 @@ class UserMatchesViewModel extends ChangeNotifier {
     notifyListeners();
     userMatchesRepo
         .getUserMatches(
-      Provider.of<DataProvider>(context, listen: false).user!.accessToken,
+      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
     )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
         );
-        Provider.of<DataProvider>(context, listen: false).clearMatches();
+        Provider.of<UserProvider>(context, listen: false).clearMatches();
         for (var match in responseBody['UserMatches']) {
-          Provider.of<DataProvider>(context, listen: false).addMatch(
+          Provider.of<UserProvider>(context, listen: false).addMatch(
             AppMatch.fromJson(
               match,
             ),

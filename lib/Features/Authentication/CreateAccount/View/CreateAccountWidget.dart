@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sandfriends/Features/Authentication/CreateAccount/ViewModel/CreateAccountViewModel.dart';
 
 import '../../../../Utils/Constants.dart';
 import '../../../../Utils/Validators.dart';
 import '../../../../oldApp/widgets/SF_Button.dart';
 import '../../../../oldApp/widgets/SF_TextField.dart';
+import '../ViewModel/CreateAccountViewModel.dart';
 
 class CreateAccountWidget extends StatefulWidget {
   CreateAccountViewModel viewModel;

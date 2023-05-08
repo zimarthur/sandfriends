@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends/Features/Authentication/LoginSignup/ViewModel/LoginSignupViewModel.dart';
-import 'package:sandfriends/Utils/Constants.dart';
 
+import '../../../../Utils/Constants.dart';
 import '../../../../oldApp/widgets/SF_Button.dart';
+import '../ViewModel/LoginSignupViewModel.dart';
 
 class LoginSignupWidget extends StatefulWidget {
   LoginSignupViewModel viewModel;

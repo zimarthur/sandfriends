@@ -1,14 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Onboarding/ViewModel/OnboardingViewModel.dart';
-import 'package:sandfriends/Utils/Constants.dart';
-import 'package:sandfriends/Utils/Validators.dart';
 
 import '../../../SharedComponents/View/SFStandardScreen.dart';
+import '../../../Utils/Constants.dart';
+import '../../../Utils/Validators.dart';
 import '../../../oldApp/models/enums.dart';
 import '../../../oldApp/widgets/SF_Button.dart';
 import '../../../oldApp/widgets/SF_TextField.dart';
+import '../ViewModel/OnboardingViewModel.dart';
 
 class OnboardingWidgetForm extends StatefulWidget {
   OnboardingViewModel viewModel;

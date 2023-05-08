@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Home/View/User/UserCardHome.dart';
-import 'package:sandfriends/Features/Home/View/User/UserTileButton.dart';
-import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
-import 'package:sandfriends/Utils/Constants.dart';
 
-import '../../../../oldApp/widgets/SFAvatar.dart';
+import '../../../../Utils/Constants.dart';
 import '../../ViewModel/HomeViewModel.dart';
+import 'UserCardHome.dart';
+import 'UserTileButton.dart';
 
 class UserWidget extends StatefulWidget {
   HomeViewModel viewModel;

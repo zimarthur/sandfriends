@@ -2,17 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/MatchSearch/Repository/MatchSearchRepoImp.dart';
-import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
 import 'package:time_range/time_range.dart';
 
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/City.dart';
 import '../../../SharedComponents/Model/Region.dart';
 import '../../../SharedComponents/Model/Sport.dart';
+import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../SharedComponents/View/CitySelectorModal.dart';
 import '../../../SharedComponents/View/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
+import '../Repository/MatchSearchRepoImp.dart';
 
 class MatchSearchViewModel extends ChangeNotifier {
   final matchSearchRepo = MatchSearchRepoImp();
@@ -33,10 +33,11 @@ class MatchSearchViewModel extends ChangeNotifier {
   TimeRangeResult? timeFilter;
 
   void initMatchSearchViewModel(BuildContext context, int sportId) {
-    searchSport =
-        Provider.of<DataProvider>(context, listen: false).sports.firstWhere(
-              (sport) => sport.idSport == sportId,
-            );
+    searchSport = Provider.of<CategoriesProvider>(context, listen: false)
+        .sports
+        .firstWhere(
+          (sport) => sport.idSport == sportId,
+        );
     titleText = "Busca - ${searchSport.description}";
   }
 
@@ -52,14 +53,16 @@ class MatchSearchViewModel extends ChangeNotifier {
   void openCitySelectorModal(BuildContext context) {
     pageStatus = PageStatus.LOADING;
     notifyListeners();
-    if (Provider.of<DataProvider>(context, listen: false).regions.isEmpty) {
+    if (Provider.of<CategoriesProvider>(context, listen: false)
+        .regions
+        .isEmpty) {
       matchSearchRepo.getAllCities().then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
           Map<String, dynamic> responseBody = json.decode(
             response.responseBody!,
           );
           for (var state in responseBody['States']) {
-            Provider.of<DataProvider>(context, listen: false).regions.add(
+            Provider.of<CategoriesProvider>(context, listen: false).regions.add(
                   Region.fromJson(
                     state,
                   ),
@@ -85,7 +88,7 @@ class MatchSearchViewModel extends ChangeNotifier {
 
   void displayCitySelector(BuildContext context) {
     widgetForm = CitySelectorModal(
-      regions: Provider.of<DataProvider>(context, listen: false).regions,
+      regions: Provider.of<CategoriesProvider>(context, listen: false).regions,
       onSelectedCity: (city) {
         cityFilter = city;
         pageStatus = PageStatus.OK;

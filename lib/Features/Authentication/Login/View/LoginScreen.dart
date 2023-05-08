@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/SharedComponents/View/SFStandardScreen.dart';
-import 'package:sandfriends/Utils/Constants.dart';
-import '../../../../SharedComponents/View/SFLoading.dart';
+
+import '../../../../SharedComponents/View/SFStandardScreen.dart';
 import '../../../../oldApp/models/enums.dart';
 import '../ViewModel/LoginViewModel.dart';
 import 'LoginWidget.dart';

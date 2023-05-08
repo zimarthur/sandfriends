@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/Features/UserDetails/View/UserDetailsCard.dart';
-import 'package:sandfriends/Features/UserDetails/View/UserDetailsPhoneNumber.dart';
-import 'package:sandfriends/Features/UserDetails/View/UserDetailsSportSelector.dart';
-import 'package:sandfriends/Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
-import 'package:sandfriends/Utils/Constants.dart';
 
+import '../../../Utils/Constants.dart';
+import '../ViewModel/UserDetailsViewModel.dart';
+import 'UserDetailsCard.dart';
 import 'UserDetailsEmail.dart';
+import 'UserDetailsPhoneNumber.dart';
+import 'UserDetailsSportSelector.dart';
 
 class UserDetailsWidget extends StatefulWidget {
   UserDetailsViewModel viewModel;

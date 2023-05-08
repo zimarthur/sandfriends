@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:sandfriends/Features/Authentication/CreateAccount/Repo/CreateAccountRepo.dart';
-import 'package:sandfriends/Remote/NetworkResponse.dart';
-
 import '../../../../Remote/ApiEndPoints.dart';
 import '../../../../Remote/BaseApiService.dart';
 import '../../../../Remote/NetworkApiService.dart';
+import '../../../../Remote/NetworkResponse.dart';
+import 'CreateAccountRepo.dart';
 
 class CreateAccountRepoImp implements CreateAccountRepo {
   final BaseApiService _apiService = NetworkApiService();

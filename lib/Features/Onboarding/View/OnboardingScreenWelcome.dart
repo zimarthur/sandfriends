@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends/Features/Onboarding/ViewModel/OnboardingViewModel.dart';
-import 'package:sandfriends/Utils/Constants.dart';
 
 import '../../../SharedComponents/View/SFStandardScreen.dart';
+import '../../../Utils/Constants.dart';
 import '../../../oldApp/models/enums.dart';
 import '../../../oldApp/widgets/SF_Button.dart';
+import '../ViewModel/OnboardingViewModel.dart';
 
 class OnboardingWidgetWelcome extends StatefulWidget {
   OnboardingViewModel viewModel;

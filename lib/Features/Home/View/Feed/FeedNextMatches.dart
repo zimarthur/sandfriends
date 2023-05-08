@@ -1,15 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Home/Model/HomeTabsEnum.dart';
-import 'package:sandfriends/Features/Home/ViewModel/HomeViewModel.dart';
-import 'package:sandfriends/Features/UserMatches/View/MatchCard.dart';
-import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
-import 'package:sandfriends/Utils/Constants.dart';
 
-import '../../../../SharedComponents/View/SFLoading.dart';
-import '../../../../Utils/SFDateTime.dart';
+import '../../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
+import '../../../../Utils/Constants.dart';
+import '../../../UserMatches/View/MatchCard.dart';
+import '../../Model/HomeTabsEnum.dart';
+import '../../ViewModel/HomeViewModel.dart';
 
 class FeedNextMatches extends StatefulWidget {
   HomeViewModel viewModel;
@@ -63,7 +60,7 @@ class _FeedNextMatchesState extends State<FeedNextMatches> {
           padding: EdgeInsets.symmetric(
             vertical: 5,
           ),
-          child: Provider.of<DataProvider>(context).nextMatches.isEmpty
+          child: Provider.of<UserProvider>(context).nextMatches.isEmpty
               ? Container(
                   alignment: Alignment.topCenter,
                   padding: EdgeInsets.symmetric(horizontal: width * 0.03),
@@ -121,13 +118,13 @@ class _FeedNextMatchesState extends State<FeedNextMatches> {
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   itemCount:
-                      Provider.of<DataProvider>(context).nextMatches.length,
+                      Provider.of<UserProvider>(context).nextMatches.length,
                   itemBuilder: (context, index) {
                     return Container(
                       width: width * 0.6,
                       padding: EdgeInsets.only(bottom: 5),
                       margin: index ==
-                              Provider.of<DataProvider>(context)
+                              Provider.of<UserProvider>(context)
                                       .nextMatches
                                       .length -
                                   1
@@ -138,7 +135,7 @@ class _FeedNextMatchesState extends State<FeedNextMatches> {
                               left: width * 0.03,
                             ),
                       child: MatchCard(
-                          match: Provider.of<DataProvider>(context)
+                          match: Provider.of<UserProvider>(context)
                               .nextMatches[index]),
                     );
                   },

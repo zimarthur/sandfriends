@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Home/View/NavigationMenu/NavigationMenu.dart';
-import 'package:sandfriends/Features/Home/ViewModel/HomeViewModel.dart';
-import 'package:sandfriends/SharedComponents/View/SFStandardScreen.dart';
 
+import '../../../SharedComponents/View/SFStandardScreen.dart';
 import '../Model/HomeTabsEnum.dart';
+import '../ViewModel/HomeViewModel.dart';
+import 'NavigationMenu/NavigationMenu.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeTabs initialTab;

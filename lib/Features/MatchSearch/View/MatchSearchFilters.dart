@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/Features/MatchSearch/ViewModel/MatchSearchViewModel.dart';
-import 'package:sandfriends/Utils/Constants.dart';
 
+import '../../../Utils/Constants.dart';
 import '../../../oldApp/widgets/SF_Button.dart';
+import '../ViewModel/MatchSearchViewModel.dart';
 import 'SFSearchFilter.dart';
 
 class MatchSearchFilters extends StatefulWidget {

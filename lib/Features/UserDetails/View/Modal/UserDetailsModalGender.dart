@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
-import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
 
 import '../../../../SharedComponents/Model/Gender.dart';
+import '../../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../../Utils/Constants.dart';
-import '../../../../Utils/Validators.dart';
 import '../../../../oldApp/widgets/SF_Button.dart';
-import '../../../../oldApp/widgets/SF_TextField.dart';
+import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalGender extends StatefulWidget {
   UserDetailsViewModel viewModel;
@@ -25,7 +23,7 @@ class _UserDetailsModalGenderState extends State<UserDetailsModalGender> {
   @override
   void initState() {
     currentGender = widget.viewModel.userEdited.gender == null
-        ? Provider.of<DataProvider>(context, listen: false).genders.first
+        ? Provider.of<CategoriesProvider>(context, listen: false).genders.first
         : widget.viewModel.userEdited.gender!;
     super.initState();
   }
@@ -53,16 +51,16 @@ class _UserDetailsModalGenderState extends State<UserDetailsModalGender> {
             height: height * 0.3,
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: Provider.of<DataProvider>(context, listen: false)
+              itemCount: Provider.of<CategoriesProvider>(context, listen: false)
                   .genders
                   .length,
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
                     setState(() {
-                      currentGender =
-                          Provider.of<DataProvider>(context, listen: false)
-                              .genders[index];
+                      currentGender = Provider.of<CategoriesProvider>(context,
+                              listen: false)
+                          .genders[index];
                     });
                   },
                   child: Container(
@@ -74,24 +72,24 @@ class _UserDetailsModalGenderState extends State<UserDetailsModalGender> {
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
                         color: currentGender ==
-                                Provider.of<DataProvider>(context)
+                                Provider.of<CategoriesProvider>(context)
                                     .genders[index]
                             ? primaryBlue
                             : textLightGrey,
                         width: currentGender ==
-                                Provider.of<DataProvider>(context)
+                                Provider.of<CategoriesProvider>(context)
                                     .genders[index]
                             ? 2
                             : 1,
                       ),
                     ),
                     child: Text(
-                      Provider.of<DataProvider>(context, listen: false)
+                      Provider.of<CategoriesProvider>(context, listen: false)
                           .genders[index]
                           .name,
                       style: TextStyle(
                           color: currentGender ==
-                                  Provider.of<DataProvider>(context)
+                                  Provider.of<CategoriesProvider>(context)
                                       .genders[index]
                               ? textBlue
                               : textDarkGrey),

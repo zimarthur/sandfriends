@@ -2,22 +2,22 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Home/Repository/HomeRepoImp.dart';
-import 'package:sandfriends/Features/Home/View/User/AppRatingModal.dart';
-import 'package:sandfriends/SharedComponents/Model/AppNotification.dart';
-import 'package:sandfriends/SharedComponents/Model/Reward.dart';
-import 'package:sandfriends/SharedComponents/Model/Sport.dart';
-import 'package:sandfriends/Utils/SharedPreferences.dart';
 
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/AppMatch.dart';
+import '../../../SharedComponents/Model/AppNotification.dart';
+import '../../../SharedComponents/Model/Reward.dart';
+import '../../../SharedComponents/Model/Sport.dart';
+import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../SharedComponents/View/SFModalMessage.dart';
-import '../../../SharedComponents/ViewModel/DataProvider.dart';
 import '../../../Utils/PageStatus.dart';
+import '../../../Utils/SharedPreferences.dart';
 import '../../../Utils/UrlLauncher.dart';
 import '../Model/HomeTabsEnum.dart';
+import '../Repository/HomeRepoImp.dart';
 import '../View/Feed/FeedWidget.dart';
 import '../View/SportSelector/SportSelectorWidget.dart';
+import '../View/User/AppRatingModal.dart';
 import '../View/User/UserWidget.dart';
 
 class HomeViewModel extends ChangeNotifier {
@@ -72,10 +72,10 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
     homeRepo
         .getUserInfo(
-            Provider.of<DataProvider>(context, listen: false).user!.accessToken)
+            Provider.of<UserProvider>(context, listen: false).user!.accessToken)
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
-        Provider.of<DataProvider>(context, listen: false).clearUserStats();
+        Provider.of<UserProvider>(context, listen: false).clear();
 
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
@@ -87,29 +87,29 @@ class HomeViewModel extends ChangeNotifier {
         final responseNotifications = responseBody['Notifications'];
         final responseRewards = responseBody['UserRewards'];
 
-        Provider.of<DataProvider>(context, listen: false)
+        Provider.of<UserProvider>(context, listen: false)
             .user!
             .matchCounterFromJson(responseMatchCounter);
 
         for (var match in responseMatches) {
-          Provider.of<DataProvider>(context, listen: false).addMatch(
+          Provider.of<UserProvider>(context, listen: false).addMatch(
             AppMatch.fromJson(
               match,
             ),
           );
         }
 
-        Provider.of<DataProvider>(context, listen: false).openMatchesCounter =
+        Provider.of<UserProvider>(context, listen: false).openMatchesCounter =
             openMatchesCounter;
 
-        Provider.of<DataProvider>(context, listen: false).userReward =
+        Provider.of<UserProvider>(context, listen: false).userReward =
             Reward.fromJson(responseRewards['Reward']);
-        Provider.of<DataProvider>(context, listen: false)
+        Provider.of<UserProvider>(context, listen: false)
             .userReward!
             .userRewardQuantity = responseRewards['UserRewardQuantity'];
 
         for (var appNotification in responseNotifications) {
-          Provider.of<DataProvider>(context, listen: false).addNotifications(
+          Provider.of<UserProvider>(context, listen: false).addNotifications(
             AppNotification.fromJson(
               appNotification,
             ),
@@ -144,7 +144,7 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
     homeRepo
         .sendFeedback(
-      Provider.of<DataProvider>(context, listen: false).user!.accessToken,
+      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
       feedbackController.text,
     )
         .then((response) {

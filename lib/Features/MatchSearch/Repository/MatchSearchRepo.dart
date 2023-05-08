@@ -1,4 +1,4 @@
-import 'package:sandfriends/Remote/NetworkResponse.dart';
+import '../../../Remote/NetworkResponse.dart';
 
 class MatchSearchRepo {
   Future<NetworkResponse?> getAllCities() async {}

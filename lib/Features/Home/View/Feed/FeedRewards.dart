@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
-import 'package:sandfriends/Utils/Constants.dart';
+
+import '../../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
+import '../../../../Utils/Constants.dart';
 
 class FeedRewards extends StatelessWidget {
   const FeedRewards({Key? key}) : super(key: key);
@@ -45,11 +43,11 @@ class FeedRewards extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  if (Provider.of<DataProvider>(context, listen: false)
+                  if (Provider.of<UserProvider>(context, listen: false)
                           .userReward !=
                       null)
                     Text(
-                      "(${Provider.of<DataProvider>(context, listen: false).userReward!.userRewardQuantity!}/${Provider.of<DataProvider>(context, listen: false).userReward!.rewardQuantity})",
+                      "(${Provider.of<UserProvider>(context, listen: false).userReward!.userRewardQuantity!}/${Provider.of<UserProvider>(context, listen: false).userReward!.rewardQuantity})",
                       style: TextStyle(
                         color: textWhite,
                         fontWeight: FontWeight.w700,
@@ -65,12 +63,12 @@ class FeedRewards extends StatelessWidget {
                     child: ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemCount: Provider.of<DataProvider>(context,
+                      itemCount: Provider.of<UserProvider>(context,
                                       listen: false)
                                   .userReward ==
                               null
                           ? 0
-                          : Provider.of<DataProvider>(context, listen: false)
+                          : Provider.of<UserProvider>(context, listen: false)
                               .userReward!
                               .rewardQuantity,
                       itemBuilder: (context, index) {
@@ -84,7 +82,7 @@ class FeedRewards extends StatelessWidget {
                             borderRadius: BorderRadius.circular(height * 0.25),
                           ),
                           child:
-                              Provider.of<DataProvider>(context, listen: false)
+                              Provider.of<UserProvider>(context, listen: false)
                                           .userReward!
                                           .userRewardQuantity! >
                                       index

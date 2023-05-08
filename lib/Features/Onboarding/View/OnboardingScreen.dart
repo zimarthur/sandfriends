@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Onboarding/ViewModel/OnboardingViewModel.dart';
 
-import '../../../SharedComponents/View/SFStandardScreen.dart';
-import '../../../oldApp/models/enums.dart';
+import '../ViewModel/OnboardingViewModel.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);

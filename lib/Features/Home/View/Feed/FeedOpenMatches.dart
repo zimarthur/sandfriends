@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Home/ViewModel/HomeViewModel.dart';
-import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
-import 'package:sandfriends/Utils/Constants.dart';
+
+import '../../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
+import '../../../../Utils/Constants.dart';
+import '../../ViewModel/HomeViewModel.dart';
 
 class FeedOpenMatches extends StatelessWidget {
   HomeViewModel viewModel;
@@ -18,7 +19,7 @@ class FeedOpenMatches extends StatelessWidget {
       double height = layoutConstraints.maxHeight;
       return InkWell(
         onTap: () {
-          if (Provider.of<DataProvider>(context, listen: false)
+          if (Provider.of<UserProvider>(context, listen: false)
                   .openMatchesCounter >
               0) {
             Navigator.pushNamed(context, '/open_matches_screen');
@@ -46,15 +47,15 @@ class FeedOpenMatches extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  Provider.of<DataProvider>(context, listen: false)
+                  Provider.of<UserProvider>(context, listen: false)
                               .openMatchesCounter ==
                           0
                       ? "Não há partidas abertas perto de você"
-                      : Provider.of<DataProvider>(context, listen: false)
+                      : Provider.of<UserProvider>(context, listen: false)
                                   .openMatchesCounter ==
                               1
                           ? "Existe 1 partida aberta perto de você"
-                          : "Existem ${Provider.of<DataProvider>(context, listen: false).openMatchesCounter} partidas abertas perto de você",
+                          : "Existem ${Provider.of<UserProvider>(context, listen: false).openMatchesCounter} partidas abertas perto de você",
                   style: TextStyle(
                     color: textWhite,
                     fontWeight: FontWeight.w700,

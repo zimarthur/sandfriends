@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/MatchSearch/View/MatchSearchWidget.dart';
-import 'package:sandfriends/Features/MatchSearch/ViewModel/MatchSearchViewModel.dart';
-import 'package:sandfriends/oldApp/models/enums.dart';
 
 import '../../../SharedComponents/View/SFStandardScreen.dart';
+import '../../../oldApp/models/enums.dart';
+import '../ViewModel/MatchSearchViewModel.dart';
+import 'MatchSearchWidget.dart';
 
 class MatchSearchScreen extends StatefulWidget {
   int sportId;

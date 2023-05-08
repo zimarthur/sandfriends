@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
-import 'package:sandfriends/Utils/Constants.dart';
 
-import '../../../SharedComponents/ViewModel/DataProvider.dart';
+import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../Utils/Constants.dart';
 import '../../../oldApp/widgets/SF_Dropdown.dart';
+import '../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsSportSelector extends StatefulWidget {
   UserDetailsViewModel viewModel;
@@ -45,7 +45,7 @@ class _UserDetailsSportSelectorState extends State<UserDetailsSportSelector> {
                       widget.viewModel.changedDisplayedSport(context, newValue),
                   controller: widget.viewModel.displayedSport.description,
                   labelText: "",
-                  items: Provider.of<DataProvider>(context, listen: false)
+                  items: Provider.of<CategoriesProvider>(context, listen: false)
                       .sports
                       .map((e) => e.description)
                       .toList(),

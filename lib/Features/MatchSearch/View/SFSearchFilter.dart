@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../oldApp/theme/app_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../oldApp/theme/app_theme.dart';
 
 class SFSearchFilter extends StatefulWidget {
   final String labelText;

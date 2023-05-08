@@ -159,9 +159,6 @@ class _MyAppState extends State<MyApp> {
         /*ChangeNotifierProvider<Redirect>.value(
           value: redirecter,
         ),*/
-        ChangeNotifierProvider<DataProvider>(
-          create: ((context) => DataProvider()),
-        ),
         ChangeNotifierProvider<Redirect>(
           create: ((context) => Redirect()),
         ),

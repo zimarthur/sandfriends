@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:sandfriends/Features/Onboarding/Repository/OnboardingRepo.dart';
-import 'package:sandfriends/Remote/NetworkResponse.dart';
-
 import '../../../Remote/ApiEndPoints.dart';
 import '../../../Remote/BaseApiService.dart';
 import '../../../Remote/NetworkApiService.dart';
+import '../../../Remote/NetworkResponse.dart';
+import 'OnboardingRepo.dart';
 
 class OnboardingRepoImp implements OnboardingRepo {
   final BaseApiService _apiService = NetworkApiService();

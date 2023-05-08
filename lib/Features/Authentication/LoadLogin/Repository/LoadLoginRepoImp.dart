@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:sandfriends/Features/Authentication/LoadLogin/Repository/LoadLoginRepo.dart';
-import 'package:sandfriends/Remote/NetworkResponse.dart';
 
 import '../../../../Remote/ApiEndPoints.dart';
 import '../../../../Remote/BaseApiService.dart';
 import '../../../../Remote/NetworkApiService.dart';
+import '../../../../Remote/NetworkResponse.dart';
+import 'LoadLoginRepo.dart';
 
 class LoadLoginRepoImp implements LoadLoginRepo {
   final BaseApiService _apiService = NetworkApiService();

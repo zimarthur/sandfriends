@@ -1,10 +1,9 @@
 import 'dart:convert';
 
-import 'package:sandfriends/Remote/NetworkResponse.dart';
-
 import '../../../Remote/ApiEndPoints.dart';
 import '../../../Remote/BaseApiService.dart';
 import '../../../Remote/NetworkApiService.dart';
+import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/User.dart';
 import 'UserDetailsRepo.dart';
 

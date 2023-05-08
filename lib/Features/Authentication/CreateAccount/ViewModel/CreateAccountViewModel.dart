@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/Features/Authentication/CreateAccount/Repo/CreateAccountRepoImp.dart';
 
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../SharedComponents/View/SFModalMessage.dart';
 import '../../../../Utils/PageStatus.dart';
+import '../Repo/CreateAccountRepoImp.dart';
 
 class CreateAccountViewModel extends ChangeNotifier {
   final _createAccountRepo = CreateAccountRepoImp();

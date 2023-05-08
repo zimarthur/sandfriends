@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Home/View/User/USerCardHomeItem.dart';
-import 'package:sandfriends/Features/Home/ViewModel/HomeViewModel.dart';
-import 'package:sandfriends/Utils/Constants.dart';
 
-import '../../../../SharedComponents/ViewModel/DataProvider.dart';
+import '../../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
+import '../../../../Utils/Constants.dart';
 import '../../../../oldApp/widgets/SFAvatar.dart';
+import '../../ViewModel/HomeViewModel.dart';
+import 'USerCardHomeItem.dart';
 
 class UserCardHome extends StatefulWidget {
   HomeViewModel viewModel;
@@ -38,7 +37,7 @@ class _UserCardHomeState extends State<UserCardHome> {
                       SFAvatar(
                         height: height * 0.65,
                         showRank: false,
-                        user: Provider.of<DataProvider>(context, listen: false)
+                        user: Provider.of<UserProvider>(context, listen: false)
                             .user!,
                         editFile: null,
                       ),
@@ -46,7 +45,7 @@ class _UserCardHomeState extends State<UserCardHome> {
                         height: height * 0.15,
                         child: FittedBox(
                           child: Text(
-                            "${Provider.of<DataProvider>(context, listen: false).user!.firstName} ${Provider.of<DataProvider>(context, listen: false).user!.lastName}",
+                            "${Provider.of<UserProvider>(context, listen: false).user!.firstName} ${Provider.of<UserProvider>(context, listen: false).user!.lastName}",
                             style: TextStyle(
                               color: textWhite,
                               overflow: TextOverflow.ellipsis,
@@ -63,28 +62,28 @@ class _UserCardHomeState extends State<UserCardHome> {
               children: [
                 UserCardHomeItem(
                   text:
-                      "${Provider.of<DataProvider>(context, listen: false).user!.email}",
+                      "${Provider.of<UserProvider>(context, listen: false).user!.email}",
                   iconPath: r'assets\icon\at_email.svg',
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: UserCardHomeItem(
-                    text: Provider.of<DataProvider>(context, listen: false)
+                    text: Provider.of<UserProvider>(context, listen: false)
                                 .user!
                                 .city ==
                             null
                         ? "-"
-                        : "${Provider.of<DataProvider>(context, listen: false).user!.city!.city} / ${Provider.of<DataProvider>(context, listen: false).user!.city!.state!.uf}",
+                        : "${Provider.of<UserProvider>(context, listen: false).user!.city!.city} / ${Provider.of<UserProvider>(context, listen: false).user!.city!.state!.uf}",
                     iconPath: r'assets\icon\location_ping.svg',
                   ),
                 ),
                 UserCardHomeItem(
-                  text: Provider.of<DataProvider>(context, listen: false)
+                  text: Provider.of<UserProvider>(context, listen: false)
                               .user!
                               .getUserTotalMatches() ==
                           1
                       ? "1 jogo"
-                      : "${Provider.of<DataProvider>(context, listen: false).user!.getUserTotalMatches()} jogos",
+                      : "${Provider.of<UserProvider>(context, listen: false).user!.getUserTotalMatches()} jogos",
                   iconPath: r'assets\icon\star.svg',
                 ),
               ],

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
 
 import '../../Utils/Constants.dart';
 import '../../oldApp/widgets/SF_Button.dart';
 import '../Model/Sport.dart';
+import '../Providers/CategoriesProvider/CategoriesProvider.dart';
 
 class SportSelector extends StatelessWidget {
   bool isRecurrentMatch;
@@ -44,9 +44,10 @@ class SportSelector extends StatelessWidget {
                 alignment: Alignment.center,
                 child: ListView.separated(
                   shrinkWrap: true,
-                  itemCount: Provider.of<DataProvider>(context, listen: false)
-                      .sports
-                      .length,
+                  itemCount:
+                      Provider.of<CategoriesProvider>(context, listen: false)
+                          .sports
+                          .length,
                   separatorBuilder: (context, index) {
                     return SizedBox(
                       height: height * 0.05,
@@ -57,17 +58,18 @@ class SportSelector extends StatelessWidget {
                       height: height * 0.1,
                       padding: EdgeInsets.symmetric(horizontal: width * 0.1),
                       child: SFButton(
-                        buttonLabel:
-                            Provider.of<DataProvider>(context, listen: false)
-                                .sports[index]
-                                .description,
+                        buttonLabel: Provider.of<CategoriesProvider>(context,
+                                listen: false)
+                            .sports[index]
+                            .description,
                         buttonType: isRecurrentMatch
                             ? ButtonType.LightBlueSecondary
                             : ButtonType.Secondary,
                         textPadding:
                             EdgeInsets.symmetric(vertical: height * 0.025),
                         onTap: () => onSportSelected(
-                          Provider.of<DataProvider>(context, listen: false)
+                          Provider.of<CategoriesProvider>(context,
+                                  listen: false)
                               .sports[index],
                         ),
                       ),

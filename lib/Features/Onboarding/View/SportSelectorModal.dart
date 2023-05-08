@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/Utils/Constants.dart';
 
 import '../../../SharedComponents/Model/Sport.dart';
-import '../../../oldApp/widgets/SF_Button.dart';
+import '../../../Utils/Constants.dart';
 
 class SportSelectorModal extends StatefulWidget {
   List<Sport> sports;

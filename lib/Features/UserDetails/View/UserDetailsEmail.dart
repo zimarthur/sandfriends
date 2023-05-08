@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
-import 'package:sandfriends/Utils/Constants.dart';
+
+import '../../../Utils/Constants.dart';
+import '../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsEmail extends StatelessWidget {
   UserDetailsViewModel viewModel;

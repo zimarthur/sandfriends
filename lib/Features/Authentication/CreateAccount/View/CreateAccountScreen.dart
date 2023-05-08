@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Authentication/CreateAccount/View/CreateAccountWidget.dart';
 
 import '../../../../SharedComponents/View/SFStandardScreen.dart';
 import '../../../../oldApp/models/enums.dart';
 import '../ViewModel/CreateAccountViewModel.dart';
+import 'CreateAccountWidget.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({Key? key}) : super(key: key);

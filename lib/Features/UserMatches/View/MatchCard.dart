@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends/SharedComponents/Model/AppMatch.dart';
 
+import '../../../SharedComponents/Model/AppMatch.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
 import '../../../Utils/Constants.dart';
 import '../../../Utils/SFDateTime.dart';

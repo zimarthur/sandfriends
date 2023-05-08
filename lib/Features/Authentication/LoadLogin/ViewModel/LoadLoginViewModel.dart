@@ -1,16 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Authentication/LoadLogin/Repository/LoadLoginRepoImp.dart';
-import 'package:sandfriends/Remote/NetworkResponse.dart';
-import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
-import 'package:sandfriends/Utils/SharedPreferences.dart';
 
+import '../../../../Remote/NetworkResponse.dart';
 import '../../../../SharedComponents/Model/User.dart';
 import '../../../../SharedComponents/Model/Sport.dart';
 import '../../../../SharedComponents/Model/Gender.dart';
 import '../../../../SharedComponents/Model/Rank.dart';
 import '../../../../SharedComponents/Model/SidePreference.dart';
+import '../../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
+import '../../../../Utils/SharedPreferences.dart';
+import '../Repository/LoadLoginRepoImp.dart';
 
 class LoadLoginViewModel extends ChangeNotifier {
   final loadLoginRepo = LoadLoginRepoImp();
@@ -41,7 +42,7 @@ void receiveLoginResponse(BuildContext context, String response) {
   Map<String, dynamic> responseBody = json.decode(
     response,
   );
-  Provider.of<DataProvider>(context, listen: false).clearAll();
+  Provider.of<CategoriesProvider>(context, listen: false).clearAll();
 
   final responseSports = responseBody['Sports'];
   final responseGenders = responseBody['Genders'];
@@ -51,28 +52,28 @@ void receiveLoginResponse(BuildContext context, String response) {
   final responseUser = responseBody['User'];
 
   for (var sport in responseSports) {
-    Provider.of<DataProvider>(context, listen: false).sports.add(
+    Provider.of<CategoriesProvider>(context, listen: false).sports.add(
           Sport.fromJson(
             sport,
           ),
         );
   }
   for (var gender in responseGenders) {
-    Provider.of<DataProvider>(context, listen: false).genders.add(
+    Provider.of<CategoriesProvider>(context, listen: false).genders.add(
           Gender.fromJson(
             gender,
           ),
         );
   }
   for (var rank in responseRanks) {
-    Provider.of<DataProvider>(context, listen: false).ranks.add(
+    Provider.of<CategoriesProvider>(context, listen: false).ranks.add(
           Rank.fromJson(
             rank,
           ),
         );
   }
   for (var sidePreference in responseSidePreferences) {
-    Provider.of<DataProvider>(context, listen: false).sidePreferences.add(
+    Provider.of<CategoriesProvider>(context, listen: false).sidePreferences.add(
           SidePreference.fromJson(
             sidePreference,
           ),
@@ -84,7 +85,7 @@ void receiveLoginResponse(BuildContext context, String response) {
   User loggedUser = User.fromJson(
     responseUser,
   );
-  Provider.of<DataProvider>(context, listen: false).user = loggedUser;
+  Provider.of<UserProvider>(context, listen: false).user = loggedUser;
 
   if (loggedUser.firstName == null) {
     Navigator.pushNamed(context, '/onboarding');

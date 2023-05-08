@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sandfriends/Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
 
 import '../../../../Utils/Constants.dart';
 import '../../../../oldApp/widgets/SFAvatar.dart';
 import '../../../../oldApp/widgets/SF_Button.dart';
+import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalPhoto extends StatefulWidget {
   UserDetailsViewModel viewModel;

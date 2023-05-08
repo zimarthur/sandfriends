@@ -2,29 +2,29 @@ import 'dart:convert';
 
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/UserDetails/Repository/UserDetailsRepoImp.dart';
-import 'package:sandfriends/Features/UserDetails/View/Modal/UserDetailsModalGender.dart';
-import 'package:sandfriends/Features/UserDetails/View/Modal/UserDetailsModalName.dart';
-import 'package:sandfriends/Features/UserDetails/View/Modal/UserDetailsModalSidePreference.dart';
-import 'package:sandfriends/SharedComponents/Model/Rank.dart';
-import 'package:sandfriends/SharedComponents/Model/SidePreference.dart';
-import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
 
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/Gender.dart';
+import '../../../SharedComponents/Model/Rank.dart';
 import '../../../SharedComponents/Model/Region.dart';
+import '../../../SharedComponents/Model/SidePreference.dart';
 import '../../../SharedComponents/Model/Sport.dart';
 import '../../../SharedComponents/Model/User.dart';
+import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../SharedComponents/View/CitySelectorModal.dart';
 import '../../../SharedComponents/View/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
 import '../../../Utils/SFDateTime.dart';
+import '../Repository/UserDetailsRepoImp.dart';
 import '../View/Modal/UserDetailsModalAge.dart';
+import '../View/Modal/UserDetailsModalGender.dart';
 import '../View/Modal/UserDetailsModalHeight.dart';
+import '../View/Modal/UserDetailsModalName.dart';
 import '../View/Modal/UserDetailsModalPhoto.dart';
 import '../View/Modal/UserDetailsModalRank.dart';
+import '../View/Modal/UserDetailsModalSidePreference.dart';
 
 class UserDetailsViewModel extends ChangeNotifier {
   final userDetailsRepo = UserDetailsRepoImp();
@@ -82,10 +82,10 @@ class UserDetailsViewModel extends ChangeNotifier {
 
   void initUserDetailsViewModel(BuildContext context) {
     userEdited = User.copyWith(
-      Provider.of<DataProvider>(context, listen: false).user!,
+      Provider.of<UserProvider>(context, listen: false).user!,
     );
     userReference = User.copyWith(
-      Provider.of<DataProvider>(context, listen: false).user!,
+      Provider.of<UserProvider>(context, listen: false).user!,
     );
     displayedSport = userEdited.preferenceSport!;
     firstNameController.text = userEdited.firstName!;
@@ -94,13 +94,15 @@ class UserDetailsViewModel extends ChangeNotifier {
     birthdayController.text = userEdited.birthday.toString();
     heightController.text = userEdited.height.toString();
 
-    if (Provider.of<DataProvider>(context, listen: false).user!.ranks.isEmpty) {
+    if (Provider.of<UserProvider>(context, listen: false).user!.ranks.isEmpty) {
       setDefaultRanks(context);
     }
   }
 
   void setDefaultRanks(BuildContext context) {
-    Provider.of<DataProvider>(context, listen: false).ranks.forEach((rank) {
+    Provider.of<CategoriesProvider>(context, listen: false)
+        .ranks
+        .forEach((rank) {
       if (rank.rankSportLevel == 0) {
         userEdited.ranks.add(rank);
         userReference.ranks.add(rank);
@@ -109,7 +111,7 @@ class UserDetailsViewModel extends ChangeNotifier {
   }
 
   void changedDisplayedSport(BuildContext context, String? newValue) {
-    displayedSport = Provider.of<DataProvider>(context, listen: false)
+    displayedSport = Provider.of<CategoriesProvider>(context, listen: false)
         .sports
         .firstWhere((sport) => sport.description == newValue);
     notifyListeners();
@@ -131,7 +133,7 @@ class UserDetailsViewModel extends ChangeNotifier {
       notifyListeners();
       userDetailsRepo.updateUserInfo(userEdited).then((response) {
         if (response.responseStatus == NetworkResponseStatus.alert) {
-          Provider.of<DataProvider>(context, listen: false).user =
+          Provider.of<UserProvider>(context, listen: false).user =
               User.copyWith(userEdited);
           userReference = User.copyWith(userEdited);
         }
@@ -228,11 +230,14 @@ class UserDetailsViewModel extends ChangeNotifier {
         );
         break;
       case UserDetailsModals.Region:
-        if (Provider.of<DataProvider>(context, listen: false).regions.isEmpty) {
+        if (Provider.of<CategoriesProvider>(context, listen: false)
+            .regions
+            .isEmpty) {
           getAllCities(context);
         } else {
           modalForm = CitySelectorModal(
-            regions: Provider.of<DataProvider>(context, listen: false).regions,
+            regions:
+                Provider.of<CategoriesProvider>(context, listen: false).regions,
             onSelectedCity: (selectedCity) {
               userEdited.city = selectedCity;
               pageStatus = PageStatus.OK;
@@ -263,14 +268,15 @@ class UserDetailsViewModel extends ChangeNotifier {
           response.responseBody!,
         );
         for (var state in responseBody['States']) {
-          Provider.of<DataProvider>(context, listen: false).regions.add(
+          Provider.of<CategoriesProvider>(context, listen: false).regions.add(
                 Region.fromJson(
                   state,
                 ),
               );
         }
         modalForm = CitySelectorModal(
-          regions: Provider.of<DataProvider>(context, listen: false).regions,
+          regions:
+              Provider.of<CategoriesProvider>(context, listen: false).regions,
           onSelectedCity: (selectedCity) {
             userEdited.city = selectedCity;
             pageStatus = PageStatus.OK;

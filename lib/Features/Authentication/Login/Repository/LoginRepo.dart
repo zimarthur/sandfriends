@@ -1,4 +1,4 @@
-import 'package:sandfriends/Remote/NetworkResponse.dart';
+import '../../../../Remote/NetworkResponse.dart';
 
 class LoginRepo {
   Future<NetworkResponse?> login(String email, String password) async {}

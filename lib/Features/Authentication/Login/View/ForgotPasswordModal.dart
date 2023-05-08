@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends/Features/Authentication/Login/ViewModel/LoginViewModel.dart';
-import 'package:sandfriends/Utils/Constants.dart';
 
+import '../../../../Utils/Constants.dart';
 import '../../../../Utils/Validators.dart';
 import '../../../../oldApp/widgets/SF_Button.dart';
 import '../../../../oldApp/widgets/SF_TextField.dart';
+import '../ViewModel/LoginViewModel.dart';
 
 class ForgotPasswordModal extends StatefulWidget {
   LoginViewModel viewModel;

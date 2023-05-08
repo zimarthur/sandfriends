@@ -11,6 +11,8 @@ import 'Features/Authentication/LoadLogin/View/LoadLoginScreen.dart';
 import 'Features/MatchSearch/View/MatchSearchScreen.dart';
 import 'Features/UserDetails/View/UserDetailsScreen.dart';
 import 'Features/UserMatches/View/UserMatchesScreen.dart';
+import 'SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'SharedComponents/Providers/UserProvider/UserProvider.dart';
 import 'Utils/Constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -28,7 +30,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => DataProvider()),
+        ChangeNotifierProvider(create: (_) => CategoriesProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: MaterialApp(
         localizationsDelegates: const [

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Authentication/LoginSignup/View/LoginSignupWidget.dart';
-import 'package:sandfriends/Features/Authentication/LoginSignup/ViewModel/LoginSignupViewModel.dart';
-import 'package:sandfriends/SharedComponents/View/SFStandardScreen.dart';
 
-import '../../../../Utils/Constants.dart';
-import '../../../../oldApp/widgets/SF_Button.dart';
+import '../../../../SharedComponents/View/SFStandardScreen.dart';
+import '../ViewModel/LoginSignupViewModel.dart';
+import 'LoginSignupWidget.dart';
 
 class LoginSignupScreen extends StatefulWidget {
   @override

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Home/ViewModel/HomeViewModel.dart';
-import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
-import 'package:sandfriends/Utils/Constants.dart';
+
+import '../../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
+import '../../../../Utils/Constants.dart';
+import '../../ViewModel/HomeViewModel.dart';
 
 class FeedHeader extends StatefulWidget {
   HomeViewModel viewModel;
@@ -54,7 +55,7 @@ class _FeedHeaderState extends State<FeedHeader> {
                 widget.viewModel.goToNotificationScreen(context);
               },
               child: SvgPicture.asset(
-                Provider.of<DataProvider>(context, listen: false)
+                Provider.of<UserProvider>(context, listen: false)
                         .notifications
                         .any((notification) => notification.seen == false)
                     ? r"assets\icon\notification_on.svg"

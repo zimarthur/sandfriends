@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/UserMatches/View/UserMatchesWidget.dart';
-import 'package:sandfriends/Features/UserMatches/ViewModel/UserMatchesViewModel.dart';
 
 import '../../../SharedComponents/View/SFStandardScreen.dart';
 import '../../../oldApp/models/enums.dart';
+import '../ViewModel/UserMatchesViewModel.dart';
+import 'UserMatchesWidget.dart';
 
 class UserMatchesScreen extends StatefulWidget {
   const UserMatchesScreen({Key? key}) : super(key: key);

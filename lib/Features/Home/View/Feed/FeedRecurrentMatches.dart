@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/Features/Home/ViewModel/HomeViewModel.dart';
-import 'package:sandfriends/Utils/Constants.dart';
+
+import '../../../../Utils/Constants.dart';
+import '../../ViewModel/HomeViewModel.dart';
 
 class FeedRecurrentMatches extends StatelessWidget {
   HomeViewModel viewModel;

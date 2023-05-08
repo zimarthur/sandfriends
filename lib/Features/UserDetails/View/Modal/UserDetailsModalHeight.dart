@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
 
 import '../../../../Utils/Constants.dart';
 import '../../../../Utils/Validators.dart';
 import '../../../../oldApp/widgets/SF_Button.dart';
 import '../../../../oldApp/widgets/SF_TextField.dart';
+import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalHeight extends StatefulWidget {
   UserDetailsViewModel viewModel;

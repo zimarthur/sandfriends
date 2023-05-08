@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
-import 'package:sandfriends/Utils/Constants.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+
+import '../../../Utils/Constants.dart';
 import '../../../oldApp/widgets/SFAvatar.dart';
+import '../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsCard extends StatefulWidget {
   UserDetailsViewModel viewModel;

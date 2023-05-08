@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
-import 'package:sandfriends/SharedComponents/Model/Rank.dart';
-import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
 
-import '../../../../SharedComponents/Model/Gender.dart';
+import '../../../../SharedComponents/Model/Rank.dart';
+import '../../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../../Utils/Constants.dart';
-import '../../../../Utils/Validators.dart';
 import '../../../../oldApp/widgets/SF_Button.dart';
-import '../../../../oldApp/widgets/SF_TextField.dart';
+import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalRank extends StatefulWidget {
   UserDetailsViewModel viewModel;
@@ -26,7 +23,7 @@ class _UserDetailsModalRankState extends State<UserDetailsModalRank> {
 
   @override
   void initState() {
-    availableRanks = Provider.of<DataProvider>(context, listen: false)
+    availableRanks = Provider.of<CategoriesProvider>(context, listen: false)
         .ranks
         .where(
           (rank) =>
@@ -85,7 +82,7 @@ class _UserDetailsModalRankState extends State<UserDetailsModalRank> {
                       ),
                     ),
                     child: Text(
-                      Provider.of<DataProvider>(context, listen: false)
+                      Provider.of<CategoriesProvider>(context, listen: false)
                           .ranks[index]
                           .name,
                       style: TextStyle(

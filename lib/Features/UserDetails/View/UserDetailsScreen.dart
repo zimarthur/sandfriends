@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/UserDetails/View/UserDetailsWidget.dart';
-import 'package:sandfriends/Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
 
 import '../../../SharedComponents/View/SFStandardScreen.dart';
 import '../../../oldApp/models/enums.dart';
 import '../../../oldApp/widgets/SF_Button.dart';
+import '../ViewModel/UserDetailsViewModel.dart';
+import 'UserDetailsWidget.dart';
 
 class UserDetailsScreen extends StatefulWidget {
   const UserDetailsScreen({Key? key}) : super(key: key);

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Home/View/Feed/FeedNextMatches.dart';
-import 'package:sandfriends/Features/Home/View/Feed/FeedRecurrentMatches.dart';
-import 'package:sandfriends/Features/Home/View/Feed/FeedRewards.dart';
-import 'package:sandfriends/Utils/Constants.dart';
 
-import '../../../../SharedComponents/ViewModel/DataProvider.dart';
+import '../../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
+import '../../../../Utils/Constants.dart';
 import '../../ViewModel/HomeViewModel.dart';
 import 'FeedHeader.dart';
+import 'FeedNextMatches.dart';
 import 'FeedOpenMatches.dart';
+import 'FeedRecurrentMatches.dart';
+import 'FeedRewards.dart';
 
 class FeedWidget extends StatefulWidget {
   HomeViewModel viewModel;
@@ -56,7 +55,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                         child: FittedBox(
                           fit: BoxFit.fitWidth,
                           child: Text(
-                            "Olá, ${Provider.of<DataProvider>(context).user!.firstName}!",
+                            "Olá, ${Provider.of<UserProvider>(context).user!.firstName}!",
                             style: TextStyle(
                               color: primaryBlue,
                               fontWeight: FontWeight.w700,

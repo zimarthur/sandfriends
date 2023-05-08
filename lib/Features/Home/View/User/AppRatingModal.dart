@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/Features/Home/ViewModel/HomeViewModel.dart';
-import 'package:sandfriends/Utils/Constants.dart';
 
+import '../../../../Utils/Constants.dart';
 import '../../../../Utils/Validators.dart';
 import '../../../../oldApp/widgets/SF_Button.dart';
 import '../../../../oldApp/widgets/SF_TextField.dart';
+import '../../ViewModel/HomeViewModel.dart';
 
 class AppRatingModal extends StatefulWidget {
   HomeViewModel viewModel;

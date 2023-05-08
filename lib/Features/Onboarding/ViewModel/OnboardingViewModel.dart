@@ -1,25 +1,24 @@
 import 'dart:convert';
 
 import 'package:extended_masked_text/extended_masked_text.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Onboarding/Repository/OnboardingRepoImp.dart';
-import 'package:sandfriends/SharedComponents/View/CitySelectorModal.dart';
-import 'package:sandfriends/Features/Onboarding/View/OnboardingScreenForm.dart';
-import 'package:sandfriends/Features/Onboarding/View/OnboardingScreenWelcome.dart';
-import 'package:sandfriends/Features/Onboarding/View/SportSelectorModal.dart';
-import 'package:sandfriends/Remote/NetworkResponse.dart';
-import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
-import 'package:sandfriends/Utils/SharedPreferences.dart';
-import 'package:sandfriends/Utils/validators.dart';
-import 'package:sandfriends/SharedComponents/Model/Region.dart';
 
+import '../../../Remote/NetworkResponse.dart';
+import '../../../SharedComponents/Model/Region.dart';
+import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
+import '../../../SharedComponents/View/CitySelectorModal.dart';
 import '../../../SharedComponents/View/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
 import '../../../SharedComponents/Model/City.dart';
 import '../../../SharedComponents/Model/Sport.dart';
 import '../../../SharedComponents/Model/User.dart';
+import '../../../Utils/Validators.dart';
+import '../Repository/OnboardingRepoImp.dart';
+import '../View/OnboardingScreenForm.dart';
+import '../View/OnboardingScreenWelcome.dart';
+import '../View/SportSelectorModal.dart';
 
 class OnboardingViewModel extends ChangeNotifier {
   void initOnboardingViewModel() {
@@ -80,7 +79,7 @@ class OnboardingViewModel extends ChangeNotifier {
 
   void openSportSelectorModal(BuildContext context) {
     widgetForm = SportSelectorModal(
-      sports: Provider.of<DataProvider>(context, listen: false).sports,
+      sports: Provider.of<CategoriesProvider>(context, listen: false).sports,
       selectedSport: userSport,
       onSelectedSport: (newSport) {
         userSport = newSport;
@@ -95,14 +94,16 @@ class OnboardingViewModel extends ChangeNotifier {
   void openCitySelectorModal(BuildContext context) {
     pageStatus = PageStatus.LOADING;
     notifyListeners();
-    if (Provider.of<DataProvider>(context, listen: false).regions.isEmpty) {
+    if (Provider.of<CategoriesProvider>(context, listen: false)
+        .regions
+        .isEmpty) {
       onboardingRepo.getAllCities().then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
           Map<String, dynamic> responseBody = json.decode(
             response.responseBody!,
           );
           for (var state in responseBody['States']) {
-            Provider.of<DataProvider>(context, listen: false).regions.add(
+            Provider.of<CategoriesProvider>(context, listen: false).regions.add(
                   Region.fromJson(
                     state,
                   ),
@@ -128,7 +129,7 @@ class OnboardingViewModel extends ChangeNotifier {
 
   void displayCitySelector(BuildContext context) {
     widgetForm = CitySelectorModal(
-      regions: Provider.of<DataProvider>(context, listen: false).regions,
+      regions: Provider.of<CategoriesProvider>(context, listen: false).regions,
       onSelectedCity: (city) {
         userCity = city;
         pageStatus = PageStatus.OK;
@@ -146,7 +147,7 @@ class OnboardingViewModel extends ChangeNotifier {
         notifyListeners();
         onboardingRepo
             .addUserInfo(
-          Provider.of<DataProvider>(context, listen: false).user!.accessToken,
+          Provider.of<UserProvider>(context, listen: false).user!.accessToken,
           firstNameController.text,
           lastNameController.text,
           phonenumberConverter(phoneNumberController.text),
@@ -158,7 +159,7 @@ class OnboardingViewModel extends ChangeNotifier {
             Map<String, dynamic> responseBody = json.decode(
               response.responseBody!,
             );
-            Provider.of<DataProvider>(context, listen: false).user =
+            Provider.of<UserProvider>(context, listen: false).user =
                 User.fromJson(responseBody['User']);
             Navigator.pushNamed(context, '/home');
           } else {
