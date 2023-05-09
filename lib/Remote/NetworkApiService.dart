@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:sandfriends/Remote/NetworkResponse.dart';
-import 'AppException.dart';
 import 'BaseApiService.dart';
 
 class NetworkApiService extends BaseApiService {
@@ -16,7 +15,10 @@ class NetworkApiService extends BaseApiService {
         response,
       );
     } on SocketException {
-      throw FetchDataException('No Internet Connection');
+      return NetworkResponse(
+        responseStatus: NetworkResponseStatus.error,
+        userMessage: "Ops, você está sem acesso à internet",
+      );
     }
   }
 
@@ -44,10 +46,16 @@ class NetworkApiService extends BaseApiService {
             ),
           );
       return returnResponse(response);
+    } on SocketException {
+      return NetworkResponse(
+        responseStatus: NetworkResponseStatus.error,
+        userMessage: "Ops, você está sem acesso à internet",
+      );
     } on TimeoutException catch (_) {
       return NetworkResponse(
-          responseStatus: NetworkResponseStatus.error,
-          userMessage: "Ops, ocorreu um problema de conexão.");
+        responseStatus: NetworkResponseStatus.error,
+        userMessage: "Ops, ocorreu um problema de conexão.",
+      );
     }
   }
 
