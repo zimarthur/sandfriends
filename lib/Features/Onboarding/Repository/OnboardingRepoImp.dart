@@ -10,15 +10,6 @@ class OnboardingRepoImp implements OnboardingRepo {
   final BaseApiService _apiService = NetworkApiService();
 
   @override
-  Future<NetworkResponse> getAllCities() async {
-    NetworkResponse response = await _apiService.getResponse(
-      _apiService.sandfriendsUrl,
-      ApiEndPoints().getAllCities,
-    );
-    return response;
-  }
-
-  @override
   Future<NetworkResponse> addUserInfo(
     String accessToken,
     String firstName,

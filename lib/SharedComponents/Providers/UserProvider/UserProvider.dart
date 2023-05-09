@@ -113,7 +113,6 @@ class UserProvider extends ChangeNotifier {
   }
 
   void clear() {
-    user = null;
     _matches.clear();
     _notifications.clear();
     _openMatchesCounter = 0;

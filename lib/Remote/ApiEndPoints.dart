@@ -13,6 +13,9 @@ class ApiEndPoints {
   final String getUserMatches = "/GetUserMatches";
 
   final String getAllCities = "/GetAllCities";
+  final String getAvailableCities = "/GetAvailableCities";
 
   final String sendFeedback = "/SendFeedback";
+
+  final String searchCourts = "/SearchCourts";
 }

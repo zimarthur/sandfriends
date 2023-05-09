@@ -9,6 +9,7 @@ import 'package:sandfriends/Features/Onboarding/View/OnboardingScreen.dart';
 import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
 import 'Features/Authentication/LoadLogin/View/LoadLoginScreen.dart';
 import 'Features/MatchSearch/View/MatchSearchScreen.dart';
+import 'Features/Notifications/View/NotificationsScreen.dart';
 import 'Features/UserDetails/View/UserDetailsScreen.dart';
 import 'Features/UserMatches/View/UserMatchesScreen.dart';
 import 'SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
@@ -126,6 +127,7 @@ class MyApp extends StatelessWidget {
           '/user_details': (BuildContext context) => UserDetailsScreen(),
           '/user_matches': (BuildContext context) => UserMatchesScreen(),
           '/user_payments': (BuildContext context) => OnboardingScreen(),
+          '/notifications': (BuildContext context) => NotificationsScreen(),
         },
       ),
     );

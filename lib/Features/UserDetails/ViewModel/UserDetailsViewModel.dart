@@ -262,18 +262,14 @@ class UserDetailsViewModel extends ChangeNotifier {
   void getAllCities(BuildContext context) {
     pageStatus = PageStatus.LOADING;
     notifyListeners();
-    userDetailsRepo.getAllCities().then((response) {
+    Provider.of<CategoriesProvider>(context, listen: false)
+        .categoriesProviderRepo
+        .getAllCities()
+        .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
-        Map<String, dynamic> responseBody = json.decode(
-          response.responseBody!,
-        );
-        for (var state in responseBody['States']) {
-          Provider.of<CategoriesProvider>(context, listen: false).regions.add(
-                Region.fromJson(
-                  state,
-                ),
-              );
-        }
+        Provider.of<CategoriesProvider>(context, listen: false)
+            .setRegions(response.responseBody!);
+
         modalForm = CitySelectorModal(
           regions:
               Provider.of<CategoriesProvider>(context, listen: false).regions,

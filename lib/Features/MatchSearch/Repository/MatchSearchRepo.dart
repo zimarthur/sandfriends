@@ -1,5 +1,13 @@
 import '../../../Remote/NetworkResponse.dart';
 
 class MatchSearchRepo {
-  Future<NetworkResponse?> getAllCities() async {}
+  Future<NetworkResponse?> searchCourts(
+    String accessToken,
+    int sportId,
+    int cityId,
+    DateTime dateStart,
+    DateTime dateEnd,
+    String timeStart,
+    String timeEnd,
+  ) async {}
 }

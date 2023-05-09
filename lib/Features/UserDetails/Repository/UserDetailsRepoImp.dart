@@ -21,13 +21,4 @@ class UserDetailsRepoImp implements UserDetailsRepo {
     );
     return response;
   }
-
-  @override
-  Future<NetworkResponse> getAllCities() async {
-    NetworkResponse response = await _apiService.getResponse(
-      _apiService.sandfriendsUrl,
-      ApiEndPoints().getAllCities,
-    );
-    return response;
-  }
 }

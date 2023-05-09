@@ -97,18 +97,13 @@ class OnboardingViewModel extends ChangeNotifier {
     if (Provider.of<CategoriesProvider>(context, listen: false)
         .regions
         .isEmpty) {
-      onboardingRepo.getAllCities().then((response) {
+      Provider.of<CategoriesProvider>(context, listen: false)
+          .categoriesProviderRepo
+          .getAllCities()
+          .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
-          Map<String, dynamic> responseBody = json.decode(
-            response.responseBody!,
-          );
-          for (var state in responseBody['States']) {
-            Provider.of<CategoriesProvider>(context, listen: false).regions.add(
-                  Region.fromJson(
-                    state,
-                  ),
-                );
-          }
+          Provider.of<CategoriesProvider>(context, listen: false)
+              .setRegions(response.responseBody!);
 
           displayCitySelector(context);
         } else {

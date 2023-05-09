@@ -62,7 +62,9 @@ class _MatchSearchFiltersState extends State<MatchSearchFilters> {
                       ? "Horário"
                       : "${widget.viewModel.timeFilter!.start.hour.toString().padLeft(2, '0')}:${widget.viewModel.timeFilter!.start.minute.toString().padLeft(2, '0')} - ${widget.viewModel.timeFilter!.end.hour.toString().padLeft(2, '0')}:${widget.viewModel.timeFilter!.end.minute.toString().padLeft(2, '0')}",
                   iconPath: r"assets\icon\clock.svg",
-                  onTap: () {},
+                  onTap: () => widget.viewModel.openTimeSelectorModal(
+                    context,
+                  ),
                 ),
               ),
             ],
@@ -70,11 +72,12 @@ class _MatchSearchFiltersState extends State<MatchSearchFilters> {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 10),
             child: SFButton(
-                buttonLabel: "Buscar",
-                textPadding: EdgeInsets.symmetric(vertical: 5),
-                buttonType: ButtonType.Secondary,
-                iconPath: r"assets\icon\search.svg",
-                onTap: () {}),
+              buttonLabel: "Buscar",
+              textPadding: EdgeInsets.symmetric(vertical: 5),
+              buttonType: ButtonType.Secondary,
+              iconPath: r"assets\icon\search.svg",
+              onTap: () => widget.viewModel.searchCourts(context),
+            ),
           ),
         ],
       ),
