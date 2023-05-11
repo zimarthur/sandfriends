@@ -5,7 +5,12 @@ import 'package:sandfriends/Features/Authentication/Login/View/LoginScreen.dart'
 import 'package:sandfriends/Features/Authentication/LoginSignup/View/LoginSignupScreen.dart';
 import 'package:sandfriends/Features/Home/Model/HomeTabsEnum.dart';
 import 'package:sandfriends/Features/Home/View/HomeScreen.dart';
+import 'package:sandfriends/Features/Match/View/MatchScreen.dart';
 import 'package:sandfriends/Features/Onboarding/View/OnboardingScreen.dart';
+import 'package:sandfriends/Features/OpenMatches/View/OpenMatchesScreen.dart';
+import 'package:sandfriends/Features/RecurrentMatches/View/RecurrentMatchesSreen.dart';
+import 'package:sandfriends/Features/Rewards/View/RewardsScreen.dart';
+import 'package:sandfriends/Features/RewardsUser/View/RewardsUserScreen.dart';
 import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
 import 'Features/Authentication/LoadLogin/View/LoadLoginScreen.dart';
 import 'Features/MatchSearch/View/MatchSearchScreen.dart';
@@ -50,6 +55,7 @@ class MyApp extends StatelessWidget {
           fontFamily: "Lexend",
         ),
         onGenerateRoute: (settings) {
+          String match = "/match";
           String matchSearch = "/match_search";
           if (settings.name!.startsWith(matchSearch)) {
             final arguments = settings.arguments as Map;
@@ -61,58 +67,18 @@ class MyApp extends StatelessWidget {
                 );
               },
             );
+          } else if (settings.name!.startsWith(match)) {
+            //match?id=123
+            final match = settings.name!.split("?")[1].split("=")[1];
+            return MaterialPageRoute(
+              builder: (context) {
+                return MatchScreen(
+                  matchUrl: match,
+                );
+              },
+            );
           }
-          // String newAccountEmployee = '/create_account_employee';
-          // String emailConfirmation = '/emcf';
-          // String changePassword = '/cgpw';
 
-          // if (settings.name!.startsWith(newAccountEmployee)) {
-          //   return MaterialPageRoute(
-          //     builder: (context) {
-          //       return CreateAccountEmployeeScreen(
-          //         token: settings.name!.split(newAccountEmployee)[1],
-          //       );
-          //     },
-          //   );
-          // } else if (settings.name!.startsWith(emailConfirmation)) {
-          //   bool isStoreRequest = true;
-          //   String token = "";
-          //   final arguments = settings.name!.split("?")[1].split("&");
-          //   for (var argument in arguments) {
-          //     if (argument.startsWith("str")) {
-          //       isStoreRequest = argument.split("=")[1] == "1";
-          //     } else {
-          //       token = argument.split("=")[1];
-          //     }
-          //   }
-          //   return MaterialPageRoute(
-          //     builder: (context) {
-          //       return EmailConfirmationScreen(
-          //         token: token,
-          //         isStoreRequest: isStoreRequest,
-          //       );
-          //     },
-          //   );
-          // } else if (settings.name!.startsWith(changePassword)) {
-          //   bool isStoreRequest = true;
-          //   String token = "";
-          //   final arguments = settings.name!.split("?")[1].split("&");
-          //   for (var argument in arguments) {
-          //     if (argument.startsWith("str")) {
-          //       isStoreRequest = argument.split("=")[1] == "1";
-          //     } else {
-          //       token = argument.split("=")[1];
-          //     }
-          //   }
-          //   return MaterialPageRoute(
-          //     builder: (context) {
-          //       return ChangePasswordScreen(
-          //         token: token,
-          //         isStoreRequest: isStoreRequest,
-          //       );
-          //     },
-          //   );
-          // }
           return null;
         },
         routes: {
@@ -128,6 +94,11 @@ class MyApp extends StatelessWidget {
           '/user_matches': (BuildContext context) => UserMatchesScreen(),
           '/user_payments': (BuildContext context) => OnboardingScreen(),
           '/notifications': (BuildContext context) => NotificationsScreen(),
+          '/rewards': (BuildContext context) => RewardsScreen(),
+          '/rewards_user': (BuildContext context) => RewardsUserScreen(),
+          '/open_matches': (BuildContext context) => OpenMatchesScreen(),
+          '/recurrent_matches': (BuildContext context) =>
+              RecurrentMatchesScreen(),
         },
       ),
     );

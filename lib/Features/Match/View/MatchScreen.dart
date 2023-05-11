@@ -7,7 +7,10 @@ import '../ViewModel/MatchViewModel.dart';
 import 'MatchWidget.dart';
 
 class MatchScreen extends StatefulWidget {
-  const MatchScreen({Key? key}) : super(key: key);
+  String matchUrl;
+  MatchScreen({
+    required this.matchUrl,
+  });
 
   @override
   State<MatchScreen> createState() => _MatchScreenState();

@@ -24,4 +24,8 @@ class RewardsViewModel extends ChangeNotifier {
   void onTapReturn(BuildContext context) {
     Navigator.pop(context);
   }
+
+  void goToRewardsUserScreen(BuildContext context) {
+    Navigator.pushNamed(context, '/rewards_user');
+  }
 }
