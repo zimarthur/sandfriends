@@ -61,7 +61,7 @@ class AvailableDayCard extends StatelessWidget {
               viewModel: viewModel,
               selectedParent: selectedParent == false ||
                       viewModel.selectedStore == null ||
-                      viewModel.selectedStore!.store.idStore !=
+                      viewModel.selectedStore!.idStore !=
                           availableDay.stores[index].store.idStore
                   ? false
                   : true,

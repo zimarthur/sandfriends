@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/SharedComponents/Model/Hour.dart';
 
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../SharedComponents/Model/User.dart';
@@ -44,6 +45,7 @@ void receiveLoginResponse(BuildContext context, String response) {
   );
   Provider.of<CategoriesProvider>(context, listen: false).clearAll();
 
+  //final responseHours = responseBody['Hours'];
   final responseSports = responseBody['Sports'];
   final responseGenders = responseBody['Genders'];
   final responseRanks = responseBody['Ranks'];
@@ -51,6 +53,13 @@ void receiveLoginResponse(BuildContext context, String response) {
 
   final responseUser = responseBody['User'];
 
+  // for (var hour in responseHours) {
+  //   Provider.of<CategoriesProvider>(context, listen: false).hours.add(
+  //         Hour.fromJson(
+  //           hour,
+  //         ),
+  //       );
+  // }
   for (var sport in responseSports) {
     Provider.of<CategoriesProvider>(context, listen: false).sports.add(
           Sport.fromJson(

@@ -1,19 +1,21 @@
 import 'package:sandfriends/SharedComponents/Model/AvailableCourt.dart';
 
+import '../../Features/Court/Model/HourPrice.dart';
+import 'Hour.dart';
+
 class AvailableHour {
-  String hourBegin;
-  String hourFinish;
-  int hourIndex;
+  Hour hour;
   List<AvailableCourt> availableCourts = [];
 
   AvailableHour(
-    this.hourBegin,
-    this.hourFinish,
-    this.hourIndex,
+    this.hour,
     this.availableCourts,
   );
 
-  int get lowestPrice => availableCourts
-      .reduce((curr, next) => curr.price < next.price ? curr : next)
-      .price;
+  HourPrice get lowestHourPrice => HourPrice(
+        hour: hour,
+        price: availableCourts
+            .reduce((curr, next) => curr.price < next.price ? curr : next)
+            .price,
+      );
 }

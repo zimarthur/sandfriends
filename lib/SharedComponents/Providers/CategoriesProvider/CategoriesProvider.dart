@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import '../../Model/Gender.dart';
+import '../../Model/Hour.dart';
 import '../../Model/Rank.dart';
 import '../../Model/Region.dart';
 import '../../Model/SidePreference.dart';
@@ -12,6 +13,7 @@ import 'Repository/CategoriesProviderRepoImp.dart';
 class CategoriesProvider extends ChangeNotifier {
   final categoriesProviderRepo = CategoriesProviderRepoImp();
 
+  List<Hour> hours = [];
   List<Sport> sports = [];
   List<Gender> genders = [];
   List<Rank> ranks = [];

@@ -1,10 +1,7 @@
-import 'package:sandfriends/SharedComponents/Model/CourtAvailabeHour.dart';
-
 class Court {
   final int idStoreCourt;
   final String storeCourtName;
   final bool isIndoor;
-  List<CourtAvailableHour> availableHours = [];
 
   Court({
     required this.idStoreCourt,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/SharedComponents/Model/CourtAvailabeHour.dart';
 import 'package:sandfriends/SharedComponents/Model/RecurrentMatch.dart';
 import 'package:time_range/time_range.dart';
 
@@ -15,7 +14,7 @@ class RecurrentMatchProvider with ChangeNotifier {
     searchStatus = EnumSearchStatus.NoFilterApplied;
 
     selectedStoreDay = null;
-    _selectedTime.clear();
+    // _selectedTime.clear();
     _storeDayList.clear();
   }
 
@@ -54,12 +53,12 @@ class RecurrentMatchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<CourtAvailableHour> _selectedTime = [];
-  List<CourtAvailableHour> get selectedTime => _selectedTime;
-  set selectedTime(List<CourtAvailableHour> value) {
-    _selectedTime = value;
-    notifyListeners();
-  }
+  // List<CourtAvailableHour> _selectedTime = [];
+  // List<CourtAvailableHour> get selectedTime => _selectedTime;
+  // set selectedTime(List<CourtAvailableHour> value) {
+  //   _selectedTime = value;
+  //   notifyListeners();
+  // }
 
   final List<StoreDay> _storeDayList = [];
   List<StoreDay> get storeDayList => _storeDayList;
@@ -168,18 +167,18 @@ class RecurrentMatchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // MATCH DETAILS
-  String get matchDetailsTime {
-    return "${selectedTime.first.hour} - ${selectedTime.last.hourFinish}";
-  }
+  // // MATCH DETAILS
+  // String get matchDetailsTime {
+  //   return "${selectedTime.first.hour} - ${selectedTime.last.hourFinish}";
+  // }
 
-  int get matchDetailsPrice {
-    int totalPrice = 0;
-    for (int i = 0; i < selectedTime.length; i++) {
-      totalPrice += selectedTime[i].price;
-    }
-    return totalPrice;
-  }
+  // int get matchDetailsPrice {
+  //   int totalPrice = 0;
+  //   for (int i = 0; i < selectedTime.length; i++) {
+  //     totalPrice += selectedTime[i].price;
+  //   }
+  //   return totalPrice;
+  // }
 
   int get matchDetailsCourt {
     return selectedStoreDay!.courts[indexSelectedCourt!].idStoreCourt;

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableHour.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableStore.dart';
+import 'package:sandfriends/SharedComponents/Model/Hour.dart';
 import 'package:time_range/time_range.dart';
 
 import '../../../Remote/NetworkResponse.dart';
@@ -255,9 +256,10 @@ class MatchSearchViewModel extends ChangeNotifier {
           }
           availableHours.add(
             AvailableHour(
-              hour["TimeBegin"],
-              hour["TimeFinish"],
-              hour["TimeInteger"],
+              Hour(
+                hour: hour["TimeInteger"],
+                hourString: hour["TimeBegin"],
+              ),
               availableCourts,
             ),
           );
@@ -283,4 +285,11 @@ class MatchSearchViewModel extends ChangeNotifier {
   }
 
   goToOpenMatches() {}
+
+  void goToCourt(BuildContext context, Store store) {
+    Navigator.pushNamed(context, '/court', arguments: {
+      'store': store,
+      'selectedDay': selectedDay,
+    });
+  }
 }

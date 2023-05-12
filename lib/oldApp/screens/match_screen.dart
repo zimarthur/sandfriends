@@ -1382,9 +1382,9 @@ class _MatchScreenState extends State<MatchScreen> {
 
             Provider.of<UserProvider>(context, listen: false).user =
                 User.fromJson(responseUser);
-            Provider.of<UserProvider>(context, listen: false)
-                .userMatchCounterFromJson(
-                    responseUserMatchCounter, categoriesProvider);
+            // Provider.of<UserProvider>(context, listen: false)
+            //     .userMatchCounterFromJson(
+            //         responseUserMatchCounter, categoriesProvider);
           }
         } else {
           //o token não é valido

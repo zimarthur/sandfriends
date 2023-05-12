@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:sandfriends/Features/Authentication/CreateAccount/View/CreateAccountScreen.dart';
 import 'package:sandfriends/Features/Authentication/Login/View/LoginScreen.dart';
 import 'package:sandfriends/Features/Authentication/LoginSignup/View/LoginSignupScreen.dart';
+import 'package:sandfriends/Features/Court/Model/HourPrice.dart';
+import 'package:sandfriends/Features/Court/View/CourtScreen.dart';
 import 'package:sandfriends/Features/Home/Model/HomeTabsEnum.dart';
 import 'package:sandfriends/Features/Home/View/HomeScreen.dart';
 import 'package:sandfriends/Features/Match/View/MatchScreen.dart';
@@ -17,6 +19,8 @@ import 'Features/MatchSearch/View/MatchSearchScreen.dart';
 import 'Features/Notifications/View/NotificationsScreen.dart';
 import 'Features/UserDetails/View/UserDetailsScreen.dart';
 import 'Features/UserMatches/View/UserMatchesScreen.dart';
+import 'SharedComponents/Model/AvailableDay.dart';
+import 'SharedComponents/Model/Store.dart';
 import 'SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'SharedComponents/Providers/UserProvider/UserProvider.dart';
 import 'Utils/Constants.dart';
@@ -57,6 +61,7 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: (settings) {
           String match = "/match";
           String matchSearch = "/match_search";
+          String court = "/court";
           if (settings.name!.startsWith(matchSearch)) {
             final arguments = settings.arguments as Map;
 
@@ -74,6 +79,17 @@ class MyApp extends StatelessWidget {
               builder: (context) {
                 return MatchScreen(
                   matchUrl: match,
+                );
+              },
+            );
+          } else if (settings.name!.startsWith(court)) {
+            final arguments = settings.arguments as Map;
+
+            return MaterialPageRoute(
+              builder: (context) {
+                return CourtScreen(
+                  store: arguments['store'] as Store,
+                  selectedDay: arguments['selectedDay'] as AvailableDay?,
                 );
               },
             );

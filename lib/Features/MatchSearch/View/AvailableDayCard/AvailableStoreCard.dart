@@ -160,11 +160,12 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                           : 0,
                     ),
                     child: AvailableHourCard(
-                      availableHour:
-                          widget.availableStore.availableHours[index],
-                      onTap: (availableHour) {
+                      hourPrice: widget
+                          .availableStore.availableHours[index].lowestHourPrice,
+                      onTap: (hourPrice) {
                         List<AvailableHour> avHourList = [];
-                        avHourList.add(availableHour);
+                        avHourList
+                            .add(widget.availableStore.availableHours[index]);
                         final availableStore = AvailableStore(
                           availableHours: avHourList,
                           store: widget.availableStore.store,
@@ -173,9 +174,9 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                       },
                       isSelected: !widget.selectedParent ||
                               widget.viewModel.selectedHour == null ||
-                              widget.viewModel.selectedHour!.hourIndex !=
+                              widget.viewModel.selectedHour!.hour.hour !=
                                   widget.availableStore.availableHours[index]
-                                      .hourIndex
+                                      .hour.hour
                           ? false
                           : true,
                     ),
@@ -187,12 +188,20 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
               padding: EdgeInsets.symmetric(
                   horizontal: width * 0.03, vertical: height * 0.01),
               child: SFButton(
-                  buttonLabel: "Prosseguir",
-                  buttonType: widget.selectedParent
-                      ? ButtonType.Primary
-                      : ButtonType.Disabled,
-                  textPadding: const EdgeInsets.symmetric(vertical: 5),
-                  onTap: () {}),
+                buttonLabel: "Prosseguir",
+                buttonType: widget.selectedParent
+                    ? ButtonType.Primary
+                    : ButtonType.Disabled,
+                textPadding: const EdgeInsets.symmetric(vertical: 5),
+                onTap: () {
+                  if (widget.selectedParent) {
+                    widget.viewModel.goToCourt(
+                      context,
+                      widget.availableStore.store,
+                    );
+                  }
+                },
+              ),
             ),
           ],
         ),

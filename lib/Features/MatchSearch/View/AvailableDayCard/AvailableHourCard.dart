@@ -3,14 +3,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableHour.dart';
 
 import '../../../../Utils/Constants.dart';
+import '../../../Court/Model/HourPrice.dart';
 
 class AvailableHourCard extends StatefulWidget {
-  AvailableHour availableHour;
-  Function(AvailableHour) onTap;
+  HourPrice hourPrice;
+  Function(HourPrice) onTap;
   bool isSelected;
 
   AvailableHourCard({
-    required this.availableHour,
+    required this.hourPrice,
     required this.onTap,
     required this.isSelected,
   });
@@ -24,7 +25,7 @@ class _AvailableHourCardState extends State<AvailableHourCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => widget.onTap(
-        widget.availableHour,
+        widget.hourPrice,
       ),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 2.0),
@@ -56,7 +57,7 @@ class _AvailableHourCardState extends State<AvailableHourCard> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          widget.availableHour.hourBegin,
+                          widget.hourPrice.hour.hourString,
                           style: TextStyle(
                             color: widget.isSelected ? textWhite : primaryBlue,
                           ),
@@ -79,7 +80,7 @@ class _AvailableHourCardState extends State<AvailableHourCard> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          "${widget.availableHour.lowestPrice}/h",
+                          "${widget.hourPrice.price}/h",
                           style: TextStyle(
                             color: widget.isSelected ? textWhite : textBlue,
                           ),

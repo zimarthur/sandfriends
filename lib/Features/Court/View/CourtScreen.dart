@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../SharedComponents/Model/AvailableDay.dart';
+import '../../../SharedComponents/Model/Store.dart';
 import '../../../SharedComponents/View/SFStandardScreen.dart';
 import '../ViewModel/CourtViewModel.dart';
 import 'CourtWidget.dart';
 
 class CourtScreen extends StatefulWidget {
-  const CourtScreen({Key? key}) : super(key: key);
+  AvailableDay? selectedDay;
+  Store store;
+
+  CourtScreen({
+    required this.store,
+    this.selectedDay,
+  });
 
   @override
   State<CourtScreen> createState() => _CourtScreenState();
@@ -14,6 +22,15 @@ class CourtScreen extends StatefulWidget {
 
 class _CourtScreenState extends State<CourtScreen> {
   final viewModel = CourtViewModel();
+
+  @override
+  void initState() {
+    viewModel.initCourtViewModel(
+      widget.store,
+      widget.selectedDay,
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
