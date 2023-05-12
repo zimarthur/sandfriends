@@ -35,8 +35,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
     ),
   ];
 
-  double iconSize = 36.0;
-  double navigationMenuHeight = 70.0;
+  double iconSize = 24.0;
+  double navigationMenuHeight = 65.0;
 
   @override
   Widget build(BuildContext context) {
@@ -69,33 +69,37 @@ class _NavigationMenuState extends State<NavigationMenu> {
                   height: 4,
                   width: iconSize,
                   margin: EdgeInsets.only(
-                      top: (navigationMenuHeight / 2) - (iconSize / 2) - 10),
+                      top: (navigationMenuHeight / 2) - (iconSize / 2) - 5),
                 ),
                 left: tileLocation,
                 duration: const Duration(
                   milliseconds: 100,
                 ),
               ),
-              Row(
-                children: [
-                  for (var navigationMenuitem in navigationMenuItems)
-                    Expanded(
-                      child: InkWell(
-                        onTap: () => widget.onChangeTab(navigationMenuitem.tab),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            top: (navigationMenuHeight / 2) - (iconSize / 2),
-                          ),
-                          child: SvgPicture.asset(
-                            navigationMenuitem.tab == widget.selectedTab
-                                ? navigationMenuitem.imageActive
-                                : navigationMenuitem.image,
-                            height: 24,
+              SizedBox(
+                height: layoutConstraints.maxHeight,
+                child: Row(
+                  children: [
+                    for (var navigationMenuitem in navigationMenuItems)
+                      Expanded(
+                        child: InkWell(
+                          onTap: () =>
+                              widget.onChangeTab(navigationMenuitem.tab),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              top: (navigationMenuHeight / 2) - (iconSize / 2),
+                            ),
+                            child: SvgPicture.asset(
+                              navigationMenuitem.tab == widget.selectedTab
+                                  ? navigationMenuitem.imageActive
+                                  : navigationMenuitem.image,
+                              height: iconSize,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

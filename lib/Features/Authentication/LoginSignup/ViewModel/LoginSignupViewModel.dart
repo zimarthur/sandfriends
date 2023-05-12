@@ -32,11 +32,16 @@ class LoginSignupViewModel extends ChangeNotifier {
   }
 
   void googleAccountSelector(BuildContext context) async {
+    pageStatus = PageStatus.LOADING;
+    notifyListeners();
     try {
       final user = await GoogleSignInApi.login();
 
       if (user == null) {
         print("nenhuma conta selecionada");
+        pageStatus = PageStatus.OK;
+        notifyListeners();
+        return;
       } else {
         user.authentication.then((googleKey) {
           pageStatus = PageStatus.LOADING;
