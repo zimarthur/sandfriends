@@ -1,3 +1,5 @@
+import 'Court.dart';
+
 class Store {
   final int idStore;
   final String name;
@@ -9,6 +11,7 @@ class Store {
   final String instagram;
   final String phone;
   List<String> photos = [];
+  List<Court> courts = [];
 
   Store({
     required this.idStore,
@@ -37,6 +40,12 @@ class Store {
     for (int i = 0; i < json['StorePhotos'].length; i++) {
       newStore.photos.add(json['StorePhotos'][i]['Photo']);
     }
+    for (var court in json['Courts']) {
+      newStore.courts.add(Court.fromJson(
+        court,
+      ));
+    }
+
     return newStore;
   }
 }

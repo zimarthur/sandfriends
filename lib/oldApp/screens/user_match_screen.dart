@@ -199,11 +199,11 @@ class _UserMatchScreenState extends State<UserMatchScreen> {
                                           EdgeInsets.only(right: width * 0.01),
                                     ),
                                     Text(
-                                      Provider.of<UserProvider>(context)
-                                          .matchList[index]
-                                          .court
-                                          .store
-                                          .name,
+                                      "Provider.of<UserProvider>(context)",
+                                      //     .matchList[index]
+                                      //     .court
+                                      //     .store
+                                      //     .name,"
                                       style: TextStyle(
                                         color: AppTheme.colors.textDarkGrey,
                                       ),

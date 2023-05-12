@@ -189,7 +189,7 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void goToNotificationScreen(BuildContext context) {
-    Navigator.pushNamed(context, '/notification_screen');
+    Navigator.pushNamed(context, '/notifications');
   }
 
   void logOff(BuildContext context) {

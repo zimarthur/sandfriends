@@ -124,8 +124,8 @@ class _MatchScreenState extends State<MatchScreen> {
                             setState(() {
                               isLoading = true;
                             });
-                            var auxStoreDay =
-                                StoreDay(store: currentMatch!.court.store);
+                            var auxStoreDay;
+                            //"StoreDay(store: currentMatch!.court.store);"
 
                             Provider.of<MatchProvider>(context, listen: false)
                                 .selectedStoreDay = auxStoreDay;
@@ -164,8 +164,8 @@ class _MatchScreenState extends State<MatchScreen> {
                                         borderRadius:
                                             BorderRadius.circular(16.0),
                                         child: CachedNetworkImage(
-                                          imageUrl: currentMatch!
-                                              .court.store.imageUrl,
+                                          imageUrl:
+                                              "currentMatch!.court.store.imageUrl",
                                           height: height * 0.13,
                                           width: height * 0.13,
                                           placeholder: (context, url) =>
@@ -199,7 +199,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            currentMatch!.court.store.name,
+                                            "currentMatch!.court.store.name",
                                             textScaleFactor: 1.5,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w700,
@@ -219,8 +219,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                                       right: width * 0.02)),
                                               Expanded(
                                                 child: Text(
-                                                  currentMatch!
-                                                      .court.store.address,
+                                                  "currentMatch!.court.store.address",
                                                   style: TextStyle(
                                                     color: AppTheme
                                                         .colors.primaryBlue,

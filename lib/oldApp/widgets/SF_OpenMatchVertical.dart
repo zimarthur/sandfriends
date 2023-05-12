@@ -201,7 +201,7 @@ class SFOpenMatchVertical extends StatelessWidget {
                                         EdgeInsets.only(right: width * 0.01),
                                   ),
                                   Text(
-                                    match.court.store.name,
+                                    "match.court.store.name",
                                     style: TextStyle(
                                       color: AppTheme.colors.primaryBlue,
                                     ),

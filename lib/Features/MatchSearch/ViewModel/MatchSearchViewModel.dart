@@ -1,17 +1,23 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/SharedComponents/Model/AvailableHour.dart';
+import 'package:sandfriends/SharedComponents/Model/AvailableStore.dart';
 import 'package:time_range/time_range.dart';
 
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/AppMatch.dart';
+import '../../../SharedComponents/Model/AvailableCourt.dart';
+import '../../../SharedComponents/Model/AvailableDay.dart';
 import '../../../SharedComponents/Model/City.dart';
 import '../../../SharedComponents/Model/Court.dart';
 import '../../../SharedComponents/Model/Region.dart';
 import '../../../SharedComponents/Model/Sport.dart';
+import '../../../SharedComponents/Model/Store.dart';
 import '../../../SharedComponents/Model/StoreDay.dart';
 import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
@@ -40,7 +46,9 @@ class MatchSearchViewModel extends ChangeNotifier {
   List<DateTime?> datesFilter = [];
   TimeRangeResult? timeFilter;
 
-  final List<StoreDay> storeDays = [];
+  bool hasUserSearched = false;
+
+  final List<AvailableDay> availableDays = [];
   final List<AppMatch> openMatches = [];
 
   void initMatchSearchViewModel(BuildContext context, int sportId) {
@@ -54,6 +62,34 @@ class MatchSearchViewModel extends ChangeNotifier {
 
   void closeModal() {
     pageStatus = PageStatus.OK;
+    notifyListeners();
+  }
+
+  AvailableHour? _selectedHour;
+  AvailableHour? get selectedHour => _selectedHour;
+  set selectedHour(AvailableHour? newHour) {
+    _selectedHour = newHour;
+    notifyListeners();
+  }
+
+  AvailableStore? _selectedStore;
+  AvailableStore? get selectedStore => _selectedStore;
+  set selectedStore(AvailableStore? newStore) {
+    _selectedStore = newStore;
+    notifyListeners();
+  }
+
+  AvailableDay? _selectedDay;
+  AvailableDay? get selectedDay => _selectedDay;
+  set selectedDay(AvailableDay? newDay) {
+    _selectedDay = newDay;
+    notifyListeners();
+  }
+
+  void onSelectedHour(AvailableDay avDay) {
+    _selectedDay = avDay;
+    _selectedStore = avDay.stores.first;
+    _selectedHour = avDay.stores.first.availableHours.first;
     notifyListeners();
   }
 
@@ -160,6 +196,7 @@ class MatchSearchViewModel extends ChangeNotifier {
       )
           .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
+          hasUserSearched = true;
           setSearchMatchesResult(response.responseBody!);
           pageStatus = PageStatus.OK;
           notifyListeners();
@@ -180,92 +217,70 @@ class MatchSearchViewModel extends ChangeNotifier {
   }
 
   void setSearchMatchesResult(String response) {
-    storeDays.clear();
+    availableDays.clear();
     openMatches.clear();
 
-    List<Court> receivedCourts = [];
+    List<Store> receivedStores = [];
 
     final responseBody = json.decode(response);
     final responseDates = responseBody['Dates'];
     final responseStores = responseBody['Stores'];
-    final responseCourts = responseBody['Courts'];
     final responseOpenMatches = responseBody['OpenMatches'];
 
-    for (var court in responseCourts) {
-      receivedCourts.add(
-        Court.fromJson(
-          court,
+    for (var store in responseStores) {
+      receivedStores.add(
+        Store.fromJson(
+          store,
         ),
       );
     }
 
-    for (var date in responseDates) {}
-
-    // var newStore;
-    // int courtIndexTotal = 0;
-    // for (int dateIndex = 0; dateIndex < responseDates.length; dateIndex++) {
-    //   Map firstLevel = responseDates[dateIndex];
-    //   for (int storeIndex = 0;
-    //       storeIndex < firstLevel['Places'].length;
-    //       storeIndex++) {
-    //     Map secondLevel = firstLevel['Places'][storeIndex];
-    //     Provider.of<StoreProvider>(context, listen: false)
-    //         .stores
-    //         .forEach((store) {
-    //       if (store.idStore == secondLevel['IdStore']) {
-    //         newStore = store;
-    //       }
-    //     });
-    //     StoreDay storeDay = StoreDay(
-    //       store: newStore,
-    //       day: firstLevel['Date'],
-    //     );
-
-    //     for (int availableHoursIndex = 0;
-    //         availableHoursIndex < secondLevel['Available'].length;
-    //         availableHoursIndex++) {
-    //       Map thirdLevel = secondLevel['Available'][availableHoursIndex];
-    //       for (int courtIndex = 0;
-    //           courtIndex < thirdLevel['Courts'].length;
-    //           courtIndex++) {
-    //         Map fourthLevel = thirdLevel['Courts'][courtIndex];
-
-    //         bool newcourt = false;
-    //         if (storeDay.courts.isEmpty ||
-    //             (storeDay.courts.any((court) =>
-    //                     court.idStoreCourt == fourthLevel['IdStoreCourt']) ==
-    //                 false)) {
-    //           newcourt = true;
-    //         }
-    //         if (newcourt) {
-    //           Provider.of<CourtProvider>(context, listen: false)
-    //               .courts
-    //               .forEach((court) {
-    //             if (court.idStoreCourt == fourthLevel['IdStoreCourt']) {
-    //               storeDay.courts.add(court);
-    //             }
-    //           });
-    //         }
-    //         for (int i = 0; i < storeDay.courts.length; i++) {
-    //           if (storeDay.courts[i].idStoreCourt ==
-    //               fourthLevel['IdStoreCourt']) {
-    //             storeDay.courts[i].availableHours.add(CourtAvailableHour(
-    //                 thirdLevel['TimeBegin'],
-    //                 thirdLevel['TimeInteger'],
-    //                 thirdLevel['TimeFinish'],
-    //                 fourthLevel['Price']));
-    //           }
-    //         }
-    //       }
-    //     }
-    //     Provider.of<MatchProvider>(context, listen: false)
-    //         .addStoreDay(storeDay);
-    //   }
-    // }
-
-    // for (int i = 0; i < responseOpenMatches.length; i++) {
-    //   Provider.of<MatchProvider>(context, listen: false)
-    //       .addOpenMatch(responseOpenMatches[i]);
-    // }
+    for (var date in responseDates) {
+      DateTime newDate = DateFormat('dd/MM/yyyy').parse(date["Date"]);
+      List<AvailableStore> availableStores = [];
+      for (var store in date["Stores"]) {
+        Store newStore = receivedStores
+            .firstWhere((recStore) => recStore.idStore == store["IdStore"]);
+        List<AvailableHour> availableHours = [];
+        for (var hour in store["Hours"]) {
+          List<AvailableCourt> availableCourts = [];
+          for (var court in hour["Courts"]) {
+            availableCourts.add(
+              AvailableCourt(
+                court: newStore.courts.firstWhere((recCourt) =>
+                    recCourt.idStoreCourt == court["IdStoreCourt"]),
+                price: court["Price"],
+              ),
+            );
+          }
+          availableHours.add(
+            AvailableHour(
+              hour["TimeBegin"],
+              hour["TimeFinish"],
+              hour["TimeInteger"],
+              availableCourts,
+            ),
+          );
+        }
+        availableStores.add(
+          AvailableStore(
+            store: newStore,
+            availableHours: availableHours,
+          ),
+        );
+      }
+      availableDays.add(
+        AvailableDay(
+          day: newDate,
+          stores: availableStores,
+        ),
+      );
+    }
   }
+
+  void goToMatch(BuildContext context, String matchUrl) {
+    Navigator.pushNamed(context, '/match?id=$matchUrl');
+  }
+
+  goToOpenMatches() {}
 }

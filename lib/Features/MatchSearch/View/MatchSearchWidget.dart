@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sandfriends/Features/MatchSearch/View/AvailableDaysResult.dart';
+import 'package:sandfriends/Features/MatchSearch/View/MatchSearchOnboarding.dart';
+import 'package:sandfriends/Features/MatchSearch/View/NoMachesFound.dart';
+import 'package:sandfriends/Features/MatchSearch/View/OpenMatchesResult.dart';
 
 import '../../../Utils/Constants.dart';
 import '../ViewModel/MatchSearchViewModel.dart';
@@ -24,7 +28,23 @@ class _MatchSearchWidgetState extends State<MatchSearchWidget> {
         ),
         Expanded(
           child: Container(
-            color: secondaryPaper,
+            color: secondaryBack,
+            child: !widget.viewModel.hasUserSearched
+                ? MatchSearchOnboarding()
+                : widget.viewModel.availableDays.isEmpty
+                    ? NoMatchesFound()
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            OpenMatchesResult(
+                              viewModel: widget.viewModel,
+                            ),
+                            AvailableDaysResult(
+                              viewModel: widget.viewModel,
+                            ),
+                          ],
+                        ),
+                      ),
           ),
         ),
       ],

@@ -486,21 +486,21 @@ class _FeedScreenState extends State<FeedScreen> {
                                                                         right: width *
                                                                             0.01),
                                                                   ),
-                                                                  Text(
-                                                                    Provider.of<UserProvider>(
-                                                                            context)
-                                                                        .nextMatchList[
-                                                                            index]
-                                                                        .court
-                                                                        .store
-                                                                        .name,
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: AppTheme
-                                                                          .colors
-                                                                          .textDarkGrey,
-                                                                    ),
-                                                                  ),
+                                                                  // Text(
+                                                                  //   Provider.of<UserProvider>(
+                                                                  //           context)
+                                                                  //       .nextMatchList[
+                                                                  //           index]
+                                                                  //       .court
+                                                                  //       .store
+                                                                  //       .name,
+                                                                  //   style:
+                                                                  //       TextStyle(
+                                                                  //     color: AppTheme
+                                                                  //         .colors
+                                                                  //         .textDarkGrey,
+                                                                  //   ),
+                                                                  // ),
                                                                 ],
                                                               ),
                                                             ),

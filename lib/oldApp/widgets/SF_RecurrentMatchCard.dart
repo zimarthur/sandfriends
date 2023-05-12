@@ -77,7 +77,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                             borderRadius: BorderRadius.circular(16.0),
                             child: CachedNetworkImage(
                               imageUrl:
-                                  widget.recurrentMatch.court.store.imageUrl,
+                                  "widget.recurrentMatch.court.store.imageUrl",
                               height: 80,
                               width: 80,
                               placeholder: (context, url) => Container(
@@ -122,8 +122,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                               right: width * 0.02)),
                                       Expanded(
                                         child: Text(
-                                          widget
-                                              .recurrentMatch.court.store.name,
+                                          "widget.recurrentMatch.court.store.name",
                                           style: TextStyle(
                                             color: AppTheme.colors.textDarkGrey,
                                             fontWeight: FontWeight.w500,

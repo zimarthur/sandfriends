@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:sandfriends/oldApp/widgets/SFAvatar.dart';
+import 'package:sandfriends/SharedComponents/Model/AppMatch.dart';
 
-import '../theme/app_theme.dart';
-import '../../SharedComponents/Model/AppMatch.dart';
-import 'SF_Button.dart';
+import '../../../Utils/Constants.dart';
+import '../../../oldApp/widgets/SFAvatar.dart';
+import '../../../oldApp/widgets/SF_Button.dart';
 
-class SFOpenMatchHorizontal extends StatelessWidget {
-  final AppMatch match;
+class OpenMatchCard extends StatefulWidget {
+  AppMatch match;
+  Function(String) onTap;
+  OpenMatchCard({
+    required this.match,
+    required this.onTap,
+  });
 
-  const SFOpenMatchHorizontal({required this.match});
+  @override
+  State<OpenMatchCard> createState() => _OpenMatchCardState();
+}
 
+class _OpenMatchCardState extends State<OpenMatchCard> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -26,10 +33,10 @@ class SFOpenMatchHorizontal extends StatelessWidget {
       ),
       width: width * 0.6,
       decoration: BoxDecoration(
-        color: AppTheme.colors.secondaryPaper,
+        color: secondaryPaper,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppTheme.colors.divider,
+          color: divider,
           width: 0.5,
         ),
       ),
@@ -39,7 +46,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
             width: 4,
             decoration: BoxDecoration(
               color: Color(int.parse(
-                  "0xFF${match.matchCreator.ranks.first.color.replaceAll("#", "")}")),
+                  "0xFF${widget.match.matchCreator.ranks.first.color.replaceAll("#", "")}")),
               borderRadius: BorderRadius.circular(16),
             ),
             margin: EdgeInsets.only(right: width * 0.02),
@@ -57,9 +64,9 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                           child: SFAvatar(
                             height: 60,
                             showRank: true,
-                            user: match.matchCreator,
+                            user: widget.match.matchCreator,
                             editFile: null,
-                            sport: match.sport,
+                            sport: widget.match.sport,
                           ),
                         ),
                         Expanded(
@@ -67,9 +74,9 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: FittedBox(
                               child: Text(
-                                "Partida de\n${match.matchCreator.firstName}",
+                                "Partida de\n${widget.match.matchCreator.firstName}",
                                 style: TextStyle(
-                                  color: AppTheme.colors.primaryBlue,
+                                  color: primaryBlue,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -91,14 +98,14 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                             ),
                             decoration: BoxDecoration(
                               color: Color(int.parse(
-                                  "0xFF${match.matchCreator.ranks.first.color.replaceAll("#", "")}")),
+                                  "0xFF${widget.match.matchCreator.ranks.first.color.replaceAll("#", "")}")),
                               borderRadius: BorderRadius.circular(16),
                             ),
                             child: Row(
                               children: [
                                 SvgPicture.asset(
                                   r'assets\icon\users.svg',
-                                  color: AppTheme.colors.textWhite,
+                                  color: textWhite,
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(right: width * 0.02),
@@ -106,11 +113,11 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                                 Expanded(
                                   child: FittedBox(
                                     child: Text(
-                                      match.remainingSlots == 1
+                                      widget.match.remainingSlots == 1
                                           ? "resta 1 vaga"
-                                          : "restam ${match.remainingSlots} vagas",
+                                          : "restam ${widget.match.remainingSlots} vagas",
                                       style: TextStyle(
-                                        color: AppTheme.colors.textWhite,
+                                        color: textWhite,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
@@ -129,15 +136,15 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                   children: [
                     SvgPicture.asset(
                       r'assets\icon\star.svg',
-                      color: AppTheme.colors.primaryBlue,
+                      color: primaryBlue,
                     ),
                     Padding(
                       padding: EdgeInsets.only(right: width * 0.01),
                     ),
                     Text(
-                      match.matchCreator.ranks.first.name,
+                      widget.match.matchCreator.ranks.first.name,
                       style: TextStyle(
-                        color: AppTheme.colors.primaryBlue,
+                        color: primaryBlue,
                       ),
                     ),
                   ],
@@ -149,15 +156,15 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                       children: [
                         SvgPicture.asset(
                           r'assets\icon\calendar.svg',
-                          color: AppTheme.colors.primaryBlue,
+                          color: primaryBlue,
                         ),
                         Padding(
                           padding: EdgeInsets.only(right: width * 0.01),
                         ),
                         Text(
-                          DateFormat("dd/MM/yyyy").format(match.date),
+                          DateFormat("dd/MM/yyyy").format(widget.match.date),
                           style: TextStyle(
-                            color: AppTheme.colors.primaryBlue,
+                            color: primaryBlue,
                           ),
                         ),
                       ],
@@ -166,15 +173,15 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                       children: [
                         SvgPicture.asset(
                           r'assets\icon\clock.svg',
-                          color: AppTheme.colors.primaryBlue,
+                          color: primaryBlue,
                         ),
                         Padding(
                           padding: EdgeInsets.only(right: width * 0.01),
                         ),
                         Text(
-                          match.timeBegin,
+                          widget.match.timeBegin,
                           style: TextStyle(
-                            color: AppTheme.colors.primaryBlue,
+                            color: primaryBlue,
                           ),
                         ),
                       ],
@@ -185,15 +192,15 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                   children: [
                     SvgPicture.asset(
                       r'assets\icon\court.svg',
-                      color: AppTheme.colors.primaryBlue,
+                      color: primaryBlue,
                     ),
                     Padding(
                       padding: EdgeInsets.only(right: width * 0.01),
                     ),
                     Text(
-                      "match.court.store.name",
+                      "widget.match.court.store.name",
                       style: TextStyle(
-                        color: AppTheme.colors.primaryBlue,
+                        color: primaryBlue,
                       ),
                     ),
                   ],
@@ -202,14 +209,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                   buttonLabel: "Quero jogar",
                   buttonType: ButtonType.Secondary,
                   iconPath: r'assets\icon\user_plus.svg',
-                  onTap: () {
-                    context.goNamed('match_screen', params: {
-                      'matchUrl': match.matchUrl,
-                      'returnTo': 'match_search_screen',
-                      'returnToParam': 'null',
-                      'returnToParamValue': 'null',
-                    });
-                  },
+                  onTap: () => widget.onTap,
                 ),
               ],
             ),

@@ -58,7 +58,7 @@ class _FeedNextMatchesState extends State<FeedNextMatches> {
           width: width,
           height: 200,
           padding: EdgeInsets.symmetric(
-            vertical: 5,
+            vertical: 10,
           ),
           child: Provider.of<UserProvider>(context).nextMatches.isEmpty
               ? Container(

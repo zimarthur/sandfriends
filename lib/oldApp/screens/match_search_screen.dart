@@ -562,44 +562,44 @@ class _MatchSearchScreen extends State<MatchSearchScreen> {
                           EnumSearchStatus.NoResultsFound
                       ? Expanded(
                           child: Container(
-                              color: AppTheme.colors.secondaryBack,
-                              child: Center(
-                                child: Container(
-                                  height: height * 0.2,
-                                  padding: EdgeInsets.only(
-                                      left: width * 0.2, right: width * 0.2),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      SvgPicture.asset(
-                                        r"assets\icon\sad_face.svg",
-                                        height: height * 0.1,
-                                      ),
-                                      SizedBox(
-                                        height: height * 0.05,
-                                        child: FittedBox(
-                                          fit: BoxFit.contain,
-                                          child: Text(
-                                            "Ops! Não encontramos resultados. \nTente outra data ou horário.",
-                                            style: TextStyle(
-                                              color: AppTheme.colors.textBlue,
-                                              fontWeight: FontWeight.w700,
-                                            ),
+                            color: AppTheme.colors.secondaryBack,
+                            child: Center(
+                              child: Container(
+                                height: height * 0.2,
+                                padding: EdgeInsets.only(
+                                    left: width * 0.2, right: width * 0.2),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    SvgPicture.asset(
+                                      r"assets\icon\sad_face.svg",
+                                      height: height * 0.1,
+                                    ),
+                                    SizedBox(
+                                      height: height * 0.05,
+                                      child: FittedBox(
+                                        fit: BoxFit.contain,
+                                        child: Text(
+                                          "Ops! Não encontramos resultados. \nTente outra data ou horário.",
+                                          style: TextStyle(
+                                            color: AppTheme.colors.textBlue,
+                                            fontWeight: FontWeight.w700,
                                           ),
                                         ),
                                       ),
-                                      Container(
-                                        height: height * 0.01 > 4
-                                            ? 4
-                                            : height * 0.01,
-                                        width: width * 0.8,
-                                        color: AppTheme.colors.divider,
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                    Container(
+                                      height:
+                                          height * 0.01 > 4 ? 4 : height * 0.01,
+                                      width: width * 0.8,
+                                      color: AppTheme.colors.divider,
+                                    ),
+                                  ],
                                 ),
-                              )),
+                              ),
+                            ),
+                          ),
                         )
                       : Provider.of<MatchProvider>(context).searchStatus ==
                               EnumSearchStatus.Results

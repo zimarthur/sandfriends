@@ -162,7 +162,7 @@ class MatchCard extends StatelessWidget {
                                 padding: EdgeInsets.only(right: width * 0.01),
                               ),
                               Text(
-                                match.court.store.name,
+                                "match.court.store.name",
                                 style: TextStyle(
                                   color: textDarkGrey,
                                 ),
