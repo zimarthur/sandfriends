@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Utils/Constants.dart';
+import 'package:sandfriends/Utils/PageStatus.dart';
 
 import '../../../SharedComponents/View/SFStandardScreen.dart';
 import '../../../oldApp/models/enums.dart';
@@ -18,6 +20,16 @@ class MatchScreen extends StatefulWidget {
 
 class _MatchScreenState extends State<MatchScreen> {
   final viewModel = MatchViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel.initMatchViewModel(
+      context,
+      widget.matchUrl,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MatchViewModel>(
@@ -29,11 +41,16 @@ class _MatchScreenState extends State<MatchScreen> {
             titleText: viewModel.titleText,
             appBarType: AppBarType.Primary,
             messageModalWidget: viewModel.modalMessage,
+            modalFormWidget: viewModel.formWidget,
             onTapBackground: () => viewModel.closeModal(),
             onTapReturn: () => viewModel.onTapReturn(context),
-            child: MatchWidget(
-              viewModel: viewModel,
-            ),
+            child: viewModel.isMatchInstantiated
+                ? MatchWidget(
+                    viewModel: viewModel,
+                  )
+                : Container(
+                    color: secondaryBack,
+                  ),
           );
         },
       ),

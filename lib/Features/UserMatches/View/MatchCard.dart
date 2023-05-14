@@ -102,14 +102,14 @@ class MatchCard extends StatelessWidget {
               Positioned(
                 top: height * 0.6,
                 child: Container(
-                  padding: EdgeInsets.only(left: width * 0.02),
+                  padding: EdgeInsets.only(left: width * 0.03),
                   width: width,
                   height: height * 0.4,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       SizedBox(
-                        height: height * 0.1,
+                        height: height * 0.12,
                         child: FittedBox(
                           fit: BoxFit.fitWidth,
                           child: Text(
@@ -123,7 +123,7 @@ class MatchCard extends StatelessWidget {
                       ),
                       Container(
                         margin: EdgeInsets.only(left: width * 0.01),
-                        height: height * 0.08,
+                        height: height * 0.09,
                         alignment: Alignment.centerLeft,
                         child: FittedBox(
                           fit: BoxFit.fitHeight,
@@ -134,7 +134,7 @@ class MatchCard extends StatelessWidget {
                                 color: textDarkGrey,
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: width * 0.01),
+                                padding: EdgeInsets.only(right: width * 0.03),
                               ),
                               Text(
                                 "${match.timeBegin} - ${match.timeFinish}",
@@ -148,7 +148,7 @@ class MatchCard extends StatelessWidget {
                       ),
                       Container(
                         margin: EdgeInsets.only(left: width * 0.01),
-                        height: height * 0.08,
+                        height: height * 0.09,
                         alignment: Alignment.centerLeft,
                         child: FittedBox(
                           fit: BoxFit.fitHeight,
@@ -159,10 +159,10 @@ class MatchCard extends StatelessWidget {
                                 color: textDarkGrey,
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: width * 0.01),
+                                padding: EdgeInsets.only(right: width * 0.03),
                               ),
                               Text(
-                                "match.court.store.name",
+                                "${match.court.store!.name}",
                                 style: TextStyle(
                                   color: textDarkGrey,
                                 ),

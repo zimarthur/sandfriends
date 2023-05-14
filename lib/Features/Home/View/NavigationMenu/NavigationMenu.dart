@@ -69,11 +69,11 @@ class _NavigationMenuState extends State<NavigationMenu> {
                   height: 4,
                   width: iconSize,
                   margin: EdgeInsets.only(
-                      top: (navigationMenuHeight / 2) - (iconSize / 2) - 5),
+                      top: (navigationMenuHeight / 2) - (iconSize / 2) - 10),
                 ),
                 left: tileLocation,
                 duration: const Duration(
-                  milliseconds: 100,
+                  milliseconds: 200,
                 ),
               ),
               SizedBox(
@@ -82,18 +82,18 @@ class _NavigationMenuState extends State<NavigationMenu> {
                   children: [
                     for (var navigationMenuitem in navigationMenuItems)
                       Expanded(
-                        child: InkWell(
-                          onTap: () =>
-                              widget.onChangeTab(navigationMenuitem.tab),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              top: (navigationMenuHeight / 2) - (iconSize / 2),
-                            ),
-                            child: SvgPicture.asset(
-                              navigationMenuitem.tab == widget.selectedTab
-                                  ? navigationMenuitem.imageActive
-                                  : navigationMenuitem.image,
-                              height: iconSize,
+                        child: SizedBox(
+                          height: layoutConstraints.maxHeight,
+                          child: InkWell(
+                            onTap: () =>
+                                widget.onChangeTab(navigationMenuitem.tab),
+                            child: Center(
+                              child: SvgPicture.asset(
+                                navigationMenuitem.tab == widget.selectedTab
+                                    ? navigationMenuitem.imageActive
+                                    : navigationMenuitem.image,
+                                height: iconSize,
+                              ),
                             ),
                           ),
                         ),

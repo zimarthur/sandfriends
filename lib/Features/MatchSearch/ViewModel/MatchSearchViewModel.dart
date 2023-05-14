@@ -5,8 +5,10 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Features/Court/View/CourtAvailableCourts.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableHour.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableStore.dart';
+import 'package:sandfriends/SharedComponents/Model/CourtAvailabeHour.dart';
 import 'package:sandfriends/SharedComponents/Model/Hour.dart';
 import 'package:time_range/time_range.dart';
 
@@ -25,6 +27,8 @@ import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../SharedComponents/View/CitySelectorModal.dart';
 import '../../../SharedComponents/View/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
+import '../../Court/Model/CourtAvailableHours.dart';
+import '../../Court/Model/HourPrice.dart';
 import '../Repository/MatchSearchRepoImp.dart';
 import '../View/CalendarModal.dart';
 import '../View/TimeModal.dart';
@@ -41,7 +45,7 @@ class MatchSearchViewModel extends ChangeNotifier {
   Widget? widgetForm;
 
   late String titleText;
-  late Sport sportFilter;
+  late Sport selectedSport;
 
   City? cityFilter;
   List<DateTime?> datesFilter = [];
@@ -52,53 +56,127 @@ class MatchSearchViewModel extends ChangeNotifier {
   final List<AvailableDay> availableDays = [];
   final List<AppMatch> openMatches = [];
 
+  bool get canSearchMatch => datesFilter.isNotEmpty && cityFilter != null;
+
+  AvailableHour? selectedHour;
+  AvailableStore? selectedStore;
+  AvailableDay? selectedDay;
+
   void initMatchSearchViewModel(BuildContext context, int sportId) {
-    sportFilter = Provider.of<CategoriesProvider>(context, listen: false)
+    selectedSport = Provider.of<CategoriesProvider>(context, listen: false)
         .sports
         .firstWhere(
           (sport) => sport.idSport == sportId,
         );
-    titleText = "Busca - ${sportFilter.description}";
+    titleText = "Busca - ${selectedSport.description}";
   }
 
-  void closeModal() {
-    pageStatus = PageStatus.OK;
-    notifyListeners();
-  }
-
-  AvailableHour? _selectedHour;
-  AvailableHour? get selectedHour => _selectedHour;
-  set selectedHour(AvailableHour? newHour) {
-    _selectedHour = newHour;
-    notifyListeners();
-  }
-
-  AvailableStore? _selectedStore;
-  AvailableStore? get selectedStore => _selectedStore;
-  set selectedStore(AvailableStore? newStore) {
-    _selectedStore = newStore;
-    notifyListeners();
-  }
-
-  AvailableDay? _selectedDay;
-  AvailableDay? get selectedDay => _selectedDay;
-  set selectedDay(AvailableDay? newDay) {
-    _selectedDay = newDay;
-    notifyListeners();
+  void searchCourts(context) {
+    if (canSearchMatch) {
+      pageStatus = PageStatus.LOADING;
+      notifyListeners();
+      timeFilter ??= TimeRangeResult(
+        const TimeOfDay(hour: 1, minute: 00),
+        const TimeOfDay(
+          hour: 23,
+          minute: 00,
+        ),
+      );
+      matchSearchRepo
+          .searchCourts(
+        Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+        selectedSport.idSport,
+        cityFilter!.cityId,
+        datesFilter[0]!,
+        datesFilter.length < 2 ? datesFilter[0]! : datesFilter[1]!,
+        timeFilter!.start.format(context),
+        timeFilter!.end.format(context),
+      )
+          .then((response) {
+        if (response.responseStatus == NetworkResponseStatus.success) {
+          hasUserSearched = true;
+          setSearchMatchesResult(response.responseBody!);
+          pageStatus = PageStatus.OK;
+          notifyListeners();
+        }
+      });
+    } else {
+      modalMessage = SFModalMessage(
+        message: "Selecione uma cidade e uma data pra buscar os horários",
+        onTap: () {
+          pageStatus = PageStatus.OK;
+          notifyListeners();
+        },
+        isHappy: true,
+      );
+      pageStatus = PageStatus.ERROR;
+      notifyListeners();
+    }
   }
 
   void onSelectedHour(AvailableDay avDay) {
-    _selectedDay = avDay;
-    _selectedStore = avDay.stores.first;
-    _selectedHour = avDay.stores.first.availableHours.first;
+    selectedDay = avDay;
+    selectedStore = avDay.stores.first;
+    selectedHour = avDay.stores.first.availableHours.first;
     notifyListeners();
   }
 
-  void onTapReturn(BuildContext context) {
-    Navigator.pop(context);
+  void goToCourt(BuildContext context, Store store) {
+    Navigator.pushNamed(
+      context,
+      '/court',
+      arguments: {
+        'store': store,
+        'availableCourts': toCourtAvailableHours(),
+        'selectedHourPrice': selectedHour!.lowestHourPrice,
+        'selectedDate': selectedDay!.day,
+        'selectedSport': selectedSport,
+      },
+    );
   }
 
-  bool get canSearchMatch => datesFilter.isNotEmpty && cityFilter != null;
+  List<CourtAvailableHours> toCourtAvailableHours() {
+    List<CourtAvailableHours> courtAvailableHours = [];
+    List<AvailableHour> filteredHours = availableDays
+        .firstWhere((avDay) => avDay.day == selectedDay!.day)
+        .stores
+        .firstWhere(
+          (avStore) => avStore.store.idStore == selectedStore!.store.idStore,
+        )
+        .availableHours;
+    for (var avHour in filteredHours) {
+      for (var court in avHour.availableCourts) {
+        try {
+          courtAvailableHours
+              .firstWhere(
+                (courtAvHour) =>
+                    courtAvHour.court.idStoreCourt == court.court.idStoreCourt,
+              )
+              .hourPrices
+              .add(
+                HourPrice(
+                  hour: avHour.hour,
+                  price: court.price,
+                ),
+              );
+        } catch (e) {
+          List<HourPrice> newHourPrices = [
+            HourPrice(
+              hour: avHour.hour,
+              price: court.price,
+            ),
+          ];
+          courtAvailableHours.add(
+            CourtAvailableHours(
+              court: court.court,
+              hourPrices: newHourPrices,
+            ),
+          );
+        }
+      }
+    }
+    return courtAvailableHours;
+  }
 
   void openCitySelectorModal(BuildContext context) {
     pageStatus = PageStatus.LOADING;
@@ -169,52 +247,9 @@ class MatchSearchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  onSubmitTimeFilter(TimeRangeResult? newTimeFilter) {
+  void onSubmitTimeFilter(TimeRangeResult? newTimeFilter) {
     timeFilter = newTimeFilter;
     closeModal();
-  }
-
-  void searchCourts(context) {
-    if (canSearchMatch) {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
-      timeFilter ??= TimeRangeResult(
-        const TimeOfDay(hour: 1, minute: 00),
-        const TimeOfDay(
-          hour: 23,
-          minute: 00,
-        ),
-      );
-      matchSearchRepo
-          .searchCourts(
-        Provider.of<UserProvider>(context, listen: false).user!.accessToken,
-        sportFilter.idSport,
-        cityFilter!.cityId,
-        datesFilter[0]!,
-        datesFilter.length < 2 ? datesFilter[0]! : datesFilter[1]!,
-        timeFilter!.start.format(context),
-        timeFilter!.end.format(context),
-      )
-          .then((response) {
-        if (response.responseStatus == NetworkResponseStatus.success) {
-          hasUserSearched = true;
-          setSearchMatchesResult(response.responseBody!);
-          pageStatus = PageStatus.OK;
-          notifyListeners();
-        }
-      });
-    } else {
-      modalMessage = SFModalMessage(
-        message: "Selecione uma cidade e uma data pra buscar os horários",
-        onTap: () {
-          pageStatus = PageStatus.OK;
-          notifyListeners();
-        },
-        isHappy: true,
-      );
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
-    }
   }
 
   void setSearchMatchesResult(String response) {
@@ -286,10 +321,12 @@ class MatchSearchViewModel extends ChangeNotifier {
 
   goToOpenMatches() {}
 
-  void goToCourt(BuildContext context, Store store) {
-    Navigator.pushNamed(context, '/court', arguments: {
-      'store': store,
-      'selectedDay': selectedDay,
-    });
+  void closeModal() {
+    pageStatus = PageStatus.OK;
+    notifyListeners();
+  }
+
+  void onTapReturn(BuildContext context) {
+    Navigator.pop(context);
   }
 }

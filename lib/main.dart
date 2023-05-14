@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Features/Authentication/CreateAccount/View/CreateAccountScreen.dart';
@@ -13,13 +16,13 @@ import 'package:sandfriends/Features/OpenMatches/View/OpenMatchesScreen.dart';
 import 'package:sandfriends/Features/RecurrentMatches/View/RecurrentMatchesSreen.dart';
 import 'package:sandfriends/Features/Rewards/View/RewardsScreen.dart';
 import 'package:sandfriends/Features/RewardsUser/View/RewardsUserScreen.dart';
-import 'package:sandfriends/SharedComponents/ViewModel/DataProvider.dart';
 import 'Features/Authentication/LoadLogin/View/LoadLoginScreen.dart';
+import 'Features/Court/Model/CourtAvailableHours.dart';
 import 'Features/MatchSearch/View/MatchSearchScreen.dart';
 import 'Features/Notifications/View/NotificationsScreen.dart';
 import 'Features/UserDetails/View/UserDetailsScreen.dart';
 import 'Features/UserMatches/View/UserMatchesScreen.dart';
-import 'SharedComponents/Model/AvailableDay.dart';
+import 'SharedComponents/Model/Sport.dart';
 import 'SharedComponents/Model/Store.dart';
 import 'SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'SharedComponents/Providers/UserProvider/UserProvider.dart';
@@ -27,15 +30,110 @@ import 'Utils/Constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
+import 'package:uni_links/uni_links.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) => runApp(MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+void handleLink(Uri uri) {
+  // Do something with the incoming link.
+  print('Incoming link: $uri');
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _initialURILinkHandled = false;
+
+  Uri? _initialURI;
+  Uri? _currentURI;
+  Object? _err;
+
+  StreamSubscription? _streamSubscription;
+
+  void _incomingLinkHandler() {
+    if (!kIsWeb) {
+      _streamSubscription = uriLinkStream.listen((Uri? uri) {
+        if (!mounted) {
+          return;
+        }
+
+        debugPrint('Received URI: $uri');
+        setState(() {
+          _currentURI = uri;
+          _err = null;
+          if (_currentURI!.queryParameters['ct'] == "mtch") {
+            Navigator.pushNamed(context,
+                '/match?id=${_currentURI!.queryParameters['bd'].toString()}');
+          }
+        });
+        // 3
+      }, onError: (Object err) {
+        if (!mounted) {
+          return;
+        }
+        debugPrint('Error occurred: $err');
+        setState(() {
+          _currentURI = null;
+          if (err is FormatException) {
+            _err = err;
+          } else {
+            _err = null;
+          }
+        });
+      });
+    }
+  }
+
+  Future<void> _initURIHandler() async {
+    if (!_initialURILinkHandled) {
+      _initialURILinkHandled = true;
+      try {
+        final initialURI = await getInitialUri();
+
+        if (initialURI != null) {
+          if (!mounted) {
+            return;
+          }
+          if (initialURI.queryParameters['ct'] == "mtch") {
+            Navigator.pushNamed(context,
+                '/match?id=${initialURI.queryParameters['bd'].toString()}');
+          }
+        } else {}
+      } on PlatformException {
+        // 5
+        debugPrint("Failed to receive initial uri");
+      } on FormatException catch (err) {
+        // 6
+        if (!mounted) {
+          return;
+        }
+        debugPrint('Malformed Initial URI received');
+        setState(() => _err = err);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initURIHandler();
+    _incomingLinkHandler();
+  }
+
+  @override
+  void dispose() {
+    _streamSubscription?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -74,22 +172,31 @@ class MyApp extends StatelessWidget {
             );
           } else if (settings.name!.startsWith(match)) {
             //match?id=123
-            final match = settings.name!.split("?")[1].split("=")[1];
+            final matchUrl = settings.name!.split(match)[1].split("/")[1];
             return MaterialPageRoute(
               builder: (context) {
                 return MatchScreen(
-                  matchUrl: match,
+                  matchUrl: matchUrl,
                 );
               },
             );
           } else if (settings.name!.startsWith(court)) {
+            List<CourtAvailableHours>? courtAvailableHours;
+            HourPrice? hourPrice;
+            DateTime? datetime;
+            if (settings.arguments != null) {}
             final arguments = settings.arguments as Map;
 
             return MaterialPageRoute(
               builder: (context) {
                 return CourtScreen(
                   store: arguments['store'] as Store,
-                  selectedDay: arguments['selectedDay'] as AvailableDay?,
+                  courtAvailableHours: arguments['availableCourts']
+                      as List<CourtAvailableHours>?,
+                  selectedHourPrice:
+                      arguments['selectedHourPrice'] as HourPrice?,
+                  selectedDate: arguments['selectedDate'] as DateTime?,
+                  selectedSport: arguments['selectedSport'] as Sport?,
                 );
               },
             );

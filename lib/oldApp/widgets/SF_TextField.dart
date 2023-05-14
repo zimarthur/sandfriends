@@ -15,6 +15,7 @@ class SFTextField extends StatefulWidget {
   final int? maxLines;
   final int? minLines;
   final Function(String)? onChanged;
+  final String? hintText;
 
   const SFTextField({
     required this.labelText,
@@ -27,6 +28,7 @@ class SFTextField extends StatefulWidget {
     this.maxLines,
     this.onChanged,
     this.minLines,
+    this.hintText,
   });
 
   @override
@@ -75,6 +77,7 @@ class _SFTextFieldState extends State<SFTextField> {
           fontWeight: FontWeight.w300,
           fontSize: 14,
         ),
+        hintText: widget.hintText,
         prefixIcon: widget.prefixIcon == null
             ? null
             : Container(

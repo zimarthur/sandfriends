@@ -90,7 +90,7 @@ class AppMatch {
       canceled: json['Canceled'],
       matchUrl: json['MatchUrl'],
       creatorNotes: json['CreatorNotes'],
-      court: Court.fromJson(json['StoreCourt']),
+      court: Court.fromJsonMatch(json['StoreCourt']),
       sport: Sport.fromJson(json['Sport']),
       canCancelUpTo: json['CanCancelUpTo'],
     );

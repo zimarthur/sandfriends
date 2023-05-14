@@ -56,4 +56,8 @@ class CategoriesProvider extends ChangeNotifier {
       );
     }
   }
+
+  Hour getHourEnd(Hour startHour) {
+    return hours.firstWhere((hour) => hour.hour - startHour.hour == 1);
+  }
 }

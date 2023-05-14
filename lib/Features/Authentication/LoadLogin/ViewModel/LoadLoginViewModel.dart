@@ -45,7 +45,7 @@ void receiveLoginResponse(BuildContext context, String response) {
   );
   Provider.of<CategoriesProvider>(context, listen: false).clearAll();
 
-  //final responseHours = responseBody['Hours'];
+  final responseHours = responseBody['Hours'];
   final responseSports = responseBody['Sports'];
   final responseGenders = responseBody['Genders'];
   final responseRanks = responseBody['Ranks'];
@@ -53,13 +53,13 @@ void receiveLoginResponse(BuildContext context, String response) {
 
   final responseUser = responseBody['User'];
 
-  // for (var hour in responseHours) {
-  //   Provider.of<CategoriesProvider>(context, listen: false).hours.add(
-  //         Hour.fromJson(
-  //           hour,
-  //         ),
-  //       );
-  // }
+  for (var hour in responseHours) {
+    Provider.of<CategoriesProvider>(context, listen: false).hours.add(
+          Hour.fromJson(
+            hour,
+          ),
+        );
+  }
   for (var sport in responseSports) {
     Provider.of<CategoriesProvider>(context, listen: false).sports.add(
           Sport.fromJson(

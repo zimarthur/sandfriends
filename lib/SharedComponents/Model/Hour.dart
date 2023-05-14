@@ -9,7 +9,7 @@ class Hour {
 
   factory Hour.fromJson(Map<String, dynamic> json) {
     return Hour(
-      hour: json["Hour"],
+      hour: json["IdAvailableHour"],
       hourString: json["HourString"],
     );
   }

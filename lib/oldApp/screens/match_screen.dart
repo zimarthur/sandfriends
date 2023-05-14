@@ -1472,10 +1472,10 @@ class _MatchScreenState extends State<MatchScreen> {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, Object>{
-          'accessToken': accessToken,
-          'idMatch': currentMatch!.idMatch,
-          'idUser': idUser,
-          'accepted': accepted,
+          'AccessToken': accessToken,
+          'IdMatch': currentMatch!.idMatch,
+          'IdUser': idUser,
+          'Accepted': accepted,
         }),
       );
 

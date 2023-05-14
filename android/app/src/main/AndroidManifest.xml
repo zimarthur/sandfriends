@@ -51,10 +51,10 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with https://YOUR_HOST -->
                 <data
-                android:scheme="http"
+                android:scheme="https"
                 android:pathPrefix="/redirect/"
-                android:host="www.sandfriends.com.br" />
-                <data android:scheme="https" />
+                android:host="sandfriends.com.br" />
+                <!-- <data android:scheme="https" /> -->
             </intent-filter>
 
         </activity>

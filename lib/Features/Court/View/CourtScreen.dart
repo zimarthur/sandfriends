@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Features/Court/Model/HourPrice.dart';
 
 import '../../../SharedComponents/Model/AvailableDay.dart';
+import '../../../SharedComponents/Model/Sport.dart';
 import '../../../SharedComponents/Model/Store.dart';
 import '../../../SharedComponents/View/SFStandardScreen.dart';
+import '../Model/CourtAvailableHours.dart';
 import '../ViewModel/CourtViewModel.dart';
 import 'CourtWidget.dart';
 
 class CourtScreen extends StatefulWidget {
-  AvailableDay? selectedDay;
   Store store;
+  List<CourtAvailableHours>? courtAvailableHours;
+  HourPrice? selectedHourPrice;
+  DateTime? selectedDate;
+  Sport? selectedSport;
 
   CourtScreen({
     required this.store,
-    this.selectedDay,
+    this.courtAvailableHours,
+    this.selectedHourPrice,
+    this.selectedDate,
+    this.selectedSport,
   });
 
   @override
@@ -27,7 +36,10 @@ class _CourtScreenState extends State<CourtScreen> {
   void initState() {
     viewModel.initCourtViewModel(
       widget.store,
-      widget.selectedDay,
+      widget.courtAvailableHours,
+      widget.selectedHourPrice,
+      widget.selectedDate,
+      widget.selectedSport,
     );
     super.initState();
   }

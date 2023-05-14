@@ -81,7 +81,7 @@ class User {
       city: json['City'] == null ? null : City.fromJsonUser(json['City']),
       sidePreference: json['SidePreferenceCategory'] == null
           ? null
-          : SidePreference.fromJson(json['SidePreferenceCategory'][0]),
+          : SidePreference.fromJson(json['SidePreferenceCategory']),
       photo: json['Photo'],
     );
     for (int i = 0; i < json['Ranks'].length; i++) {

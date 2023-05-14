@@ -18,4 +18,13 @@ class ApiEndPoints {
   final String sendFeedback = "/SendFeedback";
 
   final String searchCourts = "/SearchCourts";
+  final String courtReservation = "/CourtReservation";
+
+  final String getMatchInfo = "/GetMatchInfo";
+  final String saveCreatorNotes = "/SaveCreatorNotes";
+  final String invitationResponse = "/InvitationResponse";
+  final String removeMatchMember = "/RemoveMatchMember";
+  final String cancelMatch = "/CancelMatch";
+  final String leaveMatch = "/LeaveMatch";
+  final String joinMatch = "/JoinMatch";
 }
