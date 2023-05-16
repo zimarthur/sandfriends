@@ -140,4 +140,26 @@ class MatchRepoImp implements MatchRepo {
     );
     return response;
   }
+
+  @override
+  Future<NetworkResponse> saveOpenMatch(
+    String accessToken,
+    int idMatch,
+    bool isOpenMatch,
+    int maxUsers,
+  ) async {
+    NetworkResponse response = await _apiService.postResponse(
+      _apiService.sandfriendsUrl,
+      ApiEndPoints().saveOpenMatch,
+      jsonEncode(
+        <String, Object>{
+          "AccessToken": accessToken,
+          "IdMatch": idMatch,
+          "IsOpenMatch": isOpenMatch,
+          "MaxUsers": maxUsers,
+        },
+      ),
+    );
+    return response;
+  }
 }

@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:io';
+import 'dart:typed_data';
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/Gender.dart';
 import '../../../SharedComponents/Model/Rank.dart';
@@ -51,6 +52,8 @@ class UserDetailsViewModel extends ChangeNotifier {
       MaskedTextController(mask: '00/00/0000');
   final TextEditingController heightController =
       MaskedTextController(mask: '0,00');
+  String? imagePicker;
+  bool noImage = false;
 
   bool get isEdited {
     bool changedRank = false;
@@ -72,7 +75,9 @@ class UserDetailsViewModel extends ChangeNotifier {
         userEdited.height != userReference.height ||
         userEdited.preferenceSport!.idSport !=
             userReference.preferenceSport!.idSport ||
-        changedRank;
+        changedRank ||
+        imagePicker != null ||
+        (userReference.photo != null && noImage);
   }
 
   final userDetailsNameFormKey = GlobalKey<FormState>();
@@ -127,26 +132,50 @@ class UserDetailsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateUserInfo(BuildContext context) {
+  Future<void> updateUserInfo(BuildContext context) async {
     if (isEdited) {
       pageStatus = PageStatus.LOADING;
       notifyListeners();
+      if (noImage) {
+        userEdited.photo = null;
+      } else if (imagePicker != null) {
+        File imageFile = File(imagePicker!);
+        Uint8List bytes = imageFile.readAsBytesSync();
+        userEdited.photo = base64Encode(bytes);
+      }
       userDetailsRepo.updateUserInfo(userEdited).then((response) {
-        if (response.responseStatus == NetworkResponseStatus.alert) {
-          Provider.of<UserProvider>(context, listen: false).user =
-              User.copyWith(userEdited);
-          userReference = User.copyWith(userEdited);
+        if (response.responseStatus == NetworkResponseStatus.success) {
+          Map<String, dynamic> responseBody = json.decode(
+            response.responseBody!,
+          );
+          User serverUser = User.fromJson(responseBody);
+          serverUser.matchCounter = userReference.matchCounter;
+          Provider.of<UserProvider>(context, listen: false).user = serverUser;
+          userReference = User.copyWith(serverUser);
+          userEdited = User.copyWith(serverUser);
+          modalMessage = SFModalMessage(
+            message: "Suas informações foram alteradas",
+            onTap: () {
+              pageStatus = PageStatus.OK;
+              notifyListeners();
+              imagePicker = null;
+            },
+            isHappy: true,
+          );
+          pageStatus = PageStatus.ERROR;
+          notifyListeners();
+        } else {
+          modalMessage = SFModalMessage(
+            message: response.userMessage!,
+            onTap: () {
+              pageStatus = PageStatus.OK;
+              notifyListeners();
+            },
+            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          );
+          pageStatus = PageStatus.ERROR;
+          notifyListeners();
         }
-        modalMessage = SFModalMessage(
-          message: response.userMessage!,
-          onTap: () {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          },
-          isHappy: response.responseStatus == NetworkResponseStatus.alert,
-        );
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       });
     }
   }

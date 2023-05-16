@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:provider/provider.dart';
 
+import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../Utils/Constants.dart';
 import '../../../oldApp/widgets/SFAvatar.dart';
 import '../ViewModel/UserDetailsViewModel.dart';
@@ -72,7 +74,9 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                                   height: remainingHeight * 0.5,
                                   sport: widget.viewModel.displayedSport,
                                   user: widget.viewModel.userEdited,
-                                  //editFile: imagePath,
+                                  editFile: widget.viewModel.noImage
+                                      ? null
+                                      : widget.viewModel.imagePicker,
                                 ),
                               ),
                             ],
@@ -104,12 +108,15 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                               ),
                             ),
                             AutoSizeText(
-                              "15 jogos",
+                              Provider.of<UserProvider>(context, listen: false)
+                                          .user!
+                                          .getUserSportMatches(widget
+                                              .viewModel.displayedSport) ==
+                                      1
+                                  ? "1 jogo"
+                                  : "${Provider.of<UserProvider>(context, listen: false).user!.getUserSportMatches(widget.viewModel.displayedSport)} jogos",
                               minFontSize: 14,
                               textAlign: TextAlign.center,
-                              // matchCounterValue!.total == 1
-                              //     ? "${matchCounterValue!.total} jogo"
-                              //     : "${matchCounterValue!.total} jogos",
                               style: TextStyle(
                                 color: textDarkGrey,
                               ),

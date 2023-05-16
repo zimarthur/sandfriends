@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
 import 'package:sandfriends/SharedComponents/Model/City.dart';
 import 'package:sandfriends/SharedComponents/Model/MatchCounter.dart';
 import 'package:sandfriends/Utils/SFDateTime.dart';
@@ -19,7 +20,7 @@ class User {
   DateTime? birthday;
   double? height;
   SidePreference? sidePreference;
-  String? photo;
+  dynamic photo;
   List<Rank> ranks = [];
   List<MatchCounter> matchCounter = [];
   String email;
@@ -61,6 +62,12 @@ class User {
           (e) => e.total,
         )
         .reduce((value, current) => value + current);
+  }
+
+  int getUserSportMatches(Sport selectedSport) {
+    return matchCounter
+        .firstWhere((element) => element.sport.idSport == selectedSport.idSport)
+        .total;
   }
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -105,13 +112,15 @@ class User {
       'LastName': lastName!,
       'PhoneNumber': phoneNumber!,
       'IdGender': gender == null ? "" : gender!.idGender,
-      'Birthday': birthday == null ? "" : birthday!,
+      'Birthday':
+          birthday == null ? "" : DateFormat("yyyy-MM-dd").format(birthday!),
       'Height': height ?? "",
       'SidePreference':
           sidePreference == null ? "" : sidePreference!.idSidePreference,
       'Rank': rankJson,
       'IdCity': city!.cityId,
       'IdSport': preferenceSport!.idSport,
+      'Photo': photo ?? "",
     };
   }
 
@@ -154,6 +163,9 @@ class User {
           rank,
         ),
       );
+    }
+    for (var matchCounter in refUser.matchCounter) {
+      user.matchCounter.add(matchCounter);
     }
     return user;
   }

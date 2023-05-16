@@ -312,6 +312,35 @@ class MatchViewModel extends ChangeNotifier {
         .then((response) => defaultResponse(response, context));
   }
 
+  void saveOpenMatchChanges(BuildContext context) {
+    if (match.isOpenMatch == true &&
+        match.maxUsers <= match.activeMatchMembers) {
+      modalMessage = SFModalMessage(
+        message:
+            "O número de jogadores que você deseja para sua partida deve ser maior do que o número de jogadores atual",
+        onTap: () {
+          pageStatus = PageStatus.OK;
+          notifyListeners();
+        },
+        isHappy: false,
+      );
+      pageStatus = PageStatus.ERROR;
+      notifyListeners();
+    } else {
+      pageStatus = PageStatus.LOADING;
+      notifyListeners();
+      matchRepo
+          .saveOpenMatch(loggedUser.accessToken, match.idMatch,
+              match.isOpenMatch, match.maxUsers)
+          .then(
+            (response) => defaultResponse(
+              response,
+              context,
+            ),
+          );
+    }
+  }
+
   void defaultResponse(NetworkResponse response, BuildContext context) {
     modalMessage = SFModalMessage(
       message: response.userMessage!,

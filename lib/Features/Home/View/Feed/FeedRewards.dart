@@ -14,7 +14,7 @@ class FeedRewards extends StatelessWidget {
       double width = layoutConstraints.maxWidth;
       double height = layoutConstraints.maxHeight;
       return InkWell(
-        onTap: () => Navigator.pushNamed(context, '/reward_screen'),
+        onTap: () => Navigator.pushNamed(context, '/rewards'),
         child: Container(
           alignment: Alignment.topCenter,
           padding: EdgeInsets.symmetric(
@@ -57,43 +57,54 @@ class FeedRewards extends StatelessWidget {
               ),
               Expanded(
                 child: Center(
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: height * 0.5,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: Provider.of<UserProvider>(context,
-                                      listen: false)
-                                  .userReward ==
-                              null
-                          ? 0
-                          : Provider.of<UserProvider>(context, listen: false)
-                              .userReward!
-                              .rewardQuantity,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin:
-                              EdgeInsets.symmetric(horizontal: width * 0.015),
-                          padding: EdgeInsets.all(height * 0.1),
-                          width: height * 0.5,
-                          decoration: BoxDecoration(
-                            color: secondaryPaper,
-                            borderRadius: BorderRadius.circular(height * 0.25),
-                          ),
-                          child:
-                              Provider.of<UserProvider>(context, listen: false)
-                                          .userReward!
-                                          .userRewardQuantity! >
-                                      index
-                                  ? SvgPicture.asset(
-                                      r"assets\icon\sandfriends_logo.svg",
-                                    )
-                                  : Container(),
-                        );
-                      },
-                    ),
-                  ),
+                  child: LayoutBuilder(
+                      builder: (layoutContext, layoutConstraints) {
+                    int itemsToShow = 4;
+                    double itemMargin = layoutConstraints.maxWidth * 0.02;
+                    double itemWidth = (layoutConstraints.maxWidth -
+                            (itemsToShow * itemMargin)) /
+                        itemsToShow;
+                    int rewardsLength =
+                        Provider.of<UserProvider>(context, listen: false)
+                                    .userReward ==
+                                null
+                            ? 0
+                            : Provider.of<UserProvider>(context, listen: false)
+                                .userReward!
+                                .rewardQuantity;
+                    return Container(
+                      alignment: Alignment.center,
+                      height: itemWidth,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: rewardsLength,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.only(
+                              right:
+                                  index == rewardsLength - 1 ? 0 : itemMargin,
+                            ),
+                            width: itemWidth,
+                            decoration: BoxDecoration(
+                              color: secondaryPaper,
+                              borderRadius:
+                                  BorderRadius.circular(itemWidth / 2),
+                            ),
+                            child: Provider.of<UserProvider>(context,
+                                            listen: false)
+                                        .userReward!
+                                        .userRewardQuantity! >
+                                    index
+                                ? SvgPicture.asset(
+                                    r"assets\icon\sandfriends_logo.svg",
+                                  )
+                                : Container(),
+                          );
+                        },
+                      ),
+                    );
+                  }),
                 ),
               ),
             ],

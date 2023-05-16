@@ -27,4 +27,5 @@ class ApiEndPoints {
   final String cancelMatch = "/CancelMatch";
   final String leaveMatch = "/LeaveMatch";
   final String joinMatch = "/JoinMatch";
+  final String saveOpenMatch = "/SaveOpenMatch";
 }

@@ -38,4 +38,11 @@ class MatchRepo {
     String accessToken,
     int idMatch,
   ) async {}
+
+  Future<NetworkResponse?> saveOpenMatch(
+    String accessToken,
+    int idMatch,
+    bool isOpenMatch,
+    int maxUsers,
+  ) async {}
 }

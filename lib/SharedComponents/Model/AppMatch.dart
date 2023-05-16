@@ -2,6 +2,7 @@ import 'package:intl/intl.dart';
 
 import 'Court.dart';
 import 'MatchMember.dart';
+import 'Rank.dart';
 import 'Sport.dart';
 import 'User.dart';
 
@@ -24,6 +25,9 @@ class AppMatch {
 
   User get matchCreator =>
       members.firstWhere((member) => member.isMatchCreator == true).user;
+
+  Rank get matchRank => matchCreator.ranks
+      .firstWhere((rank) => rank.sport.idSport == sport.idSport);
 
   int get remainingSlots {
     int validMembersCounter = 0;

@@ -46,7 +46,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
             width: 4,
             decoration: BoxDecoration(
               color: Color(int.parse(
-                  "0xFF${widget.match.matchCreator.ranks.first.color.replaceAll("#", "")}")),
+                  "0xFF${widget.match.matchRank.color.replaceAll("#", "")}")),
               borderRadius: BorderRadius.circular(16),
             ),
             margin: EdgeInsets.only(right: width * 0.02),
@@ -98,7 +98,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                             ),
                             decoration: BoxDecoration(
                               color: Color(int.parse(
-                                  "0xFF${widget.match.matchCreator.ranks.first.color.replaceAll("#", "")}")),
+                                  "0xFF${widget.match.matchRank.color.replaceAll("#", "")}")),
                               borderRadius: BorderRadius.circular(16),
                             ),
                             child: Row(
@@ -198,7 +198,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                       padding: EdgeInsets.only(right: width * 0.01),
                     ),
                     Text(
-                      "widget.match.court.store.name",
+                      widget.match.court.store!.name,
                       style: TextStyle(
                         color: primaryBlue,
                       ),
@@ -209,7 +209,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                   buttonLabel: "Quero jogar",
                   buttonType: ButtonType.Secondary,
                   iconPath: r'assets\icon\user_plus.svg',
-                  onTap: () => widget.onTap,
+                  onTap: () => widget.onTap(widget.match.matchUrl),
                 ),
               ],
             ),

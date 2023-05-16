@@ -82,7 +82,8 @@ class _OpenMatchSectionState extends State<OpenMatchSection> {
                           textPadding: EdgeInsets.all(width * 0.02),
                           buttonLabel: "Salvar",
                           buttonType: ButtonType.Primary,
-                          onTap: () {},
+                          onTap: () =>
+                              widget.viewModel.saveOpenMatchChanges(context),
                         )
                       : Container(),
                 ],

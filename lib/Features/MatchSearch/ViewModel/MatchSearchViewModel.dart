@@ -313,10 +313,18 @@ class MatchSearchViewModel extends ChangeNotifier {
         ),
       );
     }
+
+    for (var openMatch in responseOpenMatches) {
+      openMatches.add(
+        AppMatch.fromJson(
+          openMatch,
+        ),
+      );
+    }
   }
 
   void goToMatch(BuildContext context, String matchUrl) {
-    Navigator.pushNamed(context, '/match?id=$matchUrl');
+    Navigator.pushNamed(context, '/match_screen/${matchUrl}');
   }
 
   goToOpenMatches() {}

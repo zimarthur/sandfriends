@@ -43,6 +43,7 @@ class _MembersSectionState extends State<MembersSection> {
           padding: EdgeInsets.symmetric(
               horizontal: width * 0.05, vertical: height * 0.02),
           child: ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: widget.viewModel.match.members.length,
             itemBuilder: (context, index) {

@@ -17,9 +17,6 @@ class UserDetailsModalPhoto extends StatefulWidget {
 }
 
 class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
-  String? imagePicker;
-  bool noImage = false;
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -50,7 +47,7 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
                 height: width * 0.7,
                 user: widget.viewModel.userEdited,
                 showRank: false,
-                editFile: imagePicker,
+                editFile: widget.viewModel.imagePicker,
                 onTap: () => pickImage(),
               ),
               CheckboxListTile(
@@ -60,11 +57,11 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
                     color: textDarkGrey,
                   ),
                 ),
-                value: noImage,
+                value: widget.viewModel.noImage,
                 controlAffinity: ListTileControlAffinity.leading,
                 onChanged: (newValue) => setState(() {
-                  noImage = newValue!;
-                  imagePicker = null;
+                  widget.viewModel.noImage = newValue!;
+                  widget.viewModel.imagePicker = null;
                 }),
               ),
             ],
@@ -75,7 +72,7 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
             textPadding: EdgeInsets.symmetric(
               vertical: height * 0.01,
             ),
-            onTap: () {},
+            onTap: () => widget.viewModel.closeModal(),
           ),
         ],
       ),
@@ -83,11 +80,11 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
   }
 
   Future pickImage() async {
-    if (noImage) return;
+    if (widget.viewModel.noImage) return;
     XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (file == null) return;
     setState(() {
-      imagePicker = file.path;
+      widget.viewModel.imagePicker = file.path;
     });
   }
 }

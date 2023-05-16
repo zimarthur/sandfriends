@@ -28,7 +28,7 @@ class _OpenMatchesResultState extends State<OpenMatchesResult> {
           description: "Escolha uma partida e desafie novos jogadores",
         ),
         Container(
-          height: 170,
+          height: 220,
           margin: EdgeInsets.symmetric(vertical: height * 0.02),
           child: widget.viewModel.openMatches.isEmpty
               ? Container(
