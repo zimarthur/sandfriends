@@ -24,7 +24,17 @@ class _MatchSearchWidgetState extends State<MatchSearchWidget> {
     return Column(
       children: [
         MatchSearchFilters(
-          viewModel: widget.viewModel,
+          city: widget.viewModel.cityFilter,
+          dates: widget.viewModel.datesFilter,
+          time: widget.viewModel.timeFilter,
+          openCitySelector: () =>
+              widget.viewModel.openCitySelectorModal(context),
+          openDateSelector: () =>
+              widget.viewModel.openDateSelectorModal(context),
+          openTimeSelector: () =>
+              widget.viewModel.openTimeSelectorModal(context),
+          onTapSearch: () => widget.viewModel.searchCourts(context),
+          primaryColor: primaryBlue,
         ),
         Expanded(
           child: Container(

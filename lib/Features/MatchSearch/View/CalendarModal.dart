@@ -81,7 +81,7 @@ class _CalendarModalState extends State<CalendarModal> {
               iconPath: r"assets\icon\search.svg",
               buttonLabel: "Aplicar Filtro",
               textPadding: EdgeInsets.symmetric(vertical: height * 0.005),
-              buttonType: ButtonType.Secondary,
+              isPrimary: false,
               onTap: () => widget.onSubmit(modalDateTimes),
             ),
           )

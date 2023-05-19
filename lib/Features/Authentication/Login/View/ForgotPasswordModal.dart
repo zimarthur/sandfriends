@@ -83,7 +83,6 @@ class _ForgotPasswordModalState extends State<ForgotPasswordModal> {
                 height: height * 0.05,
                 child: SFButton(
                   buttonLabel: "Enviar",
-                  buttonType: ButtonType.Primary,
                   onTap: () => widget.viewModel.requestForgotPassword(context),
                 ),
               ),

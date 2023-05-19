@@ -92,7 +92,6 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                 EdgeInsets.symmetric(horizontal: width * 0.14),
                             child: SFButton(
                                 buttonLabel: "Criar Conta",
-                                buttonType: ButtonType.Primary,
                                 onTap: () =>
                                     widget.viewModel.createAccount(context)),
                           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sandfriends/Utils/Constants.dart';
 
 import '../theme/app_theme.dart';
 
@@ -15,7 +16,8 @@ enum ButtonType {
 
 class SFButton extends StatefulWidget {
   final String buttonLabel;
-  final ButtonType buttonType;
+  final Color color;
+  final bool isPrimary;
   final VoidCallback? onTap;
   final String iconPath;
   final double iconSize;
@@ -24,7 +26,8 @@ class SFButton extends StatefulWidget {
 
   const SFButton({
     required this.buttonLabel,
-    required this.buttonType,
+    this.color = primaryBlue,
+    this.isPrimary = true,
     required this.onTap,
     this.iconPath = "",
     this.iconSize = 14,
@@ -43,43 +46,21 @@ class _SFButtonState extends State<SFButton> {
       onTap: widget.onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: widget.buttonType == ButtonType.Primary
-              ? AppTheme.colors.primaryBlue
-              : widget.buttonType == ButtonType.YellowPrimary
-                  ? AppTheme.colors.secondaryYellow
-                  : widget.buttonType == ButtonType.LightBluePrimary
-                      ? AppTheme.colors.primaryLightBlue
-                      : widget.buttonType == ButtonType.Secondary ||
-                              widget.buttonType == ButtonType.YellowSecondary ||
-                              widget.buttonType == ButtonType.LightBlueSecondary
-                          ? AppTheme.colors.secondaryPaper
-                          : AppTheme.colors.textDisabled,
+          color: widget.isPrimary ? widget.color : textWhite,
           borderRadius: BorderRadius.circular(16.0),
-          border: widget.buttonType == ButtonType.Secondary
-              ? Border.all(color: AppTheme.colors.primaryBlue, width: 1)
-              : widget.buttonType == ButtonType.YellowSecondary
-                  ? Border.all(color: AppTheme.colors.secondaryYellow, width: 1)
-                  : null,
+          border: Border.all(color: widget.color, width: 1),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            widget.iconPath == "" || widget.iconFirst == false
-                ? Container()
-                : Container(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: SvgPicture.asset(
-                      widget.iconPath,
-                      color: widget.buttonType == ButtonType.Secondary
-                          ? AppTheme.colors.primaryBlue
-                          : widget.buttonType == ButtonType.YellowSecondary
-                              ? AppTheme.colors.secondaryYellow
-                              : widget.buttonType ==
-                                      ButtonType.LightBlueSecondary
-                                  ? AppTheme.colors.secondaryLightBlue
-                                  : AppTheme.colors.textWhite,
-                    ),
-                  ),
+            if (widget.iconPath != "" && widget.iconFirst == false)
+              Container(
+                padding: const EdgeInsets.only(right: 10),
+                child: SvgPicture.asset(
+                  widget.iconPath,
+                  color: !widget.isPrimary ? widget.color : textWhite,
+                ),
+              ),
             Padding(
               padding: widget.textPadding == null
                   ? const EdgeInsets.all(0)
@@ -90,33 +71,19 @@ class _SFButtonState extends State<SFButton> {
                   widget.buttonLabel,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: widget.buttonType == ButtonType.Secondary
-                        ? AppTheme.colors.primaryBlue
-                        : widget.buttonType == ButtonType.YellowSecondary
-                            ? AppTheme.colors.secondaryYellow
-                            : widget.buttonType == ButtonType.LightBlueSecondary
-                                ? AppTheme.colors.secondaryLightBlue
-                                : AppTheme.colors.textWhite,
+                    color: !widget.isPrimary ? widget.color : textWhite,
                   ),
                 ),
               ),
             ),
-            widget.iconPath == "" || widget.iconFirst == true
-                ? Container()
-                : Container(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: SvgPicture.asset(
-                      widget.iconPath,
-                      color: widget.buttonType == ButtonType.Secondary
-                          ? AppTheme.colors.primaryBlue
-                          : widget.buttonType == ButtonType.YellowSecondary
-                              ? AppTheme.colors.secondaryYellow
-                              : widget.buttonType ==
-                                      ButtonType.LightBlueSecondary
-                                  ? AppTheme.colors.secondaryLightBlue
-                                  : AppTheme.colors.textWhite,
-                    ),
-                  ),
+            if (widget.iconPath != "" && widget.iconFirst == true)
+              Container(
+                padding: const EdgeInsets.only(left: 10),
+                child: SvgPicture.asset(
+                  widget.iconPath,
+                  color: !widget.isPrimary ? widget.color : textWhite,
+                ),
+              ),
           ],
         ),
       ),

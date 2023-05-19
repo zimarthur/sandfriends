@@ -90,7 +90,6 @@ class NewUserWelcome extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: width * 0.14),
                 child: SFButton(
                   buttonLabel: "Começar",
-                  buttonType: ButtonType.Primary,
                   onTap: () {
                     context.goNamed('new_user_form');
                   },

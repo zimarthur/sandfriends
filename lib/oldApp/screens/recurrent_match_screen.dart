@@ -286,8 +286,6 @@ class _RecurrentMatchScreenState extends State<RecurrentMatchScreen> {
                                           child: SFButton(
                                             buttonLabel:
                                                 "Buscar Quadras Mensalistas",
-                                            buttonType:
-                                                ButtonType.LightBluePrimary,
                                             onTap: () {
                                               context.goNamed(
                                                   'recurrent_match_sport_selection_screen');

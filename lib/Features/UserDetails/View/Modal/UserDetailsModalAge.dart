@@ -57,7 +57,6 @@ class _UserDetailsModalAgeState extends State<UserDetailsModalAge> {
             ),
             SFButton(
               buttonLabel: "Concluído",
-              buttonType: ButtonType.Primary,
               textPadding: EdgeInsets.symmetric(
                 vertical: height * 0.02,
               ),

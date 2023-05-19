@@ -166,7 +166,6 @@ class _NewUserFormState extends State<NewUserForm> {
                               .user!
                               .preferenceSport!
                               .description,
-                      buttonType: ButtonType.Secondary,
                       onTap: () {
                         setState(() {
                           modalWidget = Container(
@@ -259,7 +258,6 @@ class _NewUserFormState extends State<NewUserForm> {
                                 ),
                                 SFButton(
                                     buttonLabel: "Concluído",
-                                    buttonType: ButtonType.Primary,
                                     textPadding: EdgeInsets.symmetric(
                                       vertical: height * 0.02,
                                     ),
@@ -299,7 +297,6 @@ class _NewUserFormState extends State<NewUserForm> {
                               null
                           ? "Selecione sua cidade"
                           : "${Provider.of<UserProvider>(context, listen: false).user!.city!.city} / ${Provider.of<UserProvider>(context, listen: false).user!.city!.state!.uf}",
-                      buttonType: ButtonType.Secondary,
                       iconPath: r"assets\icon\location_ping.svg",
                       onTap: () {
                         setState(() {
@@ -429,9 +426,6 @@ class _NewUserFormState extends State<NewUserForm> {
                         padding: EdgeInsets.symmetric(horizontal: width * 0.14),
                         child: SFButton(
                           buttonLabel: "Começar",
-                          buttonType: isFormValid
-                              ? ButtonType.Primary
-                              : ButtonType.Disabled,
                           onTap: () {
                             if (isFormValid) {
                               if (_newUserFormKey.currentState?.validate() ==

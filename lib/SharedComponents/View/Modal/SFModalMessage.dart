@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/Utils/PageStatus.dart';
 import 'package:sandfriends/oldApp/models/enums.dart';
 
-import '../../oldApp/theme/app_theme.dart';
-import '../../oldApp/widgets/SF_Button.dart';
+import '../../../oldApp/theme/app_theme.dart';
+import '../../../oldApp/widgets/SF_Button.dart';
 
 class SFModalMessage extends StatefulWidget {
   final String message;
@@ -71,7 +71,6 @@ class _SFModalMessageState extends State<SFModalMessage> {
               height: height * 0.05,
               child: SFButton(
                 buttonLabel: widget.buttonText,
-                buttonType: ButtonType.Primary,
                 onTap: widget.onTap,
               ),
             ),

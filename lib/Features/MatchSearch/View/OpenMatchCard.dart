@@ -207,7 +207,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                 ),
                 SFButton(
                   buttonLabel: "Quero jogar",
-                  buttonType: ButtonType.Secondary,
+                  isPrimary: false,
                   iconPath: r'assets\icon\user_plus.svg',
                   onTap: () => widget.onTap(widget.match.matchUrl),
                 ),

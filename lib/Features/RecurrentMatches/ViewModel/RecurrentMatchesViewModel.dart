@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../SharedComponents/View/SFModalMessage.dart';
+import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
 import '../Repository/RecurrentMatchesRepoImp.dart';
 
@@ -21,5 +21,9 @@ class RecurrentMatchesViewModel extends ChangeNotifier {
 
   void onTapReturn(BuildContext context) {
     Navigator.pop(context);
+  }
+
+  void goToSportSelection(BuildContext context) {
+    Navigator.pushNamed(context, '/recurrent_match_search_sport');
   }
 }

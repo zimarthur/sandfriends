@@ -101,7 +101,6 @@ class _OnboardingWidgetWelcomeState extends State<OnboardingWidgetWelcome> {
                   padding: EdgeInsets.symmetric(horizontal: width * 0.14),
                   child: SFButton(
                     buttonLabel: "Vamos lá",
-                    buttonType: ButtonType.Primary,
                     onTap: () {
                       widget.viewModel.goToOnboardingForm(context);
                     },

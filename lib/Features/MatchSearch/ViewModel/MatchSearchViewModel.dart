@@ -24,14 +24,14 @@ import '../../../SharedComponents/Model/Store.dart';
 import '../../../SharedComponents/Model/StoreDay.dart';
 import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
-import '../../../SharedComponents/View/CitySelectorModal.dart';
-import '../../../SharedComponents/View/SFModalMessage.dart';
+import '../../../SharedComponents/View/Modal/CitySelectorModal.dart';
+import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
 import '../../Court/Model/CourtAvailableHours.dart';
 import '../../Court/Model/HourPrice.dart';
 import '../Repository/MatchSearchRepoImp.dart';
 import '../View/CalendarModal.dart';
-import '../View/TimeModal.dart';
+import '../../../SharedComponents/View/Modal/TimeModal.dart';
 
 class MatchSearchViewModel extends ChangeNotifier {
   final matchSearchRepo = MatchSearchRepoImp();

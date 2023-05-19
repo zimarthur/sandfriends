@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Utils/Constants.dart';
 
 import '../../../SharedComponents/View/SFStandardScreen.dart';
 import '../../../oldApp/models/enums.dart';
@@ -42,9 +43,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
               width: width * 0.2,
               child: SFButton(
                 buttonLabel: "Salvar",
-                buttonType: viewModel.isEdited
-                    ? ButtonType.Primary
-                    : ButtonType.Disabled,
+                color: viewModel.isEdited ? primaryBlue : textDisabled,
                 onTap: () {
                   if (viewModel.isEdited) {
                     viewModel.updateUserInfo(context);

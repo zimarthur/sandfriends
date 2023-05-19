@@ -84,7 +84,7 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                       buttonLabel: widget.viewModel.userSport == null
                           ? "Selecione seu esporte de preferência"
                           : widget.viewModel.userSport!.description,
-                      buttonType: ButtonType.Secondary,
+                      isPrimary: false,
                       onTap: () =>
                           widget.viewModel.openSportSelectorModal(context),
                     ),
@@ -96,7 +96,7 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                       buttonLabel: widget.viewModel.userCity == null
                           ? "Selecione sua cidade"
                           : "${widget.viewModel.userCity!.city} / ${widget.viewModel.userCity!.state!.uf}",
-                      buttonType: ButtonType.Secondary,
+                      isPrimary: false,
                       iconPath: r"assets\icon\location_ping.svg",
                       onTap: () {
                         widget.viewModel.openCitySelectorModal(context);
@@ -150,9 +150,9 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                               EdgeInsets.symmetric(horizontal: width * 0.14),
                           child: SFButton(
                             buttonLabel: "Começar",
-                            buttonType: widget.viewModel.isFormValid
-                                ? ButtonType.Primary
-                                : ButtonType.Disabled,
+                            color: widget.viewModel.isFormValid
+                                ? primaryBlue
+                                : textDisabled,
                             onTap: () => widget.viewModel.addUserInfo(context),
                           ),
                         ),

@@ -119,9 +119,6 @@ class _SportSelectionScreenState extends State<SportSelectionScreen> {
                                   listen: false)
                               .sports[index]
                               .description,
-                          buttonType: widget.recurrentMatch
-                              ? ButtonType.LightBlueSecondary
-                              : ButtonType.Secondary,
                           textPadding:
                               EdgeInsets.symmetric(vertical: height * 0.025),
                           onTap: () {

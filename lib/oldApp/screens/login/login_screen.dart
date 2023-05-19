@@ -139,7 +139,6 @@ class _LoginScreenOldState extends State<LoginScreenOld> {
                         padding: EdgeInsets.symmetric(horizontal: width * 0.14),
                         child: SFButton(
                           buttonLabel: "Login",
-                          buttonType: ButtonType.Primary,
                           onTap: () => validateLogin(context,
                               emailController.text, passwordController.text),
                         ),

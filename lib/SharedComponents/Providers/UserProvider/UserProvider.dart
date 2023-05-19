@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:sandfriends/SharedComponents/Model/Court.dart';
 
 import '../../Model/AppMatch.dart';
 import '../../Model/AppNotification.dart';
+import '../../Model/RecurrentMatch.dart';
 import '../../Model/Reward.dart';
 import '../../Model/User.dart';
 
@@ -73,6 +76,24 @@ class UserProvider extends ChangeNotifier {
     );
     return filteredList;
   }
+
+  List<RecurrentMatch> _recurrentMatches = [
+    // RecurrentMatch(
+    //   idRecurrentMatch: 1,
+    //   creationDate: DateFormat('yyyy-MM-dd').parse("2023-05-01"),
+    //   lastPaymentDate: DateFormat('yyyy-MM-dd').parse("2023-05-01"),
+    //   weekday: 2,
+    //   timeBegin: "10:00",
+    //   timeEnd: "11:00",
+    //   court: Court(
+    //     idStoreCourt: 1,
+    //     storeCourtName: "quadra 1",
+    //     isIndoor: true,
+    //   ),
+    //   recurrentMatchesCounter: 50,
+    // )
+  ];
+  List<RecurrentMatch> get recurrentMatches => _recurrentMatches;
 
   int _openMatchesCounter = 0;
   int get openMatchesCounter => _openMatchesCounter;

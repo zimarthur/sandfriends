@@ -94,7 +94,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                       padding: EdgeInsets.symmetric(horizontal: width * 0.14),
                       child: SFButton(
                         buttonLabel: "Login",
-                        buttonType: ButtonType.Primary,
                         onTap: () => widget.viewModel.login(context),
                       ),
                     ),

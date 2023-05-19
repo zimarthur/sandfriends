@@ -251,7 +251,7 @@ class _CourtWidgetState extends State<CourtWidget> {
                     padding: EdgeInsets.symmetric(vertical: height * 0.02),
                     child: SFButton(
                         buttonLabel: "Agendar",
-                        buttonType: ButtonType.YellowPrimary,
+                        color: secondaryYellow,
                         textPadding: EdgeInsets.all(width * 0.03),
                         onTap: () =>
                             widget.viewModel.courtReservation(context)),

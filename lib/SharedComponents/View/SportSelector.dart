@@ -62,9 +62,9 @@ class SportSelector extends StatelessWidget {
                                 listen: false)
                             .sports[index]
                             .description,
-                        buttonType: isRecurrentMatch
-                            ? ButtonType.LightBlueSecondary
-                            : ButtonType.Secondary,
+                        color:
+                            isRecurrentMatch ? secondaryLightBlue : primaryBlue,
+                        isPrimary: false,
                         textPadding:
                             EdgeInsets.symmetric(vertical: height * 0.025),
                         onTap: () => onSportSelected(

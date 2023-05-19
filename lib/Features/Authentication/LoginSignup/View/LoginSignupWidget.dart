@@ -61,7 +61,6 @@ class _LoginSignupWidgetState extends State<LoginSignupWidget> {
                     padding: EdgeInsets.symmetric(horizontal: width * 0.14),
                     child: SFButton(
                       buttonLabel: "Login",
-                      buttonType: ButtonType.Primary,
                       onTap: () => Navigator.pushNamed(context, '/login'),
                     ),
                   ),
@@ -74,7 +73,7 @@ class _LoginSignupWidgetState extends State<LoginSignupWidget> {
                     padding: EdgeInsets.symmetric(horizontal: width * 0.14),
                     child: SFButton(
                       buttonLabel: "Criar conta",
-                      buttonType: ButtonType.Secondary,
+                      isPrimary: false,
                       onTap: () =>
                           Navigator.pushNamed(context, '/create_account'),
                     ),

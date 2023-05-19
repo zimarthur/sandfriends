@@ -219,7 +219,8 @@ class _RewardsWidgetState extends State<RewardsWidget> {
                 SFButton(
                   textPadding: EdgeInsets.symmetric(vertical: height * 0.01),
                   buttonLabel: "Minhas Recompensas",
-                  buttonType: ButtonType.YellowSecondary,
+                  color: secondaryYellow,
+                  isPrimary: false,
                   onTap: () => widget.viewModel.goToRewardsUserScreen(
                     context,
                   ),

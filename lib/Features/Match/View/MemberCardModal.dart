@@ -209,7 +209,6 @@ class _MemberCardModalState extends State<MemberCardModal> {
                   width: width * 0.5,
                   child: SFButton(
                     buttonLabel: "Excluir Jogador",
-                    buttonType: ButtonType.Primary,
                     textPadding: EdgeInsets.symmetric(vertical: height * 0.01),
                     onTap: () => widget.viewModel.removeMatchMember(
                       context,

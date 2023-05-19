@@ -62,7 +62,6 @@ class _TimeModalState extends State<TimeModal> {
                 SFButton(
                   textPadding: EdgeInsets.all(width * 0.02),
                   buttonLabel: "Limpar",
-                  buttonType: ButtonType.Primary,
                   onTap: () => widget.onSubmit(
                     TimeRangeResult(
                       TimeOfDay(hour: 1, minute: 0),
@@ -108,7 +107,7 @@ class _TimeModalState extends State<TimeModal> {
               iconPath: r"assets\icon\search.svg",
               buttonLabel: "Aplicar Filtro",
               textPadding: EdgeInsets.symmetric(vertical: height * 0.005),
-              buttonType: ButtonType.Secondary,
+              isPrimary: false,
               onTap: () => widget.onSubmit(modalTimeRange),
             ),
           )

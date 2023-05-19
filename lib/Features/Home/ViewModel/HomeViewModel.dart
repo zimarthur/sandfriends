@@ -9,7 +9,7 @@ import '../../../SharedComponents/Model/AppNotification.dart';
 import '../../../SharedComponents/Model/Reward.dart';
 import '../../../SharedComponents/Model/Sport.dart';
 import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
-import '../../../SharedComponents/View/SFModalMessage.dart';
+import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
 import '../../../Utils/SharedPreferences.dart';
 import '../../../Utils/UrlLauncher.dart';

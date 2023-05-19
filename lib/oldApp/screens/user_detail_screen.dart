@@ -225,7 +225,6 @@ class _UserDetailScreen extends State<UserDetailScreen> {
         width: width * 0.2,
         child: SFButton(
           buttonLabel: "Salvar",
-          buttonType: isEdited ? ButtonType.Primary : ButtonType.Disabled,
           onTap: () {
             if (isEdited) {
               updateUser(context);
@@ -960,7 +959,6 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                   ),
                   SFButton(
                       buttonLabel: "Concluído",
-                      buttonType: ButtonType.Primary,
                       textPadding: EdgeInsets.symmetric(
                         vertical: height * 0.02,
                       ),
@@ -1065,7 +1063,6 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                   ),
                   SFButton(
                       buttonLabel: "Concluído",
-                      buttonType: ButtonType.Primary,
                       textPadding: EdgeInsets.symmetric(
                         vertical: height * 0.02,
                       ),
@@ -1170,7 +1167,6 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                   ),
                   SFButton(
                       buttonLabel: "Concluído",
-                      buttonType: ButtonType.Primary,
                       textPadding: EdgeInsets.symmetric(
                         vertical: height * 0.02,
                       ),
@@ -1292,7 +1288,6 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                 ),
                 SFButton(
                     buttonLabel: "Concluído",
-                    buttonType: ButtonType.Primary,
                     textPadding: EdgeInsets.symmetric(
                       vertical: height * 0.02,
                     ),
@@ -1405,7 +1400,6 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                 ),
                 SFButton(
                     buttonLabel: "Concluído",
-                    buttonType: ButtonType.Primary,
                     textPadding: EdgeInsets.symmetric(
                       vertical: height * 0.02,
                     ),
@@ -1546,7 +1540,6 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                 ),
                 SFButton(
                     buttonLabel: "Concluído",
-                    buttonType: ButtonType.Primary,
                     textPadding: EdgeInsets.symmetric(
                       vertical: height * 0.02,
                     ),
@@ -1735,7 +1728,6 @@ class _UserDetailScreen extends State<UserDetailScreen> {
                 ),
                 SFButton(
                     buttonLabel: "Concluído",
-                    buttonType: ButtonType.Primary,
                     textPadding: EdgeInsets.symmetric(
                       vertical: height * 0.01,
                     ),

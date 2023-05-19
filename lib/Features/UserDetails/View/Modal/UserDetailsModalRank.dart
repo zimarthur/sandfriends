@@ -98,7 +98,6 @@ class _UserDetailsModalRankState extends State<UserDetailsModalRank> {
           ),
           SFButton(
             buttonLabel: "Concluído",
-            buttonType: ButtonType.Primary,
             textPadding: EdgeInsets.symmetric(
               vertical: height * 0.02,
             ),

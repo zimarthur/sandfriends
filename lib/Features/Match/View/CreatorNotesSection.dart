@@ -52,7 +52,6 @@ class _CreatorNotesSectionState extends State<CreatorNotesSection> {
                       ? SFButton(
                           textPadding: EdgeInsets.all(width * 0.02),
                           buttonLabel: "Salvar",
-                          buttonType: ButtonType.Primary,
                           onTap: () =>
                               widget.viewModel.saveCreatorNotes(context),
                         )

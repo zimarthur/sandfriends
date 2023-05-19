@@ -7,7 +7,7 @@ import 'package:sandfriends/Features/Authentication/LoadLogin/ViewModel/LoadLogi
 import 'package:sandfriends/Features/Authentication/LoginSignup/Repo/LoginSignupRepoImp.dart';
 
 import '../../../../Remote/NetworkResponse.dart';
-import '../../../../SharedComponents/View/SFModalMessage.dart';
+import '../../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../../SharedComponents/ViewModel/DataProvider.dart';
 import '../../../../Utils/PageStatus.dart';
 import '../../../../api/google_signin_api.dart';

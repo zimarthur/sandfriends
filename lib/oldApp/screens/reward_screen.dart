@@ -230,7 +230,6 @@ class _RewardScreenState extends State<RewardScreen> {
                       textPadding:
                           EdgeInsets.symmetric(vertical: height * 0.01),
                       buttonLabel: "Minhas Recompensas",
-                      buttonType: ButtonType.YellowSecondary,
                       onTap: () {
                         context.goNamed('reward_user_screen');
                       }),

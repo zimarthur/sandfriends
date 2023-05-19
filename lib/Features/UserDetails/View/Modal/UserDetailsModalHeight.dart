@@ -49,7 +49,6 @@ class _UserDetailsModalHeightState extends State<UserDetailsModalHeight> {
             ),
             SFButton(
               buttonLabel: "Concluído",
-              buttonType: ButtonType.Primary,
               textPadding: EdgeInsets.symmetric(
                 vertical: height * 0.02,
               ),

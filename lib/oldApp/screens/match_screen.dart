@@ -292,7 +292,6 @@ class _MatchScreenState extends State<MatchScreen> {
                                               textPadding:
                                                   EdgeInsets.all(width * 0.02),
                                               buttonLabel: "Salvar",
-                                              buttonType: ButtonType.Primary,
                                               onTap: () {
                                                 if (_creatorNotesFormKey
                                                         .currentState
@@ -814,8 +813,6 @@ class _MatchScreenState extends State<MatchScreen> {
                                                     child: SFButton(
                                                         buttonLabel:
                                                             "Excluir Jogador",
-                                                        buttonType:
-                                                            ButtonType.Primary,
                                                         textPadding: EdgeInsets
                                                             .symmetric(
                                                                 vertical:
@@ -1071,7 +1068,6 @@ class _MatchScreenState extends State<MatchScreen> {
                                               textPadding:
                                                   EdgeInsets.all(width * 0.02),
                                               buttonLabel: "Salvar",
-                                              buttonType: ButtonType.Primary,
                                               onTap: () {
                                                 if (currentMatch!.isOpenMatch ==
                                                         true &&
@@ -1241,7 +1237,6 @@ class _MatchScreenState extends State<MatchScreen> {
                                           height: height * 0.05,
                                           child: SFButton(
                                             buttonLabel: "Convidar Jogadores",
-                                            buttonType: ButtonType.Primary,
                                             iconPath: r"assets\icon\share.svg",
                                             onTap: () async {
                                               await Share.share(
@@ -1260,7 +1255,6 @@ class _MatchScreenState extends State<MatchScreen> {
                                           height: height * 0.05,
                                           child: SFButton(
                                             buttonLabel: "Cancelar Partida",
-                                            buttonType: ButtonType.Secondary,
                                             onTap: () {
                                               CancelMatch();
                                             },
@@ -1296,8 +1290,6 @@ class _MatchScreenState extends State<MatchScreen> {
                                               height: height * 0.05,
                                               child: SFButton(
                                                 buttonLabel: "Sair da Partida",
-                                                buttonType:
-                                                    ButtonType.Secondary,
                                                 onTap: () {
                                                   LeaveMatch();
                                                 },
@@ -1318,7 +1310,6 @@ class _MatchScreenState extends State<MatchScreen> {
                                             height: height * 0.05,
                                             child: SFButton(
                                               buttonLabel: "Entrar na Partida",
-                                              buttonType: ButtonType.Primary,
                                               onTap: () {
                                                 JoinMatch();
                                               },

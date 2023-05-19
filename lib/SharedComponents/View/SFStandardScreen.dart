@@ -8,7 +8,7 @@ import '../../Utils/PageStatus.dart';
 import '../../oldApp/models/enums.dart';
 import 'SFLoading.dart';
 import 'SFLoading.dart';
-import 'SFModalMessage.dart';
+import 'Modal/SFModalMessage.dart';
 
 class SFStandardScreen extends StatefulWidget {
   final String? titleText;

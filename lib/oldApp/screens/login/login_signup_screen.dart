@@ -71,7 +71,6 @@ class _LoginSignupScreenOldState extends State<LoginSignupScreenOld> {
                         padding: EdgeInsets.symmetric(horizontal: width * 0.14),
                         child: SFButton(
                           buttonLabel: "Login",
-                          buttonType: ButtonType.Primary,
                           onTap: () => context.goNamed('login'),
                         ),
                       ),
@@ -84,7 +83,6 @@ class _LoginSignupScreenOldState extends State<LoginSignupScreenOld> {
                         padding: EdgeInsets.symmetric(horizontal: width * 0.14),
                         child: SFButton(
                           buttonLabel: "Criar conta",
-                          buttonType: ButtonType.Secondary,
                           onTap: () => context.goNamed('create_account'),
                         ),
                       ),

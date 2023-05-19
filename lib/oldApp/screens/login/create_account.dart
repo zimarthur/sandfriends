@@ -98,7 +98,6 @@ class _CreateAccountScreenOldState extends State<CreateAccountScreenOld> {
                         padding: EdgeInsets.symmetric(horizontal: width * 0.14),
                         child: SFButton(
                           buttonLabel: "Criar Conta",
-                          buttonType: ButtonType.Primary,
                           onTap: () => CreateAccount(context,
                               emailController.text, passwordController.text),
                         ),

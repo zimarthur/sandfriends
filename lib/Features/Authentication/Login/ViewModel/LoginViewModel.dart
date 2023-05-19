@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../Remote/NetworkResponse.dart';
-import '../../../../SharedComponents/View/SFModalMessage.dart';
+import '../../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../../Utils/PageStatus.dart';
 import '../../LoadLogin/ViewModel/LoadLoginViewModel.dart';
 import '../Repository/LoginRepoImp.dart';

@@ -263,7 +263,6 @@ class _UserScreenState extends State<UserScreen> {
                                               vertical: height * 0.02,
                                             ),
                                             buttonLabel: "Enviar",
-                                            buttonType: ButtonType.Primary,
                                             onTap: () {
                                               if (validFeedback) {
                                                 setState(() {
@@ -296,7 +295,6 @@ class _UserScreenState extends State<UserScreen> {
                                       child: SFButton(
                                         buttonLabel:
                                             "Fale com a gente pelo whats",
-                                        buttonType: ButtonType.Secondary,
                                         onTap: () {
                                           final url = Uri.parse(
                                               "https://wa.me/+5551996712775");

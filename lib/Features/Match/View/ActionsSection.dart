@@ -28,7 +28,6 @@ class _ActionSectionState extends State<ActionSection> {
                       height: height * 0.05,
                       child: SFButton(
                         buttonLabel: "Convidar Jogadores",
-                        buttonType: ButtonType.Primary,
                         iconPath: r"assets\icon\share.svg",
                         onTap: () async {
                           await Share.share(
@@ -47,7 +46,7 @@ class _ActionSectionState extends State<ActionSection> {
                       height: height * 0.05,
                       child: SFButton(
                         buttonLabel: "Cancelar Partida",
-                        buttonType: ButtonType.Secondary,
+                        isPrimary: false,
                         onTap: () => widget.viewModel.cancelMatch(
                           context,
                         ),
@@ -82,7 +81,7 @@ class _ActionSectionState extends State<ActionSection> {
                           height: height * 0.05,
                           child: SFButton(
                             buttonLabel: "Sair da Partida",
-                            buttonType: ButtonType.Secondary,
+                            isPrimary: false,
                             onTap: () => widget.viewModel.leaveMatch(
                               context,
                             ),
@@ -103,7 +102,6 @@ class _ActionSectionState extends State<ActionSection> {
                         height: height * 0.05,
                         child: SFButton(
                           buttonLabel: "Entrar na Partida",
-                          buttonType: ButtonType.Primary,
                           onTap: () => widget.viewModel.joinMatch(
                             context,
                           ),

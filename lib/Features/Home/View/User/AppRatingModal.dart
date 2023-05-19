@@ -78,7 +78,6 @@ class _AppRatingModalState extends State<AppRatingModal> {
                     vertical: height * 0.02,
                   ),
                   buttonLabel: "Enviar",
-                  buttonType: ButtonType.Primary,
                   onTap: () => widget.viewModel.validateFeedback(context),
                 )
               ],
@@ -95,7 +94,7 @@ class _AppRatingModalState extends State<AppRatingModal> {
             ),
             SFButton(
               buttonLabel: "Fale com a gente pelo whats",
-              buttonType: ButtonType.Secondary,
+              isPrimary: false,
               onTap: () => widget.viewModel.contactSupport(),
               iconPath: r"assets\icon\whatsapp.svg",
               textPadding: EdgeInsets.symmetric(

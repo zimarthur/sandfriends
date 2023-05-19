@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/AppMatch.dart';
 import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
-import '../../../SharedComponents/View/SFModalMessage.dart';
+import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
 import '../Repository/UserMatchesRepoImp.dart';
 

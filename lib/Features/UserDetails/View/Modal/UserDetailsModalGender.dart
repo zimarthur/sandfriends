@@ -101,7 +101,6 @@ class _UserDetailsModalGenderState extends State<UserDetailsModalGender> {
           ),
           SFButton(
             buttonLabel: "Concluído",
-            buttonType: ButtonType.Primary,
             textPadding: EdgeInsets.symmetric(
               vertical: height * 0.02,
             ),

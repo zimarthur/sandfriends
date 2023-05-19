@@ -15,7 +15,7 @@ class FeedRecurrentMatches extends StatelessWidget {
       double width = layoutConstraints.maxWidth;
       double height = layoutConstraints.maxHeight;
       return InkWell(
-        onTap: () => Navigator.pushNamed(context, '/recurrent_match_screen'),
+        onTap: () => Navigator.pushNamed(context, '/recurrent_matches'),
         child: Container(
           alignment: Alignment.topCenter,
           padding: EdgeInsets.symmetric(

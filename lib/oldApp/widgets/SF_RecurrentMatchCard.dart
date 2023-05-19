@@ -348,7 +348,6 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                       ),
                       child: SFButton(
                         buttonLabel: "Renovar Horário",
-                        buttonType: ButtonType.LightBluePrimary,
                         textPadding:
                             EdgeInsets.symmetric(vertical: height * 0.01),
                         onTap: () {},

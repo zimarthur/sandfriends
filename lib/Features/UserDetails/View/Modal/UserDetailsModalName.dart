@@ -58,7 +58,6 @@ class _UserDetailsModalNameState extends State<UserDetailsModalName> {
             ),
             SFButton(
               buttonLabel: "Concluído",
-              buttonType: ButtonType.Primary,
               textPadding: EdgeInsets.symmetric(
                 vertical: height * 0.02,
               ),

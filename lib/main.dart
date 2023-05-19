@@ -13,6 +13,8 @@ import 'package:sandfriends/Features/Home/View/HomeScreen.dart';
 import 'package:sandfriends/Features/Match/View/MatchScreen.dart';
 import 'package:sandfriends/Features/Onboarding/View/OnboardingScreen.dart';
 import 'package:sandfriends/Features/OpenMatches/View/OpenMatchesScreen.dart';
+import 'package:sandfriends/Features/RecurrentMatchSearch/View/RecurrentMatchSearchScreen.dart';
+import 'package:sandfriends/Features/RecurrentMatchSearchSport/View/RecurrentMatchSearchSportScreen.dart';
 import 'package:sandfriends/Features/RecurrentMatches/View/RecurrentMatchesSreen.dart';
 import 'package:sandfriends/Features/Rewards/View/RewardsScreen.dart';
 import 'package:sandfriends/Features/RewardsUser/View/RewardsUserScreen.dart';
@@ -159,6 +161,7 @@ class _MyAppState extends State<MyApp> {
         onGenerateRoute: (settings) {
           String match = "/match";
           String matchSearch = "/match_search";
+          String recurrentMatchSearch = "/recurrent_match_search";
           String court = "/court";
           if (settings.name!.startsWith(matchSearch)) {
             final arguments = settings.arguments as Map;
@@ -166,6 +169,16 @@ class _MyAppState extends State<MyApp> {
             return MaterialPageRoute(
               builder: (context) {
                 return MatchSearchScreen(
+                  sportId: arguments['sportId'],
+                );
+              },
+            );
+          } else if (settings.name!.startsWith(recurrentMatchSearch)) {
+            final arguments = settings.arguments as Map;
+
+            return MaterialPageRoute(
+              builder: (context) {
+                return RecurrentMatchSearchScreen(
                   sportId: arguments['sportId'],
                 );
               },
@@ -222,6 +235,8 @@ class _MyAppState extends State<MyApp> {
           '/open_matches': (BuildContext context) => OpenMatchesScreen(),
           '/recurrent_matches': (BuildContext context) =>
               RecurrentMatchesScreen(),
+          '/recurrent_match_search_sport': (BuildContext context) =>
+              RecurrentMatchSearchSportScreen(),
         },
       ),
     );

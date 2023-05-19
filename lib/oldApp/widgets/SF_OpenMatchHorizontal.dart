@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:sandfriends/Utils/Constants.dart';
 import 'package:sandfriends/oldApp/widgets/SFAvatar.dart';
 
 import '../theme/app_theme.dart';
@@ -200,7 +201,8 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                 ),
                 SFButton(
                   buttonLabel: "Quero jogar",
-                  buttonType: ButtonType.Secondary,
+                  isPrimary: false,
+                  color: primaryBlue,
                   iconPath: r'assets\icon\user_plus.svg',
                   onTap: () {
                     context.goNamed('match_screen', params: {

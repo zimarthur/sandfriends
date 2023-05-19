@@ -190,9 +190,7 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                   horizontal: width * 0.03, vertical: height * 0.01),
               child: SFButton(
                 buttonLabel: "Prosseguir",
-                buttonType: widget.selectedParent
-                    ? ButtonType.Primary
-                    : ButtonType.Disabled,
+                color: textDisabled,
                 textPadding: const EdgeInsets.symmetric(vertical: 5),
                 onTap: () {
                   if (widget.selectedParent) {

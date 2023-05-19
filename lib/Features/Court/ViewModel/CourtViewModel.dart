@@ -10,7 +10,7 @@ import '../../../SharedComponents/Model/Sport.dart';
 import '../../../SharedComponents/Model/Store.dart';
 import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
-import '../../../SharedComponents/View/SFModalMessage.dart';
+import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
 import '../Repository/CourtRepoImp.dart';
 

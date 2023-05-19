@@ -220,7 +220,6 @@ class SFOpenMatchVertical extends StatelessWidget {
                   child: SFButton(
                     buttonLabel: "Quero jogar",
                     iconPath: r'assets\icon\user_plus.svg',
-                    buttonType: ButtonType.Secondary,
                     onTap: buttonCallback,
                     // () {
                     //   context.goNamed('match_screen', params: {

@@ -65,7 +65,6 @@ class _SFModalDatePickerState extends State<SFModalDatePicker> {
             iconPath: r"assets\icon\search.svg",
             buttonLabel: "Aplicar Filtro",
             textPadding: EdgeInsets.symmetric(vertical: height * 0.005),
-            buttonType: ButtonType.Secondary,
             onTap: () {
               if (widget.datePickerRange.isNotEmpty) {
                 var a = 1;

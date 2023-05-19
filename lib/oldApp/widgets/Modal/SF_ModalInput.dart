@@ -80,7 +80,6 @@ class _SFModalInputState extends State<SFModalInput> {
               height: height * 0.05,
               child: SFButton(
                 buttonLabel: "Concluído",
-                buttonType: ButtonType.Primary,
                 onTap: widget.onTap,
               ),
             ),
