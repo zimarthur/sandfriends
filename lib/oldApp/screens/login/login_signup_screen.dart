@@ -20,7 +20,7 @@ class LoginSignupScreenOld extends StatefulWidget {
 class _LoginSignupScreenOldState extends State<LoginSignupScreenOld> {
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       googleSignOut();
     });
     double width = MediaQuery.of(context).size.width;

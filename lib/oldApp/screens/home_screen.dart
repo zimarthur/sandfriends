@@ -22,7 +22,7 @@ class _MyStatefulWidgetState extends State<HomeScreen> {
   bool isLoaded = false;
   @override
   void initState() {
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (Provider.of<Redirect>(context, listen: false)
           .pageController
           .hasClients) {

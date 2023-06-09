@@ -61,7 +61,7 @@ class _WeekdayModalState extends State<WeekdayModal> {
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
                         color: widget.selectedWeekdays.contains(index)
-                            ? primaryBlue
+                            ? primaryLightBlue
                             : textLightGrey,
                         width: widget.selectedWeekdays.contains(index) ? 2 : 1,
                       ),
@@ -70,7 +70,7 @@ class _WeekdayModalState extends State<WeekdayModal> {
                       weekDaysPortuguese[index],
                       style: TextStyle(
                           color: widget.selectedWeekdays.contains(index)
-                              ? textBlue
+                              ? primaryLightBlue
                               : textDarkGrey),
                     ),
                   ),
@@ -80,6 +80,7 @@ class _WeekdayModalState extends State<WeekdayModal> {
           ),
           SFButton(
             buttonLabel: "Concluído",
+            color: primaryLightBlue,
             textPadding: EdgeInsets.symmetric(
               vertical: height * 0.02,
             ),

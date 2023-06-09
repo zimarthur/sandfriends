@@ -20,6 +20,8 @@ class ApiEndPoints {
   final String searchCourts = "/SearchCourts";
   final String courtReservation = "/CourtReservation";
 
+  final String searchRecurrentCourts = "/SearchRecurrentCourts";
+
   final String getMatchInfo = "/GetMatchInfo";
   final String saveCreatorNotes = "/SaveCreatorNotes";
   final String invitationResponse = "/InvitationResponse";

@@ -4,7 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../Utils/Constants.dart';
 
 class NoMatchesFound extends StatelessWidget {
-  const NoMatchesFound({Key? key}) : super(key: key);
+  bool isRecurrent;
+  NoMatchesFound({
+    this.isRecurrent = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +21,9 @@ class NoMatchesFound extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             SvgPicture.asset(
-              r"assets\icon\sad_face.svg",
+              isRecurrent
+                  ? r"assets\icon\sad_face_secondary.svg"
+                  : r"assets\icon\sad_face.svg",
               height: height * 0.1,
             ),
             SizedBox(
@@ -28,7 +33,7 @@ class NoMatchesFound extends StatelessWidget {
                 child: Text(
                   "Ops! Não encontramos resultados. \nTente outra data ou horário.",
                   style: TextStyle(
-                    color: textBlue,
+                    color: isRecurrent ? primaryLightBlue : textBlue,
                     fontWeight: FontWeight.w700,
                   ),
                 ),

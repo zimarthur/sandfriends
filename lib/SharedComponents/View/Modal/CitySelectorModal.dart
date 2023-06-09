@@ -10,11 +10,13 @@ class CitySelectorModal extends StatefulWidget {
   List<Region> regions;
   Function(City) onSelectedCity;
   City? userCity;
+  Color themeColor;
 
   CitySelectorModal({
     required this.regions,
     required this.onSelectedCity,
     this.userCity,
+    this.themeColor = primaryBlue,
   });
 
   @override
@@ -48,7 +50,11 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
             labelText: "Buscar cidade",
             pourpose: TextFieldPourpose.Standard,
             controller: searchController,
-            prefixIcon: SvgPicture.asset(r"assets\icon\search.svg"),
+            prefixIcon: SvgPicture.asset(
+              r"assets\icon\search.svg",
+              color: widget.themeColor,
+            ),
+            themeColor: primaryLightBlue,
             validator: (value) {},
             onChanged: (typed) {
               setState(() {
@@ -105,6 +111,7 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
                                 children: [
                                   SvgPicture.asset(
                                     r"assets\icon\location_ping.svg",
+                                    color: widget.themeColor,
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(
@@ -115,7 +122,7 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
                                     "${widget.userCity!.city} / ${widget.userCity!.state!.uf}",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
-                                      color: textBlue,
+                                      color: widget.themeColor,
                                     ),
                                   ),
                                 ],

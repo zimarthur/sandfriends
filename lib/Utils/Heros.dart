@@ -1,2 +1,2 @@
 String heroStorePhoto = "StorePhoto";
-String heroRecurrentMatch = "RecurrentMatch";
+String heroRecurrentMatch = "AppRecurrentMatch";

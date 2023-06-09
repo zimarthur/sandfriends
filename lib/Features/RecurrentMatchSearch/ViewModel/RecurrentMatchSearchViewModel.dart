@@ -1,19 +1,34 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/RecurrentMatchSearch/View/WeekdayModal.dart';
+import 'package:sandfriends/Features/RecurrentMatches/Repository/RecurrentMatchesRepoImp.dart';
+import 'package:sandfriends/SharedComponents/Model/Court.dart';
+import 'package:sandfriends/Utils/Constants.dart';
 import 'package:time_range/time_range.dart';
 
 import '../../../Remote/NetworkResponse.dart';
+import '../../../SharedComponents/Model/AvailableCourt.dart';
+import '../../../SharedComponents/Model/AvailableDay.dart';
+import '../../../SharedComponents/Model/AvailableHour.dart';
+import '../../../SharedComponents/Model/AvailableStore.dart';
 import '../../../SharedComponents/Model/City.dart';
+import '../../../SharedComponents/Model/Hour.dart';
 import '../../../SharedComponents/Model/Sport.dart';
+import '../../../SharedComponents/Model/Store.dart';
 import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../SharedComponents/View/Modal/CitySelectorModal.dart';
 import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../SharedComponents/View/Modal/TimeModal.dart';
 import '../../../Utils/PageStatus.dart';
+import '../Repository/RecurrentMatchSearchRepoImp.dart';
 
 class RecurrentMatchSearchViewModel extends ChangeNotifier {
+  final recurrentMatchSearchRepo = RecurrentMatchSearchRepoImp();
+
   PageStatus pageStatus = PageStatus.OK;
   SFModalMessage modalMessage = SFModalMessage(
     message: "",
@@ -29,6 +44,12 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
   List<int> datesFilter = [];
   TimeRangeResult? timeFilter;
 
+  bool hasUserSearched = false;
+  bool get canSearchRecurrentMatch =>
+      datesFilter.isNotEmpty && cityFilter != null;
+
+  final List<AvailableDay> availableDays = [];
+
   void initRecurrentMatchSearchViewModel(BuildContext context, int sportId) {
     selectedSport = Provider.of<CategoriesProvider>(context, listen: false)
         .sports
@@ -38,7 +59,120 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
     titleText = "Busca Mensalista - ${selectedSport.description}";
   }
 
-  void searchCourts(context) {}
+  void searchRecurrentCourts(context) {
+    if (canSearchRecurrentMatch) {
+      pageStatus = PageStatus.LOADING;
+      notifyListeners();
+      timeFilter ??= TimeRangeResult(
+        const TimeOfDay(hour: 1, minute: 00),
+        const TimeOfDay(
+          hour: 23,
+          minute: 00,
+        ),
+      );
+      recurrentMatchSearchRepo
+          .searchRecurrentCourts(
+        Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+        selectedSport.idSport,
+        cityFilter!.cityId,
+        datesFilter.join(";"),
+        timeFilter!.start.format(context),
+        timeFilter!.end.format(context),
+      )
+          .then((response) {
+        if (response.responseStatus == NetworkResponseStatus.success) {
+          hasUserSearched = true;
+          setSearchRecurrentCourtsResult(response.responseBody!);
+          pageStatus = PageStatus.OK;
+          notifyListeners();
+        }
+      });
+    } else {
+      modalMessage = SFModalMessage(
+        message: "Selecione uma cidade e uma data pra buscar os horários",
+        onTap: () {
+          pageStatus = PageStatus.OK;
+          notifyListeners();
+        },
+        isHappy: true,
+      );
+      pageStatus = PageStatus.ERROR;
+      notifyListeners();
+    }
+  }
+
+  void setSearchRecurrentCourtsResult(String response) {
+    availableDays.clear();
+
+    List<Store> receivedStores = [];
+
+    final responseBody = json.decode(response);
+    final responseDates = responseBody['Dates'];
+    final responseStores = responseBody['Stores'];
+
+    for (var store in responseStores) {
+      receivedStores.add(
+        Store.fromJson(
+          store,
+        ),
+      );
+    }
+
+    for (var date in responseDates) {
+      int newWeekday = int.parse(date["Date"]);
+      print("weekday: $newWeekday");
+      List<AvailableStore> availableStores = [];
+      Store newStore;
+      for (var store in date["Stores"]) {
+        newStore = Store.copyWith(
+          receivedStores.firstWhere(
+            (recStore) => recStore.idStore == store["IdStore"],
+          ),
+        );
+        print("store: $newWeekday");
+        List<AvailableHour> availableHours = [];
+        for (var hour in store["Hours"]) {
+          List<AvailableCourt> availableCourts = [];
+          print("hour: ${hour["TimeBegin"]}");
+          for (var court in hour["Courts"]) {
+            print("IdStoreCourt: ${court["IdStoreCourt"]}");
+            availableCourts.add(
+              AvailableCourt(
+                court: Court.copyWith(
+                  newStore.courts.firstWhere(
+                    (recCourt) =>
+                        recCourt.idStoreCourt == court["IdStoreCourt"],
+                  ),
+                ),
+                price: court["Price"],
+              ),
+            );
+          }
+          availableHours.add(
+            AvailableHour(
+              Hour(
+                hour: hour["TimeInteger"],
+                hourString: hour["TimeBegin"],
+              ),
+              availableCourts,
+            ),
+          );
+        }
+        availableStores.add(
+          AvailableStore(
+            store: newStore,
+            availableHours: availableHours,
+          ),
+        );
+      }
+      availableDays.add(
+        AvailableDay(
+          weekday: newWeekday,
+          stores: availableStores,
+        ),
+      );
+    }
+  }
 
   void openCitySelectorModal(BuildContext context) {
     pageStatus = PageStatus.LOADING;
@@ -75,6 +209,7 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
     widgetForm = CitySelectorModal(
       regions: Provider.of<CategoriesProvider>(context, listen: false)
           .availableRegions,
+      themeColor: primaryLightBlue,
       onSelectedCity: (city) {
         cityFilter = city;
         pageStatus = PageStatus.OK;
@@ -99,6 +234,7 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
     widgetForm = TimeModal(
       timeRange: timeFilter,
       onSubmit: (newTimeFilter) => onSubmitTimeFilter(newTimeFilter),
+      themeColor: primaryLightBlue,
     );
     pageStatus = PageStatus.FORM;
     notifyListeners();

@@ -37,7 +37,7 @@ class AvailableDayCard extends StatelessWidget {
                 child: SvgPicture.asset(r'assets\icon\calendar.svg'),
               ),
               Text(
-                DateFormat("dd/MM/yyyy").format(availableDay.day),
+                DateFormat("dd/MM/yyyy").format(availableDay.day!),
                 style:
                     TextStyle(color: primaryBlue, fontWeight: FontWeight.w700),
               ),

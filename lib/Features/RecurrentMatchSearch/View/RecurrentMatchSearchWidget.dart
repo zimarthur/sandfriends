@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 
 import '../../MatchSearch/View/MatchSearchFilters.dart';
+import '../../MatchSearch/View/MatchSearchOnboarding.dart';
+import '../../MatchSearch/View/NoMachesFound.dart';
 import '../ViewModel/RecurrentMatchSearchViewModel.dart';
 
 class RecurrentMatchSearchWidget extends StatefulWidget {
@@ -31,12 +33,25 @@ class _RecurrentMatchSearchWidgetState
               widget.viewModel.openDateSelectorModal(context),
           openTimeSelector: () =>
               widget.viewModel.openTimeSelectorModal(context),
-          onTapSearch: () => widget.viewModel.searchCourts(context),
+          onTapSearch: () => widget.viewModel.searchRecurrentCourts(context),
           primaryColor: secondaryLightBlue,
         ),
         Expanded(
           child: Container(
             color: secondaryBack,
+            child: !widget.viewModel.hasUserSearched
+                ? MatchSearchOnboarding(
+                    isRecurrent: true,
+                  )
+                : widget.viewModel.availableDays.isEmpty
+                    ? NoMatchesFound(
+                        isRecurrent: true,
+                      )
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: [],
+                        ),
+                      ),
           ),
         ),
       ],

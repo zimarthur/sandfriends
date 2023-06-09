@@ -1,9 +1,10 @@
+
 import 'package:intl/intl.dart';
 import 'package:sandfriends/SharedComponents/Model/AppMatch.dart';
 
 import 'Court.dart';
 
-class RecurrentMatch {
+class AppRecurrentMatch {
   final int idRecurrentMatch;
   final DateTime creationDate;
   final DateTime lastPaymentDate;
@@ -14,7 +15,7 @@ class RecurrentMatch {
   final int recurrentMatchesCounter;
   final List<AppMatch> monthRecurrentMatches = [];
 
-  RecurrentMatch({
+  AppRecurrentMatch({
     required this.idRecurrentMatch,
     required this.creationDate,
     required this.lastPaymentDate,
@@ -33,8 +34,8 @@ class RecurrentMatch {
     return priceSum;
   }
 
-  factory RecurrentMatch.fromJson(Map<String, dynamic> json) {
-    var newRecurrentMatch = RecurrentMatch(
+  factory AppRecurrentMatch.fromJson(Map<String, dynamic> json) {
+    var newRecurrentMatch = AppRecurrentMatch(
       idRecurrentMatch: json['IdRecurrentMatch'],
       creationDate: DateFormat('yyyy-MM-dd HH:mm')
           .parse("${json['CreationDate']} ${json['TimeBegin']}"),

@@ -88,9 +88,12 @@ class _SFStandardScreenState extends State<SFStandardScreen> {
                         child: Center(
                           child: widget.pageStatus == PageStatus.LOADING
                               ? const SFLoading()
-                              : widget.pageStatus == PageStatus.FORM
-                                  ? widget.modalFormWidget
-                                  : widget.messageModalWidget,
+                              : InkWell(
+                                  onTap: () {},
+                                  child: widget.pageStatus == PageStatus.FORM
+                                      ? widget.modalFormWidget
+                                      : widget.messageModalWidget,
+                                ),
                         ),
                       ),
                     )

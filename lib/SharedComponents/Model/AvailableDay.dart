@@ -1,11 +1,13 @@
 import 'AvailableStore.dart';
 
 class AvailableDay {
-  DateTime day;
+  DateTime? day;
+  int? weekday;
   List<AvailableStore> stores = [];
 
   AvailableDay({
-    required this.day,
+    this.day,
+    this.weekday,
     required this.stores,
   });
 }

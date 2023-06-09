@@ -4,7 +4,7 @@ import 'package:sandfriends/SharedComponents/Model/Court.dart';
 
 import '../../Model/AppMatch.dart';
 import '../../Model/AppNotification.dart';
-import '../../Model/RecurrentMatch.dart';
+import '../../Model/AppRecurrentMatch.dart';
 import '../../Model/Reward.dart';
 import '../../Model/User.dart';
 
@@ -77,8 +77,8 @@ class UserProvider extends ChangeNotifier {
     return filteredList;
   }
 
-  List<RecurrentMatch> _recurrentMatches = [
-    // RecurrentMatch(
+  List<AppRecurrentMatch> _recurrentMatches = [
+    // AppRecurrentMatch(
     //   idRecurrentMatch: 1,
     //   creationDate: DateFormat('yyyy-MM-dd').parse("2023-05-01"),
     //   lastPaymentDate: DateFormat('yyyy-MM-dd').parse("2023-05-01"),
@@ -93,7 +93,7 @@ class UserProvider extends ChangeNotifier {
     //   recurrentMatchesCounter: 50,
     // )
   ];
-  List<RecurrentMatch> get recurrentMatches => _recurrentMatches;
+  List<AppRecurrentMatch> get recurrentMatches => _recurrentMatches;
 
   int _openMatchesCounter = 0;
   int get openMatchesCounter => _openMatchesCounter;

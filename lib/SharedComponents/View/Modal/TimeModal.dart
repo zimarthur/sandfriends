@@ -8,10 +8,12 @@ import '../../../oldApp/widgets/SF_Button.dart';
 class TimeModal extends StatefulWidget {
   TimeRangeResult? timeRange;
   Function(TimeRangeResult?) onSubmit;
+  Color themeColor;
 
   TimeModal({
     required this.timeRange,
     required this.onSubmit,
+    this.themeColor = primaryBlue,
   });
 
   @override
@@ -54,7 +56,8 @@ class _TimeModalState extends State<TimeModal> {
                     child: Text(
                       "Que horas você quer jogar?",
                       style: TextStyle(
-                          fontWeight: FontWeight.bold, color: primaryBlue),
+                          fontWeight: FontWeight.bold,
+                          color: widget.themeColor),
                     ),
                   ),
                 ),
@@ -62,6 +65,7 @@ class _TimeModalState extends State<TimeModal> {
                 SFButton(
                   textPadding: EdgeInsets.all(width * 0.02),
                   buttonLabel: "Limpar",
+                  color: widget.themeColor,
                   onTap: () => widget.onSubmit(
                     TimeRangeResult(
                       TimeOfDay(hour: 1, minute: 0),
@@ -89,9 +93,9 @@ class _TimeModalState extends State<TimeModal> {
                   fontWeight: FontWeight.normal, color: Colors.black87),
               activeTextStyle: const TextStyle(
                   fontWeight: FontWeight.bold, color: Colors.white),
-              borderColor: primaryBlue,
+              borderColor: widget.themeColor,
               backgroundColor: Colors.transparent,
-              activeBackgroundColor: primaryBlue,
+              activeBackgroundColor: widget.themeColor,
               initialRange: modalTimeRange,
               firstTime: const TimeOfDay(hour: 1, minute: 0),
               lastTime: const TimeOfDay(hour: 23, minute: 00),
@@ -106,6 +110,7 @@ class _TimeModalState extends State<TimeModal> {
             child: SFButton(
               iconPath: r"assets\icon\search.svg",
               buttonLabel: "Aplicar Filtro",
+              color: widget.themeColor,
               textPadding: EdgeInsets.symmetric(vertical: height * 0.005),
               isPrimary: false,
               onTap: () => widget.onSubmit(modalTimeRange),

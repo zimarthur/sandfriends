@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
-import '../../../SharedComponents/Model/RecurrentMatch.dart';
+import '../../../SharedComponents/Model/AppRecurrentMatch.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
 import '../../../Utils/Constants.dart';
 import '../../../Utils/SFDateTime.dart';
@@ -11,7 +11,7 @@ import '../../../oldApp/widgets/SF_Button.dart';
 import 'RecurrentMatchCardDate.dart';
 
 class RecurrentMatchCard extends StatefulWidget {
-  RecurrentMatch recurrentMatch;
+  AppRecurrentMatch recurrentMatch;
   bool expanded;
   RecurrentMatchCard({
     required this.recurrentMatch,

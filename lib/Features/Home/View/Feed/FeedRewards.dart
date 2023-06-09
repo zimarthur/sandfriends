@@ -96,8 +96,11 @@ class FeedRewards extends StatelessWidget {
                                         .userReward!
                                         .userRewardQuantity! >
                                     index
-                                ? SvgPicture.asset(
-                                    r"assets\icon\sandfriends_logo.svg",
+                                ? Center(
+                                    child: SvgPicture.asset(
+                                      r"assets\icon\sandfriends_logo.svg",
+                                      height: itemWidth * 0.7,
+                                    ),
                                   )
                                 : Container(),
                           );

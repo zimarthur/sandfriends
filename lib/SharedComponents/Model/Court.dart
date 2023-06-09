@@ -31,4 +31,12 @@ class Court {
       ),
     );
   }
+
+  factory Court.copyWith(Court refCourt) {
+    return Court(
+      idStoreCourt: refCourt.idStoreCourt,
+      storeCourtName: refCourt.storeCourtName,
+      isIndoor: refCourt.isIndoor,
+    );
+  }
 }

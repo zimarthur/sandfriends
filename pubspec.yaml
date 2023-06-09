@@ -123,7 +123,9 @@ flutter:
     - assets\icon\eye_closed.svg
     - assets\icon\eye_open.svg
     - assets\icon\happy_face.svg
+    - assets\icon\happy_face_secondary.svg
     - assets\icon\sad_face.svg
+    - assets\icon\sad_face_secondary.svg
     - assets\icon\at_email.svg
     - assets\icon\location_ping.svg
     - assets\icon\star.svg

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sandfriends/Utils/Constants.dart';
 import '../theme/app_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -16,6 +17,7 @@ class SFTextField extends StatefulWidget {
   final int? minLines;
   final Function(String)? onChanged;
   final String? hintText;
+  final Color themeColor;
 
   const SFTextField({
     required this.labelText,
@@ -29,6 +31,7 @@ class SFTextField extends StatefulWidget {
     this.onChanged,
     this.minLines,
     this.hintText,
+    this.themeColor = primaryBlue,
   });
 
   @override
@@ -63,7 +66,7 @@ class _SFTextFieldState extends State<SFTextField> {
       enableSuggestions: false,
       autocorrect: false,
       style: TextStyle(
-        color: AppTheme.colors.primaryBlue,
+        color: widget.themeColor,
         fontWeight: FontWeight.w700,
         fontSize: 14,
       ),
@@ -110,7 +113,7 @@ class _SFTextFieldState extends State<SFTextField> {
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
             width: 2,
-            color: AppTheme.colors.primaryBlue,
+            color: widget.themeColor,
           ),
         ),
         errorBorder: OutlineInputBorder(

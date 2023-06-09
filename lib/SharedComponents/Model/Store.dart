@@ -83,4 +83,32 @@ class Store {
 
     return newStore;
   }
+
+  factory Store.copyWith(Store refStore) {
+    var newStore = Store(
+      idStore: refStore.idStore,
+      name: refStore.name,
+      address: refStore.address,
+      addressNumber: refStore.addressNumber,
+      neighbourhood: refStore.neighbourhood,
+      city: refStore.city,
+      latitude: refStore.latitude,
+      longitude: refStore.longitude,
+      imageUrl: refStore.imageUrl,
+      descriptionText: refStore.descriptionText,
+      instagram: refStore.instagram,
+      phone: refStore.phone,
+    );
+    for (int i = 0; i < refStore.photos.length; i++) {
+      newStore.photos.add(refStore.photos[i]);
+    }
+    for (var court in refStore.courts) {
+      newStore.courts.add(
+        Court.copyWith(
+          court,
+        ),
+      );
+    }
+    return newStore;
+  }
 }

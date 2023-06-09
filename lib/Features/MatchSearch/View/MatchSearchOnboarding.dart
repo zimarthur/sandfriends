@@ -4,7 +4,10 @@ import "package:flutter_svg/flutter_svg.dart";
 import "../../../Utils/Constants.dart";
 
 class MatchSearchOnboarding extends StatelessWidget {
-  const MatchSearchOnboarding({Key? key}) : super(key: key);
+  bool isRecurrent;
+  MatchSearchOnboarding({
+    this.isRecurrent = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +21,9 @@ class MatchSearchOnboarding extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             SvgPicture.asset(
-              r"assets\icon\happy_face.svg",
+              isRecurrent
+                  ? r"assets\icon\happy_face_secondary.svg"
+                  : r"assets\icon\happy_face.svg",
               height: height * 0.1,
             ),
             SizedBox(
@@ -26,9 +31,11 @@ class MatchSearchOnboarding extends StatelessWidget {
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  "Use os filtros para buscar por\n quadras e partidas disponíveis.",
+                  isRecurrent
+                      ? "Use os filtros para buscar por\nhorários mensalistas disponíveis"
+                      : "Use os filtros para buscar por\n quadras e partidas disponíveis.",
                   style: TextStyle(
-                    color: textBlue,
+                    color: isRecurrent ? primaryLightBlue : textBlue,
                     fontWeight: FontWeight.w700,
                   ),
                 ),

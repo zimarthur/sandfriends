@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/SharedComponents/Model/RecurrentMatch.dart';
+import 'package:sandfriends/SharedComponents/Model/AppRecurrentMatch.dart';
 import 'package:time_range/time_range.dart';
 
 import '../../SharedComponents/Model/City.dart';
@@ -18,7 +18,7 @@ class RecurrentMatchProvider with ChangeNotifier {
     _storeDayList.clear();
   }
 
-  List<RecurrentMatch> recurrentMatchesList = [];
+  List<AppRecurrentMatch> recurrentMatchesList = [];
 
   Sport? _selectedSport;
   Sport? get selectedSport => _selectedSport;

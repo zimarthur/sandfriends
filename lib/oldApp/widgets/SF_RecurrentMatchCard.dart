@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../SharedComponents/Model/RecurrentMatch.dart';
+import '../../SharedComponents/Model/AppRecurrentMatch.dart';
 import '../providers/categories_provider.dart';
 import '../theme/app_theme.dart';
 import '../../SharedComponents/View/SFLoading.dart';
@@ -13,7 +13,7 @@ import 'SF_Button.dart';
 import 'SF_RecurrentMatchDateCard.dart';
 
 class RecurrentMatchCard extends StatefulWidget {
-  RecurrentMatch recurrentMatch;
+  AppRecurrentMatch recurrentMatch;
   bool expanded;
   RecurrentMatchCard(
       {Key? key, required this.recurrentMatch, required this.expanded})
