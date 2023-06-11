@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/Features/MatchSearch/View/AvailableDaysResult.dart';
+import 'package:sandfriends/SharedComponents/View/AvailableDaysResult/AvailableDaysResult.dart';
 import 'package:sandfriends/Features/MatchSearch/View/MatchSearchOnboarding.dart';
 import 'package:sandfriends/Features/MatchSearch/View/NoMachesFound.dart';
 import 'package:sandfriends/Features/MatchSearch/View/OpenMatchesResult.dart';
@@ -50,7 +50,17 @@ class _MatchSearchWidgetState extends State<MatchSearchWidget> {
                               viewModel: widget.viewModel,
                             ),
                             AvailableDaysResult(
-                              viewModel: widget.viewModel,
+                              availableDays: widget.viewModel.availableDays,
+                              onTapHour: (avDay) =>
+                                  widget.viewModel.onSelectedHour(avDay),
+                              onGoToCourt: (store) =>
+                                  widget.viewModel.goToCourt(context, store),
+                              selectedAvailableDay:
+                                  widget.viewModel.selectedDay,
+                              selectedStore: widget.viewModel.selectedStore,
+                              selectedAvailableHour:
+                                  widget.viewModel.selectedHour,
+                              isRecurrent: false,
                             ),
                           ],
                         ),

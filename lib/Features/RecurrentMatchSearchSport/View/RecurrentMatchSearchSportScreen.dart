@@ -25,8 +25,9 @@ class _RecurrentMatchSearchSportScreenState
     return SFStandardScreen(
       pageStatus: viewModel.pageStatus,
       enableToolbar: false,
+      onTapReturn: () => viewModel.onTapReturn(context),
       child: Container(
-        color: secondaryLightBlue,
+        color: primaryLightBlue,
         child: SafeArea(
           child: Column(
             children: [

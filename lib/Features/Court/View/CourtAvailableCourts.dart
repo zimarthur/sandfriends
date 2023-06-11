@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:sandfriends/Utils/SFDateTime.dart';
 
 import '../../../Utils/Constants.dart';
-import '../../MatchSearch/View/AvailableDayCard/AvailableHourCard.dart';
+import '../../../SharedComponents/View/AvailableDaysResult/AvailableHourCard.dart';
 import '../ViewModel/CourtViewModel.dart';
 
 class CourtAvailableCourts extends StatefulWidget {
   CourtViewModel viewModel;
+  Color themeColor;
   CourtAvailableCourts({
     required this.viewModel,
+    required this.themeColor,
   });
 
   @override
@@ -36,14 +39,20 @@ class _CourtAvailableCourtsState extends State<CourtAvailableCourts> {
             padding: EdgeInsets.symmetric(vertical: height * 0.01),
             child: Row(
               children: [
-                SvgPicture.asset(r'assets\icon\calendar.svg',
-                    color: primaryBlue),
+                SvgPicture.asset(
+                  r'assets\icon\calendar.svg',
+                  color: widget.themeColor,
+                ),
                 Padding(padding: EdgeInsets.only(right: width * 0.01)),
                 Text(
-                  DateFormat("dd/MM/yyyy")
-                      .format(widget.viewModel.selectedDate!),
+                  widget.viewModel.isRecurrent!
+                      ? "${weekDaysPortuguese[widget.viewModel.selectedWeekday!]} - Mensalista"
+                      : DateFormat("dd/MM/yyyy")
+                          .format(widget.viewModel.selectedDate!),
                   style: TextStyle(
-                      color: primaryBlue, fontWeight: FontWeight.w700),
+                    color: widget.themeColor,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ],
             ),
@@ -81,7 +90,7 @@ class _CourtAvailableCourtsState extends State<CourtAvailableCourts> {
                             widget.viewModel.courtAvailableHours[indexcourt]
                                 .court.storeCourtName,
                             style: TextStyle(
-                              color: primaryBlue,
+                              color: widget.themeColor,
                             ),
                           ),
                           Text(
@@ -125,6 +134,7 @@ class _CourtAvailableCourtsState extends State<CourtAvailableCourts> {
                               widget.viewModel.courtAvailableHours[indexcourt]
                                   .hourPrices[indexHour],
                             ),
+                            isRecurrent: widget.viewModel.isRecurrent!,
                           );
                         }),
                       ),

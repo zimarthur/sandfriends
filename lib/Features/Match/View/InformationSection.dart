@@ -89,7 +89,7 @@ class InformationSection extends StatelessWidget {
                         "Horário:",
                       ),
                       Text(
-                        "${viewModel.match.timeBegin} - ${viewModel.match.timeFinish}",
+                        "${viewModel.match.timeBegin.hourString} - ${viewModel.match.timeEnd.hourString}",
                         style: const TextStyle(
                           fontWeight: FontWeight.w700,
                         ),

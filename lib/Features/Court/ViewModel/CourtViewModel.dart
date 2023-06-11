@@ -30,7 +30,9 @@ class CourtViewModel extends ChangeNotifier {
   List<HourPrice> selectedHourPrices = [];
   Court? selectedCourt;
   DateTime? selectedDate;
+  int? selectedWeekday;
   Sport? selectedSport;
+  bool? isRecurrent;
 
   Hour? get reservationStartTime => selectedHourPrices
       .reduce((curr, next) => curr.hour.hour < next.hour.hour ? curr : next)
@@ -53,13 +55,17 @@ class CourtViewModel extends ChangeNotifier {
     List<CourtAvailableHours>? newCourtAvailableHours,
     HourPrice? newselectedHourPrice,
     DateTime? newSelectedDate,
+    int? newSelectedWeekday,
     Sport? newSelectedSport,
+    bool? newIsRecurrent,
   ) {
     store = newStore;
     courtAvailableHours.clear();
 
     if (newCourtAvailableHours != null) {
       selectedDate = newSelectedDate;
+      selectedWeekday = newSelectedWeekday;
+      isRecurrent = newIsRecurrent;
       selectedSport = newSelectedSport;
       courtAvailableHours = newCourtAvailableHours;
       selectedHourPrices.add(newselectedHourPrice!);
@@ -118,15 +124,53 @@ class CourtViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void courtReservation(BuildContext context) {
+  void matchReservation(BuildContext context) {
     pageStatus = PageStatus.LOADING;
     notifyListeners();
     courtRepo
-        .courtReservation(
+        .matchReservation(
       Provider.of<UserProvider>(context, listen: false).user!.accessToken,
       selectedCourt!.idStoreCourt,
       selectedSport!.idSport,
       selectedDate!,
+      reservationStartTime!.hour,
+      Provider.of<CategoriesProvider>(context, listen: false)
+          .getHourEnd(
+            reservationEndTime!,
+          )
+          .hour,
+      reservationCost!,
+    )
+        .then((response) {
+      modalMessage = SFModalMessage(
+        message: response.userMessage!,
+        onTap: () {
+          if (response.responseStatus == NetworkResponseStatus.alert) {
+            Navigator.pushNamed(context, '/home');
+          } else {
+            pageStatus = PageStatus.OK;
+            notifyListeners();
+          }
+        },
+        buttonText: response.responseStatus == NetworkResponseStatus.alert
+            ? "Concluído"
+            : "Voltar",
+        isHappy: response.responseStatus == NetworkResponseStatus.alert,
+      );
+      pageStatus = PageStatus.ERROR;
+      notifyListeners();
+    });
+  }
+
+  void recurrentMatchReservation(BuildContext context) {
+    pageStatus = PageStatus.LOADING;
+    notifyListeners();
+    courtRepo
+        .recurrentMatchReservation(
+      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      selectedCourt!.idStoreCourt,
+      selectedSport!.idSport,
+      selectedWeekday!,
       reservationStartTime!.hour,
       Provider.of<CategoriesProvider>(context, listen: false)
           .getHourEnd(

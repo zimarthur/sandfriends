@@ -1,24 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:sandfriends/Features/MatchSearch/View/AvailableDayCard/AvailableStoreCard.dart';
+import 'package:sandfriends/SharedComponents/View/AvailableDaysResult/AvailableStoreCard.dart';
 import 'package:sandfriends/Features/MatchSearch/ViewModel/MatchSearchViewModel.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableDay.dart';
+import 'package:sandfriends/SharedComponents/Model/AvailableHour.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableStore.dart';
+import 'package:sandfriends/SharedComponents/Model/Store.dart';
+import 'package:sandfriends/Utils/SFDateTime.dart';
 
-import '../../../../Utils/Constants.dart';
+import '../../../Utils/Constants.dart';
 
 class AvailableDayCard extends StatelessWidget {
   AvailableDay availableDay;
-  Function(AvailableDay) onTap;
-  MatchSearchViewModel viewModel;
+  AvailableStore? selectedStore;
+  AvailableHour? selectedAvailableHour;
+  Function(AvailableDay) onTapHour;
+  Function(Store) onGoToCourt;
   bool selectedParent;
+  bool isRecurrent;
 
   AvailableDayCard({
     required this.availableDay,
-    required this.onTap,
-    required this.viewModel,
+    required this.selectedStore,
+    required this.selectedAvailableHour,
+    required this.onTapHour,
+    required this.onGoToCourt,
     required this.selectedParent,
+    required this.isRecurrent,
   });
 
   @override
@@ -34,12 +43,19 @@ class AvailableDayCard extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.only(right: 5),
-                child: SvgPicture.asset(r'assets\icon\calendar.svg'),
+                child: SvgPicture.asset(
+                  r'assets\icon\calendar.svg',
+                  color: isRecurrent ? primaryLightBlue : primaryBlue,
+                ),
               ),
               Text(
-                DateFormat("dd/MM/yyyy").format(availableDay.day!),
-                style:
-                    TextStyle(color: primaryBlue, fontWeight: FontWeight.w700),
+                isRecurrent
+                    ? weekDaysPortuguese[availableDay.weekday!]
+                    : DateFormat("dd/MM/yyyy").format(availableDay.day!),
+                style: TextStyle(
+                  color: isRecurrent ? primaryLightBlue : primaryBlue,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ],
           ),
@@ -51,20 +67,25 @@ class AvailableDayCard extends StatelessWidget {
           itemBuilder: (context, index) {
             return AvailableStoreCard(
               availableStore: availableDay.stores[index],
-              onTap: (avStore) {
+              selectedAvailableHour: selectedAvailableHour,
+              onTapHour: (avStore) {
                 List<AvailableStore> availableStore = [];
                 availableStore.add(avStore);
-                AvailableDay avDay =
-                    AvailableDay(day: availableDay.day, stores: availableStore);
-                onTap(avDay);
+                AvailableDay avDay = AvailableDay(
+                  day: availableDay.day,
+                  stores: availableStore,
+                  weekday: availableDay.weekday,
+                );
+                onTapHour(avDay);
               },
-              viewModel: viewModel,
+              onGoToCourt: (store) => onGoToCourt(store),
               selectedParent: selectedParent == false ||
-                      viewModel.selectedStore == null ||
-                      viewModel.selectedStore!.store.idStore !=
+                      selectedStore == null ||
+                      selectedStore!.store.idStore !=
                           availableDay.stores[index].store.idStore
                   ? false
                   : true,
+              isRecurrent: isRecurrent,
             );
           },
         ),

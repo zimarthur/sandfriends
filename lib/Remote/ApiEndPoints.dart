@@ -18,9 +18,10 @@ class ApiEndPoints {
   final String sendFeedback = "/SendFeedback";
 
   final String searchCourts = "/SearchCourts";
-  final String courtReservation = "/CourtReservation";
+  final String matchReservation = "/MatchReservation";
 
   final String searchRecurrentCourts = "/SearchRecurrentCourts";
+  final String recurrentMatchReservation = "/RecurrentMatchReservation";
 
   final String getMatchInfo = "/GetMatchInfo";
   final String saveCreatorNotes = "/SaveCreatorNotes";

@@ -19,7 +19,7 @@ class SportSelector extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height - 75;
     return Container(
-      color: isRecurrentMatch ? secondaryLightBlue : primaryBlue,
+      color: isRecurrentMatch ? primaryLightBlue : primaryBlue,
       child: SafeArea(
         child: Column(
           children: [
@@ -63,7 +63,7 @@ class SportSelector extends StatelessWidget {
                             .sports[index]
                             .description,
                         color:
-                            isRecurrentMatch ? secondaryLightBlue : primaryBlue,
+                            isRecurrentMatch ? primaryLightBlue : primaryBlue,
                         isPrimary: false,
                         textPadding:
                             EdgeInsets.symmetric(vertical: height * 0.025),

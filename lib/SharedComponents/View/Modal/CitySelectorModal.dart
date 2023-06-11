@@ -54,7 +54,7 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
               r"assets\icon\search.svg",
               color: widget.themeColor,
             ),
-            themeColor: primaryLightBlue,
+            themeColor: widget.themeColor,
             validator: (value) {},
             onChanged: (typed) {
               setState(() {

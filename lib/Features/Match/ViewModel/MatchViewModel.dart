@@ -9,6 +9,7 @@ import '../../../SharedComponents/Model/AppMatch.dart';
 import '../../../SharedComponents/Model/MatchCounter.dart';
 import '../../../SharedComponents/Model/MatchMember.dart';
 import '../../../SharedComponents/Model/User.dart';
+import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
@@ -94,6 +95,8 @@ class MatchViewModel extends ChangeNotifier {
         );
         match = AppMatch.fromJson(
           responseBody['Match'],
+          Provider.of<CategoriesProvider>(context, listen: false).hours,
+          Provider.of<CategoriesProvider>(context, listen: false).sports,
         );
         final responseUsersMatchCounter = responseBody['UsersMatchCounter'];
 
@@ -140,7 +143,7 @@ class MatchViewModel extends ChangeNotifier {
 
         if ((match.date.isBefore(DateTime.now())) ||
             ((match.date.day == DateTime.now().day) &&
-                (match.timeInt < DateTime.now().hour)) ||
+                (match.timeBegin.hour < DateTime.now().hour)) ||
             (match.canceled == true)) {
           matchExpired = true;
         }

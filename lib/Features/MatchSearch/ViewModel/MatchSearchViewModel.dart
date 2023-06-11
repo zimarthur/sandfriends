@@ -89,13 +89,21 @@ class MatchSearchViewModel extends ChangeNotifier {
         cityFilter!.cityId,
         datesFilter[0]!,
         datesFilter.length < 2 ? datesFilter[0]! : datesFilter[1]!,
-        timeFilter!.start.format(context),
-        timeFilter!.end.format(context),
+        Provider.of<CategoriesProvider>(context, listen: false)
+            .hours
+            .firstWhere(
+                (hour) => hour.hourString == timeFilter!.start.format(context))
+            .hour,
+        Provider.of<CategoriesProvider>(context, listen: false)
+            .hours
+            .firstWhere(
+                (hour) => hour.hourString == timeFilter!.end.format(context))
+            .hour,
       )
           .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
           hasUserSearched = true;
-          setSearchMatchesResult(response.responseBody!);
+          setSearchMatchesResult(context, response.responseBody!);
           pageStatus = PageStatus.OK;
           notifyListeners();
         }
@@ -130,7 +138,9 @@ class MatchSearchViewModel extends ChangeNotifier {
         'availableCourts': toCourtAvailableHours(),
         'selectedHourPrice': selectedHour!.lowestHourPrice,
         'selectedDate': selectedDay!.day,
+        'selectedWeekday': null,
         'selectedSport': selectedSport,
+        'isRecurrent': false,
       },
     );
   }
@@ -147,6 +157,9 @@ class MatchSearchViewModel extends ChangeNotifier {
     for (var avHour in filteredHours) {
       for (var court in avHour.availableCourts) {
         try {
+          print("hour: ${avHour.hour.hourString}");
+          print("court: ${court.court.storeCourtName}");
+          print("price: ${court.price}");
           courtAvailableHours
               .firstWhere(
                 (courtAvHour) =>
@@ -252,7 +265,7 @@ class MatchSearchViewModel extends ChangeNotifier {
     closeModal();
   }
 
-  void setSearchMatchesResult(String response) {
+  void setSearchMatchesResult(BuildContext context, String response) {
     availableDays.clear();
     openMatches.clear();
 
@@ -318,13 +331,15 @@ class MatchSearchViewModel extends ChangeNotifier {
       openMatches.add(
         AppMatch.fromJson(
           openMatch,
+          Provider.of<CategoriesProvider>(context, listen: false).hours,
+          Provider.of<CategoriesProvider>(context, listen: false).sports,
         ),
       );
     }
   }
 
   void goToMatch(BuildContext context, String matchUrl) {
-    Navigator.pushNamed(context, '/match_screen/${matchUrl}');
+    Navigator.pushNamed(context, '/match_screen/$matchUrl');
   }
 
   goToOpenMatches() {}

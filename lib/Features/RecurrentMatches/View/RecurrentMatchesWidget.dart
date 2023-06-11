@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Utils/Heros.dart';
+import 'package:sandfriends/Utils/SFDateTime.dart';
 
 import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../Utils/Constants.dart';
@@ -31,7 +32,7 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
           height: MediaQuery.of(context).padding.top + height * 0.2,
           width: double.infinity,
           decoration: BoxDecoration(
-            color: secondaryLightBlue,
+            color: primaryLightBlue,
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(30.0),
               bottomRight: Radius.circular(30.0),
@@ -132,16 +133,12 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                       style: TextStyle(color: textDarkGrey),
                     ),
                     Text(
-                      "-",
-                      // Provider.of<RecurrentMatchProvider>(context)
-                      //         .recurrentMatchesList
-                      //         .isEmpty
-                      //     ? "-"
-                      //     : "${Provider.of<RecurrentMatchProvider>(context).recurrentMatchesList.length}",
+                      widget.viewModel.recurrentMatches.isEmpty
+                          ? "-"
+                          : "${widget.viewModel.recurrentMatches.length}",
                       textScaleFactor: 1.5,
                       style: TextStyle(
-                          color: secondaryLightBlue,
-                          fontWeight: FontWeight.w500),
+                          color: primaryLightBlue, fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
@@ -156,20 +153,17 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Vencimento",
+                      "Vencimento (dias)",
                       textScaleFactor: 0.9,
                       style: TextStyle(color: textDarkGrey),
                     ),
                     Text(
-                      Provider.of<UserProvider>(context)
-                              .recurrentMatches
-                              .isEmpty
+                      widget.viewModel.recurrentMatches.isEmpty
                           ? "-"
-                          : "Dia 31",
+                          : "${getDaysToEndOfMonth()}",
                       textScaleFactor: 1.5,
                       style: TextStyle(
-                          color: secondaryLightBlue,
-                          fontWeight: FontWeight.w500),
+                          color: primaryLightBlue, fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
@@ -183,7 +177,7 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
               horizontal: width * 0.05,
             ),
             color: secondaryPaper,
-            child: Provider.of<UserProvider>(context).recurrentMatches.isEmpty
+            child: widget.viewModel.recurrentMatches.isEmpty
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -195,50 +189,52 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                       ],
                     ),
                   )
-                : Column(
-                    children: [
-                      Expanded(
-                        child: ListView.builder(
-                          padding: EdgeInsets.zero,
-                          itemCount: Provider.of<UserProvider>(context)
-                              .recurrentMatches
-                              .length,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    //selectedRecurrentMatch = index;
-                                  });
-                                },
-                                child: Container(
-                                  height: 160,
-                                  child: RecurrentMatchCard(
-                                    expanded: true,
-                                    recurrentMatch:
-                                        Provider.of<UserProvider>(context)
-                                            .recurrentMatches[index],
-                                  ),
-                                ));
-                          },
+                : widget.viewModel.selectedRecurrentMatch == null
+                    ? ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: widget.viewModel.recurrentMatches.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                widget.viewModel.selectedRecurrentMatch = index;
+                              });
+                            },
+                            child: RecurrentMatchCard(
+                                expanded: false,
+                                recurrentMatch:
+                                    widget.viewModel.recurrentMatches[index]),
+                          );
+                        },
+                      )
+                    : InkWell(
+                        onTap: () {
+                          setState(() {
+                            widget.viewModel.selectedRecurrentMatch = null;
+                          });
+                        },
+                        child: RecurrentMatchCard(
+                          expanded: true,
+                          recurrentMatch: widget.viewModel.recurrentMatches[
+                              widget.viewModel.selectedRecurrentMatch!],
                         ),
                       ),
-                    ],
-                  ),
           ),
         ),
-        Container(
-          color: secondaryPaper,
-          padding: EdgeInsets.symmetric(
-              horizontal: width * 0.04, vertical: height * 0.02),
-          child: SFButton(
-            buttonLabel: "Buscar Quadras Mensalistas",
-            color: secondaryLightBlue,
-            onTap: () {
-              widget.viewModel.goToSportSelection(context);
-            },
-            textPadding: EdgeInsets.symmetric(vertical: height * 0.01),
+        if (widget.viewModel.selectedRecurrentMatch == null)
+          Container(
+            color: secondaryPaper,
+            padding: EdgeInsets.symmetric(
+                horizontal: width * 0.04, vertical: height * 0.02),
+            child: SFButton(
+              buttonLabel: "Buscar Quadras Mensalistas",
+              color: primaryLightBlue,
+              onTap: () {
+                widget.viewModel.goToSportSelection(context);
+              },
+              textPadding: EdgeInsets.symmetric(vertical: height * 0.01),
+            ),
           ),
-        ),
       ],
     );
   }

@@ -101,7 +101,7 @@ class _OpenMatchesScreenState extends State<OpenMatchesScreen> {
 
         for (int i = 0; i < responseOpenMatches.length; i++) {
           Provider.of<MatchProvider>(context, listen: false)
-              .addOpenMatch(AppMatch.fromJson(responseOpenMatches[i]));
+              .addOpenMatch(AppMatch.fromJson(responseOpenMatches[i], [], []));
         }
 
         setState(() {

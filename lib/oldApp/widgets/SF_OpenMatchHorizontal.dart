@@ -173,7 +173,7 @@ class SFOpenMatchHorizontal extends StatelessWidget {
                           padding: EdgeInsets.only(right: width * 0.01),
                         ),
                         Text(
-                          match.timeBegin,
+                          match.timeBegin.hourString,
                           style: TextStyle(
                             color: AppTheme.colors.primaryBlue,
                           ),

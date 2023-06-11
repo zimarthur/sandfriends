@@ -447,7 +447,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                                             0.01),
                                                                   ),
                                                                   Text(
-                                                                    "${Provider.of<UserProvider>(context).nextMatchList[index].timeBegin} - ${Provider.of<UserProvider>(context).nextMatchList[index].timeFinish}",
+                                                                    "${Provider.of<UserProvider>(context).nextMatchList[index].timeBegin} - ${Provider.of<UserProvider>(context).nextMatchList[index].timeBegin.hourString}",
                                                                     style:
                                                                         TextStyle(
                                                                       color: AppTheme
@@ -755,7 +755,7 @@ class _FeedScreenState extends State<FeedScreen> {
           //SET notifications
           for (int i = 0; i < responseNotifications.length; i++) {
             Provider.of<UserProvider>(context, listen: false).addNotification(
-                AppNotification.fromJson(responseNotifications[i]));
+                AppNotification.fromJson(responseNotifications[i], [], []));
           }
           //
           //SET user matches
@@ -763,9 +763,7 @@ class _FeedScreenState extends State<FeedScreen> {
               matchIndex < responseMatches.length;
               matchIndex++) {
             Provider.of<UserProvider>(context, listen: false).addMatch(
-              AppMatch.fromJson(
-                responseMatches[matchIndex],
-              ),
+              AppMatch.fromJson(responseMatches[matchIndex], [], []),
             );
           }
           //

@@ -20,9 +20,9 @@ class FeedOpenMatches extends StatelessWidget {
       return InkWell(
         onTap: () {
           if (Provider.of<UserProvider>(context, listen: false)
-                  .openMatchesCounter >
-              0) {
-            Navigator.pushNamed(context, '/open_matches_screen');
+              .openMatches
+              .isNotEmpty) {
+            Navigator.pushNamed(context, '/open_matches');
           }
         },
         child: Container(
@@ -48,14 +48,15 @@ class FeedOpenMatches extends StatelessWidget {
               Flexible(
                 child: Text(
                   Provider.of<UserProvider>(context, listen: false)
-                              .openMatchesCounter ==
-                          0
+                          .openMatches
+                          .isEmpty
                       ? "Não há partidas abertas perto de você"
                       : Provider.of<UserProvider>(context, listen: false)
-                                  .openMatchesCounter ==
+                                  .openMatches
+                                  .length ==
                               1
                           ? "Existe 1 partida aberta perto de você"
-                          : "Existem ${Provider.of<UserProvider>(context, listen: false).openMatchesCounter} partidas abertas perto de você",
+                          : "Existem ${Provider.of<UserProvider>(context, listen: false).openMatches.length} partidas abertas perto de você",
                   style: TextStyle(
                     color: textWhite,
                     fontWeight: FontWeight.w700,

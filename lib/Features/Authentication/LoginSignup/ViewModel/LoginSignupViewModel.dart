@@ -8,7 +8,6 @@ import 'package:sandfriends/Features/Authentication/LoginSignup/Repo/LoginSignup
 
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../SharedComponents/View/Modal/SFModalMessage.dart';
-import '../../../../SharedComponents/ViewModel/DataProvider.dart';
 import '../../../../Utils/PageStatus.dart';
 import '../../../../api/google_signin_api.dart';
 import '../../../../SharedComponents/Model/User.dart';

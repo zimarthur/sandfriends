@@ -7,11 +7,13 @@ class MatchSearchResultTitle extends StatelessWidget {
   String title;
   String iconPath;
   String description;
+  Color themeColor;
 
   MatchSearchResultTitle({
     required this.title,
     required this.iconPath,
     required this.description,
+    required this.themeColor,
   });
 
   @override
@@ -25,7 +27,10 @@ class MatchSearchResultTitle extends StatelessWidget {
           margin: EdgeInsets.only(top: height * 0.01),
           child: Row(
             children: [
-              SvgPicture.asset(iconPath),
+              SvgPicture.asset(
+                iconPath,
+                color: themeColor,
+              ),
               Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: width * 0.02,
@@ -33,7 +38,9 @@ class MatchSearchResultTitle extends StatelessWidget {
                 child: Text(
                   title,
                   style: TextStyle(
-                      color: primaryBlue, fontWeight: FontWeight.w700),
+                    color: themeColor,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               Expanded(

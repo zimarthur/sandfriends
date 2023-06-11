@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/AppMatch.dart';
@@ -40,6 +41,8 @@ class UserMatchesViewModel extends ChangeNotifier {
           Provider.of<UserProvider>(context, listen: false).addMatch(
             AppMatch.fromJson(
               match,
+              Provider.of<CategoriesProvider>(context, listen: false).hours,
+              Provider.of<CategoriesProvider>(context, listen: false).sports,
             ),
           );
         }

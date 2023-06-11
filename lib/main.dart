@@ -209,7 +209,9 @@ class _MyAppState extends State<MyApp> {
                   selectedHourPrice:
                       arguments['selectedHourPrice'] as HourPrice?,
                   selectedDate: arguments['selectedDate'] as DateTime?,
+                  selectedWeekday: arguments['selectedWeekday'] as int?,
                   selectedSport: arguments['selectedSport'] as Sport?,
+                  isRecurrent: arguments['isRecurrent'] as bool?,
                 );
               },
             );

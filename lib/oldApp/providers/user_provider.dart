@@ -36,7 +36,7 @@ class UserProvider with ChangeNotifier {
         int compare = a.date.compareTo(b.date);
 
         if (compare == 0) {
-          return a.timeInt.compareTo(b.timeInt);
+          return a.timeBegin.hour.compareTo(b.timeBegin.hour);
         } else {
           return compare;
         }
@@ -65,7 +65,7 @@ class UserProvider with ChangeNotifier {
         int compare = b.date.compareTo(a.date);
 
         if (compare == 0) {
-          return b.timeInt.compareTo(a.timeInt);
+          return b.timeBegin.hour.compareTo(a.timeBegin.hour);
         } else {
           return compare;
         }

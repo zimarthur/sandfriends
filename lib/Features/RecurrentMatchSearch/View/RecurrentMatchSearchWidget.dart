@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 
+import '../../../SharedComponents/View/AvailableDaysResult/AvailableDaysResult.dart';
 import '../../MatchSearch/View/MatchSearchFilters.dart';
 import '../../MatchSearch/View/MatchSearchOnboarding.dart';
 import '../../MatchSearch/View/NoMachesFound.dart';
@@ -34,7 +35,7 @@ class _RecurrentMatchSearchWidgetState
           openTimeSelector: () =>
               widget.viewModel.openTimeSelectorModal(context),
           onTapSearch: () => widget.viewModel.searchRecurrentCourts(context),
-          primaryColor: secondaryLightBlue,
+          primaryColor: primaryLightBlue,
         ),
         Expanded(
           child: Container(
@@ -49,7 +50,21 @@ class _RecurrentMatchSearchWidgetState
                       )
                     : SingleChildScrollView(
                         child: Column(
-                          children: [],
+                          children: [
+                            AvailableDaysResult(
+                              availableDays: widget.viewModel.availableDays,
+                              selectedAvailableDay:
+                                  widget.viewModel.selectedDay,
+                              selectedAvailableHour:
+                                  widget.viewModel.selectedHour,
+                              selectedStore: widget.viewModel.selectedStore,
+                              onTapHour: (avDay) =>
+                                  widget.viewModel.onSelectedHour(avDay),
+                              onGoToCourt: (store) =>
+                                  widget.viewModel.goToCourt(context, store),
+                              isRecurrent: true,
+                            ),
+                          ],
                         ),
                       ),
           ),

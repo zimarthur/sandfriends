@@ -173,7 +173,7 @@ class _UserMatchScreenState extends State<UserMatchScreen> {
                                           EdgeInsets.only(right: width * 0.01),
                                     ),
                                     Text(
-                                      "${Provider.of<UserProvider>(context).matchList[index].timeBegin} - ${Provider.of<UserProvider>(context).matchList[index].timeFinish}",
+                                      "${Provider.of<UserProvider>(context).matchList[index].timeBegin} - ${Provider.of<UserProvider>(context).matchList[index].timeBegin.hourString}",
                                       style: TextStyle(
                                         color: AppTheme.colors.textDarkGrey,
                                       ),

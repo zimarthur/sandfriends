@@ -26,35 +26,35 @@ class _OpenMatchesResultState extends State<OpenMatchesResult> {
           title: "Partidas Abertas",
           iconPath: r'assets\icon\trophy.svg',
           description: "Escolha uma partida e desafie novos jogadores",
+          themeColor: primaryBlue,
         ),
-        Container(
-          height: 220,
-          margin: EdgeInsets.symmetric(vertical: height * 0.02),
-          child: widget.viewModel.openMatches.isEmpty
-              ? Container(
-                  margin: EdgeInsets.symmetric(
-                    vertical: height * 0.04,
+        widget.viewModel.openMatches.isEmpty
+            ? Container(
+                height: 100,
+                alignment: Alignment.center,
+                child: Text(
+                  "Sem partidas abertas",
+                  style: TextStyle(
+                    color: textLightGrey,
                   ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Sem partidas abertas",
-                    style: TextStyle(
-                      color: textLightGrey,
-                    ),
-                  ),
-                )
-              : ListView.builder(
+                ),
+              )
+            : Container(
+                height: 220,
+                margin: EdgeInsets.symmetric(vertical: height * 0.02),
+                child: ListView.builder(
                   itemCount: widget.viewModel.openMatches.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: ((context, index) {
                     return OpenMatchCard(
+                      isReduced: true,
                       match: widget.viewModel.openMatches[index],
                       onTap: (matchUrl) =>
                           widget.viewModel.goToMatch(context, matchUrl),
                     );
                   }),
                 ),
-        ),
+              ),
       ],
     );
   }

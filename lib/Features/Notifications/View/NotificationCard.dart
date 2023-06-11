@@ -99,7 +99,7 @@ class _NotificationCardState extends State<NotificationCard> {
                               ),
                             ),
                             Text(
-                              "${DateFormat("dd/MM/yyyy").format(widget.notification.match.date)} às ${widget.notification.match.timeBegin}",
+                              "${DateFormat("dd/MM/yyyy").format(widget.notification.match.date)} às ${widget.notification.match.timeBegin.hourString}",
                               style: TextStyle(
                                 color: textBlue,
                               ),

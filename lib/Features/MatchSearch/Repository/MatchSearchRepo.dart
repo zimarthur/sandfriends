@@ -7,7 +7,7 @@ class MatchSearchRepo {
     int cityId,
     DateTime dateStart,
     DateTime dateEnd,
-    String timeStart,
-    String timeEnd,
+    int timeStart,
+    int timeEnd,
   ) async {}
 }

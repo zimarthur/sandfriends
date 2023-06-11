@@ -17,6 +17,12 @@ class _OpenMatchesScreenState extends State<OpenMatchesScreen> {
   final viewModel = OpenMatchesViewModel();
 
   @override
+  void initState() {
+    viewModel.initOpenMatches(context);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<OpenMatchesViewModel>(
       create: (BuildContext context) => viewModel,

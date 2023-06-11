@@ -24,6 +24,8 @@ import '../../../SharedComponents/View/Modal/CitySelectorModal.dart';
 import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../SharedComponents/View/Modal/TimeModal.dart';
 import '../../../Utils/PageStatus.dart';
+import '../../Court/Model/CourtAvailableHours.dart';
+import '../../Court/Model/HourPrice.dart';
 import '../Repository/RecurrentMatchSearchRepoImp.dart';
 
 class RecurrentMatchSearchViewModel extends ChangeNotifier {
@@ -49,6 +51,10 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
       datesFilter.isNotEmpty && cityFilter != null;
 
   final List<AvailableDay> availableDays = [];
+
+  AvailableHour? selectedHour;
+  AvailableStore? selectedStore;
+  AvailableDay? selectedDay;
 
   void initRecurrentMatchSearchViewModel(BuildContext context, int sportId) {
     selectedSport = Provider.of<CategoriesProvider>(context, listen: false)
@@ -243,6 +249,72 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
   void onSubmitTimeFilter(TimeRangeResult? newTimeFilter) {
     timeFilter = newTimeFilter;
     closeModal();
+  }
+
+  void onSelectedHour(AvailableDay avDay) {
+    selectedDay = avDay;
+    selectedStore = avDay.stores.first;
+    selectedHour = avDay.stores.first.availableHours.first;
+    notifyListeners();
+  }
+
+  void goToCourt(BuildContext context, Store store) {
+    Navigator.pushNamed(
+      context,
+      '/court',
+      arguments: {
+        'store': store,
+        'availableCourts': toCourtAvailableHours(),
+        'selectedHourPrice': selectedHour!.lowestHourPrice,
+        'selectedDate': null,
+        'selectedWeekday': selectedDay!.weekday,
+        'selectedSport': selectedSport,
+        'isRecurrent': true,
+      },
+    );
+  }
+
+  List<CourtAvailableHours> toCourtAvailableHours() {
+    List<CourtAvailableHours> courtAvailableHours = [];
+    List<AvailableHour> filteredHours = availableDays
+        .firstWhere((avDay) => avDay.day == selectedDay!.day)
+        .stores
+        .firstWhere(
+          (avStore) => avStore.store.idStore == selectedStore!.store.idStore,
+        )
+        .availableHours;
+    for (var avHour in filteredHours) {
+      for (var court in avHour.availableCourts) {
+        try {
+          courtAvailableHours
+              .firstWhere(
+                (courtAvHour) =>
+                    courtAvHour.court.idStoreCourt == court.court.idStoreCourt,
+              )
+              .hourPrices
+              .add(
+                HourPrice(
+                  hour: avHour.hour,
+                  price: court.price,
+                ),
+              );
+        } catch (e) {
+          List<HourPrice> newHourPrices = [
+            HourPrice(
+              hour: avHour.hour,
+              price: court.price,
+            ),
+          ];
+          courtAvailableHours.add(
+            CourtAvailableHours(
+              court: court.court,
+              hourPrices: newHourPrices,
+            ),
+          );
+        }
+      }
+    }
+    return courtAvailableHours;
   }
 
   void closeModal() {

@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 
 import 'Court.dart';
+import 'Hour.dart';
 import 'MatchMember.dart';
 import 'Rank.dart';
 import 'Sport.dart';
@@ -10,9 +11,8 @@ class AppMatch {
   final int idMatch;
   final DateTime date;
   final int cost;
-  final int timeInt;
-  final String timeBegin;
-  final String timeFinish;
+  final Hour timeBegin;
+  final Hour timeEnd;
   bool isOpenMatch;
   int maxUsers = 0;
   final bool canceled;
@@ -67,9 +67,8 @@ class AppMatch {
     required this.idMatch,
     required this.date,
     required this.cost,
-    required this.timeInt,
     required this.timeBegin,
-    required this.timeFinish,
+    required this.timeEnd,
     required this.isOpenMatch,
     required this.maxUsers,
     required this.canceled,
@@ -80,22 +79,32 @@ class AppMatch {
     required this.canCancelUpTo,
   });
 
-  factory AppMatch.fromJson(Map<String, dynamic> json) {
+  factory AppMatch.fromJson(
+    Map<String, dynamic> json,
+    List<Hour> referenceHours,
+    List<Sport> referenceSports,
+  ) {
+    Hour timeBegin = referenceHours.firstWhere(
+      (hour) => hour.hour == json['TimeBegin'],
+    );
     var newMatch = AppMatch(
       idMatch: json['IdMatch'],
       date: DateFormat('yyyy-MM-dd HH:mm')
-          .parse("${json['Date']} ${json['TimeBegin']}"),
+          .parse("${json['Date']} ${timeBegin.hourString}"),
       cost: json['Cost'],
-      timeInt: json['TimeInteger'],
-      timeBegin: json['TimeBegin'],
-      timeFinish: json['TimeEnd'],
+      timeBegin: timeBegin,
+      timeEnd: referenceHours.firstWhere(
+        (hour) => hour.hour == json['TimeEnd'],
+      ),
       isOpenMatch: json['OpenUsers'],
       maxUsers: json['MaxUsers'],
       canceled: json['Canceled'],
       matchUrl: json['MatchUrl'],
       creatorNotes: json['CreatorNotes'],
       court: Court.fromJsonMatch(json['StoreCourt']),
-      sport: Sport.fromJson(json['Sport']),
+      sport: referenceSports.firstWhere(
+        (sport) => sport.idSport == json['IdSport'],
+      ),
       canCancelUpTo: json['CanCancelUpTo'],
     );
     for (int i = 0; i < json['Members'].length; i++) {

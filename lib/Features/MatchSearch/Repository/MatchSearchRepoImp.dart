@@ -18,8 +18,8 @@ class MatchSearchRepoImp implements MatchSearchRepo {
     int cityId,
     DateTime dateStart,
     DateTime dateEnd,
-    String timeStart,
-    String timeEnd,
+    int timeStart,
+    int timeEnd,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
@@ -29,8 +29,8 @@ class MatchSearchRepoImp implements MatchSearchRepo {
           'AccessToken': accessToken,
           'IdSport': sportId,
           'IdCity': cityId,
-          'DateStart': DateFormat("yyyy-MM-dd").format(dateStart),
-          'DateEnd': DateFormat("yyyy-MM-dd").format(dateEnd),
+          'DateStart': DateFormat("dd-MM-yyyy").format(dateStart),
+          'DateEnd': DateFormat("dd-MM-yyyy").format(dateEnd),
           'TimeStart': timeStart,
           'TimeEnd': timeEnd,
         },

@@ -55,3 +55,16 @@ DateTime stringToDateTime(String stringDateTime) {
   int year = int.parse(dateParts[2]);
   return DateTime(year, month, day);
 }
+
+DateTime getLastDayOfMonth(DateTime date) {
+  return DateTime(date.year, date.month + 1, 0);
+}
+
+bool isCurrentMonth(DateTime date) {
+  return date.month == DateTime.now().month && date.year == DateTime.now().year;
+}
+
+int getDaysToEndOfMonth() {
+  DateTime today = DateTime.now();
+  return getLastDayOfMonth(today).day - today.day;
+}

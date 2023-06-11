@@ -15,14 +15,18 @@ class CourtScreen extends StatefulWidget {
   List<CourtAvailableHours>? courtAvailableHours;
   HourPrice? selectedHourPrice;
   DateTime? selectedDate;
+  int? selectedWeekday;
   Sport? selectedSport;
+  bool? isRecurrent;
 
   CourtScreen({
     required this.store,
     this.courtAvailableHours,
     this.selectedHourPrice,
     this.selectedDate,
+    this.selectedWeekday,
     this.selectedSport,
+    this.isRecurrent,
   });
 
   @override
@@ -39,7 +43,9 @@ class _CourtScreenState extends State<CourtScreen> {
       widget.courtAvailableHours,
       widget.selectedHourPrice,
       widget.selectedDate,
+      widget.selectedWeekday,
       widget.selectedSport,
+      widget.isRecurrent,
     );
     super.initState();
   }

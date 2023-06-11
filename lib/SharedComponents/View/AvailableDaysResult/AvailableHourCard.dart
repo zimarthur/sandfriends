@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableHour.dart';
 
-import '../../../../Utils/Constants.dart';
-import '../../../Court/Model/HourPrice.dart';
+import '../../../Utils/Constants.dart';
+import '../../../Features/Court/Model/HourPrice.dart';
 
 class AvailableHourCard extends StatefulWidget {
   HourPrice hourPrice;
   Function(HourPrice) onTap;
   bool isSelected;
+  bool isRecurrent;
 
   AvailableHourCard({
     required this.hourPrice,
     required this.onTap,
     required this.isSelected,
+    required this.isRecurrent,
   });
 
   @override
@@ -32,10 +34,14 @@ class _AvailableHourCardState extends State<AvailableHourCard> {
         child: Container(
           width: 80,
           decoration: BoxDecoration(
-            color: widget.isSelected ? primaryBlue : secondaryPaper,
+            color: widget.isSelected
+                ? widget.isRecurrent
+                    ? primaryLightBlue
+                    : primaryBlue
+                : secondaryPaper,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: primaryBlue,
+              color: widget.isRecurrent ? primaryLightBlue : primaryBlue,
               width: 1,
             ),
           ),
@@ -48,7 +54,11 @@ class _AvailableHourCardState extends State<AvailableHourCard> {
                   children: [
                     SvgPicture.asset(
                       r"assets\icon\clock.svg",
-                      color: widget.isSelected ? textWhite : primaryBlue,
+                      color: widget.isSelected
+                          ? textWhite
+                          : widget.isRecurrent
+                              ? primaryLightBlue
+                              : primaryBlue,
                     ),
                     SizedBox(
                       width: 5,
@@ -59,7 +69,11 @@ class _AvailableHourCardState extends State<AvailableHourCard> {
                         child: Text(
                           widget.hourPrice.hour.hourString,
                           style: TextStyle(
-                            color: widget.isSelected ? textWhite : primaryBlue,
+                            color: widget.isSelected
+                                ? textWhite
+                                : widget.isRecurrent
+                                    ? primaryLightBlue
+                                    : primaryBlue,
                           ),
                         ),
                       ),
@@ -71,7 +85,11 @@ class _AvailableHourCardState extends State<AvailableHourCard> {
                   children: [
                     SvgPicture.asset(
                       r"assets\icon\payment.svg",
-                      color: widget.isSelected ? textWhite : primaryBlue,
+                      color: widget.isSelected
+                          ? textWhite
+                          : widget.isRecurrent
+                              ? primaryLightBlue
+                              : primaryBlue,
                     ),
                     SizedBox(
                       width: 5,
@@ -82,7 +100,11 @@ class _AvailableHourCardState extends State<AvailableHourCard> {
                         child: Text(
                           "${widget.hourPrice.price}/h",
                           style: TextStyle(
-                            color: widget.isSelected ? textWhite : textBlue,
+                            color: widget.isSelected
+                                ? textWhite
+                                : widget.isRecurrent
+                                    ? primaryLightBlue
+                                    : primaryBlue,
                           ),
                         ),
                       ),

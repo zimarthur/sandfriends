@@ -434,7 +434,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                             "Horário:",
                                           ),
                                           Text(
-                                            "${currentMatch!.timeBegin} - ${currentMatch!.timeFinish}",
+                                            "${currentMatch!.timeBegin} - ${currentMatch!.timeBegin.hourString}",
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w700,
                                             ),
@@ -1395,7 +1395,7 @@ class _MatchScreenState extends State<MatchScreen> {
         final responseMatch = responseBody['Match'];
         final responseUsersMatchCounter = responseBody['UsersMatchCounter'];
 
-        currentMatch = AppMatch.fromJson(responseMatch);
+        currentMatch = AppMatch.fromJson(responseMatch, [], []);
 
         isUserInMatch = false;
         for (int i = 0; i < currentMatch!.members.length; i++) {
@@ -1439,7 +1439,7 @@ class _MatchScreenState extends State<MatchScreen> {
 
         if ((currentMatch!.date.isBefore(DateTime.now())) ||
             ((currentMatch!.date.day == DateTime.now().day) &&
-                (currentMatch!.timeInt < DateTime.now().hour)) ||
+                (currentMatch!.timeBegin.hour < DateTime.now().hour)) ||
             (currentMatch!.canceled == true)) {
           matchExpired = true;
         }

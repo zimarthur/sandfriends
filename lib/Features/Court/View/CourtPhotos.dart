@@ -8,11 +8,13 @@ class CourtPhotos extends StatefulWidget {
   int selectedPhotoIndex;
   Function(int) onSelectedPhotoChanged;
   List<String> imagesUrl;
+  Color themeColor;
 
   CourtPhotos({
     required this.selectedPhotoIndex,
     required this.onSelectedPhotoChanged,
     required this.imagesUrl,
+    required this.themeColor,
   });
 
   @override
@@ -91,7 +93,7 @@ class _CourtPhotosState extends State<CourtPhotos> {
                   ),
                   child: ClipOval(
                     child: Container(
-                      color: isIndex ? primaryBlue : secondaryBack,
+                      color: isIndex ? widget.themeColor : secondaryBack,
                       height: width * 0.02,
                       width: width * 0.02,
                     ),

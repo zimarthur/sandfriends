@@ -16,6 +16,12 @@ class _RecurrentMatchesScreenState extends State<RecurrentMatchesScreen> {
   final viewModel = RecurrentMatchesViewModel();
 
   @override
+  void initState() {
+    viewModel.initRecurrentMatches(context);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<RecurrentMatchesViewModel>(
       create: (BuildContext context) => viewModel,

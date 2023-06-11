@@ -36,7 +36,7 @@ class UserProvider extends ChangeNotifier {
         int compare = b.date.compareTo(a.date);
 
         if (compare == 0) {
-          return b.timeInt.compareTo(a.timeInt);
+          return b.timeBegin.hour.compareTo(a.timeBegin.hour);
         } else {
           return compare;
         }
@@ -68,7 +68,7 @@ class UserProvider extends ChangeNotifier {
         int compare = a.date.compareTo(b.date);
 
         if (compare == 0) {
-          return a.timeInt.compareTo(b.timeInt);
+          return a.timeBegin.hour.compareTo(b.timeBegin.hour);
         } else {
           return compare;
         }
@@ -77,28 +77,25 @@ class UserProvider extends ChangeNotifier {
     return filteredList;
   }
 
-  List<AppRecurrentMatch> _recurrentMatches = [
-    // AppRecurrentMatch(
-    //   idRecurrentMatch: 1,
-    //   creationDate: DateFormat('yyyy-MM-dd').parse("2023-05-01"),
-    //   lastPaymentDate: DateFormat('yyyy-MM-dd').parse("2023-05-01"),
-    //   weekday: 2,
-    //   timeBegin: "10:00",
-    //   timeEnd: "11:00",
-    //   court: Court(
-    //     idStoreCourt: 1,
-    //     storeCourtName: "quadra 1",
-    //     isIndoor: true,
-    //   ),
-    //   recurrentMatchesCounter: 50,
-    // )
-  ];
+  List<AppRecurrentMatch> _recurrentMatches = [];
   List<AppRecurrentMatch> get recurrentMatches => _recurrentMatches;
 
-  int _openMatchesCounter = 0;
-  int get openMatchesCounter => _openMatchesCounter;
-  set openMatchesCounter(int value) {
-    _openMatchesCounter = value;
+  void addRecurrentMatch(AppRecurrentMatch newRecurrentMatch) {
+    _recurrentMatches.add(newRecurrentMatch);
+    notifyListeners();
+  }
+
+  final List<AppMatch> _openMatches = [];
+  List<AppMatch> get openMatches {
+    _openMatches.sort(
+      (a, b) => a.date.compareTo(b.date),
+    );
+    return _openMatches;
+  }
+
+  void addOpenMatch(AppMatch newMatch) {
+    _openMatches.add(newMatch);
+    notifyListeners();
   }
 
   Reward? _userReward;
@@ -135,8 +132,9 @@ class UserProvider extends ChangeNotifier {
 
   void clear() {
     _matches.clear();
+    _recurrentMatches.clear();
     _notifications.clear();
-    _openMatchesCounter = 0;
+    _openMatches.clear();
     _userReward = null;
     notifyListeners();
   }

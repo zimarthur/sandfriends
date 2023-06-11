@@ -354,11 +354,11 @@ class _RecurrentMatchScreenState extends State<RecurrentMatchScreen> {
         Map<String, dynamic> responseBody = json.decode(response.body);
         final responseRecurrentMatches = responseBody["RecurrentMatches"];
 
-        for (int i = 0; i < responseRecurrentMatches.length; i++) {
-          Provider.of<RecurrentMatchProvider>(context, listen: false)
-              .recurrentMatchesList
-              .add(AppRecurrentMatch.fromJson(responseRecurrentMatches[i]));
-        }
+        // for (int i = 0; i < responseRecurrentMatches.length; i++) {
+        //   Provider.of<RecurrentMatchProvider>(context, listen: false)
+        //       .recurrentMatchesList
+        //       .add(AppRecurrentMatch.fromJson(responseRecurrentMatches[i]));
+        // }
 
         setState(() {
           isLoading = false;

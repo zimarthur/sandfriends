@@ -7,8 +7,10 @@ import '../../../Utils/UrlLauncher.dart';
 
 class CourtContact extends StatefulWidget {
   Store store;
+  Color themeColor;
   CourtContact({
     required this.store,
+    required this.themeColor,
   });
 
   @override
@@ -28,7 +30,8 @@ class _CourtContactState extends State<CourtContact> {
               vertical: height * 0.02, horizontal: width * 0.02),
           child: Text(
             "Contato",
-            style: TextStyle(color: primaryBlue, fontWeight: FontWeight.w700),
+            style: TextStyle(
+                color: widget.themeColor, fontWeight: FontWeight.w700),
           ),
         ),
         CourtContactItem(
@@ -40,21 +43,28 @@ class _CourtContactState extends State<CourtContact> {
                 "https://wa.me/${widget.store.phone}");
             UrlLauncher(url);
           },
+          themeColor: widget.themeColor,
         ),
-        Padding(
-          padding: EdgeInsets.only(
-            top: height * 0.02,
+        if (widget.store.instagram.isNotEmpty)
+          Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  top: height * 0.02,
+                ),
+              ),
+              CourtContactItem(
+                title: widget.store.instagram,
+                iconPath: r'assets\icon\instagram.svg',
+                onTap: () {
+                  final url = Uri.parse(
+                      'https://www.instagram.com/${widget.store.instagram}');
+                  UrlLauncher(url);
+                },
+                themeColor: widget.themeColor,
+              ),
+            ],
           ),
-        ),
-        CourtContactItem(
-          title: widget.store.instagram,
-          iconPath: r'assets\icon\instagram.svg',
-          onTap: () {
-            final url = Uri.parse(
-                'https://www.instagram.com/${widget.store.instagram}');
-            UrlLauncher(url);
-          },
-        ),
       ],
     );
   }

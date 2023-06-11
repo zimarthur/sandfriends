@@ -7,11 +7,13 @@ class CourtContactItem extends StatefulWidget {
   String title;
   String iconPath;
   VoidCallback onTap;
+  Color themeColor;
 
   CourtContactItem({
     required this.title,
     required this.iconPath,
     required this.onTap,
+    required this.themeColor,
   });
 
   @override
@@ -31,9 +33,10 @@ class _CourtContactItemState extends State<CourtContactItem> {
           width: double.infinity,
           height: height * 0.06,
           decoration: BoxDecoration(
-            color: primaryBlue.withOpacity(0.2),
+            color: widget.themeColor.withOpacity(0.2),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: primaryBlue.withOpacity(0.4), width: 1),
+            border:
+                Border.all(color: widget.themeColor.withOpacity(0.4), width: 1),
           ),
           child: Row(
             children: [
@@ -43,7 +46,7 @@ class _CourtContactItemState extends State<CourtContactItem> {
                   widget.iconPath,
                   height: height * 0.03,
                   width: height * 0.03,
-                  color: primaryBlue,
+                  color: widget.themeColor,
                 ),
               ),
               SizedBox(
@@ -53,7 +56,7 @@ class _CourtContactItemState extends State<CourtContactItem> {
                   child: Text(
                     widget.title,
                     style: TextStyle(
-                      color: primaryBlue,
+                      color: widget.themeColor,
                     ),
                   ),
                 ),

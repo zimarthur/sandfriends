@@ -8,9 +8,11 @@ import '../../../oldApp/widgets/SFAvatar.dart';
 import '../../../oldApp/widgets/SF_Button.dart';
 
 class OpenMatchCard extends StatefulWidget {
+  bool isReduced;
   AppMatch match;
   Function(String) onTap;
   OpenMatchCard({
+    required this.isReduced,
     required this.match,
     required this.onTap,
   });
@@ -31,7 +33,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
       padding: EdgeInsets.all(
         width * 0.03,
       ),
-      width: width * 0.6,
+      width: widget.isReduced ? width * 0.6 : width * 0.9,
       decoration: BoxDecoration(
         color: secondaryPaper,
         borderRadius: BorderRadius.circular(16),
@@ -58,9 +60,10 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                 Column(
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          width: width * 0.2,
+                          width: 60,
                           child: SFAvatar(
                             height: 60,
                             showRank: true,
@@ -69,63 +72,79 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                             sport: widget.match.sport,
                           ),
                         ),
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.centerLeft,
-                            child: FittedBox(
-                              child: Text(
-                                "Partida de\n${widget.match.matchCreator.firstName}",
-                                style: TextStyle(
-                                  color: primaryBlue,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          width: width * 0.2,
+                        SizedBox(
+                          width: defaultPadding / 2,
                         ),
                         Expanded(
-                          child: Container(
-                            height: 30,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: width * 0.02,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Color(int.parse(
-                                  "0xFF${widget.match.matchRank.color.replaceAll("#", "")}")),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  r'assets\icon\users.svg',
-                                  color: textWhite,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(right: width * 0.02),
-                                ),
-                                Expanded(
-                                  child: FittedBox(
-                                    child: Text(
-                                      widget.match.remainingSlots == 1
-                                          ? "resta 1 vaga"
-                                          : "restam ${widget.match.remainingSlots} vagas",
-                                      style: TextStyle(
-                                        color: textWhite,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    fit: BoxFit.fitWidth,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  widget.isReduced
+                                      ? "Partida de\n${widget.match.matchCreator.firstName}"
+                                      : "Partida de ${widget.match.matchCreator.firstName}",
+                                  style: TextStyle(
+                                    color: primaryBlue,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              SizedBox(
+                                height: defaultPadding / 2,
+                              ),
+                              Container(
+                                height: 30,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: width * 0.02,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Color(int.parse(
+                                      "0xFF${widget.match.matchRank.color.replaceAll("#", "")}")),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SvgPicture.asset(
+                                      r'assets\icon\users.svg',
+                                      color: textWhite,
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.only(right: width * 0.02),
+                                    ),
+                                    widget.isReduced
+                                        ? Expanded(
+                                            child: FittedBox(
+                                              child: Text(
+                                                widget.match.remainingSlots == 1
+                                                    ? "resta 1 vaga"
+                                                    : "restam ${widget.match.remainingSlots} vagas",
+                                                style: TextStyle(
+                                                  color: textWhite,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                                maxLines: 1,
+                                              ),
+                                              fit: BoxFit.fitWidth,
+                                            ),
+                                          )
+                                        : Text(
+                                            widget.match.remainingSlots == 1
+                                                ? "resta 1 vaga"
+                                                : "restam ${widget.match.remainingSlots} vagas",
+                                            style: TextStyle(
+                                              color: textWhite,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                            maxLines: 1,
+                                          ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -142,9 +161,10 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                       padding: EdgeInsets.only(right: width * 0.01),
                     ),
                     Text(
-                      widget.match.matchCreator.ranks.first.name,
+                      "${widget.match.matchCreator.ranks.first.name} - ${widget.match.sport.description}",
                       style: TextStyle(
-                        color: primaryBlue,
+                        color: Color(int.parse(
+                            "0xFF${widget.match.matchRank.color.replaceAll("#", "")}")),
                       ),
                     ),
                   ],
@@ -179,7 +199,9 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                           padding: EdgeInsets.only(right: width * 0.01),
                         ),
                         Text(
-                          widget.match.timeBegin,
+                          widget.isReduced
+                              ? widget.match.timeBegin.hourString
+                              : "${widget.match.timeBegin.hourString} - ${widget.match.timeEnd.hourString}",
                           style: TextStyle(
                             color: primaryBlue,
                           ),
@@ -198,7 +220,9 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                       padding: EdgeInsets.only(right: width * 0.01),
                     ),
                     Text(
-                      widget.match.court.store!.name,
+                      widget.isReduced
+                          ? widget.match.court.store!.name
+                          : "${widget.match.court.store!.name} - ${widget.match.court.storeCourtName}",
                       style: TextStyle(
                         color: primaryBlue,
                       ),
@@ -209,6 +233,8 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                   buttonLabel: "Quero jogar",
                   isPrimary: false,
                   iconPath: r'assets\icon\user_plus.svg',
+                  textPadding:
+                      EdgeInsets.symmetric(vertical: defaultPadding / 4),
                   onTap: () => widget.onTap(widget.match.matchUrl),
                 ),
               ],

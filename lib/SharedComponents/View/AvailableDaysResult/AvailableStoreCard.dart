@@ -1,27 +1,32 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends/Features/MatchSearch/View/AvailableDayCard/AvailableHourCard.dart';
+import 'package:sandfriends/SharedComponents/View/AvailableDaysResult/AvailableHourCard.dart';
 import 'package:sandfriends/Features/MatchSearch/ViewModel/MatchSearchViewModel.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableHour.dart';
 import 'package:sandfriends/Utils/Heros.dart';
 
-import '../../../../SharedComponents/Model/AvailableStore.dart';
-import '../../../../SharedComponents/View/SFLoading.dart';
-import '../../../../Utils/Constants.dart';
-import '../../../../oldApp/widgets/SF_Button.dart';
+import '../../Model/AvailableStore.dart';
+import '../../Model/Store.dart';
+import '../SFLoading.dart';
+import '../../../Utils/Constants.dart';
+import '../../../oldApp/widgets/SF_Button.dart';
 
 class AvailableStoreCard extends StatefulWidget {
   AvailableStore availableStore;
-  Function(AvailableStore) onTap;
-  MatchSearchViewModel viewModel;
+  AvailableHour? selectedAvailableHour;
+  Function(AvailableStore) onTapHour;
+  Function(Store) onGoToCourt;
   bool selectedParent;
+  bool isRecurrent;
 
   AvailableStoreCard({
     required this.availableStore,
-    required this.onTap,
-    required this.viewModel,
+    required this.selectedAvailableHour,
+    required this.onTapHour,
+    required this.onGoToCourt,
     required this.selectedParent,
+    required this.isRecurrent,
   });
 
   @override
@@ -98,14 +103,18 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 18,
-                            color: primaryBlue,
+                            color: widget.isRecurrent
+                                ? primaryLightBlue
+                                : primaryBlue,
                           ),
                         ),
                         Row(
                           children: [
                             SvgPicture.asset(
                               r"assets\icon\location_ping.svg",
-                              color: primaryBlue,
+                              color: widget.isRecurrent
+                                  ? primaryLightBlue
+                                  : primaryBlue,
                             ),
                             SizedBox(
                               width: width * 0.01,
@@ -115,7 +124,9 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 10,
-                                color: primaryBlue,
+                                color: widget.isRecurrent
+                                    ? primaryLightBlue
+                                    : primaryBlue,
                               ),
                             ),
                           ],
@@ -171,15 +182,16 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                           availableHours: avHourList,
                           store: widget.availableStore.store,
                         );
-                        widget.onTap(availableStore);
+                        widget.onTapHour(availableStore);
                       },
                       isSelected: !widget.selectedParent ||
-                              widget.viewModel.selectedHour == null ||
-                              widget.viewModel.selectedHour!.hour.hour !=
+                              widget.selectedAvailableHour == null ||
+                              widget.selectedAvailableHour!.hour.hour !=
                                   widget.availableStore.availableHours[index]
                                       .hour.hour
                           ? false
                           : true,
+                      isRecurrent: widget.isRecurrent,
                     ),
                   );
                 }),
@@ -190,12 +202,15 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                   horizontal: width * 0.03, vertical: height * 0.01),
               child: SFButton(
                 buttonLabel: "Prosseguir",
-                color: textDisabled,
+                color: widget.selectedParent
+                    ? widget.isRecurrent
+                        ? primaryLightBlue
+                        : primaryBlue
+                    : textDisabled,
                 textPadding: const EdgeInsets.symmetric(vertical: 5),
                 onTap: () {
                   if (widget.selectedParent) {
-                    widget.viewModel.goToCourt(
-                      context,
+                    widget.onGoToCourt(
                       widget.availableStore.store,
                     );
                   }

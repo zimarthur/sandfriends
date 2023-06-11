@@ -1,5 +1,5 @@
 abstract class BaseApiService {
-  final String sandfriendsUrl = "https://www.sandfriends.com.br/";
+  final String sandfriendsUrl = "https://www.sandfriends.com.br";
 
   Future<dynamic> getResponse(String baseUrl, String aditionalUrl);
   Future<dynamic> postResponse(

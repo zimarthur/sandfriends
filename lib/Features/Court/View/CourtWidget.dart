@@ -8,14 +8,13 @@ import 'package:sandfriends/Features/Court/View/CourtAvailableCourts.dart';
 import 'package:sandfriends/Features/Court/View/CourtContact.dart';
 import 'package:sandfriends/Features/Court/View/CourtDescription.dart';
 import 'package:sandfriends/Features/Court/View/CourtPhotos.dart';
-import 'package:sandfriends/Utils/Heros.dart';
 
 import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
 import '../../../Utils/Constants.dart';
 import '../../../Utils/UrlLauncher.dart';
 import '../../../oldApp/widgets/SF_Button.dart';
-import '../../MatchSearch/View/AvailableDayCard/AvailableHourCard.dart';
+import '../../../SharedComponents/View/AvailableDaysResult/AvailableHourCard.dart';
 import '../ViewModel/CourtViewModel.dart';
 import 'CourtMap.dart';
 
@@ -34,6 +33,10 @@ class _CourtWidgetState extends State<CourtWidget> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    Color themeColor = widget.viewModel.courtAvailableHours.isNotEmpty &&
+            widget.viewModel.isRecurrent!
+        ? primaryLightBlue
+        : primaryBlue;
     return Stack(
       children: [
         ListView(
@@ -42,18 +45,19 @@ class _CourtWidgetState extends State<CourtWidget> {
             Stack(
               children: [
                 SizedBox(
-                  height: height * 0.40,
+                  height: width / 1.7,
                   width: width,
                   child: CourtPhotos(
                     selectedPhotoIndex: widget.viewModel.selectedPhotoIndex,
                     onSelectedPhotoChanged: (newIndex) =>
                         widget.viewModel.onSelectedPhotoChanged(newIndex),
                     imagesUrl: widget.viewModel.store.photos,
+                    themeColor: themeColor,
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.only(
-                    top: height * 0.35,
+                    top: width / 2,
                   ),
                   padding: EdgeInsets.symmetric(
                     horizontal: width * 0.05,
@@ -72,28 +76,25 @@ class _CourtWidgetState extends State<CourtWidget> {
                       height: height * 0.2,
                       child: Row(
                         children: [
-                          Hero(
-                            tag: heroStorePhoto,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16.0),
-                              child: CachedNetworkImage(
-                                imageUrl: widget.viewModel.store.imageUrl,
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(16.0),
+                            child: CachedNetworkImage(
+                              imageUrl: widget.viewModel.store.imageUrl,
+                              height: height * 0.13,
+                              width: height * 0.13,
+                              placeholder: (context, url) => Container(
                                 height: height * 0.13,
                                 width: height * 0.13,
-                                placeholder: (context, url) => Container(
-                                  height: height * 0.13,
-                                  width: height * 0.13,
-                                  child: Center(
-                                    child: SFLoading(),
-                                  ),
+                                child: Center(
+                                  child: SFLoading(),
                                 ),
-                                errorWidget: (context, url, error) => Container(
-                                  height: height * 0.13,
-                                  width: height * 0.13,
-                                  color: textLightGrey.withOpacity(0.5),
-                                  child: Center(
-                                    child: Icon(Icons.dangerous),
-                                  ),
+                              ),
+                              errorWidget: (context, url, error) => Container(
+                                height: height * 0.13,
+                                width: height * 0.13,
+                                color: textLightGrey.withOpacity(0.5),
+                                child: Center(
+                                  child: Icon(Icons.dangerous),
                                 ),
                               ),
                             ),
@@ -114,7 +115,7 @@ class _CourtWidgetState extends State<CourtWidget> {
                                       child: Text(
                                         widget.viewModel.store.name,
                                         style: TextStyle(
-                                          color: primaryBlue,
+                                          color: themeColor,
                                           fontWeight: FontWeight.w700,
                                         ),
                                       ),
@@ -125,7 +126,7 @@ class _CourtWidgetState extends State<CourtWidget> {
                                       children: [
                                         SvgPicture.asset(
                                           r'assets\icon\location_ping.svg',
-                                          color: primaryBlue,
+                                          color: themeColor,
                                           width: 15,
                                         ),
                                         Padding(
@@ -135,7 +136,7 @@ class _CourtWidgetState extends State<CourtWidget> {
                                           child: Text(
                                             "${widget.viewModel.store.completeAddress}",
                                             style: TextStyle(
-                                              color: primaryBlue,
+                                              color: themeColor,
                                             ),
                                           ),
                                         ),
@@ -156,6 +157,7 @@ class _CourtWidgetState extends State<CourtWidget> {
             if (widget.viewModel.courtAvailableHours.isNotEmpty)
               CourtAvailableCourts(
                 viewModel: widget.viewModel,
+                themeColor: themeColor,
               ),
             Container(
               color: textLightGrey,
@@ -165,6 +167,7 @@ class _CourtWidgetState extends State<CourtWidget> {
             ),
             CourtDescription(
               description: widget.viewModel.store.descriptionText,
+              themeColor: themeColor,
             ),
             Padding(
               padding: EdgeInsets.only(top: height * 0.02),
@@ -178,6 +181,7 @@ class _CourtWidgetState extends State<CourtWidget> {
             ),
             CourtContact(
               store: widget.viewModel.store,
+              themeColor: themeColor,
             ),
             Container(
               height: height * 0.15,
@@ -197,7 +201,7 @@ class _CourtWidgetState extends State<CourtWidget> {
                   BoxDecoration(color: secondaryBack, shape: BoxShape.circle),
               child: SvgPicture.asset(
                 r'assets\icon\arrow_left.svg',
-                color: primaryBlue,
+                color: themeColor,
               ),
             ),
           ),
@@ -253,8 +257,13 @@ class _CourtWidgetState extends State<CourtWidget> {
                         buttonLabel: "Agendar",
                         color: secondaryYellow,
                         textPadding: EdgeInsets.all(width * 0.03),
-                        onTap: () =>
-                            widget.viewModel.courtReservation(context)),
+                        onTap: () {
+                          if (widget.viewModel.isRecurrent!) {
+                            widget.viewModel.recurrentMatchReservation(context);
+                          } else {
+                            widget.viewModel.matchReservation(context);
+                          }
+                        }),
                   ),
                 ],
               ),

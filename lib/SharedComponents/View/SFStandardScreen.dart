@@ -55,7 +55,7 @@ class _SFStandardScreenState extends State<SFStandardScreen> {
         backgroundColor: widget.appBarType == AppBarType.Primary
             ? primaryBlue
             : widget.appBarType == AppBarType.PrimaryLightBlue
-                ? secondaryLightBlue
+                ? primaryLightBlue
                 : secondaryBack,
         body: SafeArea(
           top: widget.enableToolbar,

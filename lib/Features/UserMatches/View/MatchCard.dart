@@ -137,7 +137,7 @@ class MatchCard extends StatelessWidget {
                                 padding: EdgeInsets.only(right: width * 0.03),
                               ),
                               Text(
-                                "${match.timeBegin} - ${match.timeFinish}",
+                                "${match.timeBegin.hourString} - ${match.timeEnd.hourString}",
                                 style: TextStyle(
                                   color: textDarkGrey,
                                 ),

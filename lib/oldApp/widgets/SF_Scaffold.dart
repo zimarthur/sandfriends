@@ -47,7 +47,7 @@ class _SFScaffoldState extends State<SFScaffold> {
         backgroundColor: widget.appBarType == AppBarType.Primary
             ? AppTheme.colors.primaryBlue
             : widget.appBarType == AppBarType.PrimaryLightBlue
-                ? AppTheme.colors.secondaryLightBlue
+                ? AppTheme.colors.primaryLightBlue
                 : AppTheme.colors.secondaryBack,
         body: SafeArea(
           child: Stack(

@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/SharedComponents/Model/AppRecurrentMatch.dart';
+import 'package:sandfriends/SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/AppMatch.dart';
@@ -83,7 +85,8 @@ class HomeViewModel extends ChangeNotifier {
 
         final responseMatchCounter = responseBody['MatchCounter'];
         final responseMatches = responseBody['UserMatches'];
-        final openMatchesCounter = responseBody['OpenMatchesCounter'];
+        final responseRecurrentMatches = responseBody['UserRecurrentMatches'];
+        final responseOpenMatches = responseBody['OpenMatches'];
         final responseNotifications = responseBody['Notifications'];
         final responseRewards = responseBody['UserRewards'];
 
@@ -95,12 +98,31 @@ class HomeViewModel extends ChangeNotifier {
           Provider.of<UserProvider>(context, listen: false).addMatch(
             AppMatch.fromJson(
               match,
+              Provider.of<CategoriesProvider>(context, listen: false).hours,
+              Provider.of<CategoriesProvider>(context, listen: false).sports,
             ),
           );
         }
 
-        Provider.of<UserProvider>(context, listen: false).openMatchesCounter =
-            openMatchesCounter;
+        for (var recurrentMatch in responseRecurrentMatches) {
+          Provider.of<UserProvider>(context, listen: false).addRecurrentMatch(
+            AppRecurrentMatch.fromJson(
+              recurrentMatch,
+              Provider.of<CategoriesProvider>(context, listen: false).hours,
+              Provider.of<CategoriesProvider>(context, listen: false).sports,
+            ),
+          );
+        }
+
+        for (var openMatch in responseOpenMatches) {
+          Provider.of<UserProvider>(context, listen: false).addOpenMatch(
+            AppMatch.fromJson(
+              openMatch,
+              Provider.of<CategoriesProvider>(context, listen: false).hours,
+              Provider.of<CategoriesProvider>(context, listen: false).sports,
+            ),
+          );
+        }
 
         Provider.of<UserProvider>(context, listen: false).userReward =
             Reward.fromJson(responseRewards['Reward']);
@@ -112,6 +134,8 @@ class HomeViewModel extends ChangeNotifier {
           Provider.of<UserProvider>(context, listen: false).addNotifications(
             AppNotification.fromJson(
               appNotification,
+              Provider.of<CategoriesProvider>(context, listen: false).hours,
+              Provider.of<CategoriesProvider>(context, listen: false).sports,
             ),
           );
         }

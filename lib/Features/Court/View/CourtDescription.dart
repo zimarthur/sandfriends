@@ -4,8 +4,10 @@ import '../../../Utils/Constants.dart';
 
 class CourtDescription extends StatelessWidget {
   String description;
+  Color themeColor;
   CourtDescription({
     required this.description,
+    required this.themeColor,
   });
 
   @override
@@ -20,7 +22,7 @@ class CourtDescription extends StatelessWidget {
               vertical: height * 0.01, horizontal: width * 0.02),
           child: Text(
             "Sobre a quadra",
-            style: TextStyle(color: primaryBlue, fontWeight: FontWeight.w700),
+            style: TextStyle(color: themeColor, fontWeight: FontWeight.w700),
           ),
         ),
         Padding(

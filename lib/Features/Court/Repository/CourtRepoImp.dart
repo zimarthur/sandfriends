@@ -12,7 +12,7 @@ class CourtRepoImp implements CourtRepo {
   final BaseApiService _apiService = NetworkApiService();
 
   @override
-  Future<NetworkResponse> courtReservation(
+  Future<NetworkResponse> matchReservation(
     String accessToken,
     int idStoreCourt,
     int sportId,
@@ -23,13 +23,41 @@ class CourtRepoImp implements CourtRepo {
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
-      ApiEndPoints().courtReservation,
+      ApiEndPoints().matchReservation,
       jsonEncode(
         <String, Object>{
           "AccessToken": accessToken,
           "IdStoreCourt": idStoreCourt,
           "SportId": sportId,
-          "Date": DateFormat('yyyy-MM-dd').format(date),
+          "Date": DateFormat('dd-MM-yyyy').format(date),
+          "TimeStart": timeBegin,
+          "TimeEnd": timeEnd,
+          "Cost": cost,
+        },
+      ),
+    );
+    return response;
+  }
+
+  @override
+  Future<NetworkResponse> recurrentMatchReservation(
+    String accessToken,
+    int idStoreCourt,
+    int sportId,
+    int weekday,
+    int timeBegin,
+    int timeEnd,
+    int cost,
+  ) async {
+    NetworkResponse response = await _apiService.postResponse(
+      _apiService.sandfriendsUrl,
+      ApiEndPoints().recurrentMatchReservation,
+      jsonEncode(
+        <String, Object>{
+          "AccessToken": accessToken,
+          "IdStoreCourt": idStoreCourt,
+          "SportId": sportId,
+          "Weekday": weekday,
           "TimeBegin": timeBegin,
           "TimeEnd": timeEnd,
           "Cost": cost,
