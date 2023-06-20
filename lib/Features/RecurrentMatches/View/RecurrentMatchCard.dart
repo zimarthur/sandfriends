@@ -4,10 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 import '../../../SharedComponents/Model/AppRecurrentMatch.dart';
+import '../../../SharedComponents/View/SFButton.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
 import '../../../Utils/Constants.dart';
 import '../../../Utils/SFDateTime.dart';
-import '../../../oldApp/widgets/SF_Button.dart';
 import 'RecurrentMatchCardDate.dart';
 
 class RecurrentMatchCard extends StatefulWidget {
@@ -169,15 +169,39 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                               ),
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w500,
-                                                color: getLastDayOfMonth(
-                                                                DateTime.now())
-                                                            .difference(
-                                                              DateTime.now(),
-                                                            )
-                                                            .inDays >
-                                                        10
-                                                    ? textDarkGrey
-                                                    : red,
+                                                color: (widget.recurrentMatch
+                                                                    .creationDate ==
+                                                                widget
+                                                                    .recurrentMatch
+                                                                    .lastPaymentDate &&
+                                                            getLastDayOfMonth(
+                                                                        DateTime
+                                                                            .now())
+                                                                    .difference(
+                                                                      DateTime
+                                                                          .now(),
+                                                                    )
+                                                                    .inDays <
+                                                                10) ||
+                                                        (widget.recurrentMatch
+                                                                    .creationDate !=
+                                                                widget
+                                                                    .recurrentMatch
+                                                                    .lastPaymentDate &&
+                                                            !isCurrentMonth(widget
+                                                                .recurrentMatch
+                                                                .lastPaymentDate) &&
+                                                            getLastDayOfMonth(
+                                                                        DateTime
+                                                                            .now())
+                                                                    .difference(
+                                                                      DateTime
+                                                                          .now(),
+                                                                    )
+                                                                    .inDays <
+                                                                10)
+                                                    ? red
+                                                    : textDarkGrey,
                                               ),
                                             ),
                                           ],
@@ -293,14 +317,14 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "Última Renovação:",
+                                      "Mensalista desde:",
                                       style: TextStyle(
                                         color: textDarkGrey,
                                       ),
                                     ),
                                     Text(
-                                      DateFormat("dd/MM/yyyy").format(widget
-                                          .recurrentMatch.lastPaymentDate),
+                                      DateFormat("dd/MM/yyyy").format(
+                                          widget.recurrentMatch.creationDate),
                                       style: TextStyle(
                                         color: textDarkGrey,
                                       ),

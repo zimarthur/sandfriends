@@ -31,4 +31,6 @@ class ApiEndPoints {
   final String leaveMatch = "/LeaveMatch";
   final String joinMatch = "/JoinMatch";
   final String saveOpenMatch = "/SaveOpenMatch";
+
+  final getUserRewards = "/UserRewardsHistory";
 }

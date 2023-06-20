@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../SharedComponents/View/SFButton.dart';
 import '../../../../Utils/Constants.dart';
-import '../../../../oldApp/widgets/SF_Button.dart';
 import '../ViewModel/LoginSignupViewModel.dart';
 
 class LoginSignupWidget extends StatefulWidget {

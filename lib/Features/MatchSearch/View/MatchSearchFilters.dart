@@ -3,8 +3,8 @@ import 'package:sandfriends/Utils/SFDateTime.dart';
 import 'package:time_range/time_range.dart';
 
 import '../../../SharedComponents/Model/City.dart';
+import '../../../SharedComponents/View/SFButton.dart';
 import '../../../Utils/Constants.dart';
-import '../../../oldApp/widgets/SF_Button.dart';
 import '../ViewModel/MatchSearchViewModel.dart';
 import 'SFSearchFilter.dart';
 

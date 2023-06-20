@@ -15,9 +15,7 @@ import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
 import '../../../Utils/Constants.dart';
 import '../../../Utils/Validators.dart';
-import '../../../oldApp/widgets/SFAvatar.dart';
-import '../../../oldApp/widgets/SF_Button.dart';
-import '../../../oldApp/widgets/SF_TextField.dart';
+
 import '../ViewModel/MatchViewModel.dart';
 
 class MatchWidget extends StatefulWidget {

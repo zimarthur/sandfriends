@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
+import '../../../SharedComponents/View/SFAvatar.dart';
 import '../../../Utils/Constants.dart';
-import '../../../oldApp/widgets/SFAvatar.dart';
 import '../ViewModel/MatchViewModel.dart';
 
 class MembersSection extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_theme.dart';
+import '../../Utils/Constants.dart';
 
 class SFDropdown extends StatefulWidget {
   final String labelText;
@@ -30,21 +30,21 @@ class _SFDropdownState extends State<SFDropdown> {
       validator: widget.validator,
       decoration: InputDecoration(
         labelText: widget.controller == null ? null : widget.labelText,
-        labelStyle: TextStyle(color: AppTheme.colors.textDarkGrey),
-        fillColor: AppTheme.colors.secondaryPaper,
+        labelStyle: TextStyle(color: textDarkGrey),
+        fillColor: secondaryPaper,
         filled: true,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
             width: 2,
-            color: AppTheme.colors.divider,
+            color: divider,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
             width: 2,
-            color: AppTheme.colors.primaryBlue,
+            color: primaryBlue,
           ),
         ),
         errorBorder: OutlineInputBorder(
@@ -62,13 +62,13 @@ class _SFDropdownState extends State<SFDropdown> {
           ),
         ),
       ),
-      focusColor: AppTheme.colors.primaryBlue,
-      iconEnabledColor: AppTheme.colors.primaryBlue,
+      focusColor: primaryBlue,
+      iconEnabledColor: primaryBlue,
       isExpanded: true,
       hint: Text(
         widget.labelText,
         style: TextStyle(
-          color: AppTheme.colors.textDarkGrey,
+          color: textDarkGrey,
           fontWeight: FontWeight.w300,
           fontSize: 14,
         ),
@@ -78,7 +78,7 @@ class _SFDropdownState extends State<SFDropdown> {
         widget.onChanged(newValue);
       },
       style: TextStyle(
-        color: AppTheme.colors.primaryBlue,
+        color: primaryBlue,
         fontWeight: FontWeight.w700,
         fontSize: 14,
       ),

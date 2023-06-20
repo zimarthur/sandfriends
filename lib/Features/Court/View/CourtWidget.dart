@@ -10,10 +10,10 @@ import 'package:sandfriends/Features/Court/View/CourtDescription.dart';
 import 'package:sandfriends/Features/Court/View/CourtPhotos.dart';
 
 import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../SharedComponents/View/SFButton.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
 import '../../../Utils/Constants.dart';
 import '../../../Utils/UrlLauncher.dart';
-import '../../../oldApp/widgets/SF_Button.dart';
 import '../../../SharedComponents/View/AvailableDaysResult/AvailableHourCard.dart';
 import '../ViewModel/CourtViewModel.dart';
 import 'CourtMap.dart';

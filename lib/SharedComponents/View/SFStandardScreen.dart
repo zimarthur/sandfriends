@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends/oldApp/widgets/Modal/SFModalMessageCopy.dart';
 import 'package:sandfriends/SharedComponents/View/SFToolbar.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 
 import '../../Utils/PageStatus.dart';
-import '../../oldApp/models/enums.dart';
+import '../Model/AppBarType.dart';
 import 'SFLoading.dart';
 import 'SFLoading.dart';
 import 'Modal/SFModalMessage.dart';

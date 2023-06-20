@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../SharedComponents/View/SFButton.dart';
+import '../../../../SharedComponents/View/SFTextField.dart';
 import '../../../../Utils/Constants.dart';
 import '../../../../Utils/Validators.dart';
-import '../../../../oldApp/widgets/SF_Button.dart';
-import '../../../../oldApp/widgets/SF_TextField.dart';
+
 import '../ViewModel/CreateAccountViewModel.dart';
 
 class CreateAccountWidget extends StatefulWidget {

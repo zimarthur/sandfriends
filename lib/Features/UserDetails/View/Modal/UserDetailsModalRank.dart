@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../../../../SharedComponents/Model/Rank.dart';
 import '../../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../SharedComponents/View/SFButton.dart';
 import '../../../../Utils/Constants.dart';
-import '../../../../oldApp/widgets/SF_Button.dart';
 import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalRank extends StatefulWidget {

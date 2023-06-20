@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 
-import '../../oldApp/models/enums.dart';
+import '../Model/AppBarType.dart';
 
 class SFToolbar extends StatefulWidget {
   final String titleText;

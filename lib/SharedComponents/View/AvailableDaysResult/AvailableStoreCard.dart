@@ -8,9 +8,9 @@ import 'package:sandfriends/Utils/Heros.dart';
 
 import '../../Model/AvailableStore.dart';
 import '../../Model/Store.dart';
+import '../SFButton.dart';
 import '../SFLoading.dart';
 import '../../../Utils/Constants.dart';
-import '../../../oldApp/widgets/SF_Button.dart';
 
 class AvailableStoreCard extends StatefulWidget {
   AvailableStore availableStore;

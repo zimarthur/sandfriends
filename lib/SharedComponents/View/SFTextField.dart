@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Utils/Constants.dart';
-import '../theme/app_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 enum TextFieldPourpose { Standard, Email, Password, Numeric, Multiline }
@@ -72,11 +71,11 @@ class _SFTextFieldState extends State<SFTextField> {
       ),
       decoration: InputDecoration(
         filled: true,
-        fillColor: AppTheme.colors.secondaryPaper,
+        fillColor: secondaryPaper,
         contentPadding: const EdgeInsets.all(16),
         labelText: widget.labelText,
         labelStyle: TextStyle(
-          color: AppTheme.colors.textDarkGrey,
+          color: textDarkGrey,
           fontWeight: FontWeight.w300,
           fontSize: 14,
         ),
@@ -106,7 +105,7 @@ class _SFTextFieldState extends State<SFTextField> {
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
             width: 2,
-            color: AppTheme.colors.divider,
+            color: divider,
           ),
         ),
         focusedBorder: OutlineInputBorder(

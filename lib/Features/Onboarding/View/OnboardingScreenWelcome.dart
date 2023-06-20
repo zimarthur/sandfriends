@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../SharedComponents/Model/AppBarType.dart';
+import '../../../SharedComponents/View/SFButton.dart';
 import '../../../SharedComponents/View/SFStandardScreen.dart';
 import '../../../Utils/Constants.dart';
-import '../../../oldApp/models/enums.dart';
-import '../../../oldApp/widgets/SF_Button.dart';
 import '../ViewModel/OnboardingViewModel.dart';
 
 class OnboardingWidgetWelcome extends StatefulWidget {

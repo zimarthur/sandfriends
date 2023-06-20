@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../SharedComponents/View/SFButton.dart';
 import '../../../Utils/Constants.dart';
-import '../../../oldApp/widgets/SF_Button.dart';
 import '../ViewModel/MatchViewModel.dart';
 
 class ActionSection extends StatefulWidget {

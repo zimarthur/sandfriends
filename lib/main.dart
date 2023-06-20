@@ -34,6 +34,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:uni_links/uni_links.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -61,19 +63,20 @@ class _MyAppState extends State<MyApp> {
   StreamSubscription? _streamSubscription;
 
   void _incomingLinkHandler() {
+    print("ArthurDebug _incomingLinkHandler");
     if (!kIsWeb) {
       _streamSubscription = uriLinkStream.listen((Uri? uri) {
         if (!mounted) {
           return;
         }
-
+        print("ArthurDebug _incomingLinkHandler URI: $uri");
         debugPrint('Received URI: $uri');
         setState(() {
           _currentURI = uri;
           _err = null;
           if (_currentURI!.queryParameters['ct'] == "mtch") {
-            Navigator.pushNamed(context,
-                '/match?id=${_currentURI!.queryParameters['bd'].toString()}');
+            navigatorKey.currentState?.pushNamed(
+                '/match/${_currentURI!.queryParameters['bd'].toString()}');
           }
         });
         // 3
@@ -95,6 +98,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _initURIHandler() async {
+    print("ArthurDebug _initURIHandler");
     if (!_initialURILinkHandled) {
       _initialURILinkHandled = true;
       try {
@@ -104,9 +108,11 @@ class _MyAppState extends State<MyApp> {
           if (!mounted) {
             return;
           }
+          print("ArthurDebug _initURIHandler URI: $initialURI");
+
           if (initialURI.queryParameters['ct'] == "mtch") {
-            Navigator.pushNamed(context,
-                '/match?id=${initialURI.queryParameters['bd'].toString()}');
+            navigatorKey.currentState?.pushNamed(
+                '/match/${initialURI.queryParameters['bd'].toString()}');
           }
         } else {}
       } on PlatformException {
@@ -158,6 +164,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: secondaryBack,
           fontFamily: "Lexend",
         ),
+        navigatorKey: navigatorKey,
         onGenerateRoute: (settings) {
           String match = "/match";
           String matchSearch = "/match_search";
@@ -185,6 +192,7 @@ class _MyAppState extends State<MyApp> {
             );
           } else if (settings.name!.startsWith(match)) {
             //match?id=123
+            print("ArthurDebug ${settings.name!}");
             final matchUrl = settings.name!.split(match)[1].split("/")[1];
             return MaterialPageRoute(
               builder: (context) {

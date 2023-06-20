@@ -3,9 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:sandfriends/SharedComponents/Model/AppMatch.dart';
 
+import '../../../SharedComponents/View/SFAvatar.dart';
+import '../../../SharedComponents/View/SFButton.dart';
 import '../../../Utils/Constants.dart';
-import '../../../oldApp/widgets/SFAvatar.dart';
-import '../../../oldApp/widgets/SF_Button.dart';
 
 class OpenMatchCard extends StatefulWidget {
   bool isReduced;

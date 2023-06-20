@@ -5,8 +5,8 @@ import 'package:sandfriends/Utils/Heros.dart';
 import 'package:sandfriends/Utils/SFDateTime.dart';
 
 import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
+import '../../../SharedComponents/View/SFButton.dart';
 import '../../../Utils/Constants.dart';
-import '../../../oldApp/widgets/SF_Button.dart';
 import '../ViewModel/RecurrentMatchesViewModel.dart';
 import 'RecurrentMatchCard.dart';
 

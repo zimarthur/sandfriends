@@ -1,3 +1,5 @@
+import '../../Remote/Url.dart';
+
 class Sport {
   final int idSport;
   final String description;
@@ -13,7 +15,7 @@ class Sport {
     return Sport(
       idSport: json['IdSport'],
       description: json['Description'],
-      photoUrl: json['SportPhoto'],
+      photoUrl: sandfriendsRequestsUrl + json['SportPhoto'],
     );
   }
 }

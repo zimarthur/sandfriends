@@ -4,9 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/SharedComponents/Model/MatchMember.dart';
 
 import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
+import '../../../SharedComponents/View/SFAvatar.dart';
+import '../../../SharedComponents/View/SFButton.dart';
 import '../../../Utils/Constants.dart';
-import '../../../oldApp/widgets/SFAvatar.dart';
-import '../../../oldApp/widgets/SF_Button.dart';
+
 import '../ViewModel/MatchViewModel.dart';
 
 class MemberCardModal extends StatefulWidget {

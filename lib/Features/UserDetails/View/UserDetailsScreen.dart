@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 
+import '../../../SharedComponents/Model/AppBarType.dart';
+import '../../../SharedComponents/View/SFButton.dart';
 import '../../../SharedComponents/View/SFStandardScreen.dart';
-import '../../../oldApp/models/enums.dart';
-import '../../../oldApp/widgets/SF_Button.dart';
 import '../ViewModel/UserDetailsViewModel.dart';
 import 'UserDetailsWidget.dart';
 

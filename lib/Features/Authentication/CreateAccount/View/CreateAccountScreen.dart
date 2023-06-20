@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../SharedComponents/Model/AppBarType.dart';
 import '../../../../SharedComponents/View/SFStandardScreen.dart';
-import '../../../../oldApp/models/enums.dart';
 import '../ViewModel/CreateAccountViewModel.dart';
 import 'CreateAccountWidget.dart';
 

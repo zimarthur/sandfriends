@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 import '../../../SharedComponents/Model/AppNotification.dart';
+import '../../../SharedComponents/View/SFAvatar.dart';
 import '../../../Utils/Constants.dart';
-import '../../../oldApp/widgets/SFAvatar.dart';
 
 class NotificationCard extends StatefulWidget {
   AppNotification notification;

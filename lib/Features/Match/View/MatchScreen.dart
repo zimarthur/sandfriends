@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 import 'package:sandfriends/Utils/PageStatus.dart';
 
+import '../../../SharedComponents/Model/AppBarType.dart';
 import '../../../SharedComponents/View/SFStandardScreen.dart';
-import '../../../oldApp/models/enums.dart';
 import '../ViewModel/MatchViewModel.dart';
 import 'MatchWidget.dart';
 

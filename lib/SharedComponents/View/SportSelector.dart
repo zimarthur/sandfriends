@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../Utils/Constants.dart';
-import '../../oldApp/widgets/SF_Button.dart';
 import '../Model/Sport.dart';
 import '../Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'SFButton.dart';
 
 class SportSelector extends StatelessWidget {
   bool isRecurrentMatch;

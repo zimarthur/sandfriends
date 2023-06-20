@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:time_range/time_range.dart';
 
 import '../../../Utils/Constants.dart';
-import '../../../oldApp/widgets/SF_Button.dart';
+import '../SFButton.dart';
 
 class TimeModal extends StatefulWidget {
   TimeRangeResult? timeRange;

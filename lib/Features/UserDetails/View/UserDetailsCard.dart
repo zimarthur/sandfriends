@@ -4,8 +4,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 
 import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
+import '../../../SharedComponents/View/SFAvatar.dart';
 import '../../../Utils/Constants.dart';
-import '../../../oldApp/widgets/SFAvatar.dart';
 import '../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsCard extends StatefulWidget {

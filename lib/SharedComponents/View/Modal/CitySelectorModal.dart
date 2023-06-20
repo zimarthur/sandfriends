@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/Utils/Constants.dart';
-import 'package:sandfriends/oldApp/widgets/SF_TextField.dart';
 
 import '../../Model/City.dart';
 import '../../Model/Region.dart';
+import '../SFTextField.dart';
 
 class CitySelectorModal extends StatefulWidget {
   List<Region> regions;

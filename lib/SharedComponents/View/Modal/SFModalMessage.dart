@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/Utils/PageStatus.dart';
-import 'package:sandfriends/oldApp/models/enums.dart';
 
-import '../../../oldApp/theme/app_theme.dart';
-import '../../../oldApp/widgets/SF_Button.dart';
+import '../../../Utils/Constants.dart';
+import '../SFButton.dart';
 
 class SFModalMessage extends StatefulWidget {
   final String message;
@@ -31,12 +30,10 @@ class _SFModalMessageState extends State<SFModalMessage> {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.colors.secondaryPaper,
+        color: secondaryPaper,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.colors.primaryDarkBlue, width: 1),
-        boxShadow: [
-          BoxShadow(blurRadius: 1, color: AppTheme.colors.primaryDarkBlue)
-        ],
+        border: Border.all(color: primaryDarkBlue, width: 1),
+        boxShadow: [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
       ),
       width: width * 0.9,
       padding: EdgeInsets.symmetric(
@@ -60,7 +57,7 @@ class _SFModalMessageState extends State<SFModalMessage> {
               widget.message,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: AppTheme.colors.primaryBlue,
+                color: primaryBlue,
                 fontWeight: FontWeight.w600,
               ),
             ),

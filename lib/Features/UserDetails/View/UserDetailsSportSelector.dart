@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../SharedComponents/View/SFDropDown.dart';
 import '../../../Utils/Constants.dart';
-import '../../../oldApp/widgets/SF_Dropdown.dart';
 import '../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsSportSelector extends StatefulWidget {

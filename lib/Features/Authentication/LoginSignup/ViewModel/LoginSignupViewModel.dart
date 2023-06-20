@@ -11,7 +11,6 @@ import '../../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../../Utils/PageStatus.dart';
 import '../../../../api/google_signin_api.dart';
 import '../../../../SharedComponents/Model/User.dart';
-import '../../../../oldApp/providers/categories_provider.dart';
 
 class LoginSignupViewModel extends ChangeNotifier {
   final loginSignupRepo = LoginSignupRempoImp();

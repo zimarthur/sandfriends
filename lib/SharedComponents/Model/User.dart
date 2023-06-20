@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:intl/intl.dart';
+import 'package:sandfriends/Remote/Url.dart';
 import 'package:sandfriends/SharedComponents/Model/City.dart';
 import 'package:sandfriends/SharedComponents/Model/MatchCounter.dart';
 import 'package:sandfriends/Utils/SFDateTime.dart';
@@ -89,7 +90,8 @@ class User {
       sidePreference: json['SidePreferenceCategory'] == null
           ? null
           : SidePreference.fromJson(json['SidePreferenceCategory']),
-      photo: json['Photo'],
+      photo:
+          json['Photo'] != null ? sandfriendsRequestsUrl + json['Photo'] : null,
     );
     for (int i = 0; i < json['Ranks'].length; i++) {
       newUser.ranks.add(Rank.fromJson(json['Ranks'][i]['RankCategory']));

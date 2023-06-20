@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Utils/SFDateTime.dart';
 
+import '../../../SharedComponents/View/SFButton.dart';
 import '../../../Utils/Constants.dart';
-import '../../../oldApp/widgets/SF_Button.dart';
 
 class WeekdayModal extends StatefulWidget {
   List<int> selectedWeekdays;

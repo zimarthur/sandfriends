@@ -1,3 +1,4 @@
+import 'package:sandfriends/Remote/Url.dart';
 import 'package:sandfriends/SharedComponents/Model/City.dart';
 
 import 'Court.dart';
@@ -45,13 +46,14 @@ class Store {
       city: City.fromJsonUser(json['City']),
       latitude: json['Latitude'],
       longitude: json['Longitude'],
-      imageUrl: json['Logo'],
+      imageUrl: sandfriendsRequestsUrl + json['Logo'],
       descriptionText: json['Description'],
       instagram: json['Instagram'],
       phone: json['PhoneNumber1'],
     );
     for (int i = 0; i < json['StorePhotos'].length; i++) {
-      newStore.photos.add(json['StorePhotos'][i]['Photo']);
+      newStore.photos
+          .add(sandfriendsRequestsUrl + json['StorePhotos'][i]['Photo']);
     }
     for (var court in json['Courts']) {
       newStore.courts.add(Court.fromJson(

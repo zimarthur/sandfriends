@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../oldApp/theme/app_theme.dart';
+import '../../../Utils/Constants.dart';
 
 class SFSearchFilter extends StatefulWidget {
   final String labelText;
@@ -31,7 +31,7 @@ class _SFSearchFilterState extends State<SFSearchFilter> {
           children: [
             SvgPicture.asset(
               widget.iconPath,
-              color: AppTheme.colors.secondaryPaper,
+              color: secondaryPaper,
             ),
             SizedBox(
               width: width * 0.02,
@@ -42,7 +42,7 @@ class _SFSearchFilterState extends State<SFSearchFilter> {
                   border: Border(
                     bottom: BorderSide(
                       width: 1.0,
-                      color: AppTheme.colors.secondaryPaper,
+                      color: secondaryPaper,
                     ),
                   ),
                 ),
@@ -55,14 +55,14 @@ class _SFSearchFilterState extends State<SFSearchFilter> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: AppTheme.colors.textWhite,
+                          color: textWhite,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
                     SvgPicture.asset(
                       r"assets\icon\arrow_down.svg",
-                      color: AppTheme.colors.secondaryPaper,
+                      color: secondaryPaper,
                     ),
                   ],
                 ),

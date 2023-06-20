@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
+import '../../../../SharedComponents/View/SFAvatar.dart';
 import '../../../../Utils/Constants.dart';
-import '../../../../oldApp/widgets/SFAvatar.dart';
 import '../../ViewModel/HomeViewModel.dart';
 import 'USerCardHomeItem.dart';
 

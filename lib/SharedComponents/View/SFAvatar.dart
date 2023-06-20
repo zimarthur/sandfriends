@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:sandfriends/oldApp/theme/app_theme.dart';
 import 'package:sandfriends/SharedComponents/View/SFLoading.dart';
 
 import '../../SharedComponents/Model/Sport.dart';
 import '../../SharedComponents/Model/User.dart';
+import '../../Utils/Constants.dart';
 
 class SFAvatar extends StatelessWidget {
   final double height;
@@ -37,7 +37,7 @@ class SFAvatar extends StatelessWidget {
           .first;
       if (selectedRank.color == "0") {
         rankTile = Colors.transparent;
-        avatarBackground = AppTheme.colors.primaryBlue;
+        avatarBackground = primaryBlue;
       } else {
         rankTile =
             Color(int.parse("0xFF${selectedRank.color.replaceAll("#", "")}"));
@@ -46,7 +46,7 @@ class SFAvatar extends StatelessWidget {
       }
     } else {
       rankTile = Colors.transparent;
-      avatarBackground = AppTheme.colors.primaryBlue;
+      avatarBackground = primaryBlue;
     }
 
     return InkWell(
@@ -55,7 +55,7 @@ class SFAvatar extends StatelessWidget {
         backgroundColor: rankTile,
         radius: height * 0.5,
         child: CircleAvatar(
-          backgroundColor: AppTheme.colors.secondaryPaper,
+          backgroundColor: secondaryPaper,
           radius: height * 0.45,
           child: CircleAvatar(
             backgroundColor: avatarBackground,
@@ -82,7 +82,7 @@ class SFAvatar extends StatelessWidget {
                           child: Text(
                             "${user.firstName![0].toUpperCase()}${user.lastName![0].toUpperCase()}",
                             style: TextStyle(
-                              color: AppTheme.colors.secondaryPaper,
+                              color: secondaryPaper,
                               fontWeight: FontWeight.w600,
                             ),
                           ),

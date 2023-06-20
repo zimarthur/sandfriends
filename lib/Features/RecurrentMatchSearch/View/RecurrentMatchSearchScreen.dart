@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/RecurrentMatchSearch/View/RecurrentMatchSearchWidget.dart';
 import 'package:sandfriends/Features/RecurrentMatchSearch/ViewModel/RecurrentMatchSearchViewModel.dart';
 
+import '../../../SharedComponents/Model/AppBarType.dart';
 import '../../../SharedComponents/View/SFStandardScreen.dart';
-import '../../../oldApp/models/enums.dart';
 
 class RecurrentMatchSearchScreen extends StatefulWidget {
   int sportId;
