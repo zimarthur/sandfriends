@@ -9,9 +9,9 @@ import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalName extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsModalName({
+  UserDetailsModalName({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<UserDetailsModalName> createState() => _UserDetailsModalNameState();

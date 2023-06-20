@@ -8,9 +8,9 @@ import '../ViewModel/NotificationsViewModel.dart';
 
 class NotificationsWidget extends StatefulWidget {
   NotificationsViewModel viewModel;
-  NotificationsWidget({
+  NotificationsWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<NotificationsWidget> createState() => _NotificationsWidgetState();

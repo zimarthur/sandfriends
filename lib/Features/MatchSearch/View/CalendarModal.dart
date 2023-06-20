@@ -8,10 +8,10 @@ class CalendarModal extends StatefulWidget {
   List<DateTime?> dateRange;
   Function(List<DateTime?>) onSubmit;
 
-  CalendarModal({
+  CalendarModal({Key? key, 
     required this.dateRange,
     required this.onSubmit,
-  });
+  }) : super(key: key);
 
   @override
   State<CalendarModal> createState() => _CalendarModalState();
@@ -36,7 +36,7 @@ class _CalendarModalState extends State<CalendarModal> {
         color: secondaryPaper,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: primaryDarkBlue, width: 1),
-        boxShadow: [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
+        boxShadow: const [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
       ),
       width: width * 0.9,
       child: Column(

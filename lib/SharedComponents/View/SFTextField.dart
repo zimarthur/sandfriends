@@ -18,7 +18,7 @@ class SFTextField extends StatefulWidget {
   final String? hintText;
   final Color themeColor;
 
-  const SFTextField({
+  const SFTextField({Key? key, 
     required this.labelText,
     this.prefixIcon,
     this.suffixIcon,
@@ -31,7 +31,7 @@ class SFTextField extends StatefulWidget {
     this.minLines,
     this.hintText,
     this.themeColor = primaryBlue,
-  });
+  }) : super(key: key);
 
   @override
   State<SFTextField> createState() => _SFTextFieldState();
@@ -74,7 +74,7 @@ class _SFTextFieldState extends State<SFTextField> {
         fillColor: secondaryPaper,
         contentPadding: const EdgeInsets.all(16),
         labelText: widget.labelText,
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: textDarkGrey,
           fontWeight: FontWeight.w300,
           fontSize: 14,
@@ -103,7 +103,7 @@ class _SFTextFieldState extends State<SFTextField> {
               ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             width: 2,
             color: divider,
           ),

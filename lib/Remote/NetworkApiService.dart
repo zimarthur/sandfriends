@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:sandfriends/Remote/NetworkResponse.dart';
@@ -41,7 +40,7 @@ class NetworkApiService extends BaseApiService {
             body: body,
           )
           .timeout(
-            Duration(
+            const Duration(
               seconds: 10,
             ),
           );

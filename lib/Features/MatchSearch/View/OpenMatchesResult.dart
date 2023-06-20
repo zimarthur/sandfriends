@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/Features/MatchSearch/View/MatchSearchResultTitle.dart';
 
 import '../../../Utils/Constants.dart';
@@ -8,9 +7,9 @@ import 'OpenMatchCard.dart';
 
 class OpenMatchesResult extends StatefulWidget {
   MatchSearchViewModel viewModel;
-  OpenMatchesResult({
+  OpenMatchesResult({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
   @override
   State<OpenMatchesResult> createState() => _OpenMatchesResultState();
 }
@@ -32,7 +31,7 @@ class _OpenMatchesResultState extends State<OpenMatchesResult> {
             ? Container(
                 height: 100,
                 alignment: Alignment.center,
-                child: Text(
+                child: const Text(
                   "Sem partidas abertas",
                   style: TextStyle(
                     color: textLightGrey,

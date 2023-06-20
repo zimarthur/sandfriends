@@ -7,6 +7,8 @@ import '../ViewModel/LoginViewModel.dart';
 import 'LoginWidget.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }

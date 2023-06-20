@@ -10,9 +10,9 @@ import '../../ViewModel/HomeViewModel.dart';
 
 class FeedNextMatches extends StatefulWidget {
   HomeViewModel viewModel;
-  FeedNextMatches({
+  FeedNextMatches({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
   @override
   State<FeedNextMatches> createState() => _FeedNextMatchesState();
 }
@@ -42,7 +42,7 @@ class _FeedNextMatchesState extends State<FeedNextMatches> {
                       right: width * 0.02,
                     ),
                   ),
-                  Text(
+                  const Text(
                     "Próximas Partidas",
                     style: TextStyle(
                       color: primaryBlue,
@@ -57,7 +57,7 @@ class _FeedNextMatchesState extends State<FeedNextMatches> {
         Container(
           width: width,
           height: 200,
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             vertical: 10,
           ),
           child: Provider.of<UserProvider>(context).nextMatches.isEmpty
@@ -73,7 +73,7 @@ class _FeedNextMatchesState extends State<FeedNextMatches> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Flexible(
+                      const Flexible(
                         child: Text(
                           "Você não tem nenhuma partida agendada",
                           style: TextStyle(
@@ -82,7 +82,7 @@ class _FeedNextMatchesState extends State<FeedNextMatches> {
                           ),
                         ),
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(top: 15),
                       ),
                       InkWell(
@@ -98,7 +98,7 @@ class _FeedNextMatchesState extends State<FeedNextMatches> {
                             ),
                             Padding(
                                 padding: EdgeInsets.only(right: width * 0.02)),
-                            Flexible(
+                            const Flexible(
                               child: Text(
                                 "Agende já seu horário",
                                 style: TextStyle(
@@ -122,7 +122,7 @@ class _FeedNextMatchesState extends State<FeedNextMatches> {
                   itemBuilder: (context, index) {
                     return Container(
                       width: width * 0.6,
-                      padding: EdgeInsets.only(bottom: 5),
+                      padding: const EdgeInsets.only(bottom: 5),
                       margin: index ==
                               Provider.of<UserProvider>(context)
                                       .nextMatches

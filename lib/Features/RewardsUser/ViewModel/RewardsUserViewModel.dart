@@ -8,7 +8,6 @@ import 'package:sandfriends/SharedComponents/Model/RewardUser.dart';
 import 'package:sandfriends/SharedComponents/Providers/UserProvider/UserProvider.dart';
 
 import '../../../Remote/NetworkResponse.dart';
-import '../../../SharedComponents/Model/Reward.dart';
 import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
 import '../Repository/RewardsUserRepoImp.dart';

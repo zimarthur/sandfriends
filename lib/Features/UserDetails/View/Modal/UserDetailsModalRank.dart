@@ -9,9 +9,9 @@ import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalRank extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsModalRank({
+  UserDetailsModalRank({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<UserDetailsModalRank> createState() => _UserDetailsModalRankState();

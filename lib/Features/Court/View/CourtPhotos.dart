@@ -10,12 +10,12 @@ class CourtPhotos extends StatefulWidget {
   List<String> imagesUrl;
   Color themeColor;
 
-  CourtPhotos({
+  CourtPhotos({Key? key, 
     required this.selectedPhotoIndex,
     required this.onSelectedPhotoChanged,
     required this.imagesUrl,
     required this.themeColor,
-  });
+  }) : super(key: key);
 
   @override
   State<CourtPhotos> createState() => _CourtPhotosState();
@@ -64,13 +64,13 @@ class _CourtPhotosState extends State<CourtPhotos> {
               child: CachedNetworkImage(
                 imageUrl: widget.imagesUrl[index],
                 fit: BoxFit.cover,
-                placeholder: (context, url) => Container(
+                placeholder: (context, url) => SizedBox(
                   width: width * 0.1,
-                  child: Center(
+                  child: const Center(
                     child: SFLoading(),
                   ),
                 ),
-                errorWidget: (context, url, error) => Center(
+                errorWidget: (context, url, error) => const Center(
                   child: Icon(Icons.dangerous),
                 ),
               ),

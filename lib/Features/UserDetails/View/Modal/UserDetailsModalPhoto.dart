@@ -9,9 +9,9 @@ import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalPhoto extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsModalPhoto({
+  UserDetailsModalPhoto({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<UserDetailsModalPhoto> createState() => _UserDetailsModalPhotoState();
@@ -38,7 +38,7 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(
+          const Text(
             "Toque para escolher uma nova foto.",
             style: TextStyle(color: textDarkGrey),
           ),
@@ -52,7 +52,7 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
                 onTap: () => pickImage(),
               ),
               CheckboxListTile(
-                title: Text(
+                title: const Text(
                   "Não escolher foto",
                   style: TextStyle(
                     color: textDarkGrey,

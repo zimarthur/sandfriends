@@ -5,9 +5,9 @@ import '../../../SharedComponents/Model/Store.dart';
 
 class CourtMap extends StatefulWidget {
   Store store;
-  CourtMap({
+  CourtMap({Key? key, 
     required this.store,
-  });
+  }) : super(key: key);
 
   @override
   State<CourtMap> createState() => _CourtMapState();

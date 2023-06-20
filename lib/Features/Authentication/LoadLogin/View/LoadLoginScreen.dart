@@ -6,9 +6,9 @@ import '../ViewModel/LoadLoginViewModel.dart';
 
 class LoadLoginScreen extends StatefulWidget {
   String? externalLink;
-  LoadLoginScreen({
+  LoadLoginScreen({Key? key, 
     this.externalLink,
-  });
+  }) : super(key: key);
 
   @override
   State<LoadLoginScreen> createState() => _LoadLoginScreenState();

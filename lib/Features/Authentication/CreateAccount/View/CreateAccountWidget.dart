@@ -10,9 +10,9 @@ import '../ViewModel/CreateAccountViewModel.dart';
 
 class CreateAccountWidget extends StatefulWidget {
   CreateAccountViewModel viewModel;
-  CreateAccountWidget({
+  CreateAccountWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<CreateAccountWidget> createState() => _CreateAccountWidgetState();

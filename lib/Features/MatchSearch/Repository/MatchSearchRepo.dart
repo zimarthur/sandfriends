@@ -9,5 +9,7 @@ class MatchSearchRepo {
     DateTime dateEnd,
     int timeStart,
     int timeEnd,
-  ) async {}
+  ) async {
+    return null;
+  }
 }

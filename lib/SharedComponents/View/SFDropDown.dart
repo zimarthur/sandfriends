@@ -9,13 +9,13 @@ class SFDropdown extends StatefulWidget {
   final FormFieldValidator<String>? validator;
   final Function(String?) onChanged;
 
-  SFDropdown({
+  SFDropdown({Key? key, 
     required this.labelText,
     required this.controller,
     required this.items,
     required this.validator,
     required this.onChanged,
-  });
+  }) : super(key: key);
 
   @override
   State<SFDropdown> createState() => _SFDropdownState();
@@ -30,19 +30,19 @@ class _SFDropdownState extends State<SFDropdown> {
       validator: widget.validator,
       decoration: InputDecoration(
         labelText: widget.controller == null ? null : widget.labelText,
-        labelStyle: TextStyle(color: textDarkGrey),
+        labelStyle: const TextStyle(color: textDarkGrey),
         fillColor: secondaryPaper,
         filled: true,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             width: 2,
             color: divider,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             width: 2,
             color: primaryBlue,
           ),
@@ -67,7 +67,7 @@ class _SFDropdownState extends State<SFDropdown> {
       isExpanded: true,
       hint: Text(
         widget.labelText,
-        style: TextStyle(
+        style: const TextStyle(
           color: textDarkGrey,
           fontWeight: FontWeight.w300,
           fontSize: 14,
@@ -77,7 +77,7 @@ class _SFDropdownState extends State<SFDropdown> {
       onChanged: (String? newValue) {
         widget.onChanged(newValue);
       },
-      style: TextStyle(
+      style: const TextStyle(
         color: primaryBlue,
         fontWeight: FontWeight.w700,
         fontSize: 14,

@@ -5,9 +5,9 @@ import '../../ViewModel/HomeViewModel.dart';
 
 class FeedRecurrentMatches extends StatelessWidget {
   HomeViewModel viewModel;
-  FeedRecurrentMatches({
+  FeedRecurrentMatches({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +29,14 @@ class FeedRecurrentMatches extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(
+              const Icon(
                 Icons.restore,
                 color: textWhite,
               ),
               Padding(
                 padding: EdgeInsets.only(right: width * 0.05),
               ),
-              Flexible(
+              const Flexible(
                 child: Text(
                   "Área do Mensalista",
                   style: TextStyle(

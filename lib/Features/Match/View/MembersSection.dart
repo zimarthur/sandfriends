@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 
-import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../SharedComponents/View/SFAvatar.dart';
 import '../../../Utils/Constants.dart';
 import '../ViewModel/MatchViewModel.dart';
 
 class MembersSection extends StatefulWidget {
   MatchViewModel viewModel;
-  MembersSection({
+  MembersSection({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<MembersSection> createState() => _MembersSectionState();
@@ -43,7 +41,7 @@ class _MembersSectionState extends State<MembersSection> {
           padding: EdgeInsets.symmetric(
               horizontal: width * 0.05, vertical: height * 0.02),
           child: ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: widget.viewModel.match.members.length,
             itemBuilder: (context, index) {
@@ -82,7 +80,7 @@ class _MembersSectionState extends State<MembersSection> {
                                 child: Text(
                                   widget.viewModel.match.members[index].user
                                       .firstName!,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: textWhite,
                                     fontWeight: FontWeight.w700,
                                   ),
@@ -104,7 +102,7 @@ class _MembersSectionState extends State<MembersSection> {
                                         color: secondaryPaper,
                                         borderRadius: BorderRadius.circular(16),
                                       ),
-                                      child: Text(
+                                      child: const Text(
                                         "Solic. Enviada",
                                         style: TextStyle(
                                           color: secondaryYellow,

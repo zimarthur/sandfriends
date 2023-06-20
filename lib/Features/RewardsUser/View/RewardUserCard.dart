@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/SharedComponents/Model/RewardUser.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import '../../../SharedComponents/Model/Reward.dart';
 import '../../../Utils/Constants.dart';
 import '../../../Utils/SFDateTime.dart';
 
 class RewardUserCard extends StatelessWidget {
   RewardUser userReward;
-  RewardUserCard({
+  RewardUserCard({Key? key, 
     required this.userReward,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,7 @@ class RewardUserCard extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 5),
+            margin: const EdgeInsets.only(bottom: 5),
             height: 15,
             child: FittedBox(
               fit: BoxFit.fitHeight,

@@ -10,9 +10,9 @@ import 'MatchSearchFilters.dart';
 
 class MatchSearchWidget extends StatefulWidget {
   MatchSearchViewModel viewModel;
-  MatchSearchWidget({
+  MatchSearchWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<MatchSearchWidget> createState() => _MatchSearchWidgetState();

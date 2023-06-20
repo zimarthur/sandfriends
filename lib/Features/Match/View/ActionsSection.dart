@@ -7,9 +7,9 @@ import '../ViewModel/MatchViewModel.dart';
 
 class ActionSection extends StatefulWidget {
   MatchViewModel viewModel;
-  ActionSection({
+  ActionSection({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<ActionSection> createState() => _ActionSectionState();
@@ -65,7 +65,7 @@ class _ActionSectionState extends State<ActionSection> {
                       child: Text(
                         "*Cancelamento Gratuito até o dia ${widget.viewModel.match.canCancelUpTo}",
                         textScaleFactor: 0.9,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: textDarkGrey,
                         ),
                       ),

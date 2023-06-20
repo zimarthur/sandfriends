@@ -6,9 +6,9 @@ import '../ViewModel/OpenMatchesViewModel.dart';
 
 class OpenMatchesWidget extends StatefulWidget {
   OpenMatchesViewModel viewModel;
-  OpenMatchesWidget({
+  OpenMatchesWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<OpenMatchesWidget> createState() => _OpenMatchesWidgetState();
@@ -24,7 +24,7 @@ class _OpenMatchesWidgetState extends State<OpenMatchesWidget> {
         itemBuilder: (context, index) {
           return Container(
             height: 220,
-            margin: EdgeInsets.symmetric(vertical: defaultPadding / 2),
+            margin: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
             child: OpenMatchCard(
               isReduced: false,
               match: widget.viewModel.openMatches[index],

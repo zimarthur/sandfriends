@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends/Utils/PageStatus.dart';
 
 import '../../../Utils/Constants.dart';
 import '../SFButton.dart';
@@ -11,12 +10,12 @@ class SFModalMessage extends StatefulWidget {
   String buttonText;
   bool isHappy;
 
-  SFModalMessage({
+  SFModalMessage({Key? key, 
     required this.message,
     required this.onTap,
     this.buttonText = "Concluído",
     required this.isHappy,
-  });
+  }) : super(key: key);
 
   @override
   State<SFModalMessage> createState() => _SFModalMessageState();
@@ -33,7 +32,7 @@ class _SFModalMessageState extends State<SFModalMessage> {
         color: secondaryPaper,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: primaryDarkBlue, width: 1),
-        boxShadow: [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
+        boxShadow: const [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
       ),
       width: width * 0.9,
       padding: EdgeInsets.symmetric(
@@ -56,7 +55,7 @@ class _SFModalMessageState extends State<SFModalMessage> {
             child: Text(
               widget.message,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: primaryBlue,
                 fontWeight: FontWeight.w600,
               ),

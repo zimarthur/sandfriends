@@ -36,7 +36,7 @@ class FeedRewards extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(right: width * 0.05),
                   ),
-                  Text(
+                  const Text(
                     "Recompensas ",
                     style: TextStyle(
                       color: textWhite,
@@ -48,7 +48,7 @@ class FeedRewards extends StatelessWidget {
                       null)
                     Text(
                       "(${Provider.of<UserProvider>(context, listen: false).userReward!.userRewardQuantity!}/${Provider.of<UserProvider>(context, listen: false).userReward!.rewardQuantity})",
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: textWhite,
                         fontWeight: FontWeight.w700,
                       ),

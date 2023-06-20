@@ -9,9 +9,9 @@ import 'USerCardHomeItem.dart';
 
 class UserCardHome extends StatefulWidget {
   HomeViewModel viewModel;
-  UserCardHome({
+  UserCardHome({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<UserCardHome> createState() => _UserCardHomeState();
@@ -46,7 +46,7 @@ class _UserCardHomeState extends State<UserCardHome> {
                         child: FittedBox(
                           child: Text(
                             "${Provider.of<UserProvider>(context, listen: false).user!.firstName} ${Provider.of<UserProvider>(context, listen: false).user!.lastName}",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: textWhite,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -62,7 +62,7 @@ class _UserCardHomeState extends State<UserCardHome> {
               children: [
                 UserCardHomeItem(
                   text:
-                      "${Provider.of<UserProvider>(context, listen: false).user!.email}",
+                      Provider.of<UserProvider>(context, listen: false).user!.email,
                   iconPath: r'assets\icon\at_email.svg',
                 ),
                 Padding(

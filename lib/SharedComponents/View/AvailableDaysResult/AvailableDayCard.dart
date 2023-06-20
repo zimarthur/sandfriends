@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:sandfriends/SharedComponents/View/AvailableDaysResult/AvailableStoreCard.dart';
-import 'package:sandfriends/Features/MatchSearch/ViewModel/MatchSearchViewModel.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableDay.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableHour.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableStore.dart';
@@ -20,7 +19,7 @@ class AvailableDayCard extends StatelessWidget {
   bool selectedParent;
   bool isRecurrent;
 
-  AvailableDayCard({
+  AvailableDayCard({Key? key, 
     required this.availableDay,
     required this.selectedStore,
     required this.selectedAvailableHour,
@@ -28,7 +27,7 @@ class AvailableDayCard extends StatelessWidget {
     required this.onGoToCourt,
     required this.selectedParent,
     required this.isRecurrent,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +61,7 @@ class AvailableDayCard extends StatelessWidget {
         ),
         ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: availableDay.stores.length,
           itemBuilder: (context, index) {
             return AvailableStoreCard(

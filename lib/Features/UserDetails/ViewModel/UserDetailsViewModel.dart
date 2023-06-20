@@ -8,7 +8,6 @@ import 'dart:typed_data';
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/Gender.dart';
 import '../../../SharedComponents/Model/Rank.dart';
-import '../../../SharedComponents/Model/Region.dart';
 import '../../../SharedComponents/Model/SidePreference.dart';
 import '../../../SharedComponents/Model/Sport.dart';
 import '../../../SharedComponents/Model/User.dart';

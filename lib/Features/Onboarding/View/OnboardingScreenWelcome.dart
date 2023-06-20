@@ -9,9 +9,9 @@ import '../ViewModel/OnboardingViewModel.dart';
 
 class OnboardingWidgetWelcome extends StatefulWidget {
   OnboardingViewModel viewModel;
-  OnboardingWidgetWelcome({
+  OnboardingWidgetWelcome({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<OnboardingWidgetWelcome> createState() =>
@@ -53,7 +53,7 @@ class _OnboardingWidgetWelcomeState extends State<OnboardingWidgetWelcome> {
                     Padding(padding: EdgeInsets.only(bottom: height * 0.02)),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
                           "Boas-vindas,",
                           style: TextStyle(
@@ -73,7 +73,7 @@ class _OnboardingWidgetWelcomeState extends State<OnboardingWidgetWelcome> {
                       ],
                     ),
                     Padding(padding: EdgeInsets.only(bottom: height * 0.03)),
-                    Text(
+                    const Text(
                       "Você está quase pronto para agendar suas partidas e conhecer novos jogadores.",
                       style: TextStyle(
                         color: textBlue,
@@ -82,7 +82,7 @@ class _OnboardingWidgetWelcomeState extends State<OnboardingWidgetWelcome> {
                       ),
                     ),
                     Padding(padding: EdgeInsets.only(bottom: height * 0.015)),
-                    Text(
+                    const Text(
                       "Fale um pouco sobre você e comece a usar o aplicativo.",
                       style: TextStyle(
                         color: textBlue,

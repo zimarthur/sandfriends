@@ -9,9 +9,9 @@ import '../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsSportSelector extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsSportSelector({
+  UserDetailsSportSelector({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<UserDetailsSportSelector> createState() =>
@@ -27,14 +27,14 @@ class _UserDetailsSportSelectorState extends State<UserDetailsSportSelector> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "Esporte",
             style: TextStyle(
               color: textBlue,
               fontWeight: FontWeight.w700,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: defaultPadding / 4,
           ),
           Row(
@@ -54,7 +54,7 @@ class _UserDetailsSportSelectorState extends State<UserDetailsSportSelector> {
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: defaultPadding / 4,
               ),
               InkWell(
@@ -72,10 +72,10 @@ class _UserDetailsSportSelectorState extends State<UserDetailsSportSelector> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: defaultPadding / 8,
           ),
-          Text(
+          const Text(
             "Alterne entre os esportes para informar seu nível em cada um deles.",
             style: TextStyle(color: textDarkGrey),
             textScaleFactor: 0.8,

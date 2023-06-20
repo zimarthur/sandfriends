@@ -9,9 +9,9 @@ import '../ViewModel/RecurrentMatchSearchViewModel.dart';
 
 class RecurrentMatchSearchWidget extends StatefulWidget {
   RecurrentMatchSearchViewModel viewModel;
-  RecurrentMatchSearchWidget({
+  RecurrentMatchSearchWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<RecurrentMatchSearchWidget> createState() =>

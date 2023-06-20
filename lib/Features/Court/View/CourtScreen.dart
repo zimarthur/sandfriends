@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Court/Model/HourPrice.dart';
 
-import '../../../SharedComponents/Model/AvailableDay.dart';
 import '../../../SharedComponents/Model/Sport.dart';
 import '../../../SharedComponents/Model/Store.dart';
 import '../../../SharedComponents/View/SFStandardScreen.dart';
@@ -19,7 +18,7 @@ class CourtScreen extends StatefulWidget {
   Sport? selectedSport;
   bool? isRecurrent;
 
-  CourtScreen({
+  CourtScreen({Key? key, 
     required this.store,
     this.courtAvailableHours,
     this.selectedHourPrice,
@@ -27,7 +26,7 @@ class CourtScreen extends StatefulWidget {
     this.selectedWeekday,
     this.selectedSport,
     this.isRecurrent,
-  });
+  }) : super(key: key);
 
   @override
   State<CourtScreen> createState() => _CourtScreenState();

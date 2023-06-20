@@ -14,10 +14,10 @@ class MemberCardModal extends StatefulWidget {
   MatchViewModel viewModel;
   MatchMember member;
 
-  MemberCardModal({
+  MemberCardModal({Key? key, 
     required this.viewModel,
     required this.member,
-  });
+  }) : super(key: key);
 
   @override
   State<MemberCardModal> createState() => _MemberCardModalState();
@@ -33,7 +33,7 @@ class _MemberCardModalState extends State<MemberCardModal> {
         color: secondaryPaper,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: primaryDarkBlue, width: 1),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             blurRadius: 1,
             color: primaryDarkBlue,
@@ -67,7 +67,7 @@ class _MemberCardModalState extends State<MemberCardModal> {
                           fit: BoxFit.fitHeight,
                           child: Text(
                             "${widget.member.user.firstName} ${widget.member.user.lastName}",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: textBlue,
                               fontWeight: FontWeight.w700,
                             ),
@@ -82,7 +82,7 @@ class _MemberCardModalState extends State<MemberCardModal> {
                             widget.member.user.matchCounter[0].total == 1
                                 ? "${widget.member.user.matchCounter[0].total} jogo"
                                 : "${widget.member.user.matchCounter[0].total} jogos",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: textDarkGrey,
                             ),
                           ),
@@ -101,7 +101,7 @@ class _MemberCardModalState extends State<MemberCardModal> {
                                     : widget.member.user.age! < 40
                                         ? "Sub-40"
                                         : "40+",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: textDarkGrey,
                             ),
                           ),
@@ -127,7 +127,7 @@ class _MemberCardModalState extends State<MemberCardModal> {
                                 widget.member.user.city == null
                                     ? "-"
                                     : "${widget.member.user.city!.city} / ${widget.member.user.city!.state!.uf}",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: textDarkGrey,
                                 ),
                               ),
@@ -155,7 +155,7 @@ class _MemberCardModalState extends State<MemberCardModal> {
                       widget.member.user.gender == null
                           ? "-"
                           : widget.member.user.gender!.name,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: textBlue, fontWeight: FontWeight.w700),
                     ),
                   ],
@@ -166,7 +166,7 @@ class _MemberCardModalState extends State<MemberCardModal> {
                     const Text("Rank:"),
                     Text(
                       widget.member.user.ranks[0].name,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: textBlue, fontWeight: FontWeight.w700),
                     ),
                   ],
@@ -179,7 +179,7 @@ class _MemberCardModalState extends State<MemberCardModal> {
                       widget.member.user.sidePreference == null
                           ? "-"
                           : widget.member.user.sidePreference!.name,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: textBlue, fontWeight: FontWeight.w700),
                     ),
                   ],
@@ -192,7 +192,7 @@ class _MemberCardModalState extends State<MemberCardModal> {
                       widget.member.user.height == null
                           ? "-"
                           : "${widget.member.user.height!}m",
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: textBlue, fontWeight: FontWeight.w700),
                     ),
                   ],

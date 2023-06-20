@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Court/View/CourtAvailableCourts.dart';
 import 'package:sandfriends/Features/Court/View/CourtContact.dart';
@@ -13,16 +11,14 @@ import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvide
 import '../../../SharedComponents/View/SFButton.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
 import '../../../Utils/Constants.dart';
-import '../../../Utils/UrlLauncher.dart';
-import '../../../SharedComponents/View/AvailableDaysResult/AvailableHourCard.dart';
 import '../ViewModel/CourtViewModel.dart';
 import 'CourtMap.dart';
 
 class CourtWidget extends StatefulWidget {
   CourtViewModel viewModel;
-  CourtWidget({
+  CourtWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<CourtWidget> createState() => _CourtWidgetState();
@@ -63,9 +59,9 @@ class _CourtWidgetState extends State<CourtWidget> {
                     horizontal: width * 0.05,
                   ),
                   height: height * 0.15,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: secondaryBack,
-                    borderRadius: const BorderRadius.only(
+                    borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30.0),
                       topRight: Radius.circular(30.0),
                     ),
@@ -82,10 +78,10 @@ class _CourtWidgetState extends State<CourtWidget> {
                               imageUrl: widget.viewModel.store.imageUrl,
                               height: height * 0.13,
                               width: height * 0.13,
-                              placeholder: (context, url) => Container(
+                              placeholder: (context, url) => SizedBox(
                                 height: height * 0.13,
                                 width: height * 0.13,
-                                child: Center(
+                                child: const Center(
                                   child: SFLoading(),
                                 ),
                               ),
@@ -93,7 +89,7 @@ class _CourtWidgetState extends State<CourtWidget> {
                                 height: height * 0.13,
                                 width: height * 0.13,
                                 color: textLightGrey.withOpacity(0.5),
-                                child: Center(
+                                child: const Center(
                                   child: Icon(Icons.dangerous),
                                 ),
                               ),
@@ -134,7 +130,7 @@ class _CourtWidgetState extends State<CourtWidget> {
                                                 right: width * 0.02)),
                                         Expanded(
                                           child: Text(
-                                            "${widget.viewModel.store.completeAddress}",
+                                            widget.viewModel.store.completeAddress,
                                             style: TextStyle(
                                               color: themeColor,
                                             ),
@@ -198,7 +194,7 @@ class _CourtWidgetState extends State<CourtWidget> {
               width: width * 0.1,
               padding: EdgeInsets.all(width * 0.02),
               decoration:
-                  BoxDecoration(color: secondaryBack, shape: BoxShape.circle),
+                  const BoxDecoration(color: secondaryBack, shape: BoxShape.circle),
               child: SvgPicture.asset(
                 r'assets\icon\arrow_left.svg',
                 color: themeColor,
@@ -211,7 +207,7 @@ class _CourtWidgetState extends State<CourtWidget> {
             bottom: MediaQuery.of(context).padding.bottom,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: width * 0.04),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: secondaryPaper,
                 border: Border(
                   top: BorderSide(

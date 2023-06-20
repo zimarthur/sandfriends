@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Utils/Constants.dart';
-import 'package:sandfriends/Utils/PageStatus.dart';
 
 import '../../../SharedComponents/Model/AppBarType.dart';
 import '../../../SharedComponents/View/SFStandardScreen.dart';
@@ -10,9 +9,9 @@ import 'MatchWidget.dart';
 
 class MatchScreen extends StatefulWidget {
   String matchUrl;
-  MatchScreen({
+  MatchScreen({Key? key, 
     required this.matchUrl,
-  });
+  }) : super(key: key);
 
   @override
   State<MatchScreen> createState() => _MatchScreenState();

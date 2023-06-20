@@ -8,11 +8,11 @@ class SFSearchFilter extends StatefulWidget {
   final String iconPath;
   final VoidCallback onTap;
 
-  const SFSearchFilter({
+  const SFSearchFilter({Key? key, 
     required this.labelText,
     required this.iconPath,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   State<SFSearchFilter> createState() => _SFSearchFilterState();
@@ -26,7 +26,7 @@ class _SFSearchFilterState extends State<SFSearchFilter> {
     return InkWell(
       onTap: widget.onTap,
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           children: [
             SvgPicture.asset(
@@ -38,7 +38,7 @@ class _SFSearchFilterState extends State<SFSearchFilter> {
             ),
             Expanded(
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
                       width: 1.0,
@@ -54,7 +54,7 @@ class _SFSearchFilterState extends State<SFSearchFilter> {
                         widget.labelText,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: textWhite,
                           fontWeight: FontWeight.w500,
                         ),

@@ -9,9 +9,9 @@ import '../../../Utils/SFDateTime.dart';
 
 class MatchCard extends StatelessWidget {
   AppMatch match;
-  MatchCard({
+  MatchCard({Key? key, 
     required this.match,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +23,12 @@ class MatchCard extends StatelessWidget {
             Navigator.pushNamed(context, '/match_screen/${match.matchUrl}'),
         child: Container(
           decoration: BoxDecoration(
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: textLightGrey,
                 blurRadius: 2.0,
                 spreadRadius: 0.0,
-                offset: const Offset(1.0, 1.0),
+                offset: Offset(1.0, 1.0),
               )
             ],
             color: secondaryPaper,
@@ -53,10 +53,10 @@ class MatchCard extends StatelessWidget {
                     imageUrl: match.sport.photoUrl,
                     fit: BoxFit.fill,
                     width: double.infinity,
-                    placeholder: (context, url) => Center(
+                    placeholder: (context, url) => const Center(
                       child: SFLoading(),
                     ),
-                    errorWidget: (context, url, error) => Center(
+                    errorWidget: (context, url, error) => const Center(
                       child: Icon(Icons.dangerous),
                     ),
                   ),
@@ -114,7 +114,7 @@ class MatchCard extends StatelessWidget {
                           fit: BoxFit.fitWidth,
                           child: Text(
                             "Partida de ${match.matchCreator.firstName}",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w700,
                               color: textBlue,
                             ),
@@ -138,7 +138,7 @@ class MatchCard extends StatelessWidget {
                               ),
                               Text(
                                 "${match.timeBegin.hourString} - ${match.timeEnd.hourString}",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: textDarkGrey,
                                 ),
                               ),
@@ -162,8 +162,8 @@ class MatchCard extends StatelessWidget {
                                 padding: EdgeInsets.only(right: width * 0.03),
                               ),
                               Text(
-                                "${match.court.store!.name}",
-                                style: TextStyle(
+                                match.court.store!.name,
+                                style: const TextStyle(
                                   color: textDarkGrey,
                                 ),
                               ),
@@ -195,7 +195,7 @@ class MatchCard extends StatelessWidget {
                               : Colors.red,
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: Text(
+                        child: const Text(
                           "Cancelada",
                           style: TextStyle(
                             fontWeight: FontWeight.w500,

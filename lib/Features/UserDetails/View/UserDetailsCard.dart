@@ -10,9 +10,9 @@ import '../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsCard extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsCard({
+  UserDetailsCard({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<UserDetailsCard> createState() => _UserDetailsCardState();
@@ -36,7 +36,7 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
             color: primaryDarkBlue,
             width: 1,
           ),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               blurRadius: 1,
               color: primaryDarkBlue,
@@ -99,7 +99,7 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                                   "${widget.viewModel.userEdited.firstName} ${widget.viewModel.userEdited.lastName}",
                                   minFontSize: 22,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: textBlue,
                                       fontWeight: FontWeight.w700,
                                       decoration: TextDecoration.underline,
@@ -117,7 +117,7 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                                   : "${Provider.of<UserProvider>(context, listen: false).user!.getUserSportMatches(widget.viewModel.displayedSport)} jogos",
                               minFontSize: 14,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: textDarkGrey,
                               ),
                             ),
@@ -138,7 +138,7 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                                                     40
                                                 ? "Sub-40"
                                                 : "40+",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: textDarkGrey,
                                       decoration: TextDecoration.underline,
                                     ),
@@ -170,7 +170,7 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                                         widget.viewModel.userEdited.city == null
                                             ? "-"
                                             : "${widget.viewModel.userEdited.city!.city} / ${widget.viewModel.userEdited.city!.state!.uf}",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: textDarkGrey,
                                           decoration: TextDecoration.underline,
                                         ),
@@ -208,7 +208,7 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                           widget.viewModel.userEdited.gender == null
                               ? "-"
                               : widget.viewModel.userEdited.gender!.name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: textBlue,
                             fontWeight: FontWeight.w700,
                             decoration: TextDecoration.underline,
@@ -231,7 +231,7 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                                   widget.viewModel.displayedSport.idSport)
                               .first
                               .name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: textBlue,
                             fontWeight: FontWeight.w700,
                             decoration: TextDecoration.underline,
@@ -252,7 +252,7 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                               ? "-"
                               : widget
                                   .viewModel.userEdited.sidePreference!.name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: textBlue,
                             fontWeight: FontWeight.w700,
                             decoration: TextDecoration.underline,
@@ -272,7 +272,7 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                           widget.viewModel.userEdited.height == null
                               ? "-"
                               : "${widget.viewModel.userEdited.height!.toStringAsFixed(2)}m",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: textBlue,
                             fontWeight: FontWeight.w700,
                             decoration: TextDecoration.underline,

@@ -4,8 +4,6 @@ import 'package:time_range/time_range.dart';
 
 import '../../../SharedComponents/Model/City.dart';
 import '../../../SharedComponents/View/SFButton.dart';
-import '../../../Utils/Constants.dart';
-import '../ViewModel/MatchSearchViewModel.dart';
 import 'SFSearchFilter.dart';
 
 class MatchSearchFilters extends StatefulWidget {
@@ -19,7 +17,7 @@ class MatchSearchFilters extends StatefulWidget {
   VoidCallback onTapSearch;
   Color primaryColor;
 
-  MatchSearchFilters({
+  MatchSearchFilters({Key? key, 
     required this.city,
     required this.openCitySelector,
     this.dates,
@@ -29,7 +27,7 @@ class MatchSearchFilters extends StatefulWidget {
     required this.openTimeSelector,
     required this.onTapSearch,
     required this.primaryColor,
-  });
+  }) : super(key: key);
 
   @override
   State<MatchSearchFilters> createState() => _MatchSearchFiltersState();
@@ -89,10 +87,10 @@ class _MatchSearchFiltersState extends State<MatchSearchFilters> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: SFButton(
               buttonLabel: "Buscar",
-              textPadding: EdgeInsets.symmetric(vertical: 5),
+              textPadding: const EdgeInsets.symmetric(vertical: 5),
               isPrimary: false,
               color: widget.primaryColor,
               iconPath: r"assets\icon\search.svg",

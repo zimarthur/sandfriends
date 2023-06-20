@@ -8,9 +8,9 @@ import 'MatchSearchWidget.dart';
 
 class MatchSearchScreen extends StatefulWidget {
   int sportId;
-  MatchSearchScreen({
+  MatchSearchScreen({Key? key, 
     required this.sportId,
-  });
+  }) : super(key: key);
 
   @override
   State<MatchSearchScreen> createState() => _MatchSearchScreenState();

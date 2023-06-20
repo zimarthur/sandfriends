@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends/SharedComponents/Model/AvailableHour.dart';
 
 import '../../../Utils/Constants.dart';
 import '../../../Features/Court/Model/HourPrice.dart';
@@ -11,12 +10,12 @@ class AvailableHourCard extends StatefulWidget {
   bool isSelected;
   bool isRecurrent;
 
-  AvailableHourCard({
+  AvailableHourCard({Key? key, 
     required this.hourPrice,
     required this.onTap,
     required this.isSelected,
     required this.isRecurrent,
-  });
+  }) : super(key: key);
 
   @override
   State<AvailableHourCard> createState() => _AvailableHourCardState();
@@ -60,7 +59,7 @@ class _AvailableHourCardState extends State<AvailableHourCard> {
                               ? primaryLightBlue
                               : primaryBlue,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     Expanded(
@@ -91,7 +90,7 @@ class _AvailableHourCardState extends State<AvailableHourCard> {
                               ? primaryLightBlue
                               : primaryBlue,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     Expanded(

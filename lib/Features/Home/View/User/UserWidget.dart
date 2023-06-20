@@ -7,9 +7,9 @@ import 'UserTileButton.dart';
 
 class UserWidget extends StatefulWidget {
   HomeViewModel viewModel;
-  UserWidget({
+  UserWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<UserWidget> createState() => _UserWidgetState();

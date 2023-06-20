@@ -12,12 +12,12 @@ class CitySelectorModal extends StatefulWidget {
   City? userCity;
   Color themeColor;
 
-  CitySelectorModal({
+  CitySelectorModal({Key? key, 
     required this.regions,
     required this.onSelectedCity,
     this.userCity,
     this.themeColor = primaryBlue,
-  });
+  }) : super(key: key);
 
   @override
   State<CitySelectorModal> createState() => _CitySelectorModalState();
@@ -36,7 +36,7 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
         color: secondaryPaper,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: primaryDarkBlue, width: 1),
-        boxShadow: [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
+        boxShadow: const [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
       ),
       padding: EdgeInsets.symmetric(
         horizontal: width * 0.02,
@@ -55,7 +55,9 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
               color: widget.themeColor,
             ),
             themeColor: widget.themeColor,
-            validator: (value) {},
+            validator: (value) {
+              return null;
+            },
             onChanged: (typed) {
               setState(() {
                 filteredRegions.clear();

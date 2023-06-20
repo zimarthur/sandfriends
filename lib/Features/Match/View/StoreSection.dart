@@ -9,9 +9,9 @@ import '../ViewModel/MatchViewModel.dart';
 
 class StoreSection extends StatefulWidget {
   MatchViewModel viewModel;
-  StoreSection({
+  StoreSection({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<StoreSection> createState() => _StoreSectionState();
@@ -54,10 +54,10 @@ class _StoreSectionState extends State<StoreSection> {
                         imageUrl: widget.viewModel.match.court.store!.imageUrl,
                         height: layoutHeight * 0.65,
                         width: layoutHeight * 0.65,
-                        placeholder: (context, url) => Container(
+                        placeholder: (context, url) => SizedBox(
                           height: layoutHeight * 0.65,
                           width: layoutHeight * 0.65,
-                          child: Center(
+                          child: const Center(
                             child: SFLoading(),
                           ),
                         ),
@@ -65,7 +65,7 @@ class _StoreSectionState extends State<StoreSection> {
                           color: textLightGrey.withOpacity(0.5),
                           height: layoutHeight * 0.65,
                           width: layoutHeight * 0.65,
-                          child: Center(
+                          child: const Center(
                             child: Icon(Icons.dangerous),
                           ),
                         ),
@@ -81,7 +81,7 @@ class _StoreSectionState extends State<StoreSection> {
                       Text(
                         widget.viewModel.match.court.store!.name,
                         textScaleFactor: 1.5,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.w700, color: primaryBlue),
                       ),
                       Row(
@@ -97,7 +97,7 @@ class _StoreSectionState extends State<StoreSection> {
                             child: Text(
                               widget
                                   .viewModel.match.court.store!.completeAddress,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: primaryBlue,
                               ),
                             ),
@@ -115,7 +115,7 @@ class _StoreSectionState extends State<StoreSection> {
                                 ? "Quadra Coberta"
                                 : "Quadra Descoberta",
                             textScaleFactor: 0.8,
-                            style: TextStyle(color: textDarkGrey),
+                            style: const TextStyle(color: textDarkGrey),
                           ),
                         ],
                       )

@@ -11,9 +11,9 @@ import '../ViewModel/RewardsViewModel.dart';
 
 class RewardsWidget extends StatefulWidget {
   RewardsViewModel viewModel;
-  RewardsWidget({
+  RewardsWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<RewardsWidget> createState() => _RewardsWidgetState();
@@ -35,7 +35,7 @@ class _RewardsWidgetState extends State<RewardsWidget> {
               child: Container(
                 height: height * 0.2,
                 width: double.infinity,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: secondaryYellow,
                 ),
               ),
@@ -59,7 +59,7 @@ class _RewardsWidgetState extends State<RewardsWidget> {
                         .description,
                     textAlign: TextAlign.center,
                     textScaleFactor: 1.5,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       color: textBlue,
                     ),
@@ -67,7 +67,7 @@ class _RewardsWidgetState extends State<RewardsWidget> {
                 ),
                 Column(
                   children: [
-                    Container(
+                    SizedBox(
                       height: Provider.of<UserProvider>(context, listen: false)
                                   .userReward!
                                   .userRewardQuantity ==
@@ -171,7 +171,7 @@ class _RewardsWidgetState extends State<RewardsWidget> {
                                 alignment: Alignment.centerLeft,
                                 child: Column(
                                   children: [
-                                    Container(
+                                    const SizedBox(
                                       width: double.infinity,
                                       child: Text(
                                         "Recompensas:",
@@ -194,7 +194,7 @@ class _RewardsWidgetState extends State<RewardsWidget> {
                                           return Text(
                                             "- ${Provider.of<UserProvider>(context, listen: false).userReward!.rewards[index]}",
                                             style:
-                                                TextStyle(color: textDarkGrey),
+                                                const TextStyle(color: textDarkGrey),
                                           );
                                         },
                                       ),
@@ -202,12 +202,12 @@ class _RewardsWidgetState extends State<RewardsWidget> {
                                   ],
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 width: double.infinity,
                                 child: Text(
                                   "*válido de ${DateFormat("dd/MM/yyyy").format(Provider.of<UserProvider>(context, listen: false).userReward!.startingDate)} até ${DateFormat("dd/MM/yyyy").format(Provider.of<UserProvider>(context, listen: false).userReward!.endingDate)}",
                                   textScaleFactor: 0.9,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: textDarkGrey,
                                   ),
                                 ),

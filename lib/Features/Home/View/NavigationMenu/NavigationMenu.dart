@@ -7,10 +7,10 @@ import '../../Model/HomeTabsEnum.dart';
 class NavigationMenu extends StatefulWidget {
   Function(HomeTabs) onChangeTab;
   HomeTabs selectedTab;
-  NavigationMenu({
+  NavigationMenu({Key? key, 
     required this.onChangeTab,
     required this.selectedTab,
-  });
+  }) : super(key: key);
 
   @override
   State<NavigationMenu> createState() => _NavigationMenuState();

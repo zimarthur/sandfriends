@@ -5,10 +5,10 @@ import '../../../Utils/Constants.dart';
 class RecurrentMatchCardDate extends StatelessWidget {
   String month;
   int day;
-  RecurrentMatchCardDate({
+  RecurrentMatchCardDate({Key? key, 
     required this.month,
     required this.day,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,25 +29,25 @@ class RecurrentMatchCardDate extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                SizedBox(
                   height: 20,
                   child: FittedBox(
                     fit: BoxFit.fill,
                     child: Text(
                       month,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: textDarkGrey,
                       ),
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 35,
                   child: FittedBox(
                     fit: BoxFit.fill,
                     child: Text(
                       "$day",
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: textDarkGrey,
                       ),
                     ),
@@ -58,7 +58,7 @@ class RecurrentMatchCardDate extends StatelessWidget {
           ),
           Container(
             height: 10,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: primaryLightBlue,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(16.0),

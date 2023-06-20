@@ -5,10 +5,10 @@ import '../../../Utils/Constants.dart';
 class CourtDescription extends StatelessWidget {
   String description;
   Color themeColor;
-  CourtDescription({
+  CourtDescription({Key? key, 
     required this.description,
     required this.themeColor,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class CourtDescription extends StatelessWidget {
               vertical: height * 0.01, horizontal: width * 0.02),
           child: Text(
             description,
-            style: TextStyle(color: textDarkGrey),
+            style: const TextStyle(color: textDarkGrey),
           ),
         ),
       ],

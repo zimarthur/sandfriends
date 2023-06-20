@@ -9,10 +9,10 @@ import '../../../Utils/Constants.dart';
 class NotificationCard extends StatefulWidget {
   AppNotification notification;
   VoidCallback onTap;
-  NotificationCard({
+  NotificationCard({Key? key, 
     required this.notification,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   State<NotificationCard> createState() => _NotificationCardState();
@@ -100,7 +100,7 @@ class _NotificationCardState extends State<NotificationCard> {
                             ),
                             Text(
                               "${DateFormat("dd/MM/yyyy").format(widget.notification.match.date)} às ${widget.notification.match.timeBegin.hourString}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: textBlue,
                               ),
                             ),
@@ -114,7 +114,7 @@ class _NotificationCardState extends State<NotificationCard> {
                                 right: width * 0.02,
                               ),
                             ),
-                            Text(
+                            const Text(
                               "Beach Brasil",
                               style: TextStyle(
                                 color: textBlue,

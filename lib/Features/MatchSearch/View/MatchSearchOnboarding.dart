@@ -5,9 +5,9 @@ import "../../../Utils/Constants.dart";
 
 class MatchSearchOnboarding extends StatelessWidget {
   bool isRecurrent;
-  MatchSearchOnboarding({
+  MatchSearchOnboarding({Key? key, 
     this.isRecurrent = false,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

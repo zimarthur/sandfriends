@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/SharedComponents/View/SFToolbar.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 
 import '../../Utils/PageStatus.dart';
 import '../Model/AppBarType.dart';
-import 'SFLoading.dart';
 import 'SFLoading.dart';
 import 'Modal/SFModalMessage.dart';
 
@@ -22,7 +20,7 @@ class SFStandardScreen extends StatefulWidget {
   bool resizeToAvoidBottomInset = false;
   bool enableToolbar;
 
-  SFStandardScreen({
+  SFStandardScreen({Key? key, 
     this.titleText,
     this.onTapReturn,
     required this.pageStatus,
@@ -33,7 +31,7 @@ class SFStandardScreen extends StatefulWidget {
     this.messageModalWidget,
     this.onTapBackground,
     this.enableToolbar = true,
-  });
+  }) : super(key: key);
 
   @override
   State<SFStandardScreen> createState() => _SFStandardScreenState();

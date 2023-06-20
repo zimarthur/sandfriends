@@ -12,9 +12,9 @@ import 'FeedRewards.dart';
 
 class FeedWidget extends StatefulWidget {
   HomeViewModel viewModel;
-  FeedWidget({
+  FeedWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<FeedWidget> createState() => _FeedWidgetState();
@@ -40,8 +40,8 @@ class _FeedWidgetState extends State<FeedWidget> {
             RefreshIndicator(
               onRefresh: () => widget.viewModel.getUserInfo(context),
               child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                child: Container(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: SizedBox(
                   height: height -
                       (MediaQuery.of(context).padding.top + height * 0.07),
                   child: Column(
@@ -56,7 +56,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                           fit: BoxFit.fitWidth,
                           child: Text(
                             "Olá, ${Provider.of<UserProvider>(context).user!.firstName}!",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: primaryBlue,
                               fontWeight: FontWeight.w700,
                             ),
@@ -91,7 +91,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: width * 0.02),
                         height: height * 0.2,
-                        child: FeedRewards(),
+                        child: const FeedRewards(),
                       ),
                       SizedBox(
                         height: height * 0.01,

@@ -6,9 +6,9 @@ import '../ViewModel/RewardsUserViewModel.dart';
 
 class RewardsUserWidget extends StatefulWidget {
   RewardsUserViewModel viewModel;
-  RewardsUserWidget({
+  RewardsUserWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<RewardsUserWidget> createState() => _RewardsUserWidgetState();

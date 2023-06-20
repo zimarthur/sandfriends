@@ -7,9 +7,9 @@ import '../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsPhoneNumber extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsPhoneNumber({
+  UserDetailsPhoneNumber({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<UserDetailsPhoneNumber> createState() => _UserDetailsPhoneNumberState();
@@ -25,14 +25,14 @@ class _UserDetailsPhoneNumberState extends State<UserDetailsPhoneNumber> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Celular",
               style: TextStyle(
                 color: textBlue,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: defaultPadding / 4,
             ),
             Form(
@@ -44,10 +44,10 @@ class _UserDetailsPhoneNumberState extends State<UserDetailsPhoneNumber> {
                 validator: phoneValidator,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: defaultPadding / 8,
             ),
-            Text(
+            const Text(
               "Nenhum jogador terá acesso ao seu celular",
               style: TextStyle(color: textDarkGrey),
               textScaleFactor: 0.8,

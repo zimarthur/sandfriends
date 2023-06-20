@@ -1,1 +1,1 @@
-final String sandfriendsRequestsUrl = "https://app.sandfriends.com.br";
+const String sandfriendsRequestsUrl = "https://app.sandfriends.com.br";

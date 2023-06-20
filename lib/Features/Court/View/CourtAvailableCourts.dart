@@ -10,10 +10,10 @@ import '../ViewModel/CourtViewModel.dart';
 class CourtAvailableCourts extends StatefulWidget {
   CourtViewModel viewModel;
   Color themeColor;
-  CourtAvailableCourts({
+  CourtAvailableCourts({Key? key, 
     required this.viewModel,
     required this.themeColor,
-  });
+  }) : super(key: key);
 
   @override
   State<CourtAvailableCourts> createState() => _CourtAvailableCourtsState();
@@ -64,7 +64,7 @@ class _CourtAvailableCourtsState extends State<CourtAvailableCourts> {
                   ? "Selecione a quadra e a duração do jogo"
                   : "Selecione a duração do jogo",
               style:
-                  TextStyle(color: textDarkGrey, fontWeight: FontWeight.w700),
+                  const TextStyle(color: textDarkGrey, fontWeight: FontWeight.w700),
             ),
           ),
           ListView.builder(
@@ -99,7 +99,7 @@ class _CourtAvailableCourtsState extends State<CourtAvailableCourts> {
                                 ? "Quadra Coberta"
                                 : "Quadra Descoberta",
                             textScaleFactor: 0.8,
-                            style: TextStyle(color: textDarkGrey),
+                            style: const TextStyle(color: textDarkGrey),
                           ),
                         ],
                       ),
@@ -108,7 +108,7 @@ class _CourtAvailableCourtsState extends State<CourtAvailableCourts> {
                       height: 50,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         itemCount: widget.viewModel
                             .courtAvailableHours[indexcourt].hourPrices.length,
                         itemBuilder: ((context, indexHour) {

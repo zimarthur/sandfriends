@@ -7,9 +7,9 @@ import '../../../SharedComponents/Model/RewardUser.dart';
 
 class RewardUserAlreadyClaimedModal extends StatelessWidget {
   RewardUser rewardUser;
-  RewardUserAlreadyClaimedModal({
+  RewardUserAlreadyClaimedModal({Key? key, 
     required this.rewardUser,
-  });
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -20,7 +20,7 @@ class RewardUserAlreadyClaimedModal extends StatelessWidget {
         color: secondaryPaper,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: primaryDarkBlue, width: 1),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             blurRadius: 1,
             color: primaryDarkBlue,
@@ -36,7 +36,7 @@ class RewardUserAlreadyClaimedModal extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
+          SizedBox(
             height: height * 0.15,
             child: SvgPicture.asset(r"assets\icon\happy_face.svg"),
           ),
@@ -47,7 +47,7 @@ class RewardUserAlreadyClaimedModal extends StatelessWidget {
               "Você já coleteu essa recompensa no dia ${DateFormat("dd/MM/yyyy").format(rewardUser.rewardClaimedDate!)}",
               textScaleFactor: 1.5,
               textAlign: TextAlign.center,
-              style: TextStyle(color: primaryBlue, fontWeight: FontWeight.w500),
+              style: const TextStyle(color: primaryBlue, fontWeight: FontWeight.w500),
             ),
           ),
           Column(
@@ -56,14 +56,14 @@ class RewardUserAlreadyClaimedModal extends StatelessWidget {
                 title: "Objetivo:",
                 description: rewardUser.monthReward.description,
               ),
-              SizedBox(
+              const SizedBox(
                 height: defaultPadding / 2,
               ),
               RewardUserAlreadyClaimedItem(
                 title: "Recompensa:",
                 description: rewardUser.selectedReward!,
               ),
-              SizedBox(
+              const SizedBox(
                 height: defaultPadding / 2,
               ),
               RewardUserAlreadyClaimedItem(
@@ -81,10 +81,10 @@ class RewardUserAlreadyClaimedModal extends StatelessWidget {
 class RewardUserAlreadyClaimedItem extends StatelessWidget {
   String title;
   String description;
-  RewardUserAlreadyClaimedItem({
+  RewardUserAlreadyClaimedItem({Key? key, 
     required this.title,
     required this.description,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -93,9 +93,9 @@ class RewardUserAlreadyClaimedItem extends StatelessWidget {
         Text(
           title,
           textScaleFactor: 0.9,
-          style: TextStyle(color: textDarkGrey),
+          style: const TextStyle(color: textDarkGrey),
         ),
-        SizedBox(
+        const SizedBox(
           height: defaultPadding / 4,
         ),
         Text(

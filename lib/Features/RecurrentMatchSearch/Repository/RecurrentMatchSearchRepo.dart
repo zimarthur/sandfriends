@@ -8,5 +8,7 @@ class RecurrentMatchSearchRepo {
     String days,
     String timeStart,
     String timeEnd,
-  ) async {}
+  ) async {
+    return null;
+  }
 }

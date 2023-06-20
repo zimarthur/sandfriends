@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:sandfriends/SharedComponents/Model/Court.dart';
 
 import '../../Model/AppMatch.dart';
 import '../../Model/AppNotification.dart';
@@ -77,7 +75,7 @@ class UserProvider extends ChangeNotifier {
     return filteredList;
   }
 
-  List<AppRecurrentMatch> _recurrentMatches = [];
+  final List<AppRecurrentMatch> _recurrentMatches = [];
   List<AppRecurrentMatch> get recurrentMatches => _recurrentMatches;
 
   void addRecurrentMatch(AppRecurrentMatch newRecurrentMatch) {

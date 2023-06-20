@@ -7,11 +7,11 @@ class SportSelectorModal extends StatefulWidget {
   List<Sport> sports;
   Sport? selectedSport;
   Function(Sport) onSelectedSport;
-  SportSelectorModal({
+  SportSelectorModal({Key? key, 
     required this.sports,
     required this.selectedSport,
     required this.onSelectedSport,
-  });
+  }) : super(key: key);
 
   @override
   State<SportSelectorModal> createState() => _SportSelectorModalState();
@@ -27,7 +27,7 @@ class _SportSelectorModalState extends State<SportSelectorModal> {
         color: secondaryPaper,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: primaryDarkBlue, width: 1),
-        boxShadow: [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
+        boxShadow: const [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
       ),
       width: width * 0.9,
       padding: EdgeInsets.symmetric(
@@ -39,7 +39,7 @@ class _SportSelectorModalState extends State<SportSelectorModal> {
             height: height * 0.05,
             width: double.infinity,
             margin: EdgeInsets.symmetric(vertical: height * 0.01),
-            child: FittedBox(
+            child: const FittedBox(
               fit: BoxFit.fitWidth,
               child: Text(
                 "Selecione seu esporte de preferência",

@@ -7,9 +7,9 @@ import '../ViewModel/LoginSignupViewModel.dart';
 
 class LoginSignupWidget extends StatefulWidget {
   LoginSignupViewModel viewModel;
-  LoginSignupWidget({
+  LoginSignupWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<LoginSignupWidget> createState() => _LoginSignupWidgetState();

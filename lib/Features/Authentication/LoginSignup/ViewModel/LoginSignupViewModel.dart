@@ -1,8 +1,5 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Authentication/LoadLogin/ViewModel/LoadLoginViewModel.dart';
 import 'package:sandfriends/Features/Authentication/LoginSignup/Repo/LoginSignupRepoImp.dart';
 
@@ -10,7 +7,6 @@ import '../../../../Remote/NetworkResponse.dart';
 import '../../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../../Utils/PageStatus.dart';
 import '../../../../api/google_signin_api.dart';
-import '../../../../SharedComponents/Model/User.dart';
 
 class LoginSignupViewModel extends ChangeNotifier {
   final loginSignupRepo = LoginSignupRempoImp();

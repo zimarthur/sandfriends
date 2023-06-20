@@ -9,9 +9,9 @@ import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalSidePreference extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsModalSidePreference({
+  UserDetailsModalSidePreference({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<UserDetailsModalSidePreference> createState() =>

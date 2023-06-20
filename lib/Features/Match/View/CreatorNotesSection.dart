@@ -9,9 +9,9 @@ import '../ViewModel/MatchViewModel.dart';
 
 class CreatorNotesSection extends StatefulWidget {
   MatchViewModel viewModel;
-  CreatorNotesSection({
+  CreatorNotesSection({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<CreatorNotesSection> createState() => _CreatorNotesSectionState();

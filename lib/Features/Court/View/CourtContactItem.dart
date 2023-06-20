@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../Utils/Constants.dart';
 
 class CourtContactItem extends StatefulWidget {
   String title;
@@ -9,12 +8,12 @@ class CourtContactItem extends StatefulWidget {
   VoidCallback onTap;
   Color themeColor;
 
-  CourtContactItem({
+  CourtContactItem({Key? key, 
     required this.title,
     required this.iconPath,
     required this.onTap,
     required this.themeColor,
-  });
+  }) : super(key: key);
 
   @override
   State<CourtContactItem> createState() => _CourtContactItemState();

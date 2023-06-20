@@ -1,28 +1,20 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Match/View/ActionsSection.dart';
 import 'package:sandfriends/Features/Match/View/CreatorNotesSection.dart';
 import 'package:sandfriends/Features/Match/View/InformationSection.dart';
 import 'package:sandfriends/Features/Match/View/MembersSection.dart';
 import 'package:sandfriends/Features/Match/View/OpenMatchSection.dart';
 import 'package:sandfriends/Features/Match/View/StoreSection.dart';
-import 'package:share_plus/share_plus.dart';
 
-import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
-import '../../../SharedComponents/View/SFLoading.dart';
 import '../../../Utils/Constants.dart';
-import '../../../Utils/Validators.dart';
 
 import '../ViewModel/MatchViewModel.dart';
 
 class MatchWidget extends StatefulWidget {
   MatchViewModel viewModel;
-  MatchWidget({
+  MatchWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<MatchWidget> createState() => _MatchWidgetState();

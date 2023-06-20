@@ -9,9 +9,9 @@ import 'UserDetailsSportSelector.dart';
 
 class UserDetailsWidget extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsWidget({
+  UserDetailsWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<UserDetailsWidget> createState() => _UserDetailsWidgetState();
@@ -27,25 +27,25 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
         padding: EdgeInsets.symmetric(horizontal: width * 0.05),
         child: Column(
           children: [
-            Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
+            const Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
             UserDetailsSportSelector(
               viewModel: widget.viewModel,
             ),
-            Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
+            const Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
             Expanded(
               child: UserDetailsCard(
                 viewModel: widget.viewModel,
               ),
             ),
-            Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
+            const Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
             UserDetailsPhoneNumber(
               viewModel: widget.viewModel,
             ),
-            Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
+            const Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
             UserDetailsEmail(
               viewModel: widget.viewModel,
             ),
-            Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
+            const Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
           ],
         ),
       );

@@ -9,9 +9,9 @@ import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalAge extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsModalAge({
+  UserDetailsModalAge({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<UserDetailsModalAge> createState() => _UserDetailsModalAgeState();
@@ -47,7 +47,7 @@ class _UserDetailsModalAgeState extends State<UserDetailsModalAge> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: width * 0.02),
-              child: Text(
+              child: const Text(
                 "A sua idade será categorizada em faixas de idade. Ninguém terá acesso à sua idade exata.",
                 style: TextStyle(color: textDarkGrey),
                 textScaleFactor: 0.8,

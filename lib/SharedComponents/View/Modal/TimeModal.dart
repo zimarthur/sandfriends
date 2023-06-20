@@ -1,4 +1,3 @@
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:time_range/time_range.dart';
 
@@ -10,11 +9,11 @@ class TimeModal extends StatefulWidget {
   Function(TimeRangeResult?) onSubmit;
   Color themeColor;
 
-  TimeModal({
+  TimeModal({Key? key, 
     required this.timeRange,
     required this.onSubmit,
     this.themeColor = primaryBlue,
-  });
+  }) : super(key: key);
 
   @override
   State<TimeModal> createState() => _TimeModalState();
@@ -38,7 +37,7 @@ class _TimeModalState extends State<TimeModal> {
         color: secondaryPaper,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: primaryDarkBlue, width: 1),
-        boxShadow: [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
+        boxShadow: const [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
       ),
       width: width * 0.9,
       child: Column(
@@ -68,8 +67,8 @@ class _TimeModalState extends State<TimeModal> {
                   color: widget.themeColor,
                   onTap: () => widget.onSubmit(
                     TimeRangeResult(
-                      TimeOfDay(hour: 1, minute: 0),
-                      TimeOfDay(
+                      const TimeOfDay(hour: 1, minute: 0),
+                      const TimeOfDay(
                         hour: 23,
                         minute: 00,
                       ),

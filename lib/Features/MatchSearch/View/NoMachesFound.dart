@@ -5,9 +5,9 @@ import '../../../Utils/Constants.dart';
 
 class NoMatchesFound extends StatelessWidget {
   bool isRecurrent;
-  NoMatchesFound({
+  NoMatchesFound({Key? key, 
     this.isRecurrent = false,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

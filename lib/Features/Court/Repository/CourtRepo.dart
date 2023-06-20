@@ -9,7 +9,9 @@ class CourtRepo {
     int timeBegin,
     int timeEnd,
     int cost,
-  ) async {}
+  ) async {
+    return null;
+  }
 
   Future<NetworkResponse?> recurrentMatchReservation(
     String accessToken,
@@ -19,5 +21,7 @@ class CourtRepo {
     int timeBegin,
     int timeEnd,
     int cost,
-  ) async {}
+  ) async {
+    return null;
+  }
 }

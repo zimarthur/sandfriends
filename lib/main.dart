@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Features/Authentication/CreateAccount/View/CreateAccountScreen.dart';
 import 'package:sandfriends/Features/Authentication/Login/View/LoginScreen.dart';
@@ -34,13 +33,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:uni_links/uni_links.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((value) => runApp(MyApp()));
+      .then((value) => runApp(const MyApp()));
 }
 
 void handleLink(Uri uri) {
@@ -49,6 +48,8 @@ void handleLink(Uri uri) {
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -229,24 +230,24 @@ class _MyAppState extends State<MyApp> {
         },
         routes: {
           '/': (BuildContext context) => LoadLoginScreen(),
-          '/login_signup': (BuildContext context) => LoginSignupScreen(),
-          '/login': (BuildContext context) => LoginScreen(),
-          '/create_account': (BuildContext context) => CreateAccountScreen(),
-          '/onboarding': (BuildContext context) => OnboardingScreen(),
+          '/login_signup': (BuildContext context) => const LoginSignupScreen(),
+          '/login': (BuildContext context) => const LoginScreen(),
+          '/create_account': (BuildContext context) => const CreateAccountScreen(),
+          '/onboarding': (BuildContext context) => const OnboardingScreen(),
           '/home': (BuildContext context) => HomeScreen(
                 initialTab: HomeTabs.Feed,
               ),
-          '/user_details': (BuildContext context) => UserDetailsScreen(),
-          '/user_matches': (BuildContext context) => UserMatchesScreen(),
-          '/user_payments': (BuildContext context) => OnboardingScreen(),
-          '/notifications': (BuildContext context) => NotificationsScreen(),
-          '/rewards': (BuildContext context) => RewardsScreen(),
-          '/rewards_user': (BuildContext context) => RewardsUserScreen(),
-          '/open_matches': (BuildContext context) => OpenMatchesScreen(),
+          '/user_details': (BuildContext context) => const UserDetailsScreen(),
+          '/user_matches': (BuildContext context) => const UserMatchesScreen(),
+          '/user_payments': (BuildContext context) => const OnboardingScreen(),
+          '/notifications': (BuildContext context) => const NotificationsScreen(),
+          '/rewards': (BuildContext context) => const RewardsScreen(),
+          '/rewards_user': (BuildContext context) => const RewardsUserScreen(),
+          '/open_matches': (BuildContext context) => const OpenMatchesScreen(),
           '/recurrent_matches': (BuildContext context) =>
-              RecurrentMatchesScreen(),
+              const RecurrentMatchesScreen(),
           '/recurrent_match_search_sport': (BuildContext context) =>
-              RecurrentMatchSearchSportScreen(),
+              const RecurrentMatchSearchSportScreen(),
         },
       ),
     );

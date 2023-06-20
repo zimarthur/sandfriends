@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -11,9 +10,9 @@ import '../ViewModel/LoginViewModel.dart';
 
 class LoginWidget extends StatefulWidget {
   LoginViewModel viewModel;
-  LoginWidget({
+  LoginWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<LoginWidget> createState() => _LoginWidgetState();

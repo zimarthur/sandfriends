@@ -8,9 +8,9 @@ import '../../ViewModel/HomeViewModel.dart';
 
 class AppRatingModal extends StatefulWidget {
   HomeViewModel viewModel;
-  AppRatingModal({
+  AppRatingModal({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<AppRatingModal> createState() => _AppRatingModalState();
@@ -26,7 +26,7 @@ class _AppRatingModalState extends State<AppRatingModal> {
         color: secondaryPaper,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: primaryDarkBlue, width: 1),
-        boxShadow: [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
+        boxShadow: const [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
       ),
       width: width * 0.9,
       padding: EdgeInsets.symmetric(
@@ -43,7 +43,7 @@ class _AppRatingModalState extends State<AppRatingModal> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Envie seu feedback!",
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
@@ -54,7 +54,7 @@ class _AppRatingModalState extends State<AppRatingModal> {
                 SizedBox(
                   height: height * 0.005,
                 ),
-                Text(
+                const Text(
                   "Escreva aqui sua crítica ou sugestão",
                   style: TextStyle(color: textDarkGrey),
                 ),
@@ -84,7 +84,7 @@ class _AppRatingModalState extends State<AppRatingModal> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: height * 0.02),
-              child: Text(
+              child: const Text(
                 "ou",
                 style: TextStyle(
                   color: textDarkGrey,

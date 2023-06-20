@@ -8,9 +8,9 @@ import '../../../SharedComponents/View/SFStandardScreen.dart';
 
 class RecurrentMatchSearchScreen extends StatefulWidget {
   int sportId;
-  RecurrentMatchSearchScreen({
+  RecurrentMatchSearchScreen({Key? key, 
     required this.sportId,
-  });
+  }) : super(key: key);
 
   @override
   State<RecurrentMatchSearchScreen> createState() =>

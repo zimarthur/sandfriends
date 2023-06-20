@@ -5,9 +5,9 @@ import '../../ViewModel/HomeViewModel.dart';
 
 class SportSelectorWidget extends StatefulWidget {
   HomeViewModel viewModel;
-  SportSelectorWidget({
+  SportSelectorWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<SportSelectorWidget> createState() => _SportSelectorWidgetState();

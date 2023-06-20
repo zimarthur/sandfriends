@@ -6,9 +6,9 @@ import '../ViewModel/MatchViewModel.dart';
 
 class OpenMatchSection extends StatefulWidget {
   MatchViewModel viewModel;
-  OpenMatchSection({
+  OpenMatchSection({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<OpenMatchSection> createState() => _OpenMatchSectionState();
@@ -88,7 +88,7 @@ class _OpenMatchSectionState extends State<OpenMatchSection> {
                 ],
               ),
               widget.viewModel.match.isOpenMatch == false
-                  ? Text(
+                  ? const Text(
                       "Torne a partida aberta para permitir que novos jogadores solicitem para jogar com você!",
                       style: TextStyle(
                         color: textDarkGrey,
@@ -129,7 +129,7 @@ class _OpenMatchSectionState extends State<OpenMatchSection> {
                                       borderRadius:
                                           BorderRadius.circular(height * 0.03),
                                     ),
-                                    child: Center(
+                                    child: const Center(
                                       child: Text(
                                         "-",
                                         style: TextStyle(
@@ -165,7 +165,7 @@ class _OpenMatchSectionState extends State<OpenMatchSection> {
                                       borderRadius:
                                           BorderRadius.circular(height * 0.03),
                                     ),
-                                    child: Center(
+                                    child: const Center(
                                       child: Text(
                                         "+",
                                         style: TextStyle(

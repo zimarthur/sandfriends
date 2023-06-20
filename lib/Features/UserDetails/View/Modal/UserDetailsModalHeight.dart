@@ -9,9 +9,9 @@ import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalHeight extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsModalHeight({
+  UserDetailsModalHeight({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<UserDetailsModalHeight> createState() => _UserDetailsModalHeightState();

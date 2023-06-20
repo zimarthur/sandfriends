@@ -4,7 +4,6 @@ import 'package:sandfriends/Features/RewardsUser/View/RewardsUserWidget.dart';
 
 import '../../../SharedComponents/Model/AppBarType.dart';
 import '../../../SharedComponents/View/SFStandardScreen.dart';
-import '../../RecurrentMatches/ViewModel/RecurrentMatchesViewModel.dart';
 import '../ViewModel/RewardsUserViewModel.dart';
 
 class RewardsUserScreen extends StatefulWidget {

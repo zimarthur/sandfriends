@@ -8,9 +8,9 @@ import '../../ViewModel/HomeViewModel.dart';
 
 class FeedOpenMatches extends StatelessWidget {
   HomeViewModel viewModel;
-  FeedOpenMatches({
+  FeedOpenMatches({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class FeedOpenMatches extends StatelessWidget {
                               1
                           ? "Existe 1 partida aberta perto de você"
                           : "Existem ${Provider.of<UserProvider>(context, listen: false).openMatches.length} partidas abertas perto de você",
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: textWhite,
                     fontWeight: FontWeight.w700,
                   ),

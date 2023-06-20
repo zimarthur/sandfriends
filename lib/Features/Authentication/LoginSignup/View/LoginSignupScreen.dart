@@ -6,6 +6,8 @@ import '../ViewModel/LoginSignupViewModel.dart';
 import 'LoginSignupWidget.dart';
 
 class LoginSignupScreen extends StatefulWidget {
+  const LoginSignupScreen({Key? key}) : super(key: key);
+
   @override
   State<LoginSignupScreen> createState() => _LoginSignupScreenState();
 }

@@ -9,12 +9,12 @@ class MatchSearchResultTitle extends StatelessWidget {
   String description;
   Color themeColor;
 
-  MatchSearchResultTitle({
+  MatchSearchResultTitle({Key? key, 
     required this.title,
     required this.iconPath,
     required this.description,
     required this.themeColor,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class MatchSearchResultTitle extends StatelessWidget {
           child: Text(
             description,
             textScaleFactor: 0.9,
-            style: TextStyle(color: textDarkGrey),
+            style: const TextStyle(color: textDarkGrey),
           ),
         ),
       ],

@@ -2,9 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/SharedComponents/View/AvailableDaysResult/AvailableHourCard.dart';
-import 'package:sandfriends/Features/MatchSearch/ViewModel/MatchSearchViewModel.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableHour.dart';
-import 'package:sandfriends/Utils/Heros.dart';
 
 import '../../Model/AvailableStore.dart';
 import '../../Model/Store.dart';
@@ -20,14 +18,14 @@ class AvailableStoreCard extends StatefulWidget {
   bool selectedParent;
   bool isRecurrent;
 
-  AvailableStoreCard({
+  AvailableStoreCard({Key? key, 
     required this.availableStore,
     required this.selectedAvailableHour,
     required this.onTapHour,
     required this.onGoToCourt,
     required this.selectedParent,
     required this.isRecurrent,
-  });
+  }) : super(key: key);
 
   @override
   State<AvailableStoreCard> createState() => _AvailableStoreCardState();
@@ -41,7 +39,7 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
     return Container(
       height: 200,
       padding: EdgeInsets.symmetric(horizontal: width * 0.03),
-      margin: EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 16),
       child: Container(
         decoration: BoxDecoration(
           color: secondaryPaper,
@@ -71,7 +69,7 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                       imageUrl: widget.availableStore.store.imageUrl,
                       height: 82,
                       width: 82,
-                      placeholder: (context, url) => Container(
+                      placeholder: (context, url) => const SizedBox(
                         height: 82,
                         width: 82,
                         child: Center(
@@ -82,7 +80,7 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                         color: textLightGrey.withOpacity(0.5),
                         height: 82,
                         width: 82,
-                        child: Center(
+                        child: const Center(
                           child: Icon(
                             Icons.dangerous,
                           ),
@@ -133,7 +131,7 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: const [
                             Text(
                               "Horários disponíveis",
                               style: TextStyle(
@@ -156,11 +154,11 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               height: 50,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 itemCount: widget.availableStore.availableHours.length,
                 itemBuilder: ((context, index) {
                   return Padding(

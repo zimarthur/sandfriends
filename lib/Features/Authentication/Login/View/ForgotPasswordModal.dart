@@ -9,9 +9,9 @@ import '../ViewModel/LoginViewModel.dart';
 
 class ForgotPasswordModal extends StatefulWidget {
   LoginViewModel viewModel;
-  ForgotPasswordModal({
+  ForgotPasswordModal({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<ForgotPasswordModal> createState() => _ForgotPasswordModalState();

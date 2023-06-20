@@ -6,9 +6,9 @@ import '../../../SharedComponents/Model/RewardUser.dart';
 
 class RewardUserClaimModal extends StatelessWidget {
   RewardUser rewardUser;
-  RewardUserClaimModal({
+  RewardUserClaimModal({Key? key, 
     required this.rewardUser,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class RewardUserClaimModal extends StatelessWidget {
         color: secondaryPaper,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: primaryDarkBlue, width: 1),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             blurRadius: 1,
             color: primaryDarkBlue,
@@ -36,13 +36,13 @@ class RewardUserClaimModal extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Container(
+          SizedBox(
             height: height * 0.1,
             child: SvgPicture.asset(r"assets\icon\happy_face.svg"),
           ),
-          Container(
+          SizedBox(
             height: height * 0.1,
-            child: FittedBox(
+            child: const FittedBox(
               fit: BoxFit.fitWidth,
               child: Text(
                 "Colete sua recompensa!",
@@ -52,9 +52,9 @@ class RewardUserClaimModal extends StatelessWidget {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: height * 0.05,
-            child: Flexible(
+            child: const Flexible(
               child: Text(
                 "Apresente o código abaixo a um estabelecimento parceiro",
                 textAlign: TextAlign.center,
@@ -68,19 +68,19 @@ class RewardUserClaimModal extends StatelessWidget {
               "${rewardUser.idRewardUser}",
               textScaleFactor: 2,
               textAlign: TextAlign.center,
-              style: TextStyle(color: textBlue, fontWeight: FontWeight.w500),
+              style: const TextStyle(color: textBlue, fontWeight: FontWeight.w500),
             ),
           ),
-          Container(
+          SizedBox(
             height: height * 0.03,
-            child: Flexible(
+            child: const Flexible(
               child: Text(
                 "e informe qual recompensa você deseja:",
                 textAlign: TextAlign.center,
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: height * 0.1,
             child: ListView.builder(
               itemCount: rewardUser.monthReward.rewards.length,
@@ -89,7 +89,7 @@ class RewardUserClaimModal extends StatelessWidget {
                   "- ${rewardUser.monthReward.rewards[rewardIndex]}",
                   textAlign: TextAlign.center,
                   style:
-                      TextStyle(color: textBlue, fontWeight: FontWeight.w500),
+                      const TextStyle(color: textBlue, fontWeight: FontWeight.w500),
                 );
               },
             ),

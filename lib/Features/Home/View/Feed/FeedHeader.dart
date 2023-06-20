@@ -10,11 +10,11 @@ class FeedHeader extends StatefulWidget {
   HomeViewModel viewModel;
   double height;
   double width;
-  FeedHeader({
+  FeedHeader({Key? key, 
     required this.viewModel,
     required this.height,
     required this.width,
-  });
+  }) : super(key: key);
 
   @override
   State<FeedHeader> createState() => _FeedHeaderState();
@@ -26,7 +26,7 @@ class _FeedHeaderState extends State<FeedHeader> {
     return Container(
       height: widget.height,
       width: double.infinity,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: primaryBlue,
         border: Border(
           bottom: BorderSide(

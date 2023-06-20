@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/SharedComponents/View/AvailableDaysResult/AvailableDayCard.dart';
-import 'package:sandfriends/Features/MatchSearch/ViewModel/MatchSearchViewModel.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableHour.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableStore.dart';
 import 'package:sandfriends/SharedComponents/Model/Store.dart';
@@ -19,7 +17,7 @@ class AvailableDaysResult extends StatefulWidget {
   Function(AvailableDay) onTapHour;
   Function(Store) onGoToCourt;
 
-  AvailableDaysResult({
+  AvailableDaysResult({Key? key, 
     required this.availableDays,
     required this.selectedAvailableDay,
     required this.selectedStore,
@@ -27,7 +25,7 @@ class AvailableDaysResult extends StatefulWidget {
     required this.onTapHour,
     required this.onGoToCourt,
     this.isRecurrent = false,
-  });
+  }) : super(key: key);
 
   @override
   State<AvailableDaysResult> createState() => _AvailableDaysResultState();
@@ -54,7 +52,7 @@ class _AvailableDaysResultState extends State<AvailableDaysResult> {
                   vertical: height * 0.04,
                 ),
                 alignment: Alignment.center,
-                child: Text(
+                child: const Text(
                   "Nenhum horário disponível",
                   style: TextStyle(
                     color: textLightGrey,
@@ -64,7 +62,7 @@ class _AvailableDaysResultState extends State<AvailableDaysResult> {
             : ListView.builder(
                 itemCount: widget.availableDays.length,
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return AvailableDayCard(
                     availableDay: widget.availableDays[index],

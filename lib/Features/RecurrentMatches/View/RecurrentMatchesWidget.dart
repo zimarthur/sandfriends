@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-import 'package:sandfriends/Utils/Heros.dart';
 import 'package:sandfriends/Utils/SFDateTime.dart';
 
-import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../SharedComponents/View/SFButton.dart';
 import '../../../Utils/Constants.dart';
 import '../ViewModel/RecurrentMatchesViewModel.dart';
@@ -12,9 +9,9 @@ import 'RecurrentMatchCard.dart';
 
 class RecurrentMatchesWidget extends StatefulWidget {
   RecurrentMatchesViewModel viewModel;
-  RecurrentMatchesWidget({
+  RecurrentMatchesWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<RecurrentMatchesWidget> createState() => _RecurrentMatchesWidgetState();
@@ -31,9 +28,9 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
         Container(
           height: MediaQuery.of(context).padding.top + height * 0.2,
           width: double.infinity,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: primaryLightBlue,
-            borderRadius: const BorderRadius.only(
+            borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(30.0),
               bottomRight: Radius.circular(30.0),
             ),
@@ -62,7 +59,7 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                           height: width * 0.1,
                           width: width * 0.1,
                           padding: EdgeInsets.all(width * 0.02),
-                          decoration: BoxDecoration(shape: BoxShape.circle),
+                          decoration: const BoxDecoration(shape: BoxShape.circle),
                           child: SvgPicture.asset(
                             r'assets\icon\arrow_left.svg',
                             color: secondaryBack,
@@ -77,9 +74,9 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
+                          SizedBox(
                             height: height * 0.03,
-                            child: FittedBox(
+                            child: const FittedBox(
                               fit: BoxFit.fitHeight,
                               child: Text(
                                 "Área do",
@@ -89,9 +86,9 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                               ),
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             height: height * 0.05,
-                            child: FittedBox(
+                            child: const FittedBox(
                               fit: BoxFit.fitHeight,
                               child: Text(
                                 "Mensalista",
@@ -127,7 +124,7 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "Horários",
                       textScaleFactor: 0.9,
                       style: TextStyle(color: textDarkGrey),
@@ -137,7 +134,7 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                           ? "-"
                           : "${widget.viewModel.recurrentMatches.length}",
                       textScaleFactor: 1.5,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: primaryLightBlue, fontWeight: FontWeight.w500),
                     ),
                   ],
@@ -152,7 +149,7 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "Vencimento (dias)",
                       textScaleFactor: 0.9,
                       style: TextStyle(color: textDarkGrey),
@@ -162,7 +159,7 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                           ? "-"
                           : "${getDaysToEndOfMonth()}",
                       textScaleFactor: 1.5,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: primaryLightBlue, fontWeight: FontWeight.w500),
                     ),
                   ],
@@ -181,7 +178,7 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Text(
                           "Você não tem horários mensalistas.",
                           style: TextStyle(color: textDarkGrey),

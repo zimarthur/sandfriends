@@ -5,9 +5,9 @@ import '../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsEmail extends StatelessWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsEmail({
+  UserDetailsEmail({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

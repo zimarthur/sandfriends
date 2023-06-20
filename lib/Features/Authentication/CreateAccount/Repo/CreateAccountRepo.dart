@@ -1,5 +1,7 @@
 import '../../../../Remote/NetworkResponse.dart';
 
 class CreateAccountRepo {
-  Future<NetworkResponse?> createAccount(String email, String password) async {}
+  Future<NetworkResponse?> createAccount(String email, String password) async {
+    return null;
+  }
 }

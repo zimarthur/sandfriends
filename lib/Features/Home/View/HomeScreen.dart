@@ -8,9 +8,9 @@ import 'NavigationMenu/NavigationMenu.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeTabs initialTab;
-  HomeScreen({
+  HomeScreen({Key? key, 
     required this.initialTab,
-  });
+  }) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

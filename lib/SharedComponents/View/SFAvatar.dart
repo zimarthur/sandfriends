@@ -16,14 +16,14 @@ class SFAvatar extends StatelessWidget {
   final bool showRank;
   final VoidCallback? onTap;
 
-  SFAvatar({
+  SFAvatar({Key? key, 
     required this.height,
     required this.user,
     this.sport,
     this.editFile,
     required this.showRank,
     this.onTap,
-  });
+  }) : super(key: key);
 
   Color? rankTile;
   Color? avatarBackground;
@@ -81,7 +81,7 @@ class SFAvatar extends StatelessWidget {
                           fit: BoxFit.fitHeight,
                           child: Text(
                             "${user.firstName![0].toUpperCase()}${user.lastName![0].toUpperCase()}",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: secondaryPaper,
                               fontWeight: FontWeight.w600,
                             ),
@@ -97,9 +97,9 @@ class SFAvatar extends StatelessWidget {
                             fit: BoxFit.cover,
                             placeholder: (context, url) => Padding(
                               padding: EdgeInsets.all(height * 0.3),
-                              child: SFLoading(),
+                              child: const SFLoading(),
                             ),
-                            errorWidget: (context, url, error) => Center(
+                            errorWidget: (context, url, error) => const Center(
                               child: Icon(Icons.error),
                             ),
                           ),

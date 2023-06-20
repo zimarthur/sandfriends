@@ -10,12 +10,12 @@ class SFToolbar extends StatefulWidget {
   final Function()? onTapReturn;
   final Widget? rightWidget;
 
-  SFToolbar({
+  const SFToolbar({Key? key, 
     required this.titleText,
     required this.onTapReturn,
     this.rightWidget,
     required this.appBarType,
-  });
+  }) : super(key: key);
 
   @override
   State<SFToolbar> createState() => _SFToolbarState();

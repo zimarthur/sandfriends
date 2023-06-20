@@ -6,9 +6,9 @@ import '../ViewModel/MatchViewModel.dart';
 
 class InformationSection extends StatelessWidget {
   MatchViewModel viewModel;
-  InformationSection({
+  InformationSection({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class InformationSection extends StatelessWidget {
                   : viewModel.match.date.isBefore(DateTime.now())
                       ? SizedBox(
                           height: height * 0.03,
-                          child: FittedBox(
+                          child: const FittedBox(
                             fit: BoxFit.fitHeight,
                             child: Text(
                               "Encerrada",

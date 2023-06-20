@@ -7,10 +7,10 @@ import '../../../Utils/Constants.dart';
 class WeekdayModal extends StatefulWidget {
   List<int> selectedWeekdays;
   VoidCallback onSelected;
-  WeekdayModal({
+  WeekdayModal({Key? key, 
     required this.selectedWeekdays,
     required this.onSelected,
-  });
+  }) : super(key: key);
 
   @override
   State<WeekdayModal> createState() => _WeekdayModalState();

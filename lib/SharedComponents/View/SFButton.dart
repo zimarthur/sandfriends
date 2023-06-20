@@ -22,7 +22,7 @@ class SFButton extends StatefulWidget {
   final EdgeInsets? textPadding;
   final bool? iconFirst;
 
-  const SFButton({
+  const SFButton({Key? key, 
     required this.buttonLabel,
     this.color = primaryBlue,
     this.isPrimary = true,
@@ -31,7 +31,7 @@ class SFButton extends StatefulWidget {
     this.iconSize = 14,
     this.textPadding,
     this.iconFirst = false,
-  });
+  }) : super(key: key);
 
   @override
   State<SFButton> createState() => _SFButtonState();

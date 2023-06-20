@@ -9,9 +9,9 @@ import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalGender extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsModalGender({
+  UserDetailsModalGender({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<UserDetailsModalGender> createState() => _UserDetailsModalGenderState();

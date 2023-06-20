@@ -11,11 +11,11 @@ class OpenMatchCard extends StatefulWidget {
   bool isReduced;
   AppMatch match;
   Function(String) onTap;
-  OpenMatchCard({
+  OpenMatchCard({Key? key, 
     required this.isReduced,
     required this.match,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   State<OpenMatchCard> createState() => _OpenMatchCardState();
@@ -72,7 +72,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                             sport: widget.match.sport,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: defaultPadding / 2,
                         ),
                         Expanded(
@@ -85,13 +85,13 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                                   widget.isReduced
                                       ? "Partida de\n${widget.match.matchCreator.firstName}"
                                       : "Partida de ${widget.match.matchCreator.firstName}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: primaryBlue,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: defaultPadding / 2,
                               ),
                               Container(
@@ -122,7 +122,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                                                 widget.match.remainingSlots == 1
                                                     ? "resta 1 vaga"
                                                     : "restam ${widget.match.remainingSlots} vagas",
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: textWhite,
                                                   fontWeight: FontWeight.w700,
                                                 ),
@@ -135,7 +135,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                                             widget.match.remainingSlots == 1
                                                 ? "resta 1 vaga"
                                                 : "restam ${widget.match.remainingSlots} vagas",
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: textWhite,
                                               fontWeight: FontWeight.w700,
                                             ),
@@ -183,7 +183,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                         ),
                         Text(
                           DateFormat("dd/MM/yyyy").format(widget.match.date),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: primaryBlue,
                           ),
                         ),
@@ -202,7 +202,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                           widget.isReduced
                               ? widget.match.timeBegin.hourString
                               : "${widget.match.timeBegin.hourString} - ${widget.match.timeEnd.hourString}",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: primaryBlue,
                           ),
                         ),
@@ -223,7 +223,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                       widget.isReduced
                           ? widget.match.court.store!.name
                           : "${widget.match.court.store!.name} - ${widget.match.court.storeCourtName}",
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: primaryBlue,
                       ),
                     ),
@@ -234,7 +234,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                   isPrimary: false,
                   iconPath: r'assets\icon\user_plus.svg',
                   textPadding:
-                      EdgeInsets.symmetric(vertical: defaultPadding / 4),
+                      const EdgeInsets.symmetric(vertical: defaultPadding / 4),
                   onTap: () => widget.onTap(widget.match.matchUrl),
                 ),
               ],

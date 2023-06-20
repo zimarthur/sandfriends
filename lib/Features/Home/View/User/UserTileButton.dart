@@ -7,11 +7,11 @@ class UserTileButton extends StatefulWidget {
   String title;
   String iconPath;
   VoidCallback onTap;
-  UserTileButton({
+  UserTileButton({Key? key, 
     required this.title,
     required this.iconPath,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   State<UserTileButton> createState() => _UserTileButtonState();
@@ -39,10 +39,10 @@ class _UserTileButtonState extends State<UserTileButton> {
               color: secondaryPaper,
             ),
             Container(
-              padding: EdgeInsets.only(left: 12),
+              padding: const EdgeInsets.only(left: 12),
               child: Text(
                 widget.title,
-                style: TextStyle(
+                style: const TextStyle(
                   color: secondaryBack,
                   fontWeight: FontWeight.w600,
                 ),

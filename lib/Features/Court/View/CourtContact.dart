@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:sandfriends/Features/Court/View/CourtContactItem.dart';
 
 import '../../../SharedComponents/Model/Store.dart';
-import '../../../Utils/Constants.dart';
 import '../../../Utils/UrlLauncher.dart';
 
 class CourtContact extends StatefulWidget {
   Store store;
   Color themeColor;
-  CourtContact({
+  CourtContact({Key? key, 
     required this.store,
     required this.themeColor,
-  });
+  }) : super(key: key);
 
   @override
   State<CourtContact> createState() => _CourtContactState();

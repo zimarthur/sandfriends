@@ -6,10 +6,10 @@ import '../../../../Utils/Constants.dart';
 class UserCardHomeItem extends StatelessWidget {
   String text;
   String iconPath;
-  UserCardHomeItem({
+  UserCardHomeItem({Key? key, 
     required this.text,
     required this.iconPath,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +22,12 @@ class UserCardHomeItem extends StatelessWidget {
           width: 15,
         ),
         Padding(
-          padding: EdgeInsets.only(left: 5),
+          padding: const EdgeInsets.only(left: 5),
           child: FittedBox(
             fit: BoxFit.fitHeight,
             child: Text(
               text,
-              style: TextStyle(
+              style: const TextStyle(
                 color: textWhite,
               ),
             ),

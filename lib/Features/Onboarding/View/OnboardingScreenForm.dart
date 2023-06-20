@@ -13,9 +13,9 @@ import '../ViewModel/OnboardingViewModel.dart';
 
 class OnboardingWidgetForm extends StatefulWidget {
   OnboardingViewModel viewModel;
-  OnboardingWidgetForm({
+  OnboardingWidgetForm({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<OnboardingWidgetForm> createState() => _OnboardingWidgetFormState();
@@ -48,7 +48,7 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(top: height * 0.02),
-                      child: Text(
+                      child: const Text(
                         "Pra começar, fale um pouco sobre você.",
                         style: TextStyle(
                             color: textBlue,
@@ -123,11 +123,11 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                           RichText(
                             text: TextSpan(
                               text: 'Eu li e concordo com os  ',
-                              style: TextStyle(color: textDarkGrey),
+                              style: const TextStyle(color: textDarkGrey),
                               children: [
                                 TextSpan(
                                     text: 'termos de uso',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: textBlue,
                                     ),

@@ -8,9 +8,9 @@ import 'MatchCard.dart';
 
 class UserMatchesWidget extends StatefulWidget {
   UserMatchesViewModel viewModel;
-  UserMatchesWidget({
+  UserMatchesWidget({Key? key, 
     required this.viewModel,
-  });
+  }) : super(key: key);
 
   @override
   State<UserMatchesWidget> createState() => _UserMatchesWidgetState();
@@ -23,7 +23,7 @@ class _UserMatchesWidgetState extends State<UserMatchesWidget> {
     return Container(
       color: secondaryBack,
       child: Provider.of<UserProvider>(context, listen: false).matches.isEmpty
-          ? Center(
+          ? const Center(
               child: Text(
                 "Você ainda não jogou nenhuma partida.",
                 style: TextStyle(
@@ -41,7 +41,7 @@ class _UserMatchesWidgetState extends State<UserMatchesWidget> {
                 return Container(
                   width: width,
                   height: 200,
-                  padding: EdgeInsets.only(bottom: 5),
+                  padding: const EdgeInsets.only(bottom: 5),
                   margin: EdgeInsets.symmetric(
                       horizontal: width * 0.05, vertical: 5),
                   child: MatchCard(

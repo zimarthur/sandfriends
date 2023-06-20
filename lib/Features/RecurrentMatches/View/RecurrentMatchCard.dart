@@ -13,10 +13,10 @@ import 'RecurrentMatchCardDate.dart';
 class RecurrentMatchCard extends StatefulWidget {
   AppRecurrentMatch recurrentMatch;
   bool expanded;
-  RecurrentMatchCard({
+  RecurrentMatchCard({Key? key, 
     required this.recurrentMatch,
     required this.expanded,
-  });
+  }) : super(key: key);
 
   @override
   State<RecurrentMatchCard> createState() => _RecurrentMatchCardState();
@@ -48,16 +48,16 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
               height: 25,
               width: double.infinity,
               alignment: Alignment.center,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: primaryLightBlue,
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15),
                   topRight: Radius.circular(15),
                 ),
               ),
               child: Text(
                 "${weekDaysPortuguese[widget.recurrentMatch.weekday]}:  ${widget.recurrentMatch.timeBegin.hourString} - ${widget.recurrentMatch.timeEnd.hourString}",
-                style: TextStyle(color: textWhite, fontWeight: FontWeight.w500),
+                style: const TextStyle(color: textWhite, fontWeight: FontWeight.w500),
               ),
             ),
             Expanded(
@@ -68,7 +68,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                     children: [
                       Container(
                         height: 100,
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Row(
                           children: [
                             ClipRRect(
@@ -78,7 +78,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                     widget.recurrentMatch.court.store!.imageUrl,
                                 height: 80,
                                 width: 80,
-                                placeholder: (context, url) => Container(
+                                placeholder: (context, url) => const SizedBox(
                                   height: 80,
                                   width: 80,
                                   child: Center(
@@ -89,13 +89,13 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                   height: 80,
                                   width: 80,
                                   color: textLightGrey.withOpacity(0.5),
-                                  child: Center(
+                                  child: const Center(
                                     child: Icon(Icons.dangerous),
                                   ),
                                 ),
                               ),
                             ),
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.only(
                                 right: 20,
                               ),
@@ -121,7 +121,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                           child: Text(
                                             widget.recurrentMatch.court.store!
                                                 .name,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: textDarkGrey,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -137,7 +137,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
+                                            const Text(
                                               "Partidas jogadas:",
                                               style: TextStyle(
                                                 color: textDarkGrey,
@@ -145,7 +145,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                             ),
                                             Text(
                                               "${widget.recurrentMatch.recurrentMatchesCounter}",
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontWeight: FontWeight.w500,
                                                 color: textDarkGrey,
                                               ),
@@ -156,7 +156,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
+                                            const Text(
                                               "Última renovação: ",
                                               style: TextStyle(
                                                 color: textDarkGrey,
@@ -223,12 +223,12 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                             ),
                             Column(
                               children: [
-                                Container(
+                                SizedBox(
                                   width: double.infinity,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: [
+                                    children: const [
                                       Text(
                                         "Partidas nesse mês:",
                                         style: TextStyle(
@@ -241,7 +241,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                 SizedBox(
                                   height: height * 0.01,
                                 ),
-                                Container(
+                                SizedBox(
                                   height: 80,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
@@ -282,7 +282,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                const Text(
                                   "Pagamentos:",
                                   style: TextStyle(
                                     color: primaryLightBlue,
@@ -297,13 +297,13 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                   children: [
                                     Text(
                                       "${widget.recurrentMatch.monthRecurrentMatches.length} Partidas (R\$ ${widget.recurrentMatch.monthRecurrentMatches.first.cost}):",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: textDarkGrey,
                                       ),
                                     ),
                                     Text(
                                       "R\$ ${widget.recurrentMatch.currentMonthPrice()}",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: textDarkGrey,
                                       ),
                                     ),
@@ -316,7 +316,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Mensalista desde:",
                                       style: TextStyle(
                                         color: textDarkGrey,
@@ -325,7 +325,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                     Text(
                                       DateFormat("dd/MM/yyyy").format(
                                           widget.recurrentMatch.creationDate),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: textDarkGrey,
                                       ),
                                     ),
@@ -334,7 +334,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
-                                  children: [
+                                  children: const [
                                     Text(
                                       "Vencimento:",
                                       style: TextStyle(
