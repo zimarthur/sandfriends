@@ -5,9 +5,10 @@ import '../../../../Utils/Constants.dart';
 import '../ViewModel/LoadLoginViewModel.dart';
 
 class LoadLoginScreen extends StatefulWidget {
-  String? externalLink;
-  LoadLoginScreen({Key? key, 
-    this.externalLink,
+  String? redirectUri;
+  LoadLoginScreen({
+    Key? key,
+    this.redirectUri,
   }) : super(key: key);
 
   @override
@@ -19,11 +20,11 @@ class _LoadLoginScreenState extends State<LoadLoginScreen> {
 
   @override
   void initState() {
-    if (widget.externalLink == null) {
-      viewModel.validateLogin(context);
-    } else {
-      viewModel.redirectExternalLogin();
+    if (widget.redirectUri != null) {
+      viewModel.storeRedirectUri(context, widget.redirectUri!);
     }
+    viewModel.validateLogin(context);
+
     super.initState();
   }
 

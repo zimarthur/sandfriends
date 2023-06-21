@@ -7,7 +7,8 @@ import '../ViewModel/MatchViewModel.dart';
 
 class ActionSection extends StatefulWidget {
   MatchViewModel viewModel;
-  ActionSection({Key? key, 
+  ActionSection({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -31,7 +32,7 @@ class _ActionSectionState extends State<ActionSection> {
                         iconPath: r"assets\icon\share.svg",
                         onTap: () async {
                           await Share.share(
-                              'Entre na minha partida!\n https://www.sandfriends.com.br/redirect/?ct=mtch&bd=${widget.viewModel.match.matchUrl}');
+                              'Entre na minha partida!\n https://sandfriends.com.br/redirect/?ct=mtch&bd=${widget.viewModel.match.matchUrl}');
                         },
                       ),
                     )

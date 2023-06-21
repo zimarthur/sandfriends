@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Features/Court/View/CourtContactItem.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../SharedComponents/Model/Store.dart';
 import '../../../Utils/UrlLauncher.dart';
@@ -7,7 +8,8 @@ import '../../../Utils/UrlLauncher.dart';
 class CourtContact extends StatefulWidget {
   Store store;
   Color themeColor;
-  CourtContact({Key? key, 
+  CourtContact({
+    Key? key,
     required this.store,
     required this.themeColor,
   }) : super(key: key);
@@ -37,10 +39,9 @@ class _CourtContactState extends State<CourtContact> {
           title: widget.store.phone,
           iconPath: r'assets\icon\whatsapp.svg',
           onTap: () {
-            final url = Uri.parse(
-                //"https://api.whatsapp.com/send?phone=${Provider.of<MatchProvider>(context, listen: false).selectedStoreDay!.store.phone}");
-                "https://wa.me/${widget.store.phone}");
-            UrlLauncher(url);
+            final url =
+                Uri.parse("whatsapp://send?phone=${widget.store.phone}");
+            launchUrl(url);
           },
           themeColor: widget.themeColor,
         ),

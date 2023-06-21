@@ -12,7 +12,8 @@ import 'FeedRewards.dart';
 
 class FeedWidget extends StatefulWidget {
   HomeViewModel viewModel;
-  FeedWidget({Key? key, 
+  FeedWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -38,7 +39,9 @@ class _FeedWidgetState extends State<FeedWidget> {
               width: width,
             ),
             RefreshIndicator(
-              onRefresh: () => widget.viewModel.getUserInfo(context),
+              onRefresh: () async {
+                widget.viewModel.getUserInfo(context);
+              },
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: SizedBox(

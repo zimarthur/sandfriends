@@ -8,7 +8,8 @@ import '../../ViewModel/HomeViewModel.dart';
 
 class FeedOpenMatches extends StatelessWidget {
   HomeViewModel viewModel;
-  FeedOpenMatches({Key? key, 
+  FeedOpenMatches({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -19,9 +20,7 @@ class FeedOpenMatches extends StatelessWidget {
       double height = layoutConstraints.maxHeight;
       return InkWell(
         onTap: () {
-          if (Provider.of<UserProvider>(context, listen: false)
-              .openMatches
-              .isNotEmpty) {
+          if (Provider.of<UserProvider>(context).openMatches.isNotEmpty) {
             Navigator.pushNamed(context, '/open_matches');
           }
         },
@@ -47,16 +46,12 @@ class FeedOpenMatches extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  Provider.of<UserProvider>(context, listen: false)
-                          .openMatches
-                          .isEmpty
+                  Provider.of<UserProvider>(context).openMatches.isEmpty
                       ? "Não há partidas abertas perto de você"
-                      : Provider.of<UserProvider>(context, listen: false)
-                                  .openMatches
-                                  .length ==
+                      : Provider.of<UserProvider>(context).openMatches.length ==
                               1
                           ? "Existe 1 partida aberta perto de você"
-                          : "Existem ${Provider.of<UserProvider>(context, listen: false).openMatches.length} partidas abertas perto de você",
+                          : "Existem ${Provider.of<UserProvider>(context).openMatches.length} partidas abertas perto de você",
                   style: const TextStyle(
                     color: textWhite,
                     fontWeight: FontWeight.w700,

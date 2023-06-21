@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 class Reward {
   final String description;
-  final int rewardQuantity;
+  int rewardQuantity;
   int? userRewardQuantity;
   final DateTime startingDate;
   final DateTime endingDate;

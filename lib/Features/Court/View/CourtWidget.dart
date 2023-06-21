@@ -6,17 +6,20 @@ import 'package:sandfriends/Features/Court/View/CourtAvailableCourts.dart';
 import 'package:sandfriends/Features/Court/View/CourtContact.dart';
 import 'package:sandfriends/Features/Court/View/CourtDescription.dart';
 import 'package:sandfriends/Features/Court/View/CourtPhotos.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../SharedComponents/View/SFButton.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
 import '../../../Utils/Constants.dart';
+import '../../../Utils/UrlLauncher.dart';
 import '../ViewModel/CourtViewModel.dart';
 import 'CourtMap.dart';
 
 class CourtWidget extends StatefulWidget {
   CourtViewModel viewModel;
-  CourtWidget({Key? key, 
+  CourtWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -41,7 +44,7 @@ class _CourtWidgetState extends State<CourtWidget> {
             Stack(
               children: [
                 SizedBox(
-                  height: width / 1.7,
+                  height: width * 0.7,
                   width: width,
                   child: CourtPhotos(
                     selectedPhotoIndex: widget.viewModel.selectedPhotoIndex,
@@ -53,7 +56,7 @@ class _CourtWidgetState extends State<CourtWidget> {
                 ),
                 Container(
                   margin: EdgeInsets.only(
-                    top: width / 2,
+                    top: width * 0.7 - 2 * defaultPadding,
                   ),
                   padding: EdgeInsets.symmetric(
                     horizontal: width * 0.05,
@@ -62,8 +65,8 @@ class _CourtWidgetState extends State<CourtWidget> {
                   decoration: const BoxDecoration(
                     color: secondaryBack,
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30.0),
-                      topRight: Radius.circular(30.0),
+                      topLeft: Radius.circular(2 * defaultPadding),
+                      topRight: Radius.circular(2 * defaultPadding),
                     ),
                   ),
                   child: Padding(
@@ -118,25 +121,36 @@ class _CourtWidgetState extends State<CourtWidget> {
                                     ),
                                   ),
                                   Expanded(
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                          r'assets\icon\location_ping.svg',
-                                          color: themeColor,
-                                          width: 15,
-                                        ),
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                right: width * 0.02)),
-                                        Expanded(
-                                          child: Text(
-                                            widget.viewModel.store.completeAddress,
-                                            style: TextStyle(
+                                    child: InkWell(
+                                      onTap: () {
+                                        launchUrl(Uri.parse(
+                                            "https://maps.google.com/maps?q=${widget.viewModel.store.latitude},${widget.viewModel.store.longitude}"));
+                                      },
+                                      child: Center(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SvgPicture.asset(
+                                              r'assets\icon\location_ping.svg',
                                               color: themeColor,
+                                              width: 15,
                                             ),
-                                          ),
+                                            Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: width * 0.02)),
+                                            Expanded(
+                                              child: Text(
+                                                widget.viewModel.store
+                                                    .completeAddress,
+                                                style: TextStyle(
+                                                  color: themeColor,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -193,8 +207,8 @@ class _CourtWidgetState extends State<CourtWidget> {
               height: width * 0.1,
               width: width * 0.1,
               padding: EdgeInsets.all(width * 0.02),
-              decoration:
-                  const BoxDecoration(color: secondaryBack, shape: BoxShape.circle),
+              decoration: const BoxDecoration(
+                  color: secondaryBack, shape: BoxShape.circle),
               child: SvgPicture.asset(
                 r'assets\icon\arrow_left.svg',
                 color: themeColor,

@@ -47,7 +47,7 @@ class FeedRewards extends StatelessWidget {
                           .userReward !=
                       null)
                     Text(
-                      "(${Provider.of<UserProvider>(context, listen: false).userReward!.userRewardQuantity!}/${Provider.of<UserProvider>(context, listen: false).userReward!.rewardQuantity})",
+                      "(${Provider.of<UserProvider>(context).userReward!.userRewardQuantity!}/${Provider.of<UserProvider>(context).userReward!.rewardQuantity})",
                       style: const TextStyle(
                         color: textWhite,
                         fontWeight: FontWeight.w700,
@@ -65,11 +65,9 @@ class FeedRewards extends StatelessWidget {
                             (itemsToShow * itemMargin)) /
                         itemsToShow;
                     int rewardsLength =
-                        Provider.of<UserProvider>(context, listen: false)
-                                    .userReward ==
-                                null
+                        Provider.of<UserProvider>(context).userReward == null
                             ? 0
-                            : Provider.of<UserProvider>(context, listen: false)
+                            : Provider.of<UserProvider>(context)
                                 .userReward!
                                 .rewardQuantity;
                     return Container(
@@ -91,8 +89,7 @@ class FeedRewards extends StatelessWidget {
                               borderRadius:
                                   BorderRadius.circular(itemWidth / 2),
                             ),
-                            child: Provider.of<UserProvider>(context,
-                                            listen: false)
+                            child: Provider.of<UserProvider>(context)
                                         .userReward!
                                         .userRewardQuantity! >
                                     index

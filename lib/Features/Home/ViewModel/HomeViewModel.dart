@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/SharedComponents/Model/AppRecurrentMatch.dart';
 import 'package:sandfriends/SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/RedirectProvider.dart';
 
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/AppMatch.dart';
@@ -69,7 +70,7 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getUserInfo(BuildContext context) async {
+  void getUserInfo(BuildContext context) {
     pageStatus = PageStatus.LOADING;
     notifyListeners();
     homeRepo
@@ -124,11 +125,9 @@ class HomeViewModel extends ChangeNotifier {
           );
         }
 
-        Provider.of<UserProvider>(context, listen: false).userReward =
-            Reward.fromJson(responseRewards['Reward']);
-        Provider.of<UserProvider>(context, listen: false)
-            .userReward!
-            .userRewardQuantity = responseRewards['UserRewardQuantity'];
+        Provider.of<UserProvider>(context, listen: false).setRewards(
+            Reward.fromJson(responseRewards['Reward']),
+            responseRewards['UserRewardQuantity']);
 
         for (var appNotification in responseNotifications) {
           Provider.of<UserProvider>(context, listen: false).addNotifications(
@@ -138,6 +137,15 @@ class HomeViewModel extends ChangeNotifier {
               Provider.of<CategoriesProvider>(context, listen: false).sports,
             ),
           );
+        }
+        if (Provider.of<RedirectProvider>(context, listen: false).redirectUri !=
+            null) {
+          Navigator.pushNamed(
+              context,
+              Provider.of<RedirectProvider>(context, listen: false)
+                  .redirectUri!);
+          Provider.of<RedirectProvider>(context, listen: false).redirectUri =
+              null;
         }
         pageStatus = PageStatus.OK;
         notifyListeners();

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/SharedComponents/Model/Hour.dart';
+import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/RedirectProvider.dart';
 
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../SharedComponents/Model/User.dart';
@@ -32,10 +33,13 @@ class LoadLoginViewModel extends ChangeNotifier {
     }
   }
 
-  void redirectExternalLogin() {}
-
   void goToLoginSignup(BuildContext context) {
     Navigator.pushNamed(context, '/login_signup');
+  }
+
+  void storeRedirectUri(BuildContext context, String redirectUri) {
+    Provider.of<RedirectProvider>(context, listen: false).redirectUri =
+        redirectUri;
   }
 }
 

@@ -6,7 +6,8 @@ import '../../../SharedComponents/Model/RewardUser.dart';
 
 class RewardUserClaimModal extends StatelessWidget {
   RewardUser rewardUser;
-  RewardUserClaimModal({Key? key, 
+  RewardUserClaimModal({
+    Key? key,
     required this.rewardUser,
   }) : super(key: key);
 
@@ -54,11 +55,9 @@ class RewardUserClaimModal extends StatelessWidget {
           ),
           SizedBox(
             height: height * 0.05,
-            child: const Flexible(
-              child: Text(
-                "Apresente o código abaixo a um estabelecimento parceiro",
-                textAlign: TextAlign.center,
-              ),
+            child: Text(
+              "Apresente o código abaixo a um estabelecimento parceiro",
+              textAlign: TextAlign.center,
             ),
           ),
           Container(
@@ -68,16 +67,15 @@ class RewardUserClaimModal extends StatelessWidget {
               "${rewardUser.idRewardUser}",
               textScaleFactor: 2,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: textBlue, fontWeight: FontWeight.w500),
+              style:
+                  const TextStyle(color: textBlue, fontWeight: FontWeight.w500),
             ),
           ),
           SizedBox(
             height: height * 0.03,
-            child: const Flexible(
-              child: Text(
-                "e informe qual recompensa você deseja:",
-                textAlign: TextAlign.center,
-              ),
+            child: Text(
+              "e informe qual recompensa você deseja:",
+              textAlign: TextAlign.center,
             ),
           ),
           SizedBox(
@@ -88,8 +86,8 @@ class RewardUserClaimModal extends StatelessWidget {
                 return Text(
                   "- ${rewardUser.monthReward.rewards[rewardIndex]}",
                   textAlign: TextAlign.center,
-                  style:
-                      const TextStyle(color: textBlue, fontWeight: FontWeight.w500),
+                  style: const TextStyle(
+                      color: textBlue, fontWeight: FontWeight.w500),
                 );
               },
             ),

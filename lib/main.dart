@@ -17,6 +17,7 @@ import 'package:sandfriends/Features/RecurrentMatchSearchSport/View/RecurrentMat
 import 'package:sandfriends/Features/RecurrentMatches/View/RecurrentMatchesSreen.dart';
 import 'package:sandfriends/Features/Rewards/View/RewardsScreen.dart';
 import 'package:sandfriends/Features/RewardsUser/View/RewardsUserScreen.dart';
+import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/RedirectProvider.dart';
 import 'Features/Authentication/LoadLogin/View/LoadLoginScreen.dart';
 import 'Features/Court/Model/CourtAvailableHours.dart';
 import 'Features/MatchSearch/View/MatchSearchScreen.dart';
@@ -64,20 +65,25 @@ class _MyAppState extends State<MyApp> {
   StreamSubscription? _streamSubscription;
 
   void _incomingLinkHandler() {
-    print("ArthurDebug _incomingLinkHandler");
     if (!kIsWeb) {
       _streamSubscription = uriLinkStream.listen((Uri? uri) {
         if (!mounted) {
           return;
         }
-        print("ArthurDebug _incomingLinkHandler URI: $uri");
-        debugPrint('Received URI: $uri');
         setState(() {
           _currentURI = uri;
           _err = null;
           if (_currentURI!.queryParameters['ct'] == "mtch") {
-            navigatorKey.currentState?.pushNamed(
-                '/match/${_currentURI!.queryParameters['bd'].toString()}');
+            navigatorKey.currentState?.push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return LoadLoginScreen(
+                    redirectUri:
+                        '/match/${_currentURI!.queryParameters['bd'].toString()}',
+                  );
+                },
+              ),
+            );
           }
         });
         // 3
@@ -99,7 +105,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _initURIHandler() async {
-    print("ArthurDebug _initURIHandler");
     if (!_initialURILinkHandled) {
       _initialURILinkHandled = true;
       try {
@@ -109,11 +114,18 @@ class _MyAppState extends State<MyApp> {
           if (!mounted) {
             return;
           }
-          print("ArthurDebug _initURIHandler URI: $initialURI");
 
           if (initialURI.queryParameters['ct'] == "mtch") {
-            navigatorKey.currentState?.pushNamed(
-                '/match/${initialURI.queryParameters['bd'].toString()}');
+            navigatorKey.currentState?.push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return LoadLoginScreen(
+                    redirectUri:
+                        '/match/${initialURI.queryParameters['bd'].toString()}',
+                  );
+                },
+              ),
+            );
           }
         } else {}
       } on PlatformException {
@@ -149,6 +161,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (_) => CategoriesProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => RedirectProvider()),
       ],
       child: MaterialApp(
         localizationsDelegates: const [
@@ -232,7 +245,8 @@ class _MyAppState extends State<MyApp> {
           '/': (BuildContext context) => LoadLoginScreen(),
           '/login_signup': (BuildContext context) => const LoginSignupScreen(),
           '/login': (BuildContext context) => const LoginScreen(),
-          '/create_account': (BuildContext context) => const CreateAccountScreen(),
+          '/create_account': (BuildContext context) =>
+              const CreateAccountScreen(),
           '/onboarding': (BuildContext context) => const OnboardingScreen(),
           '/home': (BuildContext context) => HomeScreen(
                 initialTab: HomeTabs.Feed,
@@ -240,7 +254,8 @@ class _MyAppState extends State<MyApp> {
           '/user_details': (BuildContext context) => const UserDetailsScreen(),
           '/user_matches': (BuildContext context) => const UserMatchesScreen(),
           '/user_payments': (BuildContext context) => const OnboardingScreen(),
-          '/notifications': (BuildContext context) => const NotificationsScreen(),
+          '/notifications': (BuildContext context) =>
+              const NotificationsScreen(),
           '/rewards': (BuildContext context) => const RewardsScreen(),
           '/rewards_user': (BuildContext context) => const RewardsUserScreen(),
           '/open_matches': (BuildContext context) => const OpenMatchesScreen(),

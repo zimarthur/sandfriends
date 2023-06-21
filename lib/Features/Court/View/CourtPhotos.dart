@@ -10,7 +10,8 @@ class CourtPhotos extends StatefulWidget {
   List<String> imagesUrl;
   Color themeColor;
 
-  CourtPhotos({Key? key, 
+  CourtPhotos({
+    Key? key,
     required this.selectedPhotoIndex,
     required this.onSelectedPhotoChanged,
     required this.imagesUrl,
@@ -50,60 +51,62 @@ class _CourtPhotosState extends State<CourtPhotos> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        ListView.builder(
-          controller: photosScrollController,
-          scrollDirection: Axis.horizontal,
-          physics: const PageScrollPhysics(),
-          itemCount: widget.imagesUrl.length,
-          itemBuilder: ((context, index) {
-            return SizedBox(
-              width: width,
-              child: CachedNetworkImage(
-                imageUrl: widget.imagesUrl[index],
-                fit: BoxFit.cover,
-                placeholder: (context, url) => SizedBox(
-                  width: width * 0.1,
-                  child: const Center(
-                    child: SFLoading(),
-                  ),
-                ),
-                errorWidget: (context, url, error) => const Center(
-                  child: Icon(Icons.dangerous),
-                ),
-              ),
-            );
-          }),
-        ),
-        Padding(
-          padding: EdgeInsets.only(bottom: height * 0.06),
-          child: SizedBox(
-            height: width * 0.02,
-            width: width * 0.04 * widget.imagesUrl.length,
-            child: ListView.builder(
-              itemCount: widget.imagesUrl.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: ((context, index) {
-                bool isIndex = widget.selectedPhotoIndex == index;
-                return Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: width * 0.01,
-                  ),
-                  child: ClipOval(
-                    child: Container(
-                      color: isIndex ? widget.themeColor : secondaryBack,
-                      height: width * 0.02,
-                      width: width * 0.02,
+    return LayoutBuilder(builder: (layoutContext, layoutConstraints) {
+      return Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          ListView.builder(
+            controller: photosScrollController,
+            scrollDirection: Axis.horizontal,
+            physics: const PageScrollPhysics(),
+            itemCount: widget.imagesUrl.length,
+            itemBuilder: ((context, index) {
+              return SizedBox(
+                width: layoutConstraints.maxWidth,
+                child: CachedNetworkImage(
+                  imageUrl: widget.imagesUrl[index],
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => SizedBox(
+                    width: layoutConstraints.maxWidth * 0.1,
+                    child: const Center(
+                      child: SFLoading(),
                     ),
                   ),
-                );
-              }),
+                  errorWidget: (context, url, error) => const Center(
+                    child: Icon(Icons.dangerous),
+                  ),
+                ),
+              );
+            }),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: height * 0.06),
+            child: SizedBox(
+              height: width * 0.02,
+              width: width * 0.04 * widget.imagesUrl.length,
+              child: ListView.builder(
+                itemCount: widget.imagesUrl.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: ((context, index) {
+                  bool isIndex = widget.selectedPhotoIndex == index;
+                  return Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: width * 0.01,
+                    ),
+                    child: ClipOval(
+                      child: Container(
+                        color: isIndex ? widget.themeColor : secondaryBack,
+                        height: width * 0.02,
+                        width: width * 0.02,
+                      ),
+                    ),
+                  );
+                }),
+              ),
             ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 }

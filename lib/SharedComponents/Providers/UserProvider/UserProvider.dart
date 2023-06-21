@@ -98,8 +98,10 @@ class UserProvider extends ChangeNotifier {
 
   Reward? _userReward;
   Reward? get userReward => _userReward;
-  set userReward(Reward? value) {
-    _userReward = value;
+  void setRewards(Reward? reward, int userQuantity) {
+    _userReward = reward;
+    _userReward!.userRewardQuantity = userQuantity;
+    notifyListeners();
   }
 
   final List<AppNotification> _notifications = [];
