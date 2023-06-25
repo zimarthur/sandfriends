@@ -64,7 +64,7 @@ class RewardUserClaimModal extends StatelessWidget {
             alignment: Alignment.center,
             height: height * 0.1,
             child: Text(
-              "${rewardUser.idRewardUser}",
+              "${rewardUser.rewardClaimCode}",
               textScaleFactor: 2,
               textAlign: TextAlign.center,
               style:

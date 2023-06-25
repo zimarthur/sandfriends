@@ -10,12 +10,14 @@ class RewardUser {
   final bool rewardClaimed;
   final DateTime? rewardClaimedDate;
   final Store? store;
+  final String rewardClaimCode;
 
   RewardUser({
     required this.idRewardUser,
     required this.monthReward,
     this.selectedReward,
     required this.rewardClaimed,
+    required this.rewardClaimCode,
     this.rewardClaimedDate,
     this.store,
   });
@@ -24,6 +26,7 @@ class RewardUser {
     var newRewardUser = RewardUser(
       idRewardUser: json['IdRewardUser'],
       monthReward: Reward.fromJson(json['RewardMonth']),
+      rewardClaimCode: json['RewardClaimCode'],
       selectedReward:
           json['RewardItem'] == null ? null : json['RewardItem']['Description'],
       rewardClaimed: json['RewardClaimed'],
