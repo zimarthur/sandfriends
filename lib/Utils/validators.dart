@@ -53,11 +53,12 @@ String? genderValidator(String? value) {
 }
 
 String? phoneValidator(String? value) {
-  if (value == null || value.isEmpty || value == "") {
-    return "informe seu celular";
+  if (value == null || value.isEmpty) {
+    return "Digite um número";
   } else {
-    if (value.length != 16) {
-      return "formato incorreto";
+    final cleanValue = value.replaceAll(RegExp('[^0-9]'), '');
+    if (cleanValue.length != 11 || int.tryParse(cleanValue) == null) {
+      return "Número inválido";
     } else {
       return null;
     }

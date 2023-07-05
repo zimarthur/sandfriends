@@ -20,7 +20,8 @@ class SFStandardScreen extends StatefulWidget {
   bool resizeToAvoidBottomInset = false;
   bool enableToolbar;
 
-  SFStandardScreen({Key? key, 
+  SFStandardScreen({
+    Key? key,
     this.titleText,
     this.onTapReturn,
     required this.pageStatus,
@@ -58,21 +59,24 @@ class _SFStandardScreenState extends State<SFStandardScreen> {
           top: widget.enableToolbar,
           child: Stack(
             children: [
-              SizedBox(
-                width: width,
-                height: height,
-                child: Column(
-                  children: [
-                    widget.enableToolbar
-                        ? SFToolbar(
-                            titleText: widget.titleText!,
-                            onTapReturn: widget.onTapReturn,
-                            appBarType: widget.appBarType!,
-                            rightWidget: widget.rightWidget,
-                          )
-                        : Container(),
-                    Expanded(child: widget.child)
-                  ],
+              GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: SizedBox(
+                  width: width,
+                  height: height,
+                  child: Column(
+                    children: [
+                      widget.enableToolbar
+                          ? SFToolbar(
+                              titleText: widget.titleText!,
+                              onTapReturn: widget.onTapReturn,
+                              appBarType: widget.appBarType!,
+                              rightWidget: widget.rightWidget,
+                            )
+                          : Container(),
+                      Expanded(child: widget.child)
+                    ],
+                  ),
                 ),
               ),
               widget.pageStatus != PageStatus.OK

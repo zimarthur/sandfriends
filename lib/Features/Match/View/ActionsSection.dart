@@ -59,19 +59,6 @@ class _ActionSectionState extends State<ActionSection> {
                   bottom: height * 0.01,
                 ),
               ),
-              widget.viewModel.matchExpired == false
-                  ? Container(
-                      margin: EdgeInsets.symmetric(vertical: height * 0.01),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "*Cancelamento Gratuito até o dia ${widget.viewModel.match.canCancelUpTo}",
-                        textScaleFactor: 0.9,
-                        style: const TextStyle(
-                          color: textDarkGrey,
-                        ),
-                      ),
-                    )
-                  : Container(),
             ],
           )
         : widget.viewModel.isUserInMatch

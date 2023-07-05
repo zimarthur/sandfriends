@@ -20,7 +20,6 @@ class AppMatch {
   String creatorNotes;
   final Court court;
   final Sport sport;
-  final String canCancelUpTo;
   List<MatchMember> members = [];
 
   User get matchCreator =>
@@ -76,7 +75,6 @@ class AppMatch {
     required this.creatorNotes,
     required this.court,
     required this.sport,
-    required this.canCancelUpTo,
   });
 
   factory AppMatch.fromJson(
@@ -105,7 +103,6 @@ class AppMatch {
       sport: referenceSports.firstWhere(
         (sport) => sport.idSport == json['IdSport'],
       ),
-      canCancelUpTo: json['CanCancelUpTo'],
     );
     for (int i = 0; i < json['Members'].length; i++) {
       newMatch.members.add(

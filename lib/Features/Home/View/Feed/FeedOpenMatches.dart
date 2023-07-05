@@ -20,7 +20,9 @@ class FeedOpenMatches extends StatelessWidget {
       double height = layoutConstraints.maxHeight;
       return InkWell(
         onTap: () {
-          if (Provider.of<UserProvider>(context).openMatches.isNotEmpty) {
+          if (Provider.of<UserProvider>(context, listen: false)
+              .openMatches
+              .isNotEmpty) {
             Navigator.pushNamed(context, '/open_matches');
           }
         },

@@ -13,7 +13,8 @@ import '../ViewModel/OnboardingViewModel.dart';
 
 class OnboardingWidgetForm extends StatefulWidget {
   OnboardingViewModel viewModel;
-  OnboardingWidgetForm({Key? key, 
+  OnboardingWidgetForm({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 

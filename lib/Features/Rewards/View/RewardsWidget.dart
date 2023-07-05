@@ -11,7 +11,8 @@ import '../ViewModel/RewardsViewModel.dart';
 
 class RewardsWidget extends StatefulWidget {
   RewardsViewModel viewModel;
-  RewardsWidget({Key? key, 
+  RewardsWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -169,6 +170,8 @@ class _RewardsWidgetState extends State<RewardsWidget> {
                               Container(
                                 height: height * 0.1,
                                 alignment: Alignment.centerLeft,
+                                margin:
+                                    EdgeInsets.only(bottom: defaultPadding * 2),
                                 child: Column(
                                   children: [
                                     const SizedBox(
@@ -193,8 +196,8 @@ class _RewardsWidgetState extends State<RewardsWidget> {
                                         itemBuilder: (context, index) {
                                           return Text(
                                             "- ${Provider.of<UserProvider>(context, listen: false).userReward!.rewards[index]}",
-                                            style:
-                                                const TextStyle(color: textDarkGrey),
+                                            style: const TextStyle(
+                                                color: textDarkGrey),
                                           );
                                         },
                                       ),

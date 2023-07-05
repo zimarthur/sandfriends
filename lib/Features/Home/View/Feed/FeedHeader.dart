@@ -10,7 +10,8 @@ class FeedHeader extends StatefulWidget {
   HomeViewModel viewModel;
   double height;
   double width;
-  FeedHeader({Key? key, 
+  FeedHeader({
+    Key? key,
     required this.viewModel,
     required this.height,
     required this.width,
@@ -42,25 +43,31 @@ class _FeedHeaderState extends State<FeedHeader> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           SvgPicture.asset(
             r"assets\icon\sandfriends_negative.svg",
+            alignment: Alignment.bottomLeft,
           ),
-          Padding(
-            padding: EdgeInsets.only(
-              right: widget.width * 0.03,
-            ),
-            child: InkWell(
-              onTap: () {
-                widget.viewModel.goToNotificationScreen(context);
-              },
-              child: SvgPicture.asset(
-                Provider.of<UserProvider>(context, listen: false)
-                        .notifications
-                        .any((notification) => notification.seen == false)
-                    ? r"assets\icon\notification_on.svg"
-                    : r"assets\icon\notification_off.svg",
-                height: 14,
+          InkWell(
+            onTap: () {
+              widget.viewModel.goToNotificationScreen(context);
+            },
+            child: SizedBox(
+              height: widget.height - MediaQuery.of(context).padding.top,
+              width: widget.height,
+              child: Container(
+                padding: const EdgeInsets.only(right: defaultPadding / 2),
+                alignment: Alignment.centerRight,
+                child: SvgPicture.asset(
+                  Provider.of<UserProvider>(context, listen: false)
+                          .notifications
+                          .any((notification) => notification.seen == false)
+                      ? r"assets\icon\notification_on.svg"
+                      : r"assets\icon\notification_off.svg",
+                  height: 18,
+                  width: 18,
+                ),
               ),
             ),
           ),

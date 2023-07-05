@@ -25,6 +25,7 @@ class Reward {
       startingDate: DateFormat('yyyy-MM-dd').parse("${json['StartingDate']}"),
       endingDate: DateFormat('yyyy-MM-dd').parse("${json['EndingDate']}"),
     );
+
     for (int i = 0; i < json['Rewards'].length; i++) {
       newReward.rewards.add(json['Rewards'][i]['RewardItem']['Description']);
     }

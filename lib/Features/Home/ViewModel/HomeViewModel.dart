@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/SharedComponents/Model/AppRecurrentMatch.dart';
 import 'package:sandfriends/SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/RedirectProvider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/AppMatch.dart';
@@ -200,8 +201,8 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void contactSupport() {
-    final url = Uri.parse("https://wa.me/+5551996712775");
-    UrlLauncher(url);
+    final url = Uri.parse("whatsapp://send?phone=5551996712775");
+    launchUrl(url);
   }
 
   void openAppRatingModal() {

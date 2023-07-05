@@ -43,7 +43,7 @@ class OnboardingViewModel extends ChangeNotifier {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController phoneNumberController =
-      MaskedTextController(mask: '(000) 00000-00000');
+      MaskedTextController(mask: '(00) 00000-00000');
   bool termsAgreeValue = false;
 
   Sport? userSport;
@@ -77,6 +77,7 @@ class OnboardingViewModel extends ChangeNotifier {
   }
 
   void openSportSelectorModal(BuildContext context) {
+    FocusScope.of(context).unfocus();
     widgetForm = SportSelectorModal(
       sports: Provider.of<CategoriesProvider>(context, listen: false).sports,
       selectedSport: userSport,
@@ -91,6 +92,7 @@ class OnboardingViewModel extends ChangeNotifier {
   }
 
   void openCitySelectorModal(BuildContext context) {
+    FocusScope.of(context).unfocus();
     pageStatus = PageStatus.LOADING;
     notifyListeners();
     if (Provider.of<CategoriesProvider>(context, listen: false)
@@ -128,6 +130,7 @@ class OnboardingViewModel extends ChangeNotifier {
         userCity = city;
         pageStatus = PageStatus.OK;
         notifyListeners();
+        FocusScope.of(context).unfocus();
       },
     );
     pageStatus = PageStatus.FORM;
@@ -144,7 +147,7 @@ class OnboardingViewModel extends ChangeNotifier {
           Provider.of<UserProvider>(context, listen: false).user!.accessToken,
           firstNameController.text,
           lastNameController.text,
-          phonenumberConverter(phoneNumberController.text),
+          phoneNumberController.text.replaceAll(RegExp('[^0-9]'), ''),
           userCity!.cityId,
           userSport!.idSport,
         )
