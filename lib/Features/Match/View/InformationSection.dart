@@ -6,7 +6,8 @@ import '../ViewModel/MatchViewModel.dart';
 
 class InformationSection extends StatelessWidget {
   MatchViewModel viewModel;
-  InformationSection({Key? key, 
+  InformationSection({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -21,17 +22,12 @@ class InformationSection extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                height: height * 0.03,
-                child: const FittedBox(
-                  fit: BoxFit.fitHeight,
-                  child: Text(
-                    "Detalhes da Partida",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
+              Text(
+                "Detalhes da Partida",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
                 ),
+                textScaleFactor: 1.3,
               ),
               viewModel.match.canceled
                   ? SizedBox(

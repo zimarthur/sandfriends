@@ -154,6 +154,17 @@ flutter:
     - assets\icon\medal.svg
     - assets\icon\recurrent_calendar.svg
 
+    - assets\icon\no_credit_card.svg
+    - assets\icon\credit_card.svg
+    - assets\icon\pix.svg
+    - assets\credit_card\amex.svg
+    - assets\credit_card\diners.svg
+    - assets\credit_card\elo.svg
+    - assets\credit_card\hipercard.svg
+    - assets\credit_card\visa.svg
+    - assets\credit_card\mastercard.svg
+    - assets\credit_card\default_credit_card.svg
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

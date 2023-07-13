@@ -7,7 +7,8 @@ import '../ViewModel/MatchViewModel.dart';
 
 class MembersSection extends StatefulWidget {
   MatchViewModel viewModel;
-  MembersSection({Key? key, 
+  MembersSection({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -23,19 +24,14 @@ class _MembersSectionState extends State<MembersSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: height * 0.03,
-          child: FittedBox(
-            fit: BoxFit.fitHeight,
-            child: Text(
-              widget.viewModel.referenceIsOpenMatch
-                  ? "Jogadores (${widget.viewModel.match.activeMatchMembers}/${widget.viewModel.referenceMaxUsers})"
-                  : "Jogadores (${widget.viewModel.match.activeMatchMembers})",
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-              ),
-            ),
+        Text(
+          widget.viewModel.referenceIsOpenMatch
+              ? "Jogadores (${widget.viewModel.match.activeMatchMembers}/${widget.viewModel.referenceMaxUsers})"
+              : "Jogadores (${widget.viewModel.match.activeMatchMembers})",
+          style: const TextStyle(
+            fontWeight: FontWeight.w700,
           ),
+          textScaleFactor: 1.3,
         ),
         Padding(
           padding: EdgeInsets.symmetric(

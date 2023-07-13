@@ -46,6 +46,11 @@ class UserMatchesViewModel extends ChangeNotifier {
             ),
           );
         }
+        Provider.of<UserProvider>(context, listen: false)
+            .matches
+            .forEach((element) {
+          print(element.canceled);
+        });
         pageStatus = PageStatus.OK;
         notifyListeners();
       } else {

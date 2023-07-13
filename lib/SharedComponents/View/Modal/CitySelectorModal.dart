@@ -12,7 +12,8 @@ class CitySelectorModal extends StatefulWidget {
   City? userCity;
   Color themeColor;
 
-  CitySelectorModal({Key? key, 
+  CitySelectorModal({
+    Key? key,
     required this.regions,
     required this.onSelectedCity,
     this.userCity,
@@ -146,6 +147,8 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
                                     padding: EdgeInsets.symmetric(
                                         vertical: height * 0.01),
                                     child: Text(city.city),
+                                    width: double.infinity,
+                                    alignment: Alignment.center,
                                   ),
                                   onTap: () => widget.onSelectedCity(
                                     City(

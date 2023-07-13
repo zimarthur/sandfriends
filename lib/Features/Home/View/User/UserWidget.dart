@@ -7,7 +7,8 @@ import 'UserTileButton.dart';
 
 class UserWidget extends StatefulWidget {
   HomeViewModel viewModel;
-  UserWidget({Key? key, 
+  UserWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -63,7 +64,7 @@ class _UserWidgetState extends State<UserWidget> {
                           title: "Configurar pagamentos",
                           iconPath: r'assets\icon\payment.svg',
                           onTap: () {
-                            Navigator.pushNamed(context, '/user_detail');
+                            Navigator.pushNamed(context, '/payment');
                           }),
                       UserTileButton(
                         title: "Fale com a gente",

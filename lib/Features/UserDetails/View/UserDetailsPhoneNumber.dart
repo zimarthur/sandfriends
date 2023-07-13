@@ -7,7 +7,8 @@ import '../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsPhoneNumber extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsPhoneNumber({Key? key, 
+  UserDetailsPhoneNumber({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -18,43 +19,37 @@ class UserDetailsPhoneNumber extends StatefulWidget {
 class _UserDetailsPhoneNumberState extends State<UserDetailsPhoneNumber> {
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (layoutContext, layoutConstraints) {
-        double width = layoutConstraints.maxWidth;
-        double height = layoutConstraints.maxHeight;
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Celular",
-              style: TextStyle(
-                color: textBlue,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(
-              height: defaultPadding / 4,
-            ),
-            Form(
-              key: widget.viewModel.userDetailsPhoneNumberFormKey,
-              child: SFTextField(
-                controller: widget.viewModel.phoneNumberController,
-                pourpose: TextFieldPourpose.Numeric,
-                labelText: "",
-                validator: phoneValidator,
-              ),
-            ),
-            const SizedBox(
-              height: defaultPadding / 8,
-            ),
-            const Text(
-              "Nenhum jogador terá acesso ao seu celular",
-              style: TextStyle(color: textDarkGrey),
-              textScaleFactor: 0.8,
-            ),
-          ],
-        );
-      },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Celular",
+          style: TextStyle(
+            color: textBlue,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(
+          height: defaultPadding / 4,
+        ),
+        Form(
+          key: widget.viewModel.userDetailsPhoneNumberFormKey,
+          child: SFTextField(
+            controller: widget.viewModel.phoneNumberController,
+            pourpose: TextFieldPourpose.Numeric,
+            labelText: "",
+            validator: phoneValidator,
+          ),
+        ),
+        const SizedBox(
+          height: defaultPadding / 8,
+        ),
+        const Text(
+          "Nenhum jogador terá acesso ao seu celular",
+          style: TextStyle(color: textDarkGrey),
+          textScaleFactor: 0.8,
+        ),
+      ],
     );
   }
 }

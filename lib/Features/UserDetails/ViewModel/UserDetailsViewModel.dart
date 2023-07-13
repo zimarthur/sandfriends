@@ -193,8 +193,11 @@ class UserDetailsViewModel extends ChangeNotifier {
   }
 
   void setUserAge() {
-    if (userDetailsPhoneNumberFormKey.currentState?.validate() == true) {
-      userEdited.birthday = stringToDateTime(birthdayController.text);
+    if (userDetailsAgeFormKey.currentState?.validate() == true) {
+      if (birthdayController.text != "") {
+        userEdited.birthday = stringToDateTime(birthdayController.text);
+      }
+
       pageStatus = PageStatus.OK;
 
       notifyListeners();

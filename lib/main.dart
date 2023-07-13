@@ -5,18 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:sandfriends/Features/Authentication/CreateAccount/View/CreateAccountScreen.dart';
 import 'package:sandfriends/Features/Authentication/Login/View/LoginScreen.dart';
 import 'package:sandfriends/Features/Authentication/LoginSignup/View/LoginSignupScreen.dart';
+import 'package:sandfriends/Features/Checkout/View/CheckoutScreen.dart';
 import 'package:sandfriends/Features/Court/Model/HourPrice.dart';
 import 'package:sandfriends/Features/Court/View/CourtScreen.dart';
 import 'package:sandfriends/Features/Home/Model/HomeTabsEnum.dart';
 import 'package:sandfriends/Features/Home/View/HomeScreen.dart';
 import 'package:sandfriends/Features/Match/View/MatchScreen.dart';
+import 'package:sandfriends/Features/NewCreditCard/View/NewCreditCardScreen.dart';
 import 'package:sandfriends/Features/Onboarding/View/OnboardingScreen.dart';
 import 'package:sandfriends/Features/OpenMatches/View/OpenMatchesScreen.dart';
+import 'package:sandfriends/Features/Payment/View/PaymentScreen.dart';
 import 'package:sandfriends/Features/RecurrentMatchSearch/View/RecurrentMatchSearchScreen.dart';
 import 'package:sandfriends/Features/RecurrentMatchSearchSport/View/RecurrentMatchSearchSportScreen.dart';
 import 'package:sandfriends/Features/RecurrentMatches/View/RecurrentMatchesSreen.dart';
 import 'package:sandfriends/Features/Rewards/View/RewardsScreen.dart';
 import 'package:sandfriends/Features/RewardsUser/View/RewardsUserScreen.dart';
+import 'package:sandfriends/SharedComponents/Model/Court.dart';
 import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/RedirectProvider.dart';
 import 'Features/Authentication/LoadLogin/View/LoadLoginScreen.dart';
 import 'Features/Court/Model/CourtAvailableHours.dart';
@@ -184,6 +188,7 @@ class _MyAppState extends State<MyApp> {
           String matchSearch = "/match_search";
           String recurrentMatchSearch = "/recurrent_match_search";
           String court = "/court";
+          String checkout = "/checkout";
           if (settings.name!.startsWith(matchSearch)) {
             final arguments = settings.arguments as Map;
 
@@ -219,26 +224,42 @@ class _MyAppState extends State<MyApp> {
             List<CourtAvailableHours>? courtAvailableHours;
             HourPrice? hourPrice;
             DateTime? datetime;
-            if (settings.arguments != null) {}
-            final arguments = settings.arguments as Map;
+            if (settings.arguments != null) {
+              final arguments = settings.arguments as Map;
 
-            return MaterialPageRoute(
-              builder: (context) {
-                return CourtScreen(
-                  store: arguments['store'] as Store,
-                  courtAvailableHours: arguments['availableCourts']
-                      as List<CourtAvailableHours>?,
-                  selectedHourPrice:
-                      arguments['selectedHourPrice'] as HourPrice?,
-                  selectedDate: arguments['selectedDate'] as DateTime?,
-                  selectedWeekday: arguments['selectedWeekday'] as int?,
-                  selectedSport: arguments['selectedSport'] as Sport?,
-                  isRecurrent: arguments['isRecurrent'] as bool?,
-                );
-              },
-            );
+              return MaterialPageRoute(
+                builder: (context) {
+                  return CourtScreen(
+                    store: arguments['store'] as Store,
+                    courtAvailableHours: arguments['availableCourts']
+                        as List<CourtAvailableHours>?,
+                    selectedHourPrice:
+                        arguments['selectedHourPrice'] as HourPrice?,
+                    selectedDate: arguments['selectedDate'] as DateTime?,
+                    selectedWeekday: arguments['selectedWeekday'] as int?,
+                    selectedSport: arguments['selectedSport'] as Sport?,
+                    isRecurrent: arguments['isRecurrent'] as bool?,
+                  );
+                },
+              );
+            }
+          } else if (settings.name!.startsWith(checkout)) {
+            if (settings.arguments != null) {
+              final arguments = settings.arguments as Map;
+
+              return MaterialPageRoute(
+                builder: (context) {
+                  return CheckoutScreen(
+                    court: arguments['court'] as Court,
+                    hourPrices: arguments['hourPrices'] as List<HourPrice>,
+                    date: arguments['date'] as DateTime,
+                    sport: arguments['sport'] as Sport,
+                    isRecurrent: arguments['isRecurrent'] as bool,
+                  );
+                },
+              );
+            }
           }
-
           return null;
         },
         routes: {
@@ -263,6 +284,9 @@ class _MyAppState extends State<MyApp> {
               const RecurrentMatchesScreen(),
           '/recurrent_match_search_sport': (BuildContext context) =>
               const RecurrentMatchSearchSportScreen(),
+          '/payment': (BuildContext context) => const PaymentScreen(),
+          '/new_credit_card': (BuildContext context) =>
+              const NewCreditCardScreen(),
         },
       ),
     );

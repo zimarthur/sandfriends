@@ -18,7 +18,8 @@ class CourtScreen extends StatefulWidget {
   Sport? selectedSport;
   bool? isRecurrent;
 
-  CourtScreen({Key? key, 
+  CourtScreen({
+    Key? key,
     required this.store,
     this.courtAvailableHours,
     this.selectedHourPrice,
@@ -26,7 +27,7 @@ class CourtScreen extends StatefulWidget {
     this.selectedWeekday,
     this.selectedSport,
     this.isRecurrent,
-  }) : super(key: key);
+  });
 
   @override
   State<CourtScreen> createState() => _CourtScreenState();

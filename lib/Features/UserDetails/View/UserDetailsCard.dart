@@ -10,7 +10,8 @@ import '../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsCard extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsCard({Key? key, 
+  UserDetailsCard({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -127,6 +128,7 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                                       UserDetailsModals.Age, context),
                               child: SizedBox(
                                 height: remainingHeight * 0.07,
+                                width: width,
                                 child: FittedBox(
                                   fit: BoxFit.fitHeight,
                                   child: Text(

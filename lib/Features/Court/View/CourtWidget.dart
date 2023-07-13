@@ -6,6 +6,7 @@ import 'package:sandfriends/Features/Court/View/CourtAvailableCourts.dart';
 import 'package:sandfriends/Features/Court/View/CourtContact.dart';
 import 'package:sandfriends/Features/Court/View/CourtDescription.dart';
 import 'package:sandfriends/Features/Court/View/CourtPhotos.dart';
+import 'package:sandfriends/SharedComponents/Model/Court.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
@@ -264,15 +265,29 @@ class _CourtWidgetState extends State<CourtWidget> {
                   Container(
                     padding: EdgeInsets.symmetric(vertical: height * 0.02),
                     child: SFButton(
-                        buttonLabel: "Agendar",
+                        buttonLabel: "Escolher pagamento",
                         color: secondaryYellow,
                         textPadding: EdgeInsets.all(width * 0.03),
                         onTap: () {
-                          if (widget.viewModel.isRecurrent!) {
-                            widget.viewModel.recurrentMatchReservation(context);
-                          } else {
-                            widget.viewModel.matchReservation(context);
-                          }
+                          Court checkoutCourt =
+                              Court.copyWith(widget.viewModel.selectedCourt!);
+                          checkoutCourt.store = widget.viewModel.store;
+                          Navigator.pushNamed(
+                            context,
+                            "/checkout",
+                            arguments: {
+                              'court': checkoutCourt,
+                              'hourPrices': widget.viewModel.selectedHourPrices,
+                              'sport': widget.viewModel.selectedSport,
+                              'date': widget.viewModel.selectedDate,
+                              'isRecurrent': false,
+                            },
+                          );
+                          // if (widget.viewModel.isRecurrent!) {
+                          //   widget.viewModel.recurrentMatchReservation(context);
+                          // } else {
+                          //   widget.viewModel.matchReservation(context);
+                          // }
                         }),
                   ),
                 ],

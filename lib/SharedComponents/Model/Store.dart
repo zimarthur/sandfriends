@@ -34,7 +34,8 @@ class Store {
     required this.phone,
   });
 
-  String get completeAddress => "$address, $addressNumber - $neighbourhood";
+  String get completeAddress =>
+      "$address, $addressNumber - $neighbourhood, ${city.city}";
 
   factory Store.fromJson(Map<String, dynamic> json) {
     var newStore = Store(

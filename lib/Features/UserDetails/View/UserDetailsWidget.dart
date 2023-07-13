@@ -9,7 +9,8 @@ import 'UserDetailsSportSelector.dart';
 
 class UserDetailsWidget extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsWidget({Key? key, 
+  UserDetailsWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -25,28 +26,34 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
       double height = layoutConstraints.maxHeight;
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-        child: Column(
-          children: [
-            const Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
-            UserDetailsSportSelector(
-              viewModel: widget.viewModel,
-            ),
-            const Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
-            Expanded(
-              child: UserDetailsCard(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
+              UserDetailsSportSelector(
                 viewModel: widget.viewModel,
               ),
-            ),
-            const Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
-            UserDetailsPhoneNumber(
-              viewModel: widget.viewModel,
-            ),
-            const Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
-            UserDetailsEmail(
-              viewModel: widget.viewModel,
-            ),
-            const Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
-          ],
+              const Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
+              SizedBox(
+                height: height * 0.6,
+                child: UserDetailsCard(
+                  viewModel: widget.viewModel,
+                ),
+              ),
+              const Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
+              UserDetailsPhoneNumber(
+                viewModel: widget.viewModel,
+              ),
+              const Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
+              UserDetailsEmail(
+                viewModel: widget.viewModel,
+              ),
+              const Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
+              SizedBox(
+                height: MediaQuery.of(context).viewInsets.bottom,
+              )
+            ],
+          ),
         ),
       );
     });

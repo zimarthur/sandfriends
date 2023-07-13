@@ -26,7 +26,8 @@ class NotificationsViewModel extends ChangeNotifier {
           (notif) => notif.idNotification == notification.idNotification,
         )
         .seen = true;
-    Navigator.pushNamed(context, '/match_screen');
+    Navigator.pushNamed(
+        context, '/match_screen/${notification.match.matchUrl}');
   }
 
   void closeModal() {

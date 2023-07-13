@@ -9,7 +9,8 @@ import '../../../Utils/Constants.dart';
 class NotificationCard extends StatefulWidget {
   AppNotification notification;
   VoidCallback onTap;
-  NotificationCard({Key? key, 
+  NotificationCard({
+    Key? key,
     required this.notification,
     required this.onTap,
   }) : super(key: key);
@@ -24,7 +25,7 @@ class _NotificationCardState extends State<NotificationCard> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return InkWell(
-      onTap: () => widget.onTap,
+      onTap: () => widget.onTap(),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),

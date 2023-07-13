@@ -4,7 +4,7 @@ import 'package:sandfriends/Features/Match/View/CreatorNotesSection.dart';
 import 'package:sandfriends/Features/Match/View/InformationSection.dart';
 import 'package:sandfriends/Features/Match/View/MembersSection.dart';
 import 'package:sandfriends/Features/Match/View/OpenMatchSection.dart';
-import 'package:sandfriends/Features/Match/View/StoreSection.dart';
+import 'package:sandfriends/SharedComponents/View/StoreSection.dart';
 
 import '../../../Utils/Constants.dart';
 
@@ -12,7 +12,8 @@ import '../ViewModel/MatchViewModel.dart';
 
 class MatchWidget extends StatefulWidget {
   MatchViewModel viewModel;
-  MatchWidget({Key? key, 
+  MatchWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -39,7 +40,8 @@ class _MatchWidgetState extends State<MatchWidget> {
             SizedBox(
               height: height * 0.2,
               child: StoreSection(
-                viewModel: widget.viewModel,
+                court: widget.viewModel.match.court,
+                onTapStore: () => widget.viewModel.onTapStore(context),
               ),
             ),
             CreatorNotesSection(

@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/Utils/Heros.dart';
 
-import '../../../SharedComponents/View/SFLoading.dart';
-import '../../../Utils/Constants.dart';
-import '../ViewModel/MatchViewModel.dart';
+import '../Model/Court.dart';
+import 'SFLoading.dart';
+import '../../Utils/Constants.dart';
+import '../../Features/Match/ViewModel/MatchViewModel.dart';
 
 class StoreSection extends StatefulWidget {
-  MatchViewModel viewModel;
-  StoreSection({Key? key, 
-    required this.viewModel,
+  Court court;
+  VoidCallback onTapStore;
+  StoreSection({
+    Key? key,
+    required this.court,
+    required this.onTapStore,
   }) : super(key: key);
 
   @override
@@ -25,22 +29,19 @@ class _StoreSectionState extends State<StoreSection> {
       double layoutHeight = layoutConstraints.maxHeight;
       return InkWell(
         onTap: () {
-          widget.viewModel.onTapStore(context);
+          widget.onTapStore();
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: layoutHeight * 0.15,
               margin: EdgeInsets.only(top: layoutHeight * 0.05),
-              child: const FittedBox(
-                fit: BoxFit.fitHeight,
-                child: Text(
-                  "Local",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                  ),
+              child: Text(
+                "Local",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
                 ),
+                textScaleFactor: 1.3,
               ),
             ),
             Expanded(
@@ -51,7 +52,7 @@ class _StoreSectionState extends State<StoreSection> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16.0),
                       child: CachedNetworkImage(
-                        imageUrl: widget.viewModel.match.court.store!.imageUrl,
+                        imageUrl: widget.court.store!.imageUrl,
                         height: layoutHeight * 0.65,
                         width: layoutHeight * 0.65,
                         placeholder: (context, url) => SizedBox(
@@ -72,19 +73,20 @@ class _StoreSectionState extends State<StoreSection> {
                       ),
                     ),
                   ),
-                  Padding(padding: EdgeInsets.only(right: width * 0.1)),
+                  Padding(padding: EdgeInsets.only(right: width * 0.05)),
                   Expanded(
                       child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.viewModel.match.court.store!.name,
-                        textScaleFactor: 1.5,
+                        widget.court.store!.name,
+                        textScaleFactor: 1.2,
                         style: const TextStyle(
                             fontWeight: FontWeight.w700, color: primaryBlue),
                       ),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SvgPicture.asset(
                             r'assets\icon\location_ping.svg',
@@ -95,8 +97,7 @@ class _StoreSectionState extends State<StoreSection> {
                               padding: EdgeInsets.only(right: width * 0.02)),
                           Expanded(
                             child: Text(
-                              widget
-                                  .viewModel.match.court.store!.completeAddress,
+                              widget.court.store!.completeAddress,
                               style: const TextStyle(
                                 color: primaryBlue,
                               ),
@@ -108,10 +109,10 @@ class _StoreSectionState extends State<StoreSection> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.viewModel.match.court.storeCourtName,
+                            widget.court.storeCourtName,
                           ),
                           Text(
-                            widget.viewModel.match.court.isIndoor
+                            widget.court.isIndoor
                                 ? "Quadra Coberta"
                                 : "Quadra Descoberta",
                             textScaleFactor: 0.8,

@@ -72,9 +72,11 @@ String? birthdayValidator(String? value) {
     if (value.length != 10) {
       return "formato incorreto";
     } else {
-      String convertedDatetime = DateTimeConverter(value);
+      String convertedDatetime = formatedStringDate(value);
       if (DateTime.tryParse(convertedDatetime) == null) {
         return "data não existe";
+      } else if (DateTime.parse(convertedDatetime).isAfter(DateTime.now())) {
+        return "data inválida";
       } else {
         return null;
       }
@@ -82,7 +84,7 @@ String? birthdayValidator(String? value) {
   }
 }
 
-String DateTimeConverter(String rawDateTime) {
+String formatedStringDate(String rawDateTime) {
   String day = rawDateTime.substring(0, 2);
   String month = rawDateTime.substring(3, 5);
   String year = rawDateTime.substring(6, 10);
@@ -114,5 +116,26 @@ String? max255(String? value, String stringWhenEmpty) {
     return "Máx 255 caracteres";
   } else {
     return null;
+  }
+}
+
+String? emptyCheck(String? value, String onNull) {
+  if (value == null || value.isEmpty) {
+    return onNull;
+  } else {
+    return null;
+  }
+}
+
+String? cpfValidator(String? value) {
+  if (value == null || value.isEmpty) {
+    return "Digite o cpf";
+  } else {
+    final cleanValue = value.replaceAll(RegExp('[^0-9]'), '');
+    if (cleanValue.length != 11 || int.tryParse(cleanValue) == null) {
+      return "Cpf inválido";
+    } else {
+      return null;
+    }
   }
 }

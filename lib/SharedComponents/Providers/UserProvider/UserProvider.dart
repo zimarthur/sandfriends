@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../Model/AppMatch.dart';
 import '../../Model/AppNotification.dart';
 import '../../Model/AppRecurrentMatch.dart';
+import '../../Model/CreditCard/CreditCard.dart';
 import '../../Model/Reward.dart';
 import '../../Model/User.dart';
 
@@ -20,9 +21,10 @@ class UserProvider extends ChangeNotifier {
     filteredMatchList = _matches.where((match) {
       for (int i = 0; i < match.members.length; i++) {
         if (match.members[i].user.idUser == user!.idUser) {
-          if (match.members[i].refused == false &&
-              match.members[i].waitingApproval == false &&
-              match.members[i].quit == false) {
+          if ((match.members[i].refused == false &&
+                  match.members[i].waitingApproval == false &&
+                  match.members[i].quit == false) ||
+              (match.members[i].isMatchCreator)) {
             return true;
           }
         }
@@ -138,4 +140,6 @@ class UserProvider extends ChangeNotifier {
     _userReward = null;
     notifyListeners();
   }
+
+  List<CreditCard> creditCards = [];
 }

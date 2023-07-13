@@ -9,7 +9,8 @@ import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalAge extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsModalAge({Key? key, 
+  UserDetailsModalAge({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -43,7 +44,7 @@ class _UserDetailsModalAgeState extends State<UserDetailsModalAge> {
               labelText: "Aniversário",
               pourpose: TextFieldPourpose.Numeric,
               controller: widget.viewModel.birthdayController,
-              validator: birthdayValidator,
+              validator: (a) => birthdayValidator(a),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: width * 0.02),

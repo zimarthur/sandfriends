@@ -22,3 +22,4 @@ const red = Colors.red;
 const divider = Color.fromRGBO(218, 219, 223, 1);
 
 const double defaultPadding = 16.0;
+const double defaultBorderRadius = 16.0;

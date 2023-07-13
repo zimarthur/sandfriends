@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -17,8 +18,10 @@ class SFTextField extends StatefulWidget {
   final Function(String)? onChanged;
   final String? hintText;
   final Color themeColor;
+  final List<TextInputFormatter>? inputFormatters;
 
-  const SFTextField({Key? key, 
+  const SFTextField({
+    Key? key,
     required this.labelText,
     this.prefixIcon,
     this.suffixIcon,
@@ -31,6 +34,7 @@ class SFTextField extends StatefulWidget {
     this.minLines,
     this.hintText,
     this.themeColor = primaryBlue,
+    this.inputFormatters,
   }) : super(key: key);
 
   @override
@@ -46,6 +50,7 @@ class _SFTextFieldState extends State<SFTextField> {
       validator: widget.validator,
       controller: widget.controller,
       textInputAction: TextInputAction.next,
+      inputFormatters: widget.inputFormatters,
       keyboardType: widget.pourpose == TextFieldPourpose.Email
           ? TextInputType.emailAddress
           : widget.pourpose == TextFieldPourpose.Numeric
