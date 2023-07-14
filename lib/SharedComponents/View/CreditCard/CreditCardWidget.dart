@@ -4,10 +4,13 @@ import 'package:sandfriends/SharedComponents/Model/CreditCard/CreditCard.dart';
 import 'package:sandfriends/SharedComponents/Providers/UserProvider/UserProvider.dart';
 import 'package:sandfriends/SharedComponents/View/CreditCard/CreditCardCard.dart';
 import 'package:sandfriends/SharedComponents/View/CreditCard/EmptyCreditCards.dart';
+import 'package:sandfriends/Utils/Constants.dart';
 
 class CreditCardWidget extends StatelessWidget {
+  bool isEditable;
   Function(CreditCard)? onSelectedCreditCard;
   CreditCardWidget({
+    required this.isEditable,
     this.onSelectedCreditCard,
   });
 
@@ -33,10 +36,20 @@ class CreditCardWidget extends StatelessWidget {
                           );
                         }
                       },
-                      child: CreditCardCard(
-                        creditCard: Provider.of<UserProvider>(context)
-                            .creditCards[index],
-                        isEditable: true,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            bottom: index ==
+                                    Provider.of<UserProvider>(context)
+                                            .creditCards
+                                            .length -
+                                        1
+                                ? 0
+                                : defaultPadding),
+                        child: CreditCardCard(
+                          creditCard: Provider.of<UserProvider>(context)
+                              .creditCards[index],
+                          isEditable: isEditable,
+                        ),
                       ),
                     );
                   },

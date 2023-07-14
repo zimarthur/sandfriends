@@ -22,7 +22,9 @@ class _PaymentWidgetState extends State<PaymentWidget> {
       child: Column(
         children: [
           Expanded(
-            child: CreditCardWidget(),
+            child: CreditCardWidget(
+              isEditable: true,
+            ),
           ),
           SFButton(
             buttonLabel: "Novo cartão de crédito",

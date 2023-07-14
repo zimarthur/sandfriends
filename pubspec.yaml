@@ -145,6 +145,7 @@ flutter:
     - assets\icon\users.svg
     - assets\icon\user_plus.svg
     - assets\icon\edit.svg
+    - assets\icon\delete.svg
     - assets\icon\favorite_selected.svg
     - assets\icon\favorite_unselected.svg
     - assets\icon\notification_on.svg
@@ -153,6 +154,7 @@ flutter:
     - assets\icon\sandfriends_logo_disabled.svg
     - assets\icon\medal.svg
     - assets\icon\recurrent_calendar.svg
+    - assets\icon\three_dots.svg
 
     - assets\icon\no_credit_card.svg
     - assets\icon\credit_card.svg
