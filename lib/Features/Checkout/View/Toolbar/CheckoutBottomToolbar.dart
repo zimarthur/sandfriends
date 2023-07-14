@@ -91,7 +91,8 @@ class CheckoutBottomToolbar extends StatelessWidget {
                     SelectedPayment.NotSelected
                 ? primaryBlue
                 : divider,
-            onTap: () {},
+            onTap: () => Provider.of<CheckoutViewModel>(context, listen: false)
+                .makeReservation(context),
             textPadding: EdgeInsets.symmetric(vertical: defaultPadding / 2),
           )
         ],

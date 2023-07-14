@@ -8,9 +8,12 @@ import 'package:sandfriends/SharedComponents/Model/Court.dart';
 import 'package:sandfriends/SharedComponents/Model/CreditCard/CreditCard.dart';
 import 'package:sandfriends/SharedComponents/Model/Hour.dart';
 import 'package:sandfriends/SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/Utils/Validators.dart';
 
+import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/Sport.dart';
 import '../../../SharedComponents/Model/Store.dart';
+import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
 import '../../Court/Model/HourPrice.dart';
@@ -39,17 +42,23 @@ class CheckoutViewModel extends ChangeNotifier {
       MaskedTextController(mask: "000.000.000-00");
 
   String get matchPeriod {
-    Hour startHour =
-        hourPrices.reduce((a, b) => a.hour.hour < b.hour.hour ? a : b).hour;
-    Hour endHour = availableHours.firstWhere((hour) =>
-        hour.hour ==
-        1 +
-            hourPrices
-                .reduce((a, b) => a.hour.hour > b.hour.hour ? a : b)
-                .hour
-                .hour);
+    return "${startingHour.hourString} - ${endingHour.hourString}";
+  }
 
-    return "${startHour.hourString} - ${endHour.hourString}";
+  Hour get startingHour {
+    return hourPrices.reduce((a, b) => a.hour.hour < b.hour.hour ? a : b).hour;
+  }
+
+  Hour get endingHour {
+    return availableHours.firstWhere(
+      (hour) =>
+          hour.hour ==
+          1 +
+              hourPrices
+                  .reduce((a, b) => a.hour.hour > b.hour.hour ? a : b)
+                  .hour
+                  .hour,
+    );
   }
 
   int get matchPrice {
@@ -95,6 +104,98 @@ class CheckoutViewModel extends ChangeNotifier {
     pageStatus = PageStatus.OK;
     selectedPayment = SelectedPayment.CreditCard;
     notifyListeners();
+  }
+
+  void makeReservation(BuildContext context) {
+    if (selectedPayment != SelectedPayment.NotSelected) {
+      if ((selectedPayment == SelectedPayment.CreditCard ||
+          selectedPayment == SelectedPayment.Pix &&
+              cpfValidator(cpfController.text) != null)) {
+        modalMessage = SFModalMessage(
+            message: "Insira o cpf para a nota fiscal",
+            onTap: () {
+              pageStatus = PageStatus.OK;
+              notifyListeners();
+            },
+            isHappy: true);
+        pageStatus = PageStatus.ERROR;
+        notifyListeners();
+      } else {
+        if (isRecurrent) {
+          recurrentMatchReservation(context);
+        } else {
+          matchReservation(context);
+        }
+      }
+    }
+  }
+
+  void matchReservation(BuildContext context) {
+    pageStatus = PageStatus.LOADING;
+    notifyListeners();
+    checkoutRepo
+        .matchReservation(
+      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      court.idStoreCourt,
+      sport.idSport,
+      date,
+      startingHour.hour,
+      endingHour.hour,
+      matchPrice,
+    )
+        .then((response) {
+      modalMessage = SFModalMessage(
+        message: response.userMessage!,
+        onTap: () {
+          if (response.responseStatus == NetworkResponseStatus.alert) {
+            Navigator.pushNamed(context, '/home');
+          } else {
+            pageStatus = PageStatus.OK;
+            notifyListeners();
+          }
+        },
+        buttonText: response.responseStatus == NetworkResponseStatus.alert
+            ? "Concluído"
+            : "Voltar",
+        isHappy: response.responseStatus == NetworkResponseStatus.alert,
+      );
+      pageStatus = PageStatus.ERROR;
+      notifyListeners();
+    });
+  }
+
+  void recurrentMatchReservation(BuildContext context) {
+    pageStatus = PageStatus.LOADING;
+    notifyListeners();
+    checkoutRepo
+        .recurrentMatchReservation(
+      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      court.idStoreCourt,
+      sport.idSport,
+      0,
+      startingHour.hour,
+      endingHour.hour,
+      matchPrice,
+    )
+        .then((response) {
+      modalMessage = SFModalMessage(
+        message: response.userMessage!,
+        onTap: () {
+          if (response.responseStatus == NetworkResponseStatus.alert) {
+            Navigator.pushNamed(context, '/home');
+          } else {
+            pageStatus = PageStatus.OK;
+            notifyListeners();
+          }
+        },
+        buttonText: response.responseStatus == NetworkResponseStatus.alert
+            ? "Concluído"
+            : "Voltar",
+        isHappy: response.responseStatus == NetworkResponseStatus.alert,
+      );
+      pageStatus = PageStatus.ERROR;
+      notifyListeners();
+    });
   }
 
   void closeModal() {

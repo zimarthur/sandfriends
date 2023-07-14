@@ -10,7 +10,8 @@ import '../ViewModel/CourtViewModel.dart';
 class CourtAvailableCourts extends StatefulWidget {
   CourtViewModel viewModel;
   Color themeColor;
-  CourtAvailableCourts({Key? key, 
+  CourtAvailableCourts({
+    Key? key,
     required this.viewModel,
     required this.themeColor,
   }) : super(key: key);
@@ -20,6 +21,21 @@ class CourtAvailableCourts extends StatefulWidget {
 }
 
 class _CourtAvailableCourtsState extends State<CourtAvailableCourts> {
+  ScrollController selectedScrollController = ScrollController();
+  int jumpToPosition = 0;
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      selectedScrollController.animateTo(
+        jumpToPosition * 84,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -63,8 +79,8 @@ class _CourtAvailableCourtsState extends State<CourtAvailableCourts> {
               widget.viewModel.courtAvailableHours.length > 1
                   ? "Selecione a quadra e a duração do jogo"
                   : "Selecione a duração do jogo",
-              style:
-                  const TextStyle(color: textDarkGrey, fontWeight: FontWeight.w700),
+              style: const TextStyle(
+                  color: textDarkGrey, fontWeight: FontWeight.w700),
             ),
           ),
           ListView.builder(
@@ -73,6 +89,16 @@ class _CourtAvailableCourtsState extends State<CourtAvailableCourts> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: widget.viewModel.courtAvailableHours.length,
             itemBuilder: (context, indexcourt) {
+              bool isSelectedCourt =
+                  widget.viewModel.selectedCourt!.idStoreCourt ==
+                      widget.viewModel.courtAvailableHours[indexcourt].court
+                          .idStoreCourt;
+              if (isSelectedCourt) {
+                jumpToPosition = widget
+                    .viewModel.courtAvailableHours[indexcourt].hourPrices
+                    .indexOf(widget.viewModel.selectedHourPrices.first);
+              }
+
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: height * 0.015),
                 child: Column(
@@ -107,6 +133,8 @@ class _CourtAvailableCourtsState extends State<CourtAvailableCourts> {
                     SizedBox(
                       height: 50,
                       child: ListView.builder(
+                        controller:
+                            isSelectedCourt ? selectedScrollController : null,
                         scrollDirection: Axis.horizontal,
                         physics: const BouncingScrollPhysics(),
                         itemCount: widget.viewModel
@@ -122,12 +150,7 @@ class _CourtAvailableCourtsState extends State<CourtAvailableCourts> {
                                         .viewModel
                                         .courtAvailableHours[indexcourt]
                                         .hourPrices[indexHour]) &&
-                                widget.viewModel.selectedCourt!.idStoreCourt ==
-                                    widget
-                                        .viewModel
-                                        .courtAvailableHours[indexcourt]
-                                        .court
-                                        .idStoreCourt,
+                                isSelectedCourt,
                             onTap: (a) => widget.viewModel.onTapHourPrice(
                               widget.viewModel.courtAvailableHours[indexcourt]
                                   .court,
