@@ -7,6 +7,8 @@ import 'package:sandfriends/SharedComponents/View/SFTextField.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 import 'package:sandfriends/Utils/Validators.dart';
 
+import '../../../../SharedComponents/Model/CreditCard/CreditCardUtils.dart';
+
 class CheckoutPayment extends StatefulWidget {
   const CheckoutPayment({Key? key}) : super(key: key);
 
@@ -39,12 +41,34 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
             iconPath: r"assets\icon\pix.svg",
             title: "Pix",
           ),
-          CheckoutPaymentRadio(
-            radioPaymentValue: SelectedPayment.CreditCard,
-            iconPath: r"assets\icon\credit_card.svg",
-            title: "Cartão de crédito",
-            subtitle: null,
-          ),
+          (Provider.of<CheckoutViewModel>(context).selectedCreditCard != null &&
+                  Provider.of<CheckoutViewModel>(context).selectedPayment ==
+                      SelectedPayment.CreditCard)
+              ? CheckoutPaymentRadio(
+                  radioPaymentValue: SelectedPayment.CreditCard,
+                  iconPath: creditCardImagePath(
+                    getCardTypeFrmNumber(
+                      Provider.of<CheckoutViewModel>(context)
+                          .selectedCreditCard!
+                          .cardNumber,
+                    ),
+                  ),
+                  title: Provider.of<CheckoutViewModel>(context)
+                              .selectedCreditCard!
+                              .cardNickname !=
+                          null
+                      ? "${Provider.of<CheckoutViewModel>(context).selectedCreditCard!.cardNickname} - Crédito"
+                      : "Crédito",
+                  subtitle: encryptedCreditCardNumber(
+                      Provider.of<CheckoutViewModel>(context)
+                          .selectedCreditCard!),
+                )
+              : CheckoutPaymentRadio(
+                  radioPaymentValue: SelectedPayment.CreditCard,
+                  iconPath: r"assets\icon\credit_card.svg",
+                  title: "Cartão de crédito",
+                  subtitle: null,
+                ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: defaultPadding),
             child: Container(

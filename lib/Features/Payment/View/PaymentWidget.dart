@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/SharedComponents/Model/CreditCard/EmptyCreditCards.dart';
+import 'package:sandfriends/SharedComponents/View/CreditCard/CreditCardWidget.dart';
+import 'package:sandfriends/SharedComponents/View/CreditCard/EmptyCreditCards.dart';
 import 'package:sandfriends/Features/Payment/ViewModel/PaymentViewModel.dart';
 import 'package:sandfriends/SharedComponents/View/SFButton.dart';
 import 'package:sandfriends/Utils/Constants.dart';
@@ -21,9 +22,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
       child: Column(
         children: [
           Expanded(
-            child: widget.viewModel.creditCards.isEmpty
-                ? EmptyCreditCards()
-                : Container(),
+            child: CreditCardWidget(),
           ),
           SFButton(
             buttonLabel: "Novo cartão de crédito",

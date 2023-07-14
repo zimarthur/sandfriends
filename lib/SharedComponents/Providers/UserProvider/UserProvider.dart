@@ -141,5 +141,27 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<CreditCard> creditCards = [];
+  List<CreditCard> creditCards = [
+    CreditCard(
+        cardNumber: "5234567891123456",
+        cvv: 123,
+        expirationDate: DateTime.now(),
+        ownerName: "Arthur Zim",
+        cpf: "123",
+        cardNickname: "Apelido"),
+    CreditCard(
+        cardNumber: "4234567891121234",
+        cvv: 123,
+        expirationDate: DateTime.now(),
+        ownerName: "Arthur Zim",
+        cpf: "123",
+        cardNickname: "Apelido"),
+    CreditCard(
+        cardNumber: "5234567891123456",
+        cvv: 123,
+        expirationDate: DateTime.now(),
+        ownerName: "Arthur Zim",
+        cpf: "123",
+        cardNickname: "Apelido"),
+  ];
 }

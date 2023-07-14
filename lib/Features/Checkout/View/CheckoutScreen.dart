@@ -56,6 +56,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             titleText: "Resumo do agendamento",
             appBarType: AppBarType.Secondary,
             messageModalWidget: viewModel.modalMessage,
+            modalFormWidget: viewModel.widgetForm,
             onTapBackground: () => viewModel.closeModal(),
             onTapReturn: () => viewModel.onTapReturn(context),
             child: CheckoutWidget(

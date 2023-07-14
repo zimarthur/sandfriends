@@ -1,8 +1,11 @@
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Checkout/Model/SelectedPayment.dart';
 import 'package:sandfriends/Features/Checkout/Repository/CheckoutRepoImp.dart';
+import 'package:sandfriends/Features/Checkout/View/Payment/ModalCreditCardSelector.dart';
 import 'package:sandfriends/SharedComponents/Model/Court.dart';
+import 'package:sandfriends/SharedComponents/Model/CreditCard/CreditCard.dart';
 import 'package:sandfriends/SharedComponents/Model/Hour.dart';
 import 'package:sandfriends/SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 
@@ -21,6 +24,7 @@ class CheckoutViewModel extends ChangeNotifier {
     onTap: () {},
     isHappy: true,
   );
+  Widget? widgetForm;
 
   late Court court;
   late List<HourPrice> hourPrices;
@@ -30,7 +34,9 @@ class CheckoutViewModel extends ChangeNotifier {
   late bool isRecurrent;
 
   SelectedPayment selectedPayment = SelectedPayment.NotSelected;
-  TextEditingController cpfController = TextEditingController();
+  CreditCard? selectedCreditCard;
+  TextEditingController cpfController =
+      MaskedTextController(mask: "000.000.000-00");
 
   String get matchPeriod {
     Hour startHour =
@@ -71,7 +77,23 @@ class CheckoutViewModel extends ChangeNotifier {
   }
 
   void setNewSelectedPayment(SelectedPayment newSelectedPayment) {
-    selectedPayment = newSelectedPayment;
+    if (newSelectedPayment == SelectedPayment.CreditCard) {
+      widgetForm = ModalCreditCardSelector(
+        onSelectedCreditCard: (selectedCreditCard) =>
+            onSelectedCreditCard(selectedCreditCard),
+      );
+      pageStatus = PageStatus.FORM;
+      selectedPayment = SelectedPayment.NotSelected;
+    } else {
+      selectedPayment = newSelectedPayment;
+    }
+    notifyListeners();
+  }
+
+  void onSelectedCreditCard(CreditCard newSelectedCreditCard) {
+    selectedCreditCard = newSelectedCreditCard;
+    pageStatus = PageStatus.OK;
+    selectedPayment = SelectedPayment.CreditCard;
     notifyListeners();
   }
 

@@ -1,4 +1,5 @@
 import 'package:sandfriends/SharedComponents/Model/CreditCard/CardType.dart';
+import 'package:sandfriends/SharedComponents/Model/CreditCard/CreditCard.dart';
 
 CardType getCardTypeFrmNumber(String input) {
   CardType cardType;
@@ -42,4 +43,8 @@ String creditCardImagePath(CardType cardType) {
     default:
       return r"assets\credit_card\default_credit_card.svg";
   }
+}
+
+String encryptedCreditCardNumber(CreditCard card) {
+  return "**** ${card.cardNumber.substring(card.cardNumber.length - 4)}";
 }
