@@ -92,7 +92,7 @@ class CheckoutBottomToolbar extends StatelessWidget {
                 ? primaryBlue
                 : divider,
             onTap: () => Provider.of<CheckoutViewModel>(context, listen: false)
-                .makeReservation(context),
+                .validateReservation(context),
             textPadding: EdgeInsets.symmetric(vertical: defaultPadding / 2),
           )
         ],

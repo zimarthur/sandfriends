@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Checkout/Model/SelectedPayment.dart';
 import 'package:sandfriends/Features/Checkout/Repository/CheckoutRepoImp.dart';
 import 'package:sandfriends/Features/Checkout/View/Payment/ModalCreditCardSelector.dart';
+import 'package:sandfriends/Features/Checkout/View/Payment/ModalCvv.dart';
 import 'package:sandfriends/SharedComponents/Model/Court.dart';
 import 'package:sandfriends/SharedComponents/Model/CreditCard/CreditCard.dart';
 import 'package:sandfriends/SharedComponents/Model/Hour.dart';
@@ -40,6 +41,9 @@ class CheckoutViewModel extends ChangeNotifier {
   CreditCard? selectedCreditCard;
   TextEditingController cpfController =
       MaskedTextController(mask: "000.000.000-00");
+  TextEditingController cvvController = MaskedTextController(mask: "0000");
+
+  final cvvFormKey = GlobalKey<FormState>();
 
   String get matchPeriod {
     return "${startingHour.hourString} - ${endingHour.hourString}";
@@ -106,13 +110,14 @@ class CheckoutViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void makeReservation(BuildContext context) {
+  void validateReservation(BuildContext context) {
     if (selectedPayment != SelectedPayment.NotSelected) {
+      String? cvvValidator = cpfValidator(cpfController.text);
       if ((selectedPayment == SelectedPayment.CreditCard ||
-          selectedPayment == SelectedPayment.Pix &&
-              cpfValidator(cpfController.text) != null)) {
+              selectedPayment == SelectedPayment.Pix) &&
+          cvvValidator != null) {
         modalMessage = SFModalMessage(
-            message: "Insira o cpf para a nota fiscal",
+            message: cvvValidator,
             onTap: () {
               pageStatus = PageStatus.OK;
               notifyListeners();
@@ -121,12 +126,22 @@ class CheckoutViewModel extends ChangeNotifier {
         pageStatus = PageStatus.ERROR;
         notifyListeners();
       } else {
-        if (isRecurrent) {
-          recurrentMatchReservation(context);
+        if (selectedPayment == SelectedPayment.CreditCard) {
+          widgetForm = ModalCvv();
+          pageStatus = PageStatus.FORM;
+          notifyListeners();
         } else {
-          matchReservation(context);
+          makeReservation(context);
         }
       }
+    }
+  }
+
+  void makeReservation(BuildContext context) {
+    if (isRecurrent) {
+      recurrentMatchReservation(context);
+    } else {
+      matchReservation(context);
     }
   }
 

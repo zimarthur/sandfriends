@@ -10,7 +10,8 @@ class SFModalMessage extends StatefulWidget {
   String buttonText;
   bool isHappy;
 
-  SFModalMessage({Key? key, 
+  SFModalMessage({
+    Key? key,
     required this.message,
     required this.onTap,
     this.buttonText = "Concluído",
