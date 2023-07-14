@@ -33,7 +33,8 @@ class _CheckoutPaymentRadioState extends State<CheckoutPaymentRadio> {
         widget.radioPaymentValue,
       ),
       child: Container(
-        padding: EdgeInsets.all(defaultPadding),
+        padding: EdgeInsets.symmetric(
+            horizontal: defaultPadding, vertical: defaultPadding / 2),
         margin: EdgeInsets.symmetric(vertical: defaultPadding / 2),
         decoration: BoxDecoration(
           color: secondaryPaper,
@@ -47,7 +48,7 @@ class _CheckoutPaymentRadioState extends State<CheckoutPaymentRadio> {
         child: Row(children: [
           SvgPicture.asset(
             widget.iconPath,
-            height: 20,
+            height: 25,
           ),
           SizedBox(
             width: defaultPadding / 2,

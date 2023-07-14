@@ -156,6 +156,7 @@ flutter:
 
     - assets\icon\no_credit_card.svg
     - assets\icon\credit_card.svg
+    - assets\icon\dollar_bill.svg
     - assets\icon\pix.svg
     - assets\credit_card\amex.svg
     - assets\credit_card\diners.svg

@@ -19,7 +19,7 @@ class CheckoutBottomToolbarItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "1x partida no dia ${DateFormat("dd/MM").format(date)}",
+            "Partida no dia ${DateFormat("dd/MM").format(date)}",
             style: TextStyle(
               fontSize: 12,
               color: textDarkGrey,

@@ -1,1 +1,1 @@
-enum SelectedPayment { NotSelected, Pix, CreditCard }
+enum SelectedPayment { NotSelected, Pix, CreditCard, PayInStore }

@@ -9,7 +9,8 @@ import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalRank extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsModalRank({Key? key, 
+  UserDetailsModalRank({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -75,18 +76,21 @@ class _UserDetailsModalRankState extends State<UserDetailsModalRank> {
                       color: secondaryBack,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: currentRank == availableRanks[index]
+                        color: currentRank.idRankCategory ==
+                                availableRanks[index].idRankCategory
                             ? primaryBlue
                             : textLightGrey,
-                        width: currentRank == availableRanks[index] ? 2 : 1,
+                        width: currentRank.idRankCategory ==
+                                availableRanks[index].idRankCategory
+                            ? 2
+                            : 1,
                       ),
                     ),
                     child: Text(
-                      Provider.of<CategoriesProvider>(context, listen: false)
-                          .ranks[index]
-                          .name,
+                      availableRanks[index].name,
                       style: TextStyle(
-                        color: currentRank == availableRanks[index]
+                        color: currentRank.idRankCategory ==
+                                availableRanks[index].idRankCategory
                             ? textBlue
                             : textDarkGrey,
                       ),

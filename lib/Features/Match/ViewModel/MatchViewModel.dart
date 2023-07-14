@@ -305,22 +305,10 @@ class MatchViewModel extends ChangeNotifier {
   }
 
   void joinMatch(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
-    matchRepo
-        .joinMatch(
-          loggedUser.accessToken,
-          match.idMatch,
-        )
-        .then((response) => defaultResponse(response, context));
-  }
-
-  void saveOpenMatchChanges(BuildContext context) {
-    if (match.isOpenMatch == true &&
-        match.maxUsers <= match.activeMatchMembers) {
+    if (!userHasConfiguredRank(context)) {
       modalMessage = SFModalMessage(
         message:
-            "O número de jogadores que você deseja para sua partida deve ser maior do que o número de jogadores atual",
+            "Para entrar em uma partida aberta você precisa configurar seu rank em ${match.sport.description}",
         onTap: () {
           pageStatus = PageStatus.OK;
           notifyListeners();
@@ -333,14 +321,63 @@ class MatchViewModel extends ChangeNotifier {
       pageStatus = PageStatus.LOADING;
       notifyListeners();
       matchRepo
-          .saveOpenMatch(loggedUser.accessToken, match.idMatch,
-              match.isOpenMatch, match.maxUsers)
-          .then(
-            (response) => defaultResponse(
-              response,
-              context,
-            ),
-          );
+          .joinMatch(
+            loggedUser.accessToken,
+            match.idMatch,
+          )
+          .then((response) => defaultResponse(response, context));
+    }
+  }
+
+  bool userHasConfiguredRank(BuildContext context) {
+    return Provider.of<UserProvider>(context, listen: false)
+            .user!
+            .ranks
+            .firstWhere((rank) => rank.sport.idSport == match.sport.idSport)
+            .rankSportLevel !=
+        0;
+  }
+
+  void saveOpenMatchChanges(BuildContext context) {
+    if (!userHasConfiguredRank(context)) {
+      modalMessage = SFModalMessage(
+        message:
+            "Antes de abrir uma partida você precisa configurar seu rank em ${match.sport.description}",
+        onTap: () {
+          pageStatus = PageStatus.OK;
+          notifyListeners();
+        },
+        isHappy: false,
+      );
+      pageStatus = PageStatus.ERROR;
+      notifyListeners();
+    } else {
+      if (match.isOpenMatch == true &&
+          match.maxUsers <= match.activeMatchMembers) {
+        modalMessage = SFModalMessage(
+          message:
+              "O número de jogadores que você deseja para sua partida deve ser maior do que o número de jogadores atual",
+          onTap: () {
+            pageStatus = PageStatus.OK;
+            notifyListeners();
+          },
+          isHappy: false,
+        );
+        pageStatus = PageStatus.ERROR;
+        notifyListeners();
+      } else {
+        pageStatus = PageStatus.LOADING;
+        notifyListeners();
+        matchRepo
+            .saveOpenMatch(loggedUser.accessToken, match.idMatch,
+                match.isOpenMatch, match.maxUsers)
+            .then(
+              (response) => defaultResponse(
+                response,
+                context,
+              ),
+            );
+      }
     }
   }
 

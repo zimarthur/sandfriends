@@ -30,6 +30,7 @@ class CheckoutViewModel extends ChangeNotifier {
   late bool isRecurrent;
 
   SelectedPayment selectedPayment = SelectedPayment.NotSelected;
+  TextEditingController cpfController = TextEditingController();
 
   String get matchPeriod {
     Hour startHour =

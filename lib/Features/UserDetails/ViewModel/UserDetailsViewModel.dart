@@ -46,7 +46,7 @@ class UserDetailsViewModel extends ChangeNotifier {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController phoneNumberController =
-      MaskedTextController(mask: '(000) 00000-00000');
+      MaskedTextController(mask: '(00) 00000-00000');
   final TextEditingController birthdayController =
       MaskedTextController(mask: '00/00/0000');
   final TextEditingController heightController =
