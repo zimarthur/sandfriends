@@ -34,7 +34,7 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                 children: [
                   SFTextField(
                     labelText: "Apelido do cartão (opcional)",
-                    pourpose: TextFieldPourpose.Numeric,
+                    pourpose: TextFieldPourpose.Standard,
                     controller: widget.viewModel.cardNicknameController,
                     validator: (value) {},
                   ),
@@ -90,7 +90,7 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                   ),
                   SFTextField(
                     labelText: "Nome do titular",
-                    pourpose: TextFieldPourpose.Numeric,
+                    pourpose: TextFieldPourpose.Standard,
                     controller: widget.viewModel.cardOwnerController,
                     validator: (value) =>
                         emptyCheck(value, "Digite o nome do titular"),

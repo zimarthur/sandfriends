@@ -138,30 +138,14 @@ class UserProvider extends ChangeNotifier {
     _notifications.clear();
     _openMatches.clear();
     _userReward = null;
+    _creditCards.clear();
     notifyListeners();
   }
 
-  List<CreditCard> creditCards = [
-    CreditCard(
-        cardNumber: "5234567891123456",
-        cvv: 123,
-        expirationDate: DateTime.now(),
-        ownerName: "Arthur Zim",
-        cpf: "123",
-        cardNickname: "Apelido"),
-    CreditCard(
-        cardNumber: "4234567891121234",
-        cvv: 123,
-        expirationDate: DateTime.now(),
-        ownerName: "Arthur Zim",
-        cpf: "123",
-        cardNickname: "Apelido"),
-    CreditCard(
-        cardNumber: "5234567891123456",
-        cvv: 123,
-        expirationDate: DateTime.now(),
-        ownerName: "Arthur Zim",
-        cpf: "123",
-        cardNickname: "Apelido"),
-  ];
+  List<CreditCard> _creditCards = [];
+  List<CreditCard> get creditCards => _creditCards;
+  void addCreditCard(CreditCard creditCard) {
+    _creditCards.add(creditCard);
+    notifyListeners();
+  }
 }

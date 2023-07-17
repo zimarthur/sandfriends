@@ -7,6 +7,7 @@ class ApiEndPoints {
 
   final String createAccount = "/AddUser";
   final String addUserInfo = "/AddUserInfo";
+  final String addUserCreditCard = "/AddUserCreditCard";
   final String getUserInfo = "/GetUserInfo";
   final String updateUserInfo = "/UpdateUser";
 

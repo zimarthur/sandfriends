@@ -1,12 +1,22 @@
+import 'dart:convert';
+
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:sandfriends/Features/NewCreditCard/Repository/NewCreditCardRepoImp.dart';
 import 'package:sandfriends/SharedComponents/Model/CreditCard/CardType.dart';
 import 'package:sandfriends/SharedComponents/Model/CreditCard/CreditCardUtils.dart';
+import 'package:sandfriends/SharedComponents/Providers/UserProvider/UserProvider.dart';
 
+import '../../../Remote/NetworkResponse.dart';
+import '../../../SharedComponents/Model/CreditCard/CreditCard.dart';
 import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
 
 class NewCreditCardViewModel extends ChangeNotifier {
+  final newCreditCardRepo = NewCreditCardRepoImp();
+
   PageStatus pageStatus = PageStatus.OK;
   SFModalMessage modalMessage = SFModalMessage(
     message: "",
@@ -39,6 +49,56 @@ class NewCreditCardViewModel extends ChangeNotifier {
   }
 
   void addNewCreditCard(BuildContext context) {
-    if (newCreditCardFormKey.currentState?.validate() == true) {}
+    if (newCreditCardFormKey.currentState?.validate() == true) {
+      pageStatus = PageStatus.LOADING;
+      notifyListeners();
+      newCreditCardRepo
+          .addUserCreditCard(
+              Provider.of<UserProvider>(context, listen: false)
+                  .user!
+                  .accessToken,
+              cardNumberController.text.replaceAll(" ", ""),
+              cardNicknameController.text,
+              DateFormat("MM/yyyy").parse(
+                cardExpirationDateController.text,
+              ),
+              cardOwnerController.text,
+              cardCpfController.text)
+          .then((response) {
+        if (response.responseStatus == NetworkResponseStatus.success) {
+          Map<String, dynamic> responseBody = json.decode(
+            response.responseBody!,
+          );
+          for (var creditCard in responseBody['CreditCards']) {
+            Provider.of<UserProvider>(context, listen: false).addCreditCard(
+              CreditCard.fromJson(
+                creditCard,
+              ),
+            );
+          }
+          modalMessage = SFModalMessage(
+            message: "Seu cartão foi adicionado!",
+            onTap: () {
+              pageStatus = PageStatus.OK;
+              notifyListeners();
+            },
+            isHappy: true,
+          );
+          pageStatus = PageStatus.ERROR;
+          notifyListeners();
+        } else {
+          modalMessage = SFModalMessage(
+            message: response.userMessage!,
+            onTap: () {
+              pageStatus = PageStatus.OK;
+              notifyListeners();
+            },
+            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          );
+          pageStatus = PageStatus.ERROR;
+          notifyListeners();
+        }
+      });
+    }
   }
 }
