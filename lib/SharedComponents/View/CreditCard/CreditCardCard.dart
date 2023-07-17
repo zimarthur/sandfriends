@@ -8,9 +8,11 @@ import '../../Model/CreditCard/CreditCardUtils.dart';
 class CreditCardCard extends StatefulWidget {
   CreditCard creditCard;
   bool isEditable;
+  Function(CreditCard)? onDeleteCreditCard;
   CreditCardCard({
     required this.creditCard,
     required this.isEditable,
+    this.onDeleteCreditCard,
   });
 
   @override
@@ -90,21 +92,26 @@ class _CreditCardCardState extends State<CreditCardCard> {
                       ),
                     ),
                     if (widget.isEditable)
-                      GestureDetector(
-                        onTap: () => scrollController.animateTo(
-                          scrollController.offset ==
-                                  scrollController.position.maxScrollExtent
-                              ? scrollController.position.minScrollExtent
-                              : scrollController.position.maxScrollExtent,
-                          duration: const Duration(milliseconds: 100),
-                          curve: Curves.easeIn,
-                        ),
-                        child: Container(
+                      InkWell(
+                        onTap: () {
+                          scrollController.animateTo(
+                            scrollController.offset ==
+                                    scrollController.position.maxScrollExtent
+                                ? scrollController.position.minScrollExtent
+                                : scrollController.position.maxScrollExtent,
+                            duration: const Duration(milliseconds: 100),
+                            curve: Curves.easeIn,
+                          );
+                        },
+                        child: SizedBox(
                           height: 80,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: defaultPadding / 2),
-                          child: SvgPicture.asset(
-                            r"assets\icon\three_dots.svg",
+                          width: 60,
+                          child: Center(
+                            child: SvgPicture.asset(
+                              r"assets\icon\three_dots.svg",
+                              height: 20,
+                              width: 60,
+                            ),
                           ),
                         ),
                       ),
@@ -112,17 +119,18 @@ class _CreditCardCardState extends State<CreditCardCard> {
                 ),
               ),
             ),
+            // GestureDetector(
+            //   child: Container(
+            //     height: 80,
+            //     padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+            //     child: SvgPicture.asset(
+            //       r"assets\icon\edit.svg",
+            //       color: textDarkGrey,
+            //     ),
+            //   ),
+            // ),
             GestureDetector(
-              child: Container(
-                height: 80,
-                padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-                child: SvgPicture.asset(
-                  r"assets\icon\edit.svg",
-                  color: textDarkGrey,
-                ),
-              ),
-            ),
-            GestureDetector(
+              onTap: () => widget.onDeleteCreditCard!(widget.creditCard),
               child: Container(
                 height: 80,
                 padding: EdgeInsets.symmetric(horizontal: defaultPadding),

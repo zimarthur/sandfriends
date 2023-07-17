@@ -6,23 +6,32 @@ import '../../../Remote/ApiEndPoints.dart';
 import '../../../Remote/BaseApiService.dart';
 import '../../../Remote/NetworkApiService.dart';
 import '../../../Remote/NetworkResponse.dart';
-import 'PaymentRepo.dart';
+import 'NewCreditCardRepo.dart';
 
-class PaymentRepoImp implements PaymentRepo {
+class NewCreditCardRepoImp implements NewCreditCardRepo {
   final BaseApiService _apiService = NetworkApiService();
 
   @override
-  Future<NetworkResponse> deleteCreditCard(
+  Future<NetworkResponse> addUserCreditCard(
     String accessToken,
-    int idCreditCard,
+    String cardNumber,
+    String? nickname,
+    DateTime expirationDate,
+    String ownerName,
+    String ownerCpf,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
-      ApiEndPoints().deleteUserCreditCard,
+      ApiEndPoints().addUserCreditCard,
       jsonEncode(
         <String, Object>{
           'AccessToken': accessToken,
-          'IdUserCreditCard': idCreditCard,
+          'CardNumber': cardNumber,
+          'Nickname': nickname ?? "",
+          'ExpirationDate':
+              "01/${DateFormat("MM/yyyy").format(expirationDate)}",
+          'OwnerName': ownerName,
+          'OwnerCpf': ownerCpf,
         },
       ),
     );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/SharedComponents/Model/CreditCard/CreditCard.dart';
+import 'package:sandfriends/SharedComponents/Providers/UserProvider/UserProvider.dart';
 import 'package:sandfriends/SharedComponents/View/CreditCard/CreditCardWidget.dart';
 import 'package:sandfriends/SharedComponents/View/SFButton.dart';
 
@@ -37,6 +39,8 @@ class ModalCreditCardSelector extends StatelessWidget {
                 vertical: defaultPadding,
               ),
               child: CreditCardWidget(
+                creditCards: Provider.of<UserProvider>(context, listen: false)
+                    .creditCards,
                 isEditable: false,
                 onSelectedCreditCard: (creditCard) =>
                     onSelectedCreditCard(creditCard),

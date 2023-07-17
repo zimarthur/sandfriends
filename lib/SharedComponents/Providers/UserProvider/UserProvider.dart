@@ -148,4 +148,9 @@ class UserProvider extends ChangeNotifier {
     _creditCards.add(creditCard);
     notifyListeners();
   }
+
+  void clearCreditCards() {
+    _creditCards.clear();
+    notifyListeners();
+  }
 }

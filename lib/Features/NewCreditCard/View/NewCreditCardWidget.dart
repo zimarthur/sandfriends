@@ -24,93 +24,105 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
   Widget build(BuildContext context) {
     return Container(
       color: secondaryBack,
-      padding: EdgeInsets.all(defaultPadding),
+      margin: EdgeInsets.all(defaultPadding),
       child: Form(
         key: widget.viewModel.newCreditCardFormKey,
         child: Column(
           children: [
             Expanded(
-              child: Column(
-                children: [
-                  SFTextField(
-                    labelText: "Apelido do cartão (opcional)",
-                    pourpose: TextFieldPourpose.Standard,
-                    controller: widget.viewModel.cardNicknameController,
-                    validator: (value) {},
-                  ),
-                  SizedBox(
-                    height: 2 * defaultPadding,
-                  ),
-                  Container(
-                    color: divider,
-                    height: 1,
-                  ),
-                  SizedBox(
-                    height: 2 * defaultPadding,
-                  ),
-                  SFTextField(
-                    labelText: "Número do cartão",
-                    pourpose: TextFieldPourpose.Numeric,
-                    controller: widget.viewModel.cardNumberController,
-                    validator: (value) => validateCardNum(value),
-                    suffixIcon: SvgPicture.asset(
-                      creditCardImagePath(widget.viewModel.cardType),
-                      height: 20,
-                    ),
-                  ),
-                  SizedBox(
-                    height: defaultPadding,
-                  ),
-                  Row(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: SFTextField(
-                          labelText: "CVV",
-                          pourpose: TextFieldPourpose.Numeric,
-                          controller: widget.viewModel.cardCvvController,
-                          validator: (value) => validateCVV(value),
+                      SFTextField(
+                        labelText: "Apelido do cartão (opcional)",
+                        pourpose: TextFieldPourpose.Standard,
+                        controller: widget.viewModel.cardNicknameController,
+                        validator: (value) {},
+                      ),
+                      SizedBox(
+                        height: 2 * defaultPadding,
+                      ),
+                      Container(
+                        color: divider,
+                        height: 1,
+                      ),
+                      SizedBox(
+                        height: 2 * defaultPadding,
+                      ),
+                      SFTextField(
+                        labelText: "Número do cartão",
+                        pourpose: TextFieldPourpose.Numeric,
+                        controller: widget.viewModel.cardNumberController,
+                        validator: (value) => validateCardNum(value),
+                        suffixIcon: SvgPicture.asset(
+                          creditCardImagePath(widget.viewModel.cardType),
+                          height: 20,
                         ),
                       ),
                       SizedBox(
-                        width: defaultPadding,
+                        height: defaultPadding,
                       ),
-                      Expanded(
-                        child: SFTextField(
-                          labelText: "Validade",
-                          pourpose: TextFieldPourpose.Numeric,
-                          controller:
-                              widget.viewModel.cardExpirationDateController,
-                          validator: (value) => validateCreditCardDate(value),
-                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SFTextField(
+                              labelText: "CVV",
+                              pourpose: TextFieldPourpose.Numeric,
+                              controller: widget.viewModel.cardCvvController,
+                              validator: (value) => validateCVV(value),
+                            ),
+                          ),
+                          SizedBox(
+                            width: defaultPadding,
+                          ),
+                          Expanded(
+                            child: SFTextField(
+                              labelText: "Validade",
+                              pourpose: TextFieldPourpose.Numeric,
+                              controller:
+                                  widget.viewModel.cardExpirationDateController,
+                              validator: (value) =>
+                                  validateCreditCardDate(value),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: defaultPadding,
+                      ),
+                      SFTextField(
+                        labelText: "Nome do titular",
+                        pourpose: TextFieldPourpose.Standard,
+                        controller: widget.viewModel.cardOwnerController,
+                        validator: (value) =>
+                            emptyCheck(value, "Digite o nome do titular"),
+                      ),
+                      SizedBox(
+                        height: defaultPadding,
+                      ),
+                      SFTextField(
+                        labelText: "CPF",
+                        pourpose: TextFieldPourpose.Numeric,
+                        controller: widget.viewModel.cardCpfController,
+                        validator: (value) => cpfValidator(value),
+                      ),
+                      SizedBox(
+                        height: 2 * defaultPadding,
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: defaultPadding,
-                  ),
-                  SFTextField(
-                    labelText: "Nome do titular",
-                    pourpose: TextFieldPourpose.Standard,
-                    controller: widget.viewModel.cardOwnerController,
-                    validator: (value) =>
-                        emptyCheck(value, "Digite o nome do titular"),
-                  ),
-                  SizedBox(
-                    height: defaultPadding,
-                  ),
-                  SFTextField(
-                    labelText: "CPF",
-                    pourpose: TextFieldPourpose.Numeric,
-                    controller: widget.viewModel.cardCpfController,
-                    validator: (value) => cpfValidator(value),
-                  ),
-                ],
+                ),
               ),
             ),
             SFButton(
               buttonLabel: "Adicionar cartão",
               onTap: () => widget.viewModel.addNewCreditCard(context),
               textPadding: EdgeInsets.symmetric(vertical: defaultPadding / 2),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).viewInsets.bottom,
             )
           ],
         ),

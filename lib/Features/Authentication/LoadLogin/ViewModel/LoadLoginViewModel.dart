@@ -55,7 +55,6 @@ void receiveLoginResponse(BuildContext context, String response) {
   final responseGenders = responseBody['Genders'];
   final responseRanks = responseBody['Ranks'];
   final responseSidePreferences = responseBody['SidePreferences'];
-  final responseCreditCards = responseBody['CreditCards'];
 
   final responseUser = responseBody['User'];
 
@@ -93,13 +92,6 @@ void receiveLoginResponse(BuildContext context, String response) {
             sidePreference,
           ),
         );
-  }
-  for (var creditCard in responseCreditCards) {
-    Provider.of<UserProvider>(context, listen: false).addCreditCard(
-      CreditCard.fromJson(
-        creditCard,
-      ),
-    );
   }
 
   setAccessToken(responseUser['AccessToken']);

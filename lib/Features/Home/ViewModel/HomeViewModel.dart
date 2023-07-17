@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/AppMatch.dart';
 import '../../../SharedComponents/Model/AppNotification.dart';
+import '../../../SharedComponents/Model/CreditCard/CreditCard.dart';
 import '../../../SharedComponents/Model/Reward.dart';
 import '../../../SharedComponents/Model/Sport.dart';
 import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
@@ -91,6 +92,7 @@ class HomeViewModel extends ChangeNotifier {
         final responseOpenMatches = responseBody['OpenMatches'];
         final responseNotifications = responseBody['Notifications'];
         final responseRewards = responseBody['UserRewards'];
+        final responseCreditCards = responseBody['CreditCards'];
 
         Provider.of<UserProvider>(context, listen: false)
             .user!
@@ -136,6 +138,13 @@ class HomeViewModel extends ChangeNotifier {
               appNotification,
               Provider.of<CategoriesProvider>(context, listen: false).hours,
               Provider.of<CategoriesProvider>(context, listen: false).sports,
+            ),
+          );
+        }
+        for (var creditCard in responseCreditCards) {
+          Provider.of<UserProvider>(context, listen: false).addCreditCard(
+            CreditCard.fromJson(
+              creditCard,
             ),
           );
         }

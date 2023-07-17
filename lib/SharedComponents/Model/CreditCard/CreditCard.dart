@@ -23,7 +23,7 @@ class CreditCard {
     return CreditCard(
       idCreditCard: json['IdUserCreditCard'],
       cardNumber: json['CardNumber'],
-      cardNickname: json['Nickname'],
+      cardNickname: json['Nickname'] == "" ? null : json['Nickname'],
       expirationDate: DateFormat('dd/MM/yyyy').parse(json['ExpirationDate']),
       ownerName: json['OwnerName'],
       cpf: json['OwnerCpf'],

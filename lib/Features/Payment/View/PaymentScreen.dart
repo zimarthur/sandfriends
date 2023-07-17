@@ -19,12 +19,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final viewModel = PaymentViewModel();
 
   @override
-  void initState() {
-    viewModel.initPaymentViewModel(context);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return ChangeNotifierProvider<PaymentViewModel>(

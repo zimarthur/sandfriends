@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sandfriends/SharedComponents/Providers/UserProvider/UserProvider.dart';
 import 'package:sandfriends/SharedComponents/View/CreditCard/CreditCardWidget.dart';
 import 'package:sandfriends/SharedComponents/View/CreditCard/EmptyCreditCards.dart';
 import 'package:sandfriends/Features/Payment/ViewModel/PaymentViewModel.dart';
@@ -23,7 +25,10 @@ class _PaymentWidgetState extends State<PaymentWidget> {
         children: [
           Expanded(
             child: CreditCardWidget(
+              creditCards: Provider.of<UserProvider>(context).creditCards,
               isEditable: true,
+              onDeleteCreditCard: (creditCard) =>
+                  widget.viewModel.onDeleteCreditCard(context, creditCard),
             ),
           ),
           SFButton(
