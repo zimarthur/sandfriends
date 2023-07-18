@@ -4,6 +4,7 @@ import 'package:sandfriends/Features/Match/View/CreatorNotesSection.dart';
 import 'package:sandfriends/Features/Match/View/InformationSection.dart';
 import 'package:sandfriends/Features/Match/View/MembersSection.dart';
 import 'package:sandfriends/Features/Match/View/OpenMatchSection.dart';
+import 'package:sandfriends/Features/Match/View/PaymentSection.dart';
 import 'package:sandfriends/SharedComponents/View/StoreSection.dart';
 
 import '../../../Utils/Constants.dart';
@@ -64,6 +65,23 @@ class _MatchWidgetState extends State<MatchWidget> {
                 color: textLightGrey,
               ),
             ),
+            if (widget.viewModel.isUserMatchCreator &&
+                !widget.viewModel.match.canceled)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  PaymentSection(
+                    viewModel: widget.viewModel,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: height * 0.03),
+                    child: Container(
+                      height: 1,
+                      color: textLightGrey,
+                    ),
+                  ),
+                ],
+              ),
             MembersSection(
               viewModel: widget.viewModel,
             ),

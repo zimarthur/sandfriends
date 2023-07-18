@@ -203,6 +203,7 @@ class MatchCard extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             color: textWhite,
                           ),
+                          textScaleFactor: 0.9,
                         ),
                       ),
                     )
@@ -226,6 +227,7 @@ class MatchCard extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                                 color: textWhite,
                               ),
+                              textScaleFactor: 0.9,
                             ),
                           ),
                         )

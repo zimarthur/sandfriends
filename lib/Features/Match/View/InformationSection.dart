@@ -81,7 +81,7 @@ class InformationSection extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: defaultPadding / 2,
+                height: defaultPadding,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -98,7 +98,7 @@ class InformationSection extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: defaultPadding / 2,
+                height: defaultPadding,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -115,7 +115,7 @@ class InformationSection extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: defaultPadding / 2,
+                height: defaultPadding,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -131,89 +131,6 @@ class InformationSection extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
-                height: defaultPadding / 2,
-              ),
-              if (viewModel.isUserMatchCreator)
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Status:",
-                        ),
-                        Text(
-                          viewModel.match.paymentStatus == PaymentStatus.Pending
-                              ? "Aguardando pagamento"
-                              : "Confirmada",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: viewModel.match.paymentStatus ==
-                                    PaymentStatus.Pending
-                                ? secondaryYellow
-                                : textBlack,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: defaultPadding / 2,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Pagamento:",
-                        ),
-                        Text(
-                          viewModel.match.selectedPayment == SelectedPayment.Pix
-                              ? "Pix"
-                              : "Cartão de crédito\n1234",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    if (viewModel.match.paymentStatus ==
-                            PaymentStatus.Pending &&
-                        viewModel.match.selectedPayment == SelectedPayment.Pix)
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: defaultPadding / 2,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Código Pix:",
-                              ),
-                              SFButton(
-                                buttonLabel: viewModel.copyToClipboard
-                                    ? "Copiado!"
-                                    : "Copiar",
-                                iconFirst: false,
-                                iconPath: viewModel.copyToClipboard
-                                    ? ""
-                                    : r"assets\icon\copy_to_clipboard.svg",
-                                isPrimary: viewModel.copyToClipboard,
-                                textPadding: EdgeInsets.symmetric(
-                                    vertical: defaultPadding / 2,
-                                    horizontal: defaultPadding),
-                                onTap: () async {
-                                  await Clipboard.setData(ClipboardData(
-                                      text: viewModel.match.pixCode));
-                                  viewModel.setCopyToClipBoard(true);
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                  ],
-                )
             ],
           ),
         ),
