@@ -155,6 +155,7 @@ flutter:
     - assets\icon\medal.svg
     - assets\icon\recurrent_calendar.svg
     - assets\icon\three_dots.svg
+    - assets\icon\copy_to_clipboard.svg
 
     - assets\icon\no_credit_card.svg
     - assets\icon\credit_card.svg

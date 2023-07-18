@@ -280,7 +280,8 @@ class _CourtWidgetState extends State<CourtWidget> {
                               'hourPrices': widget.viewModel.selectedHourPrices,
                               'sport': widget.viewModel.selectedSport,
                               'date': widget.viewModel.selectedDate,
-                              'isRecurrent': false,
+                              'weekday': widget.viewModel.selectedWeekday,
+                              'isRecurrent': widget.viewModel.isRecurrent,
                             },
                           );
                           // if (widget.viewModel.isRecurrent!) {

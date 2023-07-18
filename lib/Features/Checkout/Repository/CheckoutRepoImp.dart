@@ -7,6 +7,7 @@ import '../../../Remote/ApiEndPoints.dart';
 import '../../../Remote/BaseApiService.dart';
 import '../../../Remote/NetworkApiService.dart';
 import '../../../Remote/NetworkResponse.dart';
+import '../../../SharedComponents/Model/SelectedPayment.dart';
 
 class CheckoutRepoImp implements CheckoutRepo {
   final BaseApiService _apiService = NetworkApiService();
@@ -20,6 +21,8 @@ class CheckoutRepoImp implements CheckoutRepo {
     int timeBegin,
     int timeEnd,
     int cost,
+    SelectedPayment selectedPayment,
+    String cpf,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
@@ -29,10 +32,12 @@ class CheckoutRepoImp implements CheckoutRepo {
           "AccessToken": accessToken,
           "IdStoreCourt": idStoreCourt,
           "SportId": sportId,
-          "Date": DateFormat('dd-MM-yyyy').format(date),
+          "Date": DateFormat('dd/MM/yyyy').format(date),
           "TimeStart": timeBegin,
           "TimeEnd": timeEnd,
           "Cost": cost,
+          "Payment": selectedPayment.index,
+          "Cpf": cpf,
         },
       ),
     );
@@ -48,6 +53,8 @@ class CheckoutRepoImp implements CheckoutRepo {
     int timeBegin,
     int timeEnd,
     int cost,
+    SelectedPayment selectedPayment,
+    String cpf,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
@@ -61,6 +68,32 @@ class CheckoutRepoImp implements CheckoutRepo {
           "TimeBegin": timeBegin,
           "TimeEnd": timeEnd,
           "Cost": cost,
+          "Payment": selectedPayment.index,
+          "Cpf": cpf,
+        },
+      ),
+    );
+    return response;
+  }
+
+  @override
+  Future<NetworkResponse> recurrentMonthAvailableHours(
+    String accessToken,
+    int weekday,
+    int timeBegin,
+    int timeEnd,
+    int idStoreCourt,
+  ) async {
+    NetworkResponse response = await _apiService.postResponse(
+      _apiService.sandfriendsUrl,
+      ApiEndPoints().recurrentMonthAvailableHours,
+      jsonEncode(
+        <String, Object>{
+          "AccessToken": accessToken,
+          "IdStoreCourt": idStoreCourt,
+          "Weekday": weekday,
+          "TimeBegin": timeBegin,
+          "TimeEnd": timeEnd,
         },
       ),
     );

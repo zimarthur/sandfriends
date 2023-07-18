@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Checkout/ViewModel/CheckoutViewModel.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 
+import '../../../../Utils/SFDateTime.dart';
 import 'CheckoutDetailsItem.dart';
 
 class CheckoutDetails extends StatelessWidget {
@@ -31,13 +32,21 @@ class CheckoutDetails extends StatelessWidget {
           child: Column(
             children: [
               CheckoutDetailsItem(
-                title: "Data",
-                value: DateFormat("dd/MM/yyyy")
-                    .format(
-                      Provider.of<CheckoutViewModel>(context, listen: false)
-                          .date,
-                    )
-                    .toString(),
+                title: Provider.of<CheckoutViewModel>(context, listen: false)
+                        .isRecurrent
+                    ? "Dia"
+                    : "Data",
+                value: Provider.of<CheckoutViewModel>(context, listen: false)
+                        .isRecurrent
+                    ? weekDaysPortuguese[
+                        Provider.of<CheckoutViewModel>(context, listen: false)
+                            .weekday]
+                    : DateFormat("dd/MM/yyyy")
+                        .format(
+                          Provider.of<CheckoutViewModel>(context, listen: false)
+                              .date,
+                        )
+                        .toString(),
               ),
               CheckoutDetailsItem(
                 title: "Horário",

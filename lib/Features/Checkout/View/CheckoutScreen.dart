@@ -14,7 +14,8 @@ class CheckoutScreen extends StatefulWidget {
   Court court;
   List<HourPrice> hourPrices;
   Sport sport;
-  DateTime date;
+  DateTime? date;
+  int? weekday;
   bool isRecurrent;
 
   CheckoutScreen({
@@ -22,6 +23,7 @@ class CheckoutScreen extends StatefulWidget {
     required this.hourPrices,
     required this.sport,
     required this.date,
+    required this.weekday,
     required this.isRecurrent,
   });
 
@@ -40,6 +42,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       widget.hourPrices,
       widget.sport,
       widget.date,
+      widget.weekday,
       widget.isRecurrent,
     );
     super.initState();

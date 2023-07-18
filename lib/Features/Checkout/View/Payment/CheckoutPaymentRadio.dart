@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Checkout/Model/SelectedPayment.dart';
+import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
 import 'package:sandfriends/Features/Checkout/ViewModel/CheckoutViewModel.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 

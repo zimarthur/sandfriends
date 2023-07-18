@@ -141,13 +141,13 @@ class HomeViewModel extends ChangeNotifier {
             ),
           );
         }
-        for (var creditCard in responseCreditCards) {
-          Provider.of<UserProvider>(context, listen: false).addCreditCard(
-            CreditCard.fromJson(
-              creditCard,
-            ),
-          );
-        }
+        // for (var creditCard in responseCreditCards) {
+        //   Provider.of<UserProvider>(context, listen: false).addCreditCard(
+        //     CreditCard.fromJson(
+        //       creditCard,
+        //     ),
+        //   );
+        // }
         if (Provider.of<RedirectProvider>(context, listen: false).redirectUri !=
             null) {
           Navigator.pushNamed(

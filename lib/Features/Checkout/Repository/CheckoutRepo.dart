@@ -1,3 +1,5 @@
+import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
+
 import '../../../Remote/NetworkResponse.dart';
 
 class CheckoutRepo {
@@ -9,6 +11,8 @@ class CheckoutRepo {
     int timeBegin,
     int timeEnd,
     int cost,
+    SelectedPayment selectedPayment,
+    String cpf,
   ) async {
     return null;
   }
@@ -21,6 +25,18 @@ class CheckoutRepo {
     int timeBegin,
     int timeEnd,
     int cost,
+    SelectedPayment selectedPayment,
+    String cpf,
+  ) async {
+    return null;
+  }
+
+  Future<NetworkResponse?> recurrentMonthAvailableHours(
+    String accessToken,
+    int weekday,
+    int timeBegin,
+    int timeEnd,
+    int idStoreCourt,
   ) async {
     return null;
   }

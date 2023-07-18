@@ -25,6 +25,7 @@ class User {
   String email;
   City? city;
   Sport? preferenceSport;
+  String? cpf;
 
   User({
     required this.email,
@@ -40,6 +41,7 @@ class User {
     this.sidePreference,
     this.city,
     this.preferenceSport,
+    this.cpf,
   });
 
   int? get age {
@@ -90,6 +92,7 @@ class User {
           : SidePreference.fromJson(json['SidePreferenceCategory']),
       photo:
           json['Photo'] != null ? sandfriendsRequestsUrl + json['Photo'] : null,
+      cpf: json['Cpf'],
     );
     for (int i = 0; i < json['Ranks'].length; i++) {
       newUser.ranks.add(Rank.fromJson(json['Ranks'][i]['RankCategory']));
@@ -156,6 +159,7 @@ class User {
       photo: refUser.photo,
       preferenceSport: refUser.preferenceSport,
       sidePreference: refUser.sidePreference,
+      cpf: refUser.cpf,
     );
     for (var rank in refUser.ranks) {
       user.ranks.add(

@@ -54,11 +54,8 @@ class _MatchWidgetState extends State<MatchWidget> {
                 color: textLightGrey,
               ),
             ),
-            SizedBox(
-              height: height * 0.3,
-              child: InformationSection(
-                viewModel: widget.viewModel,
-              ),
+            InformationSection(
+              viewModel: widget.viewModel,
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: height * 0.03),

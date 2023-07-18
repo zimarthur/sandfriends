@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Checkout/Model/SelectedPayment.dart';
+import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
 import 'package:sandfriends/Features/Checkout/View/Payment/CheckoutPaymentRadio.dart';
 import 'package:sandfriends/Features/Checkout/ViewModel/CheckoutViewModel.dart';
 import 'package:sandfriends/SharedComponents/View/SFTextField.dart';

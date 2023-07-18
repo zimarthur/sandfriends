@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sandfriends/SharedComponents/Model/PaymentStatus.dart';
 
 import '../../../SharedComponents/Model/AppMatch.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
@@ -9,7 +10,8 @@ import '../../../Utils/SFDateTime.dart';
 
 class MatchCard extends StatelessWidget {
   AppMatch match;
-  MatchCard({Key? key, 
+  MatchCard({
+    Key? key,
     required this.match,
   }) : super(key: key);
 
@@ -204,7 +206,30 @@ class MatchCard extends StatelessWidget {
                         ),
                       ),
                     )
-                  : Container(),
+                  : match.paymentStatus == PaymentStatus.Pending
+                      ? Positioned(
+                          right: width * 0.02,
+                          top: width * 0.02,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width * 0.02,
+                                vertical: width * 0.01),
+                            decoration: BoxDecoration(
+                              color: match.date.isBefore(DateTime.now())
+                                  ? secondaryYellow.withOpacity(0.6)
+                                  : secondaryYellow,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: const Text(
+                              "Pend. Pagamento",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: textWhite,
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
             ],
           ),
         ),

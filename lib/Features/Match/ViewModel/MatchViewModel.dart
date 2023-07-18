@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Match/View/MemberCardModal.dart';
 import 'package:sandfriends/Remote/NetworkResponse.dart';
+import 'package:sandfriends/SharedComponents/Model/PaymentStatus.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../SharedComponents/Model/AppMatch.dart';
 import '../../../SharedComponents/Model/MatchCounter.dart';
@@ -30,6 +32,13 @@ class MatchViewModel extends ChangeNotifier {
   late AppMatch match;
   bool isMatchInstantiated = false;
   late User loggedUser;
+
+  bool _copiedToClipboard = false;
+  bool get copyToClipboard => _copiedToClipboard;
+  void setCopyToClipBoard(bool newValue) {
+    _copiedToClipboard = newValue;
+    notifyListeners();
+  }
 
   bool _isUserInMatch = false;
   bool get isUserInMatch => _isUserInMatch;
@@ -93,6 +102,7 @@ class MatchViewModel extends ChangeNotifier {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
         );
+        setCopyToClipBoard(false);
         match = AppMatch.fromJson(
           responseBody['Match'],
           Provider.of<CategoriesProvider>(context, listen: false).hours,
@@ -162,6 +172,25 @@ class MatchViewModel extends ChangeNotifier {
         notifyListeners();
       }
     });
+  }
+
+  void shareMatch(BuildContext context) async {
+    if (match.paymentStatus == PaymentStatus.Pending) {
+      modalMessage = SFModalMessage(
+        message:
+            "Você precisa finalizar o pagamento antes de convidar jogadores",
+        onTap: () {
+          pageStatus = PageStatus.OK;
+          notifyListeners();
+        },
+        isHappy: false,
+      );
+      pageStatus = PageStatus.ERROR;
+      notifyListeners();
+    } else {
+      await Share.share(
+          'Entre na minha partida!\n https://sandfriends.com.br/redirect/?ct=mtch&bd=${match.matchUrl}');
+    }
   }
 
   void closeModal() {
@@ -339,7 +368,18 @@ class MatchViewModel extends ChangeNotifier {
   }
 
   void saveOpenMatchChanges(BuildContext context) {
-    if (!userHasConfiguredRank(context)) {
+    if (match.paymentStatus == PaymentStatus.Pending) {
+      modalMessage = SFModalMessage(
+        message: "Você precisa finalizar o pagamento antes de abrir a partida",
+        onTap: () {
+          pageStatus = PageStatus.OK;
+          notifyListeners();
+        },
+        isHappy: false,
+      );
+      pageStatus = PageStatus.ERROR;
+      notifyListeners();
+    } else if (!userHasConfiguredRank(context)) {
       modalMessage = SFModalMessage(
         message:
             "Antes de abrir uma partida você precisa configurar seu rank em ${match.sport.description}",

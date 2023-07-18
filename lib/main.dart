@@ -211,7 +211,6 @@ class _MyAppState extends State<MyApp> {
             );
           } else if (settings.name!.startsWith(match)) {
             //match?id=123
-            print("ArthurDebug ${settings.name!}");
             final matchUrl = settings.name!.split(match)[1].split("/")[1];
             return MaterialPageRoute(
               builder: (context) {
@@ -252,7 +251,8 @@ class _MyAppState extends State<MyApp> {
                   return CheckoutScreen(
                     court: arguments['court'] as Court,
                     hourPrices: arguments['hourPrices'] as List<HourPrice>,
-                    date: arguments['date'] as DateTime,
+                    date: arguments['date'] as DateTime?,
+                    weekday: arguments['weekday'] as int?,
                     sport: arguments['sport'] as Sport,
                     isRecurrent: arguments['isRecurrent'] as bool,
                   );

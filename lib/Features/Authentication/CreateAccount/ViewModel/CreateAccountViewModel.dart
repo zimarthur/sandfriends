@@ -33,6 +33,7 @@ class CreateAccountViewModel extends ChangeNotifier {
 
   void createAccount(BuildContext context) {
     if (createAccountFormKey.currentState!.validate()) {
+      FocusScope.of(context).unfocus();
       pageStatus = PageStatus.LOADING;
       notifyListeners();
       _createAccountRepo

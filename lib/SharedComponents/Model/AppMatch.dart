@@ -1,8 +1,10 @@
 import 'package:intl/intl.dart';
+import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
 
 import 'Court.dart';
 import 'Hour.dart';
 import 'MatchMember.dart';
+import 'PaymentStatus.dart';
 import 'Rank.dart';
 import 'Sport.dart';
 import 'User.dart';
@@ -21,6 +23,9 @@ class AppMatch {
   final Court court;
   final Sport sport;
   List<MatchMember> members = [];
+  SelectedPayment selectedPayment;
+  PaymentStatus paymentStatus;
+  String? pixCode;
 
   User get matchCreator =>
       members.firstWhere((member) => member.isMatchCreator == true).user;
@@ -75,6 +80,9 @@ class AppMatch {
     required this.creatorNotes,
     required this.court,
     required this.sport,
+    required this.paymentStatus,
+    required this.selectedPayment,
+    required this.pixCode,
   });
 
   factory AppMatch.fromJson(
@@ -103,6 +111,9 @@ class AppMatch {
       sport: referenceSports.firstWhere(
         (sport) => sport.idSport == json['IdSport'],
       ),
+      paymentStatus: decoderPaymentStatus(json['PaymentStatus']),
+      selectedPayment: decoderSelectedPayment(json['PaymentType']),
+      pixCode: json['PixCode'],
     );
     for (int i = 0; i < json['Members'].length; i++) {
       newMatch.members.add(

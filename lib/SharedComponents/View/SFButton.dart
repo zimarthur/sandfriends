@@ -22,7 +22,8 @@ class SFButton extends StatefulWidget {
   final EdgeInsets? textPadding;
   final bool? iconFirst;
 
-  const SFButton({Key? key, 
+  const SFButton({
+    Key? key,
     required this.buttonLabel,
     this.color = primaryBlue,
     this.isPrimary = true,
@@ -48,6 +49,9 @@ class _SFButtonState extends State<SFButton> {
           borderRadius: BorderRadius.circular(16.0),
           border: Border.all(color: widget.color, width: 1),
         ),
+        padding: widget.textPadding == null
+            ? const EdgeInsets.all(0)
+            : widget.textPadding!,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -59,18 +63,13 @@ class _SFButtonState extends State<SFButton> {
                   color: !widget.isPrimary ? widget.color : textWhite,
                 ),
               ),
-            Padding(
-              padding: widget.textPadding == null
-                  ? const EdgeInsets.all(0)
-                  : widget.textPadding!,
-              child: FittedBox(
-                fit: BoxFit.fitHeight,
-                child: Text(
-                  widget.buttonLabel,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: !widget.isPrimary ? widget.color : textWhite,
-                  ),
+            FittedBox(
+              fit: BoxFit.fitHeight,
+              child: Text(
+                widget.buttonLabel,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: !widget.isPrimary ? widget.color : textWhite,
                 ),
               ),
             ),

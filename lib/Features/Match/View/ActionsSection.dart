@@ -30,10 +30,7 @@ class _ActionSectionState extends State<ActionSection> {
                       child: SFButton(
                         buttonLabel: "Convidar Jogadores",
                         iconPath: r"assets\icon\share.svg",
-                        onTap: () async {
-                          await Share.share(
-                              'Entre na minha partida!\n https://sandfriends.com.br/redirect/?ct=mtch&bd=${widget.viewModel.match.matchUrl}');
-                        },
+                        onTap: () => widget.viewModel.shareMatch(context),
                       ),
                     )
                   : Container(),

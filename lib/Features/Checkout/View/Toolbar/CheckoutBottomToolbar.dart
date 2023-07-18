@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Checkout/Model/SelectedPayment.dart';
+import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
 import 'package:sandfriends/Features/Checkout/View/Toolbar/CheckoutBottomToolbarItem.dart';
 import 'package:sandfriends/SharedComponents/View/SFButton.dart';
 import 'package:sandfriends/Utils/Constants.dart';
@@ -41,11 +41,14 @@ class CheckoutBottomToolbar extends StatelessWidget {
           SizedBox(
             height: defaultPadding / 2,
           ),
-          CheckoutBottomToolbarItem(
-            date: Provider.of<CheckoutViewModel>(context, listen: false).date,
-            price: Provider.of<CheckoutViewModel>(context, listen: false)
-                .matchPrice,
-          ),
+          for (var date
+              in Provider.of<CheckoutViewModel>(context, listen: false)
+                  .matchDates)
+            CheckoutBottomToolbarItem(
+              date: date,
+              price: Provider.of<CheckoutViewModel>(context, listen: false)
+                  .matchPrice,
+            ),
           SizedBox(
             height: defaultPadding / 2,
           ),
@@ -68,7 +71,7 @@ class CheckoutBottomToolbar extends StatelessWidget {
                 ),
               ),
               Text(
-                "R\$ ${Provider.of<CheckoutViewModel>(context, listen: false).matchPrice},00",
+                "R\$ ${Provider.of<CheckoutViewModel>(context, listen: false).totalPrice},00",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

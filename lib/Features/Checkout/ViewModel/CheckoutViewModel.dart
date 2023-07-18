@@ -1,10 +1,12 @@
+import 'dart:convert';
+
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Checkout/Model/SelectedPayment.dart';
+import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
 import 'package:sandfriends/Features/Checkout/Repository/CheckoutRepoImp.dart';
 import 'package:sandfriends/Features/Checkout/View/Payment/ModalCreditCardSelector.dart';
-import 'package:sandfriends/Features/Checkout/View/Payment/ModalCvv.dart';
 import 'package:sandfriends/SharedComponents/Model/Court.dart';
 import 'package:sandfriends/SharedComponents/Model/CreditCard/CreditCard.dart';
 import 'package:sandfriends/SharedComponents/Model/Hour.dart';
@@ -35,7 +37,9 @@ class CheckoutViewModel extends ChangeNotifier {
   late List<Hour> availableHours;
   late Sport sport;
   late DateTime date;
+  late int weekday;
   late bool isRecurrent;
+  List<DateTime> matchDates = [];
 
   SelectedPayment selectedPayment = SelectedPayment.NotSelected;
   CreditCard? selectedCreditCard;
@@ -70,23 +74,74 @@ class CheckoutViewModel extends ChangeNotifier {
         0, (previousValue, element) => previousValue + element.price);
   }
 
+  int get totalPrice {
+    return matchDates.length * matchPrice;
+  }
+
   void initCheckoutScreen(
     BuildContext context,
     Court receivedCourt,
     List<HourPrice> receivedHourPrices,
     Sport receivedSport,
-    DateTime receivedDate,
+    DateTime? receivedDate,
+    int? receivedWeekday,
     bool receivedIsRecurrent,
   ) {
+    if (Provider.of<UserProvider>(context, listen: false).user!.cpf != null) {
+      cpfController.text =
+          Provider.of<UserProvider>(context, listen: false).user!.cpf!;
+    }
+
     availableHours =
         Provider.of<CategoriesProvider>(context, listen: false).hours;
     court = receivedCourt;
     hourPrices = receivedHourPrices;
     sport = receivedSport;
-    date = receivedDate;
+
     isRecurrent = receivedIsRecurrent;
-    pageStatus = PageStatus.OK;
-    notifyListeners();
+    if (isRecurrent) {
+      weekday = receivedWeekday!;
+      checkoutRepo
+          .recurrentMonthAvailableHours(
+        Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+        weekday,
+        startingHour.hour,
+        endingHour.hour,
+        court.idStoreCourt,
+      )
+          .then((response) {
+        if (response.responseStatus == NetworkResponseStatus.success) {
+          Map<String, dynamic> responseBody = json.decode(
+            response.responseBody!,
+          );
+
+          final responseRecurrentDays =
+              responseBody['RecurrentMonthAvailableHours'];
+          for (var day in responseRecurrentDays) {
+            matchDates.add(DateFormat('dd/MM/yyyy').parse(day));
+          }
+
+          pageStatus = PageStatus.OK;
+          notifyListeners();
+        } else {
+          modalMessage = SFModalMessage(
+            message: response.userMessage!,
+            onTap: () {
+              pageStatus = PageStatus.OK;
+              notifyListeners();
+            },
+            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          );
+          pageStatus = PageStatus.ERROR;
+          notifyListeners();
+        }
+      });
+    } else {
+      date = receivedDate!;
+      matchDates.add(date);
+      pageStatus = PageStatus.OK;
+      notifyListeners();
+    }
   }
 
   void setNewSelectedPayment(SelectedPayment newSelectedPayment) {
@@ -112,12 +167,10 @@ class CheckoutViewModel extends ChangeNotifier {
 
   void validateReservation(BuildContext context) {
     if (selectedPayment != SelectedPayment.NotSelected) {
-      String? cvvValidator = cpfValidator(cpfController.text);
-      if ((selectedPayment == SelectedPayment.CreditCard ||
-              selectedPayment == SelectedPayment.Pix) &&
-          cvvValidator != null) {
+      String? validationCpf = cpfValidator(cpfController.text);
+      if (selectedPayment == SelectedPayment.Pix && validationCpf != null) {
         modalMessage = SFModalMessage(
-            message: cvvValidator,
+            message: validationCpf,
             onTap: () {
               pageStatus = PageStatus.OK;
               notifyListeners();
@@ -126,13 +179,7 @@ class CheckoutViewModel extends ChangeNotifier {
         pageStatus = PageStatus.ERROR;
         notifyListeners();
       } else {
-        if (selectedPayment == SelectedPayment.CreditCard) {
-          widgetForm = ModalCvv();
-          pageStatus = PageStatus.FORM;
-          notifyListeners();
-        } else {
-          makeReservation(context);
-        }
+        makeReservation(context);
       }
     }
   }
@@ -157,6 +204,8 @@ class CheckoutViewModel extends ChangeNotifier {
       startingHour.hour,
       endingHour.hour,
       matchPrice,
+      selectedPayment,
+      cpfController.text.replaceAll(RegExp('[^0-9]'), ''),
     )
         .then((response) {
       modalMessage = SFModalMessage(
@@ -191,6 +240,8 @@ class CheckoutViewModel extends ChangeNotifier {
       startingHour.hour,
       endingHour.hour,
       matchPrice,
+      selectedPayment,
+      cpfController.text.replaceAll(RegExp('[^0-9]'), ''),
     )
         .then((response) {
       modalMessage = SFModalMessage(
