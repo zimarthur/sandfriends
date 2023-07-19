@@ -41,6 +41,11 @@ class NewCreditCardViewModel extends ChangeNotifier {
   TextEditingController cardOwnerController = TextEditingController();
   TextEditingController cardCpfController =
       MaskedTextController(mask: "000.000.000-00");
+  TextEditingController cardCepController =
+      MaskedTextController(mask: "00000-000");
+  TextEditingController cardCityController = TextEditingController();
+  TextEditingController cardAddressController = TextEditingController();
+  TextEditingController cardAddressNumberController = TextEditingController();
 
   CardType cardType = CardType.Others;
 
@@ -58,12 +63,16 @@ class NewCreditCardViewModel extends ChangeNotifier {
           .addUserCreditCard(
         Provider.of<UserProvider>(context, listen: false).user!.accessToken,
         cardNumberController.text.replaceAll(" ", ""),
+        cardCvvController.text,
         cardNicknameController.text,
         DateFormat("MM/yyyy").parse(
           cardExpirationDateController.text,
         ),
         cardOwnerController.text,
         cardCpfController.text.replaceAll(RegExp('[^0-9]'), ''),
+        cardCepController.text.replaceAll(RegExp('[^0-9]'), ''),
+        cardAddressController.text,
+        cardAddressNumberController.text,
       )
           .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {

@@ -15,10 +15,14 @@ class NewCreditCardRepoImp implements NewCreditCardRepo {
   Future<NetworkResponse> addUserCreditCard(
     String accessToken,
     String cardNumber,
+    String cvv,
     String? nickname,
     DateTime expirationDate,
     String ownerName,
     String ownerCpf,
+    String cep,
+    String address,
+    String addressNumber,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
@@ -27,11 +31,14 @@ class NewCreditCardRepoImp implements NewCreditCardRepo {
         <String, Object>{
           'AccessToken': accessToken,
           'CardNumber': cardNumber,
+          'Cvv': cvv,
           'Nickname': nickname ?? "",
-          'ExpirationDate':
-              "01/${DateFormat("MM/yyyy").format(expirationDate)}",
+          'ExpirationDate': "${DateFormat("MM/yyyy").format(expirationDate)}",
           'OwnerName': ownerName,
           'OwnerCpf': ownerCpf,
+          'Cep': cep,
+          'Address': address,
+          'AddressNumber': addressNumber,
         },
       ),
     );

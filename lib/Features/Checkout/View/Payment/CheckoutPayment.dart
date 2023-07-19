@@ -101,7 +101,7 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
             pourpose: TextFieldPourpose.Numeric,
             controller: Provider.of<CheckoutViewModel>(context, listen: false)
                 .cpfController,
-            validator: (value) => cpfValidator(value),
+            validator: (value) => cpfValidator(value, null),
           ),
         ],
       ),

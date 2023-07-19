@@ -167,7 +167,7 @@ class CheckoutViewModel extends ChangeNotifier {
 
   void validateReservation(BuildContext context) {
     if (selectedPayment != SelectedPayment.NotSelected) {
-      String? validationCpf = cpfValidator(cpfController.text);
+      String? validationCpf = cpfValidator(cpfController.text, null);
       if (selectedPayment == SelectedPayment.Pix && validationCpf != null) {
         modalMessage = SFModalMessage(
             message: validationCpf,
@@ -205,7 +205,13 @@ class CheckoutViewModel extends ChangeNotifier {
       endingHour.hour,
       matchPrice,
       selectedPayment,
-      cpfController.text.replaceAll(RegExp('[^0-9]'), ''),
+      cpfController.text.replaceAll(
+        RegExp('[^0-9]'),
+        '',
+      ),
+      selectedPayment == SelectedPayment.CreditCard
+          ? selectedCreditCard!.idCreditCard
+          : null,
     )
         .then((response) {
       modalMessage = SFModalMessage(

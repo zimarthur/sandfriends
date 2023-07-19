@@ -1,16 +1,16 @@
 String? validateCVV(String? value) {
   if (value == null || value.isEmpty) {
-    return "Informe o cvv";
+    return "digite o cvv";
   }
   if (value.length < 3 || value.length > 4) {
-    return "Cvv inválido";
+    return "cvv inválido";
   }
   return null;
 }
 
 String? validateCreditCardDate(String? value) {
   if (value == null || value.isEmpty) {
-    return "Informe a data";
+    return "digite a data";
   }
   int year;
   int month;
@@ -21,27 +21,28 @@ String? validateCreditCardDate(String? value) {
     year = int.parse(split[1]);
 
     DateTime? parsedDatetime = DateTime.tryParse("$year-$month-01");
-    if (parsedDatetime == null) {
-      return "Data inválida";
+    if (month > 12) {
+      return "data inválida";
     } else {
-      if (parsedDatetime.isBefore(DateTime.now())) {
-        return "Cartão expirado";
+      if ((year < DateTime.now().year) ||
+          (year == DateTime.now().year && month < DateTime.now().month)) {
+        return "cartão expirado";
       } else {
         return null;
       }
     }
   } else {
-    return "Formato inválido";
+    return "formato inválido";
   }
 }
 
 String? validateCardNum(String? input) {
   if (input == null || input.isEmpty) {
-    return "Informe o número do cartão";
+    return "digite o número do cartão";
   }
   input = input.replaceAll(RegExp(r"[^0-9]"), '');
   if (input.length < 8) {
-    return "Cartão inválido";
+    return "cartão inválido";
   }
   int sum = 0;
   int length = input.length;
@@ -57,5 +58,5 @@ String? validateCardNum(String? input) {
   if (sum % 10 == 0) {
     return null;
   }
-  return "Cartão inválido";
+  return "cartão inválido";
 }

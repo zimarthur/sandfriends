@@ -13,6 +13,7 @@ class CheckoutRepo {
     int cost,
     SelectedPayment selectedPayment,
     String cpf,
+    int? idCreditCard,
   ) async {
     return null;
   }

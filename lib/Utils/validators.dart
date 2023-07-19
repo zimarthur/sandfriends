@@ -127,13 +127,26 @@ String? emptyCheck(String? value, String onNull) {
   }
 }
 
-String? cpfValidator(String? value) {
+String? cpfValidator(String? value, String? onNull) {
   if (value == null || value.isEmpty) {
-    return "Digite o cpf";
+    return onNull ?? "digite o cpf";
   } else {
     final cleanValue = value.replaceAll(RegExp('[^0-9]'), '');
     if (cleanValue.length != 11 || int.tryParse(cleanValue) == null) {
-      return "Cpf inválido";
+      return "cpf inválido";
+    } else {
+      return null;
+    }
+  }
+}
+
+String? cepValidator(String? value) {
+  if (value == null || value.isEmpty) {
+    return "digite o cep";
+  } else {
+    final cleanValue = value.replaceAll(RegExp('[^0-9]'), '');
+    if (cleanValue.length != 8 || int.tryParse(cleanValue) == null) {
+      return "cep inválido";
     } else {
       return null;
     }

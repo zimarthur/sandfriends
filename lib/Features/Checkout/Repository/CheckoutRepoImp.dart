@@ -23,6 +23,7 @@ class CheckoutRepoImp implements CheckoutRepo {
     int cost,
     SelectedPayment selectedPayment,
     String cpf,
+    int? idCreditCard,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
@@ -38,6 +39,7 @@ class CheckoutRepoImp implements CheckoutRepo {
           "Cost": cost,
           "Payment": selectedPayment.index,
           "Cpf": cpf,
+          "IdCreditCard": idCreditCard ?? "",
         },
       ),
     );

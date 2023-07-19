@@ -58,6 +58,9 @@ class _CreditCardCardState extends State<CreditCardCard> {
                 ),
                 child: Row(
                   children: [
+                    SizedBox(
+                      width: defaultPadding / 2,
+                    ),
                     SvgPicture.asset(
                       creditCardImagePath(
                         getCardTypeFrmNumber(

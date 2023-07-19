@@ -100,7 +100,6 @@ void receiveLoginResponse(BuildContext context, String response) {
     responseUser,
   );
   Provider.of<UserProvider>(context, listen: false).user = loggedUser;
-  print(Provider.of<UserProvider>(context, listen: false).user!.cpf);
   if (loggedUser.firstName == null) {
     Navigator.pushNamed(context, '/onboarding');
   } else {
