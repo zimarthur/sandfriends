@@ -63,9 +63,7 @@ class _CreditCardCardState extends State<CreditCardCard> {
                     ),
                     SvgPicture.asset(
                       creditCardImagePath(
-                        getCardTypeFrmNumber(
-                          widget.creditCard.cardNumber,
-                        ),
+                        widget.creditCard.cardType,
                       ),
                       height: 40,
                     ),
