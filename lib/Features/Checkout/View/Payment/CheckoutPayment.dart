@@ -47,11 +47,9 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
               ? CheckoutPaymentRadio(
                   radioPaymentValue: SelectedPayment.CreditCard,
                   iconPath: creditCardImagePath(
-                    getCardTypeFrmNumber(
-                      Provider.of<CheckoutViewModel>(context)
-                          .selectedCreditCard!
-                          .cardNumber,
-                    ),
+                    Provider.of<CheckoutViewModel>(context)
+                        .selectedCreditCard!
+                        .cardType,
                   ),
                   title: Provider.of<CheckoutViewModel>(context)
                               .selectedCreditCard!

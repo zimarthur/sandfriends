@@ -1,7 +1,7 @@
 import 'package:sandfriends/SharedComponents/Model/CreditCard/CardType.dart';
 import 'package:sandfriends/SharedComponents/Model/CreditCard/CreditCard.dart';
 
-CardType getCardTypeFrmNumber(String input) {
+CardType getCardTypeFromNumber(String input) {
   CardType cardType;
   input = input.replaceAll(" ", "");
   if (input.startsWith(RegExp(

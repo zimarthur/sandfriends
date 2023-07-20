@@ -6,6 +6,7 @@ import '../../../Remote/ApiEndPoints.dart';
 import '../../../Remote/BaseApiService.dart';
 import '../../../Remote/NetworkApiService.dart';
 import '../../../Remote/NetworkResponse.dart';
+import '../../../SharedComponents/Model/CreditCard/CardType.dart';
 import 'NewCreditCardRepo.dart';
 
 class NewCreditCardRepoImp implements NewCreditCardRepo {
@@ -23,6 +24,7 @@ class NewCreditCardRepoImp implements NewCreditCardRepo {
     String cep,
     String address,
     String addressNumber,
+    CardType cardType,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
@@ -39,6 +41,7 @@ class NewCreditCardRepoImp implements NewCreditCardRepo {
           'Cep': cep,
           'Address': address,
           'AddressNumber': addressNumber,
+          'Issuer': cardTypeToString(cardType),
         },
       ),
     );

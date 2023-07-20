@@ -23,11 +23,14 @@ class CheckoutRepo {
     int idStoreCourt,
     int sportId,
     int weekday,
+    List<DateTime> currentMonthDates,
     int timeBegin,
     int timeEnd,
     int cost,
+    int totalCost,
     SelectedPayment selectedPayment,
     String cpf,
+    int? idCreditCard,
   ) async {
     return null;
   }

@@ -67,7 +67,8 @@ class PaymentSection extends StatelessWidget {
                   Text(
                     viewModel.match.selectedPayment == SelectedPayment.Pix
                         ? "Pix"
-                        : "Cartão de crédito\n1234",
+                        : "Cartão de crédito\n${viewModel.match.creditCard!.cardNumber}",
+                    textAlign: TextAlign.end,
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                     ),

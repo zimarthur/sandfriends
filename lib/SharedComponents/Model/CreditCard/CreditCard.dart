@@ -6,8 +6,8 @@ class CreditCard {
   String cardNumber;
   int? cvv;
   DateTime expirationDate;
-  String ownerName;
-  String cpf;
+  String? ownerName;
+  String? cpf;
   String? cardNickname;
   CardType cardType;
 
@@ -16,8 +16,8 @@ class CreditCard {
     required this.cardNumber,
     this.cvv,
     required this.expirationDate,
-    required this.ownerName,
-    required this.cpf,
+    this.ownerName,
+    this.cpf,
     required this.cardNickname,
     required this.cardType,
   });
@@ -28,9 +28,7 @@ class CreditCard {
       cardNumber: "**** ${json['CardNumber']}",
       cardNickname: json['Nickname'] == "" ? null : json['Nickname'],
       expirationDate: DateFormat('dd/MM/yyyy').parse(json['ExpirationDate']),
-      ownerName: json['OwnerName'],
-      cpf: json['OwnerCpf'],
-      cardType: cardTypeFromString(json['CardType']),
+      cardType: cardTypeFromString(json['Issuer']),
     );
   }
 }

@@ -52,11 +52,14 @@ class CheckoutRepoImp implements CheckoutRepo {
     int idStoreCourt,
     int sportId,
     int weekday,
+    List<DateTime> currentMonthDates,
     int timeBegin,
     int timeEnd,
     int cost,
+    int totalCost,
     SelectedPayment selectedPayment,
     String cpf,
+    int? idCreditCard,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
@@ -67,11 +70,17 @@ class CheckoutRepoImp implements CheckoutRepo {
           "IdStoreCourt": idStoreCourt,
           "SportId": sportId,
           "Weekday": weekday,
+          "CurrentMonthDates": [
+            for (var date in currentMonthDates)
+              DateFormat("dd/MM/yyyy").format(date),
+          ],
           "TimeBegin": timeBegin,
           "TimeEnd": timeEnd,
           "Cost": cost,
+          "TotalCost": totalCost,
           "Payment": selectedPayment.index,
           "Cpf": cpf,
+          "IdCreditCard": idCreditCard ?? "",
         },
       ),
     );

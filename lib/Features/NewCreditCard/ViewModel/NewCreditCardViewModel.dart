@@ -25,7 +25,7 @@ class NewCreditCardViewModel extends ChangeNotifier {
   );
   void initNewCreditCard(BuildContext context) {
     cardNumberController.addListener(() {
-      cardType = getCardTypeFrmNumber(cardNumberController.text);
+      cardType = getCardTypeFromNumber(cardNumberController.text);
       notifyListeners();
     });
   }
@@ -73,6 +73,7 @@ class NewCreditCardViewModel extends ChangeNotifier {
         cardCepController.text.replaceAll(RegExp('[^0-9]'), ''),
         cardAddressController.text,
         cardAddressNumberController.text,
+        cardType,
       )
           .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {

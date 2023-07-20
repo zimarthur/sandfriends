@@ -1,4 +1,5 @@
 import '../../../Remote/NetworkResponse.dart';
+import '../../../SharedComponents/Model/CreditCard/CardType.dart';
 
 class NewCreditCardRepo {
   Future<NetworkResponse?> addUserCreditCard(
@@ -12,6 +13,7 @@ class NewCreditCardRepo {
     String cep,
     String address,
     String addressNumber,
+    CardType cardType,
   ) async {
     return null;
   }

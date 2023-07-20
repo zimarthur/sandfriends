@@ -242,12 +242,17 @@ class CheckoutViewModel extends ChangeNotifier {
       Provider.of<UserProvider>(context, listen: false).user!.accessToken,
       court.idStoreCourt,
       sport.idSport,
-      0,
+      weekday,
+      matchDates,
       startingHour.hour,
       endingHour.hour,
       matchPrice,
+      totalPrice,
       selectedPayment,
       cpfController.text.replaceAll(RegExp('[^0-9]'), ''),
+      selectedPayment == SelectedPayment.CreditCard
+          ? selectedCreditCard!.idCreditCard
+          : null,
     )
         .then((response) {
       modalMessage = SFModalMessage(

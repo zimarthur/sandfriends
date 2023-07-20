@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:sandfriends/SharedComponents/Model/CreditCard/CreditCard.dart';
 import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
 
 import 'Court.dart';
@@ -26,6 +27,7 @@ class AppMatch {
   SelectedPayment selectedPayment;
   PaymentStatus paymentStatus;
   String? pixCode;
+  CreditCard? creditCard;
 
   User get matchCreator =>
       members.firstWhere((member) => member.isMatchCreator == true).user;
@@ -83,6 +85,7 @@ class AppMatch {
     required this.paymentStatus,
     required this.selectedPayment,
     required this.pixCode,
+    required this.creditCard,
   });
 
   factory AppMatch.fromJson(
@@ -114,6 +117,9 @@ class AppMatch {
       paymentStatus: decoderPaymentStatus(json['PaymentStatus']),
       selectedPayment: decoderSelectedPayment(json['PaymentType']),
       pixCode: json['PixCode'],
+      creditCard: json['CreditCard'] == null
+          ? null
+          : CreditCard.fromJson(json['CreditCard']),
     );
     for (int i = 0; i < json['Members'].length; i++) {
       newMatch.members.add(
