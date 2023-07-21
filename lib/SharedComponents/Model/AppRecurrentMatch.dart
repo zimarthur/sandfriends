@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:sandfriends/SharedComponents/Model/AppMatch.dart';
+import 'package:sandfriends/Utils/SFDateTime.dart';
 
 import 'Court.dart';
 import 'Hour.dart';
@@ -35,6 +36,19 @@ class AppRecurrentMatch {
       priceSum += monthRecurrentMatches[i].cost;
     }
     return priceSum;
+  }
+
+  DateTime get nextPaymentUntill {
+    if (creationDate == lastPaymentDate) {
+      return getLastDayOfMonth(DateTime.now());
+    } else {
+      if (isCurrentMonth(lastPaymentDate)) {
+        return getLastDayOfMonth(
+            DateTime(DateTime.now().year, DateTime.now().month + 1, 1));
+      } else {
+        return getLastDayOfMonth(DateTime.now());
+      }
+    }
   }
 
   factory AppRecurrentMatch.fromJson(

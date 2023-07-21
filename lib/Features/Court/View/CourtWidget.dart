@@ -282,13 +282,9 @@ class _CourtWidgetState extends State<CourtWidget> {
                               'date': widget.viewModel.selectedDate,
                               'weekday': widget.viewModel.selectedWeekday,
                               'isRecurrent': widget.viewModel.isRecurrent,
+                              'isRenovating': false,
                             },
                           );
-                          // if (widget.viewModel.isRecurrent!) {
-                          //   widget.viewModel.recurrentMatchReservation(context);
-                          // } else {
-                          //   widget.viewModel.matchReservation(context);
-                          // }
                         }),
                   ),
                 ],

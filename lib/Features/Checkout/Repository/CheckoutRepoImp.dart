@@ -60,6 +60,7 @@ class CheckoutRepoImp implements CheckoutRepo {
     SelectedPayment selectedPayment,
     String cpf,
     int? idCreditCard,
+    bool isRenovating,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
@@ -81,6 +82,7 @@ class CheckoutRepoImp implements CheckoutRepo {
           "Payment": selectedPayment.index,
           "Cpf": cpf,
           "IdCreditCard": idCreditCard ?? "",
+          "IsRenovating": isRenovating,
         },
       ),
     );
@@ -94,6 +96,7 @@ class CheckoutRepoImp implements CheckoutRepo {
     int timeBegin,
     int timeEnd,
     int idStoreCourt,
+    bool isRenovating,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       _apiService.sandfriendsUrl,
@@ -105,6 +108,7 @@ class CheckoutRepoImp implements CheckoutRepo {
           "Weekday": weekday,
           "TimeBegin": timeBegin,
           "TimeEnd": timeEnd,
+          "IsRenovating": isRenovating,
         },
       ),
     );

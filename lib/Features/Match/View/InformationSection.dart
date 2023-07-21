@@ -32,16 +32,18 @@ class InformationSection extends StatelessWidget {
               ),
               textScaleFactor: 1.3,
             ),
-            viewModel.match.canceled
-                ? SizedBox(
-                    height: height * 0.03,
-                    child: const FittedBox(
-                      fit: BoxFit.fitHeight,
-                      child: Text(
-                        "Cancelada",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, color: Colors.red),
-                      ),
+            SizedBox(
+              width: defaultPadding / 2,
+            ),
+            viewModel.match.canceled || viewModel.match.isPaymentExpired
+                ? Expanded(
+                    child: Text(
+                      viewModel.match.canceled
+                          ? "Cancelada"
+                          : "Pagamento Expirado",
+                      maxLines: 2,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, color: Colors.red),
                     ),
                   )
                 : viewModel.match.date.isBefore(DateTime.now())

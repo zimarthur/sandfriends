@@ -2,6 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:sandfriends/Features/Court/Model/HourPrice.dart';
+import 'package:sandfriends/SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 
 import '../../../SharedComponents/Model/AppRecurrentMatch.dart';
 import '../../../SharedComponents/View/SFButton.dart';
@@ -13,7 +16,8 @@ import 'RecurrentMatchCardDate.dart';
 class RecurrentMatchCard extends StatefulWidget {
   AppRecurrentMatch recurrentMatch;
   bool expanded;
-  RecurrentMatchCard({Key? key, 
+  RecurrentMatchCard({
+    Key? key,
     required this.recurrentMatch,
     required this.expanded,
   }) : super(key: key);
@@ -57,7 +61,8 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
               ),
               child: Text(
                 "${weekDaysPortuguese[widget.recurrentMatch.weekday]}:  ${widget.recurrentMatch.timeBegin.hourString} - ${widget.recurrentMatch.timeEnd.hourString}",
-                style: const TextStyle(color: textWhite, fontWeight: FontWeight.w500),
+                style: const TextStyle(
+                    color: textWhite, fontWeight: FontWeight.w500),
               ),
             ),
             Expanded(
@@ -334,7 +339,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
-                                  children: const [
+                                  children: [
                                     Text(
                                       "Vencimento:",
                                       style: TextStyle(
@@ -342,7 +347,8 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                       ),
                                     ),
                                     Text(
-                                      "01/01/2023",
+                                      DateFormat("dd/MM/yyyy").format(widget
+                                          .recurrentMatch.nextPaymentUntill),
                                       style: TextStyle(
                                         color: secondaryYellow,
                                       ),
@@ -370,7 +376,39 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                           color: primaryLightBlue,
                           textPadding:
                               EdgeInsets.symmetric(vertical: height * 0.01),
-                          onTap: () {},
+                          onTap: () {
+                            List<HourPrice> hourPrices = [];
+                            Provider.of<CategoriesProvider>(context,
+                                    listen: false)
+                                .hours
+                                .forEach((hour) {
+                              if (hour.hour >=
+                                      widget.recurrentMatch.timeBegin.hour &&
+                                  hour.hour <
+                                      widget.recurrentMatch.timeEnd.hour) {
+                                hourPrices.add(
+                                  HourPrice(
+                                    hour: hour,
+                                    price: widget.recurrentMatch
+                                        .monthRecurrentMatches.first.cost,
+                                  ),
+                                );
+                              }
+                            });
+                            Navigator.pushNamed(
+                              context,
+                              "/checkout",
+                              arguments: {
+                                'court': widget.recurrentMatch.court,
+                                'hourPrices': hourPrices,
+                                'sport': widget.recurrentMatch.sport,
+                                'date': null,
+                                'weekday': widget.recurrentMatch.weekday,
+                                'isRecurrent': true,
+                                'isRenovating': true,
+                              },
+                            );
+                          },
                         ),
                       ),
                       Container(

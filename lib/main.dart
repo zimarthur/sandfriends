@@ -255,6 +255,7 @@ class _MyAppState extends State<MyApp> {
                     weekday: arguments['weekday'] as int?,
                     sport: arguments['sport'] as Sport,
                     isRecurrent: arguments['isRecurrent'] as bool,
+                    isRenovating: arguments['isRenovating'] as bool,
                   );
                 },
               );

@@ -40,6 +40,19 @@ class MatchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  DateTime liveDatetime = DateTime.now();
+  void setLiveDateTime(DateTime datetime) {
+    liveDatetime = datetime;
+    notifyListeners();
+  }
+
+  String? get timeToExpirePayment {
+    if (liveDatetime.isAfter(match.paymentExpirationDate)) return null;
+    int difference =
+        match.paymentExpirationDate.difference(DateTime.now()).inSeconds;
+    return "${(difference ~/ 60).toString().padLeft(2, '0')}:${(difference % 60).toString().padLeft(2, '0')}";
+  }
+
   bool _isUserInMatch = false;
   bool get isUserInMatch => _isUserInMatch;
   set isUserInMatch(bool newValue) {

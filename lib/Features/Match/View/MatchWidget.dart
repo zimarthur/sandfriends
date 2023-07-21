@@ -66,7 +66,8 @@ class _MatchWidgetState extends State<MatchWidget> {
               ),
             ),
             if (widget.viewModel.isUserMatchCreator &&
-                !widget.viewModel.match.canceled)
+                !widget.viewModel.match.canceled &&
+                !widget.viewModel.match.isPaymentExpired)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -92,10 +93,14 @@ class _MatchWidgetState extends State<MatchWidget> {
                 color: textLightGrey,
               ),
             ),
-            OpenMatchSection(viewModel: widget.viewModel),
-            ActionSection(
-              viewModel: widget.viewModel,
-            ),
+            if (!widget.viewModel.match.canceled &&
+                !widget.viewModel.match.isPaymentExpired)
+              OpenMatchSection(viewModel: widget.viewModel),
+            if (!widget.viewModel.match.canceled &&
+                !widget.viewModel.match.isPaymentExpired)
+              ActionSection(
+                viewModel: widget.viewModel,
+              ),
           ],
         ),
       ),

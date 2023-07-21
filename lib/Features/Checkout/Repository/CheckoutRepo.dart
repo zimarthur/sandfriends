@@ -31,6 +31,7 @@ class CheckoutRepo {
     SelectedPayment selectedPayment,
     String cpf,
     int? idCreditCard,
+    bool isRenovating,
   ) async {
     return null;
   }
@@ -41,6 +42,7 @@ class CheckoutRepo {
     int timeBegin,
     int timeEnd,
     int idStoreCourt,
+    bool isRenovating,
   ) async {
     return null;
   }

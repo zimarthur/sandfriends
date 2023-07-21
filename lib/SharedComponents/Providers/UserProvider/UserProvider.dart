@@ -57,7 +57,9 @@ class UserProvider extends ChangeNotifier {
 
   List<AppMatch> get nextMatches {
     var filteredList = matches.where((match) {
-      if (match.date.isAfter(DateTime.now()) && (match.canceled == false)) {
+      if (match.date.isAfter(DateTime.now()) &&
+          (match.canceled == false) &&
+          (match.isPaymentExpired == false)) {
         return true;
       } else {
         return false;

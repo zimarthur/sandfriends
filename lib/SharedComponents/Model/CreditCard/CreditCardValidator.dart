@@ -12,6 +12,9 @@ String? validateCreditCardDate(String? value) {
   if (value == null || value.isEmpty) {
     return "digite a data";
   }
+  if (value.length != 7) {
+    return "MM/AAAA";
+  }
   int year;
   int month;
   if (value.contains(RegExp(r'(/)'))) {

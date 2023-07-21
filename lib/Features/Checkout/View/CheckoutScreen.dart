@@ -17,6 +17,7 @@ class CheckoutScreen extends StatefulWidget {
   DateTime? date;
   int? weekday;
   bool isRecurrent;
+  bool isRenovating;
 
   CheckoutScreen({
     required this.court,
@@ -25,6 +26,7 @@ class CheckoutScreen extends StatefulWidget {
     required this.date,
     required this.weekday,
     required this.isRecurrent,
+    required this.isRenovating,
   });
 
   @override
@@ -44,6 +46,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       widget.date,
       widget.weekday,
       widget.isRecurrent,
+      widget.isRenovating,
     );
     super.initState();
   }

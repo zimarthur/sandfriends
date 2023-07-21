@@ -39,6 +39,7 @@ class CheckoutViewModel extends ChangeNotifier {
   late DateTime date;
   late int weekday;
   late bool isRecurrent;
+  late bool isRenovating;
   List<DateTime> matchDates = [];
 
   SelectedPayment selectedPayment = SelectedPayment.NotSelected;
@@ -86,6 +87,7 @@ class CheckoutViewModel extends ChangeNotifier {
     DateTime? receivedDate,
     int? receivedWeekday,
     bool receivedIsRecurrent,
+    bool receivedIsRenovating,
   ) {
     if (Provider.of<UserProvider>(context, listen: false).user!.cpf != null) {
       cpfController.text =
@@ -99,6 +101,7 @@ class CheckoutViewModel extends ChangeNotifier {
     sport = receivedSport;
 
     isRecurrent = receivedIsRecurrent;
+    isRenovating = receivedIsRenovating;
     if (isRecurrent) {
       weekday = receivedWeekday!;
       checkoutRepo
@@ -108,6 +111,7 @@ class CheckoutViewModel extends ChangeNotifier {
         startingHour.hour,
         endingHour.hour,
         court.idStoreCourt,
+        isRenovating,
       )
           .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
@@ -253,6 +257,7 @@ class CheckoutViewModel extends ChangeNotifier {
       selectedPayment == SelectedPayment.CreditCard
           ? selectedCreditCard!.idCreditCard
           : null,
+      isRenovating,
     )
         .then((response) {
       modalMessage = SFModalMessage(

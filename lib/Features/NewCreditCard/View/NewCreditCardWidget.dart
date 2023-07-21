@@ -82,6 +82,7 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                             child: SFTextField(
                               labelText: "Validade",
                               pourpose: TextFieldPourpose.Numeric,
+                              hintText: "MM/AAAA",
                               controller:
                                   widget.viewModel.cardExpirationDateController,
                               validator: (value) =>

@@ -28,12 +28,18 @@ class AppMatch {
   PaymentStatus paymentStatus;
   String? pixCode;
   CreditCard? creditCard;
+  DateTime paymentExpirationDate;
 
   User get matchCreator =>
       members.firstWhere((member) => member.isMatchCreator == true).user;
 
   Rank get matchRank => matchCreator.ranks
       .firstWhere((rank) => rank.sport.idSport == sport.idSport);
+
+  bool get isPaymentExpired {
+    return DateTime.now().isAfter(paymentExpirationDate) &&
+        paymentStatus == PaymentStatus.Pending;
+  }
 
   int get remainingSlots {
     int validMembersCounter = 0;
@@ -86,6 +92,7 @@ class AppMatch {
     required this.selectedPayment,
     required this.pixCode,
     required this.creditCard,
+    required this.paymentExpirationDate,
   });
 
   factory AppMatch.fromJson(
@@ -120,6 +127,8 @@ class AppMatch {
       creditCard: json['CreditCard'] == null
           ? null
           : CreditCard.fromJson(json['CreditCard']),
+      paymentExpirationDate: DateFormat('yyyy-MM-dd HH:mm:ss')
+          .parse(json['PaymentExpirationDate']),
     );
     for (int i = 0; i < json['Members'].length; i++) {
       newMatch.members.add(

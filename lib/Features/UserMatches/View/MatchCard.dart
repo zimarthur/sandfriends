@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/SharedComponents/Model/PaymentStatus.dart';
+import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
 
 import '../../../SharedComponents/Model/AppMatch.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
@@ -184,7 +185,7 @@ class MatchCard extends StatelessWidget {
                         ? textLightGrey.withOpacity(0.6)
                         : Colors.transparent),
               ),
-              match.canceled == true
+              match.canceled == true || match.isPaymentExpired
                   ? Positioned(
                       right: width * 0.02,
                       top: width * 0.02,
@@ -197,8 +198,10 @@ class MatchCard extends StatelessWidget {
                               : Colors.red,
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: const Text(
-                          "Cancelada",
+                        child: Text(
+                          match.canceled == true
+                              ? "Cancelada"
+                              : "Pagamento Expirado",
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: textWhite,
@@ -231,7 +234,31 @@ class MatchCard extends StatelessWidget {
                             ),
                           ),
                         )
-                      : Container(),
+                      : match.selectedPayment == SelectedPayment.PayInStore
+                          ? Positioned(
+                              right: width * 0.02,
+                              top: width * 0.02,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: width * 0.02,
+                                    vertical: width * 0.01),
+                                decoration: BoxDecoration(
+                                  color: match.date.isBefore(DateTime.now())
+                                      ? secondaryLightBlue.withOpacity(0.6)
+                                      : secondaryLightBlue,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: const Text(
+                                  "Pagar no local",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: textWhite,
+                                  ),
+                                  textScaleFactor: 0.9,
+                                ),
+                              ),
+                            )
+                          : Container(),
             ],
           ),
         ),

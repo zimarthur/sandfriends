@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,9 +9,38 @@ import '../../../SharedComponents/View/SFButton.dart';
 import '../../../Utils/Constants.dart';
 import '../ViewModel/MatchViewModel.dart';
 
-class PaymentSection extends StatelessWidget {
+class PaymentSection extends StatefulWidget {
   MatchViewModel viewModel;
   PaymentSection({required this.viewModel});
+
+  @override
+  State<PaymentSection> createState() => _PaymentSectionState();
+}
+
+class _PaymentSectionState extends State<PaymentSection> {
+  late Timer _timer;
+
+  @override
+  void initState() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (widget.viewModel.match.isPaymentExpired == false) {
+        widget.viewModel.setLiveDateTime(DateTime.now());
+      } else {
+        widget.viewModel.getMatchInfo(
+          context,
+          widget.viewModel.match.matchUrl,
+        );
+        _timer.cancel();
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,15 +73,16 @@ class PaymentSection extends StatelessWidget {
                     "Status:",
                   ),
                   Text(
-                    viewModel.match.paymentStatus == PaymentStatus.Pending
+                    widget.viewModel.match.paymentStatus ==
+                            PaymentStatus.Pending
                         ? "Aguardando pagamento"
                         : "Confirmado",
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
-                      color:
-                          viewModel.match.paymentStatus == PaymentStatus.Pending
-                              ? secondaryYellow
-                              : Colors.green,
+                      color: widget.viewModel.match.paymentStatus ==
+                              PaymentStatus.Pending
+                          ? secondaryYellow
+                          : Colors.green,
                     ),
                   ),
                 ],
@@ -65,9 +97,13 @@ class PaymentSection extends StatelessWidget {
                     "Forma de pagamento:",
                   ),
                   Text(
-                    viewModel.match.selectedPayment == SelectedPayment.Pix
+                    widget.viewModel.match.selectedPayment ==
+                            SelectedPayment.Pix
                         ? "Pix"
-                        : "Cartão de crédito\n${viewModel.match.creditCard!.cardNumber}",
+                        : widget.viewModel.match.selectedPayment ==
+                                SelectedPayment.CreditCard
+                            ? "Cartão de crédito\n${widget.viewModel.match.creditCard!.cardNumber}"
+                            : "Pagar no local",
                     textAlign: TextAlign.end,
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
@@ -75,8 +111,9 @@ class PaymentSection extends StatelessWidget {
                   ),
                 ],
               ),
-              if (viewModel.match.paymentStatus == PaymentStatus.Pending &&
-                  viewModel.match.selectedPayment == SelectedPayment.Pix)
+              if (widget.viewModel.match.paymentStatus ==
+                      PaymentStatus.Pending &&
+                  widget.viewModel.match.selectedPayment == SelectedPayment.Pix)
                 Column(
                   children: [
                     SizedBox(
@@ -89,23 +126,54 @@ class PaymentSection extends StatelessWidget {
                           "Código Pix:",
                         ),
                         SFButton(
-                          buttonLabel:
-                              viewModel.copyToClipboard ? "Copiado!" : "Copiar",
+                          buttonLabel: widget.viewModel.copyToClipboard
+                              ? "Copiado!"
+                              : "Copiar",
                           iconFirst: false,
-                          iconPath: viewModel.copyToClipboard
+                          iconPath: widget.viewModel.copyToClipboard
                               ? ""
                               : r"assets\icon\copy_to_clipboard.svg",
-                          isPrimary: viewModel.copyToClipboard,
+                          isPrimary: widget.viewModel.copyToClipboard,
                           textPadding: EdgeInsets.symmetric(
                               vertical: defaultPadding / 2,
                               horizontal: defaultPadding),
                           onTap: () async {
-                            await Clipboard.setData(
-                                ClipboardData(text: viewModel.match.pixCode));
-                            viewModel.setCopyToClipBoard(true);
+                            await Clipboard.setData(ClipboardData(
+                                text: widget.viewModel.match.pixCode));
+                            widget.viewModel.setCopyToClipBoard(true);
                           },
                         ),
                       ],
+                    ),
+                    SizedBox(
+                      height: defaultPadding,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        text: 'Você tem ',
+                        style: const TextStyle(
+                          color: textDarkGrey,
+                          fontFamily: 'Lexend',
+                        ),
+                        children: [
+                          TextSpan(
+                            text: widget.viewModel.timeToExpirePayment,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: textBlue,
+                              fontFamily: 'Lexend',
+                            ),
+                          ),
+                          TextSpan(
+                            text: " minutos para finalizar o pagamento",
+                            style: const TextStyle(
+                              color: textDarkGrey,
+                              fontFamily: 'Lexend',
+                            ),
+                          ),
+                          const TextSpan(text: "."),
+                        ],
+                      ),
                     ),
                   ],
                 ),
