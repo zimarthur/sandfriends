@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -7,7 +9,8 @@ import '../ViewModel/LoginSignupViewModel.dart';
 
 class LoginSignupWidget extends StatefulWidget {
   LoginSignupViewModel viewModel;
-  LoginSignupWidget({Key? key, 
+  LoginSignupWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -82,37 +85,42 @@ class _LoginSignupWidgetState extends State<LoginSignupWidget> {
               ],
             ),
             Padding(padding: EdgeInsets.only(bottom: height * 0.04)),
-            SvgPicture.asset(
-              r'assets\icon\divider.svg',
-            ),
-            Padding(padding: EdgeInsets.only(bottom: height * 0.02)),
-            InkWell(
-              onTap: () {
-                widget.viewModel.googleAccountSelector(context);
-              },
-              highlightColor: primaryBlue,
-              child: Ink(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const FittedBox(
-                      fit: BoxFit.fitHeight,
-                      child: Text(
-                        "Entrar com minha conta Google",
-                        style: TextStyle(
-                          color: primaryBlue,
-                          fontWeight: FontWeight.bold,
-                        ),
+            if (!Platform.isIOS)
+              Column(
+                children: [
+                  SvgPicture.asset(
+                    r'assets\icon\divider.svg',
+                  ),
+                  Padding(padding: EdgeInsets.only(bottom: height * 0.02)),
+                  InkWell(
+                    onTap: () {
+                      widget.viewModel.googleAccountSelector(context);
+                    },
+                    highlightColor: primaryBlue,
+                    child: Ink(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const FittedBox(
+                            fit: BoxFit.fitHeight,
+                            child: Text(
+                              "Entrar com minha conta Google",
+                              style: TextStyle(
+                                color: primaryBlue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          SvgPicture.asset(r"assets\icon\google_logo.svg")
+                        ],
                       ),
                     ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    SvgPicture.asset(r"assets\icon\google_logo.svg")
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ),
             Expanded(child: Container()),
             SizedBox(
               height: height * 0.06,

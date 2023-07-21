@@ -80,7 +80,14 @@ class UserProvider extends ChangeNotifier {
   }
 
   final List<AppRecurrentMatch> _recurrentMatches = [];
-  List<AppRecurrentMatch> get recurrentMatches => _recurrentMatches;
+  List<AppRecurrentMatch> get recurrentMatches {
+    _recurrentMatches.sort(
+      (a, b) {
+        return a.validUntil.compareTo(b.validUntil);
+      },
+    );
+    return _recurrentMatches;
+  }
 
   void addRecurrentMatch(AppRecurrentMatch newRecurrentMatch) {
     _recurrentMatches.add(newRecurrentMatch);

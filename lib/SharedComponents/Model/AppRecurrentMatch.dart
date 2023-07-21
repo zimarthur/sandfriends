@@ -10,6 +10,7 @@ class AppRecurrentMatch {
   final int idRecurrentMatch;
   final DateTime creationDate;
   final DateTime lastPaymentDate;
+  final DateTime validUntil;
   final int weekday;
   final Hour timeBegin;
   final Hour timeEnd;
@@ -22,6 +23,7 @@ class AppRecurrentMatch {
     required this.idRecurrentMatch,
     required this.creationDate,
     required this.lastPaymentDate,
+    required this.validUntil,
     required this.weekday,
     required this.timeBegin,
     required this.timeEnd,
@@ -38,19 +40,6 @@ class AppRecurrentMatch {
     return priceSum;
   }
 
-  DateTime get nextPaymentUntill {
-    if (creationDate == lastPaymentDate) {
-      return getLastDayOfMonth(DateTime.now());
-    } else {
-      if (isCurrentMonth(lastPaymentDate)) {
-        return getLastDayOfMonth(
-            DateTime(DateTime.now().year, DateTime.now().month + 1, 1));
-      } else {
-        return getLastDayOfMonth(DateTime.now());
-      }
-    }
-  }
-
   factory AppRecurrentMatch.fromJson(
     Map<String, dynamic> json,
     List<Hour> referenceHours,
@@ -59,6 +48,7 @@ class AppRecurrentMatch {
     var newRecurrentMatch = AppRecurrentMatch(
       idRecurrentMatch: json['IdRecurrentMatch'],
       creationDate: DateFormat('dd/MM/yyyy').parse(json['CreationDate']),
+      validUntil: DateFormat('dd/MM/yyyy').parse(json['ValidUntil']),
       lastPaymentDate: DateFormat('dd/MM/yyyy').parse(json['LastPaymentDate']),
       weekday: json['Weekday'],
       timeBegin:

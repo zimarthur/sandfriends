@@ -157,54 +157,32 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                             ),
                                           ],
                                         ),
+                                        SizedBox(
+                                          height: defaultPadding / 8,
+                                        ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             const Text(
-                                              "Última renovação: ",
+                                              "Renovar até: ",
                                               style: TextStyle(
                                                 color: textDarkGrey,
                                               ),
                                             ),
                                             Text(
                                               DateFormat("dd/MM/yy").format(
-                                                widget.recurrentMatch
-                                                    .lastPaymentDate,
+                                                widget
+                                                    .recurrentMatch.validUntil,
                                               ),
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w500,
-                                                color: (widget.recurrentMatch
-                                                                    .creationDate ==
-                                                                widget
-                                                                    .recurrentMatch
-                                                                    .lastPaymentDate &&
-                                                            getLastDayOfMonth(
-                                                                        DateTime
-                                                                            .now())
-                                                                    .difference(
-                                                                      DateTime
-                                                                          .now(),
-                                                                    )
-                                                                    .inDays <
-                                                                10) ||
-                                                        (widget.recurrentMatch
-                                                                    .creationDate !=
-                                                                widget
-                                                                    .recurrentMatch
-                                                                    .lastPaymentDate &&
-                                                            !isCurrentMonth(widget
-                                                                .recurrentMatch
-                                                                .lastPaymentDate) &&
-                                                            getLastDayOfMonth(
-                                                                        DateTime
-                                                                            .now())
-                                                                    .difference(
-                                                                      DateTime
-                                                                          .now(),
-                                                                    )
-                                                                    .inDays <
-                                                                10)
+                                                color: widget.recurrentMatch
+                                                            .validUntil
+                                                            .difference(
+                                                                DateTime.now())
+                                                            .inDays <
+                                                        10
                                                     ? red
                                                     : textDarkGrey,
                                               ),
@@ -224,7 +202,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                         Column(
                           children: [
                             SizedBox(
-                              height: height * 0.03,
+                              height: defaultPadding,
                             ),
                             Column(
                               children: [
@@ -235,7 +213,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                         CrossAxisAlignment.start,
                                     children: const [
                                       Text(
-                                        "Partidas nesse mês:",
+                                        "Próximas partidas:",
                                         style: TextStyle(
                                           color: primaryLightBlue,
                                         ),
@@ -244,7 +222,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: height * 0.01,
+                                  height: defaultPadding / 2,
                                 ),
                                 SizedBox(
                                   height: 80,
@@ -282,7 +260,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                               ],
                             ),
                             SizedBox(
-                              height: height * 0.03,
+                              height: defaultPadding,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -294,28 +272,30 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: height * 0.01,
+                                  height: defaultPadding / 2,
                                 ),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "${widget.recurrentMatch.monthRecurrentMatches.length} Partidas (R\$ ${widget.recurrentMatch.monthRecurrentMatches.first.cost}):",
+                                      "${widget.recurrentMatch.monthRecurrentMatches.length} Partida(s) (R\$ ${widget.recurrentMatch.monthRecurrentMatches.first.cost}):",
                                       style: const TextStyle(
                                         color: textDarkGrey,
                                       ),
+                                      textScaleFactor: 0.9,
                                     ),
                                     Text(
                                       "R\$ ${widget.recurrentMatch.currentMonthPrice()}",
                                       style: const TextStyle(
                                         color: textDarkGrey,
                                       ),
+                                      textScaleFactor: 0.9,
                                     ),
                                   ],
                                 ),
                                 SizedBox(
-                                  height: height * 0.01,
+                                  height: defaultPadding / 2,
                                 ),
                                 Row(
                                   mainAxisAlignment:
@@ -326,6 +306,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                       style: TextStyle(
                                         color: textDarkGrey,
                                       ),
+                                      textScaleFactor: 0.9,
                                     ),
                                     Text(
                                       DateFormat("dd/MM/yyyy").format(
@@ -333,25 +314,31 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                       style: const TextStyle(
                                         color: textDarkGrey,
                                       ),
+                                      textScaleFactor: 0.9,
                                     ),
                                   ],
+                                ),
+                                SizedBox(
+                                  height: defaultPadding / 2,
                                 ),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "Vencimento:",
+                                      "Última renovação:",
                                       style: TextStyle(
                                         color: textDarkGrey,
                                       ),
+                                      textScaleFactor: 0.9,
                                     ),
                                     Text(
                                       DateFormat("dd/MM/yyyy").format(widget
-                                          .recurrentMatch.nextPaymentUntill),
+                                          .recurrentMatch.lastPaymentDate),
                                       style: TextStyle(
                                         color: secondaryYellow,
                                       ),
+                                      textScaleFactor: 0.9,
                                     ),
                                   ],
                                 ),
@@ -367,50 +354,52 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
             widget.expanded
                 ? Column(
                     children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: width * 0.05,
+                      if (areInTheSameMonth(
+                          widget.recurrentMatch.validUntil, DateTime.now()))
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.05,
+                          ),
+                          child: SFButton(
+                            buttonLabel: "Renovar Horário",
+                            color: primaryLightBlue,
+                            textPadding:
+                                EdgeInsets.symmetric(vertical: height * 0.01),
+                            onTap: () {
+                              List<HourPrice> hourPrices = [];
+                              Provider.of<CategoriesProvider>(context,
+                                      listen: false)
+                                  .hours
+                                  .forEach((hour) {
+                                if (hour.hour >=
+                                        widget.recurrentMatch.timeBegin.hour &&
+                                    hour.hour <
+                                        widget.recurrentMatch.timeEnd.hour) {
+                                  hourPrices.add(
+                                    HourPrice(
+                                      hour: hour,
+                                      price: widget.recurrentMatch
+                                          .monthRecurrentMatches.first.cost,
+                                    ),
+                                  );
+                                }
+                              });
+                              Navigator.pushNamed(
+                                context,
+                                "/checkout",
+                                arguments: {
+                                  'court': widget.recurrentMatch.court,
+                                  'hourPrices': hourPrices,
+                                  'sport': widget.recurrentMatch.sport,
+                                  'date': null,
+                                  'weekday': widget.recurrentMatch.weekday,
+                                  'isRecurrent': true,
+                                  'isRenovating': true,
+                                },
+                              );
+                            },
+                          ),
                         ),
-                        child: SFButton(
-                          buttonLabel: "Renovar Horário",
-                          color: primaryLightBlue,
-                          textPadding:
-                              EdgeInsets.symmetric(vertical: height * 0.01),
-                          onTap: () {
-                            List<HourPrice> hourPrices = [];
-                            Provider.of<CategoriesProvider>(context,
-                                    listen: false)
-                                .hours
-                                .forEach((hour) {
-                              if (hour.hour >=
-                                      widget.recurrentMatch.timeBegin.hour &&
-                                  hour.hour <
-                                      widget.recurrentMatch.timeEnd.hour) {
-                                hourPrices.add(
-                                  HourPrice(
-                                    hour: hour,
-                                    price: widget.recurrentMatch
-                                        .monthRecurrentMatches.first.cost,
-                                  ),
-                                );
-                              }
-                            });
-                            Navigator.pushNamed(
-                              context,
-                              "/checkout",
-                              arguments: {
-                                'court': widget.recurrentMatch.court,
-                                'hourPrices': hourPrices,
-                                'sport': widget.recurrentMatch.sport,
-                                'date': null,
-                                'weekday': widget.recurrentMatch.weekday,
-                                'isRecurrent': true,
-                                'isRenovating': true,
-                              },
-                            );
-                          },
-                        ),
-                      ),
                       Container(
                         margin: const EdgeInsets.symmetric(vertical: 5),
                         child: SvgPicture.asset(

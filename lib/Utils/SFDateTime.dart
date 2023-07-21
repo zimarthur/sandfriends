@@ -68,3 +68,7 @@ int getDaysToEndOfMonth() {
   DateTime today = DateTime.now();
   return getLastDayOfMonth(today).day - today.day;
 }
+
+bool areInTheSameMonth(DateTime a, DateTime b) {
+  return a.month == b.month && a.year == b.year;
+}
