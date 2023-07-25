@@ -10,7 +10,8 @@ import '../ViewModel/LoginViewModel.dart';
 
 class LoginWidget extends StatefulWidget {
   LoginViewModel viewModel;
-  LoginWidget({Key? key, 
+  LoginWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 

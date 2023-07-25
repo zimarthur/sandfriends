@@ -86,15 +86,21 @@ class _SFStandardScreenState extends State<SFStandardScreen> {
                         color: primaryBlue.withOpacity(0.4),
                         height: height,
                         width: width,
-                        child: Center(
-                          child: widget.pageStatus == PageStatus.LOADING
-                              ? const SFLoading()
-                              : InkWell(
-                                  onTap: () {},
-                                  child: widget.pageStatus == PageStatus.FORM
-                                      ? widget.modalFormWidget
-                                      : widget.messageModalWidget,
-                                ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            widget.pageStatus == PageStatus.LOADING
+                                ? const SFLoading()
+                                : InkWell(
+                                    onTap: () {},
+                                    child: widget.pageStatus == PageStatus.FORM
+                                        ? widget.modalFormWidget
+                                        : widget.messageModalWidget,
+                                  ),
+                            SizedBox(
+                              height: MediaQuery.of(context).viewInsets.bottom,
+                            )
+                          ],
                         ),
                       ),
                     )

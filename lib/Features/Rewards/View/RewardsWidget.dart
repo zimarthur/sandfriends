@@ -86,17 +86,19 @@ class _RewardsWidgetState extends State<RewardsWidget> {
                                 widget: Text(
                                   "${Provider.of<UserProvider>(context, listen: false).userReward!.userRewardQuantity} de ${Provider.of<UserProvider>(context, listen: false).userReward!.rewardQuantity}",
                                   style: TextStyle(
-                                      color: Provider.of<UserProvider>(context,
-                                                      listen: false)
-                                                  .userReward!
-                                                  .userRewardQuantity ==
-                                              Provider.of<UserProvider>(context,
-                                                      listen: false)
-                                                  .userReward!
-                                                  .rewardQuantity
-                                          ? Colors.green
-                                          : primaryBlue,
-                                      fontWeight: FontWeight.w500),
+                                    color: Provider.of<UserProvider>(context,
+                                                    listen: false)
+                                                .userReward!
+                                                .userRewardQuantity ==
+                                            Provider.of<UserProvider>(context,
+                                                    listen: false)
+                                                .userReward!
+                                                .rewardQuantity
+                                        ? Colors.green
+                                        : primaryBlue,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  textScaleFactor: 1.4,
                                 ))
                           ],
                           pointers: <GaugePointer>[
@@ -152,6 +154,7 @@ class _RewardsWidgetState extends State<RewardsWidget> {
                               style: TextStyle(
                                 color: Colors.green,
                                 fontWeight: FontWeight.w500,
+                                fontFamily: 'Lexend',
                               ),
                               children: [
                                 TextSpan(
@@ -159,9 +162,14 @@ class _RewardsWidgetState extends State<RewardsWidget> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w900,
                                     color: Colors.green,
+                                    fontFamily: 'Lexend',
                                   ),
                                 ),
-                                TextSpan(text: ' para coletar sua recompensa.'),
+                                TextSpan(
+                                    text: ' para coletar sua recompensa.',
+                                    style: TextStyle(
+                                      fontFamily: 'Lexend',
+                                    )),
                               ],
                             ),
                           )

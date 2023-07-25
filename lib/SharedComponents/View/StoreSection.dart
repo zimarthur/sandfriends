@@ -11,10 +11,12 @@ import '../../Features/Match/ViewModel/MatchViewModel.dart';
 class StoreSection extends StatefulWidget {
   Court court;
   VoidCallback onTapStore;
+  bool fullAddress;
   StoreSection({
     Key? key,
     required this.court,
     required this.onTapStore,
+    this.fullAddress = true,
   }) : super(key: key);
 
   @override
@@ -97,7 +99,9 @@ class _StoreSectionState extends State<StoreSection> {
                               padding: EdgeInsets.only(right: width * 0.02)),
                           Expanded(
                             child: Text(
-                              widget.court.store!.completeAddress,
+                              widget.fullAddress
+                                  ? widget.court.store!.completeAddress
+                                  : widget.court.store!.shortAddress,
                               style: const TextStyle(
                                 color: primaryBlue,
                               ),

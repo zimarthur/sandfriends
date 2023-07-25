@@ -228,6 +228,13 @@ class UserDetailsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setNoPhoto(bool newValue) {
+    noImage = newValue;
+    userEdited.photo = null;
+    imagePicker = null;
+    notifyListeners();
+  }
+
   void openUserDetailsModal(UserDetailsModals modal, BuildContext context) {
     switch (modal) {
       case UserDetailsModals.Name:

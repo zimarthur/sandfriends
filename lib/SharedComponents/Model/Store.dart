@@ -37,6 +37,11 @@ class Store {
   String get completeAddress =>
       "$address, $addressNumber - $neighbourhood, ${city.city}";
 
+  String get neighbourhoodAddress =>
+      "$address, $addressNumber - $neighbourhood";
+
+  String get shortAddress => "$address, $addressNumber";
+
   factory Store.fromJson(Map<String, dynamic> json) {
     var newStore = Store(
       idStore: json['IdStore'],

@@ -35,6 +35,7 @@ class CheckoutResume extends StatelessWidget {
           SizedBox(
             height: 150,
             child: StoreSection(
+              fullAddress: false,
               court:
                   Provider.of<CheckoutViewModel>(context, listen: false).court,
               onTapStore: () {},

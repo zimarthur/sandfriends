@@ -52,6 +52,7 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   void openForgotPasswordModal() {
+    forgotPasswordEmailController.text = "";
     pageStatus = PageStatus.FORM;
     modalForm = ForgotPasswordModal(viewModel: this);
     notifyListeners();

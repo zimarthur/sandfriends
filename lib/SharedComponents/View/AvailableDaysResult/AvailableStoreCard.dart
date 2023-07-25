@@ -18,7 +18,8 @@ class AvailableStoreCard extends StatefulWidget {
   bool selectedParent;
   bool isRecurrent;
 
-  AvailableStoreCard({Key? key, 
+  AvailableStoreCard({
+    Key? key,
     required this.availableStore,
     required this.selectedAvailableHour,
     required this.onTapHour,
@@ -117,14 +118,18 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                             SizedBox(
                               width: width * 0.01,
                             ),
-                            Text(
-                              widget.availableStore.store.address,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 10,
-                                color: widget.isRecurrent
-                                    ? primaryLightBlue
-                                    : primaryBlue,
+                            Expanded(
+                              child: Text(
+                                widget
+                                    .availableStore.store.neighbourhoodAddress,
+                                maxLines: 2,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 10,
+                                  color: widget.isRecurrent
+                                      ? primaryLightBlue
+                                      : primaryBlue,
+                                ),
                               ),
                             ),
                           ],

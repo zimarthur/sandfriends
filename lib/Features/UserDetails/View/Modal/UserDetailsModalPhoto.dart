@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../SharedComponents/View/SFAvatar.dart';
 import '../../../../SharedComponents/View/SFButton.dart';
@@ -9,7 +10,8 @@ import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalPhoto extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsModalPhoto({Key? key, 
+  UserDetailsModalPhoto({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -46,9 +48,10 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
             children: [
               SFAvatar(
                 height: width * 0.7,
-                user: widget.viewModel.userEdited,
+                user: Provider.of<UserDetailsViewModel>(context).userEdited,
                 showRank: false,
-                editFile: widget.viewModel.imagePicker,
+                editFile:
+                    Provider.of<UserDetailsViewModel>(context).imagePicker,
                 onTap: () => pickImage(),
               ),
               CheckboxListTile(
@@ -58,12 +61,9 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
                     color: textDarkGrey,
                   ),
                 ),
-                value: widget.viewModel.noImage,
+                value: Provider.of<UserDetailsViewModel>(context).noImage,
                 controlAffinity: ListTileControlAffinity.leading,
-                onChanged: (newValue) => setState(() {
-                  widget.viewModel.noImage = newValue!;
-                  widget.viewModel.imagePicker = null;
-                }),
+                onChanged: (newValue) => widget.viewModel.setNoPhoto(newValue!),
               ),
             ],
           ),
@@ -72,7 +72,9 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
             textPadding: EdgeInsets.symmetric(
               vertical: height * 0.01,
             ),
-            onTap: () => widget.viewModel.closeModal(),
+            onTap: () =>
+                Provider.of<UserDetailsViewModel>(context, listen: false)
+                    .closeModal(),
           ),
         ],
       ),
@@ -80,11 +82,13 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
   }
 
   Future pickImage() async {
-    if (widget.viewModel.noImage) return;
+    if (Provider.of<UserDetailsViewModel>(context, listen: false).noImage)
+      return;
     XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (file == null) return;
     setState(() {
-      widget.viewModel.imagePicker = file.path;
+      Provider.of<UserDetailsViewModel>(context, listen: false).imagePicker =
+          file.path;
     });
   }
 }

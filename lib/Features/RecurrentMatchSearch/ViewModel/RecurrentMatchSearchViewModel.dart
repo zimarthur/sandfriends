@@ -140,6 +140,7 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
           print("hour: ${hour["TimeBegin"]}");
           for (var court in hour["Courts"]) {
             print("IdStoreCourt: ${court["IdStoreCourt"]}");
+            print("Price: ${court["Price"]}");
             availableCourts.add(
               AvailableCourt(
                 court: Court.copyWith(
