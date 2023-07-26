@@ -98,7 +98,7 @@ class _RewardsWidgetState extends State<RewardsWidget> {
                                         : primaryBlue,
                                     fontWeight: FontWeight.w500,
                                   ),
-                                  textScaleFactor: 1.4,
+                                  textScaleFactor: 1.3,
                                 ))
                           ],
                           pointers: <GaugePointer>[
@@ -216,7 +216,7 @@ class _RewardsWidgetState extends State<RewardsWidget> {
                               SizedBox(
                                 width: double.infinity,
                                 child: Text(
-                                  "*válido de ${DateFormat("dd/MM/yyyy").format(Provider.of<UserProvider>(context, listen: false).userReward!.startingDate)} até ${DateFormat("dd/MM/yyyy").format(Provider.of<UserProvider>(context, listen: false).userReward!.endingDate)}",
+                                  "*válido de ${DateFormat("dd/MM/yyyy").format(Provider.of<UserProvider>(context, listen: false).userReward!.startingDate)} até ${DateFormat("dd/MM/yyyy").format(Provider.of<UserProvider>(context, listen: false).userReward!.endingDate)} para partidas pagas pelo app",
                                   textScaleFactor: 0.9,
                                   style: const TextStyle(
                                     color: textDarkGrey,

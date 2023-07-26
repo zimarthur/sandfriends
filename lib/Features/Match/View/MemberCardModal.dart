@@ -14,7 +14,8 @@ class MemberCardModal extends StatefulWidget {
   MatchViewModel viewModel;
   MatchMember member;
 
-  MemberCardModal({Key? key, 
+  MemberCardModal({
+    Key? key,
     required this.viewModel,
     required this.member,
   }) : super(key: key);
