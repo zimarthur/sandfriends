@@ -59,6 +59,8 @@ dependencies:
   syncfusion_flutter_gauges: ^20.3.50
   cached_network_image: ^3.2.0
   flutter_launcher_icons: ^0.10.0
+  firebase_core: ^2.15.0
+  firebase_crashlytics: ^3.3.4
 
 flutter_icons:
   android: true
