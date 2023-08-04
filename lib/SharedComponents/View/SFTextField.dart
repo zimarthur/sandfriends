@@ -18,7 +18,6 @@ class SFTextField extends StatefulWidget {
   final Function(String)? onChanged;
   final String? hintText;
   final Color themeColor;
-  final List<TextInputFormatter>? inputFormatters;
 
   const SFTextField({
     Key? key,
@@ -34,7 +33,6 @@ class SFTextField extends StatefulWidget {
     this.minLines,
     this.hintText,
     this.themeColor = primaryBlue,
-    this.inputFormatters,
   }) : super(key: key);
 
   @override
@@ -49,8 +47,9 @@ class _SFTextFieldState extends State<SFTextField> {
     return TextFormField(
       validator: widget.validator,
       controller: widget.controller,
-      textInputAction: TextInputAction.next,
-      inputFormatters: widget.inputFormatters,
+      textInputAction: widget.pourpose == TextFieldPourpose.Multiline
+          ? TextInputAction.newline
+          : TextInputAction.next,
       keyboardType: widget.pourpose == TextFieldPourpose.Email
           ? TextInputType.emailAddress
           : widget.pourpose == TextFieldPourpose.Numeric

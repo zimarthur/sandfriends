@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 import 'dart:typed_data';
@@ -95,7 +96,10 @@ class UserDetailsViewModel extends ChangeNotifier {
     firstNameController.text = userEdited.firstName!;
     lastNameController.text = userEdited.lastName!;
     phoneNumberController.text = userEdited.phoneNumber!;
-    birthdayController.text = userEdited.birthday.toString();
+    if (userEdited.birthday != null) {
+      birthdayController.text =
+          DateFormat('dd/MM/yyyy').format(userEdited.birthday!);
+    }
     heightController.text = userEdited.height.toString();
 
     if (Provider.of<UserProvider>(context, listen: false).user!.ranks.isEmpty) {

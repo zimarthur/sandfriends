@@ -41,6 +41,7 @@ class InformationSection extends StatelessWidget {
                       viewModel.match.canceled
                           ? "Cancelada"
                           : "Pagamento Expirado",
+                      textAlign: TextAlign.end,
                       maxLines: 2,
                       style: TextStyle(
                           fontWeight: FontWeight.w500, color: Colors.red),
