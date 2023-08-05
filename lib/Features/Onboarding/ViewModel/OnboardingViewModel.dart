@@ -100,7 +100,7 @@ class OnboardingViewModel extends ChangeNotifier {
         .isEmpty) {
       Provider.of<CategoriesProvider>(context, listen: false)
           .categoriesProviderRepo
-          .getAllCities()
+          .getAllCities(context)
           .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
           Provider.of<CategoriesProvider>(context, listen: false)
@@ -144,6 +144,7 @@ class OnboardingViewModel extends ChangeNotifier {
         notifyListeners();
         onboardingRepo
             .addUserInfo(
+          context,
           Provider.of<UserProvider>(context, listen: false).user!.accessToken,
           firstNameController.text,
           lastNameController.text,

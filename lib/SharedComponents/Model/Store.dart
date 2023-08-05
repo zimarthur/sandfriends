@@ -52,14 +52,13 @@ class Store {
       city: City.fromJsonUser(json['City']),
       latitude: json['Latitude'],
       longitude: json['Longitude'],
-      imageUrl: sandfriendsRequestsUrl + json['Logo'],
+      imageUrl: json['Logo'],
       descriptionText: json['Description'],
       instagram: json['Instagram'],
       phone: json['PhoneNumber1'],
     );
     for (int i = 0; i < json['StorePhotos'].length; i++) {
-      newStore.photos
-          .add(sandfriendsRequestsUrl + json['StorePhotos'][i]['Photo']);
+      newStore.photos.add(json['StorePhotos'][i]['Photo']);
     }
     for (var court in json['Courts']) {
       newStore.courts.add(Court.fromJson(
@@ -80,14 +79,13 @@ class Store {
       city: City.fromJsonUser(json['City']),
       latitude: json['Latitude'],
       longitude: json['Longitude'],
-      imageUrl: sandfriendsRequestsUrl + json['Logo'],
+      imageUrl: json['Logo'],
       descriptionText: json['Description'],
       instagram: json['Instagram'],
       phone: json['PhoneNumber1'],
     );
     for (int i = 0; i < json['StorePhotos'].length; i++) {
-      newStore.photos
-          .add(sandfriendsRequestsUrl + json['StorePhotos'][i]['Photo']);
+      newStore.photos.add(json['StorePhotos'][i]['Photo']);
     }
 
     return newStore;

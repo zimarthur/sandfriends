@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../SharedComponents/Providers/RedirectProvider/EnvironmentProvider.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
 import '../../../Utils/Constants.dart';
 
@@ -64,7 +66,9 @@ class _CourtPhotosState extends State<CourtPhotos> {
               return SizedBox(
                 width: layoutConstraints.maxWidth,
                 child: CachedNetworkImage(
-                  imageUrl: widget.imagesUrl[index],
+                  imageUrl:
+                      Provider.of<EnvironmentProvider>(context, listen: false)
+                          .urlBuilder(widget.imagesUrl[index]),
                   fit: BoxFit.cover,
                   placeholder: (context, url) => SizedBox(
                     width: layoutConstraints.maxWidth * 0.1,

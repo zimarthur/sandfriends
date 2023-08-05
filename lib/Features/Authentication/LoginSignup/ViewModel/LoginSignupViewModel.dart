@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Features/Authentication/LoadLogin/ViewModel/LoadLoginViewModel.dart';
 import 'package:sandfriends/Features/Authentication/LoginSignup/Repo/LoginSignupRepoImp.dart';
@@ -63,7 +62,7 @@ class LoginSignupViewModel extends ChangeNotifier {
   void validateGoogleLogin(BuildContext context, String email) {
     pageStatus = PageStatus.LOADING;
     notifyListeners();
-    loginSignupRepo.thirdPartyLogin(email).then((response) {
+    loginSignupRepo.thirdPartyLogin(context, email).then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         receiveLoginResponse(context, response.responseBody!);
       } else {

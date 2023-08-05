@@ -90,8 +90,7 @@ class User {
       sidePreference: json['SidePreferenceCategory'] == null
           ? null
           : SidePreference.fromJson(json['SidePreferenceCategory']),
-      photo:
-          json['Photo'] != null ? sandfriendsRequestsUrl + json['Photo'] : null,
+      photo: json['Photo'] != null ? json['Photo'] : null,
       cpf: json['Cpf'],
     );
     for (int i = 0; i < json['Ranks'].length; i++) {

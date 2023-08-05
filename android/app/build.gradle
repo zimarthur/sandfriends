@@ -24,6 +24,7 @@ if (flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 
@@ -86,6 +87,20 @@ android {
         disable "Instantiatable"
         checkReleaseBuilds false
         abortOnError false
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+        prod {
+            dimension "default"
+            resValue "string", "app_name", "Sandfriends"
+            applicationIdSuffix ""
+        }
+        dev {
+            dimension "default"
+            resValue "string", "app_name", "Sandfriends dev"
+            applicationIdSuffix ".dev"
+        }
     }
 }
 

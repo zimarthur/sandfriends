@@ -21,6 +21,7 @@ import 'package:sandfriends/Features/RecurrentMatches/View/RecurrentMatchesSreen
 import 'package:sandfriends/Features/Rewards/View/RewardsScreen.dart';
 import 'package:sandfriends/Features/RewardsUser/View/RewardsUserScreen.dart';
 import 'package:sandfriends/SharedComponents/Model/Court.dart';
+import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/EnvironmentProvider.dart';
 import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/RedirectProvider.dart';
 import 'Features/Authentication/LoadLogin/View/LoadLoginScreen.dart';
 import 'Features/Court/Model/CourtAvailableHours.dart';
@@ -44,32 +45,18 @@ import 'firebase_options.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((value) async {
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-
-    runApp(const MyApp());
-  });
-}
-
-void handleLink(Uri uri) {
-  // Do something with the incoming link.
-  print('Incoming link: $uri');
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+class App extends StatefulWidget {
+  final String flavor;
+  const App({
+    Key? key,
+    required this.flavor,
+  }) : super(key: key);
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<App> createState() => _AppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _AppState extends State<App> {
   bool _initialURILinkHandled = false;
 
   Uri? _initialURI;
@@ -78,6 +65,7 @@ class _MyAppState extends State<MyApp> {
 
   StreamSubscription? _streamSubscription;
 
+  final environmentProvider = EnvironmentProvider();
   void _incomingLinkHandler() {
     if (!kIsWeb) {
       _streamSubscription = uriLinkStream.listen((Uri? uri) {
@@ -158,6 +146,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    environmentProvider.setEnvironment(widget.flavor);
     super.initState();
     _initURIHandler();
     _incomingLinkHandler();
@@ -176,6 +165,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => CategoriesProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => RedirectProvider()),
+        ChangeNotifierProvider(create: (_) => environmentProvider),
       ],
       child: MaterialApp(
         localizationsDelegates: const [
@@ -187,7 +177,7 @@ class _MyAppState extends State<MyApp> {
           Locale('en'),
         ],
         locale: const Locale('pt', 'BR'),
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: widget.flavor == "dev",
         theme: ThemeData(
           scaffoldBackgroundColor: secondaryBack,
           fontFamily: "Lexend",

@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../Remote/ApiEndPoints.dart';
 import '../../../Remote/BaseApiService.dart';
 import '../../../Remote/NetworkApiService.dart';
 import '../../../Remote/NetworkResponse.dart';
+import '../../../SharedComponents/Providers/RedirectProvider/EnvironmentProvider.dart';
 import 'RecurrentMatchSearchRepo.dart';
 
 class RecurrentMatchSearchRepoImp implements RecurrentMatchSearchRepo {
@@ -12,6 +15,7 @@ class RecurrentMatchSearchRepoImp implements RecurrentMatchSearchRepo {
 
   @override
   Future<NetworkResponse> searchRecurrentCourts(
+    BuildContext context,
     String accessToken,
     int sportId,
     int cityId,
@@ -20,8 +24,9 @@ class RecurrentMatchSearchRepoImp implements RecurrentMatchSearchRepo {
     String timeEnd,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
-      _apiService.sandfriendsUrl,
-      ApiEndPoints().searchRecurrentCourts,
+      Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+        ApiEndPoints().searchRecurrentCourts,
+      ),
       jsonEncode(
         <String, Object>{
           'AccessToken': accessToken,

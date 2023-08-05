@@ -10,6 +10,7 @@ import 'package:sandfriends/SharedComponents/Model/Court.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../SharedComponents/Providers/RedirectProvider/EnvironmentProvider.dart';
 import '../../../SharedComponents/View/SFButton.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
 import '../../../Utils/Constants.dart';
@@ -79,7 +80,10 @@ class _CourtWidgetState extends State<CourtWidget> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(16.0),
                             child: CachedNetworkImage(
-                              imageUrl: widget.viewModel.store.imageUrl,
+                              imageUrl: Provider.of<EnvironmentProvider>(
+                                      context,
+                                      listen: false)
+                                  .urlBuilder(widget.viewModel.store.imageUrl),
                               height: height * 0.13,
                               width: height * 0.13,
                               placeholder: (context, url) => SizedBox(

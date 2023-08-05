@@ -29,6 +29,7 @@ class UserMatchesViewModel extends ChangeNotifier {
     notifyListeners();
     userMatchesRepo
         .getUserMatches(
+      context,
       Provider.of<UserProvider>(context, listen: false).user!.accessToken,
     )
         .then((response) {

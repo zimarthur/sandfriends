@@ -106,6 +106,7 @@ class CheckoutViewModel extends ChangeNotifier {
       weekday = receivedWeekday!;
       checkoutRepo
           .recurrentMonthAvailableHours(
+        context,
         Provider.of<UserProvider>(context, listen: false).user!.accessToken,
         weekday,
         startingHour.hour,
@@ -201,6 +202,7 @@ class CheckoutViewModel extends ChangeNotifier {
     notifyListeners();
     checkoutRepo
         .matchReservation(
+      context,
       Provider.of<UserProvider>(context, listen: false).user!.accessToken,
       court.idStoreCourt,
       sport.idSport,
@@ -243,6 +245,7 @@ class CheckoutViewModel extends ChangeNotifier {
     notifyListeners();
     checkoutRepo
         .recurrentMatchReservation(
+      context,
       Provider.of<UserProvider>(context, listen: false).user!.accessToken,
       court.idStoreCourt,
       sport.idSport,

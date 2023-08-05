@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/SharedComponents/View/AvailableDaysResult/AvailableHourCard.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableHour.dart';
 
 import '../../Model/AvailableStore.dart';
 import '../../Model/Store.dart';
+import '../../Providers/RedirectProvider/EnvironmentProvider.dart';
 import '../SFButton.dart';
 import '../SFLoading.dart';
 import '../../../Utils/Constants.dart';
@@ -67,7 +69,9 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: CachedNetworkImage(
-                      imageUrl: widget.availableStore.store.imageUrl,
+                      imageUrl: Provider.of<EnvironmentProvider>(context,
+                              listen: false)
+                          .urlBuilder(widget.availableStore.store.imageUrl),
                       height: 82,
                       width: 82,
                       placeholder: (context, url) => const SizedBox(

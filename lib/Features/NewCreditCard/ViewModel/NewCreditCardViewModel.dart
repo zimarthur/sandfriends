@@ -61,6 +61,7 @@ class NewCreditCardViewModel extends ChangeNotifier {
       notifyListeners();
       newCreditCardRepo
           .addUserCreditCard(
+        context,
         Provider.of<UserProvider>(context, listen: false).user!.accessToken,
         cardNumberController.text.replaceAll(" ", ""),
         cardCvvController.text,

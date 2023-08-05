@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/SharedComponents/View/SFLoading.dart';
 
 import '../../SharedComponents/Model/Sport.dart';
 import '../../SharedComponents/Model/User.dart';
 import '../../Utils/Constants.dart';
+import '../Providers/RedirectProvider/EnvironmentProvider.dart';
 
 class SFAvatar extends StatelessWidget {
   final double height;
@@ -16,7 +18,8 @@ class SFAvatar extends StatelessWidget {
   final bool showRank;
   final VoidCallback? onTap;
 
-  SFAvatar({Key? key, 
+  SFAvatar({
+    Key? key,
     required this.height,
     required this.user,
     this.sport,
@@ -93,7 +96,9 @@ class SFAvatar extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(height * 0.42),
                           child: CachedNetworkImage(
-                            imageUrl: user.photo!,
+                            imageUrl: Provider.of<EnvironmentProvider>(context,
+                                    listen: false)
+                                .urlBuilder(user.photo!),
                             fit: BoxFit.cover,
                             placeholder: (context, url) => Padding(
                               padding: EdgeInsets.all(height * 0.3),

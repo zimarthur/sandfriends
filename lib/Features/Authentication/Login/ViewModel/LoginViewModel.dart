@@ -32,7 +32,7 @@ class LoginViewModel extends ChangeNotifier {
     pageStatus = PageStatus.LOADING;
     notifyListeners();
     loginRepo
-        .login(emailController.text, passwordController.text)
+        .login(context, emailController.text, passwordController.text)
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         receiveLoginResponse(context, response.responseBody!);
@@ -64,6 +64,7 @@ class LoginViewModel extends ChangeNotifier {
       notifyListeners();
       loginRepo
           .forgotPassword(
+        context,
         forgotPasswordEmailController.text,
       )
           .then((response) {

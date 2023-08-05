@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../../Remote/ApiEndPoints.dart';
 import '../../../Remote/BaseApiService.dart';
 import '../../../Remote/NetworkApiService.dart';
 import '../../../Remote/NetworkResponse.dart';
+import '../../../SharedComponents/Providers/RedirectProvider/EnvironmentProvider.dart';
 import 'MatchSearchRepo.dart';
 
 class MatchSearchRepoImp implements MatchSearchRepo {
@@ -13,6 +16,7 @@ class MatchSearchRepoImp implements MatchSearchRepo {
 
   @override
   Future<NetworkResponse> searchCourts(
+    BuildContext context,
     String accessToken,
     int sportId,
     int cityId,
@@ -22,8 +26,9 @@ class MatchSearchRepoImp implements MatchSearchRepo {
     int timeEnd,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
-      _apiService.sandfriendsUrl,
-      ApiEndPoints().searchCourts,
+      Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+        ApiEndPoints().searchCourts,
+      ),
       jsonEncode(
         <String, Object>{
           'AccessToken': accessToken,

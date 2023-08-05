@@ -110,7 +110,7 @@ class MatchViewModel extends ChangeNotifier {
   Future<void> getMatchInfo(BuildContext context, String matchUrl) async {
     pageStatus = PageStatus.LOADING;
     notifyListeners();
-    matchRepo.getMatchInfo(matchUrl).then((response) {
+    matchRepo.getMatchInfo(context, matchUrl).then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
@@ -235,6 +235,7 @@ class MatchViewModel extends ChangeNotifier {
       notifyListeners();
       matchRepo
           .saveCreatorNotes(
+        context,
         loggedUser.accessToken,
         match.idMatch,
         creatorNotesController.text,
@@ -273,6 +274,7 @@ class MatchViewModel extends ChangeNotifier {
     notifyListeners();
     matchRepo
         .invitationResponse(
+      context,
       loggedUser.accessToken,
       match.idMatch,
       idUser,
@@ -307,6 +309,7 @@ class MatchViewModel extends ChangeNotifier {
     notifyListeners();
     matchRepo
         .removeMatchMember(
+          context,
           loggedUser.accessToken,
           match.idMatch,
           idUser,
@@ -324,6 +327,7 @@ class MatchViewModel extends ChangeNotifier {
     notifyListeners();
     matchRepo
         .cancelMatch(
+          context,
           loggedUser.accessToken,
           match.idMatch,
         )
@@ -340,6 +344,7 @@ class MatchViewModel extends ChangeNotifier {
     notifyListeners();
     matchRepo
         .leaveMatch(
+          context,
           loggedUser.accessToken,
           match.idMatch,
         )
@@ -364,6 +369,7 @@ class MatchViewModel extends ChangeNotifier {
       notifyListeners();
       matchRepo
           .joinMatch(
+            context,
             loggedUser.accessToken,
             match.idMatch,
           )
@@ -422,7 +428,7 @@ class MatchViewModel extends ChangeNotifier {
         pageStatus = PageStatus.LOADING;
         notifyListeners();
         matchRepo
-            .saveOpenMatch(loggedUser.accessToken, match.idMatch,
+            .saveOpenMatch(context, loggedUser.accessToken, match.idMatch,
                 match.isOpenMatch, match.maxUsers)
             .then(
               (response) => defaultResponse(

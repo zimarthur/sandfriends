@@ -50,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAqOw9RdDjFCezPd-faTMetAx3uzFjH2Kc',
-    appId: '1:204510750013:android:1bad13ee7f43607872d154',
-    messagingSenderId: '204510750013',
-    projectId: 'sandfriendsmobile',
-    storageBucket: 'sandfriendsmobile.appspot.com',
+    apiKey: 'AIzaSyD4Bnz3XRGDH7O0KVVRsy2z3K8_yn2m2ns',
+    appId: '1:117697971754:android:19264d2931422bb896e553',
+    messagingSenderId: '117697971754',
+    projectId: 'sandfriendsmobiledev',
+    storageBucket: 'sandfriendsmobiledev.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAqMZCbxvdBn-VBCyA2OFylQl9BICJrqXY',
-    appId: '1:204510750013:ios:50d33aefa183aa4672d154',
-    messagingSenderId: '204510750013',
-    projectId: 'sandfriendsmobile',
-    storageBucket: 'sandfriendsmobile.appspot.com',
-    iosClientId: '204510750013-4pr49p5o1k37mp2tu77uv2opohadudv6.apps.googleusercontent.com',
+    apiKey: 'AIzaSyD-7TFNvw58U4nXUGwtQoGYrWXREpOm738',
+    appId: '1:117697971754:ios:f1321aa74b7af1b496e553',
+    messagingSenderId: '117697971754',
+    projectId: 'sandfriendsmobiledev',
+    storageBucket: 'sandfriendsmobiledev.appspot.com',
+    iosClientId: '117697971754-pkip4c82rnk88jils0omq07gfau463p3.apps.googleusercontent.com',
     iosBundleId: 'com.sandfriends.app',
   );
 }

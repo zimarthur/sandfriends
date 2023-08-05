@@ -76,7 +76,7 @@ class HomeViewModel extends ChangeNotifier {
     pageStatus = PageStatus.LOADING;
     notifyListeners();
     homeRepo
-        .getUserInfo(
+        .getUserInfo(context,
             Provider.of<UserProvider>(context, listen: false).user!.accessToken)
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
@@ -186,6 +186,7 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
     homeRepo
         .sendFeedback(
+      context,
       Provider.of<UserProvider>(context, listen: false).user!.accessToken,
       feedbackController.text,
     )

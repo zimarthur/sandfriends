@@ -146,7 +146,7 @@ class UserDetailsViewModel extends ChangeNotifier {
         Uint8List bytes = imageFile.readAsBytesSync();
         userEdited.photo = base64Encode(bytes);
       }
-      userDetailsRepo.updateUserInfo(userEdited).then((response) {
+      userDetailsRepo.updateUserInfo(context, userEdited).then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
           Map<String, dynamic> responseBody = json.decode(
             response.responseBody!,
@@ -306,7 +306,7 @@ class UserDetailsViewModel extends ChangeNotifier {
     notifyListeners();
     Provider.of<CategoriesProvider>(context, listen: false)
         .categoriesProviderRepo
-        .getAllCities()
+        .getAllCities(context)
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         Provider.of<CategoriesProvider>(context, listen: false)

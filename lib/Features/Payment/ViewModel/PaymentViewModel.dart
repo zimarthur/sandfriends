@@ -25,6 +25,7 @@ class PaymentViewModel extends ChangeNotifier {
     notifyListeners();
     paymentRepo
         .deleteCreditCard(
+      context,
       Provider.of<UserProvider>(context, listen: false).user!.accessToken,
       creditCard.idCreditCard,
     )

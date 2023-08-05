@@ -30,6 +30,7 @@ class RewardsUserViewModel extends ChangeNotifier {
   void initRewardsUserScreen(BuildContext context) {
     rewardsUserRepo
         .getUserRewards(
+      context,
       Provider.of<UserProvider>(context, listen: false).user!.accessToken,
     )
         .then((response) {

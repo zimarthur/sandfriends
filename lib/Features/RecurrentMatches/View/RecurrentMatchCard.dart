@@ -7,6 +7,7 @@ import 'package:sandfriends/Features/Court/Model/HourPrice.dart';
 import 'package:sandfriends/SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 
 import '../../../SharedComponents/Model/AppRecurrentMatch.dart';
+import '../../../SharedComponents/Providers/RedirectProvider/EnvironmentProvider.dart';
 import '../../../SharedComponents/View/SFButton.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
 import '../../../Utils/Constants.dart';
@@ -79,8 +80,11 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(16.0),
                               child: CachedNetworkImage(
-                                imageUrl:
-                                    widget.recurrentMatch.court.store!.imageUrl,
+                                imageUrl: Provider.of<EnvironmentProvider>(
+                                        context,
+                                        listen: false)
+                                    .urlBuilder(widget
+                                        .recurrentMatch.court.store!.imageUrl),
                                 height: 80,
                                 width: 80,
                                 placeholder: (context, url) => const SizedBox(

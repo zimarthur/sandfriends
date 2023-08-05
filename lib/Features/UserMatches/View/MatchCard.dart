@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/SharedComponents/Model/PaymentStatus.dart';
 import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
+import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/EnvironmentProvider.dart';
 
 import '../../../SharedComponents/Model/AppMatch.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
@@ -53,7 +55,9 @@ class MatchCard extends StatelessWidget {
                     topRight: Radius.circular(16),
                   ),
                   child: CachedNetworkImage(
-                    imageUrl: match.sport.photoUrl,
+                    imageUrl:
+                        Provider.of<EnvironmentProvider>(context, listen: false)
+                            .urlBuilder(match.sport.photoUrl),
                     fit: BoxFit.fill,
                     width: double.infinity,
                     placeholder: (context, url) => const Center(

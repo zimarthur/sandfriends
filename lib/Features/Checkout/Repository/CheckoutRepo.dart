@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
 
 import '../../../Remote/NetworkResponse.dart';
 
 class CheckoutRepo {
   Future<NetworkResponse?> matchReservation(
+    BuildContext context,
     String accessToken,
     int idStoreCourt,
     int sportId,
@@ -19,6 +21,7 @@ class CheckoutRepo {
   }
 
   Future<NetworkResponse?> recurrentMatchReservation(
+    BuildContext context,
     String accessToken,
     int idStoreCourt,
     int sportId,
@@ -37,6 +40,7 @@ class CheckoutRepo {
   }
 
   Future<NetworkResponse?> recurrentMonthAvailableHours(
+    BuildContext context,
     String accessToken,
     int weekday,
     int timeBegin,

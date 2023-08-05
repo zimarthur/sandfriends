@@ -1,9 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../../../Remote/ApiEndPoints.dart';
 import '../../../Remote/BaseApiService.dart';
 import '../../../Remote/NetworkApiService.dart';
 import '../../../Remote/NetworkResponse.dart';
+import '../../../SharedComponents/Providers/RedirectProvider/EnvironmentProvider.dart';
 import 'MatchRepo.dart';
 
 class MatchRepoImp implements MatchRepo {
@@ -11,11 +15,13 @@ class MatchRepoImp implements MatchRepo {
 
   @override
   Future<NetworkResponse> getMatchInfo(
+    BuildContext context,
     String matchUrl,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
-      _apiService.sandfriendsUrl,
-      ApiEndPoints().getMatchInfo,
+      Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+        ApiEndPoints().getMatchInfo,
+      ),
       jsonEncode(
         <String, Object>{
           "MatchUrl": matchUrl,
@@ -27,13 +33,15 @@ class MatchRepoImp implements MatchRepo {
 
   @override
   Future<NetworkResponse> saveCreatorNotes(
+    BuildContext context,
     String accessToken,
     int idMatch,
     String newCreatorNotes,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
-      _apiService.sandfriendsUrl,
-      ApiEndPoints().saveCreatorNotes,
+      Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+        ApiEndPoints().saveCreatorNotes,
+      ),
       jsonEncode(
         <String, Object>{
           "AccessToken": accessToken,
@@ -47,14 +55,16 @@ class MatchRepoImp implements MatchRepo {
 
   @override
   Future<NetworkResponse> invitationResponse(
+    BuildContext context,
     String accessToken,
     int idMatch,
     int idUser,
     bool accepted,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
-      _apiService.sandfriendsUrl,
-      ApiEndPoints().invitationResponse,
+      Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+        ApiEndPoints().invitationResponse,
+      ),
       jsonEncode(
         <String, Object>{
           "AccessToken": accessToken,
@@ -69,13 +79,15 @@ class MatchRepoImp implements MatchRepo {
 
   @override
   Future<NetworkResponse> removeMatchMember(
+    BuildContext context,
     String accessToken,
     int idMatch,
     int idUser,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
-      _apiService.sandfriendsUrl,
-      ApiEndPoints().removeMatchMember,
+      Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+        ApiEndPoints().removeMatchMember,
+      ),
       jsonEncode(
         <String, Object>{
           "AccessToken": accessToken,
@@ -89,12 +101,14 @@ class MatchRepoImp implements MatchRepo {
 
   @override
   Future<NetworkResponse> cancelMatch(
+    BuildContext context,
     String accessToken,
     int idMatch,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
-      _apiService.sandfriendsUrl,
-      ApiEndPoints().cancelMatch,
+      Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+        ApiEndPoints().cancelMatch,
+      ),
       jsonEncode(
         <String, Object>{
           "AccessToken": accessToken,
@@ -107,12 +121,14 @@ class MatchRepoImp implements MatchRepo {
 
   @override
   Future<NetworkResponse> leaveMatch(
+    BuildContext context,
     String accessToken,
     int idMatch,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
-      _apiService.sandfriendsUrl,
-      ApiEndPoints().leaveMatch,
+      Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+        ApiEndPoints().leaveMatch,
+      ),
       jsonEncode(
         <String, Object>{
           "AccessToken": accessToken,
@@ -125,12 +141,14 @@ class MatchRepoImp implements MatchRepo {
 
   @override
   Future<NetworkResponse> joinMatch(
+    BuildContext context,
     String accessToken,
     int idMatch,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
-      _apiService.sandfriendsUrl,
-      ApiEndPoints().joinMatch,
+      Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+        ApiEndPoints().joinMatch,
+      ),
       jsonEncode(
         <String, Object>{
           "AccessToken": accessToken,
@@ -143,14 +161,16 @@ class MatchRepoImp implements MatchRepo {
 
   @override
   Future<NetworkResponse> saveOpenMatch(
+    BuildContext context,
     String accessToken,
     int idMatch,
     bool isOpenMatch,
     int maxUsers,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
-      _apiService.sandfriendsUrl,
-      ApiEndPoints().saveOpenMatch,
+      Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+        ApiEndPoints().saveOpenMatch,
+      ),
       jsonEncode(
         <String, Object>{
           "AccessToken": accessToken,

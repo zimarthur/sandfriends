@@ -6,10 +6,9 @@ import 'BaseApiService.dart';
 
 class NetworkApiService extends BaseApiService {
   @override
-  Future<NetworkResponse> getResponse(
-      String baseUrl, String aditionalUrl) async {
+  Future<NetworkResponse> getResponse(String url) async {
     try {
-      final response = await http.get(Uri.parse(baseUrl + aditionalUrl));
+      final response = await http.get(Uri.parse(url));
       return returnResponse(
         response,
       );
@@ -23,17 +22,15 @@ class NetworkApiService extends BaseApiService {
 
   @override
   Future<NetworkResponse> postResponse(
-    String baseUrl,
-    String aditionalUrl,
+    String url,
     String body,
   ) async {
     print(body);
-    print(baseUrl);
-    print(aditionalUrl);
+    print(url);
     try {
       final response = await http
           .post(
-            Uri.parse(baseUrl + aditionalUrl),
+            Uri.parse(url),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },

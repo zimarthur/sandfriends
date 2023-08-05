@@ -1,12 +1,15 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../../Remote/ApiEndPoints.dart';
 import '../../../Remote/BaseApiService.dart';
 import '../../../Remote/NetworkApiService.dart';
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/CreditCard/CardType.dart';
+import '../../../SharedComponents/Providers/RedirectProvider/EnvironmentProvider.dart';
 import 'NewCreditCardRepo.dart';
 
 class NewCreditCardRepoImp implements NewCreditCardRepo {
@@ -14,6 +17,7 @@ class NewCreditCardRepoImp implements NewCreditCardRepo {
 
   @override
   Future<NetworkResponse> addUserCreditCard(
+    BuildContext context,
     String accessToken,
     String cardNumber,
     String cvv,
@@ -27,8 +31,9 @@ class NewCreditCardRepoImp implements NewCreditCardRepo {
     CardType cardType,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
-      _apiService.sandfriendsUrl,
-      ApiEndPoints().addUserCreditCard,
+      Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+        ApiEndPoints().addUserCreditCard,
+      ),
       jsonEncode(
         <String, Object>{
           'AccessToken': accessToken,

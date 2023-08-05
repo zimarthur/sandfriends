@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Utils/Heros.dart';
 
 import '../Model/Court.dart';
+import '../Providers/RedirectProvider/EnvironmentProvider.dart';
 import 'SFLoading.dart';
 import '../../Utils/Constants.dart';
 import '../../Features/Match/ViewModel/MatchViewModel.dart';
@@ -54,7 +56,9 @@ class _StoreSectionState extends State<StoreSection> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16.0),
                       child: CachedNetworkImage(
-                        imageUrl: widget.court.store!.imageUrl,
+                        imageUrl: Provider.of<EnvironmentProvider>(context,
+                                listen: false)
+                            .urlBuilder(widget.court.store!.imageUrl),
                         height: layoutHeight * 0.65,
                         width: layoutHeight * 0.65,
                         placeholder: (context, url) => SizedBox(

@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Checkout/Repository/CheckoutRepo.dart';
 
 import '../../../Remote/ApiEndPoints.dart';
@@ -8,12 +10,14 @@ import '../../../Remote/BaseApiService.dart';
 import '../../../Remote/NetworkApiService.dart';
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/SelectedPayment.dart';
+import '../../../SharedComponents/Providers/RedirectProvider/EnvironmentProvider.dart';
 
 class CheckoutRepoImp implements CheckoutRepo {
   final BaseApiService _apiService = NetworkApiService();
 
   @override
   Future<NetworkResponse> matchReservation(
+    BuildContext context,
     String accessToken,
     int idStoreCourt,
     int sportId,
@@ -26,8 +30,9 @@ class CheckoutRepoImp implements CheckoutRepo {
     int? idCreditCard,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
-      _apiService.sandfriendsUrl,
-      ApiEndPoints().matchReservation,
+      Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+        ApiEndPoints().matchReservation,
+      ),
       jsonEncode(
         <String, Object>{
           "AccessToken": accessToken,
@@ -48,6 +53,7 @@ class CheckoutRepoImp implements CheckoutRepo {
 
   @override
   Future<NetworkResponse> recurrentMatchReservation(
+    BuildContext context,
     String accessToken,
     int idStoreCourt,
     int sportId,
@@ -63,8 +69,9 @@ class CheckoutRepoImp implements CheckoutRepo {
     bool isRenovating,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
-      _apiService.sandfriendsUrl,
-      ApiEndPoints().recurrentMatchReservation,
+      Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+        ApiEndPoints().recurrentMatchReservation,
+      ),
       jsonEncode(
         <String, Object>{
           "AccessToken": accessToken,
@@ -91,6 +98,7 @@ class CheckoutRepoImp implements CheckoutRepo {
 
   @override
   Future<NetworkResponse> recurrentMonthAvailableHours(
+    BuildContext context,
     String accessToken,
     int weekday,
     int timeBegin,
@@ -99,8 +107,9 @@ class CheckoutRepoImp implements CheckoutRepo {
     bool isRenovating,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
-      _apiService.sandfriendsUrl,
-      ApiEndPoints().recurrentMonthAvailableHours,
+      Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+        ApiEndPoints().recurrentMonthAvailableHours,
+      ),
       jsonEncode(
         <String, Object>{
           "AccessToken": accessToken,

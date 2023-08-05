@@ -77,6 +77,7 @@ class MatchSearchViewModel extends ChangeNotifier {
       );
       matchSearchRepo
           .searchCourts(
+        context,
         Provider.of<UserProvider>(context, listen: false).user!.accessToken,
         selectedSport.idSport,
         cityFilter!.cityId,
@@ -192,7 +193,7 @@ class MatchSearchViewModel extends ChangeNotifier {
         .isEmpty) {
       Provider.of<CategoriesProvider>(context, listen: false)
           .categoriesProviderRepo
-          .getAvailableRegions()
+          .getAvailableRegions(context)
           .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
           Provider.of<CategoriesProvider>(context, listen: false)

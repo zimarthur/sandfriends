@@ -1,13 +1,17 @@
+import 'package:flutter/material.dart';
+
 import '../../../Remote/NetworkResponse.dart';
 
 class MatchRepo {
   Future<NetworkResponse?> getMatchInfo(
+    BuildContext context,
     String matchUrl,
   ) async {
     return null;
   }
 
   Future<NetworkResponse?> saveCreatorNotes(
+    BuildContext context,
     String accessToken,
     int idMatch,
     String newCreatorNotes,
@@ -16,6 +20,7 @@ class MatchRepo {
   }
 
   Future<NetworkResponse?> invitationResponse(
+    BuildContext context,
     String accessToken,
     int idMatch,
     int idUser,
@@ -25,6 +30,7 @@ class MatchRepo {
   }
 
   Future<NetworkResponse?> removeMatchMember(
+    BuildContext context,
     String accessToken,
     int idMatch,
     int idUser,
@@ -33,6 +39,7 @@ class MatchRepo {
   }
 
   Future<NetworkResponse?> cancelMatch(
+    BuildContext context,
     String accessToken,
     int idMatch,
   ) async {
@@ -40,6 +47,7 @@ class MatchRepo {
   }
 
   Future<NetworkResponse?> leaveMatch(
+    BuildContext context,
     String accessToken,
     int idMatch,
   ) async {
@@ -47,6 +55,7 @@ class MatchRepo {
   }
 
   Future<NetworkResponse?> joinMatch(
+    BuildContext context,
     String accessToken,
     int idMatch,
   ) async {
@@ -54,6 +63,7 @@ class MatchRepo {
   }
 
   Future<NetworkResponse?> saveOpenMatch(
+    BuildContext context,
     String accessToken,
     int idMatch,
     bool isOpenMatch,
