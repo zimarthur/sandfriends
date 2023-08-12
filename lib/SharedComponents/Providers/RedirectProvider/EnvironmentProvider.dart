@@ -6,8 +6,10 @@ class EnvironmentProvider extends ChangeNotifier {
   setEnvironment(String rawEnvironment) {
     if (rawEnvironment == "prod") {
       currentEnvironment = Environment.Prod;
+    } else if (rawEnvironment == "dev") {
+      currentEnvironment = Environment.Dev;
     } else {
-      currentEnvironment = Environment.Debug;
+      currentEnvironment = Environment.Demo;
     }
     notifyListeners();
   }
@@ -15,10 +17,12 @@ class EnvironmentProvider extends ChangeNotifier {
   String urlBuilder(String endPoint) {
     if (currentEnvironment == Environment.Prod) {
       return sandfriendsProd + endPoint;
+    } else if (currentEnvironment == Environment.Dev) {
+      return sandfriendsDev + endPoint;
     } else {
-      return sandfriendsDebug + endPoint;
+      return sandfriendsDemo + endPoint;
     }
   }
 }
 
-enum Environment { Prod, Debug }
+enum Environment { Prod, Dev, Demo }

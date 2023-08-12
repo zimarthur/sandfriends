@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "347257838255",
+    "project_id": "sandfriendsmobiledemo",
+    "storage_bucket": "sandfriendsmobiledemo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347257838255:android:459574c03f861d8bcc525a",
+        "android_client_info": {
+          "package_name": "com.sandfriends.app.demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "347257838255-ps8js9pirl5ns4sr6pcm4sil086k8c4v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXKw9f5rRg-hw0yMNusxAwlKBM7E588qM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "347257838255-ps8js9pirl5ns4sr6pcm4sil086k8c4v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

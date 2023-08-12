@@ -24,6 +24,18 @@
                 "--target",
                 "lib/main_prod.dart"
             ]
+        },
+        {
+            "name": "Launch Demo",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_demo.dart",
+            "args": [
+                "--flavor",
+                "demo",
+                "--target",
+                "lib/main_demo.dart"
+            ]
         }
     ]
 }

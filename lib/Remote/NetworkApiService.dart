@@ -58,6 +58,7 @@ class NetworkApiService extends BaseApiService {
   NetworkResponse returnResponse(http.Response response) {
     String statusCode = response.statusCode.toString();
     print(statusCode);
+    print(response.body);
     if (statusCode.startsWith("2")) {
       if (statusCode == "200") {
         return NetworkResponse(

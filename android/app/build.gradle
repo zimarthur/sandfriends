@@ -101,6 +101,11 @@ android {
             resValue "string", "app_name", "Sandfriends dev"
             applicationIdSuffix ".dev"
         }
+        demo {
+            dimension "default"
+            resValue "string", "app_name", "Sandfriends demo"
+            applicationIdSuffix ".demo"
+        }
     }
 }
 
