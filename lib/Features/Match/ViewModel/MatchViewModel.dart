@@ -12,6 +12,7 @@ import '../../../SharedComponents/Model/MatchCounter.dart';
 import '../../../SharedComponents/Model/MatchMember.dart';
 import '../../../SharedComponents/Model/User.dart';
 import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../SharedComponents/Providers/RedirectProvider/EnvironmentProvider.dart';
 import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
@@ -202,7 +203,7 @@ class MatchViewModel extends ChangeNotifier {
       notifyListeners();
     } else {
       await Share.share(
-          'Entre na minha partida!\n https://sandfriends.com.br/redirect/?ct=mtch&bd=${match.matchUrl}');
+          'Entre na minha partida!\n ${Provider.of<EnvironmentProvider>(context).urlBuilder("/redirect/?ct=mtch&bd=${match.matchUrl}")}');
     }
   }
 

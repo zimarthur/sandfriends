@@ -60,7 +60,7 @@
                 <data
                 android:scheme="https"
                 android:pathPrefix="/redirect/"
-                android:host="sandfriends.com.br" />
+                android:host="${envUrl}app.sandfriends.com.br"/>
                 <!-- <data android:scheme="https" /> -->
             </intent-filter>
 
