@@ -54,7 +54,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.sandfriends.app"
         minSdkVersion 21 //flutter.minSdkVersion
-        targetSdkVersion 31 //flutter.targetSdkVersion
+        targetSdkVersion 33 //flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

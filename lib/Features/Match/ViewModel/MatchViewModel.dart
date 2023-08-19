@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Match/View/MemberCardModal.dart';
 import 'package:sandfriends/Remote/NetworkResponse.dart';
 import 'package:sandfriends/SharedComponents/Model/PaymentStatus.dart';
+import 'package:sandfriends/SharedComponents/View/Modal/ConfirmationModal.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../SharedComponents/Model/AppMatch.dart';
@@ -203,7 +204,7 @@ class MatchViewModel extends ChangeNotifier {
       notifyListeners();
     } else {
       await Share.share(
-          'Entre na minha partida!\n ${Provider.of<EnvironmentProvider>(context).urlBuilder("/redirect/?ct=mtch&bd=${match.matchUrl}")}');
+          'Entre na minha partida!\n ${Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder("/redirect/?ct=mtch&bd=${match.matchUrl}")}');
     }
   }
 
@@ -321,6 +322,19 @@ class MatchViewModel extends ChangeNotifier {
             context,
           ),
         );
+  }
+
+  void confirmCancelMatch(BuildContext context) {
+    formWidget = ConfirmationModal(
+        message: "Deseja mesmo cancelar a partida?",
+        onConfirm: () => cancelMatch(context),
+        onCancel: () {
+          pageStatus = PageStatus.OK;
+          notifyListeners();
+        },
+        isHappy: false);
+    pageStatus = PageStatus.FORM;
+    notifyListeners();
   }
 
   void cancelMatch(BuildContext context) {

@@ -45,7 +45,7 @@ class _ActionSectionState extends State<ActionSection> {
                       child: SFButton(
                         buttonLabel: "Cancelar Partida",
                         isPrimary: false,
-                        onTap: () => widget.viewModel.cancelMatch(
+                        onTap: () => widget.viewModel.confirmCancelMatch(
                           context,
                         ),
                       ),
