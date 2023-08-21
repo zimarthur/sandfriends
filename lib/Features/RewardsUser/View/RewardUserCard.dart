@@ -7,7 +7,8 @@ import '../../../Utils/SFDateTime.dart';
 
 class RewardUserCard extends StatelessWidget {
   RewardUser userReward;
-  RewardUserCard({Key? key, 
+  RewardUserCard({
+    Key? key,
     required this.userReward,
   }) : super(key: key);
 
@@ -51,7 +52,7 @@ class RewardUserCard extends StatelessWidget {
               children: [
                 SizedBox(
                   width: width * 0.2,
-                  child: SvgPicture.asset(r"assets\icon\medal.svg"),
+                  child: SvgPicture.asset(r"assets/icon/medal.svg"),
                 ),
                 Padding(
                   padding: EdgeInsets.only(

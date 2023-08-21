@@ -38,7 +38,7 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
           ),
           CheckoutPaymentRadio(
             radioPaymentValue: SelectedPayment.Pix,
-            iconPath: r"assets\icon\pix.svg",
+            iconPath: r"assets/icon/pix.svg",
             title: "Pix",
           ),
           (Provider.of<CheckoutViewModel>(context).selectedCreditCard != null &&
@@ -63,7 +63,7 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
                 )
               : CheckoutPaymentRadio(
                   radioPaymentValue: SelectedPayment.CreditCard,
-                  iconPath: r"assets\icon\credit_card.svg",
+                  iconPath: r"assets/icon/credit_card.svg",
                   title: "Cartão de crédito",
                   subtitle: null,
                 ),
@@ -77,7 +77,7 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
           ),
           CheckoutPaymentRadio(
             radioPaymentValue: SelectedPayment.PayInStore,
-            iconPath: r"assets\icon\dollar_bill.svg",
+            iconPath: r"assets/icon/dollar_bill.svg",
             title: "Pagar no local",
             subtitle: null,
           ),

@@ -19,7 +19,8 @@ class AvailableDayCard extends StatelessWidget {
   bool selectedParent;
   bool isRecurrent;
 
-  AvailableDayCard({Key? key, 
+  AvailableDayCard({
+    Key? key,
     required this.availableDay,
     required this.selectedStore,
     required this.selectedAvailableHour,
@@ -43,7 +44,7 @@ class AvailableDayCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.only(right: 5),
                 child: SvgPicture.asset(
-                  r'assets\icon\calendar.svg',
+                  r'assets/icon/calendar.svg',
                   color: isRecurrent ? primaryLightBlue : primaryBlue,
                 ),
               ),

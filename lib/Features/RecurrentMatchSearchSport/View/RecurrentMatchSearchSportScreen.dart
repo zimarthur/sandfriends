@@ -47,7 +47,7 @@ class _RecurrentMatchSearchSportScreenState
                     padding: EdgeInsets.all(width * 0.02),
                     decoration: const BoxDecoration(shape: BoxShape.circle),
                     child: SvgPicture.asset(
-                      r'assets\icon\arrow_left.svg',
+                      r'assets/icon/arrow_left.svg',
                       color: secondaryBack,
                     ),
                   ),

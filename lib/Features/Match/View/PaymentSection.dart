@@ -132,7 +132,7 @@ class _PaymentSectionState extends State<PaymentSection> {
                           iconFirst: false,
                           iconPath: widget.viewModel.copyToClipboard
                               ? ""
-                              : r"assets\icon\copy_to_clipboard.svg",
+                              : r"assets/icon/copy_to_clipboard.svg",
                           isPrimary: widget.viewModel.copyToClipboard,
                           textPadding: EdgeInsets.symmetric(
                               vertical: defaultPadding / 2,

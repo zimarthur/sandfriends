@@ -11,7 +11,8 @@ class OpenMatchCard extends StatefulWidget {
   bool isReduced;
   AppMatch match;
   Function(String) onTap;
-  OpenMatchCard({Key? key, 
+  OpenMatchCard({
+    Key? key,
     required this.isReduced,
     required this.match,
     required this.onTap,
@@ -108,7 +109,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     SvgPicture.asset(
-                                      r'assets\icon\users.svg',
+                                      r'assets/icon/users.svg',
                                       color: textWhite,
                                     ),
                                     Padding(
@@ -154,7 +155,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                 Row(
                   children: [
                     SvgPicture.asset(
-                      r'assets\icon\star.svg',
+                      r'assets/icon/star.svg',
                       color: primaryBlue,
                     ),
                     Padding(
@@ -175,7 +176,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                     Row(
                       children: [
                         SvgPicture.asset(
-                          r'assets\icon\calendar.svg',
+                          r'assets/icon/calendar.svg',
                           color: primaryBlue,
                         ),
                         Padding(
@@ -192,7 +193,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                     Row(
                       children: [
                         SvgPicture.asset(
-                          r'assets\icon\clock.svg',
+                          r'assets/icon/clock.svg',
                           color: primaryBlue,
                         ),
                         Padding(
@@ -213,7 +214,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                 Row(
                   children: [
                     SvgPicture.asset(
-                      r'assets\icon\court.svg',
+                      r'assets/icon/court.svg',
                       color: primaryBlue,
                     ),
                     Padding(
@@ -232,7 +233,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                 SFButton(
                   buttonLabel: "Quero jogar",
                   isPrimary: false,
-                  iconPath: r'assets\icon\user_plus.svg',
+                  iconPath: r'assets/icon/user_plus.svg',
                   textPadding:
                       const EdgeInsets.symmetric(vertical: defaultPadding / 4),
                   onTap: () => widget.onTap(widget.match.matchUrl),

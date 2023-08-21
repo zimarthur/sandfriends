@@ -114,7 +114,7 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                         Row(
                           children: [
                             SvgPicture.asset(
-                              r"assets\icon\location_ping.svg",
+                              r"assets/icon/location_ping.svg",
                               color: widget.isRecurrent
                                   ? primaryLightBlue
                                   : primaryBlue,

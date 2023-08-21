@@ -93,7 +93,7 @@ class _NotificationCardState extends State<NotificationCard> {
                       children: [
                         Row(
                           children: [
-                            SvgPicture.asset(r"assets\icon\calendar.svg"),
+                            SvgPicture.asset(r"assets/icon/calendar.svg"),
                             Padding(
                               padding: EdgeInsets.only(
                                 right: width * 0.02,
@@ -109,7 +109,7 @@ class _NotificationCardState extends State<NotificationCard> {
                         ),
                         Row(
                           children: [
-                            SvgPicture.asset(r"assets\icon\location_ping.svg"),
+                            SvgPicture.asset(r"assets/icon/location_ping.svg"),
                             Padding(
                               padding: EdgeInsets.only(
                                 right: width * 0.02,

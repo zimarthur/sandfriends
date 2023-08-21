@@ -7,7 +7,8 @@ import '../../Model/HomeTabsEnum.dart';
 class NavigationMenu extends StatefulWidget {
   Function(HomeTabs) onChangeTab;
   HomeTabs selectedTab;
-  NavigationMenu({Key? key, 
+  NavigationMenu({
+    Key? key,
     required this.onChangeTab,
     required this.selectedTab,
   }) : super(key: key);
@@ -20,18 +21,18 @@ class _NavigationMenuState extends State<NavigationMenu> {
   List<NavigationMenuItem> navigationMenuItems = [
     NavigationMenuItem(
       tab: HomeTabs.User,
-      image: r"assets\icon\navigation\user_screen.svg",
-      imageActive: r"assets\icon\navigation\user_screen_selected.svg",
+      image: r"assets/icon/navigation/user_screen.svg",
+      imageActive: r"assets/icon/navigation/user_screen_selected.svg",
     ),
     NavigationMenuItem(
       tab: HomeTabs.Feed,
-      image: r"assets\icon\navigation\feed_screen.svg",
-      imageActive: r"assets\icon\navigation\feed_screen_selected.svg",
+      image: r"assets/icon/navigation/feed_screen.svg",
+      imageActive: r"assets/icon/navigation/feed_screen_selected.svg",
     ),
     NavigationMenuItem(
       tab: HomeTabs.SportSelector,
-      image: r"assets\icon\navigation\schedule_screen.svg",
-      imageActive: r"assets\icon\navigation\schedule_screen_selected.svg",
+      image: r"assets/icon/navigation/schedule_screen.svg",
+      imageActive: r"assets/icon/navigation/schedule_screen_selected.svg",
     ),
   ];
 

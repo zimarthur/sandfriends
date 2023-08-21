@@ -39,8 +39,8 @@ class ConfirmationModal extends StatelessWidget {
         children: <Widget>[
           SvgPicture.asset(
             isHappy
-                ? r"assets\icon\happy_face.svg"
-                : r"assets\icon\sad_face.svg",
+                ? r"assets/icon/happy_face.svg"
+                : r"assets/icon/sad_face.svg",
             height: width * 0.25,
             width: width * 0.25,
           ),

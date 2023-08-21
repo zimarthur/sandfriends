@@ -17,7 +17,8 @@ class AvailableDaysResult extends StatefulWidget {
   Function(AvailableDay) onTapHour;
   Function(Store) onGoToCourt;
 
-  AvailableDaysResult({Key? key, 
+  AvailableDaysResult({
+    Key? key,
     required this.availableDays,
     required this.selectedAvailableDay,
     required this.selectedStore,
@@ -40,7 +41,7 @@ class _AvailableDaysResultState extends State<AvailableDaysResult> {
       children: [
         MatchSearchResultTitle(
           title: "Quadras",
-          iconPath: r'assets\icon\court.svg',
+          iconPath: r'assets/icon/court.svg',
           description: widget.isRecurrent
               ? "Seja mensalista na sua quadra de preferência"
               : "Agende um horário na sua quadra de preferência",

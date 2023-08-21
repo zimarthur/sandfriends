@@ -13,7 +13,7 @@ class EmptyCreditCards extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              r"assets\icon\no_credit_card.svg",
+              r"assets/icon/no_credit_card.svg",
               width: layoutContraints.maxWidth * 0.3,
               color: textDarkGrey,
             ),

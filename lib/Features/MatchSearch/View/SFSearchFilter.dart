@@ -8,7 +8,8 @@ class SFSearchFilter extends StatefulWidget {
   final String iconPath;
   final VoidCallback onTap;
 
-  const SFSearchFilter({Key? key, 
+  const SFSearchFilter({
+    Key? key,
     required this.labelText,
     required this.iconPath,
     required this.onTap,
@@ -61,7 +62,7 @@ class _SFSearchFilterState extends State<SFSearchFilter> {
                       ),
                     ),
                     SvgPicture.asset(
-                      r"assets\icon\arrow_down.svg",
+                      r"assets/icon/arrow_down.svg",
                       color: secondaryPaper,
                     ),
                   ],

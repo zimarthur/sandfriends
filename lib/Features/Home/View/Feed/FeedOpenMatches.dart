@@ -40,7 +40,7 @@ class FeedOpenMatches extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SvgPicture.asset(
-                r"assets\icon\trophy.svg",
+                r"assets/icon/trophy.svg",
                 color: textWhite,
               ),
               Padding(

@@ -10,7 +10,8 @@ import '../ViewModel/CreateAccountViewModel.dart';
 
 class CreateAccountWidget extends StatefulWidget {
   CreateAccountViewModel viewModel;
-  CreateAccountWidget({Key? key, 
+  CreateAccountWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -40,7 +41,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Image.asset(
-                          r"assets\icon\logo_brand.png",
+                          r"assets/icon/logo_brand.png",
                           height: height * 0.22,
                         ),
                         Padding(
@@ -49,7 +50,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                           controller: widget.viewModel.emailController,
                           labelText: "Email",
                           prefixIcon:
-                              SvgPicture.asset(r"assets\icon\email.svg"),
+                              SvgPicture.asset(r"assets/icon/email.svg"),
                           pourpose: TextFieldPourpose.Email,
                           validator: emailValidator,
                         ),
@@ -58,11 +59,11 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                         SFTextField(
                           controller: widget.viewModel.passwordController,
                           labelText: "Senha",
-                          prefixIcon: SvgPicture.asset(r"assets\icon\lock.svg"),
+                          prefixIcon: SvgPicture.asset(r"assets/icon/lock.svg"),
                           suffixIcon:
-                              SvgPicture.asset(r"assets\icon\eye_closed.svg"),
+                              SvgPicture.asset(r"assets/icon/eye_closed.svg"),
                           suffixIconPressed:
-                              SvgPicture.asset(r"assets\icon\eye_open.svg"),
+                              SvgPicture.asset(r"assets/icon/eye_open.svg"),
                           pourpose: TextFieldPourpose.Password,
                           validator: passwordValidator,
                         ),
@@ -72,11 +73,11 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                           controller:
                               widget.viewModel.confirmPasswordController,
                           labelText: "Confirme sua senha",
-                          prefixIcon: SvgPicture.asset(r"assets\icon\lock.svg"),
+                          prefixIcon: SvgPicture.asset(r"assets/icon/lock.svg"),
                           suffixIcon:
-                              SvgPicture.asset(r"assets\icon\eye_closed.svg"),
+                              SvgPicture.asset(r"assets/icon/eye_closed.svg"),
                           suffixIconPressed:
-                              SvgPicture.asset(r"assets\icon\eye_open.svg"),
+                              SvgPicture.asset(r"assets/icon/eye_open.svg"),
                           pourpose: TextFieldPourpose.Password,
                           validator: (value) {
                             return confirmPasswordValidator(value,
@@ -108,7 +109,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                     child: FittedBox(
                       fit: BoxFit.fill,
                       child: SvgPicture.asset(
-                        r'assets\icon\sand_bar.svg',
+                        r'assets/icon/sand_bar.svg',
                         alignment: Alignment.bottomCenter,
                       ),
                     ),

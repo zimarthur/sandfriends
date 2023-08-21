@@ -119,7 +119,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                     Row(
                                       children: [
                                         SvgPicture.asset(
-                                          r'assets\icon\location_ping.svg',
+                                          r'assets/icon/location_ping.svg',
                                           color: textDarkGrey,
                                           width: 15,
                                         ),
@@ -407,7 +407,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                       Container(
                         margin: const EdgeInsets.symmetric(vertical: 5),
                         child: SvgPicture.asset(
-                          r"assets\icon\arrow_up.svg",
+                          r"assets/icon/arrow_up.svg",
                           color: primaryLightBlue,
                         ),
                       ),
@@ -416,7 +416,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                 : Container(
                     margin: const EdgeInsets.symmetric(vertical: 5),
                     child: SvgPicture.asset(
-                      r"assets\icon\arrow_down.svg",
+                      r"assets/icon/arrow_down.svg",
                       color: primaryLightBlue,
                     ),
                   ),

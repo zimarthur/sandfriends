@@ -172,7 +172,7 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                       Row(
                         children: [
                           SvgPicture.asset(
-                            r"assets\icon\security.svg",
+                            r"assets/icon/security.svg",
                             color: textDarkGrey,
                             height: 20,
                           ),

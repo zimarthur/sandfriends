@@ -9,7 +9,8 @@ class MatchSearchResultTitle extends StatelessWidget {
   String description;
   Color themeColor;
 
-  MatchSearchResultTitle({Key? key, 
+  MatchSearchResultTitle({
+    Key? key,
     required this.title,
     required this.iconPath,
     required this.description,
@@ -44,7 +45,7 @@ class MatchSearchResultTitle extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: SvgPicture.asset(r'assets\icon\divider.svg'),
+                child: SvgPicture.asset(r'assets/icon/divider.svg'),
               ),
             ],
           ),

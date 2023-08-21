@@ -51,29 +51,29 @@ class _UserWidgetState extends State<UserWidget> {
                     children: [
                       UserTileButton(
                         title: "Meu perfil",
-                        iconPath: r'assets\icon\user.svg',
+                        iconPath: r'assets/icon/user.svg',
                         onTap: () => widget.viewModel.goToUSerDetail(context),
                       ),
                       UserTileButton(
                         title: "Minhas partidas",
-                        iconPath: r'assets\icon\trophy.svg',
+                        iconPath: r'assets/icon/trophy.svg',
                         onTap: () =>
                             widget.viewModel.goToUserMatchScreen(context),
                       ),
                       UserTileButton(
                           title: "Configurar pagamentos",
-                          iconPath: r'assets\icon\payment.svg',
+                          iconPath: r'assets/icon/payment.svg',
                           onTap: () {
                             Navigator.pushNamed(context, '/payment');
                           }),
                       UserTileButton(
                         title: "Fale com a gente",
-                        iconPath: r'assets\icon\chat.svg',
+                        iconPath: r'assets/icon/chat.svg',
                         onTap: () => widget.viewModel.openAppRatingModal(),
                       ),
                       UserTileButton(
                         title: "Sair",
-                        iconPath: r'assets\icon\logout.svg',
+                        iconPath: r'assets/icon/logout.svg',
                         onTap: () => widget.viewModel.logOff(context),
                       ),
                     ],

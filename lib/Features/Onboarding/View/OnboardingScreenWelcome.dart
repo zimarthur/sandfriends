@@ -9,7 +9,8 @@ import '../ViewModel/OnboardingViewModel.dart';
 
 class OnboardingWidgetWelcome extends StatefulWidget {
   OnboardingViewModel viewModel;
-  OnboardingWidgetWelcome({Key? key, 
+  OnboardingWidgetWelcome({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -46,7 +47,7 @@ class _OnboardingWidgetWelcomeState extends State<OnboardingWidgetWelcome> {
                   children: [
                     Padding(padding: EdgeInsets.only(bottom: height * 0.09)),
                     SvgPicture.asset(
-                      r'assets\icon\happy_face.svg',
+                      r'assets/icon/happy_face.svg',
                       height: height * 0.13,
                       width: height * 0.13,
                     ),
@@ -114,7 +115,7 @@ class _OnboardingWidgetWelcomeState extends State<OnboardingWidgetWelcome> {
                 child: FittedBox(
                   fit: BoxFit.fill,
                   child: SvgPicture.asset(
-                    r'assets\icon\sand_bar.svg',
+                    r'assets/icon/sand_bar.svg',
                     alignment: Alignment.bottomCenter,
                   ),
                 ),

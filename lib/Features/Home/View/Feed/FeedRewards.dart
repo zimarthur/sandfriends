@@ -30,7 +30,7 @@ class FeedRewards extends StatelessWidget {
               Row(
                 children: [
                   SvgPicture.asset(
-                    r"assets\icon\star.svg",
+                    r"assets/icon/star.svg",
                     color: textWhite,
                   ),
                   Padding(
@@ -95,7 +95,7 @@ class FeedRewards extends StatelessWidget {
                                     index
                                 ? Center(
                                     child: SvgPicture.asset(
-                                      r"assets\icon\sandfriends_logo.svg",
+                                      r"assets/icon/sandfriends_logo.svg",
                                       height: itemWidth * 0.7,
                                     ),
                                   )

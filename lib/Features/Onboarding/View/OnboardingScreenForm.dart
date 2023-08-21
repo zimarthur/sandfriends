@@ -99,7 +99,7 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                           ? "Selecione sua cidade"
                           : "${widget.viewModel.userCity!.city} / ${widget.viewModel.userCity!.state!.uf}",
                       isPrimary: false,
-                      iconPath: r"assets\icon\location_ping.svg",
+                      iconPath: r"assets/icon/location_ping.svg",
                       onTap: () {
                         widget.viewModel.openCitySelectorModal(context);
                       },

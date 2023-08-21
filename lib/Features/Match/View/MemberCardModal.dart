@@ -112,7 +112,7 @@ class _MemberCardModalState extends State<MemberCardModal> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
-                            r'assets\icon\location_ping.svg',
+                            r'assets/icon/location_ping.svg',
                             color: textDarkGrey,
                           ),
                           Padding(

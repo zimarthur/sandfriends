@@ -109,7 +109,7 @@ class _CreditCardCardState extends State<CreditCardCard> {
                           width: 60,
                           child: Center(
                             child: SvgPicture.asset(
-                              r"assets\icon\three_dots.svg",
+                              r"assets/icon/three_dots.svg",
                               height: 20,
                               width: 60,
                             ),
@@ -125,7 +125,7 @@ class _CreditCardCardState extends State<CreditCardCard> {
             //     height: 80,
             //     padding: EdgeInsets.symmetric(horizontal: defaultPadding),
             //     child: SvgPicture.asset(
-            //       r"assets\icon\edit.svg",
+            //       r"assets/icon/edit.svg",
             //       color: textDarkGrey,
             //     ),
             //   ),
@@ -136,7 +136,7 @@ class _CreditCardCardState extends State<CreditCardCard> {
                 height: 80,
                 padding: EdgeInsets.symmetric(horizontal: defaultPadding),
                 child: SvgPicture.asset(
-                  r"assets\icon\delete.svg",
+                  r"assets/icon/delete.svg",
                   color: Colors.red,
                 ),
               ),

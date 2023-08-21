@@ -10,7 +10,8 @@ class AvailableHourCard extends StatefulWidget {
   bool isSelected;
   bool isRecurrent;
 
-  AvailableHourCard({Key? key, 
+  AvailableHourCard({
+    Key? key,
     required this.hourPrice,
     required this.onTap,
     required this.isSelected,
@@ -52,7 +53,7 @@ class _AvailableHourCardState extends State<AvailableHourCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SvgPicture.asset(
-                      r"assets\icon\clock.svg",
+                      r"assets/icon/clock.svg",
                       color: widget.isSelected
                           ? textWhite
                           : widget.isRecurrent
@@ -83,7 +84,7 @@ class _AvailableHourCardState extends State<AvailableHourCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SvgPicture.asset(
-                      r"assets\icon\payment.svg",
+                      r"assets/icon/payment.svg",
                       color: widget.isSelected
                           ? textWhite
                           : widget.isRecurrent

@@ -5,7 +5,8 @@ import "../../../Utils/Constants.dart";
 
 class MatchSearchOnboarding extends StatelessWidget {
   bool isRecurrent;
-  MatchSearchOnboarding({Key? key, 
+  MatchSearchOnboarding({
+    Key? key,
     this.isRecurrent = false,
   }) : super(key: key);
 
@@ -22,8 +23,8 @@ class MatchSearchOnboarding extends StatelessWidget {
           children: [
             SvgPicture.asset(
               isRecurrent
-                  ? r"assets\icon\happy_face_secondary.svg"
-                  : r"assets\icon\happy_face.svg",
+                  ? r"assets/icon/happy_face_secondary.svg"
+                  : r"assets/icon/happy_face.svg",
               height: height * 0.1,
             ),
             SizedBox(

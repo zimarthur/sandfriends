@@ -9,7 +9,8 @@ import '../ViewModel/LoginViewModel.dart';
 
 class ForgotPasswordModal extends StatefulWidget {
   LoginViewModel viewModel;
-  ForgotPasswordModal({Key? key, 
+  ForgotPasswordModal({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -47,7 +48,7 @@ class _ForgotPasswordModalState extends State<ForgotPasswordModal> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             SvgPicture.asset(
-              r"assets\icon\happy_face.svg",
+              r"assets/icon/happy_face.svg",
               height: width * 0.25,
               width: width * 0.25,
             ),

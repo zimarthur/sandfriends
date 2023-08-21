@@ -44,8 +44,8 @@ class _SFModalMessageState extends State<SFModalMessage> {
         children: <Widget>[
           SvgPicture.asset(
             widget.isHappy
-                ? r"assets\icon\happy_face.svg"
-                : r"assets\icon\sad_face.svg",
+                ? r"assets/icon/happy_face.svg"
+                : r"assets/icon/sad_face.svg",
             height: width * 0.25,
             width: width * 0.25,
           ),

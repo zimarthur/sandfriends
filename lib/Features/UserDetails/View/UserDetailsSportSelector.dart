@@ -61,11 +61,11 @@ class _UserDetailsSportSelectorState extends State<UserDetailsSportSelector> {
               child: widget.viewModel.displayedSport ==
                       widget.viewModel.userEdited.preferenceSport
                   ? SvgPicture.asset(
-                      r"assets\icon\favorite_selected.svg",
+                      r"assets/icon/favorite_selected.svg",
                       width: width * 0.06,
                     )
                   : SvgPicture.asset(
-                      r"assets\icon\favorite_unselected.svg",
+                      r"assets/icon/favorite_unselected.svg",
                       width: width * 0.06,
                     ),
             ),

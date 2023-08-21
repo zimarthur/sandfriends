@@ -38,7 +38,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    r"assets\icon\logo_brand.png",
+                    r"assets/icon/logo_brand.png",
                     height: height * 0.22,
                   ),
                   Padding(padding: EdgeInsets.only(bottom: height * 0.08)),
@@ -47,7 +47,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                     child: SFTextField(
                       controller: widget.viewModel.emailController,
                       labelText: "Digite seu e-mail",
-                      prefixIcon: SvgPicture.asset(r"assets\icon\email.svg"),
+                      prefixIcon: SvgPicture.asset(r"assets/icon/email.svg"),
                       pourpose: TextFieldPourpose.Email,
                       validator: emailValidator,
                     ),
@@ -58,11 +58,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                     child: SFTextField(
                       controller: widget.viewModel.passwordController,
                       labelText: "Digite sua senha",
-                      prefixIcon: SvgPicture.asset(r"assets\icon\lock.svg"),
+                      prefixIcon: SvgPicture.asset(r"assets/icon/lock.svg"),
                       suffixIcon:
-                          SvgPicture.asset(r"assets\icon\eye_closed.svg"),
+                          SvgPicture.asset(r"assets/icon/eye_closed.svg"),
                       suffixIconPressed:
-                          SvgPicture.asset(r"assets\icon\eye_open.svg"),
+                          SvgPicture.asset(r"assets/icon/eye_open.svg"),
                       pourpose: TextFieldPourpose.Password,
                       validator: passwordValidator,
                     ),
@@ -107,7 +107,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                     child: FittedBox(
                       fit: BoxFit.fill,
                       child: SvgPicture.asset(
-                        r'assets\icon\sand_bar.svg',
+                        r'assets/icon/sand_bar.svg',
                         alignment: Alignment.bottomCenter,
                       ),
                     ),

@@ -39,14 +39,14 @@ class _LoadLoginScreenState extends State<LoadLoginScreen> {
           children: [
             Positioned.fill(
               child: SvgPicture.asset(
-                r'assets\icon\sand_bar.svg',
+                r'assets/icon/sand_bar.svg',
                 width: MediaQuery.of(context).size.width,
                 alignment: Alignment.bottomCenter,
               ),
             ),
             Center(
                 child: Image.asset(
-              r'assets\icon\logo.png',
+              r'assets/icon/logo.png',
               alignment: Alignment.center,
               height: 120,
             )),

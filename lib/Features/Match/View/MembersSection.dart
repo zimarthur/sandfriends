@@ -125,7 +125,7 @@ class _MembersSectionState extends State<MembersSection> {
                                               true,
                                             ),
                                             child: SvgPicture.asset(
-                                              r'assets\icon\confirm.svg',
+                                              r'assets/icon/confirm.svg',
                                               color: secondaryGreen,
                                               height: height * 0.03,
                                             ),
@@ -143,7 +143,7 @@ class _MembersSectionState extends State<MembersSection> {
                                               false,
                                             ),
                                             child: SvgPicture.asset(
-                                              r'assets\icon\cancel.svg',
+                                              r'assets/icon/cancel.svg',
                                               color: Colors.red,
                                               height: height * 0.03,
                                             ),

@@ -38,7 +38,7 @@ class _LoginSignupWidgetState extends State<LoginSignupWidget> {
                   Container(
                     alignment: Alignment.topCenter,
                     child: Image.asset(
-                      r"assets\icon\image_login.png",
+                      r"assets/icon/image_login.png",
                       height: height * 0.3,
                       fit: BoxFit.fill,
                       width: width,
@@ -47,7 +47,7 @@ class _LoginSignupWidgetState extends State<LoginSignupWidget> {
                   Container(
                     alignment: Alignment.bottomCenter,
                     child: Image.asset(
-                      r"assets\icon\logo_brand.png",
+                      r"assets/icon/logo_brand.png",
                       height: height * 0.2,
                     ),
                   ),
@@ -89,7 +89,7 @@ class _LoginSignupWidgetState extends State<LoginSignupWidget> {
               Column(
                 children: [
                   SvgPicture.asset(
-                    r'assets\icon\divider.svg',
+                    r'assets/icon/divider.svg',
                   ),
                   Padding(padding: EdgeInsets.only(bottom: height * 0.02)),
                   InkWell(
@@ -114,7 +114,7 @@ class _LoginSignupWidgetState extends State<LoginSignupWidget> {
                           const SizedBox(
                             width: 12,
                           ),
-                          SvgPicture.asset(r"assets\icon\google_logo.svg")
+                          SvgPicture.asset(r"assets/icon/google_logo.svg")
                         ],
                       ),
                     ),
@@ -128,7 +128,7 @@ class _LoginSignupWidgetState extends State<LoginSignupWidget> {
               child: FittedBox(
                 fit: BoxFit.fill,
                 child: SvgPicture.asset(
-                  r'assets\icon\sand_bar.svg',
+                  r'assets/icon/sand_bar.svg',
                   alignment: Alignment.bottomCenter,
                 ),
               ),

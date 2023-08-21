@@ -137,7 +137,7 @@ class _CourtWidgetState extends State<CourtWidget> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             SvgPicture.asset(
-                                              r'assets\icon\location_ping.svg',
+                                              r'assets/icon/location_ping.svg',
                                               color: themeColor,
                                               width: 15,
                                             ),
@@ -215,7 +215,7 @@ class _CourtWidgetState extends State<CourtWidget> {
               decoration: const BoxDecoration(
                   color: secondaryBack, shape: BoxShape.circle),
               child: SvgPicture.asset(
-                r'assets\icon\arrow_left.svg',
+                r'assets/icon/arrow_left.svg',
                 color: themeColor,
               ),
             ),

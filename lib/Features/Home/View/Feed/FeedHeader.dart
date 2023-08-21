@@ -46,7 +46,7 @@ class _FeedHeaderState extends State<FeedHeader> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           SvgPicture.asset(
-            r"assets\icon\sandfriends_negative.svg",
+            r"assets/icon/sandfriends_negative.svg",
             alignment: Alignment.bottomLeft,
           ),
           InkWell(
@@ -63,8 +63,8 @@ class _FeedHeaderState extends State<FeedHeader> {
                   Provider.of<UserProvider>(context, listen: false)
                           .notifications
                           .any((notification) => notification.seen == false)
-                      ? r"assets\icon\notification_on.svg"
-                      : r"assets\icon\notification_off.svg",
+                      ? r"assets/icon/notification_on.svg"
+                      : r"assets/icon/notification_off.svg",
                   height: 18,
                   width: 18,
                 ),

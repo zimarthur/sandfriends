@@ -7,7 +7,8 @@ import 'OpenMatchCard.dart';
 
 class OpenMatchesResult extends StatefulWidget {
   MatchSearchViewModel viewModel;
-  OpenMatchesResult({Key? key, 
+  OpenMatchesResult({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
   @override
@@ -23,7 +24,7 @@ class _OpenMatchesResultState extends State<OpenMatchesResult> {
       children: [
         MatchSearchResultTitle(
           title: "Partidas Abertas",
-          iconPath: r'assets\icon\trophy.svg',
+          iconPath: r'assets/icon/trophy.svg',
           description: "Escolha uma partida e desafie novos jogadores",
           themeColor: primaryBlue,
         ),

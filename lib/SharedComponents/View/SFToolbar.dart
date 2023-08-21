@@ -10,7 +10,8 @@ class SFToolbar extends StatefulWidget {
   final Function()? onTapReturn;
   final Widget? rightWidget;
 
-  const SFToolbar({Key? key, 
+  const SFToolbar({
+    Key? key,
     required this.titleText,
     required this.onTapReturn,
     this.rightWidget,
@@ -41,7 +42,7 @@ class _SFToolbarState extends State<SFToolbar> {
                         horizontal: 16, vertical: 11),
                     alignment: Alignment.centerLeft,
                     child: SvgPicture.asset(
-                      r'assets\icon\arrow_left.svg',
+                      r'assets/icon/arrow_left.svg',
                       width: width * 0.05,
                       color: widget.appBarType == AppBarType.Secondary
                           ? primaryBlue

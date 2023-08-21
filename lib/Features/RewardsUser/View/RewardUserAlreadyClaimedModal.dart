@@ -7,7 +7,8 @@ import '../../../SharedComponents/Model/RewardUser.dart';
 
 class RewardUserAlreadyClaimedModal extends StatelessWidget {
   RewardUser rewardUser;
-  RewardUserAlreadyClaimedModal({Key? key, 
+  RewardUserAlreadyClaimedModal({
+    Key? key,
     required this.rewardUser,
   }) : super(key: key);
   @override
@@ -38,7 +39,7 @@ class RewardUserAlreadyClaimedModal extends StatelessWidget {
         children: [
           SizedBox(
             height: height * 0.15,
-            child: SvgPicture.asset(r"assets\icon\happy_face.svg"),
+            child: SvgPicture.asset(r"assets/icon/happy_face.svg"),
           ),
           Container(
             alignment: Alignment.center,
@@ -47,7 +48,8 @@ class RewardUserAlreadyClaimedModal extends StatelessWidget {
               "Você já coleteu essa recompensa no dia ${DateFormat("dd/MM/yyyy").format(rewardUser.rewardClaimedDate!)}",
               textScaleFactor: 1.5,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: primaryBlue, fontWeight: FontWeight.w500),
+              style: const TextStyle(
+                  color: primaryBlue, fontWeight: FontWeight.w500),
             ),
           ),
           Column(
@@ -81,7 +83,8 @@ class RewardUserAlreadyClaimedModal extends StatelessWidget {
 class RewardUserAlreadyClaimedItem extends StatelessWidget {
   String title;
   String description;
-  RewardUserAlreadyClaimedItem({Key? key, 
+  RewardUserAlreadyClaimedItem({
+    Key? key,
     required this.title,
     required this.description,
   }) : super(key: key);

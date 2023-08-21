@@ -56,7 +56,7 @@ class _CourtAvailableCourtsState extends State<CourtAvailableCourts> {
             child: Row(
               children: [
                 SvgPicture.asset(
-                  r'assets\icon\calendar.svg',
+                  r'assets/icon/calendar.svg',
                   color: widget.themeColor,
                 ),
                 Padding(padding: EdgeInsets.only(right: width * 0.01)),

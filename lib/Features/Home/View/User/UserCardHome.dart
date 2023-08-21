@@ -9,7 +9,8 @@ import 'USerCardHomeItem.dart';
 
 class UserCardHome extends StatefulWidget {
   HomeViewModel viewModel;
-  UserCardHome({Key? key, 
+  UserCardHome({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -61,9 +62,10 @@ class _UserCardHomeState extends State<UserCardHome> {
             Column(
               children: [
                 UserCardHomeItem(
-                  text:
-                      Provider.of<UserProvider>(context, listen: false).user!.email,
-                  iconPath: r'assets\icon\at_email.svg',
+                  text: Provider.of<UserProvider>(context, listen: false)
+                      .user!
+                      .email,
+                  iconPath: r'assets/icon/at_email.svg',
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
@@ -74,7 +76,7 @@ class _UserCardHomeState extends State<UserCardHome> {
                             null
                         ? "-"
                         : "${Provider.of<UserProvider>(context, listen: false).user!.city!.city} / ${Provider.of<UserProvider>(context, listen: false).user!.city!.state!.uf}",
-                    iconPath: r'assets\icon\location_ping.svg',
+                    iconPath: r'assets/icon/location_ping.svg',
                   ),
                 ),
                 UserCardHomeItem(
@@ -84,7 +86,7 @@ class _UserCardHomeState extends State<UserCardHome> {
                           1
                       ? "1 jogo"
                       : "${Provider.of<UserProvider>(context, listen: false).user!.getUserTotalMatches()} jogos",
-                  iconPath: r'assets\icon\star.svg',
+                  iconPath: r'assets/icon/star.svg',
                 ),
               ],
             ),

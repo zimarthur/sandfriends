@@ -243,7 +243,7 @@ class _RewardsWidgetState extends State<RewardsWidget> {
             margin: EdgeInsets.only(top: height * 0.03),
             height: height * 0.2,
             child: SvgPicture.asset(
-              r"assets\icon\medal.svg",
+              r"assets/icon/medal.svg",
             ),
           ),
         ],

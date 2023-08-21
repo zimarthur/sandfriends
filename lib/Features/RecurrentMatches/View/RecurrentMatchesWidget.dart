@@ -9,7 +9,8 @@ import 'RecurrentMatchCard.dart';
 
 class RecurrentMatchesWidget extends StatefulWidget {
   RecurrentMatchesViewModel viewModel;
-  RecurrentMatchesWidget({Key? key, 
+  RecurrentMatchesWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -59,9 +60,10 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                           height: width * 0.1,
                           width: width * 0.1,
                           padding: EdgeInsets.all(width * 0.02),
-                          decoration: const BoxDecoration(shape: BoxShape.circle),
+                          decoration:
+                              const BoxDecoration(shape: BoxShape.circle),
                           child: SvgPicture.asset(
-                            r'assets\icon\arrow_left.svg',
+                            r'assets/icon/arrow_left.svg',
                             color: secondaryBack,
                           ),
                         ),

@@ -95,7 +95,7 @@ class _StoreSectionState extends State<StoreSection> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SvgPicture.asset(
-                            r'assets\icon\location_ping.svg',
+                            r'assets/icon/location_ping.svg',
                             color: primaryBlue,
                             width: 15,
                           ),

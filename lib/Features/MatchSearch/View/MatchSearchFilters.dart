@@ -17,7 +17,8 @@ class MatchSearchFilters extends StatefulWidget {
   VoidCallback onTapSearch;
   Color primaryColor;
 
-  MatchSearchFilters({Key? key, 
+  MatchSearchFilters({
+    Key? key,
     required this.city,
     required this.openCitySelector,
     this.dates,
@@ -47,7 +48,7 @@ class _MatchSearchFiltersState extends State<MatchSearchFilters> {
             labelText: widget.city == null
                 ? "Cidade"
                 : "${widget.city!.city} - ${widget.city!.state!.uf}",
-            iconPath: r"assets\icon\location_ping.svg",
+            iconPath: r"assets/icon/location_ping.svg",
             onTap: widget.openCitySelector,
           ),
           Row(
@@ -60,7 +61,7 @@ class _MatchSearchFiltersState extends State<MatchSearchFilters> {
                               : widget.dates!.length == 1
                                   ? "${widget.dates![0]!.day.toString().padLeft(2, '0')}/${widget.dates![0]!.month.toString().padLeft(2, '0')}"
                                   : "${widget.dates![0]!.day.toString().padLeft(2, '0')}/${widget.dates![0]!.month.toString().padLeft(2, '0')} - ${widget.dates![1]!.day.toString().padLeft(2, '0')}/${widget.dates![1]!.month.toString().padLeft(2, '0')}",
-                          iconPath: r"assets\icon\calendar.svg",
+                          iconPath: r"assets/icon/calendar.svg",
                           onTap: widget.openDateSelector,
                         )
                       : SFSearchFilter(
@@ -69,7 +70,7 @@ class _MatchSearchFiltersState extends State<MatchSearchFilters> {
                               : widget.days!
                                   .map((e) => shortWeekDaysPortuguese[e])
                                   .join("/"),
-                          iconPath: r"assets\icon\calendar.svg",
+                          iconPath: r"assets/icon/calendar.svg",
                           onTap: widget.openDateSelector,
                         )),
               SizedBox(
@@ -80,7 +81,7 @@ class _MatchSearchFiltersState extends State<MatchSearchFilters> {
                   labelText: widget.time == null
                       ? "Horário"
                       : "${widget.time!.start.hour.toString().padLeft(2, '0')}:${widget.time!.start.minute.toString().padLeft(2, '0')} - ${widget.time!.end.hour.toString().padLeft(2, '0')}:${widget.time!.end.minute.toString().padLeft(2, '0')}",
-                  iconPath: r"assets\icon\clock.svg",
+                  iconPath: r"assets/icon/clock.svg",
                   onTap: widget.openTimeSelector,
                 ),
               ),
@@ -93,7 +94,7 @@ class _MatchSearchFiltersState extends State<MatchSearchFilters> {
               textPadding: const EdgeInsets.symmetric(vertical: 5),
               isPrimary: false,
               color: widget.primaryColor,
-              iconPath: r"assets\icon\search.svg",
+              iconPath: r"assets/icon/search.svg",
               onTap: widget.onTapSearch,
             ),
           ),

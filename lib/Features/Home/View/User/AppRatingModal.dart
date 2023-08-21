@@ -8,7 +8,8 @@ import '../../ViewModel/HomeViewModel.dart';
 
 class AppRatingModal extends StatefulWidget {
   HomeViewModel viewModel;
-  AppRatingModal({Key? key, 
+  AppRatingModal({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -96,7 +97,7 @@ class _AppRatingModalState extends State<AppRatingModal> {
               buttonLabel: "Fale com a gente pelo whats",
               isPrimary: false,
               onTap: () => widget.viewModel.contactSupport(),
-              iconPath: r"assets\icon\whatsapp.svg",
+              iconPath: r"assets/icon/whatsapp.svg",
               textPadding: EdgeInsets.symmetric(
                 horizontal: width * 0.04,
                 vertical: height * 0.02,

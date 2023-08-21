@@ -5,7 +5,8 @@ import '../../../Utils/Constants.dart';
 
 class NoMatchesFound extends StatelessWidget {
   bool isRecurrent;
-  NoMatchesFound({Key? key, 
+  NoMatchesFound({
+    Key? key,
     this.isRecurrent = false,
   }) : super(key: key);
 
@@ -22,8 +23,8 @@ class NoMatchesFound extends StatelessWidget {
           children: [
             SvgPicture.asset(
               isRecurrent
-                  ? r"assets\icon\sad_face_secondary.svg"
-                  : r"assets\icon\sad_face.svg",
+                  ? r"assets/icon/sad_face_secondary.svg"
+                  : r"assets/icon/sad_face.svg",
               height: height * 0.1,
             ),
             SizedBox(

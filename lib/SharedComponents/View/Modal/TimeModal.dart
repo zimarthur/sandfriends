@@ -9,7 +9,8 @@ class TimeModal extends StatefulWidget {
   Function(TimeRangeResult?) onSubmit;
   Color themeColor;
 
-  TimeModal({Key? key, 
+  TimeModal({
+    Key? key,
     required this.timeRange,
     required this.onSubmit,
     this.themeColor = primaryBlue,
@@ -107,7 +108,7 @@ class _TimeModalState extends State<TimeModal> {
             padding: EdgeInsets.only(
                 right: width * 0.15, left: width * 0.15, bottom: height * 0.03),
             child: SFButton(
-              iconPath: r"assets\icon\search.svg",
+              iconPath: r"assets/icon/search.svg",
               buttonLabel: "Aplicar Filtro",
               color: widget.themeColor,
               textPadding: EdgeInsets.symmetric(vertical: height * 0.005),

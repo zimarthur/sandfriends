@@ -37,7 +37,7 @@ class _CourtContactState extends State<CourtContact> {
         ),
         CourtContactItem(
           title: widget.store.phone,
-          iconPath: r'assets\icon\whatsapp.svg',
+          iconPath: r'assets/icon/whatsapp.svg',
           onTap: () {
             final url =
                 Uri.parse("whatsapp://send?phone=${widget.store.phone}");
@@ -55,7 +55,7 @@ class _CourtContactState extends State<CourtContact> {
               ),
               CourtContactItem(
                 title: widget.store.instagram,
-                iconPath: r'assets\icon\instagram.svg',
+                iconPath: r'assets/icon/instagram.svg',
                 onTap: () {
                   final url = Uri.parse(
                       'https://www.instagram.com/${widget.store.instagram}');

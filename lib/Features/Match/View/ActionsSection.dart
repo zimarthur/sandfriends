@@ -29,7 +29,7 @@ class _ActionSectionState extends State<ActionSection> {
                       height: height * 0.05,
                       child: SFButton(
                         buttonLabel: "Convidar Jogadores",
-                        iconPath: r"assets\icon\share.svg",
+                        iconPath: r"assets/icon/share.svg",
                         onTap: () => widget.viewModel.shareMatch(context),
                       ),
                     )

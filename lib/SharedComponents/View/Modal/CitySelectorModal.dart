@@ -52,7 +52,7 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
             pourpose: TextFieldPourpose.Standard,
             controller: searchController,
             prefixIcon: SvgPicture.asset(
-              r"assets\icon\search.svg",
+              r"assets/icon/search.svg",
               color: widget.themeColor,
             ),
             themeColor: widget.themeColor,
@@ -113,7 +113,7 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
                               child: Row(
                                 children: [
                                   SvgPicture.asset(
-                                    r"assets\icon\location_ping.svg",
+                                    r"assets/icon/location_ping.svg",
                                     color: widget.themeColor,
                                   ),
                                   Padding(

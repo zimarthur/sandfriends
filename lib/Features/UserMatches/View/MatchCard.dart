@@ -137,7 +137,7 @@ class MatchCard extends StatelessWidget {
                           child: Row(
                             children: [
                               SvgPicture.asset(
-                                r"assets\icon\clock.svg",
+                                r"assets/icon/clock.svg",
                                 color: textDarkGrey,
                               ),
                               Padding(
@@ -162,7 +162,7 @@ class MatchCard extends StatelessWidget {
                           child: Row(
                             children: [
                               SvgPicture.asset(
-                                r"assets\icon\location_ping.svg",
+                                r"assets/icon/location_ping.svg",
                                 color: textDarkGrey,
                               ),
                               Padding(

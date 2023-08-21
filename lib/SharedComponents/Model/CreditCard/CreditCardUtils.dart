@@ -28,20 +28,20 @@ CardType getCardTypeFromNumber(String input) {
 String creditCardImagePath(CardType cardType) {
   switch (cardType) {
     case CardType.Master:
-      return r"assets\credit_card\mastercard.svg";
+      return r"assets/credit_card/mastercard.svg";
     case CardType.Visa:
-      return r"assets\credit_card\visa.svg";
+      return r"assets/credit_card/visa.svg";
     case CardType.Elo:
-      return r"assets\credit_card\elo.svg";
+      return r"assets/credit_card/elo.svg";
     case CardType.AmericanExpress:
-      return r"assets\credit_card\amex.svg";
+      return r"assets/credit_card/amex.svg";
     case CardType.DinersClub:
-      return r"assets\credit_card\diners.svg";
+      return r"assets/credit_card/diners.svg";
     case CardType.HiperCard:
-      return r"assets\credit_card\hipercard.svg";
+      return r"assets/credit_card/hipercard.svg";
 
     default:
-      return r"assets\credit_card\default_credit_card.svg";
+      return r"assets/credit_card/default_credit_card.svg";
   }
 }
 

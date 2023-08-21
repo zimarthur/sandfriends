@@ -39,7 +39,7 @@ class RewardUserClaimModal extends StatelessWidget {
         children: [
           SizedBox(
             height: height * 0.1,
-            child: SvgPicture.asset(r"assets\icon\happy_face.svg"),
+            child: SvgPicture.asset(r"assets/icon/happy_face.svg"),
           ),
           SizedBox(
             height: height * 0.1,

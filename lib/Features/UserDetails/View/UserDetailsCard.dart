@@ -66,7 +66,7 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                                 right: 0,
                                 bottom: 0,
                                 child: SvgPicture.asset(
-                                  r'assets\icon\edit.svg',
+                                  r'assets/icon/edit.svg',
                                 ),
                               ),
                               Center(
@@ -156,7 +156,7 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
-                                    r'assets\icon\location_ping.svg',
+                                    r'assets/icon/location_ping.svg',
                                     color: textDarkGrey,
                                   ),
                                   Padding(

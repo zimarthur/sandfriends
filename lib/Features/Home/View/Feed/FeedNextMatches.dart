@@ -10,7 +10,8 @@ import '../../ViewModel/HomeViewModel.dart';
 
 class FeedNextMatches extends StatefulWidget {
   HomeViewModel viewModel;
-  FeedNextMatches({Key? key, 
+  FeedNextMatches({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
   @override
@@ -34,7 +35,7 @@ class _FeedNextMatchesState extends State<FeedNextMatches> {
               Row(
                 children: [
                   SvgPicture.asset(
-                    r"assets\icon\court.svg",
+                    r"assets/icon/court.svg",
                     color: primaryBlue,
                   ),
                   Padding(
@@ -93,7 +94,7 @@ class _FeedNextMatchesState extends State<FeedNextMatches> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              r"assets\icon\navigation\schedule_screen_selected.svg",
+                              r"assets/icon/navigation/schedule_screen_selected.svg",
                               height: 24,
                             ),
                             Padding(
