@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "204510750013-q7vqvi3ckng88evpl75p7kjihi4h2pje.apps.googleusercontent.com",
+          "client_id": "204510750013-oi6qmlh60e9hdin0sjucs5apjed6tlqo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sandfriends.app",
+            "certificate_hash": "3c2a36c63c723430f6d35628a842496be79e4e66"
+          }
+        },
+        {
+          "client_id": "204510750013-d7mkb9ml8jk5kt254lpcv4bre03agieu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +35,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "204510750013-q7vqvi3ckng88evpl75p7kjihi4h2pje.apps.googleusercontent.com",
+              "client_id": "204510750013-d7mkb9ml8jk5kt254lpcv4bre03agieu.apps.googleusercontent.com",
               "client_type": 3
             },
             {

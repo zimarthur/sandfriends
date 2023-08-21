@@ -59,14 +59,14 @@ android {
         versionName flutterVersionName
     }
 
-    // signingConfigs{
-    //     debug{
-    //         keyAlias 'AndroidDebugKey'
-    //         keyPassword '151041886'
-    //         storeFile file('googlesigninkey.jks')
-    //         storePassword '151041886'
-    //     }
-    // }
+    signingConfigs{
+        debug{
+            keyAlias 'AndroidDebugKey'
+            keyPassword '151041886'
+            storeFile file('googlesigninkey.jks')
+            storePassword '151041886'
+        }
+    }
     
     signingConfigs {
         debug {
