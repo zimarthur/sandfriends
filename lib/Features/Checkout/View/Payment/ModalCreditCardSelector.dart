@@ -39,8 +39,7 @@ class ModalCreditCardSelector extends StatelessWidget {
                 vertical: defaultPadding,
               ),
               child: CreditCardWidget(
-                creditCards: Provider.of<UserProvider>(context, listen: false)
-                    .creditCards,
+                creditCards: Provider.of<UserProvider>(context).creditCards,
                 isEditable: false,
                 onSelectedCreditCard: (creditCard) =>
                     onSelectedCreditCard(creditCard),
