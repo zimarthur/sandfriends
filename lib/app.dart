@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Features/Authentication/CreateAccount/View/CreateAccountScreen.dart';
+import 'package:sandfriends/Features/Authentication/EmailConfirmation/View/EmailConfirmationScreen.dart';
 import 'package:sandfriends/Features/Authentication/Login/View/LoginScreen.dart';
 import 'package:sandfriends/Features/Authentication/LoginSignup/View/LoginSignupScreen.dart';
 import 'package:sandfriends/Features/Checkout/View/CheckoutScreen.dart';
@@ -82,6 +83,17 @@ class _AppState extends State<App> {
                   return LoadLoginScreen(
                     redirectUri:
                         '/match/${_currentURI!.queryParameters['bd'].toString()}',
+                  );
+                },
+              ),
+            );
+          } else if (_currentURI!.queryParameters['ct'] == "emcf") {
+            navigatorKey.currentState?.push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return EmailConfirmationScreen(
+                    confirmationToken:
+                        _currentURI!.queryParameters['bd'].toString(),
                   );
                 },
               ),

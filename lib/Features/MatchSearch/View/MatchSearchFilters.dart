@@ -90,7 +90,7 @@ class _MatchSearchFiltersState extends State<MatchSearchFilters> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: SFButton(
-              buttonLabel: "Buscar",
+              buttonLabel: "Buscar horários",
               textPadding: const EdgeInsets.symmetric(vertical: 5),
               isPrimary: false,
               color: widget.primaryColor,

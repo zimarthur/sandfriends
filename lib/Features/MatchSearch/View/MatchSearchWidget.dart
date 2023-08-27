@@ -10,7 +10,8 @@ import 'MatchSearchFilters.dart';
 
 class MatchSearchWidget extends StatefulWidget {
   MatchSearchViewModel viewModel;
-  MatchSearchWidget({Key? key, 
+  MatchSearchWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -46,9 +47,10 @@ class _MatchSearchWidgetState extends State<MatchSearchWidget> {
                     : SingleChildScrollView(
                         child: Column(
                           children: [
-                            OpenMatchesResult(
-                              viewModel: widget.viewModel,
-                            ),
+                            if (widget.viewModel.openMatches.isNotEmpty)
+                              OpenMatchesResult(
+                                viewModel: widget.viewModel,
+                              ),
                             AvailableDaysResult(
                               availableDays: widget.viewModel.availableDays,
                               onTapHour: (avDay) =>

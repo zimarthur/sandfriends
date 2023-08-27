@@ -51,31 +51,13 @@ class _TimeModalState extends State<TimeModal> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      "Que horas você quer jogar?",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: widget.themeColor),
-                    ),
+                  child: Text(
+                    "Que horas você tem disponibilidade?",
+                    maxLines: 2,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: widget.themeColor),
                   ),
                 ),
-                Padding(padding: EdgeInsets.only(left: width * 0.08)),
-                SFButton(
-                  textPadding: EdgeInsets.all(width * 0.02),
-                  buttonLabel: "Limpar",
-                  color: widget.themeColor,
-                  onTap: () => widget.onSubmit(
-                    TimeRangeResult(
-                      const TimeOfDay(hour: 1, minute: 0),
-                      const TimeOfDay(
-                        hour: 23,
-                        minute: 00,
-                      ),
-                    ),
-                  ),
-                )
               ],
             ),
           ),
@@ -97,7 +79,7 @@ class _TimeModalState extends State<TimeModal> {
               backgroundColor: Colors.transparent,
               activeBackgroundColor: widget.themeColor,
               initialRange: modalTimeRange,
-              firstTime: const TimeOfDay(hour: 1, minute: 0),
+              firstTime: const TimeOfDay(hour: 6, minute: 0),
               lastTime: const TimeOfDay(hour: 23, minute: 00),
               timeStep: 60,
               timeBlock: 60,
@@ -108,11 +90,10 @@ class _TimeModalState extends State<TimeModal> {
             padding: EdgeInsets.only(
                 right: width * 0.15, left: width * 0.15, bottom: height * 0.03),
             child: SFButton(
-              iconPath: r"assets/icon/search.svg",
-              buttonLabel: "Aplicar Filtro",
+              buttonLabel: "Salvar",
               color: widget.themeColor,
               textPadding: EdgeInsets.symmetric(vertical: height * 0.005),
-              isPrimary: false,
+              isPrimary: true,
               onTap: () => widget.onSubmit(modalTimeRange),
             ),
           )

@@ -211,7 +211,7 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void contactSupport() {
-    final url = Uri.parse("whatsapp://send?phone=5551996712775");
+    final url = Uri.parse("whatsapp://send?phone=5551993308831");
     launchUrl(url);
   }
 
@@ -236,7 +236,7 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void logOff(BuildContext context) {
-    setAccessToken("");
+    setAccessToken(context, "");
     Navigator.pushNamed(context, '/login_signup');
   }
 

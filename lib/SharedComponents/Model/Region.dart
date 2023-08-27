@@ -13,6 +13,9 @@ class Region {
     required this.uf,
     this.selectedCity,
   });
+  bool containsCity(int cityId) {
+    return cities.any((city) => city.cityId == cityId);
+  }
 
   factory Region.fromJson(Map<String, dynamic> json) {
     var newRegion = Region(

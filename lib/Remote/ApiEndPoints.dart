@@ -2,6 +2,7 @@ class ApiEndPoints {
   final String login = "/LoginUser";
   final String thirdPartyLogin = "/ThirdPartyAuthUser";
   final String validateToken = "/ValidateTokenUser";
+  final String emailConfirmation = "/EmailConfirmationUser";
 
   final String changePasswordRequest = "/ChangePasswordRequestUser";
 

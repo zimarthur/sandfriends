@@ -18,6 +18,7 @@ class SFTextField extends StatefulWidget {
   final Function(String)? onChanged;
   final String? hintText;
   final Color themeColor;
+  final FocusNode? focusNode;
 
   const SFTextField({
     Key? key,
@@ -33,6 +34,7 @@ class SFTextField extends StatefulWidget {
     this.minLines,
     this.hintText,
     this.themeColor = primaryBlue,
+    this.focusNode,
   }) : super(key: key);
 
   @override
@@ -47,6 +49,7 @@ class _SFTextFieldState extends State<SFTextField> {
     return TextFormField(
       validator: widget.validator,
       controller: widget.controller,
+      focusNode: widget.focusNode,
       textInputAction: widget.pourpose == TextFieldPourpose.Multiline
           ? TextInputAction.newline
           : TextInputAction.next,

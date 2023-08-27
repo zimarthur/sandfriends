@@ -231,9 +231,8 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                   ],
                 ),
                 SFButton(
-                  buttonLabel: "Quero jogar",
+                  buttonLabel: "Ver partida",
                   isPrimary: false,
-                  iconPath: r'assets/icon/user_plus.svg',
                   textPadding:
                       const EdgeInsets.symmetric(vertical: defaultPadding / 4),
                   onTap: () => widget.onTap(widget.match.matchUrl),

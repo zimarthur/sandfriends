@@ -62,6 +62,18 @@ class MatchSearchViewModel extends ChangeNotifier {
           (sport) => sport.idSport == sportId,
         );
     titleText = "Busca - ${selectedSport.description}";
+    if (Provider.of<CategoriesProvider>(context, listen: false)
+        .availableRegions
+        .any(
+          (region) => region.containsCity(
+            Provider.of<UserProvider>(context, listen: false)
+                .user!
+                .city!
+                .cityId,
+          ),
+        )) {
+      cityFilter = Provider.of<UserProvider>(context, listen: false).user!.city;
+    }
   }
 
   void searchCourts(context) {
@@ -69,7 +81,7 @@ class MatchSearchViewModel extends ChangeNotifier {
       pageStatus = PageStatus.LOADING;
       notifyListeners();
       timeFilter ??= TimeRangeResult(
-        const TimeOfDay(hour: 1, minute: 00),
+        const TimeOfDay(hour: 6, minute: 00),
         const TimeOfDay(
           hour: 23,
           minute: 00,

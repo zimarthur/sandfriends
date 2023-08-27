@@ -79,10 +79,8 @@ class _CalendarModalState extends State<CalendarModal> {
             padding: EdgeInsets.only(
                 right: width * 0.15, left: width * 0.15, bottom: height * 0.03),
             child: SFButton(
-              iconPath: r"assets/icon/search.svg",
-              buttonLabel: "Aplicar Filtro",
+              buttonLabel: "Salvar",
               textPadding: EdgeInsets.symmetric(vertical: height * 0.005),
-              isPrimary: false,
               onTap: () => widget.onSubmit(modalDateTimes),
             ),
           )

@@ -42,8 +42,7 @@ class OnboardingViewModel extends ChangeNotifier {
   final onboardingFormKey = GlobalKey<FormState>();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController phoneNumberController =
-      MaskedTextController(mask: '(00) 00000-00000');
+
   bool termsAgreeValue = false;
 
   Sport? userSport;
@@ -54,7 +53,6 @@ class OnboardingViewModel extends ChangeNotifier {
       userCity != null &&
       firstNameController.text.isNotEmpty &&
       lastNameController.text.isNotEmpty &&
-      phoneNumberController.text.isNotEmpty &&
       termsAgreeValue;
 
   void goToLoginSignup(BuildContext context) {
@@ -148,7 +146,7 @@ class OnboardingViewModel extends ChangeNotifier {
           Provider.of<UserProvider>(context, listen: false).user!.accessToken,
           firstNameController.text,
           lastNameController.text,
-          phoneNumberController.text.replaceAll(RegExp('[^0-9]'), ''),
+          "",
           userCity!.cityId,
           userSport!.idSport,
         )

@@ -26,7 +26,16 @@ class CitySelectorModal extends StatefulWidget {
 
 class _CitySelectorModalState extends State<CitySelectorModal> {
   TextEditingController searchController = TextEditingController();
+  final FocusNode searchFocus = FocusNode();
   List<Region> filteredRegions = [];
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(searchFocus);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +60,7 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
             labelText: "Buscar cidade",
             pourpose: TextFieldPourpose.Standard,
             controller: searchController,
+            focusNode: searchFocus,
             prefixIcon: SvgPicture.asset(
               r"assets/icon/search.svg",
               color: widget.themeColor,

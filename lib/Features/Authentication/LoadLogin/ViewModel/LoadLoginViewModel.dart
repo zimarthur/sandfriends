@@ -20,7 +20,7 @@ class LoadLoginViewModel extends ChangeNotifier {
   final loadLoginRepo = LoadLoginRepoImp();
 
   Future<void> validateLogin(BuildContext context) async {
-    String? accessToken = await getAccessToken();
+    String? accessToken = await getAccessToken(context);
     if (accessToken == null) {
       goToLoginSignup(context);
     } else {
@@ -55,6 +55,7 @@ void receiveLoginResponse(BuildContext context, String response) {
   final responseGenders = responseBody['Genders'];
   final responseRanks = responseBody['Ranks'];
   final responseSidePreferences = responseBody['SidePreferences'];
+  final responseAvailableLocations = responseBody['States'];
 
   final responseUser = responseBody['User'];
 
@@ -93,8 +94,10 @@ void receiveLoginResponse(BuildContext context, String response) {
           ),
         );
   }
+  Provider.of<CategoriesProvider>(context, listen: false)
+      .saveReceivedAvailableRegions(responseAvailableLocations);
 
-  setAccessToken(responseUser['AccessToken']);
+  setAccessToken(context, responseUser['AccessToken']);
 
   User loggedUser = User.fromJson(
     responseUser,

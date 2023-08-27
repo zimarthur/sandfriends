@@ -48,7 +48,12 @@ class CategoriesProvider extends ChangeNotifier {
     Map<String, dynamic> responseBody = json.decode(
       response,
     );
-    for (var state in responseBody['States']) {
+    saveReceivedAvailableRegions(responseBody['States']);
+  }
+
+  void saveReceivedAvailableRegions(dynamic responseStates) {
+    availableRegions.clear();
+    for (var state in responseStates) {
       availableRegions.add(
         Region.fromJson(
           state,
