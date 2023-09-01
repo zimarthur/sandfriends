@@ -7,8 +7,8 @@ class NewCreditCardRepo {
   Future<NetworkResponse?> addUserCreditCard(
     BuildContext context,
     String accessToken,
+    String phoneNumber,
     String cardNumber,
-    String cvv,
     String nickname,
     DateTime expirationDate,
     String ownerName,

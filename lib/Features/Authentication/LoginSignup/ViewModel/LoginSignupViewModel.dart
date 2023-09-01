@@ -31,7 +31,6 @@ class LoginSignupViewModel extends ChangeNotifier {
       final user = await GoogleSignInApi.login();
 
       if (user == null) {
-        print("nenhuma conta selecionada");
         pageStatus = PageStatus.OK;
         notifyListeners();
         return;

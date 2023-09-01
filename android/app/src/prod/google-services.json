@@ -1,45 +1,32 @@
 {
   "project_info": {
-    "project_number": "204510750013",
-    "project_id": "sandfriendsmobile",
-    "storage_bucket": "sandfriendsmobile.appspot.com"
+    "project_number": "329100803665",
+    "project_id": "sandfriends-prod",
+    "storage_bucket": "sandfriends-prod.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:204510750013:android:1bad13ee7f43607872d154",
+        "mobilesdk_app_id": "1:329100803665:android:952b93670718cf82af4270",
         "android_client_info": {
           "package_name": "com.sandfriends.app"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "204510750013-oi6qmlh60e9hdin0sjucs5apjed6tlqo.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.sandfriends.app",
-            "certificate_hash": "3c2a36c63c723430f6d35628a842496be79e4e66"
-          }
-        },
-        {
-          "client_id": "204510750013-d7mkb9ml8jk5kt254lpcv4bre03agieu.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAqOw9RdDjFCezPd-faTMetAx3uzFjH2Kc"
+          "current_key": "AIzaSyACNkmqOyYaCZKYyDuZRDpYp1weZrI3aqI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "204510750013-d7mkb9ml8jk5kt254lpcv4bre03agieu.apps.googleusercontent.com",
+              "client_id": "329100803665-mbsc1tv1nav9j2tl9psrnm0tipmb1r1e.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "204510750013-4pr49p5o1k37mp2tu77uv2opohadudv6.apps.googleusercontent.com",
+              "client_id": "329100803665-s6pqvn0ou5a4um1b9gggl38hpuae95ln.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.sandfriends.app"

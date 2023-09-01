@@ -68,6 +68,7 @@ class UserDetailsViewModel extends ChangeNotifier {
     }
     return userEdited.firstName != userReference.firstName ||
         userEdited.lastName != userReference.lastName ||
+        userEdited.phoneNumber != userReference.phoneNumber ||
         userEdited.birthday != userReference.birthday ||
         userEdited.city != userReference.city ||
         userEdited.gender != userReference.gender ||
@@ -209,9 +210,11 @@ class UserDetailsViewModel extends ChangeNotifier {
   }
 
   void setUserHeight() {
-    if (userDetailsPhoneNumberFormKey.currentState?.validate() == true) {
-      userEdited.height =
-          double.parse(heightController.text.replaceAll(",", "."));
+    if (userDetailsHeightFormKey.currentState?.validate() == true) {
+      if (heightController.text.isNotEmpty) {
+        userEdited.height =
+            double.parse(heightController.text.replaceAll(",", "."));
+      }
       pageStatus = PageStatus.OK;
 
       notifyListeners();
@@ -341,6 +344,11 @@ class UserDetailsViewModel extends ChangeNotifier {
         .removeWhere((rank) => rank.sport.idSport == displayedSport.idSport);
     userEdited.ranks.add(newRank);
     pageStatus = PageStatus.OK;
+    notifyListeners();
+  }
+
+  void onChangedPhoneNumber(String newNumber) {
+    userEdited.phoneNumber = newNumber;
     notifyListeners();
   }
 }

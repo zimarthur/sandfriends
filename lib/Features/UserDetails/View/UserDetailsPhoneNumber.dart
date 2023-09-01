@@ -39,6 +39,8 @@ class _UserDetailsPhoneNumberState extends State<UserDetailsPhoneNumber> {
             pourpose: TextFieldPourpose.Numeric,
             labelText: "",
             validator: phoneValidator,
+            onChanged: (newNumber) =>
+                widget.viewModel.onChangedPhoneNumber(newNumber),
           ),
         ),
         const SizedBox(

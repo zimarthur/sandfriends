@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Features/Checkout/ViewModel/CheckoutViewModel.dart';
 import 'package:sandfriends/Utils/Constants.dart';
+import 'package:sandfriends/Utils/PageStatus.dart';
 
 import 'CheckoutInfo/CheckoutResume.dart';
 import 'Payment/CheckoutPayment.dart';

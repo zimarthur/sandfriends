@@ -112,7 +112,12 @@ class User {
       'AccessToken': accessToken,
       'FirstName': firstName!,
       'LastName': lastName!,
-      'PhoneNumber': phoneNumber!,
+      'PhoneNumber': phoneNumber == null
+          ? ""
+          : phoneNumber!.replaceAll(
+              RegExp('[^0-9]'),
+              '',
+            ),
       'IdGender': gender == null ? "" : gender!.idGender,
       'Birthday':
           birthday == null ? "" : DateFormat("yyyy-MM-dd").format(birthday!),

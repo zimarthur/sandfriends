@@ -16,6 +16,7 @@ class CheckoutRepo {
     SelectedPayment selectedPayment,
     String cpf,
     int? idCreditCard,
+    String cvv,
   ) async {
     return null;
   }
@@ -34,6 +35,7 @@ class CheckoutRepo {
     SelectedPayment selectedPayment,
     String cpf,
     int? idCreditCard,
+    String cvv,
     bool isRenovating,
   ) async {
     return null;

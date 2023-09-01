@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart'
 ///
 /// Example:
 /// ```dart
-/// import 'firebase_options.dart';
+/// import 'firebase_options_dev.dart';
 /// // ...
 /// await Firebase.initializeApp(
 ///   options: DefaultFirebaseOptions.currentPlatform,
@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -46,31 +49,21 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBqB0l8u_ToZjzmXnlRD_bm7xyvGG6yhxw',
-    appId: '1:329100803665:web:b0e6d8558c2dc6c3af4270',
-    messagingSenderId: '329100803665',
-    projectId: 'sandfriends-prod',
-    authDomain: 'sandfriends-prod.firebaseapp.com',
-    storageBucket: 'sandfriends-prod.appspot.com',
-    measurementId: 'G-ELPPBT8PFZ',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyACNkmqOyYaCZKYyDuZRDpYp1weZrI3aqI',
-    appId: '1:329100803665:android:952b93670718cf82af4270',
-    messagingSenderId: '329100803665',
-    projectId: 'sandfriends-prod',
-    storageBucket: 'sandfriends-prod.appspot.com',
+    apiKey: 'AIzaSyA5JAplCVAq1nigDWwrWQSEaXa-9NBw63c',
+    appId: '1:619166716922:android:dc3c2122077ca134fe4a43',
+    messagingSenderId: '619166716922',
+    projectId: 'sandfriends-dev',
+    storageBucket: 'sandfriends-dev.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDT0kQqFx2InNi3bVKsmN0NhkbqyXhFK-Q',
-    appId: '1:329100803665:ios:8de3c1cb3e2cc449af4270',
-    messagingSenderId: '329100803665',
-    projectId: 'sandfriends-prod',
-    storageBucket: 'sandfriends-prod.appspot.com',
-    iosClientId: '329100803665-s6pqvn0ou5a4um1b9gggl38hpuae95ln.apps.googleusercontent.com',
-    iosBundleId: 'com.sandfriends.app',
+    apiKey: 'AIzaSyB0h3Sj-AQD_trYOhunEHhHNK8CfvW4RtY',
+    appId: '1:619166716922:ios:e92d69af68493f23fe4a43',
+    messagingSenderId: '619166716922',
+    projectId: 'sandfriends-dev',
+    storageBucket: 'sandfriends-dev.appspot.com',
+    iosClientId: '619166716922-5chc331o7huf8anq5cqnnqil5hqfr137.apps.googleusercontent.com',
+    iosBundleId: 'com.sandfriends.app.dev',
   );
 }

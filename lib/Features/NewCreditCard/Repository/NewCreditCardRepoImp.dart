@@ -19,8 +19,8 @@ class NewCreditCardRepoImp implements NewCreditCardRepo {
   Future<NetworkResponse> addUserCreditCard(
     BuildContext context,
     String accessToken,
+    String phoneNumber,
     String cardNumber,
-    String cvv,
     String? nickname,
     DateTime expirationDate,
     String ownerName,
@@ -37,8 +37,8 @@ class NewCreditCardRepoImp implements NewCreditCardRepo {
       jsonEncode(
         <String, Object>{
           'AccessToken': accessToken,
+          'PhoneNumber': phoneNumber,
           'CardNumber': cardNumber,
-          'Cvv': cvv,
           'Nickname': nickname ?? "",
           'ExpirationDate': "${DateFormat("MM/yyyy").format(expirationDate)}",
           'OwnerName': ownerName,

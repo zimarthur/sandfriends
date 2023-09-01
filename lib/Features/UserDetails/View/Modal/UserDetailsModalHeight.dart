@@ -9,7 +9,8 @@ import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalHeight extends StatefulWidget {
   UserDetailsViewModel viewModel;
-  UserDetailsModalHeight({Key? key, 
+  UserDetailsModalHeight({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -43,7 +44,7 @@ class _UserDetailsModalHeightState extends State<UserDetailsModalHeight> {
               labelText: "Altura",
               pourpose: TextFieldPourpose.Numeric,
               controller: widget.viewModel.heightController,
-              validator: heightValidator,
+              validator: (value) => heightValidator(value),
             ),
             Padding(
               padding: EdgeInsets.only(bottom: height * 0.03),

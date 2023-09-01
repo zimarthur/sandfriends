@@ -1,34 +1,36 @@
 {
   "project_info": {
-    "project_number": "347257838255",
-    "project_id": "sandfriendsmobiledemo",
-    "storage_bucket": "sandfriendsmobiledemo.appspot.com"
+    "project_number": "496096595246",
+    "project_id": "sandfriends-demo-1e87f",
+    "storage_bucket": "sandfriends-demo-1e87f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:347257838255:android:459574c03f861d8bcc525a",
+        "mobilesdk_app_id": "1:496096595246:android:b9d9225bb27a42badf7ebf",
         "android_client_info": {
           "package_name": "com.sandfriends.app.demo"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "347257838255-ps8js9pirl5ns4sr6pcm4sil086k8c4v.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBXKw9f5rRg-hw0yMNusxAwlKBM7E588qM"
+          "current_key": "AIzaSyA_XpefBCpokfQTZv-g5wMAdPsI2vEulLw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "347257838255-ps8js9pirl5ns4sr6pcm4sil086k8c4v.apps.googleusercontent.com",
+              "client_id": "496096595246-76p0k8qfiiij099pbv9o4oh0tbaoq65k.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "496096595246-qeuclkgc0t3og75euhko0sm3blbelb23.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sandfriends.app.demo"
+              }
             }
           ]
         }

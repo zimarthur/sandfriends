@@ -10,7 +10,8 @@
                 "--flavor",
                 "dev",
                 "--target",
-                "lib/main_dev.dart"
+                "lib/main_dev.dart",
+                "--release"
             ]
         },
         {
@@ -22,7 +23,8 @@
                 "--flavor",
                 "prod",
                 "--target",
-                "lib/main_prod.dart"
+                "lib/main_prod.dart",
+                "--release"
             ]
         },
         {
@@ -34,7 +36,7 @@
                 "--flavor",
                 "demo",
                 "--target",
-                "lib/main_demo.dart"
+                "lib/main_demo.dart",
             ]
         }
     ]

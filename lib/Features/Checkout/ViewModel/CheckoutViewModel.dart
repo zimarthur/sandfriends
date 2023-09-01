@@ -4,6 +4,7 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Features/Checkout/View/CvvModal.dart';
 import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
 import 'package:sandfriends/Features/Checkout/Repository/CheckoutRepoImp.dart';
 import 'package:sandfriends/Features/Checkout/View/Payment/ModalCreditCardSelector.dart';
@@ -42,13 +43,13 @@ class CheckoutViewModel extends ChangeNotifier {
   late bool isRenovating;
   List<DateTime> matchDates = [];
 
+  String cvv = "";
+
   SelectedPayment selectedPayment = SelectedPayment.NotSelected;
   CreditCard? selectedCreditCard;
   TextEditingController cpfController =
       MaskedTextController(mask: "000.000.000-00");
   TextEditingController cvvController = MaskedTextController(mask: "0000");
-
-  final cvvFormKey = GlobalKey<FormState>();
 
   String get matchPeriod {
     return "${startingHour.hourString} - ${endingHour.hourString}";
@@ -175,13 +176,23 @@ class CheckoutViewModel extends ChangeNotifier {
       String? validationCpf = cpfValidator(cpfController.text, null);
       if (selectedPayment == SelectedPayment.Pix && validationCpf != null) {
         modalMessage = SFModalMessage(
-            message: validationCpf,
+            message:
+                validationCpf[0].toUpperCase() + validationCpf.substring(1),
             onTap: () {
               pageStatus = PageStatus.OK;
               notifyListeners();
             },
             isHappy: true);
         pageStatus = PageStatus.ERROR;
+        notifyListeners();
+      } else if (selectedPayment == SelectedPayment.CreditCard) {
+        widgetForm = CvvModal(
+            selectedCreditCard: selectedCreditCard!,
+            onCvv: (receivedCvv) {
+              cvv = receivedCvv;
+              makeReservation(context);
+            });
+        pageStatus = PageStatus.FORM;
         notifyListeners();
       } else {
         makeReservation(context);
@@ -218,6 +229,7 @@ class CheckoutViewModel extends ChangeNotifier {
       selectedPayment == SelectedPayment.CreditCard
           ? selectedCreditCard!.idCreditCard
           : null,
+      cvv,
     )
         .then((response) {
       modalMessage = SFModalMessage(
@@ -260,6 +272,7 @@ class CheckoutViewModel extends ChangeNotifier {
       selectedPayment == SelectedPayment.CreditCard
           ? selectedCreditCard!.idCreditCard
           : null,
+      cvv,
       isRenovating,
     )
         .then((response) {

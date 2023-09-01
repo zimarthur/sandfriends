@@ -28,6 +28,7 @@ class CheckoutRepoImp implements CheckoutRepo {
     SelectedPayment selectedPayment,
     String cpf,
     int? idCreditCard,
+    String cvv,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
@@ -45,6 +46,7 @@ class CheckoutRepoImp implements CheckoutRepo {
           "Payment": selectedPayment.index,
           "Cpf": cpf,
           "IdCreditCard": idCreditCard ?? "",
+          "Cvv": cvv,
         },
       ),
     );
@@ -66,6 +68,7 @@ class CheckoutRepoImp implements CheckoutRepo {
     SelectedPayment selectedPayment,
     String cpf,
     int? idCreditCard,
+    String cvv,
     bool isRenovating,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
@@ -89,6 +92,7 @@ class CheckoutRepoImp implements CheckoutRepo {
           "Payment": selectedPayment.index,
           "Cpf": cpf,
           "IdCreditCard": idCreditCard ?? "",
+          "Cvv": cvv,
           "IsRenovating": isRenovating,
         },
       ),

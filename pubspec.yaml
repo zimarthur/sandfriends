@@ -59,8 +59,6 @@ dependencies:
   syncfusion_flutter_gauges: ^20.3.50
   cached_network_image: ^3.2.0
   flutter_launcher_icons: ^0.10.0
-  firebase_core: ^2.15.0
-  firebase_crashlytics: ^3.3.4
 
 flutter_icons:
   android: true
@@ -78,6 +76,9 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
   auto_size_text: ^3.0.0
+  firebase_core: ^2.15.1
+  firebase_analytics: ^10.4.5
+  firebase_crashlytics: ^3.3.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

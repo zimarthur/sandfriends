@@ -61,6 +61,18 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
           (sport) => sport.idSport == sportId,
         );
     titleText = "Busca Mensalista - ${selectedSport.description}";
+    if (Provider.of<CategoriesProvider>(context, listen: false)
+        .availableRegions
+        .any(
+          (region) => region.containsCity(
+            Provider.of<UserProvider>(context, listen: false)
+                .user!
+                .city!
+                .cityId,
+          ),
+        )) {
+      cityFilter = Provider.of<UserProvider>(context, listen: false).user!.city;
+    }
   }
 
   void searchRecurrentCourts(context) {
@@ -125,7 +137,6 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
 
     for (var date in responseDates) {
       int newWeekday = int.parse(date["Date"]);
-      print("weekday: $newWeekday");
       List<AvailableStore> availableStores = [];
       Store newStore;
       for (var store in date["Stores"]) {
@@ -134,14 +145,10 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
             (recStore) => recStore.idStore == store["IdStore"],
           ),
         );
-        print("store: $newWeekday");
         List<AvailableHour> availableHours = [];
         for (var hour in store["Hours"]) {
           List<AvailableCourt> availableCourts = [];
-          print("hour: ${hour["TimeBegin"]}");
           for (var court in hour["Courts"]) {
-            print("IdStoreCourt: ${court["IdStoreCourt"]}");
-            print("Price: ${court["Price"]}");
             availableCourts.add(
               AvailableCourt(
                 court: Court.copyWith(

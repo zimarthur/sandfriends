@@ -65,31 +65,13 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                       SizedBox(
                         height: defaultPadding,
                       ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SFTextField(
-                              labelText: "CVV",
-                              pourpose: TextFieldPourpose.Numeric,
-                              controller: widget.viewModel.cardCvvController,
-                              validator: (value) => validateCVV(value),
-                            ),
-                          ),
-                          SizedBox(
-                            width: defaultPadding,
-                          ),
-                          Expanded(
-                            child: SFTextField(
-                              labelText: "Validade",
-                              pourpose: TextFieldPourpose.Numeric,
-                              hintText: "MM/AAAA",
-                              controller:
-                                  widget.viewModel.cardExpirationDateController,
-                              validator: (value) =>
-                                  validateCreditCardDate(value),
-                            ),
-                          ),
-                        ],
+                      SFTextField(
+                        labelText: "Validade",
+                        pourpose: TextFieldPourpose.Numeric,
+                        hintText: "MM/AAAA",
+                        controller:
+                            widget.viewModel.cardExpirationDateController,
+                        validator: (value) => validateCreditCardDate(value),
                       ),
                       SizedBox(
                         height: defaultPadding,
@@ -110,6 +92,17 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                         controller: widget.viewModel.cardCpfController,
                         validator: (value) =>
                             cpfValidator(value, "digite o cpf do titular"),
+                      ),
+                      SizedBox(
+                        height: defaultPadding,
+                      ),
+                      SFTextField(
+                        labelText: "Celular",
+                        pourpose: TextFieldPourpose.Numeric,
+                        controller: widget.viewModel.phoneNumberController,
+                        validator: (value) => phoneValidator(
+                          value,
+                        ),
                       ),
                       SizedBox(
                         height: defaultPadding * 3,
@@ -181,7 +174,7 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                           ),
                           Flexible(
                             child: Text(
-                              "Todos os seus dados são encriptografados.",
+                              "Todos os seus dados são criptografados.",
                               style: TextStyle(color: textDarkGrey),
                               textScaleFactor: 0.9,
                             ),

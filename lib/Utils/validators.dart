@@ -54,11 +54,11 @@ String? genderValidator(String? value) {
 
 String? phoneValidator(String? value) {
   if (value == null || value.isEmpty) {
-    return "Digite um número";
+    return "digite um número";
   } else {
     final cleanValue = value.replaceAll(RegExp('[^0-9]'), '');
     if (cleanValue.length != 11 || int.tryParse(cleanValue) == null) {
-      return "Número inválido";
+      return "número inválido";
     } else {
       return null;
     }

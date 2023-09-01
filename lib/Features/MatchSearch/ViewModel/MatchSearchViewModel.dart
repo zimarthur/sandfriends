@@ -163,9 +163,6 @@ class MatchSearchViewModel extends ChangeNotifier {
     for (var avHour in filteredHours) {
       for (var court in avHour.availableCourts) {
         try {
-          print("hour: ${avHour.hour.hourString}");
-          print("court: ${court.court.storeCourtName}");
-          print("price: ${court.price}");
           courtAvailableHours
               .firstWhere(
                 (courtAvHour) =>
