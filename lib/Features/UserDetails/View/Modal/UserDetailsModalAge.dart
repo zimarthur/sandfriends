@@ -8,8 +8,8 @@ import '../../../../Utils/Validators.dart';
 import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalAge extends StatefulWidget {
-  UserDetailsViewModel viewModel;
-  UserDetailsModalAge({
+  final UserDetailsViewModel viewModel;
+  const UserDetailsModalAge({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

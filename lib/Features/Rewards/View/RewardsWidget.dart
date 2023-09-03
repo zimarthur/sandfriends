@@ -10,8 +10,8 @@ import '../../../Utils/Constants.dart';
 import '../ViewModel/RewardsViewModel.dart';
 
 class RewardsWidget extends StatefulWidget {
-  RewardsViewModel viewModel;
-  RewardsWidget({
+  final RewardsViewModel viewModel;
+  const RewardsWidget({
     Key? key,
     required this.viewModel,
   }) : super(key: key);
@@ -178,8 +178,8 @@ class _RewardsWidgetState extends State<RewardsWidget> {
                               Container(
                                 height: height * 0.1,
                                 alignment: Alignment.centerLeft,
-                                margin:
-                                    EdgeInsets.only(bottom: defaultPadding * 2),
+                                margin: const EdgeInsets.only(
+                                    bottom: defaultPadding * 2),
                                 child: Column(
                                   children: [
                                     const SizedBox(

@@ -13,14 +13,14 @@ import '../SFLoading.dart';
 import '../../../Utils/Constants.dart';
 
 class AvailableStoreCard extends StatefulWidget {
-  AvailableStore availableStore;
-  AvailableHour? selectedAvailableHour;
-  Function(AvailableStore) onTapHour;
-  Function(Store) onGoToCourt;
-  bool selectedParent;
-  bool isRecurrent;
+  final AvailableStore availableStore;
+  final AvailableHour? selectedAvailableHour;
+  final Function(AvailableStore) onTapHour;
+  final Function(Store) onGoToCourt;
+  final bool selectedParent;
+  final bool isRecurrent;
 
-  AvailableStoreCard({
+  const AvailableStoreCard({
     Key? key,
     required this.availableStore,
     required this.selectedAvailableHour,
@@ -138,9 +138,9 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                             ),
                           ],
                         ),
-                        Column(
+                        const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
                               "Horários disponíveis",
                               style: TextStyle(

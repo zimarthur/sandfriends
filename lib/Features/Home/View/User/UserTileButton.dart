@@ -4,10 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../Utils/Constants.dart';
 
 class UserTileButton extends StatefulWidget {
-  String title;
-  String iconPath;
-  VoidCallback onTap;
-  UserTileButton({Key? key, 
+  final String title;
+  final String iconPath;
+  final VoidCallback onTap;
+  const UserTileButton({
+    Key? key,
     required this.title,
     required this.iconPath,
     required this.onTap,

@@ -7,8 +7,8 @@ import '../../../../Utils/Constants.dart';
 import '../../ViewModel/HomeViewModel.dart';
 
 class FeedOpenMatches extends StatelessWidget {
-  HomeViewModel viewModel;
-  FeedOpenMatches({
+  final HomeViewModel viewModel;
+  const FeedOpenMatches({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

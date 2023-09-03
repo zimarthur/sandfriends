@@ -12,8 +12,8 @@ import '../../../Utils/Constants.dart';
 import '../../../Utils/SFDateTime.dart';
 
 class MatchCard extends StatelessWidget {
-  AppMatch match;
-  MatchCard({
+  final AppMatch match;
+  const MatchCard({
     Key? key,
     required this.match,
   }) : super(key: key);
@@ -206,7 +206,7 @@ class MatchCard extends StatelessWidget {
                           match.canceled == true
                               ? "Cancelada"
                               : "Pagamento Expirado",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             color: textWhite,
                           ),

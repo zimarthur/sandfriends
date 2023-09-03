@@ -4,8 +4,9 @@ import '../../../Utils/Constants.dart';
 import '../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsEmail extends StatelessWidget {
-  UserDetailsViewModel viewModel;
-  UserDetailsEmail({Key? key, 
+  final UserDetailsViewModel viewModel;
+  const UserDetailsEmail({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 

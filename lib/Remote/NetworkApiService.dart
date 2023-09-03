@@ -71,6 +71,11 @@ class NetworkApiService extends BaseApiService {
           responseStatus: NetworkResponseStatus.alert,
           userMessage: response.body,
         );
+      } else if (statusCode == "232") {
+        return NetworkResponse(
+          responseStatus: NetworkResponseStatus.expiredToken,
+          userMessage: "Sua sessão foi expirada. Faça login novamente.",
+        );
       } else {
         return NetworkResponse(
           responseStatus: NetworkResponseStatus.error,

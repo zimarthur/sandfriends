@@ -8,8 +8,8 @@ import '../../../Utils/Constants.dart';
 import '../ViewModel/OnboardingViewModel.dart';
 
 class OnboardingWidgetWelcome extends StatefulWidget {
-  OnboardingViewModel viewModel;
-  OnboardingWidgetWelcome({
+  final OnboardingViewModel viewModel;
+  const OnboardingWidgetWelcome({
     Key? key,
     required this.viewModel,
   }) : super(key: key);
@@ -52,9 +52,9 @@ class _OnboardingWidgetWelcomeState extends State<OnboardingWidgetWelcome> {
                       width: height * 0.13,
                     ),
                     Padding(padding: EdgeInsets.only(bottom: height * 0.02)),
-                    Column(
+                    const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           "Boas-vindas,",
                           style: TextStyle(

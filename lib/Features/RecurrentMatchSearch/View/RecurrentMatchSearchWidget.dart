@@ -8,8 +8,9 @@ import '../../MatchSearch/View/NoMachesFound.dart';
 import '../ViewModel/RecurrentMatchSearchViewModel.dart';
 
 class RecurrentMatchSearchWidget extends StatefulWidget {
-  RecurrentMatchSearchViewModel viewModel;
-  RecurrentMatchSearchWidget({Key? key, 
+  final RecurrentMatchSearchViewModel viewModel;
+  const RecurrentMatchSearchWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -41,11 +42,11 @@ class _RecurrentMatchSearchWidgetState
           child: Container(
             color: secondaryBack,
             child: !widget.viewModel.hasUserSearched
-                ? MatchSearchOnboarding(
+                ? const MatchSearchOnboarding(
                     isRecurrent: true,
                   )
                 : widget.viewModel.availableDays.isEmpty
-                    ? NoMatchesFound(
+                    ? const NoMatchesFound(
                         isRecurrent: true,
                       )
                     : SingleChildScrollView(

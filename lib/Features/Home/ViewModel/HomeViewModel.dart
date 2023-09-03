@@ -17,7 +17,6 @@ import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
 import '../../../Utils/SharedPreferences.dart';
-import '../../../Utils/UrlLauncher.dart';
 import '../Model/HomeTabsEnum.dart';
 import '../Repository/HomeRepoImp.dart';
 import '../View/Feed/FeedWidget.dart';
@@ -162,9 +161,22 @@ class HomeViewModel extends ChangeNotifier {
       } else {
         modalMessage = SFModalMessage(
           message: response.userMessage!,
-          onTap: () => getUserInfo(context),
+          onTap: () {
+            if (response.responseStatus == NetworkResponseStatus.expiredToken) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/login_signup',
+                (Route<dynamic> route) => false,
+              );
+            } else {
+              getUserInfo(context);
+            }
+          },
           isHappy: false,
-          buttonText: "Tentar novamente",
+          buttonText:
+              response.responseStatus == NetworkResponseStatus.expiredToken
+                  ? "Concluído"
+                  : "Tentar novamente",
         );
         pageStatus = PageStatus.ERROR;
         notifyListeners();
@@ -198,8 +210,16 @@ class HomeViewModel extends ChangeNotifier {
         modalMessage = SFModalMessage(
           message: response.userMessage.toString(),
           onTap: () {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
+            if (response.responseStatus == NetworkResponseStatus.expiredToken) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/login_signup',
+                (Route<dynamic> route) => false,
+              );
+            } else {
+              pageStatus = PageStatus.OK;
+              notifyListeners();
+            }
           },
           isHappy: response.responseStatus == NetworkResponseStatus.alert,
         );

@@ -102,6 +102,21 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
           setSearchRecurrentCourtsResult(response.responseBody!);
           pageStatus = PageStatus.OK;
           notifyListeners();
+        } else if (response.responseStatus ==
+            NetworkResponseStatus.expiredToken) {
+          modalMessage = SFModalMessage(
+            message: response.userMessage!,
+            onTap: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/login_signup',
+                (Route<dynamic> route) => false,
+              );
+            },
+            isHappy: false,
+          );
+          pageStatus = PageStatus.ERROR;
+          notifyListeners();
         }
       });
     } else {

@@ -8,8 +8,8 @@ import 'UserDetailsPhoneNumber.dart';
 import 'UserDetailsSportSelector.dart';
 
 class UserDetailsWidget extends StatefulWidget {
-  UserDetailsViewModel viewModel;
-  UserDetailsWidget({
+  final UserDetailsViewModel viewModel;
+  const UserDetailsWidget({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

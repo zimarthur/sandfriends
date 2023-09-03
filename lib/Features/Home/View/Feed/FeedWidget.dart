@@ -11,8 +11,8 @@ import 'FeedRecurrentMatches.dart';
 import 'FeedRewards.dart';
 
 class FeedWidget extends StatefulWidget {
-  HomeViewModel viewModel;
-  FeedWidget({
+  final HomeViewModel viewModel;
+  const FeedWidget({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

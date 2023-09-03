@@ -1,5 +1,4 @@
 import 'package:intl/intl.dart';
-import 'package:sandfriends/Remote/Url.dart';
 import 'package:sandfriends/SharedComponents/Model/City.dart';
 import 'package:sandfriends/SharedComponents/Model/MatchCounter.dart';
 import 'package:sandfriends/Utils/SFDateTime.dart';
@@ -77,6 +76,7 @@ class User {
       accessToken: json['AccessToken'],
       firstName: json['FirstName'],
       lastName: json['LastName'],
+      height: json['Height'],
       birthday:
           json['Birthday'] == null ? null : stringToDateTime(json['Birthday']),
       email: json['Email'],
@@ -90,7 +90,7 @@ class User {
       sidePreference: json['SidePreferenceCategory'] == null
           ? null
           : SidePreference.fromJson(json['SidePreferenceCategory']),
-      photo: json['Photo'] != null ? json['Photo'] : null,
+      photo: json['Photo'],
       cpf: json['Cpf'],
     );
     for (int i = 0; i < json['Ranks'].length; i++) {

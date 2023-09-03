@@ -6,8 +6,8 @@ import 'UserCardHome.dart';
 import 'UserTileButton.dart';
 
 class UserWidget extends StatefulWidget {
-  HomeViewModel viewModel;
-  UserWidget({
+  final HomeViewModel viewModel;
+  const UserWidget({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

@@ -6,8 +6,8 @@ import '../../../Utils/Constants.dart';
 import '../../../Utils/SFDateTime.dart';
 
 class RewardUserCard extends StatelessWidget {
-  RewardUser userReward;
-  RewardUserCard({
+  final RewardUser userReward;
+  const RewardUserCard({
     Key? key,
     required this.userReward,
   }) : super(key: key);

@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../Utils/Constants.dart';
 
 class RecurrentMatchCardDate extends StatelessWidget {
-  String month;
-  int day;
-  RecurrentMatchCardDate({Key? key, 
+  final String month;
+  final int day;
+  const RecurrentMatchCardDate({
+    Key? key,
     required this.month,
     required this.day,
   }) : super(key: key);

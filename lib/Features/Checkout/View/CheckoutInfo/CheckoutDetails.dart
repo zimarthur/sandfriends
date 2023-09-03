@@ -15,19 +15,16 @@ class CheckoutDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
+        const Text(
           "Partida",
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
           textScaleFactor: 1.3,
         ),
-        SizedBox(
-          height: defaultPadding / 2,
-        ),
         Padding(
-          padding: EdgeInsets.all(
-            defaultPadding,
+          padding: const EdgeInsets.all(
+            defaultPadding / 2,
           ),
           child: Column(
             children: [

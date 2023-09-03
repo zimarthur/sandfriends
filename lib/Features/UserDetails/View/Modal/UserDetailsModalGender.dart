@@ -8,8 +8,9 @@ import '../../../../Utils/Constants.dart';
 import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalGender extends StatefulWidget {
-  UserDetailsViewModel viewModel;
-  UserDetailsModalGender({Key? key, 
+  final UserDetailsViewModel viewModel;
+  const UserDetailsModalGender({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 

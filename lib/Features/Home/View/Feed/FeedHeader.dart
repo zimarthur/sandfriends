@@ -7,10 +7,10 @@ import '../../../../Utils/Constants.dart';
 import '../../ViewModel/HomeViewModel.dart';
 
 class FeedHeader extends StatefulWidget {
-  HomeViewModel viewModel;
-  double height;
-  double width;
-  FeedHeader({
+  final HomeViewModel viewModel;
+  final double height;
+  final double width;
+  const FeedHeader({
     Key? key,
     required this.viewModel,
     required this.height,

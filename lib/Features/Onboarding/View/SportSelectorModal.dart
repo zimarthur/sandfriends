@@ -4,10 +4,11 @@ import '../../../SharedComponents/Model/Sport.dart';
 import '../../../Utils/Constants.dart';
 
 class SportSelectorModal extends StatefulWidget {
-  List<Sport> sports;
-  Sport? selectedSport;
-  Function(Sport) onSelectedSport;
-  SportSelectorModal({Key? key, 
+  final List<Sport> sports;
+  final Sport? selectedSport;
+  final Function(Sport) onSelectedSport;
+  const SportSelectorModal({
+    Key? key,
     required this.sports,
     required this.selectedSport,
     required this.onSelectedSport,

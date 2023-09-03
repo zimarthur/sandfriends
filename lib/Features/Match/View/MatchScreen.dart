@@ -8,8 +8,9 @@ import '../ViewModel/MatchViewModel.dart';
 import 'MatchWidget.dart';
 
 class MatchScreen extends StatefulWidget {
-  String matchUrl;
-  MatchScreen({Key? key, 
+  final String matchUrl;
+  const MatchScreen({
+    Key? key,
     required this.matchUrl,
   }) : super(key: key);
 

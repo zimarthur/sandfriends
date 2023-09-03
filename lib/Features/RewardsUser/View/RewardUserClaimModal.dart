@@ -5,8 +5,8 @@ import 'package:sandfriends/Utils/Constants.dart';
 import '../../../SharedComponents/Model/RewardUser.dart';
 
 class RewardUserClaimModal extends StatelessWidget {
-  RewardUser rewardUser;
-  RewardUserClaimModal({
+  final RewardUser rewardUser;
+  const RewardUserClaimModal({
     Key? key,
     required this.rewardUser,
   }) : super(key: key);
@@ -55,7 +55,7 @@ class RewardUserClaimModal extends StatelessWidget {
           ),
           SizedBox(
             height: height * 0.05,
-            child: Text(
+            child: const Text(
               "Apresente o código abaixo a um estabelecimento parceiro",
               textAlign: TextAlign.center,
             ),
@@ -64,7 +64,7 @@ class RewardUserClaimModal extends StatelessWidget {
             alignment: Alignment.center,
             height: height * 0.1,
             child: Text(
-              "${rewardUser.rewardClaimCode}",
+              rewardUser.rewardClaimCode,
               textScaleFactor: 2,
               textAlign: TextAlign.center,
               style:
@@ -73,7 +73,7 @@ class RewardUserClaimModal extends StatelessWidget {
           ),
           SizedBox(
             height: height * 0.03,
-            child: Text(
+            child: const Text(
               "e informe qual recompensa você deseja:",
               textAlign: TextAlign.center,
             ),

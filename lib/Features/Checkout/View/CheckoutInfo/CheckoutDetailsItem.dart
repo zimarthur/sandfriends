@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 
 class CheckoutDetailsItem extends StatelessWidget {
-  String title;
-  String value;
-  CheckoutDetailsItem({
+  final String title;
+  final String value;
+  const CheckoutDetailsItem({
+    super.key,
     required this.title,
     required this.value,
   });
@@ -12,19 +13,19 @@ class CheckoutDetailsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: defaultPadding / 2),
+      padding: const EdgeInsets.symmetric(vertical: defaultPadding / 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: textDarkGrey,
             ),
           ),
           Text(
             value,
-            style: TextStyle(
+            style: const TextStyle(
               color: textDarkGrey,
             ),
           )

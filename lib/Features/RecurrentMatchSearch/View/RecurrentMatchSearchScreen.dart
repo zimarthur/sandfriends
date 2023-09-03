@@ -7,8 +7,9 @@ import '../../../SharedComponents/Model/AppBarType.dart';
 import '../../../SharedComponents/View/SFStandardScreen.dart';
 
 class RecurrentMatchSearchScreen extends StatefulWidget {
-  int sportId;
-  RecurrentMatchSearchScreen({Key? key, 
+  final int sportId;
+  const RecurrentMatchSearchScreen({
+    Key? key,
     required this.sportId,
   }) : super(key: key);
 

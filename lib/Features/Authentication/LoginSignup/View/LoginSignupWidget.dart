@@ -8,8 +8,8 @@ import '../../../../Utils/Constants.dart';
 import '../ViewModel/LoginSignupViewModel.dart';
 
 class LoginSignupWidget extends StatefulWidget {
-  LoginSignupViewModel viewModel;
-  LoginSignupWidget({
+  final LoginSignupViewModel viewModel;
+  const LoginSignupWidget({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

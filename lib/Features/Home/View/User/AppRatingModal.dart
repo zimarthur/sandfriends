@@ -7,8 +7,8 @@ import '../../../../Utils/Validators.dart';
 import '../../ViewModel/HomeViewModel.dart';
 
 class AppRatingModal extends StatefulWidget {
-  HomeViewModel viewModel;
-  AppRatingModal({
+  final HomeViewModel viewModel;
+  const AppRatingModal({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

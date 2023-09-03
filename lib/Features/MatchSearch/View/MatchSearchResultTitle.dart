@@ -4,12 +4,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../Utils/Constants.dart';
 
 class MatchSearchResultTitle extends StatelessWidget {
-  String title;
-  String iconPath;
-  String description;
-  Color themeColor;
+  final String title;
+  final String iconPath;
+  final String description;
+  final Color themeColor;
 
-  MatchSearchResultTitle({
+  const MatchSearchResultTitle({
     Key? key,
     required this.title,
     required this.iconPath,

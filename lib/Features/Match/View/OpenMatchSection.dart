@@ -5,8 +5,9 @@ import '../../../Utils/Constants.dart';
 import '../ViewModel/MatchViewModel.dart';
 
 class OpenMatchSection extends StatefulWidget {
-  MatchViewModel viewModel;
-  OpenMatchSection({Key? key, 
+  final MatchViewModel viewModel;
+  const OpenMatchSection({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 

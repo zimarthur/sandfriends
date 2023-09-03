@@ -9,18 +9,18 @@ import 'Modal/SFModalMessage.dart';
 
 class SFStandardScreen extends StatefulWidget {
   final String? titleText;
-  Widget child;
+  final Widget child;
   final AppBarType? appBarType;
-  PageStatus pageStatus;
+  final PageStatus pageStatus;
   final Function()? onTapReturn;
-  Widget? modalFormWidget;
-  SFModalMessage? messageModalWidget;
+  final Widget? modalFormWidget;
+  final SFModalMessage? messageModalWidget;
   final Widget? rightWidget;
   final VoidCallback? onTapBackground;
-  bool resizeToAvoidBottomInset = false;
-  bool enableToolbar;
+  final bool resizeToAvoidBottomInset = false;
+  final bool enableToolbar;
 
-  SFStandardScreen({
+  const SFStandardScreen({
     Key? key,
     this.titleText,
     this.onTapReturn,

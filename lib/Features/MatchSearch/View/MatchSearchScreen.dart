@@ -7,8 +7,9 @@ import '../ViewModel/MatchSearchViewModel.dart';
 import 'MatchSearchWidget.dart';
 
 class MatchSearchScreen extends StatefulWidget {
-  int sportId;
-  MatchSearchScreen({Key? key, 
+  final int sportId;
+  const MatchSearchScreen({
+    Key? key,
     required this.sportId,
   }) : super(key: key);
 

@@ -8,13 +8,12 @@ import '../Model/Court.dart';
 import '../Providers/RedirectProvider/EnvironmentProvider.dart';
 import 'SFLoading.dart';
 import '../../Utils/Constants.dart';
-import '../../Features/Match/ViewModel/MatchViewModel.dart';
 
 class StoreSection extends StatefulWidget {
-  Court court;
-  VoidCallback onTapStore;
-  bool fullAddress;
-  StoreSection({
+  final Court court;
+  final VoidCallback onTapStore;
+  final bool fullAddress;
+  const StoreSection({
     Key? key,
     required this.court,
     required this.onTapStore,
@@ -40,7 +39,7 @@ class _StoreSectionState extends State<StoreSection> {
           children: [
             Container(
               margin: EdgeInsets.only(top: layoutHeight * 0.05),
-              child: Text(
+              child: const Text(
                 "Local",
                 style: TextStyle(
                   fontWeight: FontWeight.w700,

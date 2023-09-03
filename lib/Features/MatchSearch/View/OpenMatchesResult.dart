@@ -6,8 +6,8 @@ import '../ViewModel/MatchSearchViewModel.dart';
 import 'OpenMatchCard.dart';
 
 class OpenMatchesResult extends StatefulWidget {
-  MatchSearchViewModel viewModel;
-  OpenMatchesResult({
+  final MatchSearchViewModel viewModel;
+  const OpenMatchesResult({
     Key? key,
     required this.viewModel,
   }) : super(key: key);
@@ -18,11 +18,10 @@ class OpenMatchesResult extends StatefulWidget {
 class _OpenMatchesResultState extends State<OpenMatchesResult> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Column(
       children: [
-        MatchSearchResultTitle(
+        const MatchSearchResultTitle(
           title: "Partidas Abertas",
           iconPath: r'assets/icon/trophy.svg',
           description: "Escolha uma partida e desafie novos jogadores",

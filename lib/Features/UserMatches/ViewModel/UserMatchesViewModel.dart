@@ -54,7 +54,15 @@ class UserMatchesViewModel extends ChangeNotifier {
         modalMessage = SFModalMessage(
           message: response.userMessage!,
           onTap: () {
-            initUserMatchesViewModel(context);
+            if (response.responseStatus == NetworkResponseStatus.expiredToken) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/login_signup',
+                (Route<dynamic> route) => false,
+              );
+            } else {
+              initUserMatchesViewModel(context);
+            }
           },
           isHappy: false,
         );

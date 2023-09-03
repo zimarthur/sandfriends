@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sandfriends/SharedComponents/Model/CreditCard/CreditCard.dart';
-import 'package:sandfriends/SharedComponents/Providers/UserProvider/UserProvider.dart';
 import 'package:sandfriends/SharedComponents/View/CreditCard/CreditCardCard.dart';
 import 'package:sandfriends/SharedComponents/View/CreditCard/EmptyCreditCards.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 
 class CreditCardWidget extends StatefulWidget {
-  bool isEditable;
-  Function(CreditCard)? onSelectedCreditCard;
-  Function(CreditCard)? onDeleteCreditCard;
-  List<CreditCard> creditCards;
-  CreditCardWidget({
+  final bool isEditable;
+  final Function(CreditCard)? onSelectedCreditCard;
+  final Function(CreditCard)? onDeleteCreditCard;
+  final List<CreditCard> creditCards;
+  const CreditCardWidget({
+    super.key,
     required this.creditCards,
     required this.isEditable,
     this.onSelectedCreditCard,

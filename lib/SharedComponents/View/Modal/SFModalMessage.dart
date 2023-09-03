@@ -7,10 +7,10 @@ import '../SFButton.dart';
 class SFModalMessage extends StatefulWidget {
   final String message;
   final VoidCallback? onTap;
-  String buttonText;
-  bool isHappy;
+  final String buttonText;
+  final bool isHappy;
 
-  SFModalMessage({
+  const SFModalMessage({
     Key? key,
     required this.message,
     required this.onTap,

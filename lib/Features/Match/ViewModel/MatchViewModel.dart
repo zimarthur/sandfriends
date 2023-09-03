@@ -179,7 +179,15 @@ class MatchViewModel extends ChangeNotifier {
         modalMessage = SFModalMessage(
           message: response.userMessage!,
           onTap: () {
-            Navigator.pushNamed(context, '/home');
+            if (response.responseStatus == NetworkResponseStatus.expiredToken) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/login_signup',
+                (Route<dynamic> route) => false,
+              );
+            } else {
+              Navigator.pushNamed(context, '/home');
+            }
           },
           isHappy: false,
         );
@@ -295,8 +303,16 @@ class MatchViewModel extends ChangeNotifier {
         modalMessage = SFModalMessage(
           message: response.userMessage!,
           onTap: () {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
+            if (response.responseStatus == NetworkResponseStatus.expiredToken) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/login_signup',
+                (Route<dynamic> route) => false,
+              );
+            } else {
+              pageStatus = PageStatus.OK;
+              notifyListeners();
+            }
           },
           isHappy: accepted,
         );

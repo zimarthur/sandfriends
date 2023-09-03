@@ -5,8 +5,9 @@ import '../../../Utils/Constants.dart';
 import '../ViewModel/RewardsUserViewModel.dart';
 
 class RewardsUserWidget extends StatefulWidget {
-  RewardsUserViewModel viewModel;
-  RewardsUserWidget({Key? key, 
+  final RewardsUserViewModel viewModel;
+  const RewardsUserWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -19,18 +20,31 @@ class _RewardsUserWidgetState extends State<RewardsUserWidget> {
   Widget build(BuildContext context) {
     return Container(
       color: secondaryBack,
-      child: ListView.builder(
-        itemCount: widget.viewModel.userRewards.length,
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () => widget.viewModel
-                .onTapUserReward(widget.viewModel.userRewards[index]),
-            child: RewardUserCard(
-              userReward: widget.viewModel.userRewards[index],
+      child: widget.viewModel.userRewards.isNotEmpty
+          ? ListView.builder(
+              itemCount: widget.viewModel.userRewards.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () => widget.viewModel
+                      .onTapUserReward(widget.viewModel.userRewards[index]),
+                  child: RewardUserCard(
+                    userReward: widget.viewModel.userRewards[index],
+                  ),
+                );
+              },
+            )
+          : const Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+                child: Text(
+                  "Você não tem recompensas.",
+                  style: TextStyle(
+                    color: textDarkGrey,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
-          );
-        },
-      ),
     );
   }
 }

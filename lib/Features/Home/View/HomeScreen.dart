@@ -7,8 +7,9 @@ import '../ViewModel/HomeViewModel.dart';
 import 'NavigationMenu/NavigationMenu.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeTabs initialTab;
-  HomeScreen({Key? key, 
+  final HomeTabs initialTab;
+  const HomeScreen({
+    Key? key,
     required this.initialTab,
   }) : super(key: key);
 

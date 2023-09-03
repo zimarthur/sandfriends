@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:sandfriends/Utils/Constants.dart';
 
 import '../../../SharedComponents/View/SFButton.dart';
-import '../../../Utils/Constants.dart';
 import '../ViewModel/MatchViewModel.dart';
 
 class ActionSection extends StatefulWidget {
-  MatchViewModel viewModel;
-  ActionSection({
+  final MatchViewModel viewModel;
+  const ActionSection({
     Key? key,
     required this.viewModel,
   }) : super(key: key);
@@ -20,7 +19,6 @@ class _ActionSectionState extends State<ActionSection> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return widget.viewModel.isUserMatchCreator
         ? Column(
             children: [
@@ -45,6 +43,8 @@ class _ActionSectionState extends State<ActionSection> {
                       child: SFButton(
                         buttonLabel: "Cancelar Partida",
                         isPrimary: false,
+                        color: red,
+                        iconPath: r"assets/icon/delete.svg",
                         onTap: () => widget.viewModel.confirmCancelMatch(
                           context,
                         ),

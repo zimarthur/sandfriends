@@ -20,20 +20,20 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: defaultPadding,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
+          const Text(
             "Forma de pagamento",
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
             textScaleFactor: 1.3,
           ),
-          SizedBox(
+          const SizedBox(
             height: defaultPadding / 2,
           ),
           CheckoutPaymentRadio(
@@ -68,7 +68,7 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
                   subtitle: null,
                 ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: defaultPadding),
+            padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: Container(
               height: 1,
               width: double.infinity,
@@ -81,17 +81,17 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
             title: "Pagar no local",
             subtitle: null,
           ),
-          SizedBox(
+          const SizedBox(
             height: defaultPadding * 2,
           ),
-          Text(
+          const Text(
             "CPF na nota fiscal",
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
             textScaleFactor: 1.3,
           ),
-          SizedBox(
+          const SizedBox(
             height: defaultPadding / 2,
           ),
           SFTextField(

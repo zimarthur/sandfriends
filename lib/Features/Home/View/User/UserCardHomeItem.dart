@@ -4,9 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../Utils/Constants.dart';
 
 class UserCardHomeItem extends StatelessWidget {
-  String text;
-  String iconPath;
-  UserCardHomeItem({Key? key, 
+  final String text;
+  final String iconPath;
+  const UserCardHomeItem({
+    Key? key,
     required this.text,
     required this.iconPath,
   }) : super(key: key);

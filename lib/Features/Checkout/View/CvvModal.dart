@@ -7,12 +7,11 @@ import 'package:sandfriends/SharedComponents/View/CreditCard/CreditCardCard.dart
 import '../../../../SharedComponents/View/SFButton.dart';
 import '../../../../SharedComponents/View/SFTextField.dart';
 import '../../../../Utils/Constants.dart';
-import '../../../../Utils/Validators.dart';
 
 class CvvModal extends StatefulWidget {
-  CreditCard selectedCreditCard;
-  Function(String) onCvv;
-  CvvModal({
+  final CreditCard selectedCreditCard;
+  final Function(String) onCvv;
+  const CvvModal({
     Key? key,
     required this.selectedCreditCard,
     required this.onCvv,
@@ -47,19 +46,19 @@ class _CvvModalState extends State<CvvModal> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            const Text(
               "Digite o cvv do cartão",
               style: TextStyle(
                 color: primaryBlue,
               ),
               textScaleFactor: 1.2,
             ),
-            SizedBox(
+            const SizedBox(
               height: defaultPadding,
             ),
             CreditCardCard(
                 creditCard: widget.selectedCreditCard, isEditable: false),
-            SizedBox(
+            const SizedBox(
               height: defaultPadding,
             ),
             SFTextField(

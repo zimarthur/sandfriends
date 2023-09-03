@@ -8,8 +8,9 @@ import '../../../../Utils/Constants.dart';
 import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalSidePreference extends StatefulWidget {
-  UserDetailsViewModel viewModel;
-  UserDetailsModalSidePreference({Key? key, 
+  final UserDetailsViewModel viewModel;
+  const UserDetailsModalSidePreference({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 

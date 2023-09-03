@@ -3,8 +3,7 @@ String? validateCardNumWithLuhnAlgorithm(String input) {
     return "Digite o número do cartão";
   }
 
-  input = input.replaceAll(new RegExp(r'[^0-9]'), '');
-  ;
+  input = input.replaceAll(RegExp(r'[^0-9]'), '');
 
   if (input.length < 8) {
     // No need to even proceed with the validation if it's less than 8 characters

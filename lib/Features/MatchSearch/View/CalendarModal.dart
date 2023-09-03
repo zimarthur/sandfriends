@@ -5,10 +5,10 @@ import '../../../SharedComponents/View/SFButton.dart';
 import '../../../Utils/Constants.dart';
 
 class CalendarModal extends StatefulWidget {
-  List<DateTime?> dateRange;
-  Function(List<DateTime?>) onSubmit;
+  final List<DateTime?> dateRange;
+  final Function(List<DateTime?>) onSubmit;
 
-  CalendarModal({
+  const CalendarModal({
     Key? key,
     required this.dateRange,
     required this.onSubmit,

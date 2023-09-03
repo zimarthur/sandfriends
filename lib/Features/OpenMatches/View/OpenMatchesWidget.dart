@@ -5,8 +5,9 @@ import 'package:sandfriends/Utils/Constants.dart';
 import '../ViewModel/OpenMatchesViewModel.dart';
 
 class OpenMatchesWidget extends StatefulWidget {
-  OpenMatchesViewModel viewModel;
-  OpenMatchesWidget({Key? key, 
+  final OpenMatchesViewModel viewModel;
+  const OpenMatchesWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 

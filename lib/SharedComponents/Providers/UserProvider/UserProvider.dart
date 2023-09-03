@@ -151,7 +151,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<CreditCard> _creditCards = [];
+  final List<CreditCard> _creditCards = [];
   List<CreditCard> get creditCards => _creditCards;
   void addCreditCard(CreditCard creditCard) {
     _creditCards.add(creditCard);

@@ -8,8 +8,9 @@ import '../../../Utils/Validators.dart';
 import '../ViewModel/MatchViewModel.dart';
 
 class CreatorNotesSection extends StatefulWidget {
-  MatchViewModel viewModel;
-  CreatorNotesSection({Key? key, 
+  final MatchViewModel viewModel;
+  const CreatorNotesSection({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 

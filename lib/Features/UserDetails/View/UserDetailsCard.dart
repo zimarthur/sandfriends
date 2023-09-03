@@ -9,8 +9,8 @@ import '../../../Utils/Constants.dart';
 import '../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsCard extends StatefulWidget {
-  UserDetailsViewModel viewModel;
-  UserDetailsCard({
+  final UserDetailsViewModel viewModel;
+  const UserDetailsCard({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

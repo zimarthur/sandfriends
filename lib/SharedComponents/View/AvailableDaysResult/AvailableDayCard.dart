@@ -11,15 +11,15 @@ import 'package:sandfriends/Utils/SFDateTime.dart';
 import '../../../Utils/Constants.dart';
 
 class AvailableDayCard extends StatelessWidget {
-  AvailableDay availableDay;
-  AvailableStore? selectedStore;
-  AvailableHour? selectedAvailableHour;
-  Function(AvailableDay) onTapHour;
-  Function(Store) onGoToCourt;
-  bool selectedParent;
-  bool isRecurrent;
+  final AvailableDay availableDay;
+  final AvailableStore? selectedStore;
+  final AvailableHour? selectedAvailableHour;
+  final Function(AvailableDay) onTapHour;
+  final Function(Store) onGoToCourt;
+  final bool selectedParent;
+  final bool isRecurrent;
 
-  AvailableDayCard({
+  const AvailableDayCard({
     Key? key,
     required this.availableDay,
     required this.selectedStore,

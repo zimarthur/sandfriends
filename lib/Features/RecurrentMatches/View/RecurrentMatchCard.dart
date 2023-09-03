@@ -15,9 +15,9 @@ import '../../../Utils/SFDateTime.dart';
 import 'RecurrentMatchCardDate.dart';
 
 class RecurrentMatchCard extends StatefulWidget {
-  AppRecurrentMatch recurrentMatch;
-  bool expanded;
-  RecurrentMatchCard({
+  final AppRecurrentMatch recurrentMatch;
+  final bool expanded;
+  const RecurrentMatchCard({
     Key? key,
     required this.recurrentMatch,
     required this.expanded,
@@ -161,7 +161,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                             ),
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: defaultPadding / 8,
                                         ),
                                         Row(
@@ -205,17 +205,17 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                       if (widget.expanded)
                         Column(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: defaultPadding,
                             ),
                             Column(
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   width: double.infinity,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: const [
+                                    children: [
                                       Text(
                                         "Próximas partidas:",
                                         style: TextStyle(
@@ -225,7 +225,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: defaultPadding / 2,
                                 ),
                                 SizedBox(
@@ -263,7 +263,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: defaultPadding,
                             ),
                             Column(
@@ -275,7 +275,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                     color: primaryLightBlue,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: defaultPadding / 2,
                                 ),
                                 Row(
@@ -298,7 +298,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: defaultPadding / 2,
                                 ),
                                 Row(
@@ -322,14 +322,14 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: defaultPadding / 2,
                                 ),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Última renovação:",
                                       style: TextStyle(
                                         color: textDarkGrey,
@@ -339,7 +339,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                     Text(
                                       DateFormat("dd/MM/yyyy").format(widget
                                           .recurrentMatch.lastPaymentDate),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: secondaryYellow,
                                       ),
                                       textScaleFactor: 0.9,

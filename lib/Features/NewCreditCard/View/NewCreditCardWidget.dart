@@ -10,8 +10,9 @@ import '../../../SharedComponents/View/SFButton.dart';
 import '../../../Utils/Constants.dart';
 
 class NewCreditCardWidget extends StatefulWidget {
-  NewCreditCardViewModel viewModel;
-  NewCreditCardWidget({
+  final NewCreditCardViewModel viewModel;
+  const NewCreditCardWidget({
+    super.key,
     required this.viewModel,
   });
 
@@ -24,7 +25,7 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
   Widget build(BuildContext context) {
     return Container(
       color: secondaryBack,
-      margin: EdgeInsets.all(defaultPadding),
+      margin: const EdgeInsets.all(defaultPadding),
       child: Form(
         key: widget.viewModel.newCreditCardFormKey,
         child: Column(
@@ -40,16 +41,18 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                         labelText: "Apelido do cartão (opcional)",
                         pourpose: TextFieldPourpose.Standard,
                         controller: widget.viewModel.cardNicknameController,
-                        validator: (value) {},
+                        validator: (value) {
+                          return null;
+                        },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 2 * defaultPadding,
                       ),
                       Container(
                         color: divider,
                         height: 1,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 2 * defaultPadding,
                       ),
                       SFTextField(
@@ -62,7 +65,7 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                           height: 20,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: defaultPadding,
                       ),
                       SFTextField(
@@ -73,7 +76,7 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                             widget.viewModel.cardExpirationDateController,
                         validator: (value) => validateCreditCardDate(value),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: defaultPadding,
                       ),
                       SFTextField(
@@ -83,7 +86,7 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                         validator: (value) =>
                             emptyCheck(value, "digite o nome do titular"),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: defaultPadding,
                       ),
                       SFTextField(
@@ -93,7 +96,7 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                         validator: (value) =>
                             cpfValidator(value, "digite o cpf do titular"),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: defaultPadding,
                       ),
                       SFTextField(
@@ -104,11 +107,11 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                           value,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: defaultPadding * 3,
                       ),
-                      Text("Endereço dos pagamentos"),
-                      SizedBox(
+                      const Text("Endereço dos pagamentos"),
+                      const SizedBox(
                         height: defaultPadding,
                       ),
                       SFTextField(
@@ -117,7 +120,7 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                         controller: widget.viewModel.cardCepController,
                         validator: (value) => cepValidator(value),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: defaultPadding,
                       ),
                       SFTextField(
@@ -127,7 +130,7 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                         validator: (value) =>
                             emptyCheck(value, "digite a cidade"),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: defaultPadding,
                       ),
                       Row(
@@ -143,7 +146,7 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                                   emptyCheck(value, "digite o endereço"),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: defaultPadding,
                           ),
                           Expanded(
@@ -159,7 +162,7 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: defaultPadding,
                       ),
                       Row(
@@ -169,10 +172,10 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                             color: textDarkGrey,
                             height: 20,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: defaultPadding / 2,
                           ),
-                          Flexible(
+                          const Flexible(
                             child: Text(
                               "Todos os seus dados são criptografados.",
                               style: TextStyle(color: textDarkGrey),
@@ -181,7 +184,7 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 2 * defaultPadding,
                       ),
                     ],
@@ -192,7 +195,8 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
             SFButton(
               buttonLabel: "Adicionar cartão",
               onTap: () => widget.viewModel.addNewCreditCard(context),
-              textPadding: EdgeInsets.symmetric(vertical: defaultPadding / 2),
+              textPadding:
+                  const EdgeInsets.symmetric(vertical: defaultPadding / 2),
             ),
             SizedBox(
               height: MediaQuery.of(context).viewInsets.bottom,

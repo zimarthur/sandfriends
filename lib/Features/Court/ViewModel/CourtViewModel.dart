@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Court/Model/CourtAvailableHours.dart';
 import 'package:sandfriends/Features/Court/Model/HourPrice.dart';
-import 'package:sandfriends/Remote/NetworkResponse.dart';
 
 import '../../../SharedComponents/Model/Court.dart';
 import '../../../SharedComponents/Model/Hour.dart';
 import '../../../SharedComponents/Model/Sport.dart';
 import '../../../SharedComponents/Model/Store.dart';
-import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
-import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
 import '../Repository/CourtRepoImp.dart';

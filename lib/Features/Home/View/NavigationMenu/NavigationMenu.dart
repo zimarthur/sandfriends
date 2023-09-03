@@ -5,9 +5,9 @@ import '../../../../Utils/Constants.dart';
 import '../../Model/HomeTabsEnum.dart';
 
 class NavigationMenu extends StatefulWidget {
-  Function(HomeTabs) onChangeTab;
-  HomeTabs selectedTab;
-  NavigationMenu({
+  final Function(HomeTabs) onChangeTab;
+  final HomeTabs selectedTab;
+  const NavigationMenu({
     Key? key,
     required this.onChangeTab,
     required this.selectedTab,

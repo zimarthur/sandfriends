@@ -51,7 +51,7 @@ class UserDetailsViewModel extends ChangeNotifier {
   final TextEditingController birthdayController =
       MaskedTextController(mask: '00/00/0000');
   final TextEditingController heightController =
-      MaskedTextController(mask: '0,00');
+      MaskedTextController(mask: '0.00');
   String? imagePicker;
   bool noImage = false;
 
@@ -172,8 +172,17 @@ class UserDetailsViewModel extends ChangeNotifier {
           modalMessage = SFModalMessage(
             message: response.userMessage!,
             onTap: () {
-              pageStatus = PageStatus.OK;
-              notifyListeners();
+              if (response.responseStatus ==
+                  NetworkResponseStatus.expiredToken) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login_signup',
+                  (Route<dynamic> route) => false,
+                );
+              } else {
+                pageStatus = PageStatus.OK;
+                notifyListeners();
+              }
             },
             isHappy: response.responseStatus == NetworkResponseStatus.alert,
           );
@@ -212,8 +221,7 @@ class UserDetailsViewModel extends ChangeNotifier {
   void setUserHeight() {
     if (userDetailsHeightFormKey.currentState?.validate() == true) {
       if (heightController.text.isNotEmpty) {
-        userEdited.height =
-            double.parse(heightController.text.replaceAll(",", "."));
+        userEdited.height = double.parse(heightController.text);
       }
       pageStatus = PageStatus.OK;
 

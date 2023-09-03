@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Features/Checkout/ViewModel/CheckoutViewModel.dart';
 import 'package:sandfriends/Utils/Constants.dart';
-import 'package:sandfriends/Utils/PageStatus.dart';
 
 import 'CheckoutInfo/CheckoutResume.dart';
 import 'Payment/CheckoutPayment.dart';
 import 'Toolbar/CheckoutBottomToolbar.dart';
 
 class CheckoutWidget extends StatefulWidget {
-  CheckoutViewModel viewModel;
-  CheckoutWidget({
+  final CheckoutViewModel viewModel;
+  const CheckoutWidget({
+    super.key,
     required this.viewModel,
   });
 
@@ -24,14 +24,15 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
       children: [
         Expanded(
           child: Padding(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
                 horizontal: defaultPadding, vertical: defaultPadding / 2),
             child: SingleChildScrollView(
-              child: Column(
+              controller: widget.viewModel.scrollController,
+              child: const Column(
                 children: [
                   CheckoutResume(),
                   SizedBox(
-                    height: defaultPadding * 2,
+                    height: defaultPadding,
                   ),
                   CheckoutPayment(),
                   SizedBox(
@@ -42,7 +43,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
             ),
           ),
         ),
-        CheckoutBottomToolbar(),
+        const CheckoutBottomToolbar(),
         SizedBox(
           height: MediaQuery.of(context).viewInsets.bottom,
         ),

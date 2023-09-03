@@ -5,12 +5,12 @@ import '../../../Utils/Constants.dart';
 import '../../../Features/Court/Model/HourPrice.dart';
 
 class AvailableHourCard extends StatefulWidget {
-  HourPrice hourPrice;
-  Function(HourPrice) onTap;
-  bool isSelected;
-  bool isRecurrent;
+  final HourPrice hourPrice;
+  final Function(HourPrice) onTap;
+  final bool isSelected;
+  final bool isRecurrent;
 
-  AvailableHourCard({
+  const AvailableHourCard({
     Key? key,
     required this.hourPrice,
     required this.onTap,

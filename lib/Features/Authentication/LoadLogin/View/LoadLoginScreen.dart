@@ -5,8 +5,8 @@ import '../../../../Utils/Constants.dart';
 import '../ViewModel/LoadLoginViewModel.dart';
 
 class LoadLoginScreen extends StatefulWidget {
-  String? redirectUri;
-  LoadLoginScreen({
+  final String? redirectUri;
+  const LoadLoginScreen({
     Key? key,
     this.redirectUri,
   }) : super(key: key);

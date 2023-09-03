@@ -7,12 +7,12 @@ import '../../../SharedComponents/View/SFLoading.dart';
 import '../../../Utils/Constants.dart';
 
 class CourtPhotos extends StatefulWidget {
-  int selectedPhotoIndex;
-  Function(int) onSelectedPhotoChanged;
-  List<String> imagesUrl;
-  Color themeColor;
+  final int selectedPhotoIndex;
+  final Function(int) onSelectedPhotoChanged;
+  final List<String> imagesUrl;
+  final Color themeColor;
 
-  CourtPhotos({
+  const CourtPhotos({
     Key? key,
     required this.selectedPhotoIndex,
     required this.onSelectedPhotoChanged,

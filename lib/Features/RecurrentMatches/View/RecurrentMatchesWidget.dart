@@ -8,8 +8,8 @@ import '../ViewModel/RecurrentMatchesViewModel.dart';
 import 'RecurrentMatchCard.dart';
 
 class RecurrentMatchesWidget extends StatefulWidget {
-  RecurrentMatchesViewModel viewModel;
-  RecurrentMatchesWidget({
+  final RecurrentMatchesViewModel viewModel;
+  const RecurrentMatchesWidget({
     Key? key,
     required this.viewModel,
   }) : super(key: key);
@@ -177,10 +177,10 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
             ),
             color: secondaryPaper,
             child: widget.viewModel.recurrentMatches.isEmpty
-                ? Center(
+                ? const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Text(
                           "Você não tem horários mensalistas.",
                           style: TextStyle(color: textDarkGrey),

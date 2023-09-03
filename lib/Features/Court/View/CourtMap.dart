@@ -4,8 +4,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../SharedComponents/Model/Store.dart';
 
 class CourtMap extends StatefulWidget {
-  Store store;
-  CourtMap({Key? key, 
+  final Store store;
+  const CourtMap({
+    Key? key,
     required this.store,
   }) : super(key: key);
 

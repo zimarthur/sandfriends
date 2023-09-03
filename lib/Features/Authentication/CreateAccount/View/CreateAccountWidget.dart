@@ -9,8 +9,8 @@ import '../../../../Utils/Validators.dart';
 import '../ViewModel/CreateAccountViewModel.dart';
 
 class CreateAccountWidget extends StatefulWidget {
-  CreateAccountViewModel viewModel;
-  CreateAccountWidget({
+  final CreateAccountViewModel viewModel;
+  const CreateAccountWidget({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

@@ -8,8 +8,8 @@ import '../../../Utils/Constants.dart';
 import '../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsSportSelector extends StatefulWidget {
-  UserDetailsViewModel viewModel;
-  UserDetailsSportSelector({
+  final UserDetailsViewModel viewModel;
+  const UserDetailsSportSelector({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

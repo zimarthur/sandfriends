@@ -8,8 +8,9 @@ import 'package:sandfriends/SharedComponents/View/SFButton.dart';
 import '../../../../Utils/Constants.dart';
 
 class ModalCreditCardSelector extends StatelessWidget {
-  Function(CreditCard) onSelectedCreditCard;
-  ModalCreditCardSelector({
+  final Function(CreditCard) onSelectedCreditCard;
+  const ModalCreditCardSelector({
+    super.key,
     required this.onSelectedCreditCard,
   });
 
@@ -49,11 +50,11 @@ class ModalCreditCardSelector extends StatelessWidget {
           SFButton(
             buttonLabel: "Novo cartão de crédito",
             onTap: () => Navigator.pushNamed(context, "/new_credit_card"),
-            textPadding: EdgeInsets.symmetric(vertical: defaultPadding / 2),
+            textPadding:
+                const EdgeInsets.symmetric(vertical: defaultPadding / 2),
           )
         ],
       ),
     );
-    ;
   }
 }

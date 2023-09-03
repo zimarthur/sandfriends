@@ -56,7 +56,6 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   bool _initialURILinkHandled = false;
 
-  Uri? _initialURI;
   Uri? _currentURI;
   Object? _err;
 
@@ -276,13 +275,13 @@ class _AppState extends State<App> {
           return null;
         },
         routes: {
-          '/': (BuildContext context) => LoadLoginScreen(),
+          '/': (BuildContext context) => const LoadLoginScreen(),
           '/login_signup': (BuildContext context) => const LoginSignupScreen(),
           '/login': (BuildContext context) => const LoginScreen(),
           '/create_account': (BuildContext context) =>
               const CreateAccountScreen(),
           '/onboarding': (BuildContext context) => const OnboardingScreen(),
-          '/home': (BuildContext context) => HomeScreen(
+          '/home': (BuildContext context) => const HomeScreen(
                 initialTab: HomeTabs.Feed,
               ),
           '/user_details': (BuildContext context) => const UserDetailsScreen(),

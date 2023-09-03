@@ -8,8 +8,8 @@ import '../../ViewModel/HomeViewModel.dart';
 import 'USerCardHomeItem.dart';
 
 class UserCardHome extends StatefulWidget {
-  HomeViewModel viewModel;
-  UserCardHome({
+  final HomeViewModel viewModel;
+  const UserCardHome({
     Key? key,
     required this.viewModel,
   }) : super(key: key);
@@ -31,7 +31,6 @@ class _UserCardHomeState extends State<UserCardHome> {
             Expanded(
               child: LayoutBuilder(
                 builder: (layoutContext, layoutConstraints) {
-                  double width = layoutConstraints.maxWidth;
                   double height = layoutConstraints.maxHeight;
                   return Column(
                     children: [

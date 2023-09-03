@@ -23,7 +23,6 @@ String? validateCreditCardDate(String? value) {
     month = int.parse(split[0]);
     year = int.parse(split[1]);
 
-    DateTime? parsedDatetime = DateTime.tryParse("$year-$month-01");
     if (month > 12) {
       return "data inválida";
     } else {

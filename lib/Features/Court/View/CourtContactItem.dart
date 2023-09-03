@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CourtContactItem extends StatefulWidget {
-  String title;
-  String iconPath;
-  VoidCallback onTap;
-  Color themeColor;
+  final String title;
+  final String iconPath;
+  final VoidCallback onTap;
+  final Color themeColor;
 
-  CourtContactItem({
+  const CourtContactItem({
     Key? key,
     required this.title,
     required this.iconPath,

@@ -8,8 +8,8 @@ import '../../../../Utils/Validators.dart';
 import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalHeight extends StatefulWidget {
-  UserDetailsViewModel viewModel;
-  UserDetailsModalHeight({
+  final UserDetailsViewModel viewModel;
+  const UserDetailsModalHeight({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

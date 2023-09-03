@@ -7,9 +7,10 @@ import '../Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'SFButton.dart';
 
 class SportSelector extends StatelessWidget {
-  bool isRecurrentMatch;
-  Function(Sport) onSportSelected;
-  SportSelector({Key? key, 
+  final bool isRecurrentMatch;
+  final Function(Sport) onSportSelected;
+  const SportSelector({
+    Key? key,
     required this.isRecurrentMatch,
     required this.onSportSelected,
   }) : super(key: key);

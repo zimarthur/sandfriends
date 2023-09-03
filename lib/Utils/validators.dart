@@ -95,7 +95,11 @@ String? heightValidator(String? value) {
   if (value == null || value.isEmpty || value == "") {
     return null;
   } else {
-    if (value.length < 0 || value.length < 3) {
+    if (double.tryParse(value) == null) {
+      return "valor inválido";
+    }
+    double valueDouble = double.parse(value);
+    if (valueDouble > 3 || valueDouble < 0) {
       return "valor inválido";
     } else {
       return null;

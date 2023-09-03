@@ -16,7 +16,6 @@ import 'package:sandfriends/Utils/Validators.dart';
 
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/Sport.dart';
-import '../../../SharedComponents/Model/Store.dart';
 import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
@@ -50,6 +49,8 @@ class CheckoutViewModel extends ChangeNotifier {
   TextEditingController cpfController =
       MaskedTextController(mask: "000.000.000-00");
   TextEditingController cvvController = MaskedTextController(mask: "0000");
+
+  final ScrollController scrollController = ScrollController();
 
   String get matchPeriod {
     return "${startingHour.hourString} - ${endingHour.hourString}";
@@ -133,8 +134,17 @@ class CheckoutViewModel extends ChangeNotifier {
           modalMessage = SFModalMessage(
             message: response.userMessage!,
             onTap: () {
-              pageStatus = PageStatus.OK;
-              notifyListeners();
+              if (response.responseStatus ==
+                  NetworkResponseStatus.expiredToken) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login_signup',
+                  (Route<dynamic> route) => false,
+                );
+              } else {
+                pageStatus = PageStatus.OK;
+                notifyListeners();
+              }
             },
             isHappy: response.responseStatus == NetworkResponseStatus.alert,
           );
@@ -197,6 +207,12 @@ class CheckoutViewModel extends ChangeNotifier {
       } else {
         makeReservation(context);
       }
+    } else {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
     }
   }
 

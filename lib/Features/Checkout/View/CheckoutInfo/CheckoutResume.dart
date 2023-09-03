@@ -10,10 +10,10 @@ class CheckoutResume extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     return Container(
-      padding: EdgeInsets.all(defaultPadding),
-      margin: EdgeInsets.all(defaultPadding / 2),
+      padding: const EdgeInsets.symmetric(
+          horizontal: defaultPadding, vertical: defaultPadding / 2),
+      margin: const EdgeInsets.all(defaultPadding / 2),
       decoration: BoxDecoration(
         color: secondaryPaper,
         borderRadius: BorderRadius.circular(
@@ -22,7 +22,7 @@ class CheckoutResume extends StatelessWidget {
         border: Border.all(
           color: textDarkGrey,
         ),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: textLightGrey,
             blurRadius: 5,
@@ -33,7 +33,7 @@ class CheckoutResume extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: 150,
+            height: 120,
             child: StoreSection(
               fullAddress: false,
               court:
@@ -45,9 +45,9 @@ class CheckoutResume extends StatelessWidget {
             height: 2,
             width: double.infinity,
             color: divider,
-            margin: EdgeInsets.symmetric(vertical: defaultPadding),
+            margin: const EdgeInsets.symmetric(vertical: defaultPadding),
           ),
-          CheckoutDetails(),
+          const CheckoutDetails(),
         ],
       ),
     );

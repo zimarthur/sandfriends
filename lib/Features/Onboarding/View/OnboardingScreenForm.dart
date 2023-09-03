@@ -13,8 +13,8 @@ import '../../../Utils/Validators.dart';
 import '../ViewModel/OnboardingViewModel.dart';
 
 class OnboardingWidgetForm extends StatefulWidget {
-  OnboardingViewModel viewModel;
-  OnboardingWidgetForm({
+  final OnboardingViewModel viewModel;
+  const OnboardingWidgetForm({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

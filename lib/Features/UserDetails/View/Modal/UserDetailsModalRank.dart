@@ -8,8 +8,8 @@ import '../../../../Utils/Constants.dart';
 import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalRank extends StatefulWidget {
-  UserDetailsViewModel viewModel;
-  UserDetailsModalRank({
+  final UserDetailsViewModel viewModel;
+  const UserDetailsModalRank({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

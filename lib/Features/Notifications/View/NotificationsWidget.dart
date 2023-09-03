@@ -7,8 +7,9 @@ import '../../../Utils/Constants.dart';
 import '../ViewModel/NotificationsViewModel.dart';
 
 class NotificationsWidget extends StatefulWidget {
-  NotificationsViewModel viewModel;
-  NotificationsWidget({Key? key, 
+  final NotificationsViewModel viewModel;
+  const NotificationsWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
@@ -21,22 +22,38 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
   Widget build(BuildContext context) {
     return Container(
       color: secondaryBack,
-      child: ListView.builder(
-        itemCount: Provider.of<UserProvider>(context, listen: false)
-            .notifications
-            .length,
-        itemBuilder: (context, index) {
-          return NotificationCard(
-            notification: Provider.of<UserProvider>(context, listen: false)
-                .notifications[index],
-            onTap: () => widget.viewModel.goToMatch(
-              context,
-              Provider.of<UserProvider>(context, listen: false)
-                  .notifications[index],
+      child: Provider.of<UserProvider>(context, listen: false)
+              .notifications
+              .isNotEmpty
+          ? ListView.builder(
+              itemCount: Provider.of<UserProvider>(context, listen: false)
+                  .notifications
+                  .length,
+              itemBuilder: (context, index) {
+                return NotificationCard(
+                  notification:
+                      Provider.of<UserProvider>(context, listen: false)
+                          .notifications[index],
+                  onTap: () => widget.viewModel.goToMatch(
+                    context,
+                    Provider.of<UserProvider>(context, listen: false)
+                        .notifications[index],
+                  ),
+                );
+              },
+            )
+          : const Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+                child: Text(
+                  "Você não tem notificações.",
+                  style: TextStyle(
+                    color: textDarkGrey,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
-          );
-        },
-      ),
     );
   }
 }

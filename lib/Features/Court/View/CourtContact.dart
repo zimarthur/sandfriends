@@ -6,9 +6,9 @@ import '../../../SharedComponents/Model/Store.dart';
 import '../../../Utils/UrlLauncher.dart';
 
 class CourtContact extends StatefulWidget {
-  Store store;
-  Color themeColor;
-  CourtContact({
+  final Store store;
+  final Color themeColor;
+  const CourtContact({
     Key? key,
     required this.store,
     required this.themeColor,

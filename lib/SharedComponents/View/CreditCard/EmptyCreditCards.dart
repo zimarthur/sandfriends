@@ -17,10 +17,10 @@ class EmptyCreditCards extends StatelessWidget {
               width: layoutContraints.maxWidth * 0.3,
               color: textDarkGrey,
             ),
-            SizedBox(
+            const SizedBox(
               height: defaultPadding,
             ),
-            Text(
+            const Text(
               "Você ainda não cadastrou um cartão de crédito",
               style: TextStyle(color: textDarkGrey),
               textAlign: TextAlign.center,

@@ -11,10 +11,10 @@ import '../../../Utils/Constants.dart';
 import '../ViewModel/MatchViewModel.dart';
 
 class MemberCardModal extends StatefulWidget {
-  MatchViewModel viewModel;
-  MatchMember member;
+  final MatchViewModel viewModel;
+  final MatchMember member;
 
-  MemberCardModal({
+  const MemberCardModal({
     Key? key,
     required this.viewModel,
     required this.member,

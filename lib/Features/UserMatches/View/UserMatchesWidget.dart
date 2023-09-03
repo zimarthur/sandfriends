@@ -7,8 +7,9 @@ import '../ViewModel/UserMatchesViewModel.dart';
 import 'MatchCard.dart';
 
 class UserMatchesWidget extends StatefulWidget {
-  UserMatchesViewModel viewModel;
-  UserMatchesWidget({Key? key, 
+  final UserMatchesViewModel viewModel;
+  const UserMatchesWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 

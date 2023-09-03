@@ -1,4 +1,3 @@
-import '../../Remote/Url.dart';
 
 class Sport {
   final int idSport;

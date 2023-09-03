@@ -7,17 +7,17 @@ import '../../../SharedComponents/View/SFButton.dart';
 import 'SFSearchFilter.dart';
 
 class MatchSearchFilters extends StatefulWidget {
-  City? city;
-  VoidCallback openCitySelector;
-  List<DateTime?>? dates;
-  List<int>? days;
-  VoidCallback openDateSelector;
-  TimeRangeResult? time;
-  VoidCallback openTimeSelector;
-  VoidCallback onTapSearch;
-  Color primaryColor;
+  final City? city;
+  final VoidCallback openCitySelector;
+  final List<DateTime?>? dates;
+  final List<int>? days;
+  final VoidCallback openDateSelector;
+  final TimeRangeResult? time;
+  final VoidCallback openTimeSelector;
+  final VoidCallback onTapSearch;
+  final Color primaryColor;
 
-  MatchSearchFilters({
+  const MatchSearchFilters({
     Key? key,
     required this.city,
     required this.openCitySelector,

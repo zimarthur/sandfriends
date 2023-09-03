@@ -6,8 +6,8 @@ import 'package:sandfriends/Utils/Constants.dart';
 import '../../../SharedComponents/Model/RewardUser.dart';
 
 class RewardUserAlreadyClaimedModal extends StatelessWidget {
-  RewardUser rewardUser;
-  RewardUserAlreadyClaimedModal({
+  final RewardUser rewardUser;
+  const RewardUserAlreadyClaimedModal({
     Key? key,
     required this.rewardUser,
   }) : super(key: key);
@@ -81,9 +81,9 @@ class RewardUserAlreadyClaimedModal extends StatelessWidget {
 }
 
 class RewardUserAlreadyClaimedItem extends StatelessWidget {
-  String title;
-  String description;
-  RewardUserAlreadyClaimedItem({
+  final String title;
+  final String description;
+  const RewardUserAlreadyClaimedItem({
     Key? key,
     required this.title,
     required this.description,

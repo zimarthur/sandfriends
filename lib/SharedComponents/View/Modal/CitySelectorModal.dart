@@ -7,12 +7,12 @@ import '../../Model/Region.dart';
 import '../SFTextField.dart';
 
 class CitySelectorModal extends StatefulWidget {
-  List<Region> regions;
-  Function(City) onSelectedCity;
-  City? userCity;
-  Color themeColor;
+  final List<Region> regions;
+  final Function(City) onSelectedCity;
+  final City? userCity;
+  final Color themeColor;
 
-  CitySelectorModal({
+  const CitySelectorModal({
     Key? key,
     required this.regions,
     required this.onSelectedCity,

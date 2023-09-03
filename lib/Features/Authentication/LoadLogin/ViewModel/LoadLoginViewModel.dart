@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/SharedComponents/Model/CreditCard/CreditCard.dart';
 import 'package:sandfriends/SharedComponents/Model/Hour.dart';
 import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/RedirectProvider.dart';
 

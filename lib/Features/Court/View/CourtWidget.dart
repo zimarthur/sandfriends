@@ -14,13 +14,12 @@ import '../../../SharedComponents/Providers/RedirectProvider/EnvironmentProvider
 import '../../../SharedComponents/View/SFButton.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
 import '../../../Utils/Constants.dart';
-import '../../../Utils/UrlLauncher.dart';
 import '../ViewModel/CourtViewModel.dart';
 import 'CourtMap.dart';
 
 class CourtWidget extends StatefulWidget {
-  CourtViewModel viewModel;
-  CourtWidget({
+  final CourtViewModel viewModel;
+  const CourtWidget({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

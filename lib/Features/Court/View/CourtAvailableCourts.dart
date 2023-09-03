@@ -8,9 +8,9 @@ import '../../../SharedComponents/View/AvailableDaysResult/AvailableHourCard.dar
 import '../ViewModel/CourtViewModel.dart';
 
 class CourtAvailableCourts extends StatefulWidget {
-  CourtViewModel viewModel;
-  Color themeColor;
-  CourtAvailableCourts({
+  final CourtViewModel viewModel;
+  final Color themeColor;
+  const CourtAvailableCourts({
     Key? key,
     required this.viewModel,
     required this.themeColor,
@@ -28,7 +28,7 @@ class _CourtAvailableCourtsState extends State<CourtAvailableCourts> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       selectedScrollController.animateTo(
         jumpToPosition * 84,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeIn,
       );
     });

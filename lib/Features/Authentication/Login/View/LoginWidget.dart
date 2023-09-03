@@ -9,8 +9,8 @@ import '../../../../Utils/Validators.dart';
 import '../ViewModel/LoginViewModel.dart';
 
 class LoginWidget extends StatefulWidget {
-  LoginViewModel viewModel;
-  LoginWidget({
+  final LoginViewModel viewModel;
+  const LoginWidget({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

@@ -9,8 +9,8 @@ import '../../Model/HomeTabsEnum.dart';
 import '../../ViewModel/HomeViewModel.dart';
 
 class FeedNextMatches extends StatefulWidget {
-  HomeViewModel viewModel;
-  FeedNextMatches({
+  final HomeViewModel viewModel;
+  const FeedNextMatches({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

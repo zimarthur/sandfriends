@@ -10,8 +10,8 @@ import '../../../Utils/Constants.dart';
 import '../ViewModel/MatchViewModel.dart';
 
 class PaymentSection extends StatefulWidget {
-  MatchViewModel viewModel;
-  PaymentSection({required this.viewModel});
+  final MatchViewModel viewModel;
+  const PaymentSection({super.key, required this.viewModel});
 
   @override
   State<PaymentSection> createState() => _PaymentSectionState();
@@ -22,7 +22,7 @@ class _PaymentSectionState extends State<PaymentSection> {
 
   @override
   void initState() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (widget.viewModel.match.isPaymentExpired == false) {
         widget.viewModel.setLiveDateTime(DateTime.now());
       } else {
@@ -44,12 +44,11 @@ class _PaymentSectionState extends State<PaymentSection> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
@@ -87,7 +86,7 @@ class _PaymentSectionState extends State<PaymentSection> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: defaultPadding,
               ),
               Row(
@@ -105,7 +104,7 @@ class _PaymentSectionState extends State<PaymentSection> {
                             ? "Cartão de crédito\n${widget.viewModel.match.creditCard!.cardNumber}"
                             : "Pagar no local",
                     textAlign: TextAlign.end,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -116,7 +115,7 @@ class _PaymentSectionState extends State<PaymentSection> {
                   widget.viewModel.match.selectedPayment == SelectedPayment.Pix)
                 Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: defaultPadding,
                     ),
                     Row(
@@ -134,18 +133,18 @@ class _PaymentSectionState extends State<PaymentSection> {
                               ? ""
                               : r"assets/icon/copy_to_clipboard.svg",
                           isPrimary: widget.viewModel.copyToClipboard,
-                          textPadding: EdgeInsets.symmetric(
+                          textPadding: const EdgeInsets.symmetric(
                               vertical: defaultPadding / 2,
                               horizontal: defaultPadding),
                           onTap: () async {
                             await Clipboard.setData(ClipboardData(
-                                text: widget.viewModel.match.pixCode));
+                                text: widget.viewModel.match.pixCode!));
                             widget.viewModel.setCopyToClipBoard(true);
                           },
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: defaultPadding,
                     ),
                     RichText(
@@ -164,9 +163,9 @@ class _PaymentSectionState extends State<PaymentSection> {
                               fontFamily: 'Lexend',
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: " minutos para finalizar o pagamento",
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: textDarkGrey,
                               fontFamily: 'Lexend',
                             ),

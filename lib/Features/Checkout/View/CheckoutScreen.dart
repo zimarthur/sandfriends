@@ -7,19 +7,19 @@ import 'package:sandfriends/SharedComponents/Model/AppBarType.dart';
 import 'package:sandfriends/SharedComponents/Model/Court.dart';
 import 'package:sandfriends/SharedComponents/Model/Sport.dart';
 
-import '../../../SharedComponents/Model/Store.dart';
 import '../../../SharedComponents/View/SFStandardScreen.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  Court court;
-  List<HourPrice> hourPrices;
-  Sport sport;
-  DateTime? date;
-  int? weekday;
-  bool isRecurrent;
-  bool isRenovating;
+  final Court court;
+  final List<HourPrice> hourPrices;
+  final Sport sport;
+  final DateTime? date;
+  final int? weekday;
+  final bool isRecurrent;
+  final bool isRenovating;
 
-  CheckoutScreen({
+  const CheckoutScreen({
+    super.key,
     required this.court,
     required this.hourPrices,
     required this.sport,

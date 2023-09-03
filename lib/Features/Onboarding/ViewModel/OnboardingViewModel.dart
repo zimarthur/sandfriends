@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +12,6 @@ import '../../../Utils/PageStatus.dart';
 import '../../../SharedComponents/Model/City.dart';
 import '../../../SharedComponents/Model/Sport.dart';
 import '../../../SharedComponents/Model/User.dart';
-import '../../../Utils/Validators.dart';
 import '../Repository/OnboardingRepoImp.dart';
 import '../View/OnboardingScreenForm.dart';
 import '../View/OnboardingScreenWelcome.dart';

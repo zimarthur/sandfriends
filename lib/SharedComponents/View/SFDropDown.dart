@@ -4,12 +4,13 @@ import '../../Utils/Constants.dart';
 
 class SFDropdown extends StatefulWidget {
   final String labelText;
-  String? controller;
+  final String? controller;
   final List<String> items;
   final FormFieldValidator<String>? validator;
   final Function(String?) onChanged;
 
-  SFDropdown({Key? key, 
+  const SFDropdown({
+    Key? key,
     required this.labelText,
     required this.controller,
     required this.items,

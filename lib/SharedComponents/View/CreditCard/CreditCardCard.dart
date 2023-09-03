@@ -6,10 +6,11 @@ import 'package:sandfriends/Utils/Constants.dart';
 import '../../Model/CreditCard/CreditCardUtils.dart';
 
 class CreditCardCard extends StatefulWidget {
-  CreditCard creditCard;
-  bool isEditable;
-  Function(CreditCard)? onDeleteCreditCard;
-  CreditCardCard({
+  final CreditCard creditCard;
+  final bool isEditable;
+  final Function(CreditCard)? onDeleteCreditCard;
+  const CreditCardCard({
+    super.key,
     required this.creditCard,
     required this.isEditable,
     this.onDeleteCreditCard,
@@ -20,7 +21,7 @@ class CreditCardCard extends StatefulWidget {
 }
 
 class _CreditCardCardState extends State<CreditCardCard> {
-  ScrollController scrollController = new ScrollController();
+  ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class _CreditCardCardState extends State<CreditCardCard> {
         child: ListView(
           controller: scrollController,
           scrollDirection: Axis.horizontal,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             GestureDetector(
               onHorizontalDragUpdate: (details) {
@@ -46,7 +47,7 @@ class _CreditCardCardState extends State<CreditCardCard> {
                 }
               },
               child: Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                     horizontal: defaultPadding / 4,
                     vertical: defaultPadding / 2),
                 width: layoutConstraints.maxWidth,
@@ -58,7 +59,7 @@ class _CreditCardCardState extends State<CreditCardCard> {
                 ),
                 child: Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: defaultPadding / 2,
                     ),
                     SvgPicture.asset(
@@ -67,7 +68,7 @@ class _CreditCardCardState extends State<CreditCardCard> {
                       ),
                       height: 40,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: defaultPadding,
                     ),
                     Expanded(
@@ -79,15 +80,15 @@ class _CreditCardCardState extends State<CreditCardCard> {
                             children: [
                               if (widget.creditCard.cardNickname != null)
                                 Text("${widget.creditCard.cardNickname!} - "),
-                              Text("Crédito"),
+                              const Text("Crédito"),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: defaultPadding / 4,
                           ),
                           Text(
                             encryptedCreditCardNumber(widget.creditCard),
-                            style: TextStyle(color: textDarkGrey),
+                            style: const TextStyle(color: textDarkGrey),
                           ),
                         ],
                       ),
@@ -134,7 +135,7 @@ class _CreditCardCardState extends State<CreditCardCard> {
               onTap: () => widget.onDeleteCreditCard!(widget.creditCard),
               child: Container(
                 height: 80,
-                padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+                padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
                 child: SvgPicture.asset(
                   r"assets/icon/delete.svg",
                   color: Colors.red,

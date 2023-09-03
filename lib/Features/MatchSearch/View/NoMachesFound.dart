@@ -4,8 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../Utils/Constants.dart';
 
 class NoMatchesFound extends StatelessWidget {
-  bool isRecurrent;
-  NoMatchesFound({
+  final bool isRecurrent;
+  const NoMatchesFound({
     Key? key,
     this.isRecurrent = false,
   }) : super(key: key);

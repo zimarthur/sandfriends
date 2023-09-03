@@ -8,8 +8,9 @@ import '../../../../Utils/Validators.dart';
 import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalName extends StatefulWidget {
-  UserDetailsViewModel viewModel;
-  UserDetailsModalName({Key? key, 
+  final UserDetailsViewModel viewModel;
+  const UserDetailsModalName({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 

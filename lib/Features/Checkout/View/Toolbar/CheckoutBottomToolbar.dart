@@ -13,7 +13,7 @@ class CheckoutBottomToolbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: secondaryPaper,
         boxShadow: [
           BoxShadow(
@@ -28,17 +28,17 @@ class CheckoutBottomToolbar extends StatelessWidget {
           ),
         ),
       ),
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         vertical: defaultPadding / 2,
         horizontal: defaultPadding,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "O que você está levando",
           ),
-          SizedBox(
+          const SizedBox(
             height: defaultPadding / 2,
           ),
           for (var date
@@ -49,7 +49,7 @@ class CheckoutBottomToolbar extends StatelessWidget {
               price: Provider.of<CheckoutViewModel>(context, listen: false)
                   .matchPrice,
             ),
-          SizedBox(
+          const SizedBox(
             height: defaultPadding / 2,
           ),
           Container(
@@ -57,13 +57,13 @@ class CheckoutBottomToolbar extends StatelessWidget {
             height: 1,
             width: double.infinity,
           ),
-          SizedBox(
+          const SizedBox(
             height: defaultPadding,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 "Total:",
                 style: TextStyle(
                   fontSize: 16,
@@ -72,7 +72,7 @@ class CheckoutBottomToolbar extends StatelessWidget {
               ),
               Text(
                 "R\$ ${Provider.of<CheckoutViewModel>(context, listen: false).totalPrice},00",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Colors.green,
@@ -80,7 +80,7 @@ class CheckoutBottomToolbar extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: defaultPadding,
           ),
           SFButton(
@@ -96,7 +96,7 @@ class CheckoutBottomToolbar extends StatelessWidget {
                 : divider,
             onTap: () => Provider.of<CheckoutViewModel>(context, listen: false)
                 .validateReservation(context),
-            textPadding: EdgeInsets.symmetric(vertical: defaultPadding / 2),
+            textPadding: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
           )
         ],
       ),

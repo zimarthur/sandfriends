@@ -6,8 +6,8 @@ import '../../../Utils/Validators.dart';
 import '../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsPhoneNumber extends StatefulWidget {
-  UserDetailsViewModel viewModel;
-  UserDetailsPhoneNumber({
+  final UserDetailsViewModel viewModel;
+  const UserDetailsPhoneNumber({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

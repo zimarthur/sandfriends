@@ -4,8 +4,8 @@ import "package:flutter_svg/flutter_svg.dart";
 import "../../../Utils/Constants.dart";
 
 class MatchSearchOnboarding extends StatelessWidget {
-  bool isRecurrent;
-  MatchSearchOnboarding({
+  final bool isRecurrent;
+  const MatchSearchOnboarding({
     Key? key,
     this.isRecurrent = false,
   }) : super(key: key);

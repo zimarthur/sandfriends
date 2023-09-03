@@ -8,8 +8,8 @@ import '../../../../Utils/Validators.dart';
 import '../ViewModel/LoginViewModel.dart';
 
 class ForgotPasswordModal extends StatefulWidget {
-  LoginViewModel viewModel;
-  ForgotPasswordModal({
+  final LoginViewModel viewModel;
+  const ForgotPasswordModal({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

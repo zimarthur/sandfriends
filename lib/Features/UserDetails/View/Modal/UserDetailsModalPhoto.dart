@@ -9,8 +9,8 @@ import '../../../../Utils/Constants.dart';
 import '../../ViewModel/UserDetailsViewModel.dart';
 
 class UserDetailsModalPhoto extends StatefulWidget {
-  UserDetailsViewModel viewModel;
-  UserDetailsModalPhoto({
+  final UserDetailsViewModel viewModel;
+  const UserDetailsModalPhoto({
     Key? key,
     required this.viewModel,
   }) : super(key: key);
@@ -82,8 +82,9 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
   }
 
   Future pickImage() async {
-    if (Provider.of<UserDetailsViewModel>(context, listen: false).noImage)
+    if (Provider.of<UserDetailsViewModel>(context, listen: false).noImage) {
       return;
+    }
     XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (file == null) return;
     setState(() {

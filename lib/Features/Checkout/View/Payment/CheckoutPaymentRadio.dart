@@ -6,12 +6,13 @@ import 'package:sandfriends/Features/Checkout/ViewModel/CheckoutViewModel.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 
 class CheckoutPaymentRadio extends StatefulWidget {
-  SelectedPayment radioPaymentValue;
-  String iconPath;
-  String title;
-  String? subtitle;
+  final SelectedPayment radioPaymentValue;
+  final String iconPath;
+  final String title;
+  final String? subtitle;
 
-  CheckoutPaymentRadio({
+  const CheckoutPaymentRadio({
+    super.key,
     required this.radioPaymentValue,
     required this.iconPath,
     required this.title,
@@ -33,9 +34,9 @@ class _CheckoutPaymentRadioState extends State<CheckoutPaymentRadio> {
         widget.radioPaymentValue,
       ),
       child: Container(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
             horizontal: defaultPadding, vertical: defaultPadding / 2),
-        margin: EdgeInsets.symmetric(vertical: defaultPadding / 2),
+        margin: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
         decoration: BoxDecoration(
           color: secondaryPaper,
           borderRadius: BorderRadius.circular(
@@ -50,7 +51,7 @@ class _CheckoutPaymentRadioState extends State<CheckoutPaymentRadio> {
             widget.iconPath,
             height: 25,
           ),
-          SizedBox(
+          const SizedBox(
             width: defaultPadding / 2,
           ),
           Column(
@@ -58,12 +59,12 @@ class _CheckoutPaymentRadioState extends State<CheckoutPaymentRadio> {
             children: [
               Text(
                 widget.title,
-                style: TextStyle(color: textDarkGrey),
+                style: const TextStyle(color: textDarkGrey),
               ),
               if (widget.subtitle != null)
                 Text(
                   widget.subtitle!,
-                  style: TextStyle(color: textDarkGrey, fontSize: 10),
+                  style: const TextStyle(color: textDarkGrey, fontSize: 10),
                 ),
             ],
           ),

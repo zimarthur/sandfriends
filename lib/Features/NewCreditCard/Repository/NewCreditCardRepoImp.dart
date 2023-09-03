@@ -40,7 +40,7 @@ class NewCreditCardRepoImp implements NewCreditCardRepo {
           'PhoneNumber': phoneNumber,
           'CardNumber': cardNumber,
           'Nickname': nickname ?? "",
-          'ExpirationDate': "${DateFormat("MM/yyyy").format(expirationDate)}",
+          'ExpirationDate': DateFormat("MM/yyyy").format(expirationDate),
           'OwnerName': ownerName,
           'OwnerCpf': ownerCpf,
           'Cep': cep,

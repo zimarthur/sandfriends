@@ -7,9 +7,9 @@ import '../../../SharedComponents/View/SFAvatar.dart';
 import '../../../Utils/Constants.dart';
 
 class NotificationCard extends StatefulWidget {
-  AppNotification notification;
-  VoidCallback onTap;
-  NotificationCard({
+  final AppNotification notification;
+  final VoidCallback onTap;
+  const NotificationCard({
     Key? key,
     required this.notification,
     required this.onTap,

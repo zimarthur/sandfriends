@@ -1,4 +1,3 @@
-import 'package:sandfriends/Remote/Url.dart';
 
 abstract class BaseApiService {
   Future<dynamic> getResponse(String url);

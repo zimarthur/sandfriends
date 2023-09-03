@@ -6,8 +6,8 @@ import '../../../Utils/Constants.dart';
 import '../ViewModel/MatchViewModel.dart';
 
 class MembersSection extends StatefulWidget {
-  MatchViewModel viewModel;
-  MembersSection({
+  final MatchViewModel viewModel;
+  const MembersSection({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

@@ -10,16 +10,16 @@ import '../ViewModel/CourtViewModel.dart';
 import 'CourtWidget.dart';
 
 class CourtScreen extends StatefulWidget {
-  Store store;
-  List<CourtAvailableHours>? courtAvailableHours;
-  HourPrice? selectedHourPrice;
-  DateTime? selectedDate;
-  int? selectedWeekday;
-  Sport? selectedSport;
-  bool? isRecurrent;
+  final Store store;
+  final List<CourtAvailableHours>? courtAvailableHours;
+  final HourPrice? selectedHourPrice;
+  final DateTime? selectedDate;
+  final int? selectedWeekday;
+  final Sport? selectedSport;
+  final bool? isRecurrent;
 
-  CourtScreen({
-    Key? key,
+  const CourtScreen({
+    super.key,
     required this.store,
     this.courtAvailableHours,
     this.selectedHourPrice,

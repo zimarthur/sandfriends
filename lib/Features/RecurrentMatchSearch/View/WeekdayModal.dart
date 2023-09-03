@@ -5,9 +5,10 @@ import '../../../SharedComponents/View/SFButton.dart';
 import '../../../Utils/Constants.dart';
 
 class WeekdayModal extends StatefulWidget {
-  List<int> selectedWeekdays;
-  VoidCallback onSelected;
-  WeekdayModal({Key? key, 
+  final List<int> selectedWeekdays;
+  final VoidCallback onSelected;
+  const WeekdayModal({
+    Key? key,
     required this.selectedWeekdays,
     required this.onSelected,
   }) : super(key: key);

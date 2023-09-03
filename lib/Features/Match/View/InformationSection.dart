@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:sandfriends/SharedComponents/Model/PaymentStatus.dart';
-import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
-import 'package:sandfriends/SharedComponents/View/SFButton.dart';
 
 import '../../../Utils/Constants.dart';
 import '../ViewModel/MatchViewModel.dart';
 
 class InformationSection extends StatelessWidget {
-  MatchViewModel viewModel;
-  InformationSection({
+  final MatchViewModel viewModel;
+  const InformationSection({
     Key? key,
     required this.viewModel,
   }) : super(key: key);
@@ -25,14 +21,14 @@ class InformationSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               "Detalhes da Partida",
               style: TextStyle(
                 fontWeight: FontWeight.w700,
               ),
               textScaleFactor: 1.3,
             ),
-            SizedBox(
+            const SizedBox(
               width: defaultPadding / 2,
             ),
             viewModel.match.canceled || viewModel.match.isPaymentExpired
@@ -43,7 +39,7 @@ class InformationSection extends StatelessWidget {
                           : "Pagamento Expirado",
                       textAlign: TextAlign.end,
                       maxLines: 2,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.w500, color: Colors.red),
                     ),
                   )
@@ -83,7 +79,7 @@ class InformationSection extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: defaultPadding,
               ),
               Row(
@@ -100,7 +96,7 @@ class InformationSection extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: defaultPadding,
               ),
               Row(
@@ -117,7 +113,7 @@ class InformationSection extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: defaultPadding,
               ),
               Row(

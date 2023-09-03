@@ -5,11 +5,11 @@ import '../../../Utils/Constants.dart';
 import '../SFButton.dart';
 
 class TimeModal extends StatefulWidget {
-  TimeRangeResult? timeRange;
-  Function(TimeRangeResult?) onSubmit;
-  Color themeColor;
+  final TimeRangeResult? timeRange;
+  final Function(TimeRangeResult?) onSubmit;
+  final Color themeColor;
 
-  TimeModal({
+  const TimeModal({
     Key? key,
     required this.timeRange,
     required this.onSubmit,

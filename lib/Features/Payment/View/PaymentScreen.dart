@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Payment/View/PaymentWidget.dart';
 import 'package:sandfriends/Features/Payment/ViewModel/PaymentViewModel.dart';
-import 'package:sandfriends/Utils/Constants.dart';
 
 import '../../../SharedComponents/Model/AppBarType.dart';
-import '../../../SharedComponents/View/SFButton.dart';
 import '../../../SharedComponents/View/SFStandardScreen.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -20,7 +18,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return ChangeNotifierProvider<PaymentViewModel>(
       create: (BuildContext context) => viewModel,
       child: Consumer<PaymentViewModel>(

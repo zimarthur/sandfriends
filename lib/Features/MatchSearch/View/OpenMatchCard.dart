@@ -8,10 +8,10 @@ import '../../../SharedComponents/View/SFButton.dart';
 import '../../../Utils/Constants.dart';
 
 class OpenMatchCard extends StatefulWidget {
-  bool isReduced;
-  AppMatch match;
-  Function(String) onTap;
-  OpenMatchCard({
+  final bool isReduced;
+  final AppMatch match;
+  final Function(String) onTap;
+  const OpenMatchCard({
     Key? key,
     required this.isReduced,
     required this.match,
@@ -26,7 +26,6 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: width * 0.02,

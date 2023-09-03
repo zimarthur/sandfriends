@@ -4,8 +4,9 @@ import '../../../../Utils/Constants.dart';
 import '../../ViewModel/HomeViewModel.dart';
 
 class FeedRecurrentMatches extends StatelessWidget {
-  HomeViewModel viewModel;
-  FeedRecurrentMatches({Key? key, 
+  final HomeViewModel viewModel;
+  const FeedRecurrentMatches({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 

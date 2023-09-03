@@ -9,15 +9,15 @@ import '../../../Utils/Constants.dart';
 import '../../../Features/MatchSearch/View/MatchSearchResultTitle.dart';
 
 class AvailableDaysResult extends StatefulWidget {
-  List<AvailableDay> availableDays;
-  AvailableDay? selectedAvailableDay;
-  AvailableStore? selectedStore;
-  AvailableHour? selectedAvailableHour;
-  bool isRecurrent;
-  Function(AvailableDay) onTapHour;
-  Function(Store) onGoToCourt;
+  final List<AvailableDay> availableDays;
+  final AvailableDay? selectedAvailableDay;
+  final AvailableStore? selectedStore;
+  final AvailableHour? selectedAvailableHour;
+  final bool isRecurrent;
+  final Function(AvailableDay) onTapHour;
+  final Function(Store) onGoToCourt;
 
-  AvailableDaysResult({
+  const AvailableDaysResult({
     Key? key,
     required this.availableDays,
     required this.selectedAvailableDay,
@@ -36,7 +36,6 @@ class _AvailableDaysResultState extends State<AvailableDaysResult> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return Column(
       children: [
         MatchSearchResultTitle(

@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../Utils/Constants.dart';
 
 class CourtDescription extends StatelessWidget {
-  String description;
-  Color themeColor;
-  CourtDescription({Key? key, 
+  final String description;
+  final Color themeColor;
+  const CourtDescription({
+    Key? key,
     required this.description,
     required this.themeColor,
   }) : super(key: key);

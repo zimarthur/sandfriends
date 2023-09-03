@@ -8,9 +8,9 @@ class ConfirmationModal extends StatelessWidget {
   final String message;
   final VoidCallback onConfirm;
   final VoidCallback onCancel;
-  bool isHappy;
+  final bool isHappy;
 
-  ConfirmationModal({
+  const ConfirmationModal({
     Key? key,
     required this.message,
     required this.onConfirm,
@@ -65,10 +65,10 @@ class ConfirmationModal extends StatelessWidget {
                   onTap: onCancel,
                   isPrimary: !isHappy,
                   textPadding:
-                      EdgeInsets.symmetric(vertical: defaultPadding / 2),
+                      const EdgeInsets.symmetric(vertical: defaultPadding / 2),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: defaultPadding,
               ),
               Expanded(
@@ -77,7 +77,7 @@ class ConfirmationModal extends StatelessWidget {
                   onTap: onConfirm,
                   isPrimary: isHappy,
                   textPadding:
-                      EdgeInsets.symmetric(vertical: defaultPadding / 2),
+                      const EdgeInsets.symmetric(vertical: defaultPadding / 2),
                 ),
               ),
             ],

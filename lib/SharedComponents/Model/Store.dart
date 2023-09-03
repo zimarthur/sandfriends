@@ -1,4 +1,3 @@
-import 'package:sandfriends/Remote/Url.dart';
 import 'package:sandfriends/SharedComponents/Model/City.dart';
 
 import 'Court.dart';

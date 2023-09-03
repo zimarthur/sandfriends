@@ -9,8 +9,8 @@ import '../ViewModel/MatchSearchViewModel.dart';
 import 'MatchSearchFilters.dart';
 
 class MatchSearchWidget extends StatefulWidget {
-  MatchSearchViewModel viewModel;
-  MatchSearchWidget({
+  final MatchSearchViewModel viewModel;
+  const MatchSearchWidget({
     Key? key,
     required this.viewModel,
   }) : super(key: key);
@@ -41,9 +41,9 @@ class _MatchSearchWidgetState extends State<MatchSearchWidget> {
           child: Container(
             color: secondaryBack,
             child: !widget.viewModel.hasUserSearched
-                ? MatchSearchOnboarding()
+                ? const MatchSearchOnboarding()
                 : widget.viewModel.availableDays.isEmpty
-                    ? NoMatchesFound()
+                    ? const NoMatchesFound()
                     : SingleChildScrollView(
                         child: Column(
                           children: [

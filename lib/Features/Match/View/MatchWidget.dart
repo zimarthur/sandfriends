@@ -12,8 +12,8 @@ import '../../../Utils/Constants.dart';
 import '../ViewModel/MatchViewModel.dart';
 
 class MatchWidget extends StatefulWidget {
-  MatchViewModel viewModel;
-  MatchWidget({
+  final MatchViewModel viewModel;
+  const MatchWidget({
     Key? key,
     required this.viewModel,
   }) : super(key: key);

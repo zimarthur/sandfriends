@@ -4,8 +4,9 @@ import '../../../../SharedComponents/View/SportSelector.dart';
 import '../../ViewModel/HomeViewModel.dart';
 
 class SportSelectorWidget extends StatefulWidget {
-  HomeViewModel viewModel;
-  SportSelectorWidget({Key? key, 
+  final HomeViewModel viewModel;
+  const SportSelectorWidget({
+    Key? key,
     required this.viewModel,
   }) : super(key: key);
 
