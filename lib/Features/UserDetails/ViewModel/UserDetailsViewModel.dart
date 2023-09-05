@@ -296,6 +296,7 @@ class UserDetailsViewModel extends ChangeNotifier {
               pageStatus = PageStatus.OK;
               notifyListeners();
             },
+            onReturn: () => closeModal(),
           );
           pageStatus = PageStatus.FORM;
           notifyListeners();
@@ -331,6 +332,7 @@ class UserDetailsViewModel extends ChangeNotifier {
             pageStatus = PageStatus.OK;
             notifyListeners();
           },
+          onReturn: () => closeModal(),
         );
         pageStatus = PageStatus.FORM;
         notifyListeners();

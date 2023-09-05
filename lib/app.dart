@@ -231,9 +231,6 @@ class _AppState extends State<App> {
               },
             );
           } else if (settings.name!.startsWith(court)) {
-            List<CourtAvailableHours>? courtAvailableHours;
-            HourPrice? hourPrice;
-            DateTime? datetime;
             if (settings.arguments != null) {
               final arguments = settings.arguments as Map;
 

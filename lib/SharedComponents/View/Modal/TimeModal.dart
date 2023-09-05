@@ -78,7 +78,9 @@ class _TimeModalState extends State<TimeModal> {
               borderColor: widget.themeColor,
               backgroundColor: Colors.transparent,
               activeBackgroundColor: widget.themeColor,
-              initialRange: modalTimeRange,
+              initialRange: modalTimeRange ??
+                  TimeRangeResult(const TimeOfDay(hour: 6, minute: 0),
+                      const TimeOfDay(hour: 23, minute: 00)),
               firstTime: const TimeOfDay(hour: 6, minute: 0),
               lastTime: const TimeOfDay(hour: 23, minute: 00),
               timeStep: 60,

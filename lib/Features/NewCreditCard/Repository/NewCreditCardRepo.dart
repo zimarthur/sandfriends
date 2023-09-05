@@ -20,4 +20,8 @@ class NewCreditCardRepo {
   ) async {
     return null;
   }
+
+  Future<NetworkResponse?> getCepInfo(String cep) async {
+    return null;
+  }
 }

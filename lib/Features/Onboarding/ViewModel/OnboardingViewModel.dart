@@ -128,6 +128,7 @@ class OnboardingViewModel extends ChangeNotifier {
         notifyListeners();
         FocusScope.of(context).unfocus();
       },
+      onReturn: () => closeModal(),
     );
     pageStatus = PageStatus.FORM;
     notifyListeners();

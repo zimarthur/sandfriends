@@ -43,7 +43,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
             ),
           ),
         ),
-        const CheckoutBottomToolbar(),
+        CheckoutBottomToolbar(),
         SizedBox(
           height: MediaQuery.of(context).viewInsets.bottom,
         ),

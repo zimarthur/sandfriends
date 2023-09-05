@@ -119,6 +119,8 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                         pourpose: TextFieldPourpose.Numeric,
                         controller: widget.viewModel.cardCepController,
                         validator: (value) => cepValidator(value),
+                        onChanged: (value) =>
+                            widget.viewModel.onCepChanged(context),
                       ),
                       const SizedBox(
                         height: defaultPadding,
@@ -133,31 +135,39 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
                       const SizedBox(
                         height: defaultPadding,
                       ),
+                      SFTextField(
+                        labelText: "Endereço",
+                        pourpose: TextFieldPourpose.Standard,
+                        controller: widget.viewModel.cardAddressController,
+                        validator: (value) =>
+                            emptyCheck(value, "digite o endereço"),
+                      ),
+                      const SizedBox(
+                        height: defaultPadding,
+                      ),
                       Row(
                         children: [
                           Expanded(
-                            flex: 2,
                             child: SFTextField(
-                              labelText: "Endereço",
+                              labelText: "N°",
                               pourpose: TextFieldPourpose.Standard,
                               controller:
-                                  widget.viewModel.cardAddressController,
+                                  widget.viewModel.cardAddressNumberController,
                               validator: (value) =>
-                                  emptyCheck(value, "digite o endereço"),
+                                  emptyCheck(value, "digite o nº"),
                             ),
                           ),
                           const SizedBox(
                             width: defaultPadding,
                           ),
                           Expanded(
-                            flex: 1,
                             child: SFTextField(
-                              labelText: "Nº",
+                              labelText: "Complemento",
                               pourpose: TextFieldPourpose.Standard,
-                              controller:
-                                  widget.viewModel.cardAddressNumberController,
+                              controller: widget
+                                  .viewModel.cardAddressComplementController,
                               validator: (value) =>
-                                  emptyCheck(value, "digite o nº"),
+                                  emptyCheck(value, "digite o complemento"),
                             ),
                           ),
                         ],

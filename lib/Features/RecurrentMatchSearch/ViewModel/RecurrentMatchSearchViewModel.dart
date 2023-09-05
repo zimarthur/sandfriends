@@ -244,6 +244,7 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
         notifyListeners();
       },
       userCity: Provider.of<UserProvider>(context, listen: false).user!.city,
+      onReturn: () => closeModal(),
     );
     pageStatus = PageStatus.FORM;
     notifyListeners();

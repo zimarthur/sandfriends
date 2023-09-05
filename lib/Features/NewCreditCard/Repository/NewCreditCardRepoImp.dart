@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Remote/Url.dart';
 
 import '../../../Remote/ApiEndPoints.dart';
 import '../../../Remote/BaseApiService.dart';
@@ -50,6 +51,13 @@ class NewCreditCardRepoImp implements NewCreditCardRepo {
         },
       ),
     );
+    return response;
+  }
+
+  @override
+  Future<NetworkResponse> getCepInfo(String cep) async {
+    NetworkResponse response =
+        await _apiService.getResponse("$cepInfo/$cep/json/");
     return response;
   }
 }

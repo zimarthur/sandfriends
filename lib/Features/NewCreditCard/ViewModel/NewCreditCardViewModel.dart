@@ -48,6 +48,8 @@ class NewCreditCardViewModel extends ChangeNotifier {
   TextEditingController cardCityController = TextEditingController();
   TextEditingController cardAddressController = TextEditingController();
   TextEditingController cardAddressNumberController = TextEditingController();
+  TextEditingController cardAddressComplementController =
+      TextEditingController();
 
   CardType cardType = CardType.Others;
 
@@ -75,7 +77,7 @@ class NewCreditCardViewModel extends ChangeNotifier {
         cardCpfController.text.replaceAll(RegExp('[^0-9]'), ''),
         cardCepController.text.replaceAll(RegExp('[^0-9]'), ''),
         cardAddressController.text,
-        cardAddressNumberController.text,
+        "${cardAddressNumberController.text} ${cardAddressComplementController.text}",
         cardType,
       )
           .then((response) {
@@ -124,6 +126,43 @@ class NewCreditCardViewModel extends ChangeNotifier {
           notifyListeners();
         }
       });
+    }
+  }
+
+  void onCepChanged(BuildContext context) {
+    String cep = cardCepController.text.replaceAll(
+      RegExp('[^0-9]'),
+      '',
+    );
+    if (cep.length == 8) {
+      FocusScope.of(context).unfocus();
+      pageStatus = PageStatus.LOADING;
+      notifyListeners();
+      try {
+        newCreditCardRepo.getCepInfo(cep).then((response) {
+          Map<String, dynamic> responseBody = json.decode(
+            response.responseBody!,
+          );
+          if (responseBody.containsKey("erro")) {
+            modalMessage = SFModalMessage(
+              message: "CEP não encontrado",
+              onTap: () {
+                pageStatus = PageStatus.OK;
+                notifyListeners();
+              },
+              isHappy: false,
+            );
+            pageStatus = PageStatus.ERROR;
+            notifyListeners();
+          } else {
+            cardCityController.text =
+                "${responseBody['localidade']} - ${responseBody['uf']}";
+            cardAddressController.text = responseBody['logradouro'];
+            pageStatus = PageStatus.OK;
+            notifyListeners();
+          }
+        });
+      } catch (e) {}
     }
   }
 }

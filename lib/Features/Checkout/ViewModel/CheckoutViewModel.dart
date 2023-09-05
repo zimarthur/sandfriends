@@ -51,6 +51,7 @@ class CheckoutViewModel extends ChangeNotifier {
   TextEditingController cvvController = MaskedTextController(mask: "0000");
 
   final ScrollController scrollController = ScrollController();
+  final FocusNode cpfFocus = FocusNode();
 
   String get matchPeriod {
     return "${startingHour.hourString} - ${endingHour.hourString}";
@@ -190,6 +191,9 @@ class CheckoutViewModel extends ChangeNotifier {
                 validationCpf[0].toUpperCase() + validationCpf.substring(1),
             onTap: () {
               pageStatus = PageStatus.OK;
+
+              FocusScope.of(context).requestFocus(cpfFocus);
+
               notifyListeners();
             },
             isHappy: true);
