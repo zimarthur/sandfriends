@@ -26,6 +26,7 @@ class NotificationsViewModel extends ChangeNotifier {
           (notif) => notif.idNotification == notification.idNotification,
         )
         .seen = true;
+    notifyListeners();
     Navigator.pushNamed(
         context, '/match_screen/${notification.match.matchUrl}');
   }

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/SharedComponents/Model/AppRecurrentMatch.dart';
 import 'package:sandfriends/SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/RedirectProvider.dart';
+import 'package:sandfriends/Utils/Constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../Remote/NetworkResponse.dart';
@@ -34,6 +35,7 @@ class HomeViewModel extends ChangeNotifier {
     isHappy: true,
   );
   Widget? widgetForm;
+  bool canTapBackground = true;
 
   Widget get displayWidget {
     switch (currentTab) {
@@ -156,6 +158,7 @@ class HomeViewModel extends ChangeNotifier {
           Provider.of<RedirectProvider>(context, listen: false).redirectUri =
               null;
         }
+        canTapBackground = true;
         pageStatus = PageStatus.OK;
         notifyListeners();
       } else {
@@ -178,6 +181,7 @@ class HomeViewModel extends ChangeNotifier {
                   ? "Concluído"
                   : "Tentar novamente",
         );
+        canTapBackground = false;
         pageStatus = PageStatus.ERROR;
         notifyListeners();
       }
@@ -223,6 +227,9 @@ class HomeViewModel extends ChangeNotifier {
           },
           isHappy: response.responseStatus == NetworkResponseStatus.alert,
         );
+        if (response.responseStatus == NetworkResponseStatus.expiredToken) {
+          canTapBackground = false;
+        }
         pageStatus = PageStatus.ERROR;
         notifyListeners();
       }
@@ -231,7 +238,7 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void contactSupport() {
-    final url = Uri.parse("whatsapp://send?phone=5551993308831");
+    final url = Uri.parse("whatsapp://send?phone=$whatsApp");
     launchUrl(url);
   }
 

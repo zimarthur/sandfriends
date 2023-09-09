@@ -23,6 +23,8 @@ class NewCreditCardViewModel extends ChangeNotifier {
     onTap: () {},
     isHappy: true,
   );
+  bool canTapBackground = true;
+
   void initNewCreditCard(BuildContext context) {
     cardNumberController.addListener(() {
       cardType = getCardTypeFromNumber(cardNumberController.text);
@@ -122,6 +124,9 @@ class NewCreditCardViewModel extends ChangeNotifier {
             },
             isHappy: response.responseStatus == NetworkResponseStatus.alert,
           );
+          if (response.responseStatus == NetworkResponseStatus.expiredToken) {
+            canTapBackground = false;
+          }
           pageStatus = PageStatus.ERROR;
           notifyListeners();
         }

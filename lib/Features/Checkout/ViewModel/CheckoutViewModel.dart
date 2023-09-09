@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Checkout/View/CvvModal.dart';
+import 'package:sandfriends/Features/Checkout/View/PixModalResponse.dart';
 import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
 import 'package:sandfriends/Features/Checkout/Repository/CheckoutRepoImp.dart';
 import 'package:sandfriends/Features/Checkout/View/Payment/ModalCreditCardSelector.dart';
@@ -31,6 +32,7 @@ class CheckoutViewModel extends ChangeNotifier {
     isHappy: true,
   );
   Widget? widgetForm;
+  bool canTapBackground = true;
 
   late Court court;
   late List<HourPrice> hourPrices;
@@ -252,23 +254,28 @@ class CheckoutViewModel extends ChangeNotifier {
       cvv,
     )
         .then((response) {
-      modalMessage = SFModalMessage(
-        message: response.userMessage!,
-        onTap: () {
-          if (response.responseStatus == NetworkResponseStatus.alert) {
-            Navigator.pushNamed(context, '/home');
-          } else {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          }
-        },
-        buttonText: response.responseStatus == NetworkResponseStatus.alert
-            ? "Concluído"
-            : "Voltar",
-        isHappy: response.responseStatus == NetworkResponseStatus.alert,
-      );
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
+      if (selectedPayment == SelectedPayment.Pix &&
+          response.responseStatus == NetworkResponseStatus.alert) {
+        pixModalResponse(context, response.userMessage!);
+      } else {
+        modalMessage = SFModalMessage(
+          message: response.userMessage!,
+          onTap: () {
+            if (response.responseStatus == NetworkResponseStatus.alert) {
+              Navigator.pushNamed(context, '/home');
+            } else {
+              Navigator.pop(context);
+            }
+          },
+          buttonText: response.responseStatus == NetworkResponseStatus.alert
+              ? "Concluído"
+              : "Voltar",
+          isHappy: response.responseStatus == NetworkResponseStatus.alert,
+        );
+        canTapBackground = false;
+        pageStatus = PageStatus.ERROR;
+        notifyListeners();
+      }
     });
   }
 
@@ -296,24 +303,45 @@ class CheckoutViewModel extends ChangeNotifier {
       isRenovating,
     )
         .then((response) {
-      modalMessage = SFModalMessage(
-        message: response.userMessage!,
-        onTap: () {
-          if (response.responseStatus == NetworkResponseStatus.alert) {
-            Navigator.pushNamed(context, '/home');
-          } else {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          }
-        },
-        buttonText: response.responseStatus == NetworkResponseStatus.alert
-            ? "Concluído"
-            : "Voltar",
-        isHappy: response.responseStatus == NetworkResponseStatus.alert,
-      );
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
+      canTapBackground = false;
+      if (selectedPayment == SelectedPayment.Pix &&
+          response.responseStatus == NetworkResponseStatus.alert) {
+        pixModalResponse(context, response.userMessage!);
+      } else {
+        modalMessage = SFModalMessage(
+          message: response.userMessage!,
+          onTap: () {
+            if (response.responseStatus == NetworkResponseStatus.alert) {
+              Navigator.pushNamed(context, '/home');
+            } else {
+              pageStatus = PageStatus.OK;
+              notifyListeners();
+            }
+          },
+          buttonText: response.responseStatus == NetworkResponseStatus.alert
+              ? "Concluído"
+              : "Voltar",
+          isHappy: response.responseStatus == NetworkResponseStatus.alert,
+        );
+        pageStatus = PageStatus.ERROR;
+        notifyListeners();
+      }
     });
+  }
+
+  void pixModalResponse(BuildContext context, String response) {
+    Map<String, dynamic> responseBody = json.decode(
+      response,
+    );
+
+    widgetForm = PixModalResponse(
+      message: responseBody["Message"],
+      pixCode: responseBody["Pixcode"],
+      isRecurrent: isRecurrent,
+      onReturn: () => Navigator.pushNamed(context, '/home'),
+    );
+    pageStatus = PageStatus.FORM;
+    notifyListeners();
   }
 
   void closeModal() {

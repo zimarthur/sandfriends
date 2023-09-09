@@ -41,6 +41,7 @@ class _RecurrentMatchSearchScreenState
             messageModalWidget: viewModel.modalMessage,
             modalFormWidget: viewModel.widgetForm,
             onTapBackground: () => viewModel.closeModal(),
+            canTapBackground: viewModel.canTapBackground,
             onTapReturn: () => viewModel.onTapReturn(context),
             child: RecurrentMatchSearchWidget(
               viewModel: viewModel,

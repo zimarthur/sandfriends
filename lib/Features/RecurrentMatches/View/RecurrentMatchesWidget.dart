@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:sandfriends/SharedComponents/Providers/UserProvider/UserProvider.dart';
 import 'package:sandfriends/Utils/SFDateTime.dart';
 
 import '../../../SharedComponents/View/SFButton.dart';
@@ -46,28 +48,59 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
               Expanded(
                 child: Column(
                   children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      margin: EdgeInsets.symmetric(
-                        vertical: height * 0.01,
-                        horizontal: width * 0.02,
-                      ),
-                      child: InkWell(
-                        onTap: () => widget.viewModel.onTapReturn(
-                          context,
-                        ),
-                        child: Container(
-                          height: width * 0.1,
-                          width: width * 0.1,
-                          padding: EdgeInsets.all(width * 0.02),
-                          decoration:
-                              const BoxDecoration(shape: BoxShape.circle),
-                          child: SvgPicture.asset(
-                            r'assets/icon/arrow_left.svg',
-                            color: secondaryBack,
+                    Row(
+                      children: [
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          margin: EdgeInsets.symmetric(
+                            vertical: height * 0.01,
+                            horizontal: width * 0.02,
+                          ),
+                          child: InkWell(
+                            onTap: () => widget.viewModel.onTapReturn(
+                              context,
+                            ),
+                            child: Container(
+                              height: width * 0.1,
+                              width: width * 0.1,
+                              padding: EdgeInsets.all(width * 0.02),
+                              decoration:
+                                  const BoxDecoration(shape: BoxShape.circle),
+                              child: SvgPicture.asset(
+                                r'assets/icon/arrow_left.svg',
+                                color: secondaryBack,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        Expanded(
+                          child: Container(),
+                        ),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          margin: EdgeInsets.symmetric(
+                            vertical: height * 0.01,
+                            horizontal: width * 0.02,
+                          ),
+                          child: InkWell(
+                            onTap: () =>
+                                widget.viewModel.showScreenInformationModal(
+                              context,
+                            ),
+                            child: Container(
+                              height: width * 0.1,
+                              width: width * 0.1,
+                              padding: EdgeInsets.all(width * 0.02),
+                              decoration:
+                                  const BoxDecoration(shape: BoxShape.circle),
+                              child: SvgPicture.asset(
+                                r'assets/icon/help.svg',
+                                color: secondaryBack,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     Container(
                       height: height * 0.10,
@@ -132,9 +165,11 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                       style: TextStyle(color: textDarkGrey),
                     ),
                     Text(
-                      widget.viewModel.recurrentMatches.isEmpty
+                      Provider.of<UserProvider>(context)
+                              .recurrentMatches
+                              .isEmpty
                           ? "-"
-                          : "${widget.viewModel.recurrentMatches.length}",
+                          : "${Provider.of<UserProvider>(context).recurrentMatches.length}",
                       textScaleFactor: 1.5,
                       style: const TextStyle(
                           color: primaryLightBlue, fontWeight: FontWeight.w500),
@@ -157,7 +192,9 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                       style: TextStyle(color: textDarkGrey),
                     ),
                     Text(
-                      widget.viewModel.recurrentMatches.isEmpty
+                      Provider.of<UserProvider>(context)
+                              .recurrentMatches
+                              .isEmpty
                           ? "-"
                           : "${getDaysToEndOfMonth()}",
                       textScaleFactor: 1.5,
@@ -176,7 +213,7 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
               horizontal: width * 0.05,
             ),
             color: secondaryPaper,
-            child: widget.viewModel.recurrentMatches.isEmpty
+            child: Provider.of<UserProvider>(context).recurrentMatches.isEmpty
                 ? const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -191,7 +228,9 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                 : widget.viewModel.selectedRecurrentMatch == null
                     ? ListView.builder(
                         padding: EdgeInsets.zero,
-                        itemCount: widget.viewModel.recurrentMatches.length,
+                        itemCount: Provider.of<UserProvider>(context)
+                            .recurrentMatches
+                            .length,
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
@@ -202,7 +241,8 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                             child: RecurrentMatchCard(
                                 expanded: false,
                                 recurrentMatch:
-                                    widget.viewModel.recurrentMatches[index]),
+                                    Provider.of<UserProvider>(context)
+                                        .recurrentMatches[index]),
                           );
                         },
                       )
@@ -214,7 +254,8 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                         },
                         child: RecurrentMatchCard(
                           expanded: true,
-                          recurrentMatch: widget.viewModel.recurrentMatches[
+                          recurrentMatch: Provider.of<UserProvider>(context)
+                                  .recurrentMatches[
                               widget.viewModel.selectedRecurrentMatch!],
                         ),
                       ),

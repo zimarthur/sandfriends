@@ -72,3 +72,7 @@ int getDaysToEndOfMonth() {
 bool areInTheSameMonth(DateTime a, DateTime b) {
   return a.month == b.month && a.year == b.year;
 }
+
+bool areInTheSameDay(DateTime a, DateTime b) {
+  return areInTheSameMonth(a, b) && a.day == b.day;
+}

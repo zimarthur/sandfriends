@@ -5,13 +5,19 @@ import 'package:flutter/services.dart';
 
 import '../../../SharedComponents/Model/PaymentStatus.dart';
 import '../../../SharedComponents/Model/SelectedPayment.dart';
+import '../../../SharedComponents/View/PixCodeClipboard.dart';
 import '../../../SharedComponents/View/SFButton.dart';
 import '../../../Utils/Constants.dart';
 import '../ViewModel/MatchViewModel.dart';
 
 class PaymentSection extends StatefulWidget {
   final MatchViewModel viewModel;
-  const PaymentSection({super.key, required this.viewModel});
+  final VoidCallback onExpired;
+  const PaymentSection({
+    super.key,
+    required this.viewModel,
+    required this.onExpired,
+  });
 
   @override
   State<PaymentSection> createState() => _PaymentSectionState();
@@ -26,10 +32,7 @@ class _PaymentSectionState extends State<PaymentSection> {
       if (widget.viewModel.match.isPaymentExpired == false) {
         widget.viewModel.setLiveDateTime(DateTime.now());
       } else {
-        widget.viewModel.getMatchInfo(
-          context,
-          widget.viewModel.match.matchUrl,
-        );
+        widget.onExpired();
         _timer.cancel();
       }
     });
@@ -113,69 +116,99 @@ class _PaymentSectionState extends State<PaymentSection> {
               if (widget.viewModel.match.paymentStatus ==
                       PaymentStatus.Pending &&
                   widget.viewModel.match.selectedPayment == SelectedPayment.Pix)
-                Column(
-                  children: [
-                    const SizedBox(
-                      height: defaultPadding,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Código Pix:",
+                widget.viewModel.match.isFromRecurrentMatch()
+                    ? Container(
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(defaultBorderRadius),
+                            color: primaryBlue),
+                        margin: EdgeInsets.only(top: defaultPadding),
+                        padding: const EdgeInsets.all(defaultPadding),
+                        child: Column(
+                          children: [
+                            const Text(
+                              "Partida mensalista:\nEncontre as informações de pagamento na Área do Mensalista",
+                              style: TextStyle(color: textWhite),
+                            ),
+                            const SizedBox(
+                              height: defaultPadding / 2,
+                            ),
+                            SFButton(
+                                buttonLabel: "Ir para Área do Mensalista",
+                                isPrimary: false,
+                                textPadding: EdgeInsets.symmetric(
+                                    vertical: defaultPadding / 2),
+                                onTap: () => Navigator.pushNamed(
+                                    context, "/recurrent_matches")),
+                          ],
                         ),
-                        SFButton(
-                          buttonLabel: widget.viewModel.copyToClipboard
-                              ? "Copiado!"
-                              : "Copiar",
-                          iconFirst: false,
-                          iconPath: widget.viewModel.copyToClipboard
-                              ? ""
-                              : r"assets/icon/copy_to_clipboard.svg",
-                          isPrimary: widget.viewModel.copyToClipboard,
-                          textPadding: const EdgeInsets.symmetric(
-                              vertical: defaultPadding / 2,
-                              horizontal: defaultPadding),
-                          onTap: () async {
-                            await Clipboard.setData(ClipboardData(
-                                text: widget.viewModel.match.pixCode!));
-                            widget.viewModel.setCopyToClipBoard(true);
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: defaultPadding,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text: 'Você tem ',
-                        style: const TextStyle(
-                          color: textDarkGrey,
-                          fontFamily: 'Lexend',
-                        ),
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextSpan(
-                            text: widget.viewModel.timeToExpirePayment,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: textBlue,
-                              fontFamily: 'Lexend',
+                          const SizedBox(
+                            height: defaultPadding,
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              text: 'Código Pix ',
+                              style: const TextStyle(
+                                  fontFamily: 'Lexend', color: textBlack),
+                              children: [
+                                TextSpan(
+                                  text:
+                                      "(${widget.viewModel.copyToClipboard ? "copiado!" : "toque para copiar"})",
+                                  style: const TextStyle(
+                                    color: textDarkGrey,
+                                    fontFamily: 'Lexend',
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          const TextSpan(
-                            text: " minutos para finalizar o pagamento",
-                            style: TextStyle(
-                              color: textDarkGrey,
-                              fontFamily: 'Lexend',
+                          const SizedBox(
+                            height: defaultPadding,
+                          ),
+                          PixCodeClipboard(
+                            pixCode: widget.viewModel.match.pixCode!,
+                            hasCopiedPixToClipboard:
+                                widget.viewModel.copyToClipboard,
+                            onCopied: () =>
+                                widget.viewModel.setCopyToClipBoard(true),
+                            mainColor: primaryBlue,
+                          ),
+                          const SizedBox(
+                            height: defaultPadding,
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              text: 'Você tem ',
+                              style: const TextStyle(
+                                color: textDarkGrey,
+                                fontFamily: 'Lexend',
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: widget.viewModel.timeToExpirePayment,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: textBlue,
+                                    fontFamily: 'Lexend',
+                                  ),
+                                ),
+                                const TextSpan(
+                                  text: " minutos para finalizar o pagamento",
+                                  style: TextStyle(
+                                    color: textDarkGrey,
+                                    fontFamily: 'Lexend',
+                                  ),
+                                ),
+                                const TextSpan(text: "."),
+                              ],
                             ),
                           ),
-                          const TextSpan(text: "."),
                         ],
                       ),
-                    ),
-                  ],
-                ),
             ],
           ),
         )

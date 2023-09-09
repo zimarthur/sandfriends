@@ -64,6 +64,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             messageModalWidget: viewModel.modalMessage,
             modalFormWidget: viewModel.widgetForm,
             onTapBackground: () => viewModel.closeModal(),
+            canTapBackground: viewModel.canTapBackground,
             onTapReturn: () => viewModel.onTapReturn(context),
             child: CheckoutWidget(
               viewModel: viewModel,

@@ -35,12 +35,14 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
             titleText: viewModel.titleText,
             onTapReturn: () => viewModel.goToHome(context),
             onTapBackground: () => viewModel.closeModal(),
+            canTapBackground: viewModel.canTapBackground,
             messageModalWidget: viewModel.modalMessage,
             modalFormWidget: viewModel.modalForm,
             pageStatus: viewModel.pageStatus,
             appBarType: AppBarType.Secondary,
             rightWidget: SizedBox(
               width: width * 0.2,
+              height: toolbarHeight * 0.9,
               child: SFButton(
                 buttonLabel: "Salvar",
                 color: viewModel.isEdited ? primaryBlue : textDisabled,

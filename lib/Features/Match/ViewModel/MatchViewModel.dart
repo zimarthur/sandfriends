@@ -29,6 +29,7 @@ class MatchViewModel extends ChangeNotifier {
     isHappy: true,
   );
   Widget? formWidget;
+  bool canTapBackground = true;
 
   String titleText = "";
   late AppMatch match;
@@ -191,6 +192,8 @@ class MatchViewModel extends ChangeNotifier {
           },
           isHappy: false,
         );
+        canTapBackground = false;
+
         pageStatus = PageStatus.ERROR;
         notifyListeners();
       }
@@ -270,10 +273,13 @@ class MatchViewModel extends ChangeNotifier {
     }
   }
 
-  void openMemberCardModal(MatchMember member) {
+  void openMemberCardModal(BuildContext context, MatchMember member) {
     formWidget = MemberCardModal(
       viewModel: this,
       member: member,
+      onAccept: () => invitationResponse(context, member.user.idUser!, true),
+      onRefuse: () => invitationResponse(context, member.user.idUser!, false),
+      onRemove: () => removeMatchMember(context, member.user.idUser!),
     );
     pageStatus = PageStatus.FORM;
     notifyListeners();
@@ -295,6 +301,8 @@ class MatchViewModel extends ChangeNotifier {
         modalMessage = SFModalMessage(
           message: accepted ? "Convite aceito" : "Convite recusado",
           onTap: () {
+            pageStatus = PageStatus.OK;
+            notifyListeners();
             getMatchInfo(context, match.matchUrl);
           },
           isHappy: accepted,
@@ -317,6 +325,8 @@ class MatchViewModel extends ChangeNotifier {
           isHappy: accepted,
         );
       }
+      canTapBackground = false;
+
       pageStatus = PageStatus.ERROR;
       notifyListeners();
     });

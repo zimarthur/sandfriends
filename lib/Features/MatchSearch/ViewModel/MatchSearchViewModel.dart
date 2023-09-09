@@ -36,6 +36,7 @@ class MatchSearchViewModel extends ChangeNotifier {
     isHappy: true,
   );
   Widget? widgetForm;
+  bool canTapBackground = true;
 
   late String titleText;
   late Sport selectedSport;
@@ -125,6 +126,8 @@ class MatchSearchViewModel extends ChangeNotifier {
             },
             isHappy: false,
           );
+          canTapBackground = false;
+
           pageStatus = PageStatus.ERROR;
           notifyListeners();
         }

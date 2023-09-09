@@ -27,7 +27,7 @@ class _SFToolbarState extends State<SFToolbar> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return SizedBox(
-      height: 50,
+      height: toolbarHeight,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

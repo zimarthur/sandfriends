@@ -13,11 +13,17 @@ import '../ViewModel/MatchViewModel.dart';
 class MemberCardModal extends StatefulWidget {
   final MatchViewModel viewModel;
   final MatchMember member;
+  final VoidCallback onAccept;
+  final VoidCallback onRefuse;
+  final VoidCallback onRemove;
 
   const MemberCardModal({
     Key? key,
     required this.viewModel,
     required this.member,
+    required this.onAccept,
+    required this.onRefuse,
+    required this.onRemove,
   }) : super(key: key);
 
   @override
@@ -207,17 +213,44 @@ class _MemberCardModalState extends State<MemberCardModal> {
                           .user!
                           .idUser &&
                   widget.viewModel.matchExpired == false
-              ? SizedBox(
-                  width: width * 0.5,
-                  child: SFButton(
-                    buttonLabel: "Excluir Jogador",
-                    textPadding: EdgeInsets.symmetric(vertical: height * 0.01),
-                    onTap: () => widget.viewModel.removeMatchMember(
-                      context,
-                      widget.member.user.idUser!,
-                    ),
-                  ),
-                )
+              ? widget.member.waitingApproval
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: defaultPadding),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: SFButton(
+                              buttonLabel: "Recusar",
+                              color: red,
+                              textPadding:
+                                  EdgeInsets.symmetric(vertical: height * 0.01),
+                              onTap: () => widget.onRefuse(),
+                            ),
+                          ),
+                          SizedBox(
+                            width: defaultPadding,
+                          ),
+                          Expanded(
+                            child: SFButton(
+                              buttonLabel: "Aceitar",
+                              color: green,
+                              textPadding:
+                                  EdgeInsets.symmetric(vertical: height * 0.01),
+                              onTap: () => widget.onAccept(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : SizedBox(
+                      width: width * 0.5,
+                      child: SFButton(
+                          buttonLabel: "Excluir Jogador",
+                          textPadding:
+                              EdgeInsets.symmetric(vertical: height * 0.01),
+                          onTap: () => widget.onRemove()),
+                    )
               : Container(),
         ],
       ),

@@ -37,7 +37,7 @@ class UserDetailsViewModel extends ChangeNotifier {
     isHappy: true,
   );
   Widget modalForm = Container();
-
+  bool canTapBackground = true;
   String titleText = "Meu Perfil";
 
   late User userEdited;
@@ -186,6 +186,9 @@ class UserDetailsViewModel extends ChangeNotifier {
             },
             isHappy: response.responseStatus == NetworkResponseStatus.alert,
           );
+          if (response.responseStatus == NetworkResponseStatus.expiredToken) {
+            canTapBackground = false;
+          }
           pageStatus = PageStatus.ERROR;
           notifyListeners();
         }

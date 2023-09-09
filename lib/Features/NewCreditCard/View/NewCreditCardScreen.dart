@@ -33,6 +33,7 @@ class _NewCreditCardScreenState extends State<NewCreditCardScreen> {
             pageStatus: viewModel.pageStatus,
             messageModalWidget: viewModel.modalMessage,
             onTapBackground: () => viewModel.closeModal(),
+            canTapBackground: viewModel.canTapBackground,
             onTapReturn: () => Navigator.pop(context),
             child: NewCreditCardWidget(
               viewModel: viewModel,

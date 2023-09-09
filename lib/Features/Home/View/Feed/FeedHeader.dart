@@ -60,7 +60,7 @@ class _FeedHeaderState extends State<FeedHeader> {
                 padding: const EdgeInsets.only(right: defaultPadding / 2),
                 alignment: Alignment.centerRight,
                 child: SvgPicture.asset(
-                  Provider.of<UserProvider>(context, listen: false)
+                  Provider.of<UserProvider>(context)
                           .notifications
                           .any((notification) => notification.seen == false)
                       ? r"assets/icon/notification_on.svg"

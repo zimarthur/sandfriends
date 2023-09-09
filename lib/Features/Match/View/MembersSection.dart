@@ -47,7 +47,7 @@ class _MembersSectionState extends State<MembersSection> {
               } else {
                 return InkWell(
                   onTap: () => widget.viewModel.openMemberCardModal(
-                      widget.viewModel.match.members[index]),
+                      context, widget.viewModel.match.members[index]),
                   child: Container(
                     height: height * 0.08,
                     margin: EdgeInsets.symmetric(vertical: height * 0.005),
@@ -111,45 +111,24 @@ class _MembersSectionState extends State<MembersSection> {
                                           .waitingApproval &&
                                       widget.viewModel.isUserMatchCreator &&
                                       widget.viewModel.matchExpired == false
-                                  ? Row(
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: width * 0.02),
-                                          child: InkWell(
-                                            onTap: () => widget.viewModel
-                                                .invitationResponse(
-                                              context,
-                                              widget.viewModel.match
-                                                  .members[index].user.idUser!,
-                                              true,
-                                            ),
-                                            child: SvgPicture.asset(
-                                              r'assets/icon/confirm.svg',
-                                              color: secondaryGreen,
-                                              height: height * 0.03,
-                                            ),
-                                          ),
+                                  ? Container(
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: width * 0.01),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: width * 0.02,
+                                        vertical: width * 0.01,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: secondaryPaper,
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      child: const Text(
+                                        "ver solicitação",
+                                        style: TextStyle(
+                                          color: secondaryYellow,
+                                          fontWeight: FontWeight.w700,
                                         ),
-                                        Container(
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: width * 0.02),
-                                          child: InkWell(
-                                            onTap: () => widget.viewModel
-                                                .invitationResponse(
-                                              context,
-                                              widget.viewModel.match
-                                                  .members[index].user.idUser!,
-                                              false,
-                                            ),
-                                            child: SvgPicture.asset(
-                                              r'assets/icon/cancel.svg',
-                                              color: Colors.red,
-                                              height: height * 0.03,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     )
                                   : Container(),
                             ],

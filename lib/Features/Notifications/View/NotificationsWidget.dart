@@ -32,8 +32,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
               itemBuilder: (context, index) {
                 return NotificationCard(
                   notification:
-                      Provider.of<UserProvider>(context, listen: false)
-                          .notifications[index],
+                      Provider.of<UserProvider>(context).notifications[index],
                   onTap: () => widget.viewModel.goToMatch(
                     context,
                     Provider.of<UserProvider>(context, listen: false)

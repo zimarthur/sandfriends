@@ -17,10 +17,11 @@ class SFStandardScreen extends StatefulWidget {
   final SFModalMessage? messageModalWidget;
   final Widget? rightWidget;
   final VoidCallback? onTapBackground;
+  bool canTapBackground;
   final bool resizeToAvoidBottomInset = false;
   final bool enableToolbar;
 
-  const SFStandardScreen({
+  SFStandardScreen({
     Key? key,
     this.titleText,
     this.onTapReturn,
@@ -32,6 +33,7 @@ class SFStandardScreen extends StatefulWidget {
     this.messageModalWidget,
     this.onTapBackground,
     this.enableToolbar = true,
+    this.canTapBackground = true,
   }) : super(key: key);
 
   @override
@@ -81,7 +83,13 @@ class _SFStandardScreenState extends State<SFStandardScreen> {
               ),
               widget.pageStatus != PageStatus.OK
                   ? InkWell(
-                      onTap: widget.onTapBackground,
+                      onTap: () {
+                        if (widget.pageStatus != PageStatus.LOADING &&
+                            widget.onTapBackground != null &&
+                            widget.canTapBackground) {
+                          widget.onTapBackground!();
+                        }
+                      },
                       child: Container(
                         color: primaryBlue.withOpacity(0.4),
                         height: height,

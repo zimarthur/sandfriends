@@ -22,7 +22,6 @@ class UserProvider extends ChangeNotifier {
       for (int i = 0; i < match.members.length; i++) {
         if (match.members[i].user.idUser == user!.idUser) {
           if ((match.members[i].refused == false &&
-                  match.members[i].waitingApproval == false &&
                   match.members[i].quit == false) ||
               (match.members[i].isMatchCreator)) {
             return true;
@@ -81,7 +80,14 @@ class UserProvider extends ChangeNotifier {
 
   final List<AppRecurrentMatch> _recurrentMatches = [];
   List<AppRecurrentMatch> get recurrentMatches {
-    _recurrentMatches.sort(
+    var filteredList = _recurrentMatches.where((recMatch) {
+      if (recMatch.isPaymentExpired == false) {
+        return true;
+      } else {
+        return false;
+      }
+    }).toList();
+    filteredList.sort(
       (a, b) {
         return a.validUntil.compareTo(b.validUntil);
       },

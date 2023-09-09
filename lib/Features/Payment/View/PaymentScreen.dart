@@ -26,6 +26,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             titleText: "Formas de Pagamento",
             onTapReturn: () => viewModel.goToHome(context),
             onTapBackground: () => viewModel.closeModal(),
+            canTapBackground: viewModel.canTapBackground,
             messageModalWidget: viewModel.modalMessage,
             pageStatus: viewModel.pageStatus,
             appBarType: AppBarType.Secondary,

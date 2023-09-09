@@ -73,6 +73,10 @@ class _MatchWidgetState extends State<MatchWidget> {
                 children: [
                   PaymentSection(
                     viewModel: widget.viewModel,
+                    onExpired: () => widget.viewModel.getMatchInfo(
+                      context,
+                      widget.viewModel.match.matchUrl,
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: height * 0.03),

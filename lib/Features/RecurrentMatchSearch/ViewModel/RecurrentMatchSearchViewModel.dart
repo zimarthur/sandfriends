@@ -36,6 +36,7 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
     isHappy: true,
   );
   Widget? widgetForm;
+  bool canTapBackground = true;
 
   late String titleText;
   late Sport selectedSport;
@@ -115,6 +116,9 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
             },
             isHappy: false,
           );
+          if (response.responseStatus == NetworkResponseStatus.expiredToken) {
+            canTapBackground = false;
+          }
           pageStatus = PageStatus.ERROR;
           notifyListeners();
         }

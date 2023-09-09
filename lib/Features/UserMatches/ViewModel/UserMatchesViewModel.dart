@@ -21,7 +21,7 @@ class UserMatchesViewModel extends ChangeNotifier {
     isHappy: true,
   );
   Widget modalForm = Container();
-
+  bool canTapBackground = false;
   String titleText = "Minhas Partidas";
 
   void initUserMatchesViewModel(BuildContext context) {
@@ -53,6 +53,7 @@ class UserMatchesViewModel extends ChangeNotifier {
       } else {
         modalMessage = SFModalMessage(
           message: response.userMessage!,
+          buttonText: "Voltar",
           onTap: () {
             if (response.responseStatus == NetworkResponseStatus.expiredToken) {
               Navigator.pushNamedAndRemoveUntil(
@@ -61,7 +62,7 @@ class UserMatchesViewModel extends ChangeNotifier {
                 (Route<dynamic> route) => false,
               );
             } else {
-              initUserMatchesViewModel(context);
+              Navigator.pop(context);
             }
           },
           isHappy: false,

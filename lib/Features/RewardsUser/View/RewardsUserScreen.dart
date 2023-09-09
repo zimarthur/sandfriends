@@ -35,6 +35,7 @@ class _RewardsUserScreenState extends State<RewardsUserScreen> {
             modalFormWidget: viewModel.formWidget,
             messageModalWidget: viewModel.modalMessage,
             onTapBackground: () => viewModel.closeModal(),
+            canTapBackground: viewModel.canTapBackground,
             onTapReturn: () => viewModel.onTapReturn(context),
             child: RewardsUserWidget(
               viewModel: viewModel,

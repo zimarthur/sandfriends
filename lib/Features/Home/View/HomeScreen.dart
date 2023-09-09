@@ -38,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
             messageModalWidget: viewModel.modalMessage,
             modalFormWidget: viewModel.widgetForm,
             onTapBackground: () => viewModel.closeModal(),
+            canTapBackground: viewModel.canTapBackground,
             onTapReturn: () => false,
             child: Column(
               children: [

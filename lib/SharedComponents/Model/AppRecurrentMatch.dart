@@ -39,6 +39,10 @@ class AppRecurrentMatch {
     return priceSum;
   }
 
+  bool get isPaymentExpired {
+    return DateTime.now().isAfter(validUntil);
+  }
+
   factory AppRecurrentMatch.fromJson(
     Map<String, dynamic> json,
     List<Hour> referenceHours,

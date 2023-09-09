@@ -19,6 +19,7 @@ class PaymentViewModel extends ChangeNotifier {
     onTap: () {},
     isHappy: true,
   );
+  bool canTapBackground = true;
 
   void onDeleteCreditCard(BuildContext context, CreditCard creditCard) {
     pageStatus = PageStatus.LOADING;
@@ -69,6 +70,9 @@ class PaymentViewModel extends ChangeNotifier {
           },
           isHappy: response.responseStatus == NetworkResponseStatus.alert,
         );
+        if (response.responseStatus == NetworkResponseStatus.expiredToken) {
+          canTapBackground = false;
+        }
         pageStatus = PageStatus.ERROR;
         notifyListeners();
       }

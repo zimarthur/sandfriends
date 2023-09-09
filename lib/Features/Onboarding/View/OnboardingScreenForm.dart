@@ -118,8 +118,7 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                               children: [
                                 Checkbox(
                                     value: widget.viewModel.termsAgreeValue,
-                                    fillColor: MaterialStateProperty.all<Color>(
-                                        primaryBlue),
+                                    activeColor: textBlue,
                                     onChanged: (value) {
                                       setState(() {
                                         widget.viewModel.termsAgreeValue =

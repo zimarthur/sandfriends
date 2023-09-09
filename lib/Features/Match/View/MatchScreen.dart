@@ -43,6 +43,7 @@ class _MatchScreenState extends State<MatchScreen> {
             messageModalWidget: viewModel.modalMessage,
             modalFormWidget: viewModel.formWidget,
             onTapBackground: () => viewModel.closeModal(),
+            canTapBackground: viewModel.canTapBackground,
             onTapReturn: () => viewModel.onTapReturn(context),
             child: viewModel.isMatchInstantiated
                 ? MatchWidget(

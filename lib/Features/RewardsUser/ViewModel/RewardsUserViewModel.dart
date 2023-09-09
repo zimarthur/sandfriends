@@ -22,6 +22,7 @@ class RewardsUserViewModel extends ChangeNotifier {
     isHappy: true,
   );
   Widget? formWidget;
+  bool canTapBackground = true;
 
   String titleText = "Minhas Recompensas";
 
@@ -65,6 +66,9 @@ class RewardsUserViewModel extends ChangeNotifier {
           },
           isHappy: false,
         );
+        if (response.responseStatus == NetworkResponseStatus.expiredToken) {
+          canTapBackground = false;
+        }
         pageStatus = PageStatus.ERROR;
         notifyListeners();
       }

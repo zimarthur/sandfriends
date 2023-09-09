@@ -1,12 +1,18 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Court/Model/HourPrice.dart';
 import 'package:sandfriends/SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/SharedComponents/View/PixCodeClipboard.dart';
 
 import '../../../SharedComponents/Model/AppRecurrentMatch.dart';
+import '../../../SharedComponents/Model/PaymentStatus.dart';
+import '../../../SharedComponents/Model/SelectedPayment.dart';
 import '../../../SharedComponents/Providers/RedirectProvider/EnvironmentProvider.dart';
 import '../../../SharedComponents/View/SFButton.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
@@ -28,6 +34,38 @@ class RecurrentMatchCard extends StatefulWidget {
 }
 
 class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
+  bool hasCopiedPixToClipboard = false;
+  DateTime liveDatetime = DateTime.now();
+
+  String? get timeToExpirePayment {
+    if (liveDatetime.isAfter(widget.recurrentMatch.validUntil)) return null;
+    int difference =
+        widget.recurrentMatch.validUntil.difference(DateTime.now()).inSeconds;
+    return "${(difference ~/ 60).toString().padLeft(2, '0')}:${(difference % 60).toString().padLeft(2, '0')}";
+  }
+
+  late Timer _timer;
+
+  @override
+  void initState() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (widget.recurrentMatch.isPaymentExpired == false) {
+        setState(() {
+          liveDatetime = DateTime.now();
+        });
+      } else {
+        _timer.cancel();
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -164,35 +202,54 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                         const SizedBox(
                                           height: defaultPadding / 8,
                                         ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Text(
-                                              "Renovar até: ",
-                                              style: TextStyle(
-                                                color: textDarkGrey,
-                                              ),
-                                            ),
-                                            Text(
-                                              DateFormat("dd/MM/yy").format(
+                                        areInTheSameDay(
                                                 widget
                                                     .recurrentMatch.validUntil,
+                                                widget.recurrentMatch
+                                                    .creationDate)
+                                            ? widget.expanded
+                                                ? Container()
+                                                : const Text(
+                                                    "Aguardando pagamento",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        color: secondaryYellow),
+                                                  )
+                                            : Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  const Text(
+                                                    "Renovar até: ",
+                                                    style: TextStyle(
+                                                      color: textDarkGrey,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    DateFormat("dd/MM/yy")
+                                                        .format(
+                                                      widget.recurrentMatch
+                                                          .validUntil,
+                                                    ),
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: widget
+                                                                  .recurrentMatch
+                                                                  .validUntil
+                                                                  .difference(
+                                                                      DateTime
+                                                                          .now())
+                                                                  .inDays <
+                                                              10
+                                                          ? red
+                                                          : textDarkGrey,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                color: widget.recurrentMatch
-                                                            .validUntil
-                                                            .difference(
-                                                                DateTime.now())
-                                                            .inDays <
-                                                        10
-                                                    ? red
-                                                    : textDarkGrey,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
                                       ],
                                     ),
                                   ],
@@ -282,6 +339,44 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
+                                    const Text(
+                                      "Status",
+                                      style: TextStyle(
+                                        color: textDarkGrey,
+                                      ),
+                                      textScaleFactor: 0.9,
+                                    ),
+                                    Text(
+                                      widget
+                                                  .recurrentMatch
+                                                  .monthRecurrentMatches
+                                                  .first
+                                                  .paymentStatus ==
+                                              PaymentStatus.Pending
+                                          ? "Aguardando pagamento"
+                                          : "Pagamento confirmado",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        color: widget
+                                                    .recurrentMatch
+                                                    .monthRecurrentMatches
+                                                    .first
+                                                    .paymentStatus ==
+                                                PaymentStatus.Pending
+                                            ? secondaryYellow
+                                            : Colors.green,
+                                      ),
+                                      textScaleFactor: 0.9,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: defaultPadding / 2,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
                                     Text(
                                       "${widget.recurrentMatch.monthRecurrentMatches.length} Partida(s) (R\$ ${widget.recurrentMatch.monthRecurrentMatches.first.cost}):",
                                       style: const TextStyle(
@@ -306,15 +401,29 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     const Text(
-                                      "Mensalista desde:",
+                                      "Forma de pagamento",
                                       style: TextStyle(
                                         color: textDarkGrey,
                                       ),
                                       textScaleFactor: 0.9,
                                     ),
                                     Text(
-                                      DateFormat("dd/MM/yyyy").format(
-                                          widget.recurrentMatch.creationDate),
+                                      widget
+                                                  .recurrentMatch
+                                                  .monthRecurrentMatches
+                                                  .first
+                                                  .selectedPayment ==
+                                              SelectedPayment.Pix
+                                          ? "Pix"
+                                          : widget
+                                                      .recurrentMatch
+                                                      .monthRecurrentMatches
+                                                      .first
+                                                      .selectedPayment ==
+                                                  SelectedPayment.CreditCard
+                                              ? "Cartão de crédito\n${widget.recurrentMatch.monthRecurrentMatches.first.creditCard!.cardNumber}"
+                                              : "Pagar no local",
+                                      textAlign: TextAlign.end,
                                       style: const TextStyle(
                                         color: textDarkGrey,
                                       ),
@@ -322,30 +431,79 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                     ),
                                   ],
                                 ),
+                                if (widget.recurrentMatch.monthRecurrentMatches
+                                            .first.paymentStatus ==
+                                        PaymentStatus.Pending &&
+                                    widget.recurrentMatch.monthRecurrentMatches
+                                            .first.selectedPayment ==
+                                        SelectedPayment.Pix)
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: defaultPadding,
+                                      ),
+                                      Text(
+                                        "Código Pix (${hasCopiedPixToClipboard ? "copiado!" : "toque para copiar"})",
+                                        style: const TextStyle(
+                                          color: textDarkGrey,
+                                        ),
+                                        textScaleFactor: 0.9,
+                                      ),
+                                      const SizedBox(
+                                        height: defaultPadding,
+                                      ),
+                                      PixCodeClipboard(
+                                        pixCode: widget
+                                            .recurrentMatch
+                                            .monthRecurrentMatches
+                                            .first
+                                            .pixCode!,
+                                        hasCopiedPixToClipboard:
+                                            hasCopiedPixToClipboard,
+                                        onCopied: () => setState(() {
+                                          hasCopiedPixToClipboard = true;
+                                        }),
+                                        mainColor: primaryLightBlue,
+                                      ),
+                                      const SizedBox(
+                                        height: defaultPadding / 2,
+                                      ),
+                                      RichText(
+                                        textScaleFactor: 0.9,
+                                        text: TextSpan(
+                                          text: 'Você tem ',
+                                          style: const TextStyle(
+                                            color: textDarkGrey,
+                                            fontFamily: 'Lexend',
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                              text: timeToExpirePayment,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: primaryLightBlue,
+                                                fontFamily: 'Lexend',
+                                              ),
+                                            ),
+                                            const TextSpan(
+                                              text:
+                                                  " minutos para finalizar o pagamento",
+                                              style: TextStyle(
+                                                color: textDarkGrey,
+                                                fontFamily: 'Lexend',
+                                              ),
+                                            ),
+                                            const TextSpan(text: "."),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 const SizedBox(
-                                  height: defaultPadding / 2,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      "Última renovação:",
-                                      style: TextStyle(
-                                        color: textDarkGrey,
-                                      ),
-                                      textScaleFactor: 0.9,
-                                    ),
-                                    Text(
-                                      DateFormat("dd/MM/yyyy").format(widget
-                                          .recurrentMatch.lastPaymentDate),
-                                      style: const TextStyle(
-                                        color: secondaryYellow,
-                                      ),
-                                      textScaleFactor: 0.9,
-                                    ),
-                                  ],
-                                ),
+                                  height: defaultPadding,
+                                )
                               ],
                             ),
                           ],
@@ -358,8 +516,11 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
             widget.expanded
                 ? Column(
                     children: [
-                      if (areInTheSameMonth(
-                          widget.recurrentMatch.validUntil, DateTime.now()))
+                      if (areInTheSameMonth(widget.recurrentMatch.validUntil,
+                              DateTime.now()) &&
+                          widget.recurrentMatch.monthRecurrentMatches.first
+                                  .paymentStatus ==
+                              PaymentStatus.Confirmed)
                         Padding(
                           padding: EdgeInsets.symmetric(
                             horizontal: width * 0.05,
@@ -405,7 +566,8 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                           ),
                         ),
                       Container(
-                        margin: const EdgeInsets.symmetric(vertical: 5),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: defaultPadding),
                         child: SvgPicture.asset(
                           r"assets/icon/arrow_up.svg",
                           color: primaryLightBlue,

@@ -29,6 +29,7 @@ class AppMatch {
   String? pixCode;
   CreditCard? creditCard;
   DateTime paymentExpirationDate;
+  int idRecurrentMatch;
 
   User get matchCreator =>
       members.firstWhere((member) => member.isMatchCreator == true).user;
@@ -65,6 +66,20 @@ class AppMatch {
     return activeMatchMembersCounter;
   }
 
+  bool hasUserSentInvitation(User user) {
+    if (members.any(
+      (member) => member.user.idUser == user.idUser,
+    )) {
+      return members
+              .firstWhere(
+                (member) => member.user.idUser == user.idUser,
+              )
+              .waitingApproval ==
+          true;
+    }
+    return false;
+  }
+
   void increaseMaxUser() {
     maxUsers++;
   }
@@ -73,6 +88,10 @@ class AppMatch {
     if (maxUsers > 1) {
       maxUsers--;
     }
+  }
+
+  bool isFromRecurrentMatch() {
+    return idRecurrentMatch != 0;
   }
 
   AppMatch({
@@ -93,6 +112,7 @@ class AppMatch {
     required this.pixCode,
     required this.creditCard,
     required this.paymentExpirationDate,
+    required this.idRecurrentMatch,
   });
 
   factory AppMatch.fromJson(
@@ -129,6 +149,7 @@ class AppMatch {
           : CreditCard.fromJson(json['CreditCard']),
       paymentExpirationDate: DateFormat('yyyy-MM-dd HH:mm:ss')
           .parse(json['PaymentExpirationDate']),
+      idRecurrentMatch: json['IdRecurrentMatch'],
     );
     for (int i = 0; i < json['Members'].length; i++) {
       newMatch.members.add(

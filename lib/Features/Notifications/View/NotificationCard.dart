@@ -115,8 +115,8 @@ class _NotificationCardState extends State<NotificationCard> {
                                 right: width * 0.02,
                               ),
                             ),
-                            const Text(
-                              "Beach Brasil",
+                            Text(
+                              widget.notification.match.court.store?.name ?? "",
                               style: TextStyle(
                                 color: textBlue,
                               ),

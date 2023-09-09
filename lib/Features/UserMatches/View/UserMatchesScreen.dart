@@ -32,6 +32,7 @@ class _UserMatchesScreenState extends State<UserMatchesScreen> {
             titleText: viewModel.titleText,
             onTapReturn: () => viewModel.goToHome(context),
             onTapBackground: () => viewModel.closeModal(),
+            canTapBackground: viewModel.canTapBackground,
             messageModalWidget: viewModel.modalMessage,
             modalFormWidget: viewModel.modalForm,
             pageStatus: viewModel.pageStatus,

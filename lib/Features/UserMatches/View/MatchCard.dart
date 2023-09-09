@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/SharedComponents/Model/PaymentStatus.dart';
 import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
 import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/EnvironmentProvider.dart';
+import 'package:sandfriends/SharedComponents/Providers/UserProvider/UserProvider.dart';
 
 import '../../../SharedComponents/Model/AppMatch.dart';
 import '../../../SharedComponents/View/SFLoading.dart';
@@ -197,9 +198,7 @@ class MatchCard extends StatelessWidget {
                         padding: EdgeInsets.symmetric(
                             horizontal: width * 0.02, vertical: width * 0.01),
                         decoration: BoxDecoration(
-                          color: match.date.isBefore(DateTime.now())
-                              ? Colors.red.withOpacity(0.6)
-                              : Colors.red,
+                          color: textBlack,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Text(
@@ -224,8 +223,8 @@ class MatchCard extends StatelessWidget {
                                 vertical: width * 0.01),
                             decoration: BoxDecoration(
                               color: match.date.isBefore(DateTime.now())
-                                  ? secondaryYellow.withOpacity(0.6)
-                                  : secondaryYellow,
+                                  ? Colors.red.withOpacity(0.6)
+                                  : Colors.red,
                               borderRadius: BorderRadius.circular(16),
                             ),
                             child: const Text(
@@ -262,7 +261,34 @@ class MatchCard extends StatelessWidget {
                                 ),
                               ),
                             )
-                          : Container(),
+                          : match.hasUserSentInvitation(
+                                  Provider.of<UserProvider>(context,
+                                          listen: false)
+                                      .user!)
+                              ? Positioned(
+                                  right: width * 0.02,
+                                  top: width * 0.02,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: width * 0.02,
+                                        vertical: width * 0.01),
+                                    decoration: BoxDecoration(
+                                      color: match.date.isBefore(DateTime.now())
+                                          ? secondaryYellow.withOpacity(0.6)
+                                          : secondaryYellow,
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: const Text(
+                                      "Solic. Enviada",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: textWhite,
+                                      ),
+                                      textScaleFactor: 0.9,
+                                    ),
+                                  ),
+                                )
+                              : Container(),
             ],
           ),
         ),

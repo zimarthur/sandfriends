@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sandfriends/SharedComponents/Providers/UserProvider/UserProvider.dart';
 import 'package:sandfriends/Utils/Constants.dart';
+import 'package:uni_links/uni_links.dart';
 
 import '../../../SharedComponents/View/SFButton.dart';
 import '../ViewModel/MatchViewModel.dart';
@@ -58,7 +61,9 @@ class _ActionSectionState extends State<ActionSection> {
               ),
             ],
           )
-        : widget.viewModel.isUserInMatch
+        : widget.viewModel.isUserInMatch ||
+                widget.viewModel.match.hasUserSentInvitation(
+                    Provider.of<UserProvider>(context, listen: false).user!)
             ? Column(
                 children: [
                   widget.viewModel.matchExpired == false

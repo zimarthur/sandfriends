@@ -18,8 +18,12 @@ const textLightGrey = Color.fromRGBO(187, 194, 208, 1);
 const textBlack = Color.fromRGBO(0, 0, 0, 1);
 
 const red = Colors.red;
+const green = Colors.green;
 
 const divider = Color.fromRGBO(218, 219, 223, 1);
 
 const double defaultPadding = 16.0;
 const double defaultBorderRadius = 16.0;
+const double toolbarHeight = 50.0;
+
+const String whatsApp = "5551993308831";
