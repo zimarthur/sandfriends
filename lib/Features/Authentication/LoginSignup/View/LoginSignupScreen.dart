@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +19,10 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
   @override
   void initState() {
+    if (!Platform.isIOS){
     viewModel.initGoogle();
+    }
+
     super.initState();
   }
 

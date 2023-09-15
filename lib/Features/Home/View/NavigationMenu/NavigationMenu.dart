@@ -55,7 +55,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
             boxShadow: [
               BoxShadow(
                 color: Colors.black38,
-                blurRadius: 5,
+                blurRadius: 3,
+                offset: Offset(0.0, -5.0)
               ),
             ],
           ),

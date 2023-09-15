@@ -181,7 +181,8 @@ class _AppState extends State<App> {
       child: MaterialApp(
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,GlobalCupertinoLocalizations.delegate,
+
         ],
         supportedLocales: const [
           Locale('pt', 'BR'),
