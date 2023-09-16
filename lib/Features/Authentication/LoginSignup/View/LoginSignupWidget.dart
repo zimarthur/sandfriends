@@ -38,7 +38,7 @@ class _LoginSignupWidgetState extends State<LoginSignupWidget> {
                   Container(
                     alignment: Alignment.topCenter,
                     child: Image.asset(
-                      r"assets/icon/image_login.png",
+                      r"assets/image_login.png",
                       height: height * 0.3,
                       fit: BoxFit.fill,
                       width: width,

@@ -264,7 +264,8 @@ class CheckoutViewModel extends ChangeNotifier {
             if (response.responseStatus == NetworkResponseStatus.alert) {
               Navigator.pushNamed(context, '/home');
             } else {
-              Navigator.pop(context);
+              pageStatus = PageStatus.OK;
+              notifyListeners();
             }
           },
           buttonText: response.responseStatus == NetworkResponseStatus.alert
