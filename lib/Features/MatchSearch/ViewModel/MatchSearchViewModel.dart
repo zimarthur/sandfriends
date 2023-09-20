@@ -44,6 +44,13 @@ class MatchSearchViewModel extends ChangeNotifier {
   City? cityFilter;
   List<DateTime?> datesFilter = [];
   TimeRangeResult? timeFilter;
+  TimeRangeResult? defaultTimeFilter = TimeRangeResult(
+    const TimeOfDay(hour: 6, minute: 00),
+    const TimeOfDay(
+      hour: 23,
+      minute: 00,
+    ),
+  );
 
   bool hasUserSearched = false;
 
@@ -81,13 +88,7 @@ class MatchSearchViewModel extends ChangeNotifier {
     if (canSearchMatch) {
       pageStatus = PageStatus.LOADING;
       notifyListeners();
-      timeFilter ??= TimeRangeResult(
-        const TimeOfDay(hour: 6, minute: 00),
-        const TimeOfDay(
-          hour: 23,
-          minute: 00,
-        ),
-      );
+      timeFilter ??= defaultTimeFilter;
       matchSearchRepo
           .searchCourts(
         context,
@@ -262,7 +263,14 @@ class MatchSearchViewModel extends ChangeNotifier {
   void openDateSelectorModal(BuildContext context) {
     widgetForm = CalendarModal(
       dateRange: datesFilter,
-      onSubmit: (newDates) => onSubmitDateFilter(newDates),
+      onSubmit: (newDates) {
+        onSubmitDateFilter(newDates);
+        if (timeFilter != defaultTimeFilter) {
+          openTimeSelectorModal(context);
+        } else {
+          searchCourts(context);
+        }
+      },
     );
     pageStatus = PageStatus.FORM;
     notifyListeners();
@@ -270,13 +278,15 @@ class MatchSearchViewModel extends ChangeNotifier {
 
   void onSubmitDateFilter(List<DateTime?> newDates) {
     datesFilter = newDates;
-    closeModal();
   }
 
   void openTimeSelectorModal(BuildContext context) {
     widgetForm = TimeModal(
       timeRange: timeFilter,
-      onSubmit: (newTimeFilter) => onSubmitTimeFilter(newTimeFilter),
+      onSubmit: (newTimeFilter) {
+        onSubmitTimeFilter(newTimeFilter);
+        searchCourts(context);
+      },
     );
     pageStatus = PageStatus.FORM;
     notifyListeners();
@@ -284,7 +294,6 @@ class MatchSearchViewModel extends ChangeNotifier {
 
   void onSubmitTimeFilter(TimeRangeResult? newTimeFilter) {
     timeFilter = newTimeFilter;
-    closeModal();
   }
 
   void setSearchMatchesResult(BuildContext context, String response) {

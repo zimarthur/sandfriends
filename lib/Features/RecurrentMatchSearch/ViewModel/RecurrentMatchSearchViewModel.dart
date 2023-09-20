@@ -44,6 +44,13 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
   City? cityFilter;
   List<int> datesFilter = [];
   TimeRangeResult? timeFilter;
+  TimeRangeResult? defaultTimeFilter = TimeRangeResult(
+    const TimeOfDay(hour: 6, minute: 00),
+    const TimeOfDay(
+      hour: 23,
+      minute: 00,
+    ),
+  );
 
   bool hasUserSearched = false;
   bool get canSearchRecurrentMatch =>
@@ -80,13 +87,7 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
     if (canSearchRecurrentMatch) {
       pageStatus = PageStatus.LOADING;
       notifyListeners();
-      timeFilter ??= TimeRangeResult(
-        const TimeOfDay(hour: 6, minute: 00),
-        const TimeOfDay(
-          hour: 23,
-          minute: 00,
-        ),
-      );
+      timeFilter ??= defaultTimeFilter;
       recurrentMatchSearchRepo
           .searchRecurrentCourts(
         context,
@@ -257,7 +258,13 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
   void openDateSelectorModal(BuildContext context) {
     widgetForm = WeekdayModal(
       selectedWeekdays: datesFilter,
-      onSelected: () => closeModal(),
+      onSelected: () {
+        if (timeFilter != defaultTimeFilter) {
+          openTimeSelectorModal(context);
+        } else {
+          searchRecurrentCourts(context);
+        }
+      },
     );
     pageStatus = PageStatus.FORM;
     notifyListeners();
@@ -266,7 +273,10 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
   void openTimeSelectorModal(BuildContext context) {
     widgetForm = TimeModal(
       timeRange: timeFilter,
-      onSubmit: (newTimeFilter) => onSubmitTimeFilter(newTimeFilter),
+      onSubmit: (newTimeFilter) {
+        onSubmitTimeFilter(newTimeFilter);
+        searchRecurrentCourts(context);
+      },
       themeColor: primaryLightBlue,
     );
     pageStatus = PageStatus.FORM;
@@ -275,7 +285,6 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
 
   void onSubmitTimeFilter(TimeRangeResult? newTimeFilter) {
     timeFilter = newTimeFilter;
-    closeModal();
   }
 
   void onSelectedHour(AvailableDay avDay) {

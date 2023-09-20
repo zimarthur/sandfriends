@@ -15,7 +15,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   void initState() {
-    viewModel.initOnboardingViewModel();
+    viewModel.initOnboardingViewModel(context);
     super.initState();
   }
 

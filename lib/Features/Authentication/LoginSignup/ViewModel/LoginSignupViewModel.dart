@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Authentication/LoadLogin/ViewModel/LoadLoginViewModel.dart';
 import 'package:sandfriends/Features/Authentication/LoginSignup/Repo/LoginSignupRepoImp.dart';
+import 'package:sandfriends/SharedComponents/Model/User.dart';
+import 'package:sandfriends/SharedComponents/Providers/UserProvider/UserProvider.dart';
 
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../SharedComponents/View/Modal/SFModalMessage.dart';
@@ -38,6 +41,29 @@ class LoginSignupViewModel extends ChangeNotifier {
         user.authentication.then((googleKey) {
           pageStatus = PageStatus.LOADING;
           notifyListeners();
+          String fullName = user.displayName.toString();
+          int firstSpaceIndex = fullName.indexOf(" ");
+          String firstName = "";
+          String lastName = "";
+          if (firstSpaceIndex != -1) {
+            firstName = fullName.substring(0, firstSpaceIndex);
+            lastName = fullName.substring(firstSpaceIndex + 1);
+          } else {
+            firstName = fullName;
+          }
+          if (firstName != "") {
+            Provider.of<UserProvider>(context, listen: false).user = User(
+                email: user.email,
+                accessToken: "",
+                firstName: firstName,
+                lastName: lastName);
+          }
+          print("ARTHURDEBUG");
+          print(
+              "ARTHURDEBUG FISTNAME IS ${Provider.of<UserProvider>(context, listen: false).user?.firstName}");
+          print(
+              "ARTHURDEBUG lastName IS ${Provider.of<UserProvider>(context, listen: false).user?.lastName}");
+
           validateGoogleLogin(context, user.email);
         });
         initGoogle();

@@ -1,7 +1,6 @@
 {
     "version": "0.2.0",
     "configurations": [
-
         {
             "name": "Launch Dev",
             "request": "launch",
@@ -12,7 +11,7 @@
                 "dev",
                 "--target",
                 "lib/main_dev.dart",
-                
+                "--release"
             ]
         },
         {
@@ -25,7 +24,7 @@
                 "prod",
                 "--target",
                 "lib/main_prod.dart",
-                "-v"
+                "--release"
             ]
         },
         {

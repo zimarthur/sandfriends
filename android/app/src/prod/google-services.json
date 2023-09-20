@@ -7,12 +7,21 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:329100803665:android:952b93670718cf82af4270",
+        "mobilesdk_app_id": "1:329100803665:android:8ead35e5e7c0d150af4270",
         "android_client_info": {
-          "package_name": "com.sandfriends.app"
+          "package_name": "com.sandfriends.app.prod"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "329100803665-v86f3e9em0m1m0v76vprmmtor6trr0pq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sandfriends.app.prod",
+            "certificate_hash": "27c6d83c7f92f2f4a6066085a9e8a850e6e56901"
+          }
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyACNkmqOyYaCZKYyDuZRDpYp1weZrI3aqI"

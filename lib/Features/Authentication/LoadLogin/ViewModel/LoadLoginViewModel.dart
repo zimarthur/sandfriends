@@ -101,8 +101,15 @@ void receiveLoginResponse(BuildContext context, String response) {
   User loggedUser = User.fromJson(
     responseUser,
   );
+
+  User? userFromGoogle = Provider.of<UserProvider>(context, listen: false).user;
+
   Provider.of<UserProvider>(context, listen: false).user = loggedUser;
   if (loggedUser.firstName == null) {
+    if (userFromGoogle != null) {
+      loggedUser.firstName = userFromGoogle.firstName ?? "";
+      loggedUser.lastName = userFromGoogle.lastName ?? "";
+    }
     Navigator.pushNamed(context, '/onboarding');
   } else {
     Navigator.pushNamed(context, '/home');

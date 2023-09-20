@@ -18,8 +18,13 @@ import '../View/OnboardingScreenWelcome.dart';
 import '../View/SportSelectorModal.dart';
 
 class OnboardingViewModel extends ChangeNotifier {
-  void initOnboardingViewModel() {
+  void initOnboardingViewModel(BuildContext context) {
     displayWidget = OnboardingWidgetWelcome(viewModel: this);
+    firstNameController.text =
+        Provider.of<UserProvider>(context, listen: false).user?.firstName ?? "";
+    lastNameController.text =
+        Provider.of<UserProvider>(context, listen: false).user?.lastName ?? "";
+
     notifyListeners();
   }
 
