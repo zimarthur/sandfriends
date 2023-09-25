@@ -63,6 +63,7 @@ class _AppState extends State<App> {
 
   final environmentProvider = EnvironmentProvider();
   void _incomingLinkHandler() {
+    print("_incomingLinkHandler");
     if (!kIsWeb) {
       _streamSubscription = uriLinkStream.listen((Uri? uri) {
         if (!mounted) {
@@ -71,28 +72,9 @@ class _AppState extends State<App> {
         setState(() {
           _currentURI = uri;
           _err = null;
-          if (_currentURI!.queryParameters['ct'] == "mtch") {
-            navigatorKey.currentState?.push(
-              MaterialPageRoute(
-                builder: (context) {
-                  return LoadLoginScreen(
-                    redirectUri:
-                        '/match/${_currentURI!.queryParameters['bd'].toString()}',
-                  );
-                },
-              ),
-            );
-          } else if (_currentURI!.queryParameters['ct'] == "emcf") {
-            navigatorKey.currentState?.push(
-              MaterialPageRoute(
-                builder: (context) {
-                  return EmailConfirmationScreen(
-                    confirmationToken:
-                        _currentURI!.queryParameters['bd'].toString(),
-                  );
-                },
-              ),
-            );
+          print("uri is ${uri}");
+          if (uri != null) {
+            handleUri(uri);
           }
         });
         // 3
@@ -114,6 +96,7 @@ class _AppState extends State<App> {
   }
 
   Future<void> _initURIHandler() async {
+    print("_incomingLinkHandler");
     if (!_initialURILinkHandled) {
       _initialURILinkHandled = true;
       try {
@@ -124,18 +107,7 @@ class _AppState extends State<App> {
             return;
           }
 
-          if (initialURI.queryParameters['ct'] == "mtch") {
-            navigatorKey.currentState?.push(
-              MaterialPageRoute(
-                builder: (context) {
-                  return LoadLoginScreen(
-                    redirectUri:
-                        '/match/${initialURI.queryParameters['bd'].toString()}',
-                  );
-                },
-              ),
-            );
-          }
+          handleUri(initialURI);
         } else {}
       } on PlatformException {
         // 5
@@ -148,6 +120,31 @@ class _AppState extends State<App> {
         debugPrint('Malformed Initial URI received');
         setState(() => _err = err);
       }
+    }
+  }
+
+  void handleUri(Uri handleUri) {
+    if (handleUri.queryParameters['ct'] == "mtch") {
+      navigatorKey.currentState?.push(
+        MaterialPageRoute(
+          builder: (context) {
+            return LoadLoginScreen(
+              redirectUri:
+                  '/match/${handleUri.queryParameters['bd'].toString()}',
+            );
+          },
+        ),
+      );
+    } else if (handleUri.queryParameters['ct'] == "emcf") {
+      navigatorKey.currentState?.push(
+        MaterialPageRoute(
+          builder: (context) {
+            return EmailConfirmationScreen(
+              confirmationToken: handleUri.queryParameters['bd'].toString(),
+            );
+          },
+        ),
+      );
     }
   }
 
@@ -181,8 +178,8 @@ class _AppState extends State<App> {
       child: MaterialApp(
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,GlobalCupertinoLocalizations.delegate,
-
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [
           Locale('pt', 'BR'),

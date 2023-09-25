@@ -58,6 +58,7 @@ android {
         versionName flutterVersionName
     }
     
+
     signingConfigs {
         releaseProd {
             keyAlias keystoreProperties['keyAliasProd']
@@ -76,6 +77,12 @@ android {
             keyPassword keystoreProperties['keyPasswordDemo']
             storeFile keystoreProperties['storeFileDemo'] ? file(keystoreProperties['storeFileDemo']) : null
             storePassword keystoreProperties['storePasswordDemo']
+        }
+        debug {
+            keyAlias keystoreProperties['keyAliasProd']
+            keyPassword keystoreProperties['keyPasswordProd']
+            storeFile keystoreProperties['storeFileProd'] ? file(keystoreProperties['storeFileProd']) : null
+            storePassword keystoreProperties['storePasswordProd']
         }
     }
     

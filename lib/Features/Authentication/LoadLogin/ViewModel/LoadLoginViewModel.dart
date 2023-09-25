@@ -18,18 +18,22 @@ import '../Repository/LoadLoginRepoImp.dart';
 class LoadLoginViewModel extends ChangeNotifier {
   final loadLoginRepo = LoadLoginRepoImp();
 
-  Future<void> validateLogin(BuildContext context) async {
-    String? accessToken = await getAccessToken(context);
-    if (accessToken == null) {
+  void validateLogin(BuildContext context) async {
+    try {
+      String? accessToken = await getAccessToken(context);
+      if (accessToken == null) {
+        goToLoginSignup(context);
+      } else {
+        loadLoginRepo.validateLogin(context, accessToken).then((response) {
+          if (response.responseStatus == NetworkResponseStatus.success) {
+            receiveLoginResponse(context, response.responseBody!);
+          } else {
+            goToLoginSignup(context);
+          }
+        });
+      }
+    } catch (e) {
       goToLoginSignup(context);
-    } else {
-      loadLoginRepo.validateLogin(context, accessToken).then((response) {
-        if (response.responseStatus == NetworkResponseStatus.success) {
-          receiveLoginResponse(context, response.responseBody!);
-        } else {
-          goToLoginSignup(context);
-        }
-      });
     }
   }
 

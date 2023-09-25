@@ -20,6 +20,14 @@
             "package_name": "com.sandfriends.app.prod",
             "certificate_hash": "27c6d83c7f92f2f4a6066085a9e8a850e6e56901"
           }
+        },
+        {
+          "client_id": "329100803665-vbu9gj951uu58uu0qmjilv0fkmaj2esa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sandfriends.app.prod",
+            "certificate_hash": "f411cef717b3575866ae6cba330c5a5091064bb7"
+          }
         }
       ],
       "api_key": [
