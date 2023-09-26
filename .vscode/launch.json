@@ -24,7 +24,6 @@
                 "prod",
                 "--target",
                 "lib/main_prod.dart",
-                "--release"
             ]
         },
         {
