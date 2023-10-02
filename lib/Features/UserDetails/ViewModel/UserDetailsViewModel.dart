@@ -86,7 +86,8 @@ class UserDetailsViewModel extends ChangeNotifier {
   final userDetailsHeightFormKey = GlobalKey<FormState>();
   final userDetailsPhoneNumberFormKey = GlobalKey<FormState>();
 
-  void initUserDetailsViewModel(BuildContext context) {
+  void initUserDetailsViewModel(
+      BuildContext context, Sport? initSport, UserDetailsModals initModal) {
     userEdited = User.copyWith(
       Provider.of<UserProvider>(context, listen: false).user!,
     );
@@ -105,6 +106,13 @@ class UserDetailsViewModel extends ChangeNotifier {
 
     if (Provider.of<UserProvider>(context, listen: false).user!.ranks.isEmpty) {
       setDefaultRanks(context);
+    }
+
+    if (initSport != null) {
+      displayedSport = initSport;
+    }
+    if (initModal != UserDetailsModals.None) {
+      openUserDetailsModal(initModal, context);
     }
   }
 
@@ -311,6 +319,8 @@ class UserDetailsViewModel extends ChangeNotifier {
           viewModel: this,
         );
         break;
+      default:
+        break;
     }
     pageStatus = PageStatus.FORM;
     notifyListeners();
@@ -367,6 +377,7 @@ class UserDetailsViewModel extends ChangeNotifier {
 }
 
 enum UserDetailsModals {
+  None,
   Name,
   Age,
   Height,

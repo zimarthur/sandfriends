@@ -29,6 +29,7 @@ import 'Features/Court/Model/CourtAvailableHours.dart';
 import 'Features/MatchSearch/View/MatchSearchScreen.dart';
 import 'Features/Notifications/View/NotificationsScreen.dart';
 import 'Features/UserDetails/View/UserDetailsScreen.dart';
+import 'Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
 import 'Features/UserMatches/View/UserMatchesScreen.dart';
 import 'SharedComponents/Model/Sport.dart';
 import 'SharedComponents/Model/Store.dart';
@@ -188,9 +189,12 @@ class _AppState extends State<App> {
         locale: const Locale('pt', 'BR'),
         debugShowCheckedModeBanner: widget.flavor == "dev",
         theme: ThemeData(
-          scaffoldBackgroundColor: secondaryBack,
-          fontFamily: "Lexend",
-        ),
+            scaffoldBackgroundColor: secondaryBack,
+            fontFamily: "Lexend",
+            pageTransitionsTheme: PageTransitionsTheme(builders: {
+              TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+            })),
         navigatorKey: navigatorKey,
         onGenerateRoute: (settings) {
           String match = "/match";
@@ -198,6 +202,7 @@ class _AppState extends State<App> {
           String recurrentMatchSearch = "/recurrent_match_search";
           String court = "/court";
           String checkout = "/checkout";
+          String userDetails = "/user_details";
           if (settings.name!.startsWith(matchSearch)) {
             final arguments = settings.arguments as Map;
 
@@ -266,6 +271,24 @@ class _AppState extends State<App> {
                 },
               );
             }
+          } else if (settings.name!.startsWith(userDetails)) {
+            Sport? initSport;
+            UserDetailsModals initModalEnum = UserDetailsModals.None;
+            if (settings.arguments != null) {
+              final arguments = settings.arguments as Map;
+
+              initSport = arguments['initSport'] as Sport;
+              initModalEnum =
+                  arguments['userDetailsModal'] as UserDetailsModals;
+            }
+            return MaterialPageRoute(
+              builder: (context) {
+                return UserDetailsScreen(
+                  initSport: initSport,
+                  initModalEnum: initModalEnum,
+                );
+              },
+            );
           }
           return null;
         },
@@ -279,7 +302,6 @@ class _AppState extends State<App> {
           '/home': (BuildContext context) => const HomeScreen(
                 initialTab: HomeTabs.Feed,
               ),
-          '/user_details': (BuildContext context) => const UserDetailsScreen(),
           '/user_matches': (BuildContext context) => const UserMatchesScreen(),
           '/user_payments': (BuildContext context) => const OnboardingScreen(),
           '/notifications': (BuildContext context) =>

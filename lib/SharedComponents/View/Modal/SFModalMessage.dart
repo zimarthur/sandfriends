@@ -9,6 +9,7 @@ class SFModalMessage extends StatefulWidget {
   final VoidCallback? onTap;
   final String buttonText;
   final bool isHappy;
+  final String? buttonIconPath;
 
   const SFModalMessage({
     Key? key,
@@ -16,6 +17,7 @@ class SFModalMessage extends StatefulWidget {
     required this.onTap,
     this.buttonText = "Concluído",
     required this.isHappy,
+    this.buttonIconPath,
   }) : super(key: key);
 
   @override
@@ -69,6 +71,7 @@ class _SFModalMessageState extends State<SFModalMessage> {
               child: SFButton(
                 buttonLabel: widget.buttonText,
                 onTap: widget.onTap,
+                iconPath: widget.buttonIconPath ?? "",
               ),
             ),
           ),

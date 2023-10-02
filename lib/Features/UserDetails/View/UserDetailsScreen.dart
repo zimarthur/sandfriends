@@ -3,13 +3,18 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 
 import '../../../SharedComponents/Model/AppBarType.dart';
+import '../../../SharedComponents/Model/Sport.dart';
 import '../../../SharedComponents/View/SFButton.dart';
 import '../../../SharedComponents/View/SFStandardScreen.dart';
 import '../ViewModel/UserDetailsViewModel.dart';
 import 'UserDetailsWidget.dart';
 
 class UserDetailsScreen extends StatefulWidget {
-  const UserDetailsScreen({Key? key}) : super(key: key);
+  final Sport? initSport;
+  final UserDetailsModals initModalEnum;
+  const UserDetailsScreen(
+      {Key? key, required this.initSport, required this.initModalEnum})
+      : super(key: key);
 
   @override
   State<UserDetailsScreen> createState() => _UserDetailsScreenState();
@@ -20,7 +25,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
 
   @override
   void initState() {
-    viewModel.initUserDetailsViewModel(context);
+    viewModel.initUserDetailsViewModel(
+        context, widget.initSport, widget.initModalEnum);
     super.initState();
   }
 

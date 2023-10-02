@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Match/View/MemberCardModal.dart';
+import 'package:sandfriends/Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
 import 'package:sandfriends/Remote/NetworkResponse.dart';
 import 'package:sandfriends/SharedComponents/Model/PaymentStatus.dart';
 import 'package:sandfriends/SharedComponents/View/Modal/ConfirmationModal.dart';
@@ -393,14 +394,22 @@ class MatchViewModel extends ChangeNotifier {
   }
 
   void joinMatch(BuildContext context) {
-    if (!userHasConfiguredRank(context)) {
+    if (!userHasConfiguredRank(context) && match.isOpenMatch) {
       modalMessage = SFModalMessage(
         message:
-            "Para entrar em uma partida aberta você precisa configurar seu rank em ${match.sport.description}",
+            "Configure seu rank em ${match.sport.description} para entrar em uma partida aberta",
         onTap: () {
-          pageStatus = PageStatus.OK;
-          notifyListeners();
+          Navigator.pushNamed(
+            context,
+            "/user_details",
+            arguments: {
+              'initSport': match.sport,
+              'userDetailsModal': UserDetailsModals.Rank,
+            },
+          );
         },
+        buttonIconPath: r"assets/icon/configure.svg",
+        buttonText: "Configurar",
         isHappy: false,
       );
       pageStatus = PageStatus.ERROR;
