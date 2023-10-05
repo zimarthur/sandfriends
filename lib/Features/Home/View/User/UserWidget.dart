@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../Utils/Constants.dart';
 import '../../ViewModel/HomeViewModel.dart';
@@ -32,8 +33,33 @@ class _UserWidgetState extends State<UserWidget> {
             children: [
               SizedBox(
                 height: height * 0.45,
-                child: UserCardHome(
-                  viewModel: widget.viewModel,
+                child: Stack(
+                  children: [
+                    UserCardHome(
+                      viewModel: widget.viewModel,
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Container(
+                        padding: const EdgeInsets.only(top: defaultPadding / 2),
+                        height: 60,
+                        width: 60,
+                        child: InkWell(
+                          onTap: () =>
+                              widget.viewModel.showAppInfoModal(context),
+                          child: Align(
+                            alignment: Alignment.topRight,
+                            child: SvgPicture.asset(
+                              r'assets/icon/info.svg',
+                              height: 30,
+                              width: 30,
+                              color: secondaryBack,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Container(

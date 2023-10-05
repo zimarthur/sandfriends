@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:sandfriends/Features/AppInfo/View/AppInfoScreen.dart';
 import 'package:sandfriends/Features/Authentication/CreateAccount/View/CreateAccountScreen.dart';
 import 'package:sandfriends/Features/Authentication/EmailConfirmation/View/EmailConfirmationScreen.dart';
 import 'package:sandfriends/Features/Authentication/Login/View/LoginScreen.dart';
@@ -316,6 +317,7 @@ class _AppState extends State<App> {
           '/payment': (BuildContext context) => const PaymentScreen(),
           '/new_credit_card': (BuildContext context) =>
               const NewCreditCardScreen(),
+          '/app_info': (BuildContext context) => const AppInfoScreen(),
         },
       ),
     );

@@ -12,6 +12,7 @@ class ApiEndPoints {
   final String deleteUserCreditCard = "/DeleteUserCreditCard";
   final String getUserInfo = "/GetUserInfo";
   final String updateUserInfo = "/UpdateUser";
+  final String removeUser = "/RemoveUser";
 
   final String getUserMatches = "/GetUserMatches";
 

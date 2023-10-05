@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:sandfriends/SharedComponents/View/SFToolbar.dart';
 import 'package:sandfriends/Utils/Constants.dart';
@@ -41,15 +43,19 @@ class SFStandardScreen extends StatefulWidget {
 }
 
 class _SFStandardScreenState extends State<SFStandardScreen> {
+  double horizontalDragStart = 0.0;
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return WillPopScope(
-      onWillPop: () async {
-        widget.onTapReturn!();
-        return false;
-      },
+      onWillPop: Platform.isIOS
+          ? null
+          : () async {
+              widget.onTapReturn!();
+              return false;
+            },
       child: Scaffold(
         resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
         backgroundColor: widget.appBarType == AppBarType.Primary
@@ -63,6 +69,18 @@ class _SFStandardScreenState extends State<SFStandardScreen> {
             children: [
               GestureDetector(
                 onTap: () => FocusScope.of(context).unfocus(),
+                onHorizontalDragStart: (details) {
+                  horizontalDragStart = details.globalPosition.dx;
+                },
+                onHorizontalDragUpdate: (details) {
+                  if ((horizontalDragStart < width * 0.15) &&
+                      ((details.globalPosition.dx - horizontalDragStart) >
+                          width * 0.1) &&
+                      Platform.isIOS) {
+                    widget.onTapReturn!();
+                    horizontalDragStart = 0.0;
+                  }
+                },
                 child: SizedBox(
                   width: width,
                   height: height,

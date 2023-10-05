@@ -272,4 +272,8 @@ class HomeViewModel extends ChangeNotifier {
       'sportId': sport.idSport,
     });
   }
+
+  void showAppInfoModal(BuildContext context) {
+    Navigator.pushNamed(context, "/app_info");
+  }
 }
