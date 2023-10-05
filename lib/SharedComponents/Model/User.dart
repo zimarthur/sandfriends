@@ -73,7 +73,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) {
     var newUser = User(
       idUser: json['IdUser'],
-      accessToken: json['AccessToken'],
+      accessToken: json['AccessToken'] ?? "",
       firstName: json['FirstName'],
       lastName: json['LastName'],
       height: json['Height'],

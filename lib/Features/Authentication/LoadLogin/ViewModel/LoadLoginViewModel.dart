@@ -24,6 +24,7 @@ class LoadLoginViewModel extends ChangeNotifier {
       if (accessToken == null) {
         goToLoginSignup(context);
       } else {
+        print(accessToken);
         loadLoginRepo.validateLogin(context, accessToken).then((response) {
           if (response.responseStatus == NetworkResponseStatus.success) {
             receiveLoginResponse(context, response.responseBody!);
