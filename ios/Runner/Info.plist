@@ -48,6 +48,6 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Para trocar seu avatar, Sandfriends precisa do acesso à suas fotos.</string>
+	<string>Para trocar seu avatar, Sandfriends precisa do acessar suas fotos.</string>
 </dict>
 </plist>
