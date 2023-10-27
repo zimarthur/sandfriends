@@ -209,8 +209,16 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                                     .creationDate)
                                             ? widget.expanded
                                                 ? Container()
-                                                : const Text(
-                                                    "Aguardando pagamento",
+                                                : Text(
+                                                    widget
+                                                                .recurrentMatch
+                                                                .monthRecurrentMatches
+                                                                .first
+                                                                .selectedPayment ==
+                                                            SelectedPayment
+                                                                .CreditCard
+                                                        ? "Processando pagamento"
+                                                        : "Aguardando pagamento",
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.w700,
@@ -353,7 +361,14 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                                   .first
                                                   .paymentStatus ==
                                               PaymentStatus.Pending
-                                          ? "Aguardando pagamento"
+                                          ? widget
+                                                      .recurrentMatch
+                                                      .monthRecurrentMatches
+                                                      .first
+                                                      .selectedPayment ==
+                                                  SelectedPayment.CreditCard
+                                              ? "Processando pagamento"
+                                              : "Aguardando pagamento"
                                           : "Pagamento confirmado",
                                       style: TextStyle(
                                         fontWeight: FontWeight.w700,

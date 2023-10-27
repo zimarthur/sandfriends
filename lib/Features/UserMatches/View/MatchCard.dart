@@ -227,8 +227,11 @@ class MatchCard extends StatelessWidget {
                                   : Colors.red,
                               borderRadius: BorderRadius.circular(16),
                             ),
-                            child: const Text(
-                              "Pend. Pagamento",
+                            child: Text(
+                              match.selectedPayment ==
+                                      SelectedPayment.CreditCard
+                                  ? "Proc. Pagamento"
+                                  : "Pend. Pagamento",
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: textWhite,

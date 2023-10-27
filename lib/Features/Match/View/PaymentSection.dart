@@ -77,7 +77,10 @@ class _PaymentSectionState extends State<PaymentSection> {
                   Text(
                     widget.viewModel.match.paymentStatus ==
                             PaymentStatus.Pending
-                        ? "Aguardando pagamento"
+                        ? widget.viewModel.match.selectedPayment ==
+                                SelectedPayment.CreditCard
+                            ? "Processando pagamento"
+                            : "Aguardando pagamento"
                         : "Confirmado",
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
