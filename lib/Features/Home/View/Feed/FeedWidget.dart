@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/local_notifications.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../../Utils/Constants.dart';
@@ -40,7 +42,7 @@ class _FeedWidgetState extends State<FeedWidget> {
             ),
             RefreshIndicator(
               onRefresh: () async {
-                widget.viewModel.getUserInfo(context);
+                widget.viewModel.getUserInfo(context, Tuple2(null, null));
               },
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),

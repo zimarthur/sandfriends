@@ -58,11 +58,6 @@ class LoginSignupViewModel extends ChangeNotifier {
                 firstName: firstName,
                 lastName: lastName);
           }
-          print("ARTHURDEBUG");
-          print(
-              "ARTHURDEBUG FISTNAME IS ${Provider.of<UserProvider>(context, listen: false).user?.firstName}");
-          print(
-              "ARTHURDEBUG lastName IS ${Provider.of<UserProvider>(context, listen: false).user?.lastName}");
 
           validateGoogleLogin(context, user.email);
         });

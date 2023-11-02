@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,10 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:uni_links/uni_links.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import 'local_notifications.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -150,12 +155,46 @@ class _AppState extends State<App> {
     }
   }
 
+  Future<void> setupFirebaseMessaging() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      if (message.notification != null) {
+        print("ARTHURDEBUG on onMessage");
+        print("ARTHURDEBUG payload 1 ${message.data}");
+        print("ARTHURDEBUG payload 2 ${message.data.toString()}");
+        NotificationService().showLocalNotification(
+            title: message.notification!.title,
+            body: message.notification!.body,
+            payLoad: json.encode(message.data));
+      }
+    });
+    if (initialMessage != null) {
+      _handleMessage(initialMessage.data);
+    }
+  }
+
+  void _handleMessage(Map<String, dynamic> data) {
+    print("ARTHURDEBUG on _handleMessage");
+    print("ARTHURDEBUG $data");
+    switch (data["type"]) {
+      case "match":
+        handleUri(Uri.dataFromString(
+            "https://sandfriends.com.br/redirect/?ct=mtch&bd=${data["matchUrl"]}"));
+
+        break;
+      default:
+    }
+  }
+
   @override
   void initState() {
     environmentProvider.setEnvironment(widget.flavor);
     super.initState();
     _initURIHandler();
     _incomingLinkHandler();
+    setupFirebaseMessaging();
+    NotificationService().initNotification(_handleMessage);
   }
 
   @override

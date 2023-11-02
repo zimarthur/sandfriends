@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../../Remote/ApiEndPoints.dart';
 import '../../../Remote/BaseApiService.dart';
@@ -15,7 +16,10 @@ class HomeRepoImp implements HomeRepo {
 
   @override
   Future<NetworkResponse> getUserInfo(
-      BuildContext context, String accessToken) async {
+    BuildContext context,
+    String accessToken,
+    Tuple2<bool?, String?>? notificationsConfig,
+  ) async {
     NetworkResponse response = await _apiService.postResponse(
       Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
         ApiEndPoints().getUserInfo,
@@ -23,6 +27,13 @@ class HomeRepoImp implements HomeRepo {
       jsonEncode(
         <String, Object>{
           'AccessToken': accessToken,
+          'UpdateNotifications': notificationsConfig != null,
+          'AllowNotifications': notificationsConfig != null
+              ? notificationsConfig.item1 ?? false
+              : false,
+          'NotificationsToken': notificationsConfig != null
+              ? notificationsConfig.item2 ?? ""
+              : "",
         },
       ),
     );

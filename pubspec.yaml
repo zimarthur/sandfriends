@@ -80,6 +80,8 @@ dev_dependencies:
   firebase_analytics: ^10.4.5
   firebase_crashlytics: ^3.3.5
   package_info_plus: ^4.1.0
+  firebase_messaging: ^14.7.2
+  flutter_local_notifications: ^16.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

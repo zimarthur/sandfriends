@@ -6,7 +6,9 @@ import 'package:sandfriends/SharedComponents/Model/AppRecurrentMatch.dart';
 import 'package:sandfriends/SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/RedirectProvider.dart';
 import 'package:sandfriends/Utils/Constants.dart';
+import 'package:tuple/tuple.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/AppMatch.dart';
@@ -59,8 +61,34 @@ class HomeViewModel extends ChangeNotifier {
 
   void initHomeScreen(HomeTabs initialTab, BuildContext context) {
     currentTab = initialTab;
-    getUserInfo(context);
-    notifyListeners();
+    configureNotifications().then((notificationCOnfigs) {
+      getUserInfo(context, notificationCOnfigs);
+      notifyListeners();
+    });
+  }
+
+  Future<Tuple2<bool, String?>?> configureNotifications() async {
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+    bool? authorization =
+        settings.authorizationStatus == AuthorizationStatus.authorized
+            ? true
+            : settings.authorizationStatus == AuthorizationStatus.denied
+                ? false
+                : null;
+    return authorization != null
+        ? Tuple2<bool, String?>(authorization, fcmToken)
+        : null;
   }
 
   void changeTab(HomeTabs newTab) {
@@ -73,12 +101,18 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getUserInfo(BuildContext context) {
+  void getUserInfo(
+    BuildContext context,
+    Tuple2<bool?, String?>? notificationsConfig,
+  ) {
     pageStatus = PageStatus.LOADING;
     notifyListeners();
     homeRepo
-        .getUserInfo(context,
-            Provider.of<UserProvider>(context, listen: false).user!.accessToken)
+        .getUserInfo(
+      context,
+      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      notificationsConfig,
+    )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         Provider.of<UserProvider>(context, listen: false).clear();
@@ -172,7 +206,7 @@ class HomeViewModel extends ChangeNotifier {
                 (Route<dynamic> route) => false,
               );
             } else {
-              getUserInfo(context);
+              getUserInfo(context, notificationsConfig);
             }
           },
           isHappy: false,
