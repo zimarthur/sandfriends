@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>204510750013-4pr49p5o1k37mp2tu77uv2opohadudv6.apps.googleusercontent.com</string>
+	<string>329100803665-n566cd89i1hki8agb7qit1at2odbhgmg.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.204510750013-4pr49p5o1k37mp2tu77uv2opohadudv6</string>
+	<string>com.googleusercontent.apps.329100803665-n566cd89i1hki8agb7qit1at2odbhgmg</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>329100803665-v86f3e9em0m1m0v76vprmmtor6trr0pq.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAqMZCbxvdBn-VBCyA2OFylQl9BICJrqXY</string>
+	<string>AIzaSyDT0kQqFx2InNi3bVKsmN0NhkbqyXhFK-Q</string>
 	<key>GCM_SENDER_ID</key>
-	<string>204510750013</string>
+	<string>329100803665</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.sandfriends.app</string>
+	<string>com.sandfriends.app.prod</string>
 	<key>PROJECT_ID</key>
-	<string>sandfriendsmobile</string>
+	<string>sandfriends-prod</string>
 	<key>STORAGE_BUCKET</key>
-	<string>sandfriendsmobile.appspot.com</string>
+	<string>sandfriends-prod.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:204510750013:ios:50d33aefa183aa4672d154</string>
+	<string>1:329100803665:ios:da38d869a1e40dd9af4270</string>
 </dict>
 </plist>
