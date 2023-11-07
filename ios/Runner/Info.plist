@@ -26,8 +26,17 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription </key>
+	<string>Para procurar estabelecimentos perto de você, Sandfriends precisa acessar sua localização.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Para trocar seu avatar, Sandfriends precisa acessar suas fotos.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -47,9 +56,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Para trocar seu avatar, Sandfriends precisa acessar suas fotos.</string>
-	<key>NSLocationWhenInUseUsageDescription </key>
-	<string>Para procurar estabelecimentos perto de você, Sandfriends precisa acessar sua localização.</string>
 </dict>
 </plist>
