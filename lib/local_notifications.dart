@@ -24,17 +24,11 @@ class NotificationService {
       initializationSettings,
       onDidReceiveNotificationResponse:
           (NotificationResponse notificationResponse) async {
-        print("ARTHURDEBUG on onDidReceiveNotificationResponse");
         if (notificationResponse.payload != null) {
-          print("ARTHURDEBUG 1 ${notificationResponse.payload!}");
-          print("ARTHURDEBUG 2 ${json.decode(notificationResponse.payload!)}");
-          print("ARTHURDEBUG 3 ${jsonDecode(notificationResponse.payload!)}");
-
           messageCallback(
             json.decode(notificationResponse.payload!),
           );
         }
-        print(notificationResponse.payload);
       },
     );
   }

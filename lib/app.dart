@@ -160,9 +160,6 @@ class _AppState extends State<App> {
         await FirebaseMessaging.instance.getInitialMessage();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {
-        print("ARTHURDEBUG on onMessage");
-        print("ARTHURDEBUG payload 1 ${message.data}");
-        print("ARTHURDEBUG payload 2 ${message.data.toString()}");
         NotificationService().showLocalNotification(
             title: message.notification!.title,
             body: message.notification!.body,
@@ -175,8 +172,6 @@ class _AppState extends State<App> {
   }
 
   void _handleMessage(Map<String, dynamic> data) {
-    print("ARTHURDEBUG on _handleMessage");
-    print("ARTHURDEBUG $data");
     switch (data["type"]) {
       case "match":
         handleUri(Uri.dataFromString(
