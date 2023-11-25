@@ -4,6 +4,7 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Features/Checkout/View/AddCupomModal.dart';
 import 'package:sandfriends/Features/Checkout/View/CvvModal.dart';
 import 'package:sandfriends/Features/Checkout/View/PixModalResponse.dart';
 import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
@@ -21,6 +22,7 @@ import '../../../SharedComponents/Providers/UserProvider/UserProvider.dart';
 import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
 import '../../Court/Model/HourPrice.dart';
+import '../Model/Coupon.dart';
 
 class CheckoutViewModel extends ChangeNotifier {
   final checkoutRepo = CheckoutRepoImp();
@@ -44,6 +46,8 @@ class CheckoutViewModel extends ChangeNotifier {
   late bool isRenovating;
   List<DateTime> matchDates = [];
 
+  Coupon? appliedCoupon;
+
   String cvv = "";
 
   SelectedPayment selectedPayment = SelectedPayment.NotSelected;
@@ -51,6 +55,7 @@ class CheckoutViewModel extends ChangeNotifier {
   TextEditingController cpfController =
       MaskedTextController(mask: "000.000.000-00");
   TextEditingController cvvController = MaskedTextController(mask: "0000");
+  TextEditingController cupomController = TextEditingController();
 
   final ScrollController scrollController = ScrollController();
   final FocusNode cpfFocus = FocusNode();
@@ -75,12 +80,20 @@ class CheckoutViewModel extends ChangeNotifier {
     );
   }
 
-  int get matchPrice {
+  double get matchPrice {
     return hourPrices.fold(
         0, (previousValue, element) => previousValue + element.price);
   }
 
-  int get totalPrice {
+  double get finalMatchPrice {
+    double discount = 0.0;
+    if (appliedCoupon != null) {
+      discount = appliedCoupon!.calculateDiscount(matchPrice);
+    }
+    return matchPrice - discount;
+  }
+
+  double get totalPrice {
     return matchDates.length * matchPrice;
   }
 
@@ -243,6 +256,8 @@ class CheckoutViewModel extends ChangeNotifier {
       startingHour.hour,
       endingHour.hour,
       matchPrice,
+      appliedCoupon,
+      finalMatchPrice,
       selectedPayment,
       cpfController.text.replaceAll(
         RegExp('[^0-9]'),
@@ -340,6 +355,47 @@ class CheckoutViewModel extends ChangeNotifier {
       pixCode: responseBody["Pixcode"],
       isRecurrent: isRecurrent,
       onReturn: () => Navigator.pushNamed(context, '/home'),
+    );
+    pageStatus = PageStatus.FORM;
+    notifyListeners();
+  }
+
+  void onAddCupom(BuildContext context) {
+    canTapBackground = true;
+    widgetForm = AddCupomModal(
+      cupomController: cupomController,
+      onAddCupom: () {
+        pageStatus = PageStatus.LOADING;
+        notifyListeners();
+
+        checkoutRepo
+            .validateCoupon(context, cupomController.text, court.store!.idStore,
+                startingHour.hour, endingHour.hour, date)
+            .then((response) {
+          if (response.responseStatus == NetworkResponseStatus.success) {
+            Map<String, dynamic> responseBody = json.decode(
+              response.responseBody!,
+            );
+            appliedCoupon = Coupon.fromJson(responseBody);
+            pageStatus = PageStatus.OK;
+            notifyListeners();
+          } else {
+            modalMessage = SFModalMessage(
+              message: response.userMessage!,
+              onTap: () {
+                onAddCupom(context);
+              },
+              isHappy: response.responseStatus == NetworkResponseStatus.alert,
+            );
+            pageStatus = PageStatus.ERROR;
+            notifyListeners();
+          }
+        });
+      },
+      onReturn: () {
+        canTapBackground = false;
+        closeModal();
+      },
     );
     pageStatus = PageStatus.FORM;
     notifyListeners();

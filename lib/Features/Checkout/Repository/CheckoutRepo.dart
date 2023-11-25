@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
 
 import '../../../Remote/NetworkResponse.dart';
+import '../Model/Coupon.dart';
 
 class CheckoutRepo {
   Future<NetworkResponse?> matchReservation(
@@ -12,7 +13,9 @@ class CheckoutRepo {
     DateTime date,
     int timeBegin,
     int timeEnd,
-    int cost,
+    double cost,
+    Coupon? coupon,
+    double finalCost,
     SelectedPayment selectedPayment,
     String cpf,
     int? idCreditCard,
@@ -30,8 +33,8 @@ class CheckoutRepo {
     List<DateTime> currentMonthDates,
     int timeBegin,
     int timeEnd,
-    int cost,
-    int totalCost,
+    double cost,
+    double totalCost,
     SelectedPayment selectedPayment,
     String cpf,
     int? idCreditCard,
@@ -49,6 +52,17 @@ class CheckoutRepo {
     int timeEnd,
     int idStoreCourt,
     bool isRenovating,
+  ) async {
+    return null;
+  }
+
+  Future<NetworkResponse?> validateCoupon(
+    BuildContext context,
+    String couponCode,
+    int idStore,
+    int timeBegin,
+    int timeEnd,
+    DateTime date,
   ) async {
     return null;
   }

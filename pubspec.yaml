@@ -165,6 +165,7 @@ flutter:
     - assets/icon/copy_to_clipboard.svg
     - assets/icon/help.svg
     - assets/icon/configure.svg
+    - assets/icon/discount.svg
 
     - assets/icon/no_credit_card.svg
     - assets/icon/credit_card.svg

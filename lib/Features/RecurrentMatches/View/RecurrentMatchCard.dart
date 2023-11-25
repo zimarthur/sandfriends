@@ -559,7 +559,8 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                     HourPrice(
                                       hour: hour,
                                       price: widget.recurrentMatch
-                                          .monthRecurrentMatches.first.cost,
+                                          .monthRecurrentMatches.first.cost
+                                          .toInt(),
                                     ),
                                   );
                                 }

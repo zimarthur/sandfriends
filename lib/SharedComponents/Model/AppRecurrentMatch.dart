@@ -31,8 +31,8 @@ class AppRecurrentMatch {
     required this.recurrentMatchesCounter,
   });
 
-  int currentMonthPrice() {
-    int priceSum = 0;
+  double currentMonthPrice() {
+    double priceSum = 0;
     for (int i = 0; i < monthRecurrentMatches.length; i++) {
       priceSum += monthRecurrentMatches[i].cost;
     }

@@ -98,7 +98,7 @@ class _AvailableHourCardState extends State<AvailableHourCard> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          "${widget.hourPrice.price}/h",
+                          "${widget.hourPrice.price.toInt()}/h",
                           style: TextStyle(
                             color: widget.isSelected
                                 ? textWhite

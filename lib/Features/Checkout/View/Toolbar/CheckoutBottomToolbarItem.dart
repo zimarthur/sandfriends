@@ -5,7 +5,7 @@ import '../../../../Utils/Constants.dart';
 
 class CheckoutBottomToolbarItem extends StatelessWidget {
   final DateTime date;
-  final int price;
+  final double price;
   const CheckoutBottomToolbarItem({
     super.key,
     required this.date,
@@ -27,7 +27,7 @@ class CheckoutBottomToolbarItem extends StatelessWidget {
             ),
           ),
           Text(
-            "R\$ $price,00",
+            "R\$ ${price.toInt()},00",
             style: const TextStyle(
               fontSize: 12,
               color: textDarkGrey,

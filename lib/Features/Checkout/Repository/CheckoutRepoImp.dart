@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Features/Checkout/Model/Coupon.dart';
 import 'package:sandfriends/Features/Checkout/Repository/CheckoutRepo.dart';
 
 import '../../../Remote/ApiEndPoints.dart';
@@ -24,7 +25,9 @@ class CheckoutRepoImp implements CheckoutRepo {
     DateTime date,
     int timeBegin,
     int timeEnd,
-    int cost,
+    double cost,
+    Coupon? coupon,
+    double finalCost,
     SelectedPayment selectedPayment,
     String cpf,
     int? idCreditCard,
@@ -43,6 +46,8 @@ class CheckoutRepoImp implements CheckoutRepo {
           "TimeStart": timeBegin,
           "TimeEnd": timeEnd,
           "Cost": cost,
+          "IdCoupon": coupon != null ? coupon.idCoupon : 0,
+          "FinalCost": finalCost,
           "Payment": selectedPayment.index,
           "Cpf": cpf,
           "IdCreditCard": idCreditCard ?? "",
@@ -63,8 +68,8 @@ class CheckoutRepoImp implements CheckoutRepo {
     List<DateTime> currentMonthDates,
     int timeBegin,
     int timeEnd,
-    int cost,
-    int totalCost,
+    double cost,
+    double totalCost,
     SelectedPayment selectedPayment,
     String cpf,
     int? idCreditCard,
@@ -122,6 +127,32 @@ class CheckoutRepoImp implements CheckoutRepo {
           "TimeBegin": timeBegin,
           "TimeEnd": timeEnd,
           "IsRenovating": isRenovating,
+        },
+      ),
+    );
+    return response;
+  }
+
+  @override
+  Future<NetworkResponse> validateCoupon(
+    BuildContext context,
+    String couponCode,
+    int idStore,
+    int timeBegin,
+    int timeEnd,
+    DateTime date,
+  ) async {
+    NetworkResponse response = await _apiService.postResponse(
+      Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+        ApiEndPoints().validateCoupon,
+      ),
+      jsonEncode(
+        <String, Object>{
+          "Code": couponCode,
+          "IdStore": idStore,
+          "TimeBegin": timeBegin,
+          "TimeEnd": timeEnd,
+          "MatchDate": DateFormat("dd/MM/yyyy").format(date),
         },
       ),
     );

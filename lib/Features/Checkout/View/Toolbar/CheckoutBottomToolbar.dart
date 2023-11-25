@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Features/Checkout/View/Toolbar/CheckoutBottomToolbarDiscount.dart';
 import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
 import 'package:sandfriends/Features/Checkout/View/Toolbar/CheckoutBottomToolbarItem.dart';
 import 'package:sandfriends/SharedComponents/View/SFButton.dart';
@@ -8,10 +9,12 @@ import 'package:sandfriends/Utils/Constants.dart';
 import '../../ViewModel/CheckoutViewModel.dart';
 
 class CheckoutBottomToolbar extends StatelessWidget {
-  const CheckoutBottomToolbar({Key? key}) : super(key: key);
+  CheckoutBottomToolbar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    CheckoutViewModel viewModel =
+        Provider.of<CheckoutViewModel>(context, listen: false);
     return Container(
       decoration: const BoxDecoration(
         color: secondaryPaper,
@@ -41,13 +44,21 @@ class CheckoutBottomToolbar extends StatelessWidget {
           const SizedBox(
             height: defaultPadding / 2,
           ),
-          for (var date
-              in Provider.of<CheckoutViewModel>(context, listen: false)
-                  .matchDates)
+          for (var date in viewModel.matchDates)
             CheckoutBottomToolbarItem(
               date: date,
-              price: Provider.of<CheckoutViewModel>(context, listen: false)
-                  .matchPrice,
+              price: viewModel.matchPrice,
+            ),
+          if (!viewModel.isRecurrent)
+            Column(
+              children: [
+                const SizedBox(
+                  height: defaultPadding / 4,
+                ),
+                CheckoutBottomToolbarDiscount(
+                  viewModel: viewModel,
+                ),
+              ],
             ),
           const SizedBox(
             height: defaultPadding / 2,
@@ -71,7 +82,7 @@ class CheckoutBottomToolbar extends StatelessWidget {
                 ),
               ),
               Text(
-                "R\$ ${Provider.of<CheckoutViewModel>(context, listen: false).totalPrice},00",
+                "R\$ ${viewModel.finalMatchPrice.toStringAsFixed(2).replaceAll(".", ",")}",
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -84,19 +95,16 @@ class CheckoutBottomToolbar extends StatelessWidget {
             height: defaultPadding,
           ),
           SFButton(
-            buttonLabel: Provider.of<CheckoutViewModel>(context, listen: false)
-                        .selectedPayment !=
-                    SelectedPayment.NotSelected
-                ? "Agendar"
-                : "Selecione a forma de pagamento",
-            color: Provider.of<CheckoutViewModel>(context, listen: false)
-                        .selectedPayment !=
-                    SelectedPayment.NotSelected
+            buttonLabel:
+                viewModel.selectedPayment != SelectedPayment.NotSelected
+                    ? "Agendar"
+                    : "Selecione a forma de pagamento",
+            color: viewModel.selectedPayment != SelectedPayment.NotSelected
                 ? primaryBlue
                 : divider,
-            onTap: () => Provider.of<CheckoutViewModel>(context, listen: false)
-                .validateReservation(context),
-            textPadding: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
+            onTap: () => viewModel.validateReservation(context),
+            textPadding:
+                const EdgeInsets.symmetric(vertical: defaultPadding / 2),
           )
         ],
       ),

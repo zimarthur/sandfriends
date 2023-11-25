@@ -8,5 +8,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-  runApp(const App(flavor: "dev"));
+  runApp(
+    const App(
+      flavor: "dev",
+    ),
+  );
 }

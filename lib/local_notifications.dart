@@ -36,7 +36,7 @@ class NotificationService {
   notificationDetails() {
     return const NotificationDetails(
         android: AndroidNotificationDetails(
-            'sandfriends_channer_id', 'sandfriends_channel_name',
+            'sandfriends_channel_id', 'sandfriends_channel_name',
             importance: Importance.max),
         iOS: DarwinNotificationDetails());
   }

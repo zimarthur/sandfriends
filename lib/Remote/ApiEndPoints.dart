@@ -27,6 +27,7 @@ class ApiEndPoints {
   final String searchRecurrentCourts = "/SearchRecurrentCourts";
   final String recurrentMatchReservation = "/RecurrentMatchReservation";
   final String recurrentMonthAvailableHours = "/RecurrentMonthAvailableHours";
+  final String validateCoupon = "/ValidateCoupon";
 
   final String getMatchInfo = "/GetMatchInfo";
   final String saveCreatorNotes = "/SaveCreatorNotes";

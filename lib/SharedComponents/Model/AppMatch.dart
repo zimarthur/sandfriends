@@ -13,7 +13,7 @@ import 'User.dart';
 class AppMatch {
   final int idMatch;
   final DateTime date;
-  final int cost;
+  final double cost;
   final Hour timeBegin;
   final Hour timeEnd;
   bool isOpenMatch;
@@ -127,7 +127,9 @@ class AppMatch {
       idMatch: json['IdMatch'],
       date: DateFormat('yyyy-MM-dd HH:mm')
           .parse("${json['Date']} ${timeBegin.hourString}"),
-      cost: json['Cost'],
+      cost: double.parse(
+        json['Cost'],
+      ),
       timeBegin: timeBegin,
       timeEnd: referenceHours.firstWhere(
         (hour) => hour.hour == json['TimeEnd'],

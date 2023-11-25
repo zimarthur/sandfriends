@@ -38,8 +38,8 @@ class CourtViewModel extends ChangeNotifier {
       .reduce((curr, next) => curr.hour.hour > next.hour.hour ? curr : next)
       .hour;
 
-  int? get reservationCost {
-    int totalCost = 0;
+  double? get reservationCost {
+    double totalCost = 0;
     for (var hourPrice in selectedHourPrices) {
       totalCost += hourPrice.price;
     }

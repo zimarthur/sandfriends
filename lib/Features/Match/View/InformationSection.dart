@@ -123,7 +123,7 @@ class InformationSection extends StatelessWidget {
                     "Preço:",
                   ),
                   Text(
-                    "R\$ ${viewModel.match.cost}",
+                    "R\$ ${viewModel.match.cost.toInt()}",
                     style: const TextStyle(
                       fontWeight: FontWeight.w700,
                     ),
