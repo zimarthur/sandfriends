@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Court/Model/HourPrice.dart';
 import 'package:sandfriends/SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'package:sandfriends/SharedComponents/View/PixCodeClipboard.dart';
+import 'package:sandfriends/Utils/TypeExtensions.dart';
 
 import '../../../SharedComponents/Model/AppRecurrentMatch.dart';
 import '../../../SharedComponents/Model/PaymentStatus.dart';
@@ -393,14 +394,16 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "${widget.recurrentMatch.monthRecurrentMatches.length} Partida(s) (R\$ ${widget.recurrentMatch.monthRecurrentMatches.first.cost}):",
+                                      "${widget.recurrentMatch.monthRecurrentMatches.length} Partida(s) (${widget.recurrentMatch.monthRecurrentMatches.first.cost.formatPrice()}):",
                                       style: const TextStyle(
                                         color: textDarkGrey,
                                       ),
                                       textScaleFactor: 0.9,
                                     ),
                                     Text(
-                                      "R\$ ${widget.recurrentMatch.currentMonthPrice()}",
+                                      widget.recurrentMatch
+                                          .currentMonthPrice()
+                                          .formatPrice(),
                                       style: const TextStyle(
                                         color: textDarkGrey,
                                       ),

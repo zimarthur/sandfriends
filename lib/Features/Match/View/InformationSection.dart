@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:sandfriends/Utils/TypeExtensions.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../Utils/Constants.dart';
 import '../ViewModel/MatchViewModel.dart';
 
@@ -123,13 +124,49 @@ class InformationSection extends StatelessWidget {
                     "Preço:",
                   ),
                   Text(
-                    "R\$ ${viewModel.match.cost.toInt()}",
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w700,
-                    ),
+                    viewModel.match.rawCost.formatPrice(),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        decoration: viewModel.match.coupon != null
+                            ? TextDecoration.lineThrough
+                            : null),
                   ),
                 ],
               ),
+              if (viewModel.match.coupon != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: defaultPadding / 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(r"assets/icon/discount.svg"),
+                            SizedBox(
+                              width: defaultPadding / 4,
+                            ),
+                            Text(
+                              viewModel.match.coupon!.couponCode,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: primaryBlue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Text(
+                        viewModel.match.cost.formatPrice(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: green,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
             ],
           ),
         ),

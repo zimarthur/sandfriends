@@ -49,7 +49,8 @@ class CheckoutBottomToolbar extends StatelessWidget {
               date: date,
               price: viewModel.matchPrice,
             ),
-          if (!viewModel.isRecurrent)
+          if (!viewModel.isRecurrent &&
+              viewModel.selectedPayment != SelectedPayment.PayInStore)
             Column(
               children: [
                 const SizedBox(

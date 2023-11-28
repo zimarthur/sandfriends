@@ -7,6 +7,7 @@ import 'package:sandfriends/Features/Court/View/CourtContact.dart';
 import 'package:sandfriends/Features/Court/View/CourtDescription.dart';
 import 'package:sandfriends/Features/Court/View/CourtPhotos.dart';
 import 'package:sandfriends/SharedComponents/Model/Court.dart';
+import 'package:sandfriends/Utils/TypeExtensions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
@@ -254,7 +255,7 @@ class _CourtWidgetState extends State<CourtWidget> {
                           textAlign: TextAlign.center,
                         ),
                         Text(
-                          "R\$ ${widget.viewModel.reservationCost!}",
+                          "${widget.viewModel.reservationCost!.formatPrice()}",
                           style: TextStyle(
                             color: textDarkGrey,
                             fontWeight: FontWeight.w500,

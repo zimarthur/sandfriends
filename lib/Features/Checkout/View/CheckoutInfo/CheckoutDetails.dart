@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/Checkout/ViewModel/CheckoutViewModel.dart';
 import 'package:sandfriends/Utils/Constants.dart';
+import 'package:sandfriends/Utils/TypeExtensions.dart';
 
 import '../../../../Utils/SFDateTime.dart';
 import 'CheckoutDetailsItem.dart';
@@ -58,8 +59,9 @@ class CheckoutDetails extends StatelessWidget {
               ),
               CheckoutDetailsItem(
                   title: "Preço",
-                  value:
-                      "R\$ ${Provider.of<CheckoutViewModel>(context, listen: false).matchPrice},00"),
+                  value: Provider.of<CheckoutViewModel>(context, listen: false)
+                      .matchPrice
+                      .formatPrice()),
             ],
           ),
         ),

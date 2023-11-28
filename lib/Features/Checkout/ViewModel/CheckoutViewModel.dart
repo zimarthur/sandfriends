@@ -88,9 +88,9 @@ class CheckoutViewModel extends ChangeNotifier {
   double get finalMatchPrice {
     double discount = 0.0;
     if (appliedCoupon != null) {
-      discount = appliedCoupon!.calculateDiscount(matchPrice);
+      discount = appliedCoupon!.calculateDiscount(totalPrice);
     }
-    return matchPrice - discount;
+    return totalPrice - discount;
   }
 
   double get totalPrice {
@@ -186,6 +186,9 @@ class CheckoutViewModel extends ChangeNotifier {
       selectedPayment = SelectedPayment.NotSelected;
     } else {
       selectedPayment = newSelectedPayment;
+      if (newSelectedPayment == SelectedPayment.PayInStore) {
+        appliedCoupon = null;
+      }
     }
     notifyListeners();
   }

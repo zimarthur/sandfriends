@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:sandfriends/Features/Checkout/Model/Coupon.dart';
 import 'package:sandfriends/SharedComponents/Model/CreditCard/CreditCard.dart';
 import 'package:sandfriends/SharedComponents/Model/SelectedPayment.dart';
 
@@ -13,6 +14,7 @@ import 'User.dart';
 class AppMatch {
   final int idMatch;
   final DateTime date;
+  final double rawCost;
   final double cost;
   final Hour timeBegin;
   final Hour timeEnd;
@@ -30,6 +32,7 @@ class AppMatch {
   CreditCard? creditCard;
   DateTime paymentExpirationDate;
   int idRecurrentMatch;
+  Coupon? coupon;
 
   User get matchCreator =>
       members.firstWhere((member) => member.isMatchCreator == true).user;
@@ -98,6 +101,7 @@ class AppMatch {
     required this.idMatch,
     required this.date,
     required this.cost,
+    required this.rawCost,
     required this.timeBegin,
     required this.timeEnd,
     required this.isOpenMatch,
@@ -113,6 +117,7 @@ class AppMatch {
     required this.creditCard,
     required this.paymentExpirationDate,
     required this.idRecurrentMatch,
+    this.coupon,
   });
 
   factory AppMatch.fromJson(
@@ -128,6 +133,9 @@ class AppMatch {
       date: DateFormat('yyyy-MM-dd HH:mm')
           .parse("${json['Date']} ${timeBegin.hourString}"),
       cost: double.parse(
+        json['CostUser'],
+      ),
+      rawCost: double.parse(
         json['Cost'],
       ),
       timeBegin: timeBegin,
@@ -152,6 +160,7 @@ class AppMatch {
       paymentExpirationDate: DateFormat('yyyy-MM-dd HH:mm:ss')
           .parse(json['PaymentExpirationDate']),
       idRecurrentMatch: json['IdRecurrentMatch'],
+      coupon: json['Coupon'] != null ? Coupon.fromJson(json['Coupon']) : null,
     );
     for (int i = 0; i < json['Members'].length; i++) {
       newMatch.members.add(
