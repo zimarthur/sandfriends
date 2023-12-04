@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Expanded(child: viewModel.displayWidget),
                 NavigationMenu(
-                  onChangeTab: (newTab) => viewModel.changeTab(newTab),
+                  onChangeTab: (newTab) => viewModel.changeTab(context, newTab),
                   selectedTab: viewModel.currentTab,
                 ),
               ],

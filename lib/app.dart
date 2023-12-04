@@ -14,6 +14,8 @@ import 'package:sandfriends/Features/Court/View/CourtScreen.dart';
 import 'package:sandfriends/Features/Home/Model/HomeTabsEnum.dart';
 import 'package:sandfriends/Features/Home/View/HomeScreen.dart';
 import 'package:sandfriends/Features/Match/View/MatchScreen.dart';
+import 'package:sandfriends/Features/MatchSearchFilter/Model/CustomFilter.dart';
+import 'package:sandfriends/Features/MatchSearchFilter/View/MatchSearchFilterScreen.dart';
 import 'package:sandfriends/Features/NewCreditCard/View/NewCreditCardScreen.dart';
 import 'package:sandfriends/Features/Onboarding/View/OnboardingScreen.dart';
 import 'package:sandfriends/Features/OpenMatches/View/OpenMatchesScreen.dart';
@@ -23,6 +25,7 @@ import 'package:sandfriends/Features/RecurrentMatchSearchSport/View/RecurrentMat
 import 'package:sandfriends/Features/RecurrentMatches/View/RecurrentMatchesSreen.dart';
 import 'package:sandfriends/Features/Rewards/View/RewardsScreen.dart';
 import 'package:sandfriends/Features/RewardsUser/View/RewardsUserScreen.dart';
+import 'package:sandfriends/SharedComponents/Model/City.dart';
 import 'package:sandfriends/SharedComponents/Model/Court.dart';
 import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/EnvironmentProvider.dart';
 import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/RedirectProvider.dart';
@@ -234,11 +237,12 @@ class _AppState extends State<App> {
         onGenerateRoute: (settings) {
           String match = "/match";
           String matchSearch = "/match_search";
+          String matchSearchFilter = "/match_search_filter";
           String recurrentMatchSearch = "/recurrent_match_search";
           String court = "/court";
           String checkout = "/checkout";
           String userDetails = "/user_details";
-          if (settings.name!.startsWith(matchSearch)) {
+          if (settings.name! == matchSearch) {
             final arguments = settings.arguments as Map;
 
             return MaterialPageRoute(
@@ -248,7 +252,21 @@ class _AppState extends State<App> {
                 );
               },
             );
-          } else if (settings.name!.startsWith(recurrentMatchSearch)) {
+          } else if (settings.name! == matchSearchFilter) {
+            final arguments = settings.arguments as Map;
+
+            return MaterialPageRoute(
+              builder: (context) {
+                return MatchSearchFilterScreen(
+                  defaultCustomFilter:
+                      arguments['defaultCustomFilter'] as CustomFilter,
+                  currentCustomFilter:
+                      arguments['currentCustomFilter'] as CustomFilter,
+                  selectedCityId: arguments['selectedCityId'] as City?,
+                );
+              },
+            );
+          } else if (settings.name! == recurrentMatchSearch) {
             final arguments = settings.arguments as Map;
 
             return MaterialPageRoute(
@@ -258,7 +276,7 @@ class _AppState extends State<App> {
                 );
               },
             );
-          } else if (settings.name!.startsWith(match)) {
+          } else if (settings.name! == match) {
             //match?id=123
             final matchUrl = settings.name!.split(match)[1].split("/")[1];
             return MaterialPageRoute(
@@ -268,7 +286,7 @@ class _AppState extends State<App> {
                 );
               },
             );
-          } else if (settings.name!.startsWith(court)) {
+          } else if (settings.name! == court) {
             if (settings.arguments != null) {
               final arguments = settings.arguments as Map;
 
@@ -288,7 +306,7 @@ class _AppState extends State<App> {
                 },
               );
             }
-          } else if (settings.name!.startsWith(checkout)) {
+          } else if (settings.name! == checkout) {
             if (settings.arguments != null) {
               final arguments = settings.arguments as Map;
 
@@ -306,7 +324,7 @@ class _AppState extends State<App> {
                 },
               );
             }
-          } else if (settings.name!.startsWith(userDetails)) {
+          } else if (settings.name! == userDetails) {
             Sport? initSport;
             UserDetailsModals initModalEnum = UserDetailsModals.None;
             if (settings.arguments != null) {

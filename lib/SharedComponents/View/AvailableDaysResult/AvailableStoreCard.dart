@@ -126,7 +126,8 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                               child: Text(
                                 widget
                                     .availableStore.store.neighbourhoodAddress,
-                                maxLines: 2,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 10,

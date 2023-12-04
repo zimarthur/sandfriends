@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Features/MatchSearchFilter/Model/CustomFilter.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableHour.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableStore.dart';
 import 'package:sandfriends/SharedComponents/Model/Hour.dart';
@@ -52,6 +53,9 @@ class MatchSearchViewModel extends ChangeNotifier {
     ),
   );
 
+  late CustomFilter defaultCustomFilter;
+  late CustomFilter currentCustomFilter;
+
   bool hasUserSearched = false;
 
   final List<AvailableDay> availableDays = [];
@@ -69,6 +73,9 @@ class MatchSearchViewModel extends ChangeNotifier {
         .firstWhere(
           (sport) => sport.idSport == sportId,
         );
+    defaultCustomFilter =
+        CustomFilter(orderBy: OrderBy.distance, sport: selectedSport);
+    currentCustomFilter = defaultCustomFilter;
     titleText = "Busca - ${selectedSport.description}";
     if (Provider.of<CategoriesProvider>(context, listen: false)
         .availableRegions
@@ -382,5 +389,13 @@ class MatchSearchViewModel extends ChangeNotifier {
 
   void onTapReturn(BuildContext context) {
     Navigator.pop(context);
+  }
+
+  void goToSearchFilter(BuildContext context) {
+    Navigator.pushNamed(context, "/match_search_filter", arguments: {
+      'defaultCustomFilter': defaultCustomFilter,
+      'currentCustomFilter': currentCustomFilter,
+      'selectedCityId': cityFilter,
+    });
   }
 }

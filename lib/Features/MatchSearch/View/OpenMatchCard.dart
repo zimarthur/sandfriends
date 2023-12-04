@@ -160,11 +160,14 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                     Padding(
                       padding: EdgeInsets.only(right: width * 0.01),
                     ),
-                    Text(
-                      "${widget.match.matchCreator.ranks.first.name} - ${widget.match.sport.description}",
-                      style: TextStyle(
-                        color: Color(int.parse(
-                            "0xFF${widget.match.matchRank.color.replaceAll("#", "")}")),
+                    Expanded(
+                      child: Text(
+                        "${widget.match.matchCreator.ranks.first.name} - ${widget.match.sport.description}",
+                        style: TextStyle(
+                          color: Color(int.parse(
+                              "0xFF${widget.match.matchRank.color.replaceAll("#", "")}")),
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],

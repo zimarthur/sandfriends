@@ -166,6 +166,13 @@ flutter:
     - assets/icon/help.svg
     - assets/icon/configure.svg
     - assets/icon/discount.svg
+    - assets/icon/filter_off.svg
+    - assets/icon/filter_on.svg
+    - assets/icon/sport_icon_1.svg
+    - assets/icon/sport_icon_2.svg
+    - assets/icon/sport_icon_3.svg
+    - assets/icon/order_by_distance.svg
+    - assets/icon/order_by_price.svg
 
     - assets/icon/no_credit_card.svg
     - assets/icon/credit_card.svg

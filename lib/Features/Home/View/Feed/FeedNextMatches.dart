@@ -88,7 +88,8 @@ class _FeedNextMatchesState extends State<FeedNextMatches> {
                       ),
                       InkWell(
                         onTap: () => widget.viewModel.changeTab(
-                          HomeTabs.SportSelector,
+                          context,
+                          HomeTabs.MatchSearch,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

@@ -23,7 +23,6 @@ import '../../../Utils/SharedPreferences.dart';
 import '../Model/HomeTabsEnum.dart';
 import '../Repository/HomeRepoImp.dart';
 import '../View/Feed/FeedWidget.dart';
-import '../View/SportSelector/SportSelectorWidget.dart';
 import '../View/User/AppRatingModal.dart';
 import '../View/User/UserWidget.dart';
 
@@ -41,17 +40,13 @@ class HomeViewModel extends ChangeNotifier {
 
   Widget get displayWidget {
     switch (currentTab) {
-      case HomeTabs.Feed:
-        return FeedWidget(
-          viewModel: this,
-        );
       case HomeTabs.User:
         return UserWidget(
           viewModel: this,
         );
 
-      case HomeTabs.SportSelector:
-        return SportSelectorWidget(
+      default:
+        return FeedWidget(
           viewModel: this,
         );
     }
@@ -91,7 +86,11 @@ class HomeViewModel extends ChangeNotifier {
         : null;
   }
 
-  void changeTab(HomeTabs newTab) {
+  void changeTab(BuildContext context, HomeTabs newTab) {
+    if (newTab == HomeTabs.MatchSearch) {
+      goToMatchSearchScreen(context);
+      return;
+    }
     currentTab = newTab;
     notifyListeners();
   }
@@ -301,9 +300,14 @@ class HomeViewModel extends ChangeNotifier {
     Navigator.pushNamed(context, '/login_signup');
   }
 
-  void onSportSelected(BuildContext context, Sport sport) {
+  void goToMatchSearchScreen(
+    BuildContext context,
+  ) {
     Navigator.pushNamed(context, '/match_search', arguments: {
-      'sportId': sport.idSport,
+      'sportId': Provider.of<UserProvider>(context, listen: false)
+          .user!
+          .preferenceSport!
+          .idSport,
     });
   }
 

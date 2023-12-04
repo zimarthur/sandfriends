@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../SharedComponents/Model/AppBarType.dart';
@@ -35,6 +36,13 @@ class _MatchSearchScreenState extends State<MatchSearchScreen> {
           return SFStandardScreen(
             pageStatus: viewModel.pageStatus,
             titleText: viewModel.titleText,
+            rightWidget: InkWell(
+              onTap: () => viewModel.goToSearchFilter(context),
+              child: SvgPicture.asset(
+                r"assets/icon/filter_on.svg",
+                height: 25,
+              ),
+            ),
             appBarType: AppBarType.Primary,
             messageModalWidget: viewModel.modalMessage,
             modalFormWidget: viewModel.widgetForm,

@@ -30,7 +30,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
       imageActive: r"assets/icon/navigation/feed_screen_selected.svg",
     ),
     NavigationMenuItem(
-      tab: HomeTabs.SportSelector,
+      tab: HomeTabs.MatchSearch,
       image: r"assets/icon/navigation/schedule_screen.svg",
       imageActive: r"assets/icon/navigation/schedule_screen_selected.svg",
     ),
