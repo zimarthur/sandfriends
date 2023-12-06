@@ -1,5 +1,4 @@
 @echo off
-CALL flutter build ipa --flavor prod -t "lib/main_prod.dart"
 
 CALL flutter build appbundle --release --flavor prod -t "lib/main_prod.dart"
 

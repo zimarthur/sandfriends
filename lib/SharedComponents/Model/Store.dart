@@ -81,8 +81,12 @@ class Store {
       addressNumber: json['AddressNumber'],
       neighbourhood: json['Neighbourhood'],
       city: City.fromJsonUser(json['City']),
-      latitude: json['Latitude'],
-      longitude: json['Longitude'],
+      latitude: double.parse(
+        json['Latitude'],
+      ),
+      longitude: double.parse(
+        json['Longitude'],
+      ),
       imageUrl: json['Logo'],
       descriptionText: json['Description'],
       instagram: json['Instagram'],
