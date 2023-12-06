@@ -30,6 +30,10 @@
 	<string>Para procurar estabelecimentos perto de você, Sandfriends precisa acessar sua localização.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Para trocar seu avatar, Sandfriends precisa acessar suas fotos.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Para buscar as quadras perto de você, conceda acesso à sua localização.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Para buscar as quadras perto de você, conceda acesso à sua localização.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

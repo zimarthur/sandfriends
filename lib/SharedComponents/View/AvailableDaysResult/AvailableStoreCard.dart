@@ -42,7 +42,7 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(
-      height: 215,
+      height: 220,
       padding: EdgeInsets.symmetric(horizontal: width * 0.03),
       margin: const EdgeInsets.only(bottom: 16),
       child: Container(
