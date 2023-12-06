@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/MatchSearchFilter/Model/CustomFilter.dart';
+import 'package:sandfriends/Features/MatchSearchFilter/View/FilterBasicWidget.dart';
 import 'package:sandfriends/Features/MatchSearchFilter/View/MatchSearchFilterWidget.dart';
 import 'package:sandfriends/Features/MatchSearchFilter/ViewModel/MatchSearchFilterViewModel.dart';
 import 'package:sandfriends/Utils/Constants.dart';
@@ -48,22 +49,24 @@ class _MatchSearchFilterScreenState extends State<MatchSearchFilterScreen> {
           return SFStandardScreen(
             pageStatus: viewModel.pageStatus,
             titleText: "Filtros",
-            rightWidget: InkWell(
-              onTap: () => viewModel.clearFilter(),
-              child: Text(
-                "Limpar",
-                style: TextStyle(
-                  color: textWhite,
-                ),
-              ),
-            ),
+            // rightWidget: viewModel.customFilterHasChanged
+            //     ? InkWell(
+            //         onTap: () => viewModel.clearFilter(),
+            //         child: Text(
+            //           "Limpar",
+            //           style: TextStyle(
+            //             color: textWhite,
+            //           ),
+            //         ),
+            //       )
+            //     : Container(),
             appBarType: AppBarType.Primary,
             messageModalWidget: viewModel.modalMessage,
             modalFormWidget: viewModel.widgetForm,
             onTapBackground: () => viewModel.closeModal(),
             canTapBackground: viewModel.canTapBackground,
             onTapReturn: () => viewModel.onTapReturn(context),
-            child: MatchSearchFilterWidget(),
+            child: FilterBasicWidget(), // MatchSearchFilterWidget(),
           );
         },
       ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Features/MatchSearchFilter/View/FilterBasicWidget.dart';
 import 'package:sandfriends/Features/MatchSearchFilter/View/FilterStoreWidget.dart';
 import 'package:sandfriends/SharedComponents/Model/Sport.dart';
 import 'package:sandfriends/SharedComponents/Model/TabItem.dart';
+import 'package:sandfriends/SharedComponents/Providers/UserProvider/UserProvider.dart';
 
 import '../../../SharedComponents/Model/City.dart';
 import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
@@ -23,13 +25,15 @@ class MatchSearchFilterViewModel extends ChangeNotifier {
   late CustomFilter defaultCustomFilter;
   late CustomFilter currentCustomFilter;
 
+  bool get customFilterHasChanged => defaultCustomFilter != currentCustomFilter;
+
   late SFTabItem selectedTab;
   late List<SFTabItem> tabs;
 
   void initViewModel(CustomFilter recDefaultCustomFilter,
       CustomFilter recCurrentCustomFilter, City? recCity) {
-    defaultCustomFilter = recDefaultCustomFilter;
-    currentCustomFilter = recCurrentCustomFilter;
+    defaultCustomFilter = CustomFilter.copyFrom(recDefaultCustomFilter);
+    currentCustomFilter = CustomFilter.copyFrom(recCurrentCustomFilter);
     cityFilter = recCity;
 
     tabs = [
@@ -55,7 +59,7 @@ class MatchSearchFilterViewModel extends ChangeNotifier {
   }
 
   void clearFilter() {
-    currentCustomFilter = defaultCustomFilter;
+    currentCustomFilter = CustomFilter.copyFrom(defaultCustomFilter);
     notifyListeners();
   }
 
@@ -65,7 +69,7 @@ class MatchSearchFilterViewModel extends ChangeNotifier {
   }
 
   void onTapReturn(BuildContext context) {
-    Navigator.pop(context);
+    Navigator.pop(context, currentCustomFilter);
   }
 
   void onChangeSport(Sport newSport) {
@@ -73,7 +77,29 @@ class MatchSearchFilterViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onNewOrderBy(OrderBy newOrderBy) {
+  void onNewOrderBy(BuildContext context, OrderBy newOrderBy) {
+    if (newOrderBy == OrderBy.distance &&
+        Provider.of<UserProvider>(context, listen: false).userLocation ==
+            null) {
+      modalMessage = SFModalMessage(
+        message: Provider.of<UserProvider>(context, listen: false)
+                .locationPermanentlyDenied
+            ? "Você desabilitou a localização permanentemente. Apague os dados do app para habilitá-la novamente."
+            : "Habilite o acesso a localização para ver as quadras mais perto de você!",
+        onTap: () {
+          Provider.of<UserProvider>(context, listen: false)
+              .handlePositionPermission();
+          pageStatus = PageStatus.OK;
+          notifyListeners();
+        },
+        buttonText: "Ok!",
+        isHappy: !Provider.of<UserProvider>(context, listen: false)
+            .locationPermanentlyDenied,
+      );
+      pageStatus = PageStatus.ERROR;
+      notifyListeners();
+      return;
+    }
     currentCustomFilter.orderBy = newOrderBy;
     notifyListeners();
   }

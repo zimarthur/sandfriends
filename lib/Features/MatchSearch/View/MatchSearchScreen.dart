@@ -39,7 +39,7 @@ class _MatchSearchScreenState extends State<MatchSearchScreen> {
             rightWidget: InkWell(
               onTap: () => viewModel.goToSearchFilter(context),
               child: SvgPicture.asset(
-                r"assets/icon/filter_on.svg",
+                r"assets/icon/filter_off.svg",
                 height: 25,
               ),
             ),

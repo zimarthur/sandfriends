@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/SharedComponents/Providers/UserProvider/UserProvider.dart';
 import 'package:sandfriends/SharedComponents/View/AvailableDaysResult/AvailableHourCard.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableHour.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../../Model/AvailableStore.dart';
 import '../../Model/Store.dart';
@@ -40,7 +42,7 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(
-      height: 200,
+      height: 215,
       padding: EdgeInsets.symmetric(horizontal: width * 0.03),
       margin: const EdgeInsets.only(bottom: 16),
       child: Container(
@@ -60,108 +62,145 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
           ],
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              child: Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: CachedNetworkImage(
-                      imageUrl: Provider.of<EnvironmentProvider>(context,
-                              listen: false)
-                          .urlBuilder(widget.availableStore.store.imageUrl),
-                      height: 82,
-                      width: 82,
-                      placeholder: (context, url) => const SizedBox(
+            Expanded(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: CachedNetworkImage(
+                        imageUrl: Provider.of<EnvironmentProvider>(context,
+                                listen: false)
+                            .urlBuilder(widget.availableStore.store.imageUrl),
                         height: 82,
                         width: 82,
-                        child: Center(
-                          child: SFLoading(),
+                        placeholder: (context, url) => const SizedBox(
+                          height: 82,
+                          width: 82,
+                          child: Center(
+                            child: SFLoading(),
+                          ),
                         ),
-                      ),
-                      errorWidget: (context, url, error) => Container(
-                        color: textLightGrey.withOpacity(0.5),
-                        height: 82,
-                        width: 82,
-                        child: const Center(
-                          child: Icon(
-                            Icons.dangerous,
+                        errorWidget: (context, url, error) => Container(
+                          color: textLightGrey.withOpacity(0.5),
+                          height: 82,
+                          width: 82,
+                          child: const Center(
+                            child: Icon(
+                              Icons.dangerous,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  const Padding(padding: EdgeInsets.only(right: 12)),
-                  Expanded(
-                      child: SizedBox(
-                    height: 82,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          widget.availableStore.store.name,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
-                            color: widget.isRecurrent
-                                ? primaryLightBlue
-                                : primaryBlue,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              r"assets/icon/location_ping.svg",
+                    const Padding(padding: EdgeInsets.only(right: 12)),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            widget.availableStore.store.name,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18,
                               color: widget.isRecurrent
                                   ? primaryLightBlue
                                   : primaryBlue,
                             ),
-                            SizedBox(
-                              width: width * 0.01,
-                            ),
-                            Expanded(
-                              child: Text(
-                                widget
-                                    .availableStore.store.neighbourhoodAddress,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 10,
-                                  color: widget.isRecurrent
-                                      ? primaryLightBlue
-                                      : primaryBlue,
-                                ),
+                          ),
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    r"assets/icon/location_ping.svg",
+                                    color: widget.isRecurrent
+                                        ? primaryLightBlue
+                                        : primaryBlue,
+                                    width: 20,
+                                  ),
+                                  SizedBox(
+                                    width: width * 0.01,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      widget.availableStore.store
+                                          .neighbourhoodAddress,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 10,
+                                        color: widget.isRecurrent
+                                            ? primaryLightBlue
+                                            : primaryBlue,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Horários disponíveis",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 14,
-                                  color: textDarkGrey),
-                            ),
-                            Text(
-                              "Selecione o início do jogo",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 10,
-                                  color: textDarkGrey),
-                            ),
-                          ],
-                        )
-                      ],
+                              if (Provider.of<UserProvider>(context)
+                                      .userLocation !=
+                                  null)
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      r"assets/icon/distance_between.svg",
+                                      color: widget.isRecurrent
+                                          ? primaryLightBlue
+                                          : primaryBlue,
+                                      width: 20,
+                                    ),
+                                    SizedBox(
+                                      width: width * 0.01,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "${(Geolocator.distanceBetween(Provider.of<UserProvider>(context).userLocation!.latitude, Provider.of<UserProvider>(context).userLocation!.longitude, widget.availableStore.store.latitude, widget.availableStore.store.longitude) / 1000).toStringAsFixed(2)} km de você",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 10,
+                                          color: widget.isRecurrent
+                                              ? primaryLightBlue
+                                              : primaryBlue,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Horários disponíveis",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14,
+                                    color: textDarkGrey),
+                              ),
+                              Text(
+                                "Selecione o início do jogo",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 10,
+                                    color: textDarkGrey),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  )),
-                ],
+                  ],
+                ),
               ),
             ),
             SizedBox(

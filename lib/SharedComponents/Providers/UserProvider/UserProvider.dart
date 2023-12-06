@@ -6,6 +6,7 @@ import '../../Model/AppRecurrentMatch.dart';
 import '../../Model/CreditCard/CreditCard.dart';
 import '../../Model/Reward.dart';
 import '../../Model/User.dart';
+import 'package:geolocator/geolocator.dart';
 
 class UserProvider extends ChangeNotifier {
   User? _user;
@@ -167,5 +168,37 @@ class UserProvider extends ChangeNotifier {
   void clearCreditCards() {
     _creditCards.clear();
     notifyListeners();
+  }
+
+  Position? userLocation;
+  final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
+  bool locationPermanentlyDenied = false;
+
+  Future<bool> handlePositionPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await _geolocatorPlatform.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return false;
+    }
+
+    permission = await _geolocatorPlatform.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await _geolocatorPlatform.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return false;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      locationPermanentlyDenied = true;
+      notifyListeners();
+      return false;
+    }
+    userLocation = await _geolocatorPlatform.getCurrentPosition();
+    notifyListeners();
+    return true;
   }
 }

@@ -19,6 +19,7 @@ class _FilterBasicWidgetState extends State<FilterBasicWidget> {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<MatchSearchFilterViewModel>(context);
     return Container(
+      color: secondaryBack,
       padding: EdgeInsets.all(
         defaultPadding,
       ),
@@ -64,7 +65,7 @@ class _FilterBasicWidgetState extends State<FilterBasicWidget> {
                                 viewModel.currentCustomFilter.orderBy,
                             icon: r"assets/icon/order_by_distance.svg",
                             onNewOrderBy: (newOrderBy) =>
-                                viewModel.onNewOrderBy(newOrderBy),
+                                viewModel.onNewOrderBy(context, newOrderBy),
                           ),
                         ),
                         Expanded(
@@ -74,7 +75,7 @@ class _FilterBasicWidgetState extends State<FilterBasicWidget> {
                                 viewModel.currentCustomFilter.orderBy,
                             icon: r"assets/icon/order_by_price.svg",
                             onNewOrderBy: (newOrderBy) =>
-                                viewModel.onNewOrderBy(newOrderBy),
+                                viewModel.onNewOrderBy(context, newOrderBy),
                           ),
                         ),
                       ],
@@ -84,8 +85,6 @@ class _FilterBasicWidgetState extends State<FilterBasicWidget> {
               ),
             ),
           ),
-          if (viewModel.currentCustomFilter != viewModel.defaultCustomFilter)
-            SFButton(buttonLabel: "Salvar", onTap: () {})
         ],
       ),
     );

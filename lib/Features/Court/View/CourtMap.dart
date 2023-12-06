@@ -21,8 +21,10 @@ class _CourtMapState extends State<CourtMap> {
 
   @override
   void initState() {
-    showLocation = LatLng(double.parse(widget.store.latitude),
-        double.parse(widget.store.longitude));
+    showLocation = LatLng(
+      widget.store.latitude,
+      widget.store.longitude,
+    );
     markers.add(Marker(
       //add marker on google map
       markerId: MarkerId(showLocation.toString()),

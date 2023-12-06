@@ -8,7 +8,6 @@ import 'package:sandfriends/SharedComponents/Model/AvailableHour.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableStore.dart';
 import 'package:sandfriends/SharedComponents/Model/Hour.dart';
 import 'package:time_range/time_range.dart';
-
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/AppMatch.dart';
 import '../../../SharedComponents/Model/AvailableCourt.dart';
@@ -26,6 +25,7 @@ import '../../Court/Model/HourPrice.dart';
 import '../Repository/MatchSearchRepoImp.dart';
 import '../View/CalendarModal.dart';
 import '../../../SharedComponents/View/Modal/TimeModal.dart';
+import 'package:geolocator/geolocator.dart';
 
 class MatchSearchViewModel extends ChangeNotifier {
   final matchSearchRepo = MatchSearchRepoImp();
@@ -39,8 +39,7 @@ class MatchSearchViewModel extends ChangeNotifier {
   Widget? widgetForm;
   bool canTapBackground = true;
 
-  late String titleText;
-  late Sport selectedSport;
+  String get titleText => "Busca - ${currentCustomFilter.sport.description}";
 
   City? cityFilter;
   List<DateTime?> datesFilter = [];
@@ -58,25 +57,56 @@ class MatchSearchViewModel extends ChangeNotifier {
 
   bool hasUserSearched = false;
 
-  final List<AvailableDay> availableDays = [];
+  final List<AvailableDay> _availableDays = [];
+  List<AvailableDay> get availableDays {
+    if (currentCustomFilter.orderBy == OrderBy.distance) {
+      for (var avDay in _availableDays) {
+        avDay.stores.sort(
+          (a, b) => a.store.distanceBetweenPlayer!
+              .compareTo(b.store.distanceBetweenPlayer!),
+        );
+      }
+    } else {
+      for (var avDay in _availableDays) {
+        avDay.stores.sort(
+          (a, b) => a.availableHours
+              .reduce((a, b) =>
+                  a.lowestHourPrice.price < b.lowestHourPrice.price ? a : b)
+              .lowestHourPrice
+              .price
+              .compareTo(
+                b.availableHours
+                    .reduce((a, b) =>
+                        a.lowestHourPrice.price < b.lowestHourPrice.price
+                            ? a
+                            : b)
+                    .lowestHourPrice
+                    .price,
+              ),
+        );
+      }
+    }
+    return _availableDays;
+  }
+
   final List<AppMatch> openMatches = [];
 
   bool get canSearchMatch => datesFilter.isNotEmpty && cityFilter != null;
+
+  bool get customFilterHasChanged => defaultCustomFilter != currentCustomFilter;
 
   AvailableHour? selectedHour;
   AvailableStore? selectedStore;
   AvailableDay? selectedDay;
 
   void initMatchSearchViewModel(BuildContext context, int sportId) {
-    selectedSport = Provider.of<CategoriesProvider>(context, listen: false)
-        .sports
-        .firstWhere(
-          (sport) => sport.idSport == sportId,
-        );
-    defaultCustomFilter =
-        CustomFilter(orderBy: OrderBy.distance, sport: selectedSport);
-    currentCustomFilter = defaultCustomFilter;
-    titleText = "Busca - ${selectedSport.description}";
+    defaultCustomFilter = CustomFilter(
+        orderBy: OrderBy.price,
+        sport: Provider.of<UserProvider>(context, listen: false)
+            .user!
+            .preferenceSport!);
+    currentCustomFilter = CustomFilter.copyFrom(defaultCustomFilter);
+
     if (Provider.of<CategoriesProvider>(context, listen: false)
         .availableRegions
         .any(
@@ -89,6 +119,15 @@ class MatchSearchViewModel extends ChangeNotifier {
         )) {
       cityFilter = Provider.of<UserProvider>(context, listen: false).user!.city;
     }
+    Provider.of<UserProvider>(context, listen: false)
+        .handlePositionPermission()
+        .then((value) {
+      if (value == true) {
+        defaultCustomFilter.orderBy = OrderBy.distance;
+        currentCustomFilter.orderBy = OrderBy.distance;
+        notifyListeners();
+      }
+    });
   }
 
   void searchCourts(context) {
@@ -100,7 +139,7 @@ class MatchSearchViewModel extends ChangeNotifier {
           .searchCourts(
         context,
         Provider.of<UserProvider>(context, listen: false).user!.accessToken,
-        selectedSport.idSport,
+        currentCustomFilter.sport.idSport,
         cityFilter!.cityId,
         datesFilter[0]!,
         datesFilter.length < 2 ? datesFilter[0]! : datesFilter[1]!,
@@ -171,7 +210,7 @@ class MatchSearchViewModel extends ChangeNotifier {
         'selectedHourPrice': selectedHour!.lowestHourPrice,
         'selectedDate': selectedDay!.day,
         'selectedWeekday': null,
-        'selectedSport': selectedSport,
+        'selectedSport': currentCustomFilter.sport,
         'isRecurrent': false,
       },
     );
@@ -304,7 +343,7 @@ class MatchSearchViewModel extends ChangeNotifier {
   }
 
   void setSearchMatchesResult(BuildContext context, String response) {
-    availableDays.clear();
+    _availableDays.clear();
     openMatches.clear();
 
     List<Store> receivedStores = [];
@@ -315,10 +354,24 @@ class MatchSearchViewModel extends ChangeNotifier {
     final responseOpenMatches = responseBody['OpenMatches'];
 
     for (var store in responseStores) {
+      Store newStore = Store.fromJson(
+        store,
+      );
+      if (Provider.of<UserProvider>(context, listen: false).userLocation !=
+          null) {
+        newStore.distanceBetweenPlayer = Geolocator.distanceBetween(
+          Provider.of<UserProvider>(context, listen: false)
+              .userLocation!
+              .latitude,
+          Provider.of<UserProvider>(context, listen: false)
+              .userLocation!
+              .longitude,
+          newStore.latitude,
+          newStore.longitude,
+        );
+      }
       receivedStores.add(
-        Store.fromJson(
-          store,
-        ),
+        newStore,
       );
     }
 
@@ -357,22 +410,22 @@ class MatchSearchViewModel extends ChangeNotifier {
           ),
         );
       }
-      availableDays.add(
+      _availableDays.add(
         AvailableDay(
           day: newDate,
           stores: availableStores,
         ),
       );
-    }
 
-    for (var openMatch in responseOpenMatches) {
-      openMatches.add(
-        AppMatch.fromJson(
-          openMatch,
-          Provider.of<CategoriesProvider>(context, listen: false).hours,
-          Provider.of<CategoriesProvider>(context, listen: false).sports,
-        ),
-      );
+      for (var openMatch in responseOpenMatches) {
+        openMatches.add(
+          AppMatch.fromJson(
+            openMatch,
+            Provider.of<CategoriesProvider>(context, listen: false).hours,
+            Provider.of<CategoriesProvider>(context, listen: false).sports,
+          ),
+        );
+      }
     }
   }
 
@@ -380,7 +433,7 @@ class MatchSearchViewModel extends ChangeNotifier {
     Navigator.pushNamed(context, '/match_screen/$matchUrl');
   }
 
-  goToOpenMatches() {}
+  void goToOpenMatches() {}
 
   void closeModal() {
     pageStatus = PageStatus.OK;
@@ -391,11 +444,23 @@ class MatchSearchViewModel extends ChangeNotifier {
     Navigator.pop(context);
   }
 
-  void goToSearchFilter(BuildContext context) {
+  Future<void> goToSearchFilter(BuildContext context) async {
     Navigator.pushNamed(context, "/match_search_filter", arguments: {
       'defaultCustomFilter': defaultCustomFilter,
       'currentCustomFilter': currentCustomFilter,
       'selectedCityId': cityFilter,
+    }).then((newFilter) {
+      if (newFilter is CustomFilter) {
+        bool needsUpdate = false;
+        if (currentCustomFilter.sport.idSport != newFilter.sport.idSport) {
+          needsUpdate = true;
+        }
+        currentCustomFilter = newFilter;
+        if (needsUpdate) {
+          searchCourts(context);
+        }
+        notifyListeners();
+      }
     });
   }
 }

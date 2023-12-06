@@ -82,6 +82,7 @@ dev_dependencies:
   package_info_plus: ^4.1.0
   firebase_messaging: ^14.7.2
   flutter_local_notifications: ^16.1.0
+  geolocator: ^10.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -173,6 +174,7 @@ flutter:
     - assets/icon/sport_icon_3.svg
     - assets/icon/order_by_distance.svg
     - assets/icon/order_by_price.svg
+    - assets/icon/distance_between.svg
 
     - assets/icon/no_credit_card.svg
     - assets/icon/credit_card.svg

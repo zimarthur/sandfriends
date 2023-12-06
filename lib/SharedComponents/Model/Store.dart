@@ -9,14 +9,15 @@ class Store {
   final String addressNumber;
   final String neighbourhood;
   final City city;
-  final String latitude;
-  final String longitude;
+  final double latitude;
+  final double longitude;
   final String imageUrl;
   final String descriptionText;
   final String instagram;
   final String phone;
   List<String> photos = [];
   List<Court> courts = [];
+  double? distanceBetweenPlayer;
 
   Store({
     required this.idStore,
@@ -49,8 +50,12 @@ class Store {
       addressNumber: json['AddressNumber'],
       neighbourhood: json['Neighbourhood'],
       city: City.fromJsonUser(json['City']),
-      latitude: json['Latitude'],
-      longitude: json['Longitude'],
+      latitude: double.parse(
+        json['Latitude'],
+      ),
+      longitude: double.parse(
+        json['Longitude'],
+      ),
       imageUrl: json['Logo'],
       descriptionText: json['Description'],
       instagram: json['Instagram'],
