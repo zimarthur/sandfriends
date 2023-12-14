@@ -67,7 +67,6 @@ class HomeViewModel extends ChangeNotifier {
     bool? authorization;
     String? fcmToken;
     try {
-      throw Exception();
       fcmToken = await FirebaseMessaging.instance.getToken();
       FirebaseMessaging messaging = FirebaseMessaging.instance;
 
