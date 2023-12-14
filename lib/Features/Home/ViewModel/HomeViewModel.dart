@@ -56,6 +56,7 @@ class HomeViewModel extends ChangeNotifier {
 
   void initHomeScreen(HomeTabs initialTab, BuildContext context) {
     currentTab = initialTab;
+
     configureNotifications().then((notificationCOnfigs) {
       getUserInfo(context, notificationCOnfigs);
       notifyListeners();
@@ -63,24 +64,30 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   Future<Tuple2<bool, String?>?> configureNotifications() async {
-    final fcmToken = await FirebaseMessaging.instance.getToken();
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    bool? authorization;
+    String? fcmToken;
+    try {
+      throw Exception();
+      fcmToken = await FirebaseMessaging.instance.getToken();
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-    bool? authorization =
-        settings.authorizationStatus == AuthorizationStatus.authorized
-            ? true
-            : settings.authorizationStatus == AuthorizationStatus.denied
-                ? false
-                : null;
+      NotificationSettings settings = await messaging.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true,
+      );
+      authorization =
+          settings.authorizationStatus == AuthorizationStatus.authorized
+              ? true
+              : settings.authorizationStatus == AuthorizationStatus.denied
+                  ? false
+                  : null;
+    } catch (e) {}
+
     return authorization != null
         ? Tuple2<bool, String?>(authorization, fcmToken)
         : null;

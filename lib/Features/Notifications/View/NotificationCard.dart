@@ -74,59 +74,57 @@ class _NotificationCardState extends State<NotificationCard> {
               ),
             ),
             Expanded(
-              child: SizedBox(
-                height: width * 0.2,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        widget.notification.message,
-                        textAlign: TextAlign.start,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                        ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      widget.notification.message,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
                       ),
+                      maxLines: 2,
                     ),
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            SvgPicture.asset(r"assets/icon/calendar.svg"),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                right: width * 0.02,
-                              ),
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(r"assets/icon/calendar.svg"),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              right: width * 0.02,
                             ),
-                            Text(
-                              "${DateFormat("dd/MM/yyyy").format(widget.notification.match.date)} às ${widget.notification.match.timeBegin.hourString}",
-                              style: const TextStyle(
-                                color: textBlue,
-                              ),
+                          ),
+                          Text(
+                            "${DateFormat("dd/MM/yyyy").format(widget.notification.match.date)} às ${widget.notification.match.timeBegin.hourString}",
+                            style: const TextStyle(
+                              color: textBlue,
                             ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset(r"assets/icon/location_ping.svg"),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                right: width * 0.02,
-                              ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          SvgPicture.asset(r"assets/icon/location_ping.svg"),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              right: width * 0.02,
                             ),
-                            Text(
-                              widget.notification.match.court.store?.name ?? "",
-                              style: TextStyle(
-                                color: textBlue,
-                              ),
+                          ),
+                          Text(
+                            widget.notification.match.court.store?.name ?? "",
+                            style: TextStyle(
+                              color: textBlue,
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],

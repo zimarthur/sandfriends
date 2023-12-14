@@ -276,7 +276,7 @@ class _AppState extends State<App> {
                 );
               },
             );
-          } else if (settings.name! == match) {
+          } else if (settings.name!.startsWith(match)) {
             //match?id=123
             final matchUrl = settings.name!.split(match)[1].split("/")[1];
             return MaterialPageRoute(

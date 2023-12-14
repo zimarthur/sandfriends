@@ -416,21 +416,20 @@ class MatchSearchViewModel extends ChangeNotifier {
           stores: availableStores,
         ),
       );
-
-      for (var openMatch in responseOpenMatches) {
-        openMatches.add(
-          AppMatch.fromJson(
-            openMatch,
-            Provider.of<CategoriesProvider>(context, listen: false).hours,
-            Provider.of<CategoriesProvider>(context, listen: false).sports,
-          ),
-        );
-      }
+    }
+    for (var openMatch in responseOpenMatches) {
+      openMatches.add(
+        AppMatch.fromJson(
+          openMatch,
+          Provider.of<CategoriesProvider>(context, listen: false).hours,
+          Provider.of<CategoriesProvider>(context, listen: false).sports,
+        ),
+      );
     }
   }
 
   void goToMatch(BuildContext context, String matchUrl) {
-    Navigator.pushNamed(context, '/match_screen/$matchUrl');
+    Navigator.pushNamed(context, '/match/$matchUrl');
   }
 
   void goToOpenMatches() {}
