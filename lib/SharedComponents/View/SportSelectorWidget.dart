@@ -80,7 +80,6 @@ class SportItem extends StatelessWidget {
             children: [
               SvgPicture.asset(
                 "assets/icon/sport_icon_${sport.idSport}.svg",
-                color: isSelected ? primaryBlue : textDarkGrey,
                 height: 30,
               ),
               if (isSelected)

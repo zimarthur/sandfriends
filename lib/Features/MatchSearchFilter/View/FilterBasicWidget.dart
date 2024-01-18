@@ -44,43 +44,48 @@ class _FilterBasicWidgetState extends State<FilterBasicWidget> {
                       newSport,
                     ),
                   ),
-                  SizedBox(
-                    height: 3 * defaultPadding,
-                  ),
-                  Text(
-                    "Ordenar por",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: defaultPadding,
-                  ),
-                  Container(
-                    height: 110,
-                    child: Row(
+                  if (!viewModel.hideOrderBy)
+                    Column(
                       children: [
-                        Expanded(
-                          child: OrderByItemWidget(
-                            orderBy: OrderBy.distance,
-                            currentOrderBy:
-                                viewModel.currentCustomFilter.orderBy,
-                            icon: r"assets/icon/order_by_distance.svg",
-                            onNewOrderBy: (newOrderBy) =>
-                                viewModel.onNewOrderBy(context, newOrderBy),
-                          ),
+                        SizedBox(
+                          height: 3 * defaultPadding,
                         ),
-                        Expanded(
-                          child: OrderByItemWidget(
-                            orderBy: OrderBy.price,
-                            currentOrderBy:
-                                viewModel.currentCustomFilter.orderBy,
-                            icon: r"assets/icon/order_by_price.svg",
-                            onNewOrderBy: (newOrderBy) =>
-                                viewModel.onNewOrderBy(context, newOrderBy),
+                        Text(
+                          "Ordenar por",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        SizedBox(
+                          height: defaultPadding,
+                        ),
+                        Container(
+                          height: 110,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: OrderByItemWidget(
+                                  orderBy: OrderBy.distance,
+                                  currentOrderBy:
+                                      viewModel.currentCustomFilter.orderBy,
+                                  icon: r"assets/icon/order_by_distance.svg",
+                                  onNewOrderBy: (newOrderBy) => viewModel
+                                      .onNewOrderBy(context, newOrderBy),
+                                ),
+                              ),
+                              Expanded(
+                                child: OrderByItemWidget(
+                                  orderBy: OrderBy.price,
+                                  currentOrderBy:
+                                      viewModel.currentCustomFilter.orderBy,
+                                  icon: r"assets/icon/order_by_price.svg",
+                                  onNewOrderBy: (newOrderBy) => viewModel
+                                      .onNewOrderBy(context, newOrderBy),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                  ),
                 ],
               ),
             ),

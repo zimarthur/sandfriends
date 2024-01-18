@@ -30,12 +30,19 @@ class MatchSearchFilterViewModel extends ChangeNotifier {
   late SFTabItem selectedTab;
   late List<SFTabItem> tabs;
 
-  void initViewModel(CustomFilter recDefaultCustomFilter,
-      CustomFilter recCurrentCustomFilter, City? recCity) {
+  bool hideOrderBy = false;
+
+  void initViewModel(
+    CustomFilter recDefaultCustomFilter,
+    CustomFilter recCurrentCustomFilter,
+    City? recCity,
+    bool? recHideOrderBy,
+  ) {
     defaultCustomFilter = CustomFilter.copyFrom(recDefaultCustomFilter);
     currentCustomFilter = CustomFilter.copyFrom(recCurrentCustomFilter);
     cityFilter = recCity;
 
+    hideOrderBy = recHideOrderBy ?? false;
     tabs = [
       SFTabItem(
         name: "Básico",

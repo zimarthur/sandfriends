@@ -25,6 +25,7 @@ import 'package:sandfriends/Features/RecurrentMatchSearchSport/View/RecurrentMat
 import 'package:sandfriends/Features/RecurrentMatches/View/RecurrentMatchesSreen.dart';
 import 'package:sandfriends/Features/Rewards/View/RewardsScreen.dart';
 import 'package:sandfriends/Features/RewardsUser/View/RewardsUserScreen.dart';
+import 'package:sandfriends/Features/StoreSearch/View/StoreSearchScreen.dart';
 import 'package:sandfriends/SharedComponents/Model/City.dart';
 import 'package:sandfriends/SharedComponents/Model/Court.dart';
 import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/EnvironmentProvider.dart';
@@ -162,6 +163,7 @@ class _AppState extends State<App> {
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("NOTIFICAÇÂO");
       if (message.notification != null) {
         NotificationService().showLocalNotification(
             title: message.notification!.title,
@@ -242,6 +244,7 @@ class _AppState extends State<App> {
           String court = "/court";
           String checkout = "/checkout";
           String userDetails = "/user_details";
+          String storeSearch = "/store_search";
           if (settings.name! == matchSearch) {
             final arguments = settings.arguments as Map;
 
@@ -263,6 +266,7 @@ class _AppState extends State<App> {
                   currentCustomFilter:
                       arguments['currentCustomFilter'] as CustomFilter,
                   selectedCityId: arguments['selectedCityId'] as City?,
+                  hideOrderBy: arguments['hideOrderBy'] as bool?,
                 );
               },
             );
@@ -339,6 +343,16 @@ class _AppState extends State<App> {
                 return UserDetailsScreen(
                   initSport: initSport,
                   initModalEnum: initModalEnum,
+                );
+              },
+            );
+          } else if (settings.name! == storeSearch) {
+            final arguments = settings.arguments as Map;
+
+            return MaterialPageRoute(
+              builder: (context) {
+                return StoreSearchScreen(
+                  sportId: arguments['sportId'],
                 );
               },
             );

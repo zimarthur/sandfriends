@@ -17,17 +17,11 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
@@ -51,6 +45,24 @@ class DefaultFirebaseOptions {
         );
     }
   }
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBqB0l8u_ToZjzmXnlRD_bm7xyvGG6yhxw',
+    appId: '1:329100803665:web:b0e6d8558c2dc6c3af4270',
+    messagingSenderId: '329100803665',
+    projectId: 'sandfriends-prod',
+    authDomain: 'sandfriends-prod.firebaseapp.com',
+    storageBucket: 'sandfriends-prod.appspot.com',
+    measurementId: 'G-ELPPBT8PFZ',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyACNkmqOyYaCZKYyDuZRDpYp1weZrI3aqI',
+    appId: '1:329100803665:android:8ead35e5e7c0d150af4270',
+    messagingSenderId: '329100803665',
+    projectId: 'sandfriends-prod',
+    storageBucket: 'sandfriends-prod.appspot.com',
+  );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDT0kQqFx2InNi3bVKsmN0NhkbqyXhFK-Q',

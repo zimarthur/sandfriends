@@ -175,6 +175,8 @@ flutter:
     - assets/icon/order_by_distance.svg
     - assets/icon/order_by_price.svg
     - assets/icon/distance_between.svg
+    - assets/icon/search_by_store.svg
+    - assets/icon/search_by_default.svg
 
     - assets/icon/no_credit_card.svg
     - assets/icon/credit_card.svg

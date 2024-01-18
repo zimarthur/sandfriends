@@ -16,10 +16,12 @@ class MatchSearchFilterScreen extends StatefulWidget {
   CustomFilter defaultCustomFilter;
   CustomFilter currentCustomFilter;
   City? selectedCityId;
+  bool? hideOrderBy;
   MatchSearchFilterScreen(
       {required this.defaultCustomFilter,
       required this.currentCustomFilter,
       required this.selectedCityId,
+      required this.hideOrderBy,
       super.key});
 
   @override
@@ -36,6 +38,7 @@ class _MatchSearchFilterScreenState extends State<MatchSearchFilterScreen> {
       widget.defaultCustomFilter,
       widget.currentCustomFilter,
       widget.selectedCityId,
+      widget.hideOrderBy,
     );
     super.initState();
   }

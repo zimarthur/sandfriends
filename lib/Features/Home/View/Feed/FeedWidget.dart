@@ -53,17 +53,20 @@ class _FeedWidgetState extends State<FeedWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: width * 0.02),
-                        width: width * 0.5,
-                        height: height * 0.07,
-                        child: FittedBox(
-                          fit: BoxFit.fitWidth,
-                          child: Text(
-                            "Olá, ${Provider.of<UserProvider>(context).user!.firstName}!",
-                            style: const TextStyle(
-                              color: primaryBlue,
-                              fontWeight: FontWeight.w700,
+                      InkWell(
+                        onTap: ()=> throw Exception("Teste erro"),
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: width * 0.02),
+                          width: width * 0.5,
+                          height: height * 0.07,
+                          child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              "Olá, ${Provider.of<UserProvider>(context).user!.firstName}!",
+                              style: const TextStyle(
+                                color: primaryBlue,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
                         ),

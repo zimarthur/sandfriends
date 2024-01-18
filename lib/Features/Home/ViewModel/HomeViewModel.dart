@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Features/Home/View/SeachTypeSelector/SearchTypeEnum.dart';
+import 'package:sandfriends/Features/Home/View/SeachTypeSelector/SearchTypeSelectorWidget.dart';
+import 'package:sandfriends/Features/MatchSearch/View/MatchSearchWidget.dart';
 import 'package:sandfriends/SharedComponents/Model/AppRecurrentMatch.dart';
 import 'package:sandfriends/SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/RedirectProvider.dart';
@@ -38,24 +41,44 @@ class HomeViewModel extends ChangeNotifier {
   Widget? widgetForm;
   bool canTapBackground = true;
 
-  Widget get displayWidget {
+  void changeTab(BuildContext context, HomeTabs newTab) {
+    currentTab = newTab;
+
     switch (currentTab) {
       case HomeTabs.User:
-        return UserWidget(
+        displayWidget = UserWidget(
           viewModel: this,
+        );
+      case HomeTabs.MatchSearch:
+        displayWidget = SearchTypeSelectorWidget(
+          onSelect: (searchType) {
+            switch (searchType) {
+              case SearchType.Default:
+                goToMatchSearchScreen(context);
+
+                break;
+              case SearchType.ByStore:
+                goToStoreSearchScreen(context);
+                break;
+            }
+          },
         );
 
       default:
-        return FeedWidget(
+        displayWidget = FeedWidget(
           viewModel: this,
         );
     }
+
+    notifyListeners();
   }
 
-  HomeTabs currentTab = HomeTabs.User;
+  late HomeTabs currentTab;
+
+  late Widget displayWidget;
 
   void initHomeScreen(HomeTabs initialTab, BuildContext context) {
-    currentTab = initialTab;
+    changeTab(context, initialTab);
 
     configureNotifications().then((notificationCOnfigs) {
       getUserInfo(context, notificationCOnfigs);
@@ -69,7 +92,7 @@ class HomeViewModel extends ChangeNotifier {
     try {
       fcmToken = await FirebaseMessaging.instance.getToken();
       FirebaseMessaging messaging = FirebaseMessaging.instance;
-
+      print("token is ${fcmToken}");
       NotificationSettings settings = await messaging.requestPermission(
         alert: true,
         announcement: false,
@@ -90,15 +113,6 @@ class HomeViewModel extends ChangeNotifier {
     return authorization != null
         ? Tuple2<bool, String?>(authorization, fcmToken)
         : null;
-  }
-
-  void changeTab(BuildContext context, HomeTabs newTab) {
-    if (newTab == HomeTabs.MatchSearch) {
-      goToMatchSearchScreen(context);
-      return;
-    }
-    currentTab = newTab;
-    notifyListeners();
   }
 
   void closeModal() {
@@ -310,6 +324,17 @@ class HomeViewModel extends ChangeNotifier {
     BuildContext context,
   ) {
     Navigator.pushNamed(context, '/match_search', arguments: {
+      'sportId': Provider.of<UserProvider>(context, listen: false)
+          .user!
+          .preferenceSport!
+          .idSport,
+    });
+  }
+
+  void goToStoreSearchScreen(
+    BuildContext context,
+  ) {
+    Navigator.pushNamed(context, '/store_search', arguments: {
       'sportId': Provider.of<UserProvider>(context, listen: false)
           .user!
           .preferenceSport!
