@@ -21,13 +21,14 @@ import 'package:sandfriends/Features/Onboarding/View/OnboardingScreen.dart';
 import 'package:sandfriends/Features/OpenMatches/View/OpenMatchesScreen.dart';
 import 'package:sandfriends/Features/Payment/View/PaymentScreen.dart';
 import 'package:sandfriends/Features/RecurrentMatchSearch/View/RecurrentMatchSearchScreen.dart';
-import 'package:sandfriends/Features/RecurrentMatchSearchSport/View/RecurrentMatchSearchSportScreen.dart';
 import 'package:sandfriends/Features/RecurrentMatches/View/RecurrentMatchesSreen.dart';
 import 'package:sandfriends/Features/Rewards/View/RewardsScreen.dart';
 import 'package:sandfriends/Features/RewardsUser/View/RewardsUserScreen.dart';
+import 'package:sandfriends/Features/SearchType/View/SearchTypeScreen.dart';
 import 'package:sandfriends/Features/StoreSearch/View/StoreSearchScreen.dart';
 import 'package:sandfriends/SharedComponents/Model/City.dart';
 import 'package:sandfriends/SharedComponents/Model/Court.dart';
+import 'package:sandfriends/SharedComponents/Model/Hour.dart';
 import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/EnvironmentProvider.dart';
 import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/RedirectProvider.dart';
 import 'Features/Authentication/LoadLogin/View/LoadLoginScreen.dart';
@@ -156,6 +157,17 @@ class _AppState extends State<App> {
           },
         ),
       );
+    } else if (handleUri.queryParameters['ct'] == "str") {
+      navigatorKey.currentState?.push(
+        MaterialPageRoute(
+          builder: (context) {
+            return LoadLoginScreen(
+              redirectUri:
+                  '/court_redirect/${handleUri.queryParameters['bd'].toString()}',
+            );
+          },
+        ),
+      );
     }
   }
 
@@ -163,7 +175,6 @@ class _AppState extends State<App> {
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print("NOTIFICAÇÂO");
       if (message.notification != null) {
         NotificationService().showLocalNotification(
             title: message.notification!.title,
@@ -241,10 +252,12 @@ class _AppState extends State<App> {
           String matchSearch = "/match_search";
           String matchSearchFilter = "/match_search_filter";
           String recurrentMatchSearch = "/recurrent_match_search";
+          String courtRedirect = "/court_redirect";
           String court = "/court";
           String checkout = "/checkout";
           String userDetails = "/user_details";
           String storeSearch = "/store_search";
+          String searchType = "/search_type";
           if (settings.name! == matchSearch) {
             final arguments = settings.arguments as Map;
 
@@ -267,6 +280,7 @@ class _AppState extends State<App> {
                       arguments['currentCustomFilter'] as CustomFilter,
                   selectedCityId: arguments['selectedCityId'] as City?,
                   hideOrderBy: arguments['hideOrderBy'] as bool?,
+                  isRecurrent: arguments['isRecurrent'] as bool,
                 );
               },
             );
@@ -290,26 +304,37 @@ class _AppState extends State<App> {
                 );
               },
             );
+          } else if (settings.name!.startsWith(courtRedirect)) {
+            final storeId = settings.name!.split(court)[1].split("/")[1];
+            return MaterialPageRoute(
+              builder: (context) {
+                return CourtScreen(
+                  canMakeReservation: true,
+                  idStore: storeId,
+                );
+              },
+            );
           } else if (settings.name! == court) {
-            if (settings.arguments != null) {
-              final arguments = settings.arguments as Map;
+            final arguments = settings.arguments as Map;
 
-              return MaterialPageRoute(
-                builder: (context) {
-                  return CourtScreen(
-                    store: arguments['store'] as Store,
-                    courtAvailableHours: arguments['availableCourts']
-                        as List<CourtAvailableHours>?,
-                    selectedHourPrice:
-                        arguments['selectedHourPrice'] as HourPrice?,
-                    selectedDate: arguments['selectedDate'] as DateTime?,
-                    selectedWeekday: arguments['selectedWeekday'] as int?,
-                    selectedSport: arguments['selectedSport'] as Sport?,
-                    isRecurrent: arguments['isRecurrent'] as bool?,
-                  );
-                },
-              );
-            }
+            return MaterialPageRoute(
+              builder: (context) {
+                return CourtScreen(
+                  store: arguments['store'] as Store,
+                  courtAvailableHours: arguments['availableCourts']
+                      as List<CourtAvailableHours>?,
+                  selectedHourPrice:
+                      arguments['selectedHourPrice'] as HourPrice?,
+                  selectedDate: arguments['selectedDate'] as DateTime?,
+                  selectedWeekday: arguments['selectedWeekday'] as int?,
+                  selectedSport: arguments['selectedSport'] as Sport?,
+                  isRecurrent: arguments['isRecurrent'] as bool?,
+                  canMakeReservation: arguments['canMakeReservation'] ?? false,
+                  searchStartPeriod: arguments['searchStartPeriod'] as Hour?,
+                  searchEndPeriod: arguments['searchEndPeriod'] as Hour?,
+                );
+              },
+            );
           } else if (settings.name! == checkout) {
             if (settings.arguments != null) {
               final arguments = settings.arguments as Map;
@@ -353,6 +378,18 @@ class _AppState extends State<App> {
               builder: (context) {
                 return StoreSearchScreen(
                   sportId: arguments['sportId'],
+                  isRecurrent: arguments['isRecurrent'],
+                );
+              },
+            );
+          } else if (settings.name! == searchType) {
+            final arguments = settings.arguments as Map;
+
+            return MaterialPageRoute(
+              builder: (context) {
+                return SearchTypeScreen(
+                  isRecurrent: arguments['isRecurrent'] as bool,
+                  showReturnArrow: arguments['showReturnArrow'] ?? false,
                 );
               },
             );
@@ -378,8 +415,6 @@ class _AppState extends State<App> {
           '/open_matches': (BuildContext context) => const OpenMatchesScreen(),
           '/recurrent_matches': (BuildContext context) =>
               const RecurrentMatchesScreen(),
-          '/recurrent_match_search_sport': (BuildContext context) =>
-              const RecurrentMatchSearchSportScreen(),
           '/payment': (BuildContext context) => const PaymentScreen(),
           '/new_credit_card': (BuildContext context) =>
               const NewCreditCardScreen(),

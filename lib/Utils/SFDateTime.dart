@@ -76,3 +76,25 @@ bool areInTheSameMonth(DateTime a, DateTime b) {
 bool areInTheSameDay(DateTime a, DateTime b) {
   return areInTheSameMonth(a, b) && a.day == b.day;
 }
+
+int getSFWeekday(int weekday) {
+  if (weekday == 0) {
+    return 6;
+  } else {
+    return weekday - 1;
+  }
+}
+
+int nextWeekDay(int weekday) {
+  if (weekday == 6) {
+    return 0;
+  }
+  return weekday + 1;
+}
+
+int lastWeekDay(int weekday) {
+  if (weekday == 0) {
+    return 6;
+  }
+  return weekday - 1;
+}

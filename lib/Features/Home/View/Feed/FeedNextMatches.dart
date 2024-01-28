@@ -107,6 +107,7 @@ class _FeedNextMatchesState extends State<FeedNextMatches> {
                                   color: textBlue,
                                   fontWeight: FontWeight.w700,
                                   decoration: TextDecoration.underline,
+                                  decorationColor: textBlue,
                                 ),
                               ),
                             ),

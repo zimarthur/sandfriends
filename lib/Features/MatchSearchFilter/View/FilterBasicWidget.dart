@@ -18,6 +18,7 @@ class _FilterBasicWidgetState extends State<FilterBasicWidget> {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<MatchSearchFilterViewModel>(context);
+    Color primaryColor = viewModel.isRecurrent ? primaryLightBlue : primaryBlue;
     return Container(
       color: secondaryBack,
       padding: EdgeInsets.all(
@@ -43,6 +44,7 @@ class _FilterBasicWidgetState extends State<FilterBasicWidget> {
                     onSelectedSport: (newSport) => viewModel.onChangeSport(
                       newSport,
                     ),
+                    primaryColor: primaryColor,
                   ),
                   if (!viewModel.hideOrderBy)
                     Column(
@@ -69,17 +71,18 @@ class _FilterBasicWidgetState extends State<FilterBasicWidget> {
                                   icon: r"assets/icon/order_by_distance.svg",
                                   onNewOrderBy: (newOrderBy) => viewModel
                                       .onNewOrderBy(context, newOrderBy),
+                                  primaryColor: primaryColor,
                                 ),
                               ),
                               Expanded(
                                 child: OrderByItemWidget(
-                                  orderBy: OrderBy.price,
-                                  currentOrderBy:
-                                      viewModel.currentCustomFilter.orderBy,
-                                  icon: r"assets/icon/order_by_price.svg",
-                                  onNewOrderBy: (newOrderBy) => viewModel
-                                      .onNewOrderBy(context, newOrderBy),
-                                ),
+                                    orderBy: OrderBy.price,
+                                    currentOrderBy:
+                                        viewModel.currentCustomFilter.orderBy,
+                                    icon: r"assets/icon/order_by_price.svg",
+                                    onNewOrderBy: (newOrderBy) => viewModel
+                                        .onNewOrderBy(context, newOrderBy),
+                                    primaryColor: primaryColor),
                               ),
                             ],
                           ),

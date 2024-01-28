@@ -8,8 +8,13 @@ import 'package:sandfriends/Utils/Constants.dart';
 class SportSelectorWidget extends StatefulWidget {
   Sport selectedSport;
   Function(Sport) onSelectedSport;
-  SportSelectorWidget(
-      {required this.selectedSport, required this.onSelectedSport, super.key});
+  Color primaryColor;
+  SportSelectorWidget({
+    required this.selectedSport,
+    required this.onSelectedSport,
+    required this.primaryColor,
+    super.key,
+  });
 
   @override
   State<SportSelectorWidget> createState() => _SportSelectorWidgetState();
@@ -34,6 +39,7 @@ class _SportSelectorWidgetState extends State<SportSelectorWidget> {
             sport: sport,
             isSelected: sport.idSport == widget.selectedSport.idSport,
             onTapSport: (newSport) => widget.onSelectedSport(newSport),
+            primaryColor: widget.primaryColor,
           ),
       ],
     );
@@ -44,10 +50,12 @@ class SportItem extends StatelessWidget {
   Sport sport;
   bool isSelected;
   Function(Sport) onTapSport;
+  Color primaryColor;
   SportItem({
     required this.sport,
     required this.isSelected,
     required this.onTapSport,
+    required this.primaryColor,
     super.key,
   });
 
@@ -73,7 +81,7 @@ class SportItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(
               defaultBorderRadius,
             ),
-            color: isSelected ? primaryBlue.withAlpha(64) : secondaryPaper,
+            color: isSelected ? primaryColor.withAlpha(64) : secondaryPaper,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -89,7 +97,7 @@ class SportItem extends StatelessWidget {
                     child: Text(
                       sport.description,
                       style: TextStyle(
-                        color: textBlue,
+                        color: primaryColor,
                       ),
                     ),
                   ),

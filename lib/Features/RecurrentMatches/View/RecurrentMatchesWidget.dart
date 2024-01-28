@@ -270,7 +270,7 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
               buttonLabel: "Buscar Quadras Mensalistas",
               color: primaryLightBlue,
               onTap: () {
-                widget.viewModel.goToSportSelection(context);
+                widget.viewModel.goToSearchType(context);
               },
               textPadding: EdgeInsets.symmetric(vertical: height * 0.01),
             ),

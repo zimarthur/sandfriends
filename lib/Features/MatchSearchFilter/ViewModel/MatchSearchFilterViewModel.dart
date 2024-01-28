@@ -26,7 +26,7 @@ class MatchSearchFilterViewModel extends ChangeNotifier {
   late CustomFilter currentCustomFilter;
 
   bool get customFilterHasChanged => defaultCustomFilter != currentCustomFilter;
-
+  bool isRecurrent = false;
   late SFTabItem selectedTab;
   late List<SFTabItem> tabs;
 
@@ -37,7 +37,9 @@ class MatchSearchFilterViewModel extends ChangeNotifier {
     CustomFilter recCurrentCustomFilter,
     City? recCity,
     bool? recHideOrderBy,
+    bool recIsRecurrent,
   ) {
+    isRecurrent = recIsRecurrent;
     defaultCustomFilter = CustomFilter.copyFrom(recDefaultCustomFilter);
     currentCustomFilter = CustomFilter.copyFrom(recCurrentCustomFilter);
     cityFilter = recCity;

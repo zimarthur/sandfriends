@@ -8,11 +8,13 @@ class OrderByItemWidget extends StatefulWidget {
   OrderBy currentOrderBy;
   String icon;
   Function(OrderBy) onNewOrderBy;
+  Color primaryColor;
   OrderByItemWidget(
       {required this.orderBy,
       required this.currentOrderBy,
       required this.icon,
       required this.onNewOrderBy,
+      required this.primaryColor,
       super.key});
 
   @override
@@ -31,12 +33,12 @@ class _OrderByItemWidgetState extends State<OrderByItemWidget> {
             child: Container(
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isSelected ? primaryBlue.withAlpha(64) : null,
+                  color: isSelected ? widget.primaryColor.withAlpha(64) : null,
                   border: !isSelected ? Border.all(color: textDarkGrey) : null),
               child: Center(
                 child: SvgPicture.asset(
                   widget.icon,
-                  color: isSelected ? primaryBlue : textDarkGrey,
+                  color: isSelected ? widget.primaryColor : textDarkGrey,
                 ),
               ),
             ),
@@ -47,7 +49,7 @@ class _OrderByItemWidgetState extends State<OrderByItemWidget> {
           Text(
             widget.orderBy == OrderBy.distance ? "Distância" : "Preço",
             style: TextStyle(
-              color: isSelected ? textBlue : textDarkGrey,
+              color: isSelected ? widget.primaryColor : textDarkGrey,
             ),
           )
         ],

@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Features/StoreSearch/Repository/StoreSearchRepoImp.dart';
+import 'package:sandfriends/SharedComponents/Model/Store.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/City.dart';
@@ -13,6 +18,8 @@ import '../../../Utils/PageStatus.dart';
 import '../../MatchSearchFilter/Model/CustomFilter.dart';
 
 class StoreSearchViewModel extends ChangeNotifier {
+  final storeSearchRepo = StoreSearchRepoImp();
+
   PageStatus pageStatus = PageStatus.OK;
   SFModalMessage modalMessage = SFModalMessage(
     message: "",
@@ -22,6 +29,7 @@ class StoreSearchViewModel extends ChangeNotifier {
   Widget? widgetForm;
   bool canTapBackground = true;
 
+  bool isRecurrent = false;
   String get titleText =>
       "Busca quadra - ${currentCustomFilter.sport.description}";
 
@@ -30,16 +38,59 @@ class StoreSearchViewModel extends ChangeNotifier {
 
   bool get customFilterHasChanged => defaultCustomFilter != currentCustomFilter;
 
-  void initMatchSearchViewModel(BuildContext context, int sportId) {
+  void initViewModel(
+    BuildContext context,
+    int sportId,
+    bool newIsRecurrent,
+  ) {
+    isRecurrent = newIsRecurrent;
     defaultCustomFilter = CustomFilter(
         orderBy: OrderBy.price,
         sport: Provider.of<UserProvider>(context, listen: false)
             .user!
             .preferenceSport!);
     currentCustomFilter = CustomFilter.copyFrom(defaultCustomFilter);
+
+    if (Provider.of<CategoriesProvider>(context, listen: false)
+        .availableRegions
+        .any(
+          (region) => region.containsCity(
+            Provider.of<UserProvider>(context, listen: false)
+                .user!
+                .city!
+                .cityId,
+          ),
+        )) {
+      selectedCity =
+          Provider.of<UserProvider>(context, listen: false).user!.city;
+    }
+    Provider.of<UserProvider>(context, listen: false)
+        .handlePositionPermission()
+        .then((value) {
+      if (value == true) {
+        defaultCustomFilter.orderBy = OrderBy.distance;
+        currentCustomFilter.orderBy = OrderBy.distance;
+        notifyListeners();
+      }
+    });
   }
 
   City? selectedCity;
+  bool get canSearchMatch => selectedCity != null;
+  bool hasUserSearched = false;
+
+  List<Store> _stores = [];
+  List<Store> get stores {
+    if (currentCustomFilter.orderBy == OrderBy.distance) {
+      List<Store> sortedStores = _stores;
+      sortedStores.sort(
+        (a, b) => a.distanceBetweenPlayer!.compareTo(b.distanceBetweenPlayer!),
+      );
+
+      return sortedStores;
+    }
+    return _stores;
+  }
 
   void openCitySelectorModal(BuildContext context) {
     pageStatus = PageStatus.LOADING;
@@ -88,7 +139,77 @@ class StoreSearchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void searchStores(BuildContext context) {}
+  void searchStores(BuildContext context) {
+    if (canSearchMatch) {
+      pageStatus = PageStatus.LOADING;
+      notifyListeners();
+
+      storeSearchRepo
+          .searchStores(
+              context, currentCustomFilter.sport.idSport, selectedCity!.cityId)
+          .then((response) {
+        if (response.responseStatus == NetworkResponseStatus.success) {
+          hasUserSearched = true;
+          final responseBody = json.decode(response.responseBody!);
+          final responseStores = responseBody['Stores'];
+          _stores.clear();
+          for (var store in responseStores) {
+            Store newStore = Store.fromJson(
+              store,
+            );
+            if (Provider.of<UserProvider>(context, listen: false)
+                    .userLocation !=
+                null) {
+              newStore.distanceBetweenPlayer = Geolocator.distanceBetween(
+                Provider.of<UserProvider>(context, listen: false)
+                    .userLocation!
+                    .latitude,
+                Provider.of<UserProvider>(context, listen: false)
+                    .userLocation!
+                    .longitude,
+                newStore.latitude,
+                newStore.longitude,
+              );
+            }
+            _stores.add(
+              newStore,
+            );
+          }
+
+          pageStatus = PageStatus.OK;
+          notifyListeners();
+        } else if (response.responseStatus ==
+            NetworkResponseStatus.expiredToken) {
+          modalMessage = SFModalMessage(
+            message: response.userMessage!,
+            onTap: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/login_signup',
+                (Route<dynamic> route) => false,
+              );
+            },
+            isHappy: false,
+          );
+          canTapBackground = false;
+
+          pageStatus = PageStatus.ERROR;
+          notifyListeners();
+        }
+      });
+    } else {
+      modalMessage = SFModalMessage(
+        message: "Selecione uma cidade para buscar as quadras",
+        onTap: () {
+          pageStatus = PageStatus.OK;
+          notifyListeners();
+        },
+        isHappy: true,
+      );
+      pageStatus = PageStatus.ERROR;
+      notifyListeners();
+    }
+  }
 
   void closeModal() {
     pageStatus = PageStatus.OK;
@@ -105,6 +226,7 @@ class StoreSearchViewModel extends ChangeNotifier {
       'currentCustomFilter': currentCustomFilter,
       'selectedCityId': selectedCity,
       'hideOrderBy': true,
+      'isRecurrent': isRecurrent,
     }).then((newFilter) {
       if (newFilter is CustomFilter) {
         bool needsUpdate = false;
@@ -118,5 +240,18 @@ class StoreSearchViewModel extends ChangeNotifier {
         notifyListeners();
       }
     });
+  }
+
+  void onTapStore(BuildContext context, Store store) {
+    Navigator.pushNamed(
+      context,
+      '/court',
+      arguments: {
+        'store': store,
+        'canMakeReservation': true,
+        'selectedSport': currentCustomFilter.sport,
+        'isRecurrent': isRecurrent,
+      },
+    );
   }
 }

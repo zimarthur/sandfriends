@@ -82,6 +82,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                             fontWeight: FontWeight.w500,
                             color: textBlue,
                             decoration: TextDecoration.underline,
+                            decorationColor: textBlue,
                           ),
                         ),
                       ),

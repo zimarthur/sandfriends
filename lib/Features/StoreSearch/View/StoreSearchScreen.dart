@@ -9,9 +9,11 @@ import '../../../SharedComponents/View/SFStandardScreen.dart';
 
 class StoreSearchScreen extends StatefulWidget {
   final int sportId;
+  final bool isRecurrent;
   const StoreSearchScreen({
     Key? key,
     required this.sportId,
+    required this.isRecurrent,
   }) : super(key: key);
 
   @override
@@ -23,7 +25,11 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
 
   @override
   void initState() {
-    viewModel.initMatchSearchViewModel(context, widget.sportId);
+    viewModel.initViewModel(
+      context,
+      widget.sportId,
+      widget.isRecurrent,
+    );
     super.initState();
   }
 
@@ -43,7 +49,9 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                 height: 25,
               ),
             ),
-            appBarType: AppBarType.Primary,
+            appBarType: widget.isRecurrent
+                ? AppBarType.PrimaryLightBlue
+                : AppBarType.Primary,
             messageModalWidget: viewModel.modalMessage,
             modalFormWidget: viewModel.widgetForm,
             onTapBackground: () => viewModel.closeModal(),

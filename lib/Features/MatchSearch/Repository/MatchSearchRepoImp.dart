@@ -24,6 +24,7 @@ class MatchSearchRepoImp implements MatchSearchRepo {
     DateTime dateEnd,
     int timeStart,
     int timeEnd,
+    int? idStore,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
@@ -38,6 +39,7 @@ class MatchSearchRepoImp implements MatchSearchRepo {
           'DateEnd': DateFormat("dd-MM-yyyy").format(dateEnd),
           'TimeStart': timeStart,
           'TimeEnd': timeEnd,
+          if (idStore != null) 'IdStore': idStore
         },
       ),
     );

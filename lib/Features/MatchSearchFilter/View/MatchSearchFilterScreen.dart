@@ -17,12 +17,15 @@ class MatchSearchFilterScreen extends StatefulWidget {
   CustomFilter currentCustomFilter;
   City? selectedCityId;
   bool? hideOrderBy;
-  MatchSearchFilterScreen(
-      {required this.defaultCustomFilter,
-      required this.currentCustomFilter,
-      required this.selectedCityId,
-      required this.hideOrderBy,
-      super.key});
+  bool isRecurrent;
+  MatchSearchFilterScreen({
+    required this.defaultCustomFilter,
+    required this.currentCustomFilter,
+    required this.selectedCityId,
+    required this.hideOrderBy,
+    required this.isRecurrent,
+    super.key,
+  });
 
   @override
   State<MatchSearchFilterScreen> createState() =>
@@ -39,6 +42,7 @@ class _MatchSearchFilterScreenState extends State<MatchSearchFilterScreen> {
       widget.currentCustomFilter,
       widget.selectedCityId,
       widget.hideOrderBy,
+      widget.isRecurrent,
     );
     super.initState();
   }
@@ -63,7 +67,9 @@ class _MatchSearchFilterScreenState extends State<MatchSearchFilterScreen> {
             //         ),
             //       )
             //     : Container(),
-            appBarType: AppBarType.Primary,
+            appBarType: widget.isRecurrent
+                ? AppBarType.PrimaryLightBlue
+                : AppBarType.Primary,
             messageModalWidget: viewModel.modalMessage,
             modalFormWidget: viewModel.widgetForm,
             onTapBackground: () => viewModel.closeModal(),

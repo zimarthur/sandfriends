@@ -2,9 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Features/Home/View/SeachTypeSelector/SearchTypeEnum.dart';
-import 'package:sandfriends/Features/Home/View/SeachTypeSelector/SearchTypeSelectorWidget.dart';
 import 'package:sandfriends/Features/MatchSearch/View/MatchSearchWidget.dart';
+import 'package:sandfriends/Features/SearchType/View/SearchTypeScreen.dart';
 import 'package:sandfriends/SharedComponents/Model/AppRecurrentMatch.dart';
 import 'package:sandfriends/SharedComponents/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'package:sandfriends/SharedComponents/Providers/RedirectProvider/RedirectProvider.dart';
@@ -50,18 +49,8 @@ class HomeViewModel extends ChangeNotifier {
           viewModel: this,
         );
       case HomeTabs.MatchSearch:
-        displayWidget = SearchTypeSelectorWidget(
-          onSelect: (searchType) {
-            switch (searchType) {
-              case SearchType.Default:
-                goToMatchSearchScreen(context);
-
-                break;
-              case SearchType.ByStore:
-                goToStoreSearchScreen(context);
-                break;
-            }
-          },
+        displayWidget = SearchTypeScreen(
+          isRecurrent: false,
         );
 
       default:
@@ -318,28 +307,6 @@ class HomeViewModel extends ChangeNotifier {
   void logOff(BuildContext context) {
     setAccessToken(context, "");
     Navigator.pushNamed(context, '/login_signup');
-  }
-
-  void goToMatchSearchScreen(
-    BuildContext context,
-  ) {
-    Navigator.pushNamed(context, '/match_search', arguments: {
-      'sportId': Provider.of<UserProvider>(context, listen: false)
-          .user!
-          .preferenceSport!
-          .idSport,
-    });
-  }
-
-  void goToStoreSearchScreen(
-    BuildContext context,
-  ) {
-    Navigator.pushNamed(context, '/store_search', arguments: {
-      'sportId': Provider.of<UserProvider>(context, listen: false)
-          .user!
-          .preferenceSport!
-          .idSport,
-    });
   }
 
   void showAppInfoModal(BuildContext context) {

@@ -1,11 +1,14 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:sandfriends/Features/MatchSearch/View/SFSearchFilter.dart';
+import 'package:sandfriends/Features/MatchSearch/View/SearchOnboarding.dart';
 import 'package:sandfriends/Features/StoreSearch/ViewModel/StoreSearchViewModel.dart';
 import 'package:sandfriends/Utils/Constants.dart';
 
+import '../../../SharedComponents/Model/Store.dart';
 import '../../../SharedComponents/View/SFButton.dart';
+import 'StoreSearchItem.dart';
 
 class StoreSearchWidget extends StatefulWidget {
   StoreSearchViewModel viewModel;
@@ -18,13 +21,15 @@ class StoreSearchWidget extends StatefulWidget {
 class _StoreSearchWidgetState extends State<StoreSearchWidget> {
   @override
   Widget build(BuildContext context) {
+    Color primaryColor =
+        widget.viewModel.isRecurrent ? primaryLightBlue : primaryBlue;
     return Column(
       children: [
         Container(
           padding: EdgeInsets.symmetric(
             horizontal: defaultPadding,
           ),
-          color: primaryBlue,
+          color: primaryColor,
           child: Column(
             children: [
               Row(
@@ -47,7 +52,7 @@ class _StoreSearchWidgetState extends State<StoreSearchWidget> {
                   buttonLabel: "Buscar quadras",
                   textPadding: const EdgeInsets.symmetric(vertical: 5),
                   isPrimary: false,
-                  color: primaryBlue,
+                  color: primaryColor,
                   iconPath: r"assets/icon/search.svg",
                   onTap: () => widget.viewModel.searchStores(context),
                 ),
@@ -57,7 +62,30 @@ class _StoreSearchWidgetState extends State<StoreSearchWidget> {
         ),
         Expanded(
           child: Container(
+            padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
             color: secondaryBack,
+            child: !widget.viewModel.hasUserSearched
+                ? SearchOnboarding(
+                    isSearchingStores: true,
+                    primaryColor: primaryColor,
+                    isRecurrent: widget.viewModel.isRecurrent,
+                  )
+                : ListView.builder(
+                    itemCount: widget.viewModel.stores.length,
+                    itemBuilder: (context, index) {
+                      Store store = widget.viewModel.stores[index];
+                      return InkWell(
+                        onTap: () =>
+                            widget.viewModel.onTapStore(context, store),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            top: index == 0 ? defaultPadding : 0,
+                          ),
+                          child: StoreSearchItem(store: store),
+                        ),
+                      );
+                    },
+                  ),
           ),
         ),
       ],

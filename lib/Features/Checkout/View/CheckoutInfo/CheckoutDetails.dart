@@ -30,6 +30,13 @@ class CheckoutDetails extends StatelessWidget {
           child: Column(
             children: [
               CheckoutDetailsItem(
+                title: "Modalidade",
+                value: Provider.of<CheckoutViewModel>(context, listen: false)
+                        .isRecurrent
+                    ? "Mensalista"
+                    : "Avulso",
+              ),
+              CheckoutDetailsItem(
                 title: Provider.of<CheckoutViewModel>(context, listen: false)
                         .isRecurrent
                     ? "Dia"

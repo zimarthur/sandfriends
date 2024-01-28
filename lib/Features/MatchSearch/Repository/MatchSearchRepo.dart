@@ -12,6 +12,7 @@ class MatchSearchRepo {
     DateTime dateEnd,
     int timeStart,
     int timeEnd,
+    int? idStore,
   ) async {
     return null;
   }

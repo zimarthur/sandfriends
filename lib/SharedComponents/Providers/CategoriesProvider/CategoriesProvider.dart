@@ -65,4 +65,11 @@ class CategoriesProvider extends ChangeNotifier {
   Hour getHourEnd(Hour startHour) {
     return hours.firstWhere((hour) => hour.hour - startHour.hour == 1);
   }
+
+  Hour get getFirstHour => hours
+      .reduce((hour, element) => hour.hour < element.hour ? hour : element);
+  Hour get getLastHour => hours
+      .reduce((hour, element) => hour.hour > element.hour ? hour : element);
+  Hour get getFirstSearchHour => hours.firstWhere((hour) => hour.hour == 6);
+  Hour get getLastSearchHour => hours.firstWhere((hour) => hour.hour == 23);
 }

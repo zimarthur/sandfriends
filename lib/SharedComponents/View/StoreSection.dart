@@ -107,7 +107,9 @@ class _StoreSectionState extends State<StoreSection> {
                                   : widget.court.store!.shortAddress,
                               style: const TextStyle(
                                 color: primaryBlue,
+                                fontSize: 12,
                               ),
+                              maxLines: 1,
                             ),
                           ),
                         ],

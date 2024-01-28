@@ -3,7 +3,7 @@ import 'package:sandfriends/Utils/Constants.dart';
 
 import '../../../SharedComponents/View/AvailableDaysResult/AvailableDaysResult.dart';
 import '../../MatchSearch/View/MatchSearchFilters.dart';
-import '../../MatchSearch/View/MatchSearchOnboarding.dart';
+import '../../MatchSearch/View/SearchOnboarding.dart';
 import '../../MatchSearch/View/NoMachesFound.dart';
 import '../ViewModel/RecurrentMatchSearchViewModel.dart';
 
@@ -42,8 +42,10 @@ class _RecurrentMatchSearchWidgetState
           child: Container(
             color: secondaryBack,
             child: !widget.viewModel.hasUserSearched
-                ? const MatchSearchOnboarding(
+                ? const SearchOnboarding(
+                    isSearchingStores: false,
                     isRecurrent: true,
+                    primaryColor: primaryLightBlue,
                   )
                 : widget.viewModel.availableDays.isEmpty
                     ? const NoMatchesFound(

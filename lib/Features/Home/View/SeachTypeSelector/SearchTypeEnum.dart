@@ -1,1 +1,0 @@
-enum SearchType {Default, ByStore}

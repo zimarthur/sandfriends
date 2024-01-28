@@ -36,8 +36,11 @@ class RecurrentMatchesViewModel extends ChangeNotifier {
     Navigator.pop(context);
   }
 
-  void goToSportSelection(BuildContext context) {
-    Navigator.pushNamed(context, '/recurrent_match_search_sport');
+  void goToSearchType(BuildContext context) {
+    Navigator.pushNamed(context, '/search_type', arguments: {
+      'isRecurrent': true,
+      'showReturnArrow': true,
+    });
   }
 
   void showScreenInformationModal(BuildContext context) {

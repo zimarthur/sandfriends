@@ -50,6 +50,7 @@ class AppInfoWidget extends StatelessWidget {
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                     color: textDarkGrey,
+                    decorationColor: textDarkGrey,
                   ),
                 ),
               ),
@@ -65,6 +66,7 @@ class AppInfoWidget extends StatelessWidget {
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                     color: textDarkGrey,
+                    decorationColor: textDarkGrey,
                   ),
                 ),
               ),

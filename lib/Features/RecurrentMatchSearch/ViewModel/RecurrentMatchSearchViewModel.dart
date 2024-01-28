@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Features/RecurrentMatchSearch/Repository/RecurrentMatchDecoder.dart';
 import 'package:sandfriends/Features/RecurrentMatchSearch/View/WeekdayModal.dart';
 import 'package:sandfriends/SharedComponents/Model/Court.dart';
 import 'package:sandfriends/Utils/Constants.dart';
@@ -56,7 +57,7 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
   bool get canSearchRecurrentMatch =>
       datesFilter.isNotEmpty && cityFilter != null;
 
-  final List<AvailableDay> availableDays = [];
+  List<AvailableDay> availableDays = [];
 
   AvailableHour? selectedHour;
   AvailableStore? selectedStore;
@@ -97,11 +98,12 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
         datesFilter.join(";"),
         timeFilter!.start.format(context),
         timeFilter!.end.format(context),
+        null,
       )
           .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
           hasUserSearched = true;
-          setSearchRecurrentCourtsResult(response.responseBody!);
+          availableDays = recurrentMatchDecoder(response.responseBody!);
           pageStatus = PageStatus.OK;
           notifyListeners();
         } else if (response.responseStatus ==
@@ -135,75 +137,6 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
       );
       pageStatus = PageStatus.ERROR;
       notifyListeners();
-    }
-  }
-
-  void setSearchRecurrentCourtsResult(String response) {
-    availableDays.clear();
-
-    List<Store> receivedStores = [];
-
-    final responseBody = json.decode(response);
-    final responseDates = responseBody['Dates'];
-    final responseStores = responseBody['Stores'];
-
-    for (var store in responseStores) {
-      receivedStores.add(
-        Store.fromJson(
-          store,
-        ),
-      );
-    }
-
-    for (var date in responseDates) {
-      int newWeekday = int.parse(date["Date"]);
-      List<AvailableStore> availableStores = [];
-      Store newStore;
-      for (var store in date["Stores"]) {
-        newStore = Store.copyWith(
-          receivedStores.firstWhere(
-            (recStore) => recStore.idStore == store["IdStore"],
-          ),
-        );
-        List<AvailableHour> availableHours = [];
-        for (var hour in store["Hours"]) {
-          List<AvailableCourt> availableCourts = [];
-          for (var court in hour["Courts"]) {
-            availableCourts.add(
-              AvailableCourt(
-                court: Court.copyWith(
-                  newStore.courts.firstWhere(
-                    (recCourt) =>
-                        recCourt.idStoreCourt == court["IdStoreCourt"],
-                  ),
-                ),
-                price: court["Price"],
-              ),
-            );
-          }
-          availableHours.add(
-            AvailableHour(
-              Hour(
-                hour: hour["TimeInteger"],
-                hourString: hour["TimeBegin"],
-              ),
-              availableCourts,
-            ),
-          );
-        }
-        availableStores.add(
-          AvailableStore(
-            store: newStore,
-            availableHours: availableHours,
-          ),
-        );
-      }
-      availableDays.add(
-        AvailableDay(
-          weekday: newWeekday,
-          stores: availableStores,
-        ),
-      );
     }
   }
 
@@ -300,57 +233,30 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
       '/court',
       arguments: {
         'store': store,
-        'availableCourts': toCourtAvailableHours(),
+        'availableCourts': toCourtAvailableHours(
+          availableDays,
+          selectedDay!.weekday,
+          null,
+          store,
+        ),
         'selectedHourPrice': selectedHour!.lowestHourPrice,
         'selectedDate': null,
         'selectedWeekday': selectedDay!.weekday,
         'selectedSport': selectedSport,
         'isRecurrent': true,
+        'canMakeReservation': true,
+        'searchStartPeriod': Provider.of<CategoriesProvider>(context,
+                listen: false)
+            .hours
+            .firstWhere(
+                (hour) => hour.hourString == timeFilter!.start.format(context)),
+        'searchEndPeriod': Provider.of<CategoriesProvider>(context,
+                listen: false)
+            .hours
+            .firstWhere(
+                (hour) => hour.hourString == timeFilter!.end.format(context)),
       },
     );
-  }
-
-  List<CourtAvailableHours> toCourtAvailableHours() {
-    List<CourtAvailableHours> courtAvailableHours = [];
-    List<AvailableHour> filteredHours = availableDays
-        .firstWhere((avDay) => avDay.day == selectedDay!.day)
-        .stores
-        .firstWhere(
-          (avStore) => avStore.store.idStore == selectedStore!.store.idStore,
-        )
-        .availableHours;
-    for (var avHour in filteredHours) {
-      for (var court in avHour.availableCourts) {
-        try {
-          courtAvailableHours
-              .firstWhere(
-                (courtAvHour) =>
-                    courtAvHour.court.idStoreCourt == court.court.idStoreCourt,
-              )
-              .hourPrices
-              .add(
-                HourPrice(
-                  hour: avHour.hour,
-                  price: court.price,
-                ),
-              );
-        } catch (e) {
-          List<HourPrice> newHourPrices = [
-            HourPrice(
-              hour: avHour.hour,
-              price: court.price,
-            ),
-          ];
-          courtAvailableHours.add(
-            CourtAvailableHours(
-              court: court.court,
-              hourPrices: newHourPrices,
-            ),
-          );
-        }
-      }
-    }
-    return courtAvailableHours;
   }
 
   void closeModal() {

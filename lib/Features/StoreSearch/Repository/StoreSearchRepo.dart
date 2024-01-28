@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../Remote/NetworkResponse.dart';
 
-class CourtRepo {
-  Future<NetworkResponse?> getStore(
+class StoreSearchRepo {
+  Future<NetworkResponse?> searchStores(
     BuildContext context,
-    String idStore,
+    int sportId,
+    int cityId,
   ) async {
     return null;
   }

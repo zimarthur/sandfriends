@@ -8,6 +8,7 @@ import 'package:sandfriends/SharedComponents/Model/AvailableHour.dart';
 import 'package:sandfriends/SharedComponents/Model/AvailableStore.dart';
 import 'package:sandfriends/SharedComponents/Model/Hour.dart';
 import 'package:time_range/time_range.dart';
+import 'package:tuple/tuple.dart';
 import '../../../Remote/NetworkResponse.dart';
 import '../../../SharedComponents/Model/AppMatch.dart';
 import '../../../SharedComponents/Model/AvailableCourt.dart';
@@ -22,6 +23,7 @@ import '../../../SharedComponents/View/Modal/SFModalMessage.dart';
 import '../../../Utils/PageStatus.dart';
 import '../../Court/Model/CourtAvailableHours.dart';
 import '../../Court/Model/HourPrice.dart';
+import '../Repository/MatchSearchDecoder.dart';
 import '../Repository/MatchSearchRepoImp.dart';
 import '../View/CalendarModal.dart';
 import '../../../SharedComponents/View/Modal/TimeModal.dart';
@@ -57,7 +59,7 @@ class MatchSearchViewModel extends ChangeNotifier {
 
   bool hasUserSearched = false;
 
-  final List<AvailableDay> _availableDays = [];
+  List<AvailableDay> _availableDays = [];
   List<AvailableDay> get availableDays {
     if (currentCustomFilter.orderBy == OrderBy.distance) {
       for (var avDay in _availableDays) {
@@ -89,7 +91,7 @@ class MatchSearchViewModel extends ChangeNotifier {
     return _availableDays;
   }
 
-  final List<AppMatch> openMatches = [];
+  List<AppMatch> openMatches = [];
 
   bool get canSearchMatch => datesFilter.isNotEmpty && cityFilter != null;
 
@@ -153,11 +155,15 @@ class MatchSearchViewModel extends ChangeNotifier {
             .firstWhere(
                 (hour) => hour.hourString == timeFilter!.end.format(context))
             .hour,
+        null,
       )
           .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
           hasUserSearched = true;
-          setSearchMatchesResult(context, response.responseBody!);
+          Tuple2<List<AvailableDay>, List<AppMatch>> searchResult =
+              matchSearchDecoder(context, response.responseBody!);
+          _availableDays = searchResult.item1;
+          openMatches = searchResult.item2;
           pageStatus = PageStatus.OK;
           notifyListeners();
         } else if (response.responseStatus ==
@@ -206,57 +212,30 @@ class MatchSearchViewModel extends ChangeNotifier {
       '/court',
       arguments: {
         'store': store,
-        'availableCourts': toCourtAvailableHours(),
+        'availableCourts': toCourtAvailableHours(
+          availableDays,
+          null,
+          selectedDay!.day,
+          selectedStore!.store,
+        ),
         'selectedHourPrice': selectedHour!.lowestHourPrice,
         'selectedDate': selectedDay!.day,
         'selectedWeekday': null,
         'selectedSport': currentCustomFilter.sport,
         'isRecurrent': false,
+        'canMakeReservation': true,
+        'searchStartPeriod': Provider.of<CategoriesProvider>(context,
+                listen: false)
+            .hours
+            .firstWhere(
+                (hour) => hour.hourString == timeFilter!.start.format(context)),
+        'searchEndPeriod': Provider.of<CategoriesProvider>(context,
+                listen: false)
+            .hours
+            .firstWhere(
+                (hour) => hour.hourString == timeFilter!.end.format(context)),
       },
     );
-  }
-
-  List<CourtAvailableHours> toCourtAvailableHours() {
-    List<CourtAvailableHours> courtAvailableHours = [];
-    List<AvailableHour> filteredHours = availableDays
-        .firstWhere((avDay) => avDay.day == selectedDay!.day)
-        .stores
-        .firstWhere(
-          (avStore) => avStore.store.idStore == selectedStore!.store.idStore,
-        )
-        .availableHours;
-    for (var avHour in filteredHours) {
-      for (var court in avHour.availableCourts) {
-        try {
-          courtAvailableHours
-              .firstWhere(
-                (courtAvHour) =>
-                    courtAvHour.court.idStoreCourt == court.court.idStoreCourt,
-              )
-              .hourPrices
-              .add(
-                HourPrice(
-                  hour: avHour.hour,
-                  price: court.price,
-                ),
-              );
-        } catch (e) {
-          List<HourPrice> newHourPrices = [
-            HourPrice(
-              hour: avHour.hour,
-              price: court.price,
-            ),
-          ];
-          courtAvailableHours.add(
-            CourtAvailableHours(
-              court: court.court,
-              hourPrices: newHourPrices,
-            ),
-          );
-        }
-      }
-    }
-    return courtAvailableHours;
   }
 
   void openCitySelectorModal(BuildContext context) {
@@ -308,6 +287,7 @@ class MatchSearchViewModel extends ChangeNotifier {
 
   void openDateSelectorModal(BuildContext context) {
     widgetForm = CalendarModal(
+      allowMultiDates: true,
       dateRange: datesFilter,
       onSubmit: (newDates) {
         onSubmitDateFilter(newDates);
@@ -340,92 +320,6 @@ class MatchSearchViewModel extends ChangeNotifier {
 
   void onSubmitTimeFilter(TimeRangeResult? newTimeFilter) {
     timeFilter = newTimeFilter;
-  }
-
-  void setSearchMatchesResult(BuildContext context, String response) {
-    _availableDays.clear();
-    openMatches.clear();
-
-    List<Store> receivedStores = [];
-
-    final responseBody = json.decode(response);
-    final responseDates = responseBody['Dates'];
-    final responseStores = responseBody['Stores'];
-    final responseOpenMatches = responseBody['OpenMatches'];
-
-    for (var store in responseStores) {
-      Store newStore = Store.fromJson(
-        store,
-      );
-      if (Provider.of<UserProvider>(context, listen: false).userLocation !=
-          null) {
-        newStore.distanceBetweenPlayer = Geolocator.distanceBetween(
-          Provider.of<UserProvider>(context, listen: false)
-              .userLocation!
-              .latitude,
-          Provider.of<UserProvider>(context, listen: false)
-              .userLocation!
-              .longitude,
-          newStore.latitude,
-          newStore.longitude,
-        );
-      }
-      receivedStores.add(
-        newStore,
-      );
-    }
-
-    for (var date in responseDates) {
-      DateTime newDate = DateFormat('dd/MM/yyyy').parse(date["Date"]);
-      List<AvailableStore> availableStores = [];
-      for (var store in date["Stores"]) {
-        Store newStore = receivedStores
-            .firstWhere((recStore) => recStore.idStore == store["IdStore"]);
-        List<AvailableHour> availableHours = [];
-        for (var hour in store["Hours"]) {
-          List<AvailableCourt> availableCourts = [];
-          for (var court in hour["Courts"]) {
-            availableCourts.add(
-              AvailableCourt(
-                court: newStore.courts.firstWhere((recCourt) =>
-                    recCourt.idStoreCourt == court["IdStoreCourt"]),
-                price: court["Price"],
-              ),
-            );
-          }
-          availableHours.add(
-            AvailableHour(
-              Hour(
-                hour: hour["TimeInteger"],
-                hourString: hour["TimeBegin"],
-              ),
-              availableCourts,
-            ),
-          );
-        }
-        availableStores.add(
-          AvailableStore(
-            store: newStore,
-            availableHours: availableHours,
-          ),
-        );
-      }
-      _availableDays.add(
-        AvailableDay(
-          day: newDate,
-          stores: availableStores,
-        ),
-      );
-    }
-    for (var openMatch in responseOpenMatches) {
-      openMatches.add(
-        AppMatch.fromJson(
-          openMatch,
-          Provider.of<CategoriesProvider>(context, listen: false).hours,
-          Provider.of<CategoriesProvider>(context, listen: false).sports,
-        ),
-      );
-    }
   }
 
   void goToMatch(BuildContext context, String matchUrl) {

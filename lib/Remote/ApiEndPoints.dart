@@ -21,7 +21,10 @@ class ApiEndPoints {
 
   final String sendFeedback = "/SendFeedback";
 
+  final String getStore = "/GetStore";
+
   final String searchCourts = "/SearchCourts";
+  final String searchStores = "/SearchStores";
   final String matchReservation = "/MatchReservation";
 
   final String searchRecurrentCourts = "/SearchRecurrentCourts";

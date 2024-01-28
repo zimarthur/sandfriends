@@ -11,6 +11,7 @@ class RecurrentMatchSearchRepo {
     String days,
     String timeStart,
     String timeEnd,
+    int? idStore,
   ) async {
     return null;
   }

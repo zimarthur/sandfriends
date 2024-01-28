@@ -6,10 +6,12 @@ import '../../../Utils/Constants.dart';
 
 class CalendarModal extends StatefulWidget {
   final List<DateTime?> dateRange;
+  final bool allowMultiDates;
   final Function(List<DateTime?>) onSubmit;
 
   const CalendarModal({
     Key? key,
+    required this.allowMultiDates,
     required this.dateRange,
     required this.onSubmit,
   }) : super(key: key);
@@ -57,7 +59,9 @@ class _CalendarModalState extends State<CalendarModal> {
                   'Sáb'
                 ],
                 firstDate: DateTime(today.year, today.month, today.day),
-                calendarType: CalendarDatePicker2Type.range,
+                calendarType: widget.allowMultiDates
+                    ? CalendarDatePicker2Type.range
+                    : CalendarDatePicker2Type.single,
                 selectedDayHighlightColor: primaryBlue,
                 weekdayLabelTextStyle: const TextStyle(
                   color: Colors.black87,
