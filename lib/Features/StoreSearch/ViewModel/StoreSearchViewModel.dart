@@ -20,7 +20,7 @@ import '../../MatchSearchFilter/Model/CustomFilter.dart';
 class StoreSearchViewModel extends ChangeNotifier {
   final storeSearchRepo = StoreSearchRepoImp();
 
-  PageStatus pageStatus = PageStatus.OK;
+  PageStatus pageStatus = PageStatus.LOADING;
   SFModalMessage modalMessage = SFModalMessage(
     message: "",
     onTap: () {},
@@ -72,6 +72,8 @@ class StoreSearchViewModel extends ChangeNotifier {
         currentCustomFilter.orderBy = OrderBy.distance;
         notifyListeners();
       }
+      pageStatus = PageStatus.OK;
+      notifyListeners();
     });
   }
 
@@ -79,7 +81,7 @@ class StoreSearchViewModel extends ChangeNotifier {
   bool get canSearchMatch => selectedCity != null;
   bool hasUserSearched = false;
 
-  List<Store> _stores = [];
+  final List<Store> _stores = [];
   List<Store> get stores {
     if (currentCustomFilter.orderBy == OrderBy.distance) {
       List<Store> sortedStores = _stores;
@@ -157,6 +159,8 @@ class StoreSearchViewModel extends ChangeNotifier {
             Store newStore = Store.fromJson(
               store,
             );
+            print(
+                "aa ${Provider.of<UserProvider>(context, listen: false).userLocation}");
             if (Provider.of<UserProvider>(context, listen: false)
                     .userLocation !=
                 null) {
