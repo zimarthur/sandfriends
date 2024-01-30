@@ -79,10 +79,10 @@ android {
             storePassword keystoreProperties['storePasswordDemo']
         }
         debug {
-            keyAlias keystoreProperties['keyAliasDev']
-            keyPassword keystoreProperties['keyPasswordDev']
-            storeFile keystoreProperties['storeFileDev'] ? file(keystoreProperties['storeFileDev']) : null
-            storePassword keystoreProperties['storePasswordDev']
+            keyAlias keystoreProperties['keyAliasProd']
+            keyPassword keystoreProperties['keyPasswordProd']
+            storeFile keystoreProperties['storeFileProd'] ? file(keystoreProperties['storeFileProd']) : null
+            storePassword keystoreProperties['storePasswordProd']
         }
     }
     

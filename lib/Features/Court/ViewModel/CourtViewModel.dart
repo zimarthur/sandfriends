@@ -41,6 +41,7 @@ class CourtViewModel extends ChangeNotifier {
     isHappy: true,
   );
 
+  bool canTapBackground = true;
   bool isLoading = false;
 
   int selectedPhotoIndex = 0;
@@ -113,6 +114,7 @@ class CourtViewModel extends ChangeNotifier {
         pageStatus = PageStatus.OK;
         notifyListeners();
       } else {
+        canTapBackground = false;
         modalMessage = SFModalMessage(
           message: response.userMessage!,
           onTap: () {
@@ -124,6 +126,7 @@ class CourtViewModel extends ChangeNotifier {
           },
           isHappy: false,
         );
+        pageStatus = PageStatus.ERROR;
         notifyListeners();
       }
     }
@@ -191,12 +194,14 @@ class CourtViewModel extends ChangeNotifier {
   }
 
   void searchStoreAvailableHours(BuildContext context) {
-    isLoading = true;
-    notifyListeners();
-    if (isRecurrent == true) {
-      searchRecurrentMatches(context);
-    } else {
-      searchMatches(context);
+    if (store != null) {
+      isLoading = true;
+      notifyListeners();
+      if (isRecurrent == true) {
+        searchRecurrentMatches(context);
+      } else {
+        searchMatches(context);
+      }
     }
   }
 

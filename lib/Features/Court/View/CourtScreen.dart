@@ -73,6 +73,7 @@ class _CourtScreenState extends State<CourtScreen> {
           return SFStandardScreen(
             pageStatus: viewModel.pageStatus,
             modalFormWidget: viewModel.widgetForm,
+            canTapBackground: viewModel.canTapBackground,
             enableToolbar: false,
             messageModalWidget: viewModel.modalMessage,
             onTapBackground: () => viewModel.closeModal(),
