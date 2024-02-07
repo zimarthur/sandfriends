@@ -22,6 +22,7 @@ class OnboardingRepoImp implements OnboardingRepo {
     String phoneNumber,
     int idCity,
     int idSport,
+    String? email,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
@@ -35,6 +36,7 @@ class OnboardingRepoImp implements OnboardingRepo {
           'PhoneNumber': phoneNumber,
           'IdCity': idCity,
           'IdSport': idSport,
+          if (email != null) 'Email': email,
         },
       ),
     );

@@ -4,13 +4,15 @@ import '../../../Remote/NetworkResponse.dart';
 
 class OnboardingRepo {
   Future<NetworkResponse?> addUserInfo(
-      BuildContext context,
-      String accessToken,
-      String firstName,
-      String lastName,
-      String phoneNumber,
-      int idCity,
-      int idSport) async {
+    BuildContext context,
+    String accessToken,
+    String firstName,
+    String lastName,
+    String phoneNumber,
+    int idCity,
+    int idSport,
+    String? email,
+  ) async {
     return null;
   }
 }

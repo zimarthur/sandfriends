@@ -66,6 +66,15 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                           ),
                           Padding(
                               padding: EdgeInsets.only(bottom: height * 0.04)),
+                          if (widget.viewModel.isEmailEmpty)
+                            SFTextField(
+                              controller: widget.viewModel.emailController,
+                              pourpose: TextFieldPourpose.Email,
+                              labelText: "Email",
+                              validator: emailValidator,
+                            ),
+                          Padding(
+                              padding: EdgeInsets.only(bottom: height * 0.03)),
                           SFTextField(
                             controller: widget.viewModel.firstNameController,
                             pourpose: TextFieldPourpose.Standard,

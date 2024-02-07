@@ -4,6 +4,7 @@ import 'package:sandfriends/Features/Authentication/LoadLogin/ViewModel/LoadLogi
 import 'package:sandfriends/Features/Authentication/LoginSignup/Repo/LoginSignupRepoImp.dart';
 import 'package:sandfriends/SharedComponents/Model/User.dart';
 import 'package:sandfriends/SharedComponents/Providers/UserProvider/UserProvider.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../SharedComponents/View/Modal/SFModalMessage.dart';
@@ -25,6 +26,41 @@ class LoginSignupViewModel extends ChangeNotifier {
     if (isLoggedGoogle != null && isLoggedGoogle == true) {
       await GoogleSignInApi.logout();
     }
+  }
+
+  void appleAccountSelector(BuildContext context) async {
+    pageStatus = PageStatus.LOADING;
+    notifyListeners();
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      pageStatus = PageStatus.LOADING;
+      notifyListeners();
+      String fullName = credential.familyName ?? "";
+      String email = credential.email ?? "";
+      Provider.of<UserProvider>(context, listen: false).user = User(
+          email: email, accessToken: "", firstName: fullName, lastName: "");
+
+      validateGoogleLogin(context, email, credential.userIdentifier);
+    } catch (e) {
+      print(e.toString());
+      modalMessage = SFModalMessage(
+          message: e.toString(),
+          onTap: () {
+            pageStatus = PageStatus.OK;
+            notifyListeners();
+          },
+          isHappy: false);
+      pageStatus = PageStatus.ERROR;
+      notifyListeners();
+    }
+
+    return null;
   }
 
   void googleAccountSelector(BuildContext context) async {
@@ -59,12 +95,12 @@ class LoginSignupViewModel extends ChangeNotifier {
                 lastName: lastName);
           }
 
-          validateGoogleLogin(context, user.email);
+          validateGoogleLogin(context, user.email, null);
         });
         initGoogle();
       }
     } catch (e) {
-      initGoogle();
+      print(e.toString());
       modalMessage = SFModalMessage(
           message: e.toString(),
           onTap: () {
@@ -79,10 +115,13 @@ class LoginSignupViewModel extends ChangeNotifier {
     return null;
   }
 
-  void validateGoogleLogin(BuildContext context, String email) {
+  void validateGoogleLogin(
+      BuildContext context, String email, String? appleToken) {
     pageStatus = PageStatus.LOADING;
     notifyListeners();
-    loginSignupRepo.thirdPartyLogin(context, email).then((response) {
+    loginSignupRepo
+        .thirdPartyLogin(context, email, appleToken)
+        .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         receiveLoginResponse(context, response.responseBody!);
       } else {

@@ -24,7 +24,9 @@ class OnboardingViewModel extends ChangeNotifier {
         Provider.of<UserProvider>(context, listen: false).user?.firstName ?? "";
     lastNameController.text =
         Provider.of<UserProvider>(context, listen: false).user?.lastName ?? "";
-
+    if (Provider.of<UserProvider>(context, listen: false).user!.email.isEmpty) {
+      isEmailEmpty = true;
+    }
     notifyListeners();
   }
 
@@ -45,18 +47,22 @@ class OnboardingViewModel extends ChangeNotifier {
   final onboardingFormKey = GlobalKey<FormState>();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
 
   bool termsAgreeValue = false;
 
   Sport? userSport;
   City? userCity;
 
+  bool isEmailEmpty = false;
+
   bool get isFormValid =>
       userSport != null &&
       userCity != null &&
       firstNameController.text.isNotEmpty &&
       lastNameController.text.isNotEmpty &&
-      termsAgreeValue;
+      termsAgreeValue &&
+      (!isEmailEmpty || emailController.text.isNotEmpty);
 
   void goToLoginSignup(BuildContext context) {
     Navigator.pushNamed(context, '/login_signup');
@@ -153,6 +159,7 @@ class OnboardingViewModel extends ChangeNotifier {
           "",
           userCity!.cityId,
           userSport!.idSport,
+          isEmailEmpty ? emailController.text : null,
         )
             .then((response) {
           if (response.responseStatus == NetworkResponseStatus.success) {

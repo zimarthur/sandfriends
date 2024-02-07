@@ -15,13 +15,17 @@ class LoginSignupRempoImp implements LoginSignupRepo {
 
   @override
   Future<NetworkResponse> thirdPartyLogin(
-      BuildContext context, String email) async {
+    BuildContext context,
+    String email,
+    String? appleToken,
+  ) async {
     NetworkResponse response = await _apiService.postResponse(
       Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
         ApiEndPoints().thirdPartyLogin,
       ),
       jsonEncode(
         <String, Object>{
+          if (appleToken != null) "AppleToken": appleToken,
           "Email": email,
         },
       ),

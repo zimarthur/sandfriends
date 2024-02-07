@@ -6,6 +6,7 @@ class LoginSignupRepo {
   Future<NetworkResponse?> thirdPartyLogin(
     BuildContext context,
     String email,
+    String? appleToken,
   ) async {
     return null;
   }
