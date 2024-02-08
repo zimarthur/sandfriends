@@ -160,7 +160,10 @@ class StoreSearchItem extends StatelessWidget {
                               color: textWhite,
                             ),
                           ),
-                          SvgPicture.asset(r"assets/icon/chevron_right.svg"),
+                          SvgPicture.asset(
+                            r"assets/icon/chevron_right.svg",
+                            color: textWhite,
+                          ),
                         ],
                       ),
                     ],
