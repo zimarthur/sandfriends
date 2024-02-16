@@ -1,36 +1,44 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
 import 'package:sandfriends/Remote/NetworkResponse.dart';
-import 'BaseApiService.dart';
 
-class NetworkApiService extends BaseApiService {
-  @override
-  Future<NetworkResponse> getResponse(String url) async {
+class NetworkApiService {
+  Future<NetworkResponse> getResponse(
+    BuildContext context,
+    String endPoint, {
+    String? completeUrl,
+  }) async {
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http
+          .get(Uri.parse(completeUrl ?? getCompleteUrl(context, endPoint)));
       return returnResponse(
         response,
       );
     } on SocketException {
       return NetworkResponse(
         responseStatus: NetworkResponseStatus.error,
-        userMessage: "Ops, você está sem acesso à internet",
+        responseTitle: "Ops, você está sem acesso à internet",
       );
     }
   }
 
-  @override
   Future<NetworkResponse> postResponse(
-    String url,
-    String body,
-  ) async {
+    BuildContext context,
+    String endPoint,
+    String body, {
+    String? completeUrl,
+  }) async {
     print(body);
-    print(url);
+    print(endPoint);
     try {
       final response = await http
           .post(
-            Uri.parse(url),
+            Uri.parse(completeUrl ?? getCompleteUrl(context, endPoint)),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
@@ -45,20 +53,27 @@ class NetworkApiService extends BaseApiService {
     } on SocketException {
       return NetworkResponse(
         responseStatus: NetworkResponseStatus.error,
-        userMessage: "Ops, você está sem acesso à internet",
+        responseTitle: "Ops, você está sem acesso à internet",
       );
     } on TimeoutException catch (_) {
       return NetworkResponse(
         responseStatus: NetworkResponseStatus.error,
-        userMessage: "Ops, ocorreu um problema de conexão.",
+        responseTitle: "Ops, ocorreu um problema de conexão.",
       );
     }
   }
 
   NetworkResponse returnResponse(http.Response response) {
     String statusCode = response.statusCode.toString();
+    Map<String, dynamic>? responseBody = json.decode(
+      response.body,
+    );
+    String title = responseBody == null ? response.body : responseBody['Title'];
+    String? description =
+        responseBody == null ? null : responseBody['Description'];
     print(statusCode);
     print(response.body);
+
     if (statusCode.startsWith("2")) {
       if (statusCode == "200") {
         return NetworkResponse(
@@ -69,28 +84,38 @@ class NetworkApiService extends BaseApiService {
       if (statusCode == "231") {
         return NetworkResponse(
           responseStatus: NetworkResponseStatus.alert,
-          userMessage: response.body,
+          responseTitle: title,
+          responseDescription: description,
         );
       } else if (statusCode == "232") {
         return NetworkResponse(
           responseStatus: NetworkResponseStatus.expiredToken,
-          userMessage: "Sua sessão foi expirada. Faça login novamente.",
+          responseTitle: "Sua sessão foi expirada. Faça login novamente.",
         );
       } else {
         return NetworkResponse(
           responseStatus: NetworkResponseStatus.error,
-          userMessage: response.body,
+          responseTitle: title,
+          responseDescription: description,
         );
       }
     } else if (statusCode.startsWith("5")) {
       return NetworkResponse(
           responseStatus: NetworkResponseStatus.error,
-          userMessage:
+          responseTitle:
               "Ops, ocorreu um problema de conexão.\n Tente Novamente");
     } else {
       return NetworkResponse(
           responseStatus: NetworkResponseStatus.error,
-          userMessage: "Ops, ocorreu erro.\n Tente Novamente");
+          responseTitle: "Ops, ocorreu erro.\n Tente Novamente");
     }
+  }
+
+  String getCompleteUrl(
+    BuildContext context,
+    String endPoint,
+  ) {
+    return Provider.of<EnvironmentProvider>(context, listen: false)
+        .urlBuilder(endPoint);
   }
 }

@@ -93,10 +93,10 @@ packages:
     dependency: "direct main"
     description:
       name: calendar_date_picker2
-      sha256: af56a4246fa26131bb308e2234de57b5c46af134612f462952729cec5832a05b
+      sha256: "97b87000adb654e36fa906be0ecd32d3b84157ba1246e752a8ea66c5af0b9cb0"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.9"
+    version: "0.3.9"
   characters:
     dependency: transitive
     description:
@@ -185,6 +185,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.10"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
   extended_masked_text:
     dependency: "direct main"
     description:
@@ -337,6 +345,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.5.14"
+  fl_chart:
+    dependency: "direct main"
+    description:
+      name: fl_chart
+      sha256: "155556c4aba56c8474308d51b4e5446b80a07db9ab66a3cb74aff05c110df982"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.60.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -1159,6 +1175,14 @@ packages:
     description:
       name: syncfusion_flutter_core
       sha256: "3979f0b1c5a97422cadae52d476c21fa3e0fb671ef51de6cae1d646d8b99fe1f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "20.4.54"
+  syncfusion_flutter_datagrid:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_datagrid
+      sha256: "1bd1adc3f69986849c15b61b76bc0494e74b1ebd3b503ea263f2414c803c38b0"
       url: "https://pub.dev"
     source: hosted
     version: "20.4.54"

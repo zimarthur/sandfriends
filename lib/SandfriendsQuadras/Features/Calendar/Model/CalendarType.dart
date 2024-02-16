@@ -1,0 +1,1 @@
+enum CalendarType { Match, RecurrentMatch }

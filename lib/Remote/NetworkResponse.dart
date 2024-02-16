@@ -1,11 +1,13 @@
 class NetworkResponse {
   NetworkResponseStatus responseStatus;
-  String? userMessage;
+  String? responseTitle;
+  String? responseDescription;
   String? responseBody;
 
   NetworkResponse({
     required this.responseStatus,
-    this.userMessage,
+    this.responseTitle,
+    this.responseDescription,
     this.responseBody,
   });
 }
