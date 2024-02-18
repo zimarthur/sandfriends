@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFButton.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFTextfield.dart';
 import '../../../../../../Common/Utils/Constants.dart';
-import 'package:sandfriends_web/Utils/Responsive.dart';
-import 'package:sandfriends_web/Utils/Validators.dart';
 
+import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Components/SFTextField.dart';
+import '../../../../../Common/Utils/Responsive.dart';
+import '../../../../../Common/Utils/Validators.dart';
 import '../../ViewModel/RewardsViewModel.dart';
 
 class AddRewardModal extends StatefulWidget {
@@ -75,7 +74,7 @@ class _AddRewardModalState extends State<AddRewardModal> {
                       Expanded(
                         child: SFButton(
                           buttonLabel: "Voltar",
-                          buttonType: ButtonType.Secondary,
+                          isPrimary: false,
                           onTap: (() {
                             widget.onReturn();
                           }),
@@ -87,7 +86,6 @@ class _AddRewardModalState extends State<AddRewardModal> {
                       Expanded(
                         child: SFButton(
                           buttonLabel: "Validar",
-                          buttonType: ButtonType.Primary,
                           onTap: (() {
                             if (addRewardFormKey.currentState?.validate() ==
                                 true) {

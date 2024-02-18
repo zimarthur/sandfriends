@@ -4,7 +4,7 @@ import '../../../../../Remote/ApiEndPoints.dart';
 import '../../../../../Remote/NetworkApiService.dart';
 import '../../../../../Remote/NetworkResponse.dart';
 
-class LoginSignupRempo {
+class LoginSignupRepo {
   final _apiService = NetworkApiService();
 
   Future<NetworkResponse> thirdPartyLogin(

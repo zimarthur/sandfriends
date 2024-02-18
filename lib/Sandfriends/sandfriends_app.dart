@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
+import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/generic_app.dart';
-
-import '../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../Common/Model/City.dart';
 import '../Common/Model/Court.dart';
 import '../Common/Model/Hour.dart';
 import '../Common/Model/Sport.dart';
-import '../Common/Model/Store/StoreComplete.dart';
-import '../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'Providers/RedirectProvider/RedirectProvider.dart';
 import 'Providers/UserProvider/UserProvider.dart';
 import 'Features/AppInfo/View/AppInfoScreen.dart';
@@ -46,6 +42,7 @@ import 'Features/UserMatches/View/UserMatchesScreen.dart';
 
 class SandfriendsApp extends GenericApp {
   const SandfriendsApp({
+    super.key,
     required super.flavor,
   });
 
@@ -53,12 +50,6 @@ class SandfriendsApp extends GenericApp {
   String get appTitle => "Sandfriends";
   @override
   Product get product => Product.Sandfriends;
-
-  @override
-  List<ChangeNotifier> get providers => [
-        UserProvider(),
-        RedirectProvider(),
-      ];
 
   @override
   Function(Uri uri) get handleLink => (uri) {

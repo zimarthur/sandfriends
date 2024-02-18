@@ -12,4 +12,13 @@ extension ProductString on Product {
         return 'quadras';
     }
   }
+
+  String get productUrl {
+    switch (this) {
+      case Product.Sandfriends:
+        return 'app';
+      case Product.SandfriendsQuadras:
+        return 'quadras';
+    }
+  }
 }

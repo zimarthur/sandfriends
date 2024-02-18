@@ -1,26 +1,22 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/Features/Rewards/Repository/RewardsRepoImp.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Reward.dart';
-import 'package:sandfriends_web/Features/Rewards/Model/RewardDataSource.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/MenuProvider.dart';
-import 'package:sandfriends_web/SharedComponents/Model/RewardItem.dart';
-import 'package:sandfriends_web/SharedComponents/Model/SFBarChartItem.dart';
-import 'package:sandfriends_web/SharedComponents/View/DatePickerModal.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFModalMessage.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFPieChart.dart';
-import '../../../../../../Common/Utils/Constants.dart';
-import 'package:sandfriends_web/Utils/SFDateTime.dart';
-import 'package:collection/collection.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'dart:math' as math;
 
-import '../../../Remote/NetworkResponse.dart';
-import '../../../SharedComponents/Model/EnumPeriodVisualization.dart';
+import '../../../../Common/Components/DatePickerModal.dart';
+import '../../../../Common/Components/SFPieChart.dart';
+import '../../../../Common/Enum/EnumPeriodVisualization.dart';
+import '../../../../Common/Model/SandfriendsQuadras/Reward.dart';
+import '../../../../Common/Model/SandfriendsQuadras/RewardItem.dart';
+import '../../../../Common/Model/SandfriendsQuadras/SFBarChartItem.dart';
+import '../../../../Common/Utils/SFDateTime.dart';
+import '../../../../Remote/NetworkResponse.dart';
+import '../../Menu/ViewModel/DataProvider.dart';
+import '../../Menu/ViewModel/MenuProvider.dart';
+import '../Model/RewardDataSource.dart';
+import '../Repository/RewardsRepo.dart';
 import '../View/Web/AddRewardModal.dart';
 import '../View/Web/ChoseRewardModal.dart';
 

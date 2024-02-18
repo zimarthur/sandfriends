@@ -135,19 +135,21 @@ class _StandardScreenState extends State<StandardScreen> {
                       ),
                     )
                   : Container(),
-              if (Provider.of<EnvironmentProvider>(context)
+              if (Provider.of<EnvironmentProvider>(context, listen: false)
                       .environment
                       .flavor !=
                   Flavor.Prod)
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Text(
-                    Provider.of<EnvironmentProvider>(context)
-                        .environment
-                        .flavor
-                        .flavorString,
-                    style: const TextStyle(
-                        fontSize: 12, backgroundColor: textWhite, color: red),
+                SafeArea(
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      Provider.of<EnvironmentProvider>(context)
+                          .environment
+                          .flavor
+                          .flavorString,
+                      style: const TextStyle(
+                          fontSize: 12, backgroundColor: textWhite, color: red),
+                    ),
                   ),
                 ),
             ],

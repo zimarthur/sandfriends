@@ -12,7 +12,7 @@ class AvailableHour {
     this.availableCourts,
   );
 
-  HourPrice get lowestHourPrice => HourPrice(
+  HourPriceUser get lowestHourPrice => HourPriceUser(
         hour: hour,
         price: availableCourts
             .reduce((curr, next) => curr.price < next.price ? curr : next)

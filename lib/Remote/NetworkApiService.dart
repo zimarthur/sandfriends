@@ -33,12 +33,13 @@ class NetworkApiService {
     String body, {
     String? completeUrl,
   }) async {
-    print(body);
-    print(endPoint);
     try {
+      String uri = completeUrl ?? getCompleteUrl(context, endPoint);
+      print(uri);
+      print(body);
       final response = await http
           .post(
-            Uri.parse(completeUrl ?? getCompleteUrl(context, endPoint)),
+            Uri.parse(uri),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
@@ -65,10 +66,15 @@ class NetworkApiService {
 
   NetworkResponse returnResponse(http.Response response) {
     String statusCode = response.statusCode.toString();
-    Map<String, dynamic>? responseBody = json.decode(
-      response.body,
-    );
-    String title = responseBody == null ? response.body : responseBody['Title'];
+    Map<String, dynamic>? responseBody;
+    try {
+      responseBody = json.decode(
+        response.body,
+      );
+    } catch (e) {}
+
+    String? title =
+        responseBody == null ? response.body : responseBody['Title'];
     String? description =
         responseBody == null ? null : responseBody['Description'];
     print(statusCode);

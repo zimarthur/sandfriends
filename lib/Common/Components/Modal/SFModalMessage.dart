@@ -44,9 +44,16 @@ class _SFModalMessageState extends State<SFModalMessage> {
         color: secondaryPaper,
         borderRadius: BorderRadius.circular(defaultBorderRadius),
         border: Border.all(
-          color: divider,
+          color: primaryDarkBlue,
           width: 1,
         ),
+        boxShadow: const [
+          BoxShadow(
+            blurRadius: 1,
+            offset: Offset(0, 0),
+            color: primaryDarkBlue,
+          )
+        ],
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -64,8 +71,11 @@ class _SFModalMessageState extends State<SFModalMessage> {
             widget.title,
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: textBlack,
-                fontSize: Responsive.isMobile(context) ? 18 : 24),
+                color: widget.description == null ? textBlue : textBlack,
+                fontSize: Responsive.isMobile(context) ? 16 : 24,
+                fontWeight: widget.description == null
+                    ? FontWeight.bold
+                    : FontWeight.normal),
           ),
           if (widget.description != null)
             Column(
@@ -88,10 +98,17 @@ class _SFModalMessageState extends State<SFModalMessage> {
           if (!widget.hideButton)
             Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: width * 0.3 < 350 ? 35 : width * 0.03),
+                  horizontal: Responsive.isMobile(context)
+                      ? 0
+                      : width * 0.3 < 350
+                          ? 35
+                          : width * 0.03),
               child: SFButton(
                 buttonLabel: widget.buttonText,
                 onTap: widget.onTap,
+                textPadding: EdgeInsets.symmetric(
+                  vertical: defaultPadding / 2,
+                ),
                 iconPath: widget.buttonIconPath ?? "",
               ),
             )

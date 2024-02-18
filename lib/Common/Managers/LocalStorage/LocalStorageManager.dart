@@ -5,7 +5,7 @@ import 'package:sandfriends/Common/Providers/Environment/FlavorEnum.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageKeysEnum.dart';
 import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageWeb.dart'
-    if (dart.library.io) 'package:sandfriends/Common/LocalStorage/LocalStorageMobile.dart';
+    if (dart.library.io) 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageMobile.dart';
 
 class LocalStorageManager {
   final localStorage = LocalStorage();

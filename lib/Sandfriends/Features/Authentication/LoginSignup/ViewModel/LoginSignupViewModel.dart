@@ -13,7 +13,7 @@ import '../../../../../Common/Utils/PageStatus.dart';
 import '../../../../../api/google_signin_api.dart';
 
 class LoginSignupViewModel extends StandardScreenViewModel {
-  final loginSignupRepo = LoginSignupRempo();
+  final loginSignupRepo = LoginSignupRepo();
 
   void initGoogle() async {
     bool? isLoggedGoogle = await GoogleSignInApi.isLoggedIn();

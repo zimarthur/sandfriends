@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/change_notifier.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/navigator.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/generic_app.dart';
 
@@ -32,9 +33,13 @@ class SandfriendsQuadrasApp extends GenericApp {
   Function(Map<String, dynamic> data) get handleNotification => (data) {};
 
   @override
-  List<ChangeNotifier> get providers => [
-        MenuProvider(),
-        DataProvider(),
+  List<ChangeNotifierProvider> get providers => [
+        ChangeNotifierProvider(
+          create: (_) => MenuProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DataProvider(),
+        ),
       ];
 
   @override

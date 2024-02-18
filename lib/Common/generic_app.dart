@@ -8,6 +8,8 @@ import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/Managers/Firebase/FirebaseManager.dart';
 import 'package:sandfriends/Common/Managers/LocalNotifications/LocalNotificationsManager.dart';
 import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
+import '../Sandfriends/Providers/RedirectProvider/RedirectProvider.dart';
 import 'Utils/Constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -26,7 +28,6 @@ abstract class GenericApp extends StatefulWidget {
   Product get product;
   Function(Uri) get handleLink;
   Function(Map<String, dynamic>) get handleNotification;
-  List<ChangeNotifier> get providers;
   Route<dynamic>? Function(RouteSettings)? get onGenerateRoute;
   Map<String, Widget Function(BuildContext)> get routes;
   String get appTitle;
@@ -127,13 +128,19 @@ class _AppState extends State<GenericApp> {
         ChangeNotifierProvider(
           create: (_) => CategoriesProvider(),
         ),
-        for (int i = 0; i < widget.providers.length; i++)
-          ChangeNotifierProvider(
-            create: (_) => widget.providers[i],
-          )
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => RedirectProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CategoriesProvider(),
+        ),
       ],
       child: MaterialApp(
         title: widget.appTitle,
+        debugShowCheckedModeBanner: false,
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

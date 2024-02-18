@@ -15,9 +15,9 @@ class EnvironmentProvider extends ChangeNotifier {
 
   String urlBuilder(String endPoint, {bool isImage = false}) {
     String addReq = "";
-    if (!isImage) {
-      addReq = "/req";
-    }
-    return "https://${environment.flavor.flavorString}${environment.product.productString}$sandfriendsUrl$addReq$endPoint";
+    // if (!isImage || environment.product == Product.Sandfriends) {
+    //   addReq = "/req";
+    // }
+    return "https://${environment.flavor.flavorString}${environment.product.productUrl}.$sandfriendsUrl$addReq$endPoint";
   }
 }

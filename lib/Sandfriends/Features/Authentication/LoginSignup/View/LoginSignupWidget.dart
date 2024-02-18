@@ -56,7 +56,7 @@ class _LoginSignupWidgetState extends State<LoginSignupWidget> {
             ),
             Expanded(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
                     width: double.infinity,
@@ -83,148 +83,155 @@ class _LoginSignupWidgetState extends State<LoginSignupWidget> {
                       ),
                     ),
                   ),
-                ],
-              ),
-            ),
-            Padding(padding: EdgeInsets.only(bottom: height * 0.04)),
-            Platform.isIOS
-                ? Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: defaultPadding / 2),
-                        child: Row(
+                  Padding(padding: EdgeInsets.only(bottom: height * 0.04)),
+                  Platform.isIOS
+                      ? Column(
                           children: [
-                            Expanded(
-                              child: SvgPicture.asset(
-                                r'assets/icon/divider.svg',
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: defaultPadding / 2),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: SvgPicture.asset(
+                                      r'assets/icon/divider.svg',
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: defaultPadding / 2,
+                                  ),
+                                  Text(
+                                    "ou entre com sua conta",
+                                    style: TextStyle(
+                                      color: textDarkGrey,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: defaultPadding / 2,
+                                  ),
+                                  Expanded(
+                                    child: SvgPicture.asset(
+                                      r'assets/icon/divider.svg',
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(
-                              width: defaultPadding / 2,
+                            Padding(
+                                padding:
+                                    EdgeInsets.only(bottom: height * 0.03)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    widget.viewModel
+                                        .googleAccountSelector(context);
+                                  },
+                                  child: Container(
+                                    height: 50,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                      color: secondaryPaper,
+                                      borderRadius: BorderRadius.circular(
+                                        defaultBorderRadius,
+                                      ),
+                                      border: Border.all(
+                                        color: divider,
+                                      ),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          blurRadius: 1,
+                                          color: divider,
+                                        )
+                                      ],
+                                    ),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                        r"assets/icon/google_logo.svg",
+                                        height: 30,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    widget.viewModel
+                                        .appleAccountSelector(context);
+                                  },
+                                  child: Container(
+                                    height: 50,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                      color: secondaryPaper,
+                                      borderRadius: BorderRadius.circular(
+                                        defaultBorderRadius,
+                                      ),
+                                      border: Border.all(
+                                        color: divider,
+                                      ),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          blurRadius: 1,
+                                          color: divider,
+                                        )
+                                      ],
+                                    ),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                        r"assets/icon/apple_logo.svg",
+                                        height: 30,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              "ou entre com sua conta",
-                              style: TextStyle(
-                                color: textDarkGrey,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
-                              ),
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            SvgPicture.asset(
+                              r'assets/icon/divider.svg',
                             ),
-                            SizedBox(
-                              width: defaultPadding / 2,
-                            ),
-                            Expanded(
-                              child: SvgPicture.asset(
-                                r'assets/icon/divider.svg',
+                            Padding(
+                                padding:
+                                    EdgeInsets.only(bottom: height * 0.02)),
+                            InkWell(
+                              onTap: () {
+                                widget.viewModel.googleAccountSelector(context);
+                              },
+                              highlightColor: primaryBlue,
+                              child: Ink(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const FittedBox(
+                                      fit: BoxFit.fitHeight,
+                                      child: Text(
+                                        "Entrar com minha conta Google",
+                                        style: TextStyle(
+                                          color: primaryBlue,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 12,
+                                    ),
+                                    SvgPicture.asset(
+                                        r"assets/icon/google_logo.svg")
+                                  ],
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      Padding(padding: EdgeInsets.only(bottom: height * 0.03)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              widget.viewModel.googleAccountSelector(context);
-                            },
-                            child: Container(
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                color: secondaryPaper,
-                                borderRadius: BorderRadius.circular(
-                                  defaultBorderRadius,
-                                ),
-                                border: Border.all(
-                                  color: divider,
-                                ),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    blurRadius: 1,
-                                    color: divider,
-                                  )
-                                ],
-                              ),
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  r"assets/icon/google_logo.svg",
-                                  height: 30,
-                                ),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              widget.viewModel.appleAccountSelector(context);
-                            },
-                            child: Container(
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                color: secondaryPaper,
-                                borderRadius: BorderRadius.circular(
-                                  defaultBorderRadius,
-                                ),
-                                border: Border.all(
-                                  color: divider,
-                                ),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    blurRadius: 1,
-                                    color: divider,
-                                  )
-                                ],
-                              ),
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  r"assets/icon/apple_logo.svg",
-                                  height: 30,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )
-                : Column(
-                    children: [
-                      SvgPicture.asset(
-                        r'assets/icon/divider.svg',
-                      ),
-                      Padding(padding: EdgeInsets.only(bottom: height * 0.02)),
-                      InkWell(
-                        onTap: () {
-                          widget.viewModel.googleAccountSelector(context);
-                        },
-                        highlightColor: primaryBlue,
-                        child: Ink(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const FittedBox(
-                                fit: BoxFit.fitHeight,
-                                child: Text(
-                                  "Entrar com minha conta Google",
-                                  style: TextStyle(
-                                    color: primaryBlue,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 12,
-                              ),
-                              SvgPicture.asset(r"assets/icon/google_logo.svg")
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                ],
+              ),
+            ),
             SizedBox(
               height: defaultPadding,
             ),

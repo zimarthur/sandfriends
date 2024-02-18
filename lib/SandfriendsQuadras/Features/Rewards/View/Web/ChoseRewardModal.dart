@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/SharedComponents/Model/RewardItem.dart';
-
-import '../../../../Common/Components/SFButton.dart';
-
-import '../../../../Utils/Constants.dart';
-import '../../../../Utils/Responsive.dart';
+import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Model/SandfriendsQuadras/RewardItem.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../../../../Common/Utils/Responsive.dart';
 
 class ChoseRewardModal extends StatefulWidget {
   List<RewardItem> rewardItems;
@@ -97,7 +95,7 @@ class _ChoseRewardModalState extends State<ChoseRewardModal> {
               Expanded(
                 child: SFButton(
                   buttonLabel: "Voltar",
-                  buttonType: ButtonType.Secondary,
+                  isPrimary: false,
                   onTap: (() {
                     widget.onReturn();
                   }),
@@ -109,9 +107,7 @@ class _ChoseRewardModalState extends State<ChoseRewardModal> {
               Expanded(
                 child: SFButton(
                   buttonLabel: "Registrar",
-                  buttonType: selectedRewardIndex == null
-                      ? ButtonType.Disabled
-                      : ButtonType.Primary,
+                  color: selectedRewardIndex == null ? disabled : primaryBlue,
                   onTap: (() {
                     if (selectedRewardIndex != null) {
                       widget.onTapRewardItem(

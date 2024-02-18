@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Rewards/View/Mobile/PlayerCalendarFilter.dart';
-import 'package:sandfriends_web/Features/Rewards/View/Mobile/RewardUserItem.dart';
-import 'package:sandfriends_web/Features/Rewards/ViewModel/RewardsViewModel.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFTextfield.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../Utils/Constants.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/View/Mobile/SFStandardHeader.dart';
+import '../../ViewModel/RewardsViewModel.dart';
+import 'PlayerCalendarFilter.dart';
+import 'RewardUserItem.dart';
 
 class RewardsScreenMobile extends StatefulWidget {
   const RewardsScreenMobile({super.key});

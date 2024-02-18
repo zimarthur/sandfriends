@@ -5,7 +5,7 @@ import 'package:sandfriends/Common/Model/Store/StoreComplete.dart';
 import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
 import '../../../../Common/Model/Court.dart';
 import '../../../../Common/Model/Hour.dart';
-import '../../../../Common/Model/Reward.dart';
+import '../../../../Common/Model/SandfriendsQuadras/Reward.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import '../../Menu/ViewModel/DataProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';

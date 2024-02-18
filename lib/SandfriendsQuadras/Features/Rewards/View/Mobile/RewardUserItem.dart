@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Reward.dart';
 import 'package:intl/intl.dart';
-import '../../../../Utils/Constants.dart';
+import '../../../../../Common/Model/SandfriendsQuadras/Reward.dart';
+import '../../../../../Common/Utils/Constants.dart';
 
 class RewardUserItem extends StatelessWidget {
   Reward reward;

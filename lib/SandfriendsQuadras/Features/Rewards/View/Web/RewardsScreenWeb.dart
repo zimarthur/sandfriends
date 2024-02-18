@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFBarChart.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFPeriodToggle.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFPieChart.dart';
-import 'package:sandfriends_web/SharedComponents/View/Table/SFTable.dart';
-import 'package:sandfriends_web/SharedComponents/View/Table/SFTableHeader.dart';
-import '../../../../Common/Components/SFButton.dart';
-
-import '../../../../SharedComponents/View/SFCard.dart';
-import '../../../../SharedComponents/View/SFHeader.dart';
-import '../../../../SharedComponents/View/SFToggle.dart';
-import '../../../../Utils/Constants.dart';
+import '../../../../../Common/Components/SFBarChart.dart';
+import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Components/SFCard.dart';
+import '../../../../../Common/Components/SFHeader.dart';
+import '../../../../../Common/Components/SFPeriodToggle.dart';
+import '../../../../../Common/Components/SFPieChart.dart';
+import '../../../../../Common/Components/Table/SFTable.dart';
+import '../../../../../Common/Components/Table/SFTableHeader.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';
 import 'package:provider/provider.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 import '../../ViewModel/RewardsViewModel.dart';
 
@@ -54,7 +51,6 @@ class _RewardsScreenWebState extends State<RewardsScreenWeb> {
                   ),
                   SFButton(
                     buttonLabel: "Adic. Recompensa",
-                    buttonType: ButtonType.Primary,
                     onTap: () {
                       viewModel.addReward(context);
                     },

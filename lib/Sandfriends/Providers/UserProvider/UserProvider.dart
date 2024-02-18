@@ -9,6 +9,7 @@ import '../../../Common/Model/User/UserComplete.dart';
 import 'package:geolocator/geolocator.dart';
 
 class UserProvider extends ChangeNotifier {
+  int a = 1;
   UserComplete? _user;
   UserComplete? get user => _user;
   set user(UserComplete? newUser) {

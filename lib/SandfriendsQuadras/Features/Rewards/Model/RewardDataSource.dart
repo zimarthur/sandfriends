@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../../Common/Utils/Constants.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import '../../../SharedComponents/Model/Reward.dart';
+import '../../../../Common/Model/SandfriendsQuadras/Reward.dart';
 import 'package:intl/intl.dart';
 
 class RewardsDataSource extends DataGridSource {

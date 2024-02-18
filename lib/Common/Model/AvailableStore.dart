@@ -1,9 +1,10 @@
 import 'package:sandfriends/Common/Model/AvailableHour.dart';
+import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 
 import 'Store/StoreComplete.dart';
 
 class AvailableStore {
-  Store store;
+  StoreUser store;
   List<AvailableHour> availableHours = [];
 
   AvailableStore({
