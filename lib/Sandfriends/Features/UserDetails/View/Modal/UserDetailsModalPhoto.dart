@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../Common/Components/SFAvatar.dart';
+import '../../../../../Common/Components/SFAvatarUser.dart';
 import '../../../../../Common/Components/SFButton.dart';
 import '../../../../../Common/Utils/Constants.dart';
 
@@ -46,7 +46,7 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
           ),
           Column(
             children: [
-              SFAvatar(
+              SFAvatarUser(
                 height: width * 0.7,
                 user: Provider.of<UserDetailsViewModel>(context).userEdited,
                 showRank: false,

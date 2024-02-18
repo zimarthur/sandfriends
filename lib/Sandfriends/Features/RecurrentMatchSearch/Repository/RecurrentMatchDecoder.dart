@@ -1,19 +1,21 @@
 import 'dart:convert';
 
+import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
+
 import '../../../../Common/Model/AvailableCourt.dart';
 import '../../../../Common/Model/AvailableDay.dart';
 import '../../../../Common/Model/AvailableHour.dart';
 import '../../../../Common/Model/AvailableStore.dart';
 import '../../../../Common/Model/Court.dart';
 import '../../../../Common/Model/Hour.dart';
-import '../../../../Common/Model/Store.dart';
+import '../../../../Common/Model/Store/StoreComplete.dart';
 import '../../Court/Model/CourtAvailableHours.dart';
-import '../../Court/Model/HourPrice.dart';
+import '../../../../Common/Model/HourPrice/HourPriceUser.dart';
 
 List<AvailableDay> recurrentMatchDecoder(String response) {
   final List<AvailableDay> availableDays = [];
 
-  List<Store> receivedStores = [];
+  List<StoreUser> receivedStores = [];
 
   final responseBody = json.decode(response);
   final responseDates = responseBody['Dates'];
@@ -21,7 +23,7 @@ List<AvailableDay> recurrentMatchDecoder(String response) {
 
   for (var store in responseStores) {
     receivedStores.add(
-      Store.fromJson(
+      StoreUser.fromJson(
         store,
       ),
     );
@@ -30,9 +32,9 @@ List<AvailableDay> recurrentMatchDecoder(String response) {
   for (var date in responseDates) {
     int newWeekday = int.parse(date["Date"]);
     List<AvailableStore> availableStores = [];
-    Store newStore;
+    StoreUser newStore;
     for (var store in date["Stores"]) {
-      newStore = Store.copyWith(
+      newStore = StoreUser.copyWith(
         receivedStores.firstWhere(
           (recStore) => recStore.idStore == store["IdStore"],
         ),
@@ -43,7 +45,7 @@ List<AvailableDay> recurrentMatchDecoder(String response) {
         for (var court in hour["Courts"]) {
           availableCourts.add(
             AvailableCourt(
-              court: Court.copyWith(
+              court: Court.copyFrom(
                 newStore.courts.firstWhere(
                   (recCourt) => recCourt.idStoreCourt == court["IdStoreCourt"],
                 ),

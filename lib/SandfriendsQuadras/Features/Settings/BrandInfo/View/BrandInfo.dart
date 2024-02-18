@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Settings/BrandInfo/View/SFStorePhoto.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFAvatar.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFButton.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFTextfield.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-import '../../../../SharedComponents/View/SFDivider.dart';
+import 'package:sandfriends/Common/Components/SFAvatarStore.dart';
+import '../../../../../Common/Components/SFAvatarUser.dart';
+import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Components/SFDivider.dart';
+import '../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../ViewModel/SettingsViewModel.dart';
 import 'package:provider/provider.dart';
+
+import 'SFStorePhoto.dart';
 
 class BrandInfo extends StatefulWidget {
   SettingsViewModel viewModel;
@@ -49,7 +51,7 @@ class _BrandInfoState extends State<BrandInfo> {
                             Expanded(
                               child: SFButton(
                                 buttonLabel: "Escolher arquivo",
-                                buttonType: ButtonType.Secondary,
+                                isPrimary: false,
                                 onTap: () {
                                   viewModel.setStoreAvatar(context);
                                 },
@@ -66,9 +68,9 @@ class _BrandInfoState extends State<BrandInfo> {
                     flex: 3,
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: SFAvatar(
+                      child: SFAvatarStore(
                         height: 160,
-                        image: viewModel.storeEdit.logo,
+                        storePhoto: viewModel.storeEdit.logo,
                         editImage: viewModel.storeAvatar,
                         storeName: viewModel.storeEdit.name,
                       ),
@@ -213,7 +215,7 @@ class _BrandInfoState extends State<BrandInfo> {
                             Expanded(
                               child: SFButton(
                                 buttonLabel: "Adicionar foto",
-                                buttonType: ButtonType.Secondary,
+                                isPrimary: false,
                                 onTap: () {
                                   viewModel.addStorePhoto(context);
                                 },

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Features/Settings/EmployeeInfo/ViewModel/EmployeeInfoViewModel.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFTextfield.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-import 'package:sandfriends_web/Utils/Validators.dart';
-
-import '../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../../../../Common/Utils/Validators.dart';
 
 import '../../../Menu/ViewModel/MenuProvider.dart';
 
@@ -75,7 +73,7 @@ class _AddEmployeeWidgetState extends State<AddEmployeeWidget> {
                 Expanded(
                   child: SFButton(
                     buttonLabel: "Voltar",
-                    buttonType: ButtonType.Secondary,
+                    isPrimary: false,
                     onTap: widget.onReturn,
                   ),
                 ),
@@ -85,7 +83,6 @@ class _AddEmployeeWidgetState extends State<AddEmployeeWidget> {
                 Expanded(
                   child: SFButton(
                     buttonLabel: "Adicionar",
-                    buttonType: ButtonType.Primary,
                     onTap: () {
                       if (addEmployeeFormKey.currentState?.validate() == true) {
                         widget.onAdd(addEmployeeController.text);

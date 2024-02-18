@@ -1,7 +1,7 @@
-import 'User.dart';
+import 'User/UserComplete.dart';
 
 class MatchMember {
-  final User user;
+  final UserComplete user;
   final int idMatchMember;
   final bool waitingApproval;
   final bool isMatchCreator;
@@ -19,7 +19,7 @@ class MatchMember {
 
   factory MatchMember.fromJson(Map<String, dynamic> json) {
     return MatchMember(
-      user: User.fromJson(json['User']),
+      user: UserComplete.fromJson(json['User']),
       idMatchMember: json['IdMatchMember'],
       waitingApproval: json['WaitingApproval'],
       isMatchCreator: json['IsMatchCreator'],

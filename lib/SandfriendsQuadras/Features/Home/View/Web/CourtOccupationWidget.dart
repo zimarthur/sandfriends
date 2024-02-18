@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Home/ViewModel/HomeViewModel.dart';
-
-import '../../../../SharedComponents/View/SFDivider.dart';
-import '../../../../Utils/Constants.dart';
+import '../../../../../Common/Components/SFDivider.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../ViewModel/HomeViewModel.dart';
 import 'OccupationWidget.dart';
 
 class CourtOccupationWidget extends StatelessWidget {

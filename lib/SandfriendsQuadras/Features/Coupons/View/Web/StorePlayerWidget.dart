@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Calendar/ViewModel/CalendarViewModel.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Gender.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Rank.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFDropDown.dart';
-import 'package:sandfriends_web/Utils/Responsive.dart';
-import 'package:sandfriends_web/Utils/Validators.dart';
 
+import '../../../../../Common/Components/SFDropDown.dart';
 import '../../../../../Common/Model/Court.dart';
+import '../../../../../Common/Model/Gender.dart';
 import '../../../../../Common/Model/Hour.dart';
+import '../../../../../Common/Model/User/Player_old.dart';
+import '../../../../../Common/Model/Rank.dart';
 import '../../../../../Common/Model/Sport.dart';
 import '../../../../../Common/Components/SFButton.dart';
-import '../../../../../Common/Components/SFTextField.dart';
+import '../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../Common/Model/User/UserStore.dart';
 import '../../../../../Common/Utils/Constants.dart';
-import '../../../../SharedComponents/Model/Player.dart';
+import '../../../../../Common/Utils/Responsive.dart';
+import '../../../../../Common/Utils/Validators.dart';
 
 class StorePlayerWidget extends StatefulWidget {
-  Player? editPlayer;
+  UserStore? editPlayer;
   VoidCallback onReturn;
-  Function(Player) onSavePlayer;
-  Function(Player) onCreatePlayer;
+  Function(UserStore) onSavePlayer;
+  Function(UserStore) onCreatePlayer;
   List<Sport> sports;
   List<Rank> ranks;
   List<Gender> genders;
@@ -38,14 +38,14 @@ class StorePlayerWidget extends StatefulWidget {
 }
 
 class _StorePlayerWidgetState extends State<StorePlayerWidget> {
-  late Player newPlayer;
+  late UserStore newPlayer;
   final formKey = GlobalKey<FormState>();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
 
   List<Rank> get filteredRanks => widget.ranks
-      .where((rank) => rank.idSport == newPlayer.sport!.idSport)
+      .where((rank) => rank.sport.idSport == newPlayer.preferenceSport!.idSport)
       .toList();
 
   bool isEditingPlayer = false;
@@ -54,22 +54,23 @@ class _StorePlayerWidgetState extends State<StorePlayerWidget> {
   void initState() {
     setState(() {
       if (widget.editPlayer != null) {
-        newPlayer = Player.copyFrom(widget.editPlayer!);
-        firstNameController.text = newPlayer.firstName;
-        lastNameController.text = newPlayer.lastName;
+        newPlayer = UserStore.copyFrom(widget.editPlayer!);
+        firstNameController.text = newPlayer.firstName!;
+        lastNameController.text = newPlayer.lastName!;
         phoneNumberController.text = newPlayer.phoneNumber!;
 
         isEditingPlayer = true;
       } else {
         Sport sport = widget.sports.first;
-        newPlayer = Player(
+        newPlayer = UserStore(
           firstName: "",
           lastName: "",
           isStorePlayer: true,
           phoneNumber: "",
-          sport: sport,
+          preferenceSport: sport,
           rank: widget.ranks.firstWhere(
-            (rank) => rank.idSport == sport.idSport && rank.rankSportLevel == 0,
+            (rank) =>
+                rank.sport.idSport == sport.idSport && rank.rankSportLevel == 0,
           ),
           gender: widget.genders.firstWhere(
             (gender) => gender.idGender == 3,
@@ -199,13 +200,13 @@ class _StorePlayerWidgetState extends State<StorePlayerWidget> {
                     child: Container(),
                   ),
                   SFDropdown(
-                    labelText: newPlayer.gender!.genderName,
-                    items: widget.genders.map((e) => e.genderName).toList(),
+                    labelText: newPlayer.gender!.name,
+                    items: widget.genders.map((e) => e.name).toList(),
                     validator: (value) {},
                     onChanged: (p0) {
                       setState(() {
                         newPlayer.gender = widget.genders
-                            .firstWhere((gender) => gender.genderName == p0);
+                            .firstWhere((gender) => gender.name == p0);
                       });
                     },
                   ),
@@ -218,16 +219,17 @@ class _StorePlayerWidgetState extends State<StorePlayerWidget> {
                     child: Container(),
                   ),
                   SFDropdown(
-                    labelText: newPlayer.sport!.description,
+                    labelText: newPlayer.preferenceSport!.description,
                     items: widget.sports.map((e) => e.description).toList(),
                     validator: (value) {},
                     onChanged: (p0) {
                       setState(() {
-                        newPlayer.sport = widget.sports
+                        newPlayer.preferenceSport = widget.sports
                             .firstWhere((sport) => sport.description == p0);
                         newPlayer.rank = widget.ranks.firstWhere((rank) =>
                             rank.rankSportLevel == 0 &&
-                            rank.idSport == newPlayer.sport!.idSport);
+                            rank.sport.idSport ==
+                                newPlayer.preferenceSport!.idSport);
                       });
                     },
                   ),
@@ -240,13 +242,13 @@ class _StorePlayerWidgetState extends State<StorePlayerWidget> {
                     child: Container(),
                   ),
                   SFDropdown(
-                    labelText: newPlayer.rank!.rankName,
-                    items: filteredRanks.map((e) => e.rankName).toList(),
+                    labelText: newPlayer.rank!.name,
+                    items: filteredRanks.map((e) => e.name).toList(),
                     validator: (value) {},
                     onChanged: (p0) {
                       setState(() {
-                        newPlayer.rank = filteredRanks
-                            .firstWhere((rank) => rank.rankName == p0);
+                        newPlayer.rank =
+                            filteredRanks.firstWhere((rank) => rank.name == p0);
                       });
                     },
                   ),
@@ -260,7 +262,7 @@ class _StorePlayerWidgetState extends State<StorePlayerWidget> {
                   Expanded(
                     child: SFButton(
                       buttonLabel: "Voltar",
-                      buttonType: ButtonType.Secondary,
+                      isPrimary: false,
                       onTap: widget.onReturn,
                     ),
                   ),
@@ -271,7 +273,6 @@ class _StorePlayerWidgetState extends State<StorePlayerWidget> {
                     child: SFButton(
                       buttonLabel:
                           isEditingPlayer ? "Salvar" : "Adicionar jogador",
-                      buttonType: ButtonType.Primary,
                       onTap: () {
                         if (formKey.currentState?.validate() == true) {
                           if (isEditingPlayer) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-
-import '../../../../SharedComponents/View/SFTextfield.dart';
+import '../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../Common/Utils/Constants.dart';
 
 class FormItem extends StatefulWidget {
   String name;

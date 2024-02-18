@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-import 'package:sandfriends_web/Utils/Responsive.dart';
+import '../../../../../../Common/Utils/Constants.dart';
+import '../../../../../../Common/Utils/Responsive.dart';
 
 class SFDrawerListTile extends StatefulWidget {
   SFDrawerListTile({

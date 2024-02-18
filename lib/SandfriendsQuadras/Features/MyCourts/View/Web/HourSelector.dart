@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/SharedComponents/Model/OperationDay.dart';
-import 'package:sandfriends_web/SharedComponents/Model/StoreWorkingHours.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-import 'package:sandfriends_web/Utils/SFDateTime.dart';
 import 'package:provider/provider.dart';
-import '../../../../SharedComponents/Model/Hour.dart';
-import '../../../../Common/Components/SFDropDown.dart';
+import '../../../../../Common/Components/SFDropDown.dart';
+import '../../../../../Common/Model/Hour.dart';
+import '../../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../../../../Common/Utils/SFDateTime.dart';
+import '../../../Menu/ViewModel/DataProvider.dart';
 
 class HourSelector extends StatefulWidget {
   StoreWorkingDay storeWorkingDay;

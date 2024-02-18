@@ -1,13 +1,12 @@
 import 'package:intl/intl.dart';
-
-import '../AppMatch.dart';
+import '../AppMatch/AppMatchStore.dart';
 import '../Hour.dart';
 import '../Sport.dart';
 
 class AppNotificationStore {
   int idNotification;
   String message;
-  AppMatch match;
+  AppMatchStore match;
   DateTime eventTime;
 
   AppNotificationStore({
@@ -28,7 +27,7 @@ class AppNotificationStore {
       eventTime: DateFormat("dd/MM/yyyy HH:mm").parse(
         parsedJson["EventDatetime"],
       ),
-      match: AppMatch.fromJson(
+      match: AppMatchStore.fromJson(
           parsedJson["Match"], referenceHours, referenceSports),
     );
   }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:provider/provider.dart';
-import '../../../../SharedComponents/Model/AppMatch.dart';
-import '../../../../SharedComponents/View/SFPaymentStatus.dart';
+import '../../../../../Common/Components/SFPaymentStatus.dart';
+import '../../../../../Common/Model/AppMatch/AppMatchStore.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../../Menu/ViewModel/DataProvider.dart';
 
 class ResumedMatch extends StatelessWidget {
-  AppMatch match;
+  AppMatchStore match;
   ResumedMatch({
     required this.match,
   });
@@ -90,7 +90,7 @@ class ResumedMatch extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Partida de ${match.matchCreatorFirstName}",
+                            "Partida de ${match.matchCreator.firstName}",
                             style: TextStyle(
                               color: textBlue,
                               fontSize: 12,
@@ -104,7 +104,7 @@ class ResumedMatch extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "${match.startingHour.hourString} - ${match.endingHour.hourString}",
+                            match.matchHourDescription,
                             style: TextStyle(
                               color: textDarkGrey,
                               fontSize: 12,

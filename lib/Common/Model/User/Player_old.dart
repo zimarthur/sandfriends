@@ -1,9 +1,9 @@
-import '../../Remote/Url.dart';
-import 'Gender.dart';
-import 'Rank.dart';
-import 'Sport.dart';
+import '../../../Remote/Url.dart';
+import '../Gender.dart';
+import '../Rank.dart';
+import '../Sport.dart';
 
-class Player {
+class PlayerOld {
   int? id;
   String firstName;
   String lastName;
@@ -15,7 +15,7 @@ class Player {
   Rank? rank;
 
   String get fullName => "$firstName $lastName";
-  Player({
+  PlayerOld({
     this.id,
     required this.firstName,
     required this.lastName,
@@ -27,13 +27,13 @@ class Player {
     this.rank,
   });
 
-  factory Player.fromUserJson(
+  factory PlayerOld.fromUserJson(
     Map<String, dynamic> parsedJson,
     List<Sport> availableSports,
     List<Gender> availableGenders,
     List<Rank> availableRanks,
   ) {
-    return Player(
+    return PlayerOld(
       id: parsedJson["IdUser"],
       firstName: parsedJson["FirstName"],
       lastName: parsedJson["LastName"],
@@ -53,13 +53,13 @@ class Player {
       photo: parsedJson["Photo"],
     );
   }
-  factory Player.fromStorePlayerJson(
+  factory PlayerOld.fromStorePlayerJson(
     Map<String, dynamic> parsedJson,
     List<Sport> availableSports,
     List<Gender> availableGenders,
     List<Rank> availableRanks,
   ) {
-    return Player(
+    return PlayerOld(
       id: parsedJson["IdStorePlayer"],
       firstName: parsedJson["FirstName"],
       lastName: parsedJson["LastName"],
@@ -76,8 +76,8 @@ class Player {
       ),
     );
   }
-  factory Player.fromUserMinJson(Map<String, dynamic> parsedJson) {
-    return Player(
+  factory PlayerOld.fromUserMinJson(Map<String, dynamic> parsedJson) {
+    return PlayerOld(
         id: parsedJson["IdUser"],
         firstName: parsedJson["FirstName"],
         lastName: parsedJson["LastName"],
@@ -85,8 +85,8 @@ class Player {
         photo: parsedJson["Photo"]);
   }
 
-  factory Player.copyFrom(Player refPlayer) {
-    return Player(
+  factory PlayerOld.copyFrom(PlayerOld refPlayer) {
+    return PlayerOld(
       id: refPlayer.id,
       firstName: refPlayer.firstName,
       lastName: refPlayer.lastName,

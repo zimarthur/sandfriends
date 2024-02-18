@@ -6,14 +6,14 @@ import 'package:sandfriends/Common/Model/PaymentStatus.dart';
 import 'package:sandfriends/Common/Model/SelectedPayment.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 
+import '../../../../Common/Model/AppMatch/AppMatchUser.dart';
 import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
-import '../../../../Common/Model/AppMatch.dart';
 import '../../../../Common/Components/SFLoading.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 
 class MatchCard extends StatelessWidget {
-  final AppMatch match;
+  final AppMatchUser match;
   const MatchCard({
     Key? key,
     required this.match,

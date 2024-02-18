@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/MyCourts/View/Web/CourtDay/CourtDay.dart';
-import 'package:sandfriends_web/Features/MyCourts/View/Web/CourtDay/ResumedInfoRowHeader.dart';
-
-import 'package:sandfriends_web/Features/MyCourts/ViewModel/MyCourtsViewModel.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:provider/provider.dart';
-import '../../../../Common/Components/SFButton.dart';
-
-import '../../../../SharedComponents/View/SFHeader.dart';
+import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Components/SFHeader.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../ViewModel/MyCourtsViewModel.dart';
+import 'CourtDay/CourtDay.dart';
+import 'CourtDay/ResumedInfoRowHeader.dart';
 import 'CourtInfo.dart';
 import 'MyCourtsTabSelector.dart';
 import 'NoHoursFound.dart';
@@ -67,7 +64,7 @@ class _MyCourtsScreenWebState extends State<MyCourtsScreenWeb> {
                     ),
                     SFButton(
                       buttonLabel: "Horário de funcionamento",
-                      buttonType: ButtonType.Secondary,
+                      isPrimary: false,
                       iconFirst: true,
                       iconPath: r"assets/icon/clock.svg",
                       onTap: () {
@@ -142,7 +139,6 @@ class _MyCourtsScreenWebState extends State<MyCourtsScreenWeb> {
                                   vertical: defaultPadding / 4),
                               child: SFButton(
                                 buttonLabel: "Salvar",
-                                buttonType: ButtonType.Primary,
                                 textPadding: const EdgeInsets.symmetric(
                                   horizontal: defaultPadding,
                                 ),

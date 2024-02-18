@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:sandfriends/Sandfriends/Features/Checkout/Model/Coupon.dart';
-import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
+import 'package:sandfriends/Common/Model/Coupon/CouponUser.dart';
 import '../../../../Remote/ApiEndPoints.dart';
 import '../../../../Remote/NetworkApiService.dart';
 import '../../../../Remote/NetworkResponse.dart';
@@ -21,7 +19,7 @@ class CheckoutRepo {
     int timeBegin,
     int timeEnd,
     double cost,
-    Coupon? coupon,
+    CouponUser? coupon,
     double finalCost,
     SelectedPayment selectedPayment,
     String cpf,

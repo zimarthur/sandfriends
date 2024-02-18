@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Home/View/Mobile/CourtOccupationWidget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends_web/Features/Home/View/Mobile/FilterChip.dart';
-import 'package:sandfriends_web/Features/Home/View/Mobile/HomeHeader.dart';
-import 'package:sandfriends_web/Features/Menu/View/Mobile/SFStandardHeader.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/MenuProvider.dart';
-import '../../../../Utils/Constants.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../ViewModel/HomeViewModel.dart';
+import 'CourtOccupationWidget.dart';
+import 'FilterChip.dart';
+import 'HomeHeader.dart';
 import 'KPI.dart';
 import 'MatchCard.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeScreenMobile extends StatefulWidget {
   const HomeScreenMobile({super.key});

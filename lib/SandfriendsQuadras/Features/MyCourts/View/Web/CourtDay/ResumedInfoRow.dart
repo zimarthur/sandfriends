@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/MyCourts/ViewModel/MyCourtsViewModel.dart';
-import 'package:sandfriends_web/SharedComponents/Model/OperationDay.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFDropDown.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-import 'package:sandfriends_web/Utils/SFDateTime.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../../SharedComponents/Model/HourPrice.dart';
+import '../../../../../../Common/Components/SFDropDown.dart';
+import '../../../../../../Common/Model/OperationDay.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../../../Common/Utils/Constants.dart';
+import '../../../../../../Common/Utils/SFDateTime.dart';
+import '../../../ViewModel/MyCourtsViewModel.dart';
 
 class ResumedInfoRow extends StatefulWidget {
   OperationDay operationDay;

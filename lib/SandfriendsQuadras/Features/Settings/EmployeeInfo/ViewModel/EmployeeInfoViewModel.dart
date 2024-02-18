@@ -2,15 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Features/Settings/EmployeeInfo/View/RenameEmployeeWidget.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/MenuProvider.dart';
-import 'package:sandfriends_web/Remote/NetworkResponse.dart';
-import '../../../../SharedComponents/Model/Employee.dart';
+import '../../../../../Common/Model/SandfriendsQuadras/Employee.dart';
+import '../../../../../Remote/NetworkResponse.dart';
 import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Menu/ViewModel/MenuProvider.dart';
 import '../Model/EmployeeDataSource.dart';
 import '../Model/EmployeeTableCallbacks.dart';
 import '../Repository/EmployeeInfoRepo.dart';
 import '../View/AddEmployeeWidget.dart';
+import '../View/RenameEmployeeWidget.dart';
 
 class EmployeeInfoViewModel extends ChangeNotifier {
   final employeeInfoRepo = EmployeeInfoRepo();
@@ -45,16 +45,17 @@ class EmployeeInfoViewModel extends ChangeNotifier {
   ) {
     switch (callbackCode) {
       case EmployeeTableCallbacks.Rename:
-        Provider.of<MenuProvider>(context, listen: false)
-            .setModalForm(RenameEmployeeWidget(
-          onRename: (firstName, lastName) => renameEmployee(
-            context,
-            firstName,
-            lastName,
+        Provider.of<MenuProvider>(context, listen: false).setModalForm(
+          RenameEmployeeWidget(
+            onRename: (firstName, lastName) => renameEmployee(
+              context,
+              firstName,
+              lastName,
+            ),
+            onReturn: () =>
+                Provider.of<MenuProvider>(context, listen: false).closeModal(),
           ),
-          onReturn: () =>
-              Provider.of<MenuProvider>(context, listen: false).closeModal(),
-        ));
+        );
 
         break;
       case EmployeeTableCallbacks.GiveAdmin:

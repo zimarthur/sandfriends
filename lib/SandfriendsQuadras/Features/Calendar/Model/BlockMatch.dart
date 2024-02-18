@@ -1,11 +1,11 @@
+import 'package:sandfriends/Common/Model/User/UserStore.dart';
 import '../../../../Common/Model/Hour.dart';
-import '../../../../Common/Model/Player.dart';
 
 class BlockMatch {
   bool isRecurrent;
   int idStoreCourt;
   Hour timeBegin;
-  Player player;
+  UserStore player;
   String observation;
   int idSport;
   double price;

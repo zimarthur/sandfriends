@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFButton.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../Common/Components/SFButton.dart';
+import '../../../../Common/Utils/Constants.dart';
 import '../ViewModel/HelpViewModel.dart';
 
 class TalkToSupportWidget extends StatelessWidget {
@@ -95,7 +95,7 @@ class TalkToSupportWidget extends StatelessWidget {
                 ),
                 SFButton(
                     buttonLabel: "Voltar",
-                    buttonType: ButtonType.Secondary,
+                    isPrimary: false,
                     onTap: () {
                       viewModel.returnMainView(context);
                     })

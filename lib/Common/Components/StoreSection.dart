@@ -57,7 +57,7 @@ class _StoreSectionState extends State<StoreSection> {
                       child: CachedNetworkImage(
                         imageUrl: Provider.of<EnvironmentProvider>(context,
                                 listen: false)
-                            .urlBuilder(widget.court.store!.imageUrl),
+                            .urlBuilder(widget.court.store!.logo!),
                         height: layoutHeight * 0.65,
                         width: layoutHeight * 0.65,
                         placeholder: (context, url) => SizedBox(

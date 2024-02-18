@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends_web/Features/Home/ViewModel/HomeViewModel.dart';
-import '../../../../Utils/Constants.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../ViewModel/HomeViewModel.dart';
 import 'ResumedMatch.dart';
 
 class HomeMatchesWidget extends StatelessWidget {

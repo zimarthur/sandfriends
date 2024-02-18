@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
+import '../../../../../../Common/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Features/Menu/View/Web/DrawerWeb/SFDrawerUserWidget.dart';
-import 'package:sandfriends_web/Features/Menu/View/Web/DrawerWeb/SFDrawerListTile.dart';
-
-import '../../../../../Utils/Responsive.dart';
 import '../../../ViewModel/MenuProvider.dart';
 import 'SFDrawerDivider.dart';
+import 'SFDrawerListTile.dart';
+import 'SFDrawerUserWidget.dart';
 
 class SFDrawerWeb extends StatefulWidget {
   MenuProvider viewModel;

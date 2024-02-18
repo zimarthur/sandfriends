@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-import 'package:sandfriends_web/SharedComponents/Model/HourPrice.dart';
-import '../../../../../SharedComponents/Model/Court.dart';
-import '../../../../../SharedComponents/Model/Hour.dart';
-import '../../../../../SharedComponents/Model/Player.dart';
-import '../../../../../SharedComponents/Model/Sport.dart';
-import '../../../../../Common/Components/SFButton.dart';
-import '../../../../../Utils/Constants.dart';
-import '../../../../Menu/ViewModel/DataProvider.dart';
+import 'package:sandfriends/Common/Model/HourPrice/HourPriceStore.dart';
+import '../../../../../../Common/Components/SFButton.dart';
+import '../../../../../../Common/Model/Court.dart';
+import '../../../../../../Common/Model/Hour.dart';
+import '../../../../../../Common/Model/User/Player_old.dart';
+import '../../../../../../Common/Model/Sport.dart';
+import '../../../../../../Common/Model/User/UserStore.dart';
+import '../../../../../../Common/Utils/Constants.dart';
 import '../../../Model/BlockMatch.dart';
 import '../../../Model/CalendarType.dart';
 import 'AddMatchDetails.dart';
@@ -18,16 +17,16 @@ class AddMatchModalGeneral extends StatefulWidget {
   Hour timeBegin;
   Hour timeEnd;
   Court court;
-  Function(Player?) onTapSelectPlayer;
+  Function(UserStore?) onTapSelectPlayer;
   CalendarType selectedMatchType;
   Function(CalendarType) onSelectMatchType;
   TextEditingController obsController;
-  Player? selectedPlayer;
+  UserStore? selectedPlayer;
   String selectedSport;
   List<Sport> sports;
   bool hasSelectedMatchType;
   Function(bool) setHasSelectedMatchType;
-  HourPrice currentHourPrice;
+  HourPriceStore currentHourPrice;
 
   AddMatchModalGeneral({
     required this.onSelected,
@@ -194,7 +193,7 @@ class _AddMatchModalGeneralState extends State<AddMatchModalGeneral> {
                       horizontal: defaultPadding / 4),
                   child: SFButton(
                     buttonLabel: "Voltar",
-                    buttonType: ButtonType.Secondary,
+                    isPrimary: false,
                     onTap: () => widget.setHasSelectedMatchType(false),
                   ),
                 ),
@@ -207,7 +206,6 @@ class _AddMatchModalGeneralState extends State<AddMatchModalGeneral> {
                     buttonLabel: widget.hasSelectedMatchType
                         ? "Criar partida"
                         : "Continuar",
-                    buttonType: ButtonType.Primary,
                     onTap: () {
                       print("price ${price}");
                       if (!widget.hasSelectedMatchType) {

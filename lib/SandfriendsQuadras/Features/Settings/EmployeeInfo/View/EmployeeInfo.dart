@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Settings/EmployeeInfo/ViewModel/EmployeeInfoViewModel.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFButton.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:provider/provider.dart';
+import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Components/Table/SFTable.dart';
+import '../../../../../Common/Components/Table/SFTableHeader.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/ViewModel/DataProvider.dart';
-import '../../../../SharedComponents/View/Table/SFTable.dart';
-import '../../../../SharedComponents/View/Table/SFTableHeader.dart';
 import '../../ViewModel/SettingsViewModel.dart';
+import '../ViewModel/EmployeeInfoViewModel.dart';
 
 class EmployeeInfo extends StatefulWidget {
   @override
@@ -57,7 +57,6 @@ class _EmployeeInfoState extends State<EmployeeInfo> {
                     ),
                     SFButton(
                       buttonLabel: "Adic. funcionário",
-                      buttonType: ButtonType.Primary,
                       onTap: () {
                         viewModel.goToAddEmployee(
                           context,

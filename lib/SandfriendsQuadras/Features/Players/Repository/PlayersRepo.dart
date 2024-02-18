@@ -1,27 +1,28 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import '../../../../Common/Model/User/Player_old.dart';
+import '../../../../Common/Model/User/UserStore.dart';
 import '../../../../Remote/ApiEndPoints.dart';
 import '../../../../Remote/NetworkApiService.dart';
-import 'package:provider/provider.dart';
 import '../../../../Remote/NetworkResponse.dart';
 
 class PlayersRepo {
   final _apiService = NetworkApiService();
 
   Future<NetworkResponse> addPlayer(
-      BuildContext context, String accessToken, Player player) async {
+      BuildContext context, String accessToken, UserStore player) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
       ApiEndPoints.addStorePlayer,
       jsonEncode(
         <String, Object>{
           "AccessToken": accessToken,
-          "FirstName": player.firstName,
-          "LastName": player.lastName,
+          "FirstName": player.firstName!,
+          "LastName": player.lastName!,
           "PhoneNumber": player.phoneNumber ?? "",
           "IdGenderCategory": player.gender!.idGender,
-          "IdSport": player.sport!.idSport,
+          "IdSport": player.preferenceSport!.idSport,
           "IdRankCategory": player.rank!.idRankCategory,
         },
       ),
@@ -30,7 +31,7 @@ class PlayersRepo {
   }
 
   Future<NetworkResponse> editPlayer(
-      BuildContext context, String accessToken, Player player) async {
+      BuildContext context, String accessToken, UserStore player) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
       ApiEndPoints.editStorePlayer,
@@ -38,11 +39,11 @@ class PlayersRepo {
         <String, Object>{
           "AccessToken": accessToken,
           "IdStorePlayer": player.id!,
-          "FirstName": player.firstName,
-          "LastName": player.lastName,
+          "FirstName": player.firstName!,
+          "LastName": player.lastName!,
           "PhoneNumber": player.phoneNumber ?? "",
           "IdGenderCategory": player.gender!.idGender,
-          "IdSport": player.sport!.idSport,
+          "IdSport": player.preferenceSport!.idSport,
           "IdRankCategory": player.rank!.idRankCategory,
         },
       ),

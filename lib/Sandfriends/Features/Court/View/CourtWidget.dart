@@ -87,7 +87,7 @@ class _CourtWidgetState extends State<CourtWidget> {
                                             context,
                                             listen: false)
                                         .urlBuilder(
-                                            widget.viewModel.store!.imageUrl),
+                                            widget.viewModel.store!.logo!),
                                     height: height * 0.13,
                                     width: height * 0.13,
                                     placeholder: (context, url) => SizedBox(
@@ -187,7 +187,7 @@ class _CourtWidgetState extends State<CourtWidget> {
                     height: height * 0.02,
                   ),
                   CourtDescription(
-                    description: widget.viewModel.store!.descriptionText,
+                    description: widget.viewModel.store!.description,
                     themeColor: themeColor,
                   ),
                   Padding(
@@ -281,8 +281,9 @@ class _CourtWidgetState extends State<CourtWidget> {
                               color: secondaryYellow,
                               textPadding: EdgeInsets.all(width * 0.03),
                               onTap: () {
-                                Court checkoutCourt = Court.copyWith(
-                                    widget.viewModel.selectedCourt!);
+                                Court checkoutCourt = Court.copyFrom(
+                                  widget.viewModel.selectedCourt!,
+                                );
                                 checkoutCourt.store = widget.viewModel.store;
                                 Navigator.pushNamed(
                                   context,

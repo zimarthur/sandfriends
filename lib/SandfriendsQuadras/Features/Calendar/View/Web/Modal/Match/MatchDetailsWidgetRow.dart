@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
+
+import '../../../../../../../Common/Utils/Constants.dart';
 
 class MatchDetailsWidgetRow extends StatelessWidget {
   String title;
@@ -7,7 +8,8 @@ class MatchDetailsWidgetRow extends StatelessWidget {
   Widget? customValue;
   bool fixedHeight;
 
-  MatchDetailsWidgetRow({super.key, 
+  MatchDetailsWidgetRow({
+    super.key,
     required this.title,
     this.value,
     this.customValue,

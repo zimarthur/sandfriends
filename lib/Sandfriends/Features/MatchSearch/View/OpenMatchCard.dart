@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:sandfriends/Common/Model/AppMatch.dart';
-
-import '../../../../Common/Components/SFAvatar.dart';
+import '../../../../Common/Components/SFAvatarUser.dart';
 import '../../../../Common/Components/SFButton.dart';
 
+import '../../../../Common/Model/AppMatch/AppMatchUser.dart';
 import '../../../../Common/Utils/Constants.dart';
 
 class OpenMatchCard extends StatefulWidget {
   final bool isReduced;
-  final AppMatch match;
+  final AppMatchUser match;
   final Function(String) onTap;
   const OpenMatchCard({
     Key? key,
@@ -65,7 +64,7 @@ class _OpenMatchCardState extends State<OpenMatchCard> {
                       children: [
                         SizedBox(
                           width: 60,
-                          child: SFAvatar(
+                          child: SFAvatarUser(
                             height: 60,
                             showRank: true,
                             user: widget.match.matchCreator,

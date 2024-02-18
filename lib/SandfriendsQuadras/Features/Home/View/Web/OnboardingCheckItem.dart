@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
+import '../../../../../Common/Utils/Constants.dart';
 
 class OnboardingCheckItem extends StatefulWidget {
   String title;
   bool isChecked;
   VoidCallback onTap;
 
-  OnboardingCheckItem({super.key, 
+  OnboardingCheckItem({
+    super.key,
     required this.title,
     required this.isChecked,
     required this.onTap,

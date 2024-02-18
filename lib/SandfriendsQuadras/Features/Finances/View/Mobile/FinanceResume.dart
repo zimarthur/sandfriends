@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/SharedComponents/Model/EnumPeriodVisualization.dart';
-
-import '../../../../Utils/Constants.dart';
+import '../../../../../Common/Enum/EnumPeriodVisualization.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../../Rewards/View/Mobile/PlayerCalendarFilter.dart';
 
 class FinanceResume extends StatefulWidget {

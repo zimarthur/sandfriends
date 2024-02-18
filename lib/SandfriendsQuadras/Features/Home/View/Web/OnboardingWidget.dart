@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Home/ViewModel/HomeViewModel.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/MenuProvider.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../Common/Utils/Constants.dart';
+import '../../../Menu/ViewModel/MenuProvider.dart';
+import '../../ViewModel/HomeViewModel.dart';
 import 'OnboardingCheckItem.dart';
 
 class OnboardingWidget extends StatelessWidget {

@@ -1,16 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:sandfriends/Common/Model/User/UserComplete.dart';
 import '../../../../Remote/ApiEndPoints.dart';
 import '../../../../Remote/NetworkApiService.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../../../Common/Model/User.dart';
 
 class UserDetailsRepo {
   final _apiService = NetworkApiService();
 
   Future<NetworkResponse> updateUserInfo(
-      BuildContext context, User user) async {
+      BuildContext context, UserComplete user) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
       ApiEndPoints.updateUserInfo,

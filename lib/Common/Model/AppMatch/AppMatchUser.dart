@@ -1,49 +1,55 @@
 import 'package:intl/intl.dart';
-import 'package:sandfriends/Sandfriends/Features/Checkout/Model/Coupon.dart';
-import 'package:sandfriends/Common/Model/CreditCard/CreditCard.dart';
-import 'package:sandfriends/Common/Model/SelectedPayment.dart';
+import 'package:sandfriends/Common/Model/AppMatch/AppMatch.dart';
+import 'package:sandfriends/Common/Model/Coupon/CouponUser.dart';
 
-import 'Court.dart';
-import 'Hour.dart';
-import 'MatchMember.dart';
-import 'PaymentStatus.dart';
-import 'Rank.dart';
-import 'Sport.dart';
-import 'User.dart';
+import '../Coupon/Coupon.dart';
+import '../Court.dart';
+import '../CreditCard/CreditCard.dart';
+import '../Hour.dart';
+import '../MatchMember.dart';
+import '../PaymentStatus.dart';
+import '../Rank.dart';
+import '../SelectedPayment.dart';
+import '../Sport.dart';
+import '../User/UserComplete.dart';
 
-class AppMatch {
-  int idMatch;
-  int idRecurrentMatch;
-  DateTime date;
-  double rawCost;
-  double cost;
-  Hour timeBegin;
-  Hour timeEnd;
+class AppMatchUser extends AppMatch {
+  double userCost;
   bool isOpenMatch;
   int maxUsers = 0;
-  bool canceled;
   String matchUrl;
-  String creatorNotes;
-  Court court;
-  Sport sport;
   List<MatchMember> members = [];
-  SelectedPayment selectedPayment;
-  PaymentStatus paymentStatus;
   String? pixCode;
   CreditCard? creditCard;
-  DateTime paymentExpirationDate;
   Coupon? coupon;
+  AppMatchUser({
+    required super.idMatch,
+    required super.idRecurrentMatch,
+    required super.date,
+    required super.cost,
+    required super.timeBegin,
+    required super.timeEnd,
+    required super.canceled,
+    required super.creatorNotes,
+    required super.court,
+    required super.sport,
+    required super.selectedPayment,
+    required super.paymentStatus,
+    required super.paymentExpirationDate,
+    required this.coupon,
+    required this.userCost,
+    required this.isOpenMatch,
+    required this.maxUsers,
+    required this.matchUrl,
+    this.creditCard,
+    this.pixCode,
+  });
 
-  User get matchCreator =>
+  UserComplete get matchCreator =>
       members.firstWhere((member) => member.isMatchCreator == true).user;
 
   Rank get matchRank => matchCreator.ranks
       .firstWhere((rank) => rank.sport.idSport == sport.idSport);
-
-  bool get isPaymentExpired {
-    return DateTime.now().isAfter(paymentExpirationDate) &&
-        paymentStatus == PaymentStatus.Pending;
-  }
 
   int get remainingSlots {
     int validMembersCounter = 0;
@@ -69,13 +75,13 @@ class AppMatch {
     return activeMatchMembersCounter;
   }
 
-  bool hasUserSentInvitation(User user) {
+  bool hasUserSentInvitation(UserComplete user) {
     if (members.any(
-      (member) => member.user.idUser == user.idUser,
+      (member) => member.user.id == user.id,
     )) {
       return members
               .firstWhere(
-                (member) => member.user.idUser == user.idUser,
+                (member) => member.user.id == user.id,
               )
               .waitingApproval ==
           true;
@@ -93,34 +99,7 @@ class AppMatch {
     }
   }
 
-  bool isFromRecurrentMatch() {
-    return idRecurrentMatch != 0;
-  }
-
-  AppMatch({
-    required this.idMatch,
-    required this.date,
-    required this.cost,
-    required this.rawCost,
-    required this.timeBegin,
-    required this.timeEnd,
-    required this.isOpenMatch,
-    required this.maxUsers,
-    required this.canceled,
-    required this.matchUrl,
-    required this.creatorNotes,
-    required this.court,
-    required this.sport,
-    required this.paymentStatus,
-    required this.selectedPayment,
-    required this.pixCode,
-    required this.creditCard,
-    required this.paymentExpirationDate,
-    required this.idRecurrentMatch,
-    this.coupon,
-  });
-
-  factory AppMatch.fromJson(
+  factory AppMatchUser.fromJson(
     Map<String, dynamic> json,
     List<Hour> referenceHours,
     List<Sport> referenceSports,
@@ -128,15 +107,15 @@ class AppMatch {
     Hour timeBegin = referenceHours.firstWhere(
       (hour) => hour.hour == json['TimeBegin'],
     );
-    var newMatch = AppMatch(
+    var newMatch = AppMatchUser(
       idMatch: json['IdMatch'],
       date: DateFormat('yyyy-MM-dd HH:mm')
           .parse("${json['Date']} ${timeBegin.hourString}"),
       cost: double.parse(
-        json['CostUser'],
-      ),
-      rawCost: double.parse(
         json['Cost'],
+      ),
+      userCost: double.parse(
+        json['CostUser'],
       ),
       timeBegin: timeBegin,
       timeEnd: referenceHours.firstWhere(
@@ -160,7 +139,11 @@ class AppMatch {
       paymentExpirationDate: DateFormat('yyyy-MM-dd HH:mm:ss')
           .parse(json['PaymentExpirationDate']),
       idRecurrentMatch: json['IdRecurrentMatch'],
-      coupon: json['Coupon'] != null ? Coupon.fromJson(json['Coupon']) : null,
+      coupon: json['Coupon'] != null
+          ? CouponUser.fromJson(
+              json['Coupon'],
+            )
+          : null,
     );
     for (int i = 0; i < json['Members'].length; i++) {
       newMatch.members.add(

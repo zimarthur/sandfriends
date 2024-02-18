@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Features/MyCourts/ViewModel/MyCourtsViewModel.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFButton.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-import 'package:sandfriends_web/Utils/SFDateTime.dart';
-
-import '../../../../SharedComponents/Model/HourPrice.dart';
+import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Model/HourPrice/HourPriceStore.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../../../../Common/Utils/SFDateTime.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';
+import '../../ViewModel/MyCourtsViewModel.dart';
 
 class PriceListWidget extends StatelessWidget {
   int dayIndex;
-  List<HourPrice> hourPriceList;
+  List<HourPriceStore> hourPriceList;
   MyCourtsViewModel viewModel;
 
   PriceListWidget({
@@ -116,7 +115,6 @@ class PriceListWidget extends StatelessWidget {
           ),
           SFButton(
             buttonLabel: "Voltar",
-            buttonType: ButtonType.Primary,
             onTap: () => viewModel.closeModal(context),
           )
         ],

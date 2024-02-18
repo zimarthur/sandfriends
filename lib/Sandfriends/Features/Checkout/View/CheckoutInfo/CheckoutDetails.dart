@@ -43,7 +43,7 @@ class CheckoutDetails extends StatelessWidget {
                     : "Data",
                 value: Provider.of<CheckoutViewModel>(context, listen: false)
                         .isRecurrent
-                    ? weekDaysPortuguese[
+                    ? weekday[
                         Provider.of<CheckoutViewModel>(context, listen: false)
                             .weekday]
                     : DateFormat("dd/MM/yyyy")

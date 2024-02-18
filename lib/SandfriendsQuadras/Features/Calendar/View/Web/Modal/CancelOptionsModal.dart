@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Calendar/Model/CalendarType.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppMatch.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppRecurrentMatch.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Utils/Responsive.dart';
-import 'package:sandfriends_web/Utils/SFDateTime.dart';
+import 'package:sandfriends/Common/Utils/SFDateTime.dart';
 import '../../../../../../Common/Components/SFButton.dart';
-import '../../../../../../SharedComponents/View/SFTextfield.dart';
+import '../../../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
+import '../../../../../../Common/Utils/Constants.dart';
+import '../../../../../../Common/Utils/Responsive.dart';
 import 'package:intl/intl.dart';
+
+import '../../../Model/CalendarType.dart';
 
 class CancelOptionsModal extends StatefulWidget {
   VoidCallback onReturn;
   DateTime selectedDay;
-  AppRecurrentMatch recurrentMatch;
+  AppRecurrentMatchStore recurrentMatch;
   Function(CalendarType) onCancel;
 
   CancelOptionsModal({
@@ -59,7 +57,7 @@ class _CancelOptionsModalState extends State<CancelOptionsModal> {
             height: defaultPadding / 2,
           ),
           Text(
-            "${widget.recurrentMatch.court.description}  |  ${widget.recurrentMatch.startingHour.hourString} - ${widget.recurrentMatch.endingHour.hourString} | ${weekdayRecurrent[widget.recurrentMatch.weekday]}",
+            "${widget.recurrentMatch.court.description}  |  ${widget.recurrentMatch.timeBegin.hourString} - ${widget.recurrentMatch.timeEnd.hourString} | ${weekdayRecurrent[widget.recurrentMatch.weekday]}",
             style: TextStyle(
               color: textDarkGrey,
             ),
@@ -82,7 +80,7 @@ class _CancelOptionsModalState extends State<CancelOptionsModal> {
                   ),
                 ),
                 TextSpan(
-                  text: widget.recurrentMatch.creatorName,
+                  text: widget.recurrentMatch.creator.fullName,
                   style: const TextStyle(
                     color: textBlue,
                     fontWeight: FontWeight.bold,
@@ -129,7 +127,7 @@ class _CancelOptionsModalState extends State<CancelOptionsModal> {
                   selectedCalendarType: selectedCalendarType,
                   title: "Cancelar mensalista",
                   subText:
-                      "Cancela todas próximas partidas agendadas pelo(a) ${widget.recurrentMatch.creatorFirstName} e deixa o horário livre para outro mensalista",
+                      "Cancela todas próximas partidas agendadas pelo(a) ${widget.recurrentMatch.creator.firstName} e deixa o horário livre para outro mensalista",
                 ),
               ),
             ],
@@ -142,7 +140,7 @@ class _CancelOptionsModalState extends State<CancelOptionsModal> {
               Expanded(
                 child: SFButton(
                   buttonLabel: "Voltar",
-                  buttonType: ButtonType.Secondary,
+                  isPrimary: false,
                   onTap: widget.onReturn,
                 ),
               ),
@@ -152,9 +150,7 @@ class _CancelOptionsModalState extends State<CancelOptionsModal> {
               Expanded(
                 child: SFButton(
                   buttonLabel: "Cancelar",
-                  buttonType: selectedCalendarType == null
-                      ? ButtonType.Disabled
-                      : ButtonType.Delete,
+                  color: selectedCalendarType == null ? disabled : red,
                   onTap: () {
                     if (selectedCalendarType != null) {
                       widget.onCancel(selectedCalendarType!);

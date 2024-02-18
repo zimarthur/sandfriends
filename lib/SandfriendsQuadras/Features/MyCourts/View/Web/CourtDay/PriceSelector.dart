@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/MyCourts/ViewModel/MyCourtsViewModel.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-import 'package:provider/provider.dart';
-import '../../../../../SharedComponents/Model/Hour.dart';
-import '../../../../../SharedComponents/Model/PriceRule.dart';
-import '../../../../../SharedComponents/View/SFDropDown.dart';
-import '../../../../../Common/Components/SFTextField.dart';
+import '../../../../../../Common/Components/SFDropDown.dart';
+import '../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../../Common/Model/Hour.dart';
+import '../../../../../../Common/Model/SandfriendsQuadras/PriceRule.dart';
+import '../../../../../../Common/Utils/Constants.dart';
 
 class PriceSelector extends StatefulWidget {
   PriceRule priceRule;

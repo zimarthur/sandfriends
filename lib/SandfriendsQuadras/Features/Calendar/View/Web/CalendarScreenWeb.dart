@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Calendar/Model/CalendarType.dart';
-import 'package:sandfriends_web/Features/Calendar/Model/PeriodType.dart';
-import 'package:sandfriends_web/Features/Calendar/View/Web/Match/MatchFilter.dart';
-import 'package:sandfriends_web/Features/Calendar/ViewModel/CalendarViewModel.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/MenuProvider.dart';
-import '../../../../SharedComponents/View/SFHeader.dart';
-import '../../../../SharedComponents/View/SFTabs.dart';
+import '../../../../../Common/Components/SFHeader.dart';
+import '../../../../../Common/Components/SFTabs.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Menu/ViewModel/MenuProvider.dart';
+import '../../Model/CalendarType.dart';
+import '../../Model/PeriodType.dart';
+import '../../ViewModel/CalendarViewModel.dart';
 import 'Calendar/Day/SFCalendarDay.dart';
 import 'CalendarToggle.dart';
 import 'Calendar/Week/SFCalendarWeek.dart';
 import 'Match/DatePicker.dart';
+import 'Match/MatchFilter.dart';
 import 'NoCourtsFound.dart';
 import 'RecurrentMatch/RecurrentMatchFilter.dart';
 

@@ -1,19 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Finances/Repository/FinancesRepoImp.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Hour.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Sport.dart';
 import 'package:intl/intl.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-import '../../../Remote/NetworkResponse.dart';
-import '../../../SharedComponents/Model/AppMatch.dart';
-import '../../../SharedComponents/Model/EnumPeriodVisualization.dart';
-import '../../../SharedComponents/Model/SFBarChartItem.dart';
-import '../../../SharedComponents/View/DatePickerModal.dart';
-import '../../../SharedComponents/View/SFPieChart.dart';
-import '../../../Utils/SFDateTime.dart';
 import 'package:provider/provider.dart';
+import '../../../../Common/Components/DatePickerModal.dart';
+import '../../../../Common/Components/SFPieChart.dart';
+import '../../../../Common/Enum/EnumPeriodVisualization.dart';
+import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
+import '../../../../Common/Model/SandfriendsQuadras/SFBarChartItem.dart';
+import '../../../../Common/Utils/Constants.dart';
+import '../../../../Common/Utils/SFDateTime.dart';
+import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/DataProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
 import '../Model/FinancesDataSource.dart';
@@ -75,7 +72,7 @@ class FinancesViewModel extends ChangeNotifier {
         customMatches.clear();
         for (var match in responseBody['Matches']) {
           customMatches.add(
-            AppMatch.fromJson(
+            AppMatchStore.fromJson(
               match,
               Provider.of<DataProvider>(context, listen: false).availableHours,
               Provider.of<DataProvider>(context, listen: false).availableSports,
@@ -96,16 +93,16 @@ class FinancesViewModel extends ChangeNotifier {
     });
   }
 
-  List<AppMatch> _matches = [];
-  List<AppMatch> customMatches = [];
-  List<AppMatch> get matches {
-    List<AppMatch> filteredMatches = [];
+  List<AppMatchStore> _matches = [];
+  List<AppMatchStore> customMatches = [];
+  List<AppMatchStore> get matches {
+    List<AppMatchStore> filteredMatches = [];
     if (periodVisualization == EnumPeriodVisualization.Today) {
       filteredMatches = _matches
           .where(
             (match) =>
                 areInTheSameDay(match.date, DateTime.now()) &&
-                match.matchCreatorName.toLowerCase().contains(
+                match.matchCreator.fullName.toLowerCase().contains(
                       playerFilter,
                     ),
           )
@@ -115,7 +112,7 @@ class FinancesViewModel extends ChangeNotifier {
           .where(
             (match) =>
                 isInCurrentMonth(match.date) &&
-                match.matchCreatorName.toLowerCase().contains(
+                match.matchCreator.fullName.toLowerCase().contains(
                       playerFilter,
                     ),
           )
@@ -123,7 +120,7 @@ class FinancesViewModel extends ChangeNotifier {
     } else {
       filteredMatches = customMatches
           .where(
-            (match) => match.matchCreatorName.toLowerCase().contains(
+            (match) => match.matchCreator.fullName.toLowerCase().contains(
                   playerFilter,
                 ),
           )

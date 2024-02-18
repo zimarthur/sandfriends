@@ -8,7 +8,7 @@ import 'package:sandfriends/Common/Utils/Constants.dart';
 import 'package:sandfriends/Common/Utils/Validators.dart';
 
 import '../../../../../Common/Model/CreditCard/CreditCardUtils.dart';
-import '../../../../../Common/Components/SFTextField.dart';
+import '../../../../../../Common/Components/SFTextField.dart';
 
 class CheckoutPayment extends StatefulWidget {
   const CheckoutPayment({Key? key}) : super(key: key);

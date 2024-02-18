@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Players/Model/PlayersTableCallback.dart';
-import 'package:sandfriends_web/Features/Settings/EmployeeInfo/Model/EmployeeTableCallbacks.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Employee.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Player.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../../Common/Model/User/Player_old.dart';
+import '../../../../Common/Model/User/UserStore.dart';
+import '../../../../Common/Utils/Constants.dart';
+import 'PlayersTableCallback.dart';
 
 class PlayersDataSource extends DataGridSource {
   PlayersDataSource({
-    required List<Player> players,
-    required Function(PlayersTableCallback, Player, BuildContext) tableCallback,
+    required List<UserStore> players,
+    required Function(PlayersTableCallback, UserStore, BuildContext)
+        tableCallback,
     required BuildContext context,
   }) {
     _players = players
@@ -28,15 +28,17 @@ class PlayersDataSource extends DataGridSource {
               ),
               DataGridCell<String>(
                 columnName: 'gender',
-                value: player.gender == null ? "" : player.gender!.genderName,
+                value: player.gender == null ? "" : player.gender!.name,
               ),
               DataGridCell<String>(
                 columnName: 'sport',
-                value: player.sport == null ? "" : player.sport!.description,
+                value: player.preferenceSport == null
+                    ? ""
+                    : player.preferenceSport!.description,
               ),
               DataGridCell<String>(
                 columnName: 'rank',
-                value: player.rank == null ? "" : player.rank!.rankName,
+                value: player.rank == null ? "" : player.rank!.name,
               ),
               DataGridCell<Widget>(
                 columnName: 'in_app',
@@ -97,8 +99,8 @@ class PlayersDataSource extends DataGridSource {
   }
 
   Widget action(
-    Player playerRow,
-    Function(PlayersTableCallback, Player, BuildContext) callback,
+    UserStore playerRow,
+    Function(PlayersTableCallback, UserStore, BuildContext) callback,
     BuildContext context,
   ) {
     return PopupMenuButton(

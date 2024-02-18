@@ -2,9 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../../../Common/Components/SFTextField.dart';
 import '../../../../../../Common/Utils/Constants.dart';
 import '../../../../../../Common/Utils/Validators.dart';
-import '../../../../../../SharedComponents/View/SFTextField.dart';
 import '../../ViewModel/CreateAccountViewModel.dart';
 
 class CreateAccountOwnerWidgetMobile extends StatefulWidget {

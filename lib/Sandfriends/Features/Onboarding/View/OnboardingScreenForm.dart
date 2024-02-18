@@ -106,7 +106,7 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                                 EdgeInsets.symmetric(vertical: height * 0.01),
                             buttonLabel: widget.viewModel.userCity == null
                                 ? "Selecione sua cidade"
-                                : "${widget.viewModel.userCity!.city} / ${widget.viewModel.userCity!.state!.uf}",
+                                : "${widget.viewModel.userCity!.name} / ${widget.viewModel.userCity!.state!.uf}",
                             isPrimary: false,
                             iconPath: r"assets/icon/location_ping.svg",
                             onTap: () {

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/MyCourts/View/Web/CourtDay/PriceRuleRadio.dart';
-import 'package:sandfriends_web/Features/MyCourts/View/Web/CourtDay/ResumedInfoRow.dart';
-import 'package:sandfriends_web/Features/MyCourts/View/Web/CourtDay/PriceSelector.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFDivider.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../../SharedComponents/Model/Court.dart';
-import '../../../../../SharedComponents/Model/HourPrice.dart';
-import '../../../../../SharedComponents/Model/OperationDay.dart';
+import 'package:sandfriends/Common/Model/HourPrice/HourPriceStore.dart';
+import '../../../../../../Common/Components/SFDivider.dart';
+import '../../../../../../Common/Model/OperationDay.dart';
+import '../../../../../../Common/Utils/Constants.dart';
+import '../../../../Menu/ViewModel/DataProvider.dart';
 import '../../../ViewModel/MyCourtsViewModel.dart';
+import 'PriceRuleRadio.dart';
+import 'PriceSelector.dart';
 import 'PriceSelectorHeader.dart';
+import 'ResumedInfoRow.dart';
 
 class CourtDay extends StatefulWidget {
   double width;
@@ -39,7 +37,7 @@ class _CourtDayState extends State<CourtDay> {
   TextEditingController controller = TextEditingController();
   double arrowHeight = 25;
 
-  List<HourPrice> priceRules = [];
+  List<HourPriceStore> priceRules = [];
 
   bool forceIsPriceCustom = false;
 

@@ -1,18 +1,19 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/Court/Model/CourtAvailableHours.dart';
-import 'package:sandfriends/Sandfriends/Features/Court/Model/HourPrice.dart';
+import 'package:sandfriends/Common/Model/HourPrice/HourPriceUser.dart';
 import 'package:sandfriends/Common/Utils/SFDateTime.dart';
 import 'package:tuple/tuple.dart';
+import '../../../../Common/Model/AppMatch/AppMatchUser.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../../../Common/Model/AppMatch.dart';
 import '../../../../Common/Model/AvailableDay.dart';
 import '../../../../Common/Model/Court.dart';
 import '../../../../Common/Model/Hour.dart';
 import '../../../../Common/Model/Sport.dart';
-import '../../../../Common/Model/Store.dart';
+import '../../../../Common/Model/Store/StoreComplete.dart';
 import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
@@ -32,9 +33,9 @@ class CourtViewModel extends StandardScreenViewModel {
   bool isLoading = false;
 
   int selectedPhotoIndex = 0;
-  Store? store;
+  StoreUser? store;
   List<CourtAvailableHours> courtAvailableHours = [];
-  List<HourPrice> selectedHourPrices = [];
+  List<HourPriceUser> selectedHourPrices = [];
   Court? selectedCourt;
   DateTime? selectedDate;
   int? selectedWeekday;
@@ -73,10 +74,10 @@ class CourtViewModel extends StandardScreenViewModel {
 
   Future<void> initCourtViewModel(
     BuildContext context,
-    Store? newStore,
+    StoreUser? newStore,
     String? newIdStore,
     List<CourtAvailableHours>? newCourtAvailableHours,
-    HourPrice? newselectedHourPrice,
+    HourPriceUser? newselectedHourPrice,
     DateTime? newSelectedDate,
     int? newSelectedWeekday,
     Sport? newSelectedSport,
@@ -95,7 +96,7 @@ class CourtViewModel extends StandardScreenViewModel {
       final response = await courtRepo.getStore(context, newIdStore!);
 
       if (response.responseStatus == NetworkResponseStatus.success) {
-        store = Store.fromJson(json.decode(response.responseBody!));
+        store = StoreUser.fromJson(json.decode(response.responseBody!));
         pageStatus = PageStatus.OK;
         notifyListeners();
       } else {
@@ -196,7 +197,7 @@ class CourtViewModel extends StandardScreenViewModel {
     )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
-        Tuple2<List<AvailableDay>, List<AppMatch>> searchResult =
+        Tuple2<List<AvailableDay>, List<AppMatchUser>> searchResult =
             matchSearchDecoder(context, response.responseBody!);
         List<AvailableDay> availableDays = searchResult.item1;
 
@@ -268,7 +269,7 @@ class CourtViewModel extends StandardScreenViewModel {
     });
   }
 
-  void onTapHourPrice(Court court, HourPrice hourPrice) {
+  void onTapHourPrice(Court court, HourPriceUser hourPrice) {
     if ((selectedCourt == null) ||
         (court.idStoreCourt != selectedCourt!.idStoreCourt)) {
       selectedCourt = court;

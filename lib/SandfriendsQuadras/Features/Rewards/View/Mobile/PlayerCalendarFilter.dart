@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends_web/SharedComponents/Model/EnumPeriodVisualization.dart';
-import '../../../../SharedComponents/View/SFTextfield.dart';
-import '../../../../Utils/Constants.dart';
+
+import '../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../Common/Enum/EnumPeriodVisualization.dart';
+import '../../../../../Common/Utils/Constants.dart';
 
 double defaultHeigth = 50;
 

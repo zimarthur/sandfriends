@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppMatch.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFAvatar.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
+import 'package:sandfriends/Common/Model/AppMatch/AppMatchStore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../SharedComponents/Model/SelectedPayment.dart';
+import '../../../../../Common/Components/SFAvatarStore.dart';
+import '../../../../../Common/Components/SFAvatarUser.dart';
+import '../../../../../Common/Model/SelectedPayment.dart';
+import '../../../../../Common/Utils/Constants.dart';
 
 class MatchCard extends StatelessWidget {
-  AppMatch match;
+  AppMatchStore match;
   MatchCard({
     required this.match,
     super.key,
@@ -61,7 +62,7 @@ class MatchCard extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          "${match.isFromRecurrentMatch ? "Mensalista" : "Partida"} de ${match.matchCreatorFirstName}",
+                          "${match.isFromRecurrentMatch ? "Mensalista" : "Partida"} de ${match.matchCreator.firstName}",
                           style: TextStyle(
                             color: textWhite,
                           ),
@@ -127,11 +128,9 @@ class MatchCard extends StatelessWidget {
           Container(
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-            child: SFAvatar(
+            child: SFAvatarStore(
               height: avatarHeight,
-              image: match.matchCreatorPhoto,
-              playerFirstName: match.matchCreatorFirstName,
-              playerLastName: match.matchCreatorLastName,
+              user: match.matchCreator,
               isPlayerAvatar: true,
             ),
           ),

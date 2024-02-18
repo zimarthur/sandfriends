@@ -42,7 +42,7 @@ class _WeekdayModalState extends State<WeekdayModal> {
             height: height * 0.6,
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: weekDaysPortuguese.length,
+              itemCount: weekday.length,
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
@@ -69,7 +69,7 @@ class _WeekdayModalState extends State<WeekdayModal> {
                       ),
                     ),
                     child: Text(
-                      weekDaysPortuguese[index],
+                      weekday[index],
                       style: TextStyle(
                           color: widget.selectedWeekdays.contains(index)
                               ? primaryLightBlue

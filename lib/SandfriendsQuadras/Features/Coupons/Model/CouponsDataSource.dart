@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:sandfriends/Common/Enum/EnumCouponStatus.dart';
+import 'package:sandfriends/Common/Model/Coupon/CouponStore.dart';
+import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../Sandfriends/Features/Checkout/Model/Coupon.dart';
+import '../../../../Common/Model/CouponUnited.dart';
+import '../../../../Common/Utils/Constants.dart';
 import 'CouponsTableCallback.dart';
 
 class CouponsDataSource extends DataGridSource {
   CouponsDataSource({
-    required List<Coupon> coupons,
-    required Function(CouponsTableCallback, Coupon, BuildContext) tableCallback,
+    required List<CouponStore> coupons,
+    required Function(CouponsTableCallback, CouponStore, BuildContext)
+        tableCallback,
     required BuildContext context,
   }) {
     _coupons = coupons
@@ -28,9 +33,9 @@ class CouponsDataSource extends DataGridSource {
                 columnName: 'validDates',
                 value: Text(
                   "${DateFormat("dd/MM/yy").format(
-                    coupon.startingDate,
+                    coupon.startingDate!,
                   )} - ${DateFormat("dd/MM/yy").format(
-                    coupon.endingDate,
+                    coupon.endingDate!,
                   )}",
                   style: TextStyle(
                     fontSize: 12,
@@ -41,7 +46,7 @@ class CouponsDataSource extends DataGridSource {
               DataGridCell<String>(
                 columnName: 'validHour',
                 value:
-                    "${coupon.hourBegin.hourString} - ${coupon.hourEnd.hourString}",
+                    "${coupon.hourBegin!.hourString} - ${coupon.hourEnd!.hourString}",
               ),
               DataGridCell<Widget>(
                 columnName: "status",
@@ -56,10 +61,10 @@ class CouponsDataSource extends DataGridSource {
               DataGridCell<Text>(
                 columnName: 'profit',
                 value: Text(
-                  coupon.profit.formatPrice(),
+                  coupon.profit!.formatPrice(),
                   style: TextStyle(
-                    color: coupon.profit > 0 ? greenText : null,
-                    fontWeight: coupon.profit > 0 ? FontWeight.bold : null,
+                    color: coupon.profit! > 0 ? greenText : null,
+                    fontWeight: coupon.profit! > 0 ? FontWeight.bold : null,
                   ),
                 ),
               ),
@@ -105,10 +110,10 @@ class CouponsDataSource extends DataGridSource {
     );
   }
 
-  Widget couponStatus(Coupon coupon) {
+  Widget couponStatus(CouponStore coupon) {
     return Container(
       decoration: BoxDecoration(
-        color: coupon.couponStatus.textBg,
+        color: coupon.couponStatus!.textBg,
         borderRadius: BorderRadius.circular(
           defaultBorderRadius,
         ),
@@ -118,9 +123,9 @@ class CouponsDataSource extends DataGridSource {
         horizontal: defaultPadding,
       ),
       child: Text(
-        coupon.couponStatus.text,
+        coupon.couponStatus!.text,
         style: TextStyle(
-          color: coupon.couponStatus.textColor,
+          color: coupon.couponStatus!.textColor,
           fontSize: 12,
         ),
       ),
@@ -128,8 +133,8 @@ class CouponsDataSource extends DataGridSource {
   }
 
   Widget action(
-    Coupon coupon,
-    Function(CouponsTableCallback, Coupon, BuildContext) callback,
+    CouponStore coupon,
+    Function(CouponsTableCallback, CouponStore, BuildContext) callback,
     BuildContext context,
   ) {
     return PopupMenuButton(
@@ -168,7 +173,7 @@ class CouponsDataSource extends DataGridSource {
             ),
           ));
         }
-        if (!coupon.isValid && coupon.canBeDisabled) {
+        if (!coupon.isValid! && coupon.canBeDisabled!) {
           items.add(
             PopupMenuItem(
               value: CouponsTableCallback.Enable,

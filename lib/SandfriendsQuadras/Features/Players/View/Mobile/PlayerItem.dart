@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppMatch.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Player.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Reward.dart';
-import 'package:intl/intl.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFAvatar.dart';
-import 'package:sandfriends_web/Utils/TypesExtensions.dart';
-import '../../../../Utils/Constants.dart';
+import 'package:sandfriends/Common/Components/SFAvatarStore.dart';
+import '../../../../../Common/Components/SFAvatarUser.dart';
+import '../../../../../Common/Model/User/Player_old.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../../Common/Model/User/UserStore.dart';
+import '../../../../../Common/Utils/Constants.dart';
+
 class PlayerItem extends StatelessWidget {
-  Player player;
+  UserStore player;
   VoidCallback openWhatsApp;
-  PlayerItem({required this.player,required this.openWhatsApp, super.key});
+  PlayerItem({required this.player, required this.openWhatsApp, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +27,16 @@ class PlayerItem extends StatelessWidget {
                 width: 50,
                 child: Stack(
                   children: [
-                    SFAvatar(
+                    SFAvatarStore(
                       height: 50,
                       isPlayerAvatar: true,
-                      image: player.photo,
-                      playerFirstName: player.firstName,
-                      playerLastName: player.lastName,
+                      user: player,
                     ),
                     Positioned(
                       bottom: 0,
                       right: 0,
                       child: SvgPicture.asset(
-                        "assets/icon/sport_${player.sport!.idSport}.svg",
+                        "assets/icon/sport_${player.preferenceSport!.idSport}.svg",
                         height: 20,
                       ),
                     ),
@@ -76,7 +73,7 @@ class PlayerItem extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      "${player.gender!.genderName} ${player.rank != null ? '| ${player.rank!.rankName}' : ''}",
+                      "${player.gender!.name} ${player.rank != null ? '| ${player.rank!.name}' : ''}",
                       style: TextStyle(
                         color: textLightGrey,
                         fontSize: 12,
@@ -89,10 +86,9 @@ class PlayerItem extends StatelessWidget {
                 width: defaultPadding / 2,
               ),
               InkWell(
-                onTap: (){
-                  if(player.phoneNumber != null){
+                onTap: () {
+                  if (player.phoneNumber != null) {
                     openWhatsApp();
-                    
                   }
                 },
                 child: SvgPicture.asset(

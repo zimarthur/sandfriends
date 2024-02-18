@@ -1,6 +1,7 @@
-import 'package:sandfriends_web/Features/Calendar/Model/PeriodType.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../Common/Utils/Constants.dart';
+import '../../Model/PeriodType.dart';
 
 class CalendarToggle extends StatefulWidget {
   List<PeriodType> labels = [PeriodType.Daily, PeriodType.Weekly];

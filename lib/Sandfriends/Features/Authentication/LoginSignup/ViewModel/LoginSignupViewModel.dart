@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Model/User/UserComplete.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/Authentication/LoadLogin/ViewModel/LoadLoginViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/Authentication/LoginSignup/Repo/LoginSignupRepo.dart';
-import 'package:sandfriends/Common/Model/User.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -37,7 +37,7 @@ class LoginSignupViewModel extends StandardScreenViewModel {
       notifyListeners();
       String fullName = credential.familyName ?? "";
       String email = credential.email ?? "";
-      Provider.of<UserProvider>(context, listen: false).user = User(
+      Provider.of<UserProvider>(context, listen: false).user = UserComplete(
           email: email, accessToken: "", firstName: fullName, lastName: "");
 
       validateGoogleLogin(context, email, credential.userIdentifier);
@@ -82,11 +82,12 @@ class LoginSignupViewModel extends StandardScreenViewModel {
             firstName = fullName;
           }
           if (firstName != "") {
-            Provider.of<UserProvider>(context, listen: false).user = User(
-                email: user.email,
-                accessToken: "",
-                firstName: firstName,
-                lastName: lastName);
+            Provider.of<UserProvider>(context, listen: false).user =
+                UserComplete(
+                    email: user.email,
+                    accessToken: "",
+                    firstName: firstName,
+                    lastName: lastName);
           }
 
           validateGoogleLogin(context, user.email, null);

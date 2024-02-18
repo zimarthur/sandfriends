@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Calendar/Model/CalendarWeeklyDayMatch.dart';
-import 'package:sandfriends_web/Features/Calendar/ViewModel/CalendarViewModel.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppMatch.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppRecurrentMatch.dart';
-import 'package:sandfriends_web/SharedComponents/Model/SelectedPayment.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFDivider.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import '../../../../../../SharedComponents/Model/Court.dart';
-import '../../../../../../SharedComponents/Model/Hour.dart';
-import '../../../../../../Common/Components/SFButton.dart';
+import '../../../../../../../Common/Components/SFButton.dart';
+import '../../../../../../../Common/Components/SFDivider.dart';
+import '../../../../../../../Common/Model/AppMatch/AppMatchStore.dart';
+import '../../../../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
+import '../../../../../../../Common/Model/Court.dart';
+import '../../../../../../../Common/Model/Hour.dart';
+import '../../../../../../../Common/Model/SelectedPayment.dart';
+import '../../../../../../../Common/Utils/Constants.dart';
+import '../../../../../Menu/ViewModel/DataProvider.dart';
 import '../../../../../Menu/ViewModel/MenuProvider.dart';
+import '../../../../ViewModel/CalendarViewModel.dart';
 import 'MatchDetailsWidgetRow.dart';
 import 'package:collection/collection.dart';
 
@@ -20,8 +19,8 @@ class CourtsAvailabilityWidget extends StatelessWidget {
   CalendarViewModel viewModel;
   Hour hour;
   DateTime day;
-  List<AppMatch> matches;
-  List<AppRecurrentMatch> recurrentMatches;
+  List<AppMatchStore> matches;
+  List<AppRecurrentMatchStore> recurrentMatches;
 
   CourtsAvailabilityWidget({
     super.key,
@@ -89,9 +88,9 @@ class CourtsAvailabilityWidget extends StatelessWidget {
                     Court court =
                         Provider.of<DataProvider>(context, listen: false)
                             .courts[index];
-                    AppMatch? match = matches.firstWhereOrNull((match) =>
+                    AppMatchStore? match = matches.firstWhereOrNull((match) =>
                         match.court.idStoreCourt == court.idStoreCourt);
-                    AppRecurrentMatch? recurrentMatch =
+                    AppRecurrentMatchStore? recurrentMatch =
                         recurrentMatches.firstWhereOrNull((recMatch) =>
                             recMatch.court.idStoreCourt == court.idStoreCourt);
 
@@ -139,14 +138,14 @@ class CourtsAvailabilityWidget extends StatelessWidget {
                                 Expanded(
                                   child: match != null
                                       ? Text(
-                                          match.matchCreatorName,
+                                          match.matchCreator.fullName,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontWeight: FontWeight.w300),
                                         )
                                       : recurrentMatch != null
                                           ? Text(
-                                              recurrentMatch.creatorName,
+                                              recurrentMatch.creator.fullName,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w300),
@@ -222,7 +221,7 @@ class CourtsAvailabilityWidget extends StatelessWidget {
               Expanded(
                 child: SFButton(
                   buttonLabel: "Voltar",
-                  buttonType: ButtonType.Secondary,
+                  isPrimary: false,
                   onTap: () {
                     viewModel.returnMainView(context);
                   },

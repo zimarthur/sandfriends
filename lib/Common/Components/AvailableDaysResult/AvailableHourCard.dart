@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../Common/Utils/Constants.dart';
-import '../../../Sandfriends/Features/Court/Model/HourPrice.dart';
+import '../../Model/HourPrice/HourPriceUser.dart';
 
 class AvailableHourCard extends StatefulWidget {
-  final HourPrice hourPrice;
-  final Function(HourPrice) onTap;
+  final HourPriceUser hourPrice;
+  final Function(HourPriceUser) onTap;
   final bool isSelected;
   final bool isRecurrent;
 

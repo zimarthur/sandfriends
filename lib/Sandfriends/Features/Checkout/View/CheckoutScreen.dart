@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/View/CheckoutWidget.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/ViewModel/CheckoutViewModel.dart';
-import 'package:sandfriends/Sandfriends/Features/Court/Model/HourPrice.dart';
+import 'package:sandfriends/Common/Model/HourPrice/HourPriceUser.dart';
 import 'package:sandfriends/Common/Model/AppBarType.dart';
 import 'package:sandfriends/Common/Model/Court.dart';
 import 'package:sandfriends/Common/Model/Sport.dart';
@@ -11,7 +11,7 @@ import '../../../../Common/StandardScreen/StandardScreen.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final Court court;
-  final List<HourPrice> hourPrices;
+  final List<HourPriceUser> hourPrices;
   final Sport sport;
   final DateTime? date;
   final int? weekday;

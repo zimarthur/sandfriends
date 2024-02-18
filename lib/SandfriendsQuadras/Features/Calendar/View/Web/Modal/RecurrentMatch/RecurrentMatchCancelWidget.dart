@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppMatch.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppRecurrentMatch.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:provider/provider.dart';
-import '../../../../../../Common/Components/SFButton.dart';
-import '../../../../../../SharedComponents/View/SFTextfield.dart';
+import '../../../../../../../Common/Components/SFButton.dart';
+import '../../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
+import '../../../../../../../Common/Utils/Constants.dart';
 import '../../../../../Menu/ViewModel/MenuProvider.dart';
-import '../../../../ViewModel/CalendarViewModel.dart';
 
 class RecurrentMatchCancelWidget extends StatelessWidget {
   VoidCallback onReturn;
   VoidCallback onCancel;
-  AppRecurrentMatch recurrentMatch;
+  AppRecurrentMatchStore recurrentMatch;
   TextEditingController controller;
 
   RecurrentMatchCancelWidget({
@@ -40,7 +38,7 @@ class RecurrentMatchCancelWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "Deseja mesmo cancelar o mensalista de ${recurrentMatch.creatorName}?",
+            "Deseja mesmo cancelar o mensalista de ${recurrentMatch.creator.fullName}?",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
@@ -81,7 +79,7 @@ class RecurrentMatchCancelWidget extends StatelessWidget {
               Expanded(
                 child: SFButton(
                   buttonLabel: "Voltar",
-                  buttonType: ButtonType.Secondary,
+                  isPrimary: false,
                   onTap: onReturn,
                 ),
               ),
@@ -91,7 +89,7 @@ class RecurrentMatchCancelWidget extends StatelessWidget {
               Expanded(
                 child: SFButton(
                   buttonLabel: "Cancelar partida",
-                  buttonType: ButtonType.Delete,
+                  color: red,
                   onTap: onCancel,
                 ),
               ),

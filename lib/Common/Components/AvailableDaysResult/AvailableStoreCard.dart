@@ -8,7 +8,8 @@ import 'package:geolocator/geolocator.dart';
 
 import '../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../Common/Model/AvailableStore.dart';
-import '../../../Common/Model/Store.dart';
+import '../../Model/Store/StoreComplete.dart';
+import '../../Model/Store/StoreUser.dart';
 import '../SFButton.dart';
 import '../SFLoading.dart';
 import '../../../Common/Utils/Constants.dart';
@@ -18,7 +19,7 @@ class AvailableStoreCard extends StatefulWidget {
   final AvailableStore availableStore;
   final AvailableHour? selectedAvailableHour;
   final Function(AvailableStore) onTapHour;
-  final Function(Store) onGoToCourt;
+  final Function(StoreUser) onGoToCourt;
   final bool selectedParent;
   final bool isRecurrent;
 

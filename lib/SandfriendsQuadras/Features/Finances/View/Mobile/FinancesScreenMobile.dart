@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Features/Finances/View/Mobile/FinanceItem.dart';
-import 'package:sandfriends_web/Features/Finances/View/Mobile/FinancePercentages.dart';
-import 'package:sandfriends_web/Features/Finances/View/Mobile/FinanceResume.dart';
-import 'package:sandfriends_web/Features/Finances/ViewModel/FinancesViewModel.dart';
-import 'package:sandfriends_web/Features/Rewards/View/Mobile/PlayerCalendarFilter.dart';
-import 'package:sandfriends_web/SharedComponents/Model/EnumPeriodVisualization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFPieChartMobile.dart';
-import 'package:sandfriends_web/Utils/TypesExtensions.dart';
-import '../../../../SharedComponents/View/SFPieChart.dart';
-import '../../../../Utils/Constants.dart';
+import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
+import '../../../../../Common/Components/SFPieChartMobile.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/View/Mobile/SFStandardHeader.dart';
+import '../../ViewModel/FinancesViewModel.dart';
+import 'FinanceItem.dart';
+import 'FinanceResume.dart';
 
 class FinancesScreenMobile extends StatefulWidget {
   const FinancesScreenMobile({super.key});

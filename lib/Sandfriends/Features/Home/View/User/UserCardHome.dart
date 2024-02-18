@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../Common/Components/SFAvatar.dart';
+import '../../../../../Common/Components/SFAvatarUser.dart';
 import '../../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../ViewModel/HomeViewModel.dart';
@@ -34,7 +34,7 @@ class _UserCardHomeState extends State<UserCardHome> {
                   double height = layoutConstraints.maxHeight;
                   return Column(
                     children: [
-                      SFAvatar(
+                      SFAvatarUser(
                         height: height * 0.65,
                         showRank: false,
                         user: Provider.of<UserProvider>(context, listen: false)
@@ -74,7 +74,7 @@ class _UserCardHomeState extends State<UserCardHome> {
                                 .city ==
                             null
                         ? "-"
-                        : "${Provider.of<UserProvider>(context, listen: false).user!.city!.city} / ${Provider.of<UserProvider>(context, listen: false).user!.city!.state!.uf}",
+                        : "${Provider.of<UserProvider>(context, listen: false).user!.city!.name} / ${Provider.of<UserProvider>(context, listen: false).user!.city!.state!.uf}",
                     iconPath: r'assets/icon/location_ping.svg',
                   ),
                 ),

@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/MatchMember.dart';
 
-import '../../../../Common/Components/SFAvatar.dart';
+import '../../../../Common/Components/SFAvatarUser.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/SFButton.dart';
 
@@ -58,7 +58,7 @@ class _MemberCardModalState extends State<MemberCardModal> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SFAvatar(
+                SFAvatarUser(
                   height: height * 0.15,
                   user: widget.member.user,
                   showRank: true,
@@ -134,7 +134,7 @@ class _MemberCardModalState extends State<MemberCardModal> {
                               child: Text(
                                 widget.member.user.city == null
                                     ? "-"
-                                    : "${widget.member.user.city!.city} / ${widget.member.user.city!.state!.uf}",
+                                    : "${widget.member.user.city!.name} / ${widget.member.user.city!.state!.uf}",
                                 style: const TextStyle(
                                   color: textDarkGrey,
                                 ),
@@ -209,10 +209,10 @@ class _MemberCardModalState extends State<MemberCardModal> {
             ),
           ),
           widget.viewModel.isUserMatchCreator &&
-                  widget.member.user.idUser !=
+                  widget.member.user.id !=
                       Provider.of<UserProvider>(context, listen: false)
                           .user!
-                          .idUser &&
+                          .id &&
                   widget.viewModel.matchExpired == false
               ? widget.member.waitingApproval
                   ? Padding(

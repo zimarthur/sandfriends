@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 import 'package:sandfriends/Sandfriends/Features/Court/View/CourtContactItem.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../Common/Model/Store.dart';
+import '../../../../Common/Model/Store/StoreComplete.dart';
 import '../../../../Common/Utils/UrlLauncher.dart';
 
 class CourtContact extends StatefulWidget {
-  final Store store;
+  final StoreUser store;
   final Color themeColor;
   const CourtContact({
     Key? key,
@@ -36,11 +37,11 @@ class _CourtContactState extends State<CourtContact> {
           ),
         ),
         CourtContactItem(
-          title: widget.store.phone,
+          title: widget.store.phoneNumber,
           iconPath: r'assets/icon/whatsapp.svg',
           onTap: () {
             final url =
-                Uri.parse("whatsapp://send?phone=${widget.store.phone}");
+                Uri.parse("whatsapp://send?phone=${widget.store.phoneNumber}");
             launchUrl(url);
           },
           themeColor: widget.themeColor,

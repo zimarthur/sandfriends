@@ -8,12 +8,12 @@ import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'dart:io';
 import 'dart:typed_data';
 import '../../../../Common/Components/Modal/CitySelectorModal.dart';
+import '../../../../Common/Model/User/UserComplete.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Model/Gender.dart';
 import '../../../../Common/Model/Rank.dart';
 import '../../../../Common/Model/SidePreference.dart';
 import '../../../../Common/Model/Sport.dart';
-import '../../../../Common/Model/User.dart';
 import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
@@ -31,8 +31,8 @@ import '../View/Modal/UserDetailsModalSidePreference.dart';
 class UserDetailsViewModel extends StandardScreenViewModel {
   final userDetailsRepo = UserDetailsRepo();
 
-  late User userEdited;
-  late User userReference;
+  late UserComplete userEdited;
+  late UserComplete userReference;
   late Sport displayedSport;
 
   final TextEditingController firstNameController = TextEditingController();
@@ -79,10 +79,10 @@ class UserDetailsViewModel extends StandardScreenViewModel {
 
   void initUserDetailsViewModel(
       BuildContext context, Sport? initSport, UserDetailsModals initModal) {
-    userEdited = User.copyWith(
+    userEdited = UserComplete.copyWith(
       Provider.of<UserProvider>(context, listen: false).user!,
     );
-    userReference = User.copyWith(
+    userReference = UserComplete.copyWith(
       Provider.of<UserProvider>(context, listen: false).user!,
     );
     displayedSport = userEdited.preferenceSport!;
@@ -146,11 +146,11 @@ class UserDetailsViewModel extends StandardScreenViewModel {
           Map<String, dynamic> responseBody = json.decode(
             response.responseBody!,
           );
-          User serverUser = User.fromJson(responseBody);
+          UserComplete serverUser = UserComplete.fromJson(responseBody);
           serverUser.matchCounter = userReference.matchCounter;
           Provider.of<UserProvider>(context, listen: false).user = serverUser;
-          userReference = User.copyWith(serverUser);
-          userEdited = User.copyWith(serverUser);
+          userReference = UserComplete.copyWith(serverUser);
+          userEdited = UserComplete.copyWith(serverUser);
           modalMessage = SFModalMessage(
             title: "Suas informações foram alteradas",
             onTap: () {

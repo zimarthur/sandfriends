@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/SharedComponents/Model/EnumPeriodVisualization.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFTextfield.dart';
-
-import '../../../../Utils/Constants.dart';
-import '../../../Rewards/View/Mobile/PlayerCalendarFilter.dart';
+import '../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../Common/Utils/Constants.dart';
 
 class PlayersResume extends StatefulWidget {
   VoidCallback collapse;

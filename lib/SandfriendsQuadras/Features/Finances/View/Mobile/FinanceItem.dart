@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppMatch.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Reward.dart';
 import 'package:intl/intl.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFAvatar.dart';
-import 'package:sandfriends_web/Utils/TypesExtensions.dart';
-import '../../../../Utils/Constants.dart';
+import 'package:sandfriends/Common/Components/SFAvatarStore.dart';
+import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
+import '../../../../../Common/Components/SFAvatarUser.dart';
+import '../../../../../Common/Model/AppMatch/AppMatchStore.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class FinanceItem extends StatelessWidget {
-  AppMatch match;
+  AppMatchStore match;
   FinanceItem({required this.match, super.key});
 
   @override
@@ -26,12 +26,10 @@ class FinanceItem extends StatelessWidget {
                 width: 50,
                 child: Stack(
                   children: [
-                    SFAvatar(
+                    SFAvatarStore(
                       height: 50,
                       isPlayerAvatar: true,
-                      image: match.matchCreatorPhoto,
-                      playerFirstName: match.matchCreatorFirstName,
-                      playerLastName: match.matchCreatorLastName,
+                      user: match.matchCreator,
                     ),
                     Positioned(
                         bottom: 0,
@@ -51,7 +49,7 @@ class FinanceItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      match.matchCreatorName,
+                      match.matchCreator.fullName,
                       style: TextStyle(
                         color: textDarkGrey,
                         fontSize: 16,
@@ -59,7 +57,7 @@ class FinanceItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "${DateFormat('dd/MM').format(match.date)} | ${match.startingHour.hourString} - ${match.endingHour.hourString}",
+                      "${DateFormat('dd/MM').format(match.date)} | ${match.timeBegin.hourString} - ${match.timeEnd.hourString}",
                       style: TextStyle(
                         color: textLightGrey,
                         fontSize: 12,

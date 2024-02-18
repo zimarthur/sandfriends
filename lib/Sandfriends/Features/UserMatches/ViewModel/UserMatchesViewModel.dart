@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 
+import '../../../../Common/Model/AppMatch/AppMatchUser.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../../../Common/Model/AppMatch.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
@@ -31,7 +31,7 @@ class UserMatchesViewModel extends StandardScreenViewModel {
         Provider.of<UserProvider>(context, listen: false).clearMatches();
         for (var match in responseBody['UserMatches']) {
           Provider.of<UserProvider>(context, listen: false).addMatch(
-            AppMatch.fromJson(
+            AppMatchUser.fromJson(
               match,
               Provider.of<CategoriesProvider>(context, listen: false).hours,
               Provider.of<CategoriesProvider>(context, listen: false).sports,

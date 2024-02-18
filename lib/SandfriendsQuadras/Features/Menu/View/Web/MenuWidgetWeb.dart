@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../../Utils/Constants.dart';
-import '../../../../Utils/Responsive.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../ViewModel/MenuProvider.dart';
 import 'DrawerWeb/SFDrawerWeb.dart';
 

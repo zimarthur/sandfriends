@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
+import 'package:sandfriends/Common/Components/SFAvatarStore.dart';
+import '../../../../../../Common/Components/SFAvatarUser.dart';
+import '../../../../../../Common/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../../Common/Components/SFAvatar.dart';
 import '../../../ViewModel/DataProvider.dart';
 import '../../../ViewModel/MenuProvider.dart';
 import '../../Web/DrawerWeb/SFDrawerListTile.dart';
@@ -52,17 +53,12 @@ class _SFDrawerMobileState extends State<SFDrawerMobile> {
                             child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SFAvatar(
+                            SFAvatarStore(
                                 height: 100,
-                                image: Provider.of<DataProvider>(context,
-                                                listen: false)
-                                            .store ==
-                                        null
-                                    ? null
-                                    : Provider.of<DataProvider>(context,
-                                            listen: false)
-                                        .store!
-                                        .logo,
+                                storePhoto: Provider.of<DataProvider>(context,
+                                        listen: false)
+                                    .store
+                                    ?.logo,
                                 storeName: Provider.of<DataProvider>(context,
                                         listen: false)
                                     .store!

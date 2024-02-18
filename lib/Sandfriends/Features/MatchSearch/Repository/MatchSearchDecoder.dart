@@ -5,28 +5,29 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
-import '../../../../Common/Model/AppMatch.dart';
+import '../../../../Common/Model/AppMatch/AppMatchUser.dart';
 import '../../../../Common/Model/AvailableCourt.dart';
 import '../../../../Common/Model/AvailableDay.dart';
 import '../../../../Common/Model/AvailableHour.dart';
 import '../../../../Common/Model/AvailableStore.dart';
 import '../../../../Common/Model/Hour.dart';
-import '../../../../Common/Model/Store.dart';
+import '../../../../Common/Model/Store/StoreComplete.dart';
+import '../../../../Common/Model/Store/StoreUser.dart';
 import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../../Court/Model/CourtAvailableHours.dart';
-import '../../Court/Model/HourPrice.dart';
+import '../../../../Common/Model/HourPrice/HourPriceUser.dart';
 
-Tuple2<List<AvailableDay>, List<AppMatch>> matchSearchDecoder(
+Tuple2<List<AvailableDay>, List<AppMatchUser>> matchSearchDecoder(
   BuildContext context,
   String response,
 ) {
   List<AvailableDay> availableDays = [];
-  List<AppMatch> openMatches = [];
+  List<AppMatchUser> openMatches = [];
 
-  List<Store> receivedStores = [];
+  List<StoreUser> receivedStores = [];
 
   final responseBody = json.decode(response);
   final responseDates = responseBody['Dates'];
@@ -34,7 +35,7 @@ Tuple2<List<AvailableDay>, List<AppMatch>> matchSearchDecoder(
   final responseOpenMatches = responseBody['OpenMatches'];
 
   for (var store in responseStores) {
-    Store newStore = Store.fromJson(
+    StoreUser newStore = StoreUser.fromJson(
       store,
     );
     if (Provider.of<UserProvider>(context, listen: false).userLocation !=
@@ -59,7 +60,7 @@ Tuple2<List<AvailableDay>, List<AppMatch>> matchSearchDecoder(
     DateTime newDate = DateFormat('dd/MM/yyyy').parse(date["Date"]);
     List<AvailableStore> availableStores = [];
     for (var store in date["Stores"]) {
-      Store newStore = receivedStores
+      StoreUser newStore = receivedStores
           .firstWhere((recStore) => recStore.idStore == store["IdStore"]);
       List<AvailableHour> availableHours = [];
       for (var hour in store["Hours"]) {
@@ -99,7 +100,7 @@ Tuple2<List<AvailableDay>, List<AppMatch>> matchSearchDecoder(
   }
   for (var openMatch in responseOpenMatches) {
     openMatches.add(
-      AppMatch.fromJson(
+      AppMatchUser.fromJson(
         openMatch,
         Provider.of<CategoriesProvider>(context, listen: false).hours,
         Provider.of<CategoriesProvider>(context, listen: false).sports,
@@ -107,5 +108,6 @@ Tuple2<List<AvailableDay>, List<AppMatch>> matchSearchDecoder(
     );
   }
 
-  return Tuple2<List<AvailableDay>, List<AppMatch>>(availableDays, openMatches);
+  return Tuple2<List<AvailableDay>, List<AppMatchUser>>(
+      availableDays, openMatches);
 }

@@ -42,8 +42,7 @@ class _UserDetailsSportSelectorState extends State<UserDetailsSportSelector> {
               child: SFDropdown(
                 onChanged: (String? newValue) =>
                     widget.viewModel.changedDisplayedSport(context, newValue),
-                controller: widget.viewModel.displayedSport.description,
-                labelText: "",
+                labelText: widget.viewModel.displayedSport.description,
                 items: Provider.of<CategoriesProvider>(context, listen: false)
                     .sports
                     .map((e) => e.description)

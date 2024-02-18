@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/Features/Settings/ViewModel/SettingsViewModel.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFButton.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-
+import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../../Menu/ViewModel/DataProvider.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';
+import '../../ViewModel/SettingsViewModel.dart';
 
 class SettingsScreenMobile extends StatefulWidget {
   String? initForm;
@@ -54,7 +53,7 @@ class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
                 children: [
                   SFButton(
                     buttonLabel: "Sair",
-                    buttonType: ButtonType.Delete,
+                    color: red,
                     onTap: () =>
                         Provider.of<MenuProvider>(context, listen: false)
                             .logout(context),

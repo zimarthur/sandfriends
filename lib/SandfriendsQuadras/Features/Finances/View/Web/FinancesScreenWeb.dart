@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Features/Finances/ViewModel/FinancesViewModel.dart';
-import 'package:sandfriends_web/SharedComponents/Model/EnumPeriodVisualization.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFBarChart.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFPeriodToggle.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-import 'package:sandfriends_web/Utils/SFDateTime.dart';
-import '../../../../SharedComponents/View/SFCard.dart';
-import '../../../../SharedComponents/View/SFHeader.dart';
-import '../../../../SharedComponents/View/SFPieChart.dart';
-import '../../../../SharedComponents/View/SFToggle.dart';
-import '../../../../SharedComponents/View/Table/SFTable.dart';
-import '../../../../SharedComponents/View/Table/SFTableHeader.dart';
+import '../../../../../Common/Components/SFBarChart.dart';
+import '../../../../../Common/Components/SFCard.dart';
+import '../../../../../Common/Components/SFHeader.dart';
+import '../../../../../Common/Components/SFPeriodToggle.dart';
+import '../../../../../Common/Components/SFPieChart.dart';
+import '../../../../../Common/Components/Table/SFTable.dart';
+import '../../../../../Common/Components/Table/SFTableHeader.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 
+import '../../ViewModel/FinancesViewModel.dart';
 import 'FinanceKpi.dart';
 
 class FinancesScreenWeb extends StatefulWidget {

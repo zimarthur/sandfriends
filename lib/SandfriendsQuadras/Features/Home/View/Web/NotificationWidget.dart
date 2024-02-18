@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Home/ViewModel/HomeViewModel.dart';
-
-import '../../../../SharedComponents/Model/AppNotification.dart';
-import '../../../../Utils/Constants.dart';
+import 'package:sandfriends/Common/Model/SandfriendsQuadras/AppNotificationStore.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import 'NotificationCard.dart';
 
 class NotificationWidget extends StatelessWidget {
-  List<AppNotification> notifications;
+  List<AppNotificationStore> notifications;
   NotificationWidget({
     required this.notifications,
   });

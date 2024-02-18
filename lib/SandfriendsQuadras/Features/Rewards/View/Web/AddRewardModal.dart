@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends_web/SharedComponents/View/SFButton.dart';
 import 'package:sandfriends_web/SharedComponents/View/SFTextfield.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
+import '../../../../../../Common/Utils/Constants.dart';
 import 'package:sandfriends_web/Utils/Responsive.dart';
 import 'package:sandfriends_web/Utils/Validators.dart';
 

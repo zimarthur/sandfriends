@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Authentication/Login/Repository/LoginRepoImp.dart';
-import 'package:sandfriends_web/Features/Coupons/View/Web/CouponsScreenWeb.dart';
-import 'package:sandfriends_web/Features/Help/View/HelpScreen.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/Features/Menu/Model/DrawerItem.dart';
-import 'package:sandfriends_web/Remote/NetworkResponse.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFModalMessage.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFModalConfirmation.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-import 'package:sandfriends_web/Utils/Responsive.dart';
 import 'package:provider/provider.dart';
-import '../../../Utils/LocalStorageWeb.dart'
-    if (dart.library.io) '../../../Utils/LocalStorageMobile.dart';
-import '../../../Utils/PageStatus.dart';
 import 'package:collection/collection.dart';
-
+import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
+import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
+import '../../../../Common/Components/Modal/SFModalConfirmation.dart';
+import '../../../../Common/Components/Modal/SFModalMessage.dart';
+import '../../../../Common/Utils/Constants.dart';
+import '../../../../Common/Utils/PageStatus.dart';
+import '../../../../Common/Utils/Responsive.dart';
+import '../../../../Remote/NetworkResponse.dart';
+import '../../Authentication/Login/Repository/LoginRepo.dart';
 import '../../Coupons/View/Mobile/CouponsScreenMobile.dart';
+import '../../Coupons/View/Web/CouponsScreenWeb.dart';
+import '../../Help/View/HelpScreen.dart';
 import '../../Home/View/Web/HomeScreenWeb.dart';
 import '../../Home/View/Mobile/HomeScreenMobile.dart';
 import '../../MyCourts/View/Web/MyCourtsScreenWeb.dart';
@@ -30,12 +27,14 @@ import '../../Rewards/View/Web/RewardsScreenWeb.dart';
 import '../../Rewards/View/Mobile/RewardsScreenMobile.dart';
 import '../../Settings/View/Web/SettingsScreenWeb.dart';
 import '../../Settings/View/Mobile/SettingsScreenMobile.dart';
+import '../Model/DrawerItem.dart';
+import 'DataProvider.dart';
 
-class MenuProvider extends ChangeNotifier {
+class MenuProvider extends StandardScreenViewModel {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
 
-  final loginRepo = LoginRepoImp();
+  final loginRepo = LoginRepo();
 
   void controlMenu() {
     // if (!_scaffoldKey.currentState!.isDrawerOpen) {
@@ -54,22 +53,13 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  PageStatus pageStatus = PageStatus.OK;
-  SFModalMessage modalMessage = SFModalMessage(
-    title: "",
-    onTap: () {},
-    isHappy: true,
-  );
-
-  Widget? modalFormWidget;
-
   void validateAuthentication(BuildContext context) async {
     if (Provider.of<DataProvider>(context, listen: false).store == null) {
       pageStatus = PageStatus.LOADING;
       notifyListeners();
-      String? storedToken = await getToken(context);
+      String? storedToken = await LocalStorageManager().getAccessToken(context);
       if (storedToken != null) {
-        loginRepo.validateToken(context, storedToken).then((response) {
+        loginRepo.validateToken(context, storedToken).then((response) async {
           if (response.responseStatus == NetworkResponseStatus.success) {
             try {
               Provider.of<DataProvider>(context, listen: false)
@@ -80,7 +70,7 @@ class MenuProvider extends ChangeNotifier {
             setIsEmployeeAdmin(Provider.of<DataProvider>(context, listen: false)
                 .isLoggedEmployeeAdmin());
             setSelectedDrawerItem(mainDrawer.first);
-            String? lastPage = getLastPage(context);
+            String? lastPage = await LocalStorageManager().getLastPage(context);
             if (lastPage != null &&
                 permissionsDrawerItems
                     .any((drawer) => drawer.title == lastPage)) {
@@ -108,7 +98,7 @@ class MenuProvider extends ChangeNotifier {
   }
 
   Future<void> updateDataProvider(BuildContext context) async {
-    String? storedToken = await getToken(context);
+    String? storedToken = await LocalStorageManager().getAccessToken(context);
     if (storedToken != null) {
       pageStatus = PageStatus.LOADING;
       notifyListeners();
@@ -128,11 +118,6 @@ class MenuProvider extends ChangeNotifier {
 
   void setModalLoading() {
     pageStatus = PageStatus.LOADING;
-    notifyListeners();
-  }
-
-  void closeModal() {
-    pageStatus = PageStatus.OK;
     notifyListeners();
   }
 
@@ -160,7 +145,7 @@ class MenuProvider extends ChangeNotifier {
   }
 
   void setModalForm(Widget widget) {
-    modalFormWidget = widget;
+    widgetForm = widget;
     pageStatus = PageStatus.FORM;
     notifyListeners();
   }
@@ -168,7 +153,7 @@ class MenuProvider extends ChangeNotifier {
   void setModalConfirmation(String title, String description,
       VoidCallback onContinue, VoidCallback onReturn,
       {bool? isConfirmationPositive}) {
-    modalFormWidget = SFModalConfirmation(
+    widgetForm = SFModalConfirmation(
       title: title,
       description: description,
       onContinue: onContinue,
@@ -351,7 +336,7 @@ class MenuProvider extends ChangeNotifier {
   bool get isOnHome => selectedDrawerItem.title == "Início";
 
   void onTabClick(DrawerItem drawerItem, BuildContext context) {
-    storeLastPage(context, drawerItem.title);
+    LocalStorageManager().storeLastPage(context, drawerItem.title);
     setSelectedDrawerItem(drawerItem);
     if (drawerItem.logout) {
       logout(context);
@@ -405,7 +390,7 @@ class MenuProvider extends ChangeNotifier {
 
   void logout(BuildContext context) {
     Provider.of<DataProvider>(context, listen: false).clearDataProvider();
-    storeToken(context, "");
+    LocalStorageManager().storeAccessToken(context, "");
     Navigator.pushNamedAndRemoveUntil(
       context,
       '/login',

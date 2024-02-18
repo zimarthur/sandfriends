@@ -3,7 +3,7 @@ import 'City.dart';
 class Region {
   final int idState;
   final String state;
-  final String uf;
+  String uf;
   List<City> cities = [];
   City? selectedCity;
 

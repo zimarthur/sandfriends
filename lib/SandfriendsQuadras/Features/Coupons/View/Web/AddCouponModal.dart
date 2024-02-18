@@ -1,29 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Calendar/View/Web/Match/DatePicker.dart';
-import 'package:sandfriends_web/Features/Calendar/ViewModel/CalendarViewModel.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Coupon.dart';
-import 'package:sandfriends_web/SharedComponents/Model/EnumDiscountType.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Gender.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Rank.dart';
-import 'package:sandfriends_web/SharedComponents/View/DatePickerModal.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFDropDown.dart';
-import 'package:sandfriends_web/Utils/Responsive.dart';
-import 'package:sandfriends_web/Utils/Validators.dart';
 import 'package:provider/provider.dart';
-import '../../../../../Common/Model/Court.dart';
+import '../../../../../Common/Components/DatePickerModal.dart';
+import '../../../../../Common/Components/SFDropDown.dart';
+import '../../../../../Common/Enum/EnumDiscountType.dart';
+import '../../../../../Common/Model/Coupon/CouponStore.dart';
+import '../../../../../Common/Model/CouponUnited.dart';
 import '../../../../../Common/Model/Hour.dart';
-import '../../../../../Common/Model/Sport.dart';
 import '../../../../../Common/Components/SFButton.dart';
-import '../../../../../Common/Components/SFTextField.dart';
+import '../../../../../../Common/Components/SFTextField.dart';
 import '../../../../../Common/Utils/Constants.dart';
-import '../../../../SharedComponents/Model/Player.dart';
+import '../../../../../Common/Utils/Responsive.dart';
+import '../../../../../Common/Utils/Validators.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
+import '../../../Menu/ViewModel/DataProvider.dart';
+
 class AddCouponModal extends StatefulWidget {
   VoidCallback onReturn;
-  Function(Coupon) onCreateCoupon;
+  Function(CouponStore) onCreateCoupon;
 
   AddCouponModal({
     required this.onReturn,
@@ -403,7 +398,7 @@ class _AddCouponModalState extends State<AddCouponModal> {
                         Expanded(
                           child: SFButton(
                             buttonLabel: "Voltar",
-                            buttonType: ButtonType.Secondary,
+                            isPrimary: false,
                             onTap: widget.onReturn,
                           ),
                         ),
@@ -413,14 +408,12 @@ class _AddCouponModalState extends State<AddCouponModal> {
                         Expanded(
                           child: SFButton(
                             buttonLabel: "Adicionar cupom",
-                            buttonType: canAddCoupon
-                                ? ButtonType.Primary
-                                : ButtonType.Disabled,
+                            color: canAddCoupon ? primaryBlue : disabled,
                             onTap: () {
                               if (canAddCoupon) {
                                 if (formKey.currentState?.validate() == true) {
                                   widget.onCreateCoupon(
-                                    Coupon(
+                                    CouponStore(
                                       idCoupon: 0,
                                       couponCode: couponController.text,
                                       value: double.parse(

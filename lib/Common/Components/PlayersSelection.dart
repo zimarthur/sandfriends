@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../SandfriendsQuadras/Features/Menu/ViewModel/DataProvider.dart';
-import '../Model/Player.dart';
+import '../Model/User/Player_old.dart';
+import '../Model/User/UserStore.dart';
 import '../Utils/Constants.dart';
 
 class PlayersSelection extends StatefulWidget {
-  Player? selectedPlayer;
-  Function(Player) onPlayerSelected;
+  UserStore? selectedPlayer;
+  Function(UserStore) onPlayerSelected;
   VoidCallback onAddNewPlayer;
   TextEditingController playerController;
   bool showSport;
@@ -25,8 +26,8 @@ class PlayersSelection extends StatefulWidget {
 
 class _PlayersSelectionState extends State<PlayersSelection> {
   String filteredText = "";
-  List<Player> players = [];
-  List<Player> get filteredPlayers => players
+  List<UserStore> players = [];
+  List<UserStore> get filteredPlayers => players
       .where(
         (player) => player.fullName.toLowerCase().contains(
               widget.playerController.text.toLowerCase(),
@@ -130,7 +131,9 @@ class _PlayersSelectionState extends State<PlayersSelection> {
                               ),
                               if (widget.showSport)
                                 Text(
-                                  filteredPlayers[index].sport!.description,
+                                  filteredPlayers[index]
+                                      .preferenceSport!
+                                      .description,
                                   style: TextStyle(
                                     color: isPlayerSelected
                                         ? textBlue

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Features/Settings/EmployeeInfo/ViewModel/EmployeeInfoViewModel.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFTextfield.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-import 'package:sandfriends_web/Utils/Validators.dart';
-
-import '../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../../../../Common/Utils/Validators.dart';
 
 import '../../../Menu/ViewModel/MenuProvider.dart';
 
@@ -70,7 +68,7 @@ class RenameEmployeeWidget extends StatelessWidget {
                 Expanded(
                   child: SFButton(
                     buttonLabel: "Voltar",
-                    buttonType: ButtonType.Secondary,
+                    isPrimary: false,
                     onTap: onReturn,
                   ),
                 ),
@@ -80,7 +78,6 @@ class RenameEmployeeWidget extends StatelessWidget {
                 Expanded(
                   child: SFButton(
                       buttonLabel: "Salvar",
-                      buttonType: ButtonType.Primary,
                       onTap: () {
                         if (renameEmployeeFormKey.currentState?.validate() ==
                             true) {

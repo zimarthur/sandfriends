@@ -1,19 +1,18 @@
 import 'dart:isolate';
 
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Calendar/ViewModel/CalendarViewModel.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/SharedComponents/View/PlayersSelection.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFDropDown.dart';
-import 'package:sandfriends_web/SharedComponents/View/SelectPlayer.dart';
-import 'package:sandfriends_web/Utils/Validators.dart';
 import 'package:provider/provider.dart';
+import '../../../../../../Common/Components/PlayersSelection.dart';
+import '../../../../../../Common/Components/SFDropDown.dart';
+import '../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../../Common/Components/SelectPlayer.dart';
 import '../../../../../../Common/Model/Court.dart';
 import '../../../../../../Common/Model/Hour.dart';
-import '../../../../../../SharedComponents/Model/Player.dart';
+import '../../../../../../Common/Model/User/Player_old.dart';
+import '../../../../../../Common/Model/User/UserStore.dart';
+import '../../../../../../Common/Utils/Validators.dart';
 import '../../../../../../Common/Model/Sport.dart';
 import '../../../../../../Common/Components/SFButton.dart';
-import '../../../../../../SharedComponents/View/SFTextfield.dart';
 import '../../../../../../Common/Utils/Constants.dart';
 import '../../../../../../Common/Utils/SFDateTime.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,7 +24,7 @@ class BlockHourWidget extends StatefulWidget {
   Hour hour;
   Court court;
   VoidCallback onReturn;
-  Function(Player, int, String, double) onBlock;
+  Function(UserStore, int, String, double) onBlock;
   List<Sport> sports;
   VoidCallback onAddNewPlayer;
   double standardPrice;
@@ -54,7 +53,7 @@ class _BlockHourWidgetState extends State<BlockHourWidget> {
   TextEditingController priceController = TextEditingController();
   ScrollController scrollController = ScrollController();
   bool onPlayerSelection = false;
-  Player? selectedPlayer;
+  UserStore? selectedPlayer;
 
   @override
   void initState() {
@@ -63,11 +62,11 @@ class _BlockHourWidgetState extends State<BlockHourWidget> {
     super.initState();
   }
 
-  void onPlayerSelected(Player player) {
+  void onPlayerSelected(UserStore player) {
     setState(() {
       onPlayerSelection = false;
       selectedPlayer = player;
-      selectedSport = player.sport!.description;
+      selectedSport = player.preferenceSport!.description;
     });
   }
 
@@ -316,7 +315,7 @@ class _BlockHourWidgetState extends State<BlockHourWidget> {
                 Expanded(
                   child: SFButton(
                     buttonLabel: "Voltar",
-                    buttonType: ButtonType.Secondary,
+                    isPrimary: false,
                     onTap: widget.onReturn,
                   ),
                 ),
@@ -326,9 +325,7 @@ class _BlockHourWidgetState extends State<BlockHourWidget> {
                 Expanded(
                   child: SFButton(
                     buttonLabel: "Bloquear Horário",
-                    buttonType: selectedPlayer == null
-                        ? ButtonType.Disabled
-                        : ButtonType.Delete,
+                    color: selectedPlayer == null ? disabled : red,
                     onTap: () {
                       if (selectedPlayer != null) {
                         widget.onBlock(

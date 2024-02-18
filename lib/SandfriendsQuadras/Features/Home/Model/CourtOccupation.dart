@@ -1,4 +1,4 @@
-import 'package:sandfriends_web/SharedComponents/Model/Court.dart';
+import '../../../../Common/Model/Court.dart';
 
 class CourtOccupation {
   Court court;

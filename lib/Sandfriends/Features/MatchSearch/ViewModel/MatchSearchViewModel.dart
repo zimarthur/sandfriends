@@ -8,11 +8,12 @@ import 'package:time_range/time_range.dart';
 import 'package:tuple/tuple.dart';
 import '../../../../Common/Components/Modal/CitySelectorModal.dart';
 import '../../../../Common/Components/Modal/TimeModal.dart';
+import '../../../../Common/Model/AppMatch/AppMatchUser.dart';
+import '../../../../Common/Model/Store/StoreUser.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../../../Common/Model/AppMatch.dart';
 import '../../../../Common/Model/AvailableDay.dart';
 import '../../../../Common/Model/City.dart';
-import '../../../../Common/Model/Store.dart';
+import '../../../../Common/Model/Store/StoreComplete.dart';
 import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
@@ -75,7 +76,7 @@ class MatchSearchViewModel extends StandardScreenViewModel {
     return _availableDays;
   }
 
-  List<AppMatch> openMatches = [];
+  List<AppMatchUser> openMatches = [];
 
   bool get canSearchMatch => datesFilter.isNotEmpty && cityFilter != null;
 
@@ -144,7 +145,7 @@ class MatchSearchViewModel extends StandardScreenViewModel {
           .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
           hasUserSearched = true;
-          Tuple2<List<AvailableDay>, List<AppMatch>> searchResult =
+          Tuple2<List<AvailableDay>, List<AppMatchUser>> searchResult =
               matchSearchDecoder(context, response.responseBody!);
           _availableDays = searchResult.item1;
           openMatches = searchResult.item2;
@@ -190,7 +191,7 @@ class MatchSearchViewModel extends StandardScreenViewModel {
     notifyListeners();
   }
 
-  void goToCourt(BuildContext context, Store store) {
+  void goToCourt(BuildContext context, StoreUser store) {
     Navigator.pushNamed(
       context,
       '/court',

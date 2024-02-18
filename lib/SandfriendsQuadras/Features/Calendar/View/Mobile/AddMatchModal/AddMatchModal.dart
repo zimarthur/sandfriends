@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends_web/Features/Calendar/Model/BlockMatch.dart';
-import 'package:sandfriends_web/Features/Calendar/View/Mobile/AddMatchModal/AddMatchDetails.dart';
-import 'package:sandfriends_web/Features/Calendar/View/Mobile/AddMatchModal/AddMatchModalGeneral.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/SharedComponents/Model/HourPrice.dart';
-import 'package:sandfriends_web/SharedComponents/View/PlayersSelection.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFButton.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFTextfield.dart';
-import 'package:sandfriends_web/SharedComponents/View/SelectPlayer.dart';
-import 'package:sandfriends_web/Utils/Validators.dart';
-import '../../../../../SharedComponents/Model/Court.dart';
-import '../../../../../SharedComponents/Model/Hour.dart';
-import '../../../../../SharedComponents/Model/Player.dart';
-import '../../../../../SharedComponents/Model/Sport.dart';
-import '../../../../../SharedComponents/View/SFDropDown.dart';
-import '../../../../../Utils/Constants.dart';
+import 'package:sandfriends/Common/Model/HourPrice/HourPriceStore.dart';
+import '../../../../../../Common/Components/PlayersSelection.dart';
+import '../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../../Common/Model/Court.dart';
+import '../../../../../../Common/Model/Hour.dart';
+import '../../../../../../Common/Model/User/Player_old.dart';
+import '../../../../../../Common/Model/Sport.dart';
+import '../../../../../../Common/Model/User/UserStore.dart';
+import '../../../../../../Common/Utils/Constants.dart';
+import '../../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Model/BlockMatch.dart';
 import '../../../Model/CalendarType.dart';
 import 'package:provider/provider.dart';
+
+import 'AddMatchModalGeneral.dart';
 
 class AddMatchModal extends StatefulWidget {
   final VoidCallback onReturn;
@@ -27,7 +24,7 @@ class AddMatchModal extends StatefulWidget {
   Court court;
   Function(CalendarType) onAddNewPlayer;
   CalendarType? initCalendarType;
-  HourPrice currentHourPrice;
+  HourPriceStore currentHourPrice;
 
   AddMatchModal({
     required this.onReturn,
@@ -50,7 +47,7 @@ class _AddMatchModalState extends State<AddMatchModal> {
   CalendarType selectedMatchType = CalendarType.Match;
   late String selectedSport;
   List<Sport> sports = [];
-  Player? selectedPlayer;
+  UserStore? selectedPlayer;
   TextEditingController obsController = TextEditingController();
   TextEditingController playerController = TextEditingController();
   bool hasSelectedMatchType = false;

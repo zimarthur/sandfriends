@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Calendar/Model/CalendarType.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../../../../../Common/Utils/Constants.dart';
 
 class EmptyHourWidget extends StatefulWidget {
   VoidCallback onBlockHour;

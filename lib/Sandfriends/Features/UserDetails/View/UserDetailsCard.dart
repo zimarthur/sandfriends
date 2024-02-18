@@ -4,7 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Providers/UserProvider/UserProvider.dart';
-import '../../../../Common/Components/SFAvatar.dart';
+import '../../../../Common/Components/SFAvatarUser.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../ViewModel/UserDetailsViewModel.dart';
 
@@ -70,7 +70,7 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                                 ),
                               ),
                               Center(
-                                child: SFAvatar(
+                                child: SFAvatarUser(
                                   showRank: true,
                                   height: remainingHeight * 0.5,
                                   sport: widget.viewModel.displayedSport,
@@ -171,7 +171,7 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                                       child: Text(
                                         widget.viewModel.userEdited.city == null
                                             ? "-"
-                                            : "${widget.viewModel.userEdited.city!.city} / ${widget.viewModel.userEdited.city!.state!.uf}",
+                                            : "${widget.viewModel.userEdited.city!.name} / ${widget.viewModel.userEdited.city!.state!.uf}",
                                         style: const TextStyle(
                                           color: textDarkGrey,
                                           decoration: TextDecoration.underline,

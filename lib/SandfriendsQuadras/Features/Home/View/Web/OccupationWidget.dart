@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
+import '../../../../../Common/Utils/Constants.dart';
 
 class OccupationWidget extends StatelessWidget {
   String title;
   double result;
 
-  OccupationWidget({super.key, 
+  OccupationWidget({
+    super.key,
     required this.title,
     required this.result,
   });

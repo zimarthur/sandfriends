@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Settings/EmployeeInfo/Model/EmployeeTableCallbacks.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Employee.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../../../Common/Model/SandfriendsQuadras/Employee.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import 'EmployeeTableCallbacks.dart';
 
 class EmployeeDataSource extends DataGridSource {
   EmployeeDataSource({

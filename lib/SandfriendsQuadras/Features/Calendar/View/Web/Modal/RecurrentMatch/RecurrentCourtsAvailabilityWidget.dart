@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Calendar/Model/CalendarWeeklyDayMatch.dart';
-import 'package:sandfriends_web/Features/Calendar/Model/DayMatch.dart';
-import 'package:sandfriends_web/Features/Calendar/ViewModel/CalendarViewModel.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppMatch.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppRecurrentMatch.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFDivider.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import '../../../../../../SharedComponents/Model/Court.dart';
-import '../../../../../../SharedComponents/Model/Hour.dart';
-import '../../../../../../Common/Components/SFButton.dart';
-import '../../../../../../Utils/SFDateTime.dart';
+import '../../../../../../../Common/Components/SFButton.dart';
+import '../../../../../../../Common/Components/SFDivider.dart';
+import '../../../../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
+import '../../../../../../../Common/Model/Court.dart';
+import '../../../../../../../Common/Utils/Constants.dart';
+import '../../../../../../../Common/Utils/SFDateTime.dart';
+import '../../../../../Menu/ViewModel/DataProvider.dart';
 import '../../../../../Menu/ViewModel/MenuProvider.dart';
+import '../../../../Model/DayMatch.dart';
+import '../../../../ViewModel/CalendarViewModel.dart';
 import '../Match/MatchDetailsWidgetRow.dart';
-import 'package:collection/collection.dart';
 
 class RecurrentCourtsAvailabilityWidget extends StatelessWidget {
   CalendarViewModel viewModel;
@@ -83,7 +79,7 @@ class RecurrentCourtsAvailabilityWidget extends StatelessWidget {
                       .courts
                       .length,
                   itemBuilder: (context, index) {
-                    AppRecurrentMatch? recurrentMatch;
+                    AppRecurrentMatchStore? recurrentMatch;
                     Court court =
                         Provider.of<DataProvider>(context, listen: false)
                             .courts[index];
@@ -156,7 +152,7 @@ class RecurrentCourtsAvailabilityWidget extends StatelessWidget {
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              recurrentMatch.creatorName,
+                                              recurrentMatch.creator.fullName,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w300),
@@ -196,7 +192,7 @@ class RecurrentCourtsAvailabilityWidget extends StatelessWidget {
               Expanded(
                 child: SFButton(
                   buttonLabel: "Voltar",
-                  buttonType: ButtonType.Secondary,
+                  isPrimary: false,
                   onTap: () {
                     viewModel.returnMainView(context);
                   },

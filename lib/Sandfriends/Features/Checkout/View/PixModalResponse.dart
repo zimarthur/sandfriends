@@ -5,7 +5,7 @@ import 'package:sandfriends/Common/Model/CreditCard/CreditCard.dart';
 import 'package:sandfriends/Common/Model/CreditCard/CreditCardValidator.dart';
 
 import '../../../../../Common/Components/SFButton.dart';
-import '../../../../../Common/Components/SFTextField.dart';
+import '../../../../../../Common/Components/SFTextField.dart';
 import '../../../../Common/Components/PixCodeClipboard.dart';
 import '../../../../Common/Utils/Constants.dart';
 

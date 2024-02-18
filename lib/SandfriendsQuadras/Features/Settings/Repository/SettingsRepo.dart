@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:sandfriends/Common/Model/Store/StoreComplete.dart';
 
 import '../../../../Remote/ApiEndPoints.dart';
 import '../../../../Remote/NetworkApiService.dart';
@@ -10,7 +11,7 @@ class SettingsRepo {
   final _apiService = NetworkApiService();
 
   Future<NetworkResponse> updateStoreInfo(
-      BuildContext context, Store store, bool changedLogo) async {
+      BuildContext context, StoreComplete store, bool changedLogo) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
       ApiEndPoints.updateStoreInfo,
@@ -21,7 +22,7 @@ class SettingsRepo {
           "Address": store.address,
           "AddressNumber": store.addressNumber,
           "City": store.city.name,
-          "State": store.city.state.uf,
+          "State": store.city.state?.uf ?? "",
           "PhoneNumber1": store.phoneNumber,
           "PhoneNumber2": store.ownerPhoneNumber ?? "",
           "Description": store.description ?? "",
@@ -29,7 +30,7 @@ class SettingsRepo {
           "Cnpj": store.cnpj ?? "",
           "Cep": store.cep,
           "Neighbourhood": store.neighbourhood,
-          "Logo": changedLogo ? store.logo : "",
+          "Logo": changedLogo ? store.logo! : "",
           "Photos": [
             for (var photo in store.photos)
               if (photo.isNewPhoto)

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/MyCourts/ViewModel/MyCourtsViewModel.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/SharedComponents/Model/OperationDay.dart';
-import 'package:sandfriends_web/SharedComponents/Model/StoreWorkingHours.dart';
-
-import '../../../../Common/Components/SFButton.dart';
-
-import '../../../../Utils/Constants.dart';
+import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../../Menu/ViewModel/DataProvider.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';
+import '../../ViewModel/MyCourtsViewModel.dart';
 import 'HourSelector.dart';
 
 class WorkingHoursModal extends StatefulWidget {
@@ -119,7 +116,7 @@ class _WorkingHoursWidgetState extends State<WorkingHoursModal> {
               Expanded(
                 child: SFButton(
                   buttonLabel: "Voltar",
-                  buttonType: ButtonType.Secondary,
+                  isPrimary: false,
                   onTap: () {
                     widget.viewModel.closeModal(context);
                   },
@@ -131,7 +128,6 @@ class _WorkingHoursWidgetState extends State<WorkingHoursModal> {
               Expanded(
                 child: SFButton(
                   buttonLabel: "Salvar",
-                  buttonType: ButtonType.Primary,
                   onTap: () {
                     widget.viewModel
                         .saveNewStoreWorkingDays(context, storeWorkingDays);

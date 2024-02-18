@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Calendar/Model/CalendarType.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppMatch.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-import 'package:sandfriends_web/Utils/SFDateTime.dart';
 import 'package:provider/provider.dart';
-import '../../../../../../SharedComponents/Model/Hour.dart';
+import '../../../../../../../Common/Model/Hour.dart';
+import '../../../../../../../Common/Utils/Constants.dart';
+import '../../../../../../../Common/Utils/SFDateTime.dart';
+import '../../../../../Menu/ViewModel/DataProvider.dart';
+import '../../../../Model/CalendarType.dart';
 import '../../../../Model/DayMatch.dart';
 
 class HourWidget extends StatefulWidget {

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/MyCourts/ViewModel/MyCourtsViewModel.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFButton.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFDivider.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFTextfield.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-import 'package:provider/provider.dart';
+import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Components/SFDivider.dart';
+import '../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../ViewModel/MyCourtsViewModel.dart';
 
 class CourtInfo extends StatefulWidget {
   MyCourtsViewModel viewModel;
@@ -226,14 +224,13 @@ class _CourtInfoState extends State<CourtInfo> {
           widget.viewModel.selectedCourtIndex == -1
               ? SFButton(
                   buttonLabel: "Adicionar quadra",
-                  buttonType: ButtonType.Primary,
                   onTap: () {
                     widget.viewModel.addCourt(context);
                   },
                 )
               : SFButton(
                   buttonLabel: "Excluir quadra",
-                  buttonType: ButtonType.Delete,
+                  color: red,
                   onTap: () {
                     widget.viewModel.deleteCourt(context);
                   },

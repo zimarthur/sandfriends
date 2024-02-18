@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Utils/constants.dart';
+import '../../../../../../Common/Utils/Constants.dart';
 
 class PriceSelectorRadio extends StatefulWidget {
   bool isPriceStandard;

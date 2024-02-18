@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Menu/View/Web/DrawerWeb/SFDrawerPopup.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/MenuProvider.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFAvatar.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
+import 'package:sandfriends/Common/Components/SFAvatarStore.dart';
+import '../../../../../../Common/Components/SFAvatarUser.dart';
+import '../../../../../../Common/Utils/Constants.dart';
 import 'package:provider/provider.dart';
+
+import '../../../ViewModel/DataProvider.dart';
+import '../../../ViewModel/MenuProvider.dart';
+import 'SFDrawerPopup.dart';
 
 class SFDrawerUserWidget extends StatefulWidget {
   bool fullSize;
@@ -26,15 +28,11 @@ class _SFDrawerUserWidgetState extends State<SFDrawerUserWidget> {
     return widget.fullSize
         ? Row(
             children: [
-              SFAvatar(
+              SFAvatarStore(
                 height: 75,
-                image:
-                    Provider.of<DataProvider>(context, listen: false).store ==
-                            null
-                        ? null
-                        : Provider.of<DataProvider>(context, listen: false)
-                            .store!
-                            .logo,
+                storePhoto: Provider.of<DataProvider>(context, listen: false)
+                    .store
+                    ?.logo,
                 storeName: Provider.of<DataProvider>(context, listen: false)
                     .store!
                     .name,
@@ -103,15 +101,11 @@ class _SFDrawerUserWidgetState extends State<SFDrawerUserWidget> {
           )
         : Stack(
             children: [
-              SFAvatar(
+              SFAvatarStore(
                   height: 50,
-                  image:
-                      Provider.of<DataProvider>(context, listen: false).store ==
-                              null
-                          ? null
-                          : Provider.of<DataProvider>(context, listen: false)
-                              .store!
-                              .logo,
+                  storePhoto: Provider.of<DataProvider>(context, listen: false)
+                      .store
+                      ?.logo,
                   storeName: Provider.of<DataProvider>(context, listen: false)
                       .store!
                       .name),

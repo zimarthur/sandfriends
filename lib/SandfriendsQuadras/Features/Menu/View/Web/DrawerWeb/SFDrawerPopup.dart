@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Menu/Model/DrawerItem.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/MenuProvider.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
+import '../../../../../../Common/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../ViewModel/MenuProvider.dart';
 
 class SFDrawerPopup extends StatefulWidget {
   bool showIcon;

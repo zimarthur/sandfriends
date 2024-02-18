@@ -1,18 +1,10 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/rendering/viewport_offset.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Features/Calendar/View/Mobile/CalendarDatePickerMobile.dart';
-import 'package:sandfriends_web/Features/Calendar/View/Mobile/CalendarHeader.dart';
-import 'package:sandfriends_web/Features/Calendar/View/Mobile/CalendarWidgetMobile.dart';
-import 'package:sandfriends_web/Features/Calendar/View/Mobile/CalendarWidgetMobile.dart';
-import 'package:sandfriends_web/Features/Menu/View/Mobile/SFStandardHeader.dart';
-import 'package:sandfriends_web/Utils/TypesExtensions.dart';
-import '../../../../Utils/Constants.dart';
-import '../../../../Utils/SFDateTime.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../ViewModel/CalendarViewModel.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
+import 'CalendarDatePickerMobile.dart';
+import 'CalendarHeader.dart';
+import 'CalendarWidgetMobile.dart';
 
 class CalendarScreenMobile extends StatefulWidget {
   const CalendarScreenMobile({super.key});

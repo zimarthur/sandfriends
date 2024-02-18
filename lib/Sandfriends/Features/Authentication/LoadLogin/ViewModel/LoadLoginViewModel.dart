@@ -5,8 +5,9 @@ import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dar
 import 'package:sandfriends/Common/Model/Hour.dart';
 import 'package:sandfriends/Sandfriends/Providers/RedirectProvider/RedirectProvider.dart';
 
+import '../../../../../Common/Model/User/UserComplete.dart';
 import '../../../../../Remote/NetworkResponse.dart';
-import '../../../../../Common/Model/User.dart';
+import '../../../../../Common/Model/User/UserOld.dart';
 import '../../../../../Common/Model/Sport.dart';
 import '../../../../../Common/Model/Gender.dart';
 import '../../../../../Common/Model/Rank.dart';
@@ -102,11 +103,12 @@ void receiveLoginResponse(BuildContext context, String response) {
 
   LocalStorageManager().storeAccessToken(context, responseUser['AccessToken']);
 
-  User loggedUser = User.fromJson(
+  UserComplete loggedUser = UserComplete.fromJson(
     responseUser,
   );
 
-  User? userFromGoogle = Provider.of<UserProvider>(context, listen: false).user;
+  UserComplete? userFromGoogle =
+      Provider.of<UserProvider>(context, listen: false).user;
 
   Provider.of<UserProvider>(context, listen: false).user = loggedUser;
   if (loggedUser.firstName == null) {

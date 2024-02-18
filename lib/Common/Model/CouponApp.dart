@@ -1,4 +1,4 @@
-class Coupon {
+class CouponApp {
   int idCoupon;
   String couponCode;
   double value;
@@ -13,17 +13,17 @@ class Coupon {
     return value;
   }
 
-  Coupon({
+  CouponApp({
     required this.idCoupon,
     required this.couponCode,
     required this.value,
     required this.discountType,
   });
 
-  factory Coupon.fromJson(
+  factory CouponApp.fromJson(
     Map<String, dynamic> json,
   ) {
-    return Coupon(
+    return CouponApp(
       idCoupon: json["IdCoupon"],
       couponCode: json["Code"],
       discountType: json["DiscountType"],

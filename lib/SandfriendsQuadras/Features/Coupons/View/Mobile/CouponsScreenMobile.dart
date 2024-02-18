@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Coupons/Model/EnumOrderByCoupon.dart';
-import 'package:sandfriends_web/Features/Coupons/View/Mobile/CouponItem.dart';
-import 'package:sandfriends_web/Features/Rewards/View/Mobile/PlayerCalendarFilter.dart';
-import 'package:sandfriends_web/Features/Rewards/View/Mobile/RewardUserItem.dart';
-import 'package:sandfriends_web/Features/Rewards/ViewModel/RewardsViewModel.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFTextfield.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../Common/Components/SFDropDown.dart';
-import '../../../../Utils/Constants.dart';
+import 'package:sandfriends/SandfriendsQuadras/Features/Coupons/Model/EnumOrderByCoupon.dart';
+import '../../../../../Common/Components/SFDropDown.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/View/Mobile/SFStandardHeader.dart';
 import '../../ViewModel/CouponsViewModel.dart';
+import 'CouponItem.dart';
 
 class CouponsScreenMobile extends StatefulWidget {
   const CouponsScreenMobile({super.key});

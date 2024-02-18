@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:sandfriends/Common/Enum/EnumDiscountType.dart';
+import '../../../../Common/Model/Coupon/CouponStore.dart';
 import '../../../../Remote/ApiEndPoints.dart';
 import '../../../../Remote/NetworkApiService.dart';
 import '../../../../Remote/NetworkResponse.dart';
@@ -11,7 +13,7 @@ class CouponsRepo {
   Future<NetworkResponse> enableDisableCoupon(
     BuildContext context,
     String accessToken,
-    Coupon coupon,
+    CouponStore coupon,
     bool disable,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
@@ -31,7 +33,7 @@ class CouponsRepo {
   Future<NetworkResponse> addCoupon(
     BuildContext context,
     String accessToken,
-    Coupon coupon,
+    CouponStore coupon,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
@@ -43,13 +45,13 @@ class CouponsRepo {
           "Value": coupon.value,
           "DiscountType": coupon.discountType.text,
           "DateBegin": DateFormat("dd/MM/yyyy").format(
-            coupon.startingDate,
+            coupon.startingDate!,
           ),
           "DateEnd": DateFormat("dd/MM/yyyy").format(
-            coupon.endingDate,
+            coupon.endingDate!,
           ),
-          "IdTimeBegin": coupon.hourBegin.hour,
-          "IdTimeEnd": coupon.hourEnd.hour,
+          "IdTimeBegin": coupon.hourBegin!.hour,
+          "IdTimeEnd": coupon.hourEnd!.hour,
         },
       ),
     );

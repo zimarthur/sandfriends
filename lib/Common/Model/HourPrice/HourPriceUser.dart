@@ -1,10 +1,10 @@
-import '../../../../Common/Model/Hour.dart';
+import '../Hour.dart';
 
-class HourPrice {
+class HourPriceUser {
   Hour hour;
   int price;
 
-  HourPrice({
+  HourPriceUser({
     required this.hour,
     required this.price,
   });
@@ -12,7 +12,7 @@ class HourPrice {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    if (other is! HourPrice) return false;
+    if (other is! HourPriceUser) return false;
     return hour.hour == other.hour.hour && price == other.price;
   }
 

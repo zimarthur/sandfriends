@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:sandfriends/Common/Model/AppNotificationUser.dart';
 
-import '../../../../Common/Components/SFAvatar.dart';
+import '../../../../Common/Components/SFAvatarUser.dart';
 import '../../../../Common/Utils/Constants.dart';
 
 class NotificationCard extends StatefulWidget {
@@ -49,7 +49,7 @@ class _NotificationCardState extends State<NotificationCard> {
               width: width * 0.2,
               child: Stack(
                 children: [
-                  SFAvatar(
+                  SFAvatarUser(
                       height: width * 0.2,
                       user: widget.notification.user,
                       showRank: false),

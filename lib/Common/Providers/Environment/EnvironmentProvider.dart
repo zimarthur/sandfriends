@@ -13,7 +13,11 @@ class EnvironmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String urlBuilder(String endPoint) {
-    return "https://${environment.flavor.flavorString}${environment.product.productString}$sandfriendsUrl$endPoint";
+  String urlBuilder(String endPoint, {bool isImage = false}) {
+    String addReq = "";
+    if (!isImage) {
+      addReq = "/req";
+    }
+    return "https://${environment.flavor.flavorString}${environment.product.productString}$sandfriendsUrl$addReq$endPoint";
   }
 }

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppMatch.dart';
-import 'package:sandfriends_web/Features/Calendar/ViewModel/CalendarViewModel.dart';
-import 'package:sandfriends_web/SharedComponents/Model/SelectedPayment.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFAvatar.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFDivider.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFTextfield.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Utils/SFDateTime.dart';
-import '../../../../../../Common/Components/SFButton.dart';
+import 'package:sandfriends/Common/Components/SFAvatarStore.dart';
+import '../../../../../../../Common/Components/SFAvatarUser.dart';
+import '../../../../../../../Common/Components/SFButton.dart';
+import '../../../../../../../Common/Components/SFDivider.dart';
+import '../../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../../../Common/Model/AppMatch/AppMatchStore.dart';
+import '../../../../../../../Common/Model/SelectedPayment.dart';
+import '../../../../../../../Common/Utils/Constants.dart';
+import '../../../../../../../Common/Utils/SFDateTime.dart';
 import '../../../../../Menu/ViewModel/MenuProvider.dart';
 import 'package:intl/intl.dart';
 
@@ -17,7 +17,7 @@ import 'MatchDetailsWidgetRow.dart';
 class MatchDetailsWidget extends StatelessWidget {
   VoidCallback onReturn;
   VoidCallback onCancel;
-  AppMatch match;
+  AppMatchStore match;
 
   MatchDetailsWidget({
     required this.onReturn,
@@ -64,7 +64,7 @@ class MatchDetailsWidget extends StatelessWidget {
                       ),
                       if (isHourPast(
                         match.date,
-                        match.startingHour,
+                        match.timeBegin,
                       ))
                         Expanded(
                             child: Text(
@@ -84,18 +84,16 @@ class MatchDetailsWidget extends StatelessWidget {
                     title: "Criador",
                     customValue: Row(
                       children: [
-                        SFAvatar(
+                        SFAvatarStore(
                           height: 50,
-                          image: match.matchCreatorPhoto,
+                          user: match.matchCreator,
                           isPlayerAvatar: true,
-                          playerFirstName: match.matchCreatorFirstName,
-                          playerLastName: match.matchCreatorLastName,
                         ),
                         const SizedBox(
                           width: defaultPadding,
                         ),
                         Text(
-                          match.matchCreatorName,
+                          match.matchCreator.fullName,
                           style: TextStyle(fontSize: 14),
                         ),
                       ],
@@ -107,15 +105,15 @@ class MatchDetailsWidget extends StatelessWidget {
                   MatchDetailsWidgetRow(
                       title: "Horário",
                       value:
-                          "${match.startingHour.hourString} - ${match.endingHour.hourString}"),
+                          "${match.timeBegin.hourString} - ${match.timeEnd.hourString}"),
                   MatchDetailsWidgetRow(
-                      title: "Esporte", value: match.sport!.description),
+                      title: "Esporte", value: match.sport.description),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: defaultPadding),
                     child: SFDivider(),
                   ),
                   MatchDetailsWidgetRow(
-                    title: "Recado de ${match.matchCreatorFirstName}",
+                    title: "Recado de ${match.matchCreator.firstName}",
                     customValue: SFTextField(
                       labelText: "",
                       pourpose: TextFieldPourpose.Multiline,
@@ -177,25 +175,23 @@ class MatchDetailsWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: SFButton(
-                    buttonLabel: "Voltar",
-                    buttonType: ButtonType.Secondary,
-                    onTap: onReturn),
+                    buttonLabel: "Voltar", isPrimary: false, onTap: onReturn),
               ),
               if (!isHourPast(
                 match.date,
-                match.startingHour,
+                match.timeBegin,
               ))
                 SizedBox(
                   width: defaultPadding,
                 ),
               if (!isHourPast(
                 match.date,
-                match.startingHour,
+                match.timeBegin,
               ))
                 Expanded(
                   child: SFButton(
                     buttonLabel: "Cancelar partida",
-                    buttonType: ButtonType.Delete,
+                    color: red,
                     onTap: onCancel,
                   ),
                 ),

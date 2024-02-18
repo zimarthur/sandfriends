@@ -1,13 +1,13 @@
-import '../../../../Common/Model/AppMatch.dart';
-import '../../../../Common/Model/AppRecurrentMatch.dart';
+import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
+import '../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
 import '../../../../Common/Model/Hour.dart';
 
 class DayMatch {
   Hour startingHour;
-  AppMatch? match;
-  List<AppMatch>? matches;
-  AppRecurrentMatch? recurrentMatch;
-  List<AppRecurrentMatch>? recurrentMatches;
+  AppMatchStore? match;
+  List<AppMatchStore>? matches;
+  AppRecurrentMatchStore? recurrentMatch;
+  List<AppRecurrentMatchStore>? recurrentMatches;
   bool operationHour;
 
   DayMatch({

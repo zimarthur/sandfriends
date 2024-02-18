@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:intl/intl.dart';
 
-import '../../../SharedComponents/Model/AppMatch.dart';
+import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
+import '../../../../Common/Utils/Constants.dart';
 
 class FinancesDataSource extends DataGridSource {
   FinancesDataSource(
-      {required List<AppMatch> matches, required bool showNetValue}) {
+      {required List<AppMatchStore> matches, required bool showNetValue}) {
     _finances = matches
         .map<DataGridRow>(
           (match) => DataGridRow(
@@ -18,7 +18,7 @@ class FinancesDataSource extends DataGridSource {
               DataGridCell<String>(
                   columnName: 'hour',
                   value:
-                      "${match.startingHour.hourString} - ${match.endingHour.hourString}"),
+                      "${match.timeBegin.hourString} - ${match.timeEnd.hourString}"),
               DataGridCell<String>(
                   columnName: 'court', value: match.court.description),
               DataGridCell<String>(
@@ -26,7 +26,7 @@ class FinancesDataSource extends DataGridSource {
                   value:
                       "R\$${showNetValue ? match.netCost.toStringAsFixed(2).replaceAll(".", ",") : match.cost.toStringAsFixed(2).replaceAll(".", ",")}"),
               DataGridCell<String>(
-                  columnName: 'player', value: match.matchCreatorName),
+                  columnName: 'player', value: match.matchCreator.fullName),
               DataGridCell<String>(
                 columnName: 'sport',
                 value: match.sport!.description,

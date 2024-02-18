@@ -2,19 +2,19 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/Features/Players/Model/PieChartKpi.dart';
-import 'package:sandfriends_web/Features/Players/Model/PlayersDataSource.dart';
-import 'package:sandfriends_web/Features/Players/Model/PlayersTableCallback.dart';
-import 'package:sandfriends_web/Features/Players/Repository/PlayersRepoImp.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Gender.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Player.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Sport.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFPieChart.dart';
-import 'package:sandfriends_web/Utils/LinkOpenerWeb.dart'
-    if (dart.library.io) 'package:sandfriends_web/Utils/LinkOpenerMobile.dart';
-import '../../../Remote/NetworkResponse.dart';
+import 'package:sandfriends/Common/Managers/LinkOpener/LinkOpenerManager.dart';
+import '../../../../Common/Components/SFPieChart.dart';
+import '../../../../Common/Model/Gender.dart';
+import '../../../../Common/Model/User/Player_old.dart';
+import '../../../../Common/Model/Sport.dart';
+import '../../../../Common/Model/User/UserStore.dart';
+import '../../../../Remote/NetworkResponse.dart';
+import '../../Menu/ViewModel/DataProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
+import '../Model/PieChartKpi.dart';
+import '../Model/PlayersDataSource.dart';
+import '../Model/PlayersTableCallback.dart';
+import '../Repository/PlayersRepo.dart';
 import '../View/Web/StorePlayerWidget.dart';
 
 class PlayersViewModel extends ChangeNotifier {
@@ -33,9 +33,9 @@ class PlayersViewModel extends ChangeNotifier {
   List<String> genderFilters = [];
   List<String> sportsFilters = [];
 
-  final List<Player> _players = [];
-  List<Player> get players {
-    List<Player> sortedPlayers = [];
+  final List<UserStore> _players = [];
+  List<UserStore> get players {
+    List<UserStore> sortedPlayers = [];
     sortedPlayers = _players;
     sortedPlayers.sort(
       (a, b) => a.fullName.toLowerCase().compareTo(b.fullName.toLowerCase()),
@@ -52,7 +52,7 @@ class PlayersViewModel extends ChangeNotifier {
     availableGenders.forEach((gender) {
       items.add(
         PieChartItem(
-          name: gender.genderName,
+          name: gender.name,
           value: players
               .where((player) => player.gender!.idGender == gender.idGender)
               .length
@@ -70,7 +70,8 @@ class PlayersViewModel extends ChangeNotifier {
         PieChartItem(
           name: sport.description,
           value: players
-              .where((player) => player.sport!.idSport == sport.idSport)
+              .where(
+                  (player) => player.preferenceSport!.idSport == sport.idSport)
               .length
               .toDouble(),
         ),
@@ -101,13 +102,13 @@ class PlayersViewModel extends ChangeNotifier {
         .availableGenders
         .forEach((gender) {
       availableGenders.add(gender);
-      genderFilters.add(gender.genderName);
+      genderFilters.add(gender.name);
     });
     notifyListeners();
   }
 
-  void filterGender(BuildContext context, String genderName) {
-    filteredGender = genderFilters.firstWhere((gender) => gender == genderName);
+  void filterGender(BuildContext context, String name) {
+    filteredGender = genderFilters.firstWhere((gender) => gender == name);
     setPlayersDataSource(context);
   }
 
@@ -126,13 +127,13 @@ class PlayersViewModel extends ChangeNotifier {
         .storePlayers
         .forEach((player) {
       if ((filteredGender == defaultGender ||
-              filteredGender == player.gender!.genderName) &&
+              filteredGender == player.gender!.name) &&
           (filteredSport == defaultSport ||
-              filteredSport == player.sport!.description) &&
+              filteredSport == player.preferenceSport!.description) &&
           (player.fullName
               .toLowerCase()
               .contains(nameFilterController.text.toLowerCase()))) {
-        _players.add(Player.copyFrom(player));
+        _players.add(UserStore.copyFrom(player));
       }
     });
     playersDataSource = PlayersDataSource(
@@ -145,7 +146,7 @@ class PlayersViewModel extends ChangeNotifier {
 
   void tableCallback(
     PlayersTableCallback callbackCode,
-    Player player,
+    UserStore player,
     BuildContext context,
   ) {
     switch (callbackCode) {
@@ -163,7 +164,7 @@ class PlayersViewModel extends ChangeNotifier {
     }
   }
 
-  void openStorePlayerWidget(BuildContext context, Player? existingPlayer) {
+  void openStorePlayerWidget(BuildContext context, UserStore? existingPlayer) {
     Provider.of<MenuProvider>(context, listen: false)
         .setModalForm(StorePlayerWidget(
       editPlayer: existingPlayer,
@@ -177,7 +178,7 @@ class PlayersViewModel extends ChangeNotifier {
     ));
   }
 
-  void addPlayer(BuildContext context, Player player) {
+  void addPlayer(BuildContext context, UserStore player) {
     Provider.of<MenuProvider>(context, listen: false).setModalLoading();
     playersRepo
         .addPlayer(
@@ -206,7 +207,7 @@ class PlayersViewModel extends ChangeNotifier {
     });
   }
 
-  void editPlayer(BuildContext context, Player player) {
+  void editPlayer(BuildContext context, UserStore player) {
     Provider.of<MenuProvider>(context, listen: false).setModalLoading();
     playersRepo
         .editPlayer(
@@ -235,7 +236,7 @@ class PlayersViewModel extends ChangeNotifier {
     });
   }
 
-  void deletePlayer(BuildContext context, Player player) {
+  void deletePlayer(BuildContext context, UserStore player) {
     Provider.of<MenuProvider>(context, listen: false).setModalLoading();
     playersRepo
         .deleteStorePlayer(
@@ -268,9 +269,10 @@ class PlayersViewModel extends ChangeNotifier {
     Provider.of<MenuProvider>(context, listen: false).closeModal();
   }
 
-  openWhatsApp(BuildContext context, Player player) {
+  openWhatsApp(BuildContext context, UserStore player) {
     if (player.phoneNumber != null) {
-      openLink(context, "whatsapp://send?phone=${player.phoneNumber}");
+      LinkOpenerManager()
+          .openLink(context, "whatsapp://send?phone=${player.phoneNumber}");
     }
   }
 }

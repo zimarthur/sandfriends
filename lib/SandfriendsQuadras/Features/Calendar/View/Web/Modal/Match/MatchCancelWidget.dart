@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppMatch.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Utils/Responsive.dart';
-import '../../../../../../Common/Components/SFButton.dart';
-import '../../../../../../SharedComponents/View/SFTextfield.dart';
+import '../../../../../../../Common/Components/SFButton.dart';
+import '../../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../../../Common/Model/AppMatch/AppMatchStore.dart';
+import '../../../../../../../Common/Utils/Constants.dart';
+import '../../../../../../../Common/Utils/Responsive.dart';
 import '../../../../../Menu/ViewModel/MenuProvider.dart';
 import '../../../../ViewModel/CalendarViewModel.dart';
 
 class MatchCancelWidget extends StatelessWidget {
   VoidCallback onReturn;
   VoidCallback onCancel;
-  AppMatch match;
+  AppMatchStore match;
   TextEditingController controller;
 
   MatchCancelWidget({
@@ -41,7 +41,7 @@ class MatchCancelWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "Deseja mesmo cancelar a partida de ${match.matchCreatorName}?",
+            "Deseja mesmo cancelar a partida de ${match.matchCreator.fullName}?",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
@@ -70,7 +70,7 @@ class MatchCancelWidget extends StatelessWidget {
               Expanded(
                 child: SFButton(
                   buttonLabel: "Voltar",
-                  buttonType: ButtonType.Secondary,
+                  isPrimary: false,
                   onTap: onReturn,
                 ),
               ),
@@ -80,7 +80,7 @@ class MatchCancelWidget extends StatelessWidget {
               Expanded(
                 child: SFButton(
                   buttonLabel: "Cancelar partida",
-                  buttonType: ButtonType.Delete,
+                  color: red,
                   onTap: onCancel,
                 ),
               ),

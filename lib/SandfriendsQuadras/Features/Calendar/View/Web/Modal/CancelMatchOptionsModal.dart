@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppMatch.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Utils/Responsive.dart';
 import '../../../../../../Common/Components/SFButton.dart';
-import '../../../../../../SharedComponents/View/SFTextfield.dart';
+import '../../../../../../Common/Utils/Constants.dart';
+import '../../../../../../Common/Utils/Responsive.dart';
 
 class CancelMatchOptionsModal extends StatefulWidget {
   VoidCallback onReturn;
@@ -56,7 +54,7 @@ class _CancelMatchOptionsModalState extends State<CancelMatchOptionsModal> {
               Expanded(
                 child: SFButton(
                   buttonLabel: "Voltar",
-                  buttonType: ButtonType.Secondary,
+                  isPrimary: false,
                   onTap: widget.onReturn,
                 ),
               ),
@@ -66,7 +64,7 @@ class _CancelMatchOptionsModalState extends State<CancelMatchOptionsModal> {
               Expanded(
                 child: SFButton(
                   buttonLabel: "Cancelar partida",
-                  buttonType: ButtonType.Delete,
+                  color: red,
                   onTap: () {},
                 ),
               ),

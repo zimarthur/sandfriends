@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
+import '../../../../../../Common/Utils/Constants.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../../../SharedComponents/Model/Reward.dart';

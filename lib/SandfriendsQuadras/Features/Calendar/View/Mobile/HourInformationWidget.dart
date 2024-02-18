@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends_web/Features/Calendar/Model/HourInformation.dart';
-import 'package:sandfriends_web/Features/Calendar/ViewModel/CalendarViewModel.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Hour.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFButton.dart';
-import 'package:sandfriends_web/Utils/SFDateTime.dart';
-import 'package:sandfriends_web/Utils/TypesExtensions.dart';
-import '../../../../SharedComponents/Model/Court.dart';
-import '../../../../Utils/Constants.dart';
+import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
+import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Model/Court.dart';
+import '../../../../../Common/Model/Hour.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../../../../Common/Utils/SFDateTime.dart';
+import '../../Model/HourInformation.dart';
+import '../../ViewModel/CalendarViewModel.dart';
 
 class HourInformationWidget extends StatefulWidget {
   Animation<Offset> slideAnimation;
@@ -282,7 +282,6 @@ class _HourInformationWidgetState extends State<HourInformationWidget> {
                                             iconFirst: true,
                                             iconPath: r"assets/icon/plus.svg",
                                             buttonLabel: "Adicionar partida",
-                                            buttonType: ButtonType.Primary,
                                             onTap: () => widget.viewModel
                                                 .setAddMatchWidget(
                                               context,
@@ -308,8 +307,7 @@ class _HourInformationWidgetState extends State<HourInformationWidget> {
                                                         r"assets/icon/delete.svg",
                                                     buttonLabel:
                                                         "Cancelar partida",
-                                                    buttonType:
-                                                        ButtonType.Delete,
+                                                    color: red,
                                                     onTap: () => widget
                                                         .viewModel
                                                         .onTapCancelMatchHourInformation(
@@ -327,8 +325,7 @@ class _HourInformationWidgetState extends State<HourInformationWidget> {
                                                   child: SFButton(
                                                     buttonLabel:
                                                         "Opções de cancelamento",
-                                                    buttonType:
-                                                        ButtonType.Delete,
+                                                    color: red,
                                                     onTap: () => widget
                                                         .viewModel
                                                         .onTapCancelOptions(
@@ -348,8 +345,7 @@ class _HourInformationWidgetState extends State<HourInformationWidget> {
                                                   child: SFButton(
                                                     buttonLabel:
                                                         "Opções de cancelamento",
-                                                    buttonType:
-                                                        ButtonType.Delete,
+                                                    color: red,
                                                     onTap: () => widget
                                                         .viewModel
                                                         .onTapCancelOptions(
@@ -370,8 +366,7 @@ class _HourInformationWidgetState extends State<HourInformationWidget> {
                                                         r"assets/icon/delete.svg",
                                                     buttonLabel:
                                                         "Cancelar mensalista",
-                                                    buttonType:
-                                                        ButtonType.Delete,
+                                                    color: red,
                                                     onTap: () => widget
                                                         .viewModel
                                                         .onTapCancelMatchHourInformation(

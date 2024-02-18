@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/ViewModel/CheckoutViewModel.dart';
 import '../../../../../Common/Utils/Constants.dart';
-import '../../Model/Coupon.dart';
+import '../../../../../Common/Model/CouponApp.dart';
 
 class CheckoutBottomToolbarDiscount extends StatefulWidget {
   CheckoutViewModel viewModel;

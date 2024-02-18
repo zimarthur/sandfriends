@@ -59,7 +59,7 @@ class DayFilter extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        weekDaysPortuguese[getSFWeekday(date!.weekday)],
+                        weekday[getSFWeekday(date!.weekday)],
                         style: TextStyle(
                           color: textDarkGrey,
                           fontSize: 10,
@@ -77,7 +77,7 @@ class DayFilter extends StatelessWidget {
                 )
               : Center(
                   child: Text(
-                    weekDaysPortuguese[weekDay!],
+                    weekday[weekDay!],
                     style: TextStyle(
                       color: themeColor,
                       fontWeight: FontWeight.bold,

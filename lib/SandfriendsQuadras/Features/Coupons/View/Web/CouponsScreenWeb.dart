@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Coupons/Model/EnumOrderByCoupon.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFBarChart.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFDropDown.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFPeriodToggle.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFPieChart.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFTextfield.dart';
-import 'package:sandfriends_web/SharedComponents/View/Table/SFTable.dart';
-import 'package:sandfriends_web/SharedComponents/View/Table/SFTableHeader.dart';
-import '../../../../SharedComponents/Model/EnumPeriodVisualization.dart';
-import '../../../../Common/Components/SFButton.dart';
-
-import '../../../../SharedComponents/View/SFCard.dart';
-import '../../../../SharedComponents/View/SFHeader.dart';
-import '../../../../SharedComponents/View/SFToggle.dart';
-import '../../../../Utils/Constants.dart';
+import 'package:sandfriends/SandfriendsQuadras/Features/Coupons/Model/EnumOrderByCoupon.dart';
+import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Components/SFDropDown.dart';
+import '../../../../../Common/Components/SFHeader.dart';
+import '../../../../../Common/Components/Table/SFTable.dart';
+import '../../../../../Common/Components/Table/SFTableHeader.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -59,7 +50,6 @@ class _CouponsScreenWebState extends State<CouponsScreenWeb> {
                   ),
                   SFButton(
                     buttonLabel: "Adicionar Cupom",
-                    buttonType: ButtonType.Primary,
                     onTap: () => viewModel.openAddCouponModal(context),
                     iconFirst: true,
                     iconPath: r"assets/icon/discount_add.svg",

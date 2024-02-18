@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Utils/TypesExtensions.dart';
+import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
 
-import '../../../../SharedComponents/View/SFPieChart.dart';
-import '../../../../Utils/Constants.dart';
+import '../../../../../Common/Components/SFPieChart.dart';
+import '../../../../../Common/Utils/Constants.dart';
 
 class FinancePercentages extends StatelessWidget {
   double matchValue;

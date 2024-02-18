@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../../../Common/Utils/Constants.dart';
 
 class FinanceKpi extends StatelessWidget {
   String title;

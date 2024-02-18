@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Sandfriends/Features/Court/Model/HourPrice.dart';
+import 'package:sandfriends/Common/Model/HourPrice/HourPriceUser.dart';
+import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 
 import '../../../../Common/Model/Hour.dart';
 import '../../../../Common/Model/Sport.dart';
-import '../../../../Common/Model/Store.dart';
+import '../../../../Common/Model/Store/StoreComplete.dart';
 import '../../../../Common/StandardScreen/StandardScreen.dart';
 import '../Model/CourtAvailableHours.dart';
 import '../ViewModel/CourtViewModel.dart';
 import 'CourtWidget.dart';
 
 class CourtScreen extends StatefulWidget {
-  final Store? store;
+  final StoreUser? store;
   final String? idStore;
   final List<CourtAvailableHours>? courtAvailableHours;
-  final HourPrice? selectedHourPrice;
+  final HourPriceUser? selectedHourPrice;
   final DateTime? selectedDate;
   final int? selectedWeekday;
   final Sport? selectedSport;

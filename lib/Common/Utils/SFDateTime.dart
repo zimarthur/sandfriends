@@ -1,3 +1,7 @@
+import 'package:intl/intl.dart';
+
+import '../Model/Hour.dart';
+
 List monthsPortuguese = [
   'Jan',
   'Fev',
@@ -27,25 +31,41 @@ List monthsPortugueseComplete = [
   'Novembro',
   'Dezembro'
 ];
-
-List weekDaysPortuguese = [
-  'Segunda-feira',
-  'Terça-feira',
-  'Quarta-feira',
-  'Quinta-feira',
-  'Sexta-feira',
-  'Sábado',
-  'Domingo',
+List<String> weekdayFull = [
+  "Segunda-feira",
+  "Terça-feira",
+  "Quarta-feira",
+  "Quinta-feira",
+  "Sexta-feira",
+  "Sábado",
+  "Domingo",
 ];
-
-List shortWeekDaysPortuguese = [
-  'Seg',
-  'Ter',
-  'Qua',
-  'Qui',
-  'Sex',
-  'Sáb',
-  'Dom',
+List<String> weekday = [
+  "segunda",
+  "terça",
+  "quarta",
+  "quinta",
+  "sexta",
+  "sábado",
+  "domingo",
+];
+List<String> weekdayRecurrent = [
+  "segundas",
+  "terças",
+  "quartas",
+  "quintas",
+  "sextas",
+  "sábados",
+  "domingos",
+];
+List<String> weekdayShort = [
+  "seg",
+  "ter",
+  "qua",
+  "qui",
+  "sex",
+  "sáb",
+  "dom",
 ];
 
 DateTime stringToDateTime(String stringDateTime) {
@@ -97,4 +117,31 @@ int lastWeekDay(int weekday) {
     return 6;
   }
   return weekday - 1;
+}
+
+DateTime lastDayOfMonth(DateTime date) {
+  return DateTime(date.year, date.month + 1, 0);
+}
+
+int getSFMonthIndex(DateTime date) {
+  return date.month - 1;
+}
+
+String getWeekdayTextFromDatetime(DateTime date) {
+  return weekday[getSFWeekday(date.weekday)];
+}
+
+String getMonthYear(DateTime datetime) {
+  return "${monthsPortuguese[datetime.month - 1]}/${datetime.year.toString().substring(datetime.year.toString().length - 2)}";
+}
+
+bool isInCurrentMonth(DateTime a) {
+  return a.month == DateTime.now().month && a.year == DateTime.now().year;
+}
+
+bool isHourPast(DateTime date, Hour hour) {
+  DateTime fullDateTime = DateTime(date.year, date.month, date.day,
+      DateFormat('HH:mm').parse("${hour.hourString}").hour);
+
+  return fullDateTime.isBefore(DateTime.now());
 }

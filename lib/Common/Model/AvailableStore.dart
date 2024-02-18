@@ -1,6 +1,6 @@
 import 'package:sandfriends/Common/Model/AvailableHour.dart';
 
-import 'Store.dart';
+import 'Store/StoreComplete.dart';
 
 class AvailableStore {
   Store store;

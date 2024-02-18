@@ -1,27 +1,19 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Features/Coupons/Model/CouponsTableCallback.dart';
-import 'package:sandfriends_web/Features/Coupons/Model/EnumOrderByCoupon.dart';
-import 'package:sandfriends_web/Features/Coupons/Repository/CouponsRepo.dart';
-import 'package:sandfriends_web/Features/Coupons/Repository/CouponsRepoImp.dart';
-import 'package:sandfriends_web/Features/Coupons/View/Web/AddCouponModal.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/Features/Players/Model/PlayersDataSource.dart';
-import 'package:sandfriends_web/Features/Players/Model/PlayersTableCallback.dart';
-import 'package:sandfriends_web/Features/Players/Repository/PlayersRepoImp.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Coupon.dart';
-import 'package:sandfriends_web/SharedComponents/Model/EnumCouponStatus.dart';
-import 'package:sandfriends_web/SharedComponents/Model/EnumPeriodVisualization.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Player.dart';
 import 'package:intl/intl.dart';
-import '../../../Remote/NetworkResponse.dart';
-import '../../../SharedComponents/View/DatePickerModal.dart';
+import '../../../../Common/Components/DatePickerModal.dart';
+import '../../../../Common/Enum/EnumCouponStatus.dart';
+import '../../../../Common/Enum/EnumPeriodVisualization.dart';
+import '../../../../Common/Model/Coupon/CouponStore.dart';
+import '../../../../Remote/NetworkResponse.dart';
+import '../../Menu/ViewModel/DataProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
 import '../Model/CouponsDataSource.dart';
+import '../Model/CouponsTableCallback.dart';
+import '../Model/EnumOrderByCoupon.dart';
 import '../Repository/CouponsRepo.dart';
-import '../View/Web/StorePlayerWidget.dart';
+import '../View/Web/AddCouponModal.dart';
 
 class CouponsViewModel extends ChangeNotifier {
   final couponsRepo = CouponsRepo();
@@ -37,9 +29,9 @@ class CouponsViewModel extends ChangeNotifier {
   List<String> genderFilters = [];
   List<String> sportsFilters = [];
 
-  final List<Coupon> _coupons = [];
-  List<Coupon> get coupons {
-    List<Coupon> filteredCoupons = _coupons;
+  final List<CouponStore> _coupons = [];
+  List<CouponStore> get coupons {
+    List<CouponStore> filteredCoupons = _coupons;
     if (showOnlyActiveCoupons) {
       filteredCoupons =
           filteredCoupons.where((coupon) => coupon.isValidToday).toList();
@@ -152,7 +144,7 @@ class CouponsViewModel extends ChangeNotifier {
 
   void enableDisableCoupon(
     BuildContext context,
-    Coupon coupon,
+    CouponStore coupon,
     bool disable,
   ) {
     Provider.of<MenuProvider>(context, listen: false).setModalLoading();
@@ -196,7 +188,7 @@ class CouponsViewModel extends ChangeNotifier {
     );
   }
 
-  void addCoupon(BuildContext context, Coupon coupon) {
+  void addCoupon(BuildContext context, CouponStore coupon) {
     Provider.of<MenuProvider>(context, listen: false).setModalLoading();
     couponsRepo
         .addCoupon(

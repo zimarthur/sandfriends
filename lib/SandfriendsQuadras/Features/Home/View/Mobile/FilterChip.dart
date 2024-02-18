@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../Utils/Constants.dart';
+import '../../../../../Common/Utils/Constants.dart';
 
 class SFFilterChip extends StatefulWidget {
   String title;

@@ -2,19 +2,19 @@ import 'package:sandfriends/Common/Model/Region.dart';
 
 class City {
   final int cityId;
-  final String city;
+  String name;
   final Region? state;
 
   City({
     required this.cityId,
-    required this.city,
+    required this.name,
     this.state,
   });
 
   factory City.fromJson(Map<String, dynamic> json) {
     return City(
       cityId: json['IdCity'],
-      city: json['City'],
+      name: json['City'],
       //state: regionFromJson(json['State']),
     );
   }
@@ -22,7 +22,7 @@ class City {
   factory City.fromJsonUser(Map<String, dynamic> json) {
     return City(
       cityId: json['IdCity'],
-      city: json['City'],
+      name: json['City'],
       state: Region.fromJsonUser(
         json['State'],
       ),

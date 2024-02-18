@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Calendar/Model/CalendarType.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppRecurrentMatch.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends_web/Utils/SFDateTime.dart';
-import 'package:sandfriends_web/Utils/TypesExtensions.dart';
-import '../../../../../../SharedComponents/Model/AppMatch.dart';
-import '../../../../../../SharedComponents/Model/Hour.dart';
-import '../../../../../../SharedComponents/Model/Sport.dart';
-import '../../../../Model/PeriodType.dart';
+import 'package:sandfriends/Common/Model/AppMatch/AppMatchStore.dart';
+import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
+
+import '../../../../../../../Common/Model/AppMatch/AppMatch.dart';
+import '../../../../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatch.dart';
+import '../../../../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
+import '../../../../../../../Common/Utils/Constants.dart';
+import '../../../../../../../Common/Utils/SFDateTime.dart';
+import '../../../../Model/CalendarType.dart';
 
 class MatchHourWidget extends StatefulWidget {
   VoidCallback onTapMatch;
   VoidCallback onUnblockHour;
-  AppMatch? match;
-  AppRecurrentMatch? recurrentMatch;
+  AppMatchStore? match;
+  AppRecurrentMatchStore? recurrentMatch;
   CalendarType calendarType;
   DateTime selectedDate;
 
@@ -38,8 +38,8 @@ class _MatchHourWidgetState extends State<MatchHourWidget> {
   late String title;
   late String sport;
   late bool blocked;
-  late String startingHour;
-  late String endingHour;
+  late String timeBegin;
+  late String timeEnd;
   late bool canBlockUnblock;
   String observation = "";
 
@@ -47,12 +47,12 @@ class _MatchHourWidgetState extends State<MatchHourWidget> {
   Widget build(BuildContext context) {
     if (widget.match != null) {
       canBlockUnblock =
-          !isHourPast(widget.match!.date, widget.match!.startingHour);
+          !isHourPast(widget.match!.date, widget.match!.timeBegin);
       blocked = widget.match!.blocked;
-      startingHour = widget.match!.startingHour.hourString;
-      endingHour = widget.match!.endingHour.hourString;
+      timeBegin = widget.match!.timeBegin.hourString;
+      timeEnd = widget.match!.timeEnd.hourString;
       title =
-          "${widget.match!.isFromRecurrentMatch ? "Mensalista" : "Partida"} de ${widget.match!.matchCreatorName}";
+          "${widget.match!.isFromRecurrentMatch ? "Mensalista" : "Partida"} de ${widget.match!.matchCreator.fullName}";
       sport = widget.match!.sport!.description;
       if (blocked) {
         observation = widget.match!.blockedReason;
@@ -61,14 +61,14 @@ class _MatchHourWidgetState extends State<MatchHourWidget> {
       }
     } else {
       blocked = widget.recurrentMatch!.blocked;
-      canBlockUnblock = !isHourPast(
-              widget.selectedDate, widget.recurrentMatch!.startingHour) ||
-          widget.calendarType == CalendarType.RecurrentMatch;
-      sport = widget.recurrentMatch!.sport!.description;
-      startingHour = widget.recurrentMatch!.startingHour.hourString;
-      endingHour = widget.recurrentMatch!.endingHour.hourString;
+      canBlockUnblock =
+          !isHourPast(widget.selectedDate, widget.recurrentMatch!.timeBegin) ||
+              widget.calendarType == CalendarType.RecurrentMatch;
+      sport = widget.recurrentMatch!.sport.description;
+      timeBegin = widget.recurrentMatch!.timeBegin.hourString;
+      timeEnd = widget.recurrentMatch!.timeEnd.hourString;
       observation = blocked ? widget.recurrentMatch!.blockedReason : "";
-      title = "Mensalista de ${widget.recurrentMatch!.creatorName}";
+      title = "Mensalista de ${widget.recurrentMatch!.creator.fullName}";
     }
     return LayoutBuilder(
       builder: (layourContext, layoutConstraints) {
@@ -144,7 +144,7 @@ class _MatchHourWidgetState extends State<MatchHourWidget> {
                         ],
                       ),
                       Text(
-                        "$startingHour - $endingHour | $sport",
+                        "$timeBegin - $timeEnd | $sport",
                         style: TextStyle(
                           color: textDarkGrey,
                           fontSize: 12,

@@ -1,6 +1,6 @@
 import 'package:sandfriends/Common/Model/AvailableCourt.dart';
 
-import '../../Sandfriends/Features/Court/Model/HourPrice.dart';
+import 'HourPrice/HourPriceUser.dart';
 import 'Hour.dart';
 
 class AvailableHour {

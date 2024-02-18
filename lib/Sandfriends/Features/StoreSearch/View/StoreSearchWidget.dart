@@ -6,9 +6,10 @@ import 'package:sandfriends/Sandfriends/Features/MatchSearch/View/SearchOnboardi
 import 'package:sandfriends/Sandfriends/Features/StoreSearch/ViewModel/StoreSearchViewModel.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
 
-import '../../../../Common/Model/Store.dart';
+import '../../../../Common/Model/Store/StoreComplete.dart';
 import '../../../../Common/Components/SFButton.dart';
 
+import '../../../../Common/Model/Store/StoreUser.dart';
 import 'StoreSearchItem.dart';
 
 class StoreSearchWidget extends StatefulWidget {
@@ -39,7 +40,7 @@ class _StoreSearchWidgetState extends State<StoreSearchWidget> {
                     child: SFSearchFilter(
                       labelText: widget.viewModel.selectedCity == null
                           ? "Cidade"
-                          : "${widget.viewModel.selectedCity!.city} - ${widget.viewModel.selectedCity!.state!.uf}",
+                          : "${widget.viewModel.selectedCity!.name} - ${widget.viewModel.selectedCity!.state!.uf}",
                       iconPath: r"assets/icon/location_ping.svg",
                       onTap: () =>
                           widget.viewModel.openCitySelectorModal(context),
@@ -74,7 +75,7 @@ class _StoreSearchWidgetState extends State<StoreSearchWidget> {
                 : ListView.builder(
                     itemCount: widget.viewModel.stores.length,
                     itemBuilder: (context, index) {
-                      Store store = widget.viewModel.stores[index];
+                      StoreUser store = widget.viewModel.stores[index];
                       return InkWell(
                         onTap: () =>
                             widget.viewModel.onTapStore(context, store),

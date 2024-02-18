@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
+import '../../../../../../Common/Utils/Constants.dart';
 
 class PriceSelectorHeader extends StatelessWidget {
   bool allowRecurrent;
 
-  PriceSelectorHeader({super.key, 
+  PriceSelectorHeader({
+    super.key,
     required this.allowRecurrent,
   });
 

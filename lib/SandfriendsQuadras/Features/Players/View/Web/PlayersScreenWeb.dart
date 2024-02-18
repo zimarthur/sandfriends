@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFBarChart.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFDropDown.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFPeriodToggle.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFPieChart.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFTextfield.dart';
-import 'package:sandfriends_web/SharedComponents/View/Table/SFTable.dart';
-import 'package:sandfriends_web/SharedComponents/View/Table/SFTableHeader.dart';
-import '../../../../Common/Components/SFButton.dart';
-
-import '../../../../SharedComponents/View/SFCard.dart';
-import '../../../../SharedComponents/View/SFHeader.dart';
-import '../../../../SharedComponents/View/SFToggle.dart';
-import '../../../../Utils/Constants.dart';
+import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Components/SFDropDown.dart';
+import '../../../../../Common/Components/SFHeader.dart';
+import '../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../Common/Components/Table/SFTable.dart';
+import '../../../../../Common/Components/Table/SFTableHeader.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';
 import 'package:provider/provider.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 import '../../ViewModel/PlayersViewModel.dart';
 
@@ -56,7 +48,6 @@ class _PlayersScreenWebState extends State<PlayersScreenWeb> {
                   ),
                   SFButton(
                     buttonLabel: "Adicionar Jogador",
-                    buttonType: ButtonType.Primary,
                     onTap: () => viewModel.openStorePlayerWidget(context, null),
                     iconFirst: true,
                     iconPath: r"assets/icon/user_plus.svg",
@@ -76,9 +67,9 @@ class _PlayersScreenWebState extends State<PlayersScreenWeb> {
                     labelText: viewModel.filteredGender,
                     items: viewModel.genderFilters,
                     validator: (value) {},
-                    onChanged: (genderName) {
-                      if (genderName != null) {
-                        viewModel.filterGender(context, genderName);
+                    onChanged: (name) {
+                      if (name != null) {
+                        viewModel.filterGender(context, name);
                       }
                     },
                   ),

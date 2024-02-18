@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Coupons/Model/CouponsTableCallback.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Coupon.dart';
-import 'package:sandfriends_web/SharedComponents/Model/EnumCouponStatus.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Reward.dart';
 import 'package:intl/intl.dart';
-import 'package:sandfriends_web/Utils/TypesExtensions.dart';
-import '../../../../Utils/Constants.dart';
+import 'package:sandfriends/Common/Enum/EnumCouponStatus.dart';
+import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
+import '../../../../../Common/Model/Coupon/CouponStore.dart';
+import '../../../../../Common/Model/CouponUnited.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../../Common/Utils/Constants.dart';
+
 class CouponItem extends StatelessWidget {
-  Coupon coupon;
+  CouponStore coupon;
   bool editMode;
   VoidCallback onEnableCoupon;
   VoidCallback onDisableCoupon;
@@ -33,7 +33,7 @@ class CouponItem extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: coupon.couponStatus.textColor,
+                  color: coupon.couponStatus!.textColor,
                   borderRadius: BorderRadius.circular(
                     defaultBorderRadius,
                   ),
@@ -90,7 +90,7 @@ class CouponItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    coupon.profit.formatPrice(),
+                    coupon.profit!.formatPrice(),
                     style: TextStyle(
                       color: greenText,
                       fontWeight: FontWeight.bold,
@@ -98,9 +98,9 @@ class CouponItem extends StatelessWidget {
                   ),
                 ],
               ),
-              if (editMode && coupon.canBeDisabled)
+              if (editMode && coupon.canBeDisabled!)
                 Switch(
-                    value: coupon.isValid,
+                    value: coupon.isValid!,
                     onChanged: (isValid) {
                       if (isValid) {
                         onEnableCoupon();

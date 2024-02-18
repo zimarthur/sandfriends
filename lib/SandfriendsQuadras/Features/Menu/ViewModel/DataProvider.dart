@@ -1,47 +1,29 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppRecurrentMatch.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Coupon.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Court.dart';
-import 'package:sandfriends_web/SharedComponents/Model/EnumDiscountType.dart';
-import 'package:sandfriends_web/SharedComponents/Model/OperationDay.dart';
 import 'package:intl/intl.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Player.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Rank.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Reward.dart';
-import '../../../../Common/Model/AppMatch.dart';
-import '../../../../Common/Model/Sandfriends/AppNotificationUser.dart';
-import '../../../../Common/Model/AppRecurrentMatch.dart';
+import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
+import '../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
+import '../../../../Common/Model/Coupon/CouponStore.dart';
 import '../../../../Common/Model/Court.dart';
-import '../../../../Common/Model/Employee.dart';
 import '../../../../Common/Model/Gender.dart';
 import '../../../../Common/Model/Hour.dart';
-import '../../../../Common/Model/Player.dart';
+import '../../../../Common/Model/HourPrice/HourPriceStore.dart';
+import '../../../../Common/Model/User/Player_old.dart';
 import '../../../../Common/Model/Rank.dart';
 import '../../../../Common/Model/Reward.dart';
+import '../../../../Common/Model/SandfriendsQuadras/AppNotificationStore.dart';
+import '../../../../Common/Model/SandfriendsQuadras/AvailableSport.dart';
+import '../../../../Common/Model/SandfriendsQuadras/Employee.dart';
+import '../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
 import '../../../../Common/Model/Sport.dart';
-import '../../../../Common/Model/Store.dart';
-import '../../../../Common/Model/StoreWorkingDay.dart';
-import '../../../../Sandfriends/Features/Checkout/Model/Coupon.dart';
-import '../../../SharedComponents/Model/AppNotification.dart';
-import '../../../SharedComponents/Model/AvailableSport.dart';
-import '../../../SharedComponents/Model/Employee.dart';
-import '../../../SharedComponents/Model/Gender.dart';
-import '../../../SharedComponents/Model/Hour.dart';
-import '../../../SharedComponents/Model/HourPrice.dart';
-import '../../../SharedComponents/Model/Sport.dart';
-import '../../../SharedComponents/Model/Store.dart';
-import '../../../SharedComponents/Model/AppMatch.dart';
-import '../../../SharedComponents/Model/StoreWorkingHours.dart';
-import '../../../Utils/LocalStorageWeb.dart'
-    if (dart.library.io) '../../../Utils/LocalStorageMobile.dart';
+import '../../../../Common/Model/Store/StoreComplete.dart';
+import '../../../../Common/Model/User/UserStore.dart';
 
 class DataProvider extends ChangeNotifier {
-  Store? _store;
-  Store? get store => _store;
-  set store(Store? value) {
+  StoreComplete? _store;
+  StoreComplete? get store => _store;
+  set store(StoreComplete? value) {
     _store = value;
     notifyListeners();
   }
@@ -93,21 +75,21 @@ class DataProvider extends ChangeNotifier {
 
   List<Rank> availableRanks = [];
 
-  List<AppNotification> notifications = [];
+  List<AppNotificationStore> notifications = [];
 
-  List<AppMatch> allMatches = [];
-  List<AppMatch> get matches =>
+  List<AppMatchStore> allMatches = [];
+  List<AppMatchStore> get matches =>
       allMatches.where((match) => match.canceled == false).toList();
   late DateTime matchesStartDate;
   late DateTime matchesEndDate;
 
-  List<AppRecurrentMatch> recurrentMatches = [];
+  List<AppRecurrentMatchStore> recurrentMatches = [];
 
   List<Reward> rewards = [];
 
-  List<Coupon> coupons = [];
+  List<CouponStore> coupons = [];
 
-  List<Player> storePlayers = [];
+  List<UserStore> storePlayers = [];
 
   final List<Employee> _employees = [];
   List<Employee> get employees {
@@ -205,7 +187,7 @@ class DataProvider extends ChangeNotifier {
 
     for (var notification in responseBody['Notifications']) {
       notifications.add(
-        AppNotification.fromJson(
+        AppNotificationStore.fromJson(
           notification,
           availableHours,
           availableSports,
@@ -217,7 +199,7 @@ class DataProvider extends ChangeNotifier {
 
     setPlayersResponse(responseBody);
 
-    store = Store.fromJson(responseBody['Store']);
+    store = StoreComplete.fromJson(responseBody['Store']);
 
     setCourts(responseBody);
 
@@ -237,7 +219,7 @@ class DataProvider extends ChangeNotifier {
   void setPlayersResponse(Map<String, dynamic> responseBody) {
     storePlayers.clear();
     for (var storePlayer in responseBody['StorePlayers']) {
-      storePlayers.add(Player.fromStorePlayerJson(
+      storePlayers.add(UserStore.fromStorePlayerJson(
         storePlayer,
         availableSports,
         availableGenders,
@@ -246,7 +228,7 @@ class DataProvider extends ChangeNotifier {
     }
 
     for (var matchMember in responseBody['MatchMembers']) {
-      storePlayers.add(Player.fromUserJson(
+      storePlayers.add(UserStore.fromUserJson(
         matchMember,
         availableSports,
         availableGenders,
@@ -275,7 +257,7 @@ class DataProvider extends ChangeNotifier {
             .firstWhere((opDay) => opDay.weekday == courtPrices["Day"])
             .prices
             .add(
-              HourPrice(
+              HourPriceStore(
                 startingHour: availableHours.firstWhere(
                     (hour) => hour.hour == courtPrices["IdAvailableHour"]),
                 price: courtPrices["Price"],
@@ -294,7 +276,7 @@ class DataProvider extends ChangeNotifier {
     allMatches.clear();
     for (var match in responseBody['Matches']) {
       allMatches.add(
-        AppMatch.fromJson(
+        AppMatchStore.fromJson(
           match,
           availableHours,
           availableSports,
@@ -307,7 +289,7 @@ class DataProvider extends ChangeNotifier {
     recurrentMatches.clear();
     for (var recurrentMatch in responseBody['RecurrentMatches']) {
       recurrentMatches.add(
-        AppRecurrentMatch.fromJson(
+        AppRecurrentMatchStore.fromJson(
           recurrentMatch,
           availableHours,
           availableSports,
@@ -329,7 +311,7 @@ class DataProvider extends ChangeNotifier {
     coupons.clear();
     for (var coupon in responseBody['Coupons']) {
       coupons.add(
-        Coupon.fromJson(
+        CouponStore.fromJson(
           coupon,
           availableHours,
         ),
@@ -348,15 +330,17 @@ class DataProvider extends ChangeNotifier {
     int newLastNotificationId = notifications.isEmpty
         ? 0
         : notifications
-            .reduce((a, b) => a.IdNotification > b.IdNotification ? a : b)
-            .IdNotification;
-    int? lastNotificationId = await getLastNotificationId(context);
+            .reduce((a, b) => a.idNotification > b.idNotification ? a : b)
+            .idNotification;
+    int? lastNotificationId =
+        await LocalStorageManager().getLastNotificationId(context);
     if (lastNotificationId != null) {
       if (lastNotificationId < newLastNotificationId) {
         hasUnseenNotifications = true;
       }
     }
-    storeLastNotificationId(context, newLastNotificationId);
+    LocalStorageManager()
+        .storeLastNotificationId(context, newLastNotificationId);
   }
 
   void setAllowNotificationsSetttings(bool allowNotifications) {

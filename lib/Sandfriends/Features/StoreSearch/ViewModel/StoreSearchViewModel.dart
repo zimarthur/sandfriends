@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/StoreSearch/Repository/StoreSearchRepo.dart';
-import 'package:sandfriends/Common/Model/Store.dart';
+import 'package:sandfriends/Common/Model/Store/StoreComplete.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../../../../Common/Components/Modal/CitySelectorModal.dart';
+import '../../../../Common/Model/Store/StoreUser.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Model/City.dart';
 import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
@@ -71,10 +72,10 @@ class StoreSearchViewModel extends StandardScreenViewModel {
   bool get canSearchMatch => selectedCity != null;
   bool hasUserSearched = false;
 
-  final List<Store> _stores = [];
-  List<Store> get stores {
+  final List<StoreUser> _stores = [];
+  List<StoreUser> get stores {
     if (currentCustomFilter.orderBy == OrderBy.distance) {
-      List<Store> sortedStores = _stores;
+      List<StoreUser> sortedStores = _stores;
       sortedStores.sort(
         (a, b) => a.distanceBetweenPlayer!.compareTo(b.distanceBetweenPlayer!),
       );
@@ -146,7 +147,7 @@ class StoreSearchViewModel extends StandardScreenViewModel {
           final responseStores = responseBody['Stores'];
           _stores.clear();
           for (var store in responseStores) {
-            Store newStore = Store.fromJson(
+            StoreUser newStore = StoreUser.fromJson(
               store,
             );
 
@@ -226,7 +227,7 @@ class StoreSearchViewModel extends StandardScreenViewModel {
     });
   }
 
-  void onTapStore(BuildContext context, Store store) {
+  void onTapStore(BuildContext context, StoreUser store) {
     Navigator.pushNamed(
       context,
       '/court',

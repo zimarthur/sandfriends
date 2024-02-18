@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Home/View/Web/NotificationCard.dart';
-import 'package:sandfriends_web/Features/Home/View/Web/NotificationWidget.dart';
-import 'package:sandfriends_web/Features/Home/ViewModel/HomeViewModel.dart';
+import 'package:sandfriends/Common/Model/SandfriendsQuadras/AppNotificationStore.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppNotification.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFStandardScreen.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../../Common/Utils/Constants.dart';
+import '../../Home/View/Web/NotificationCard.dart';
+import '../../Menu/ViewModel/DataProvider.dart';
 
 class NotificationsScreen extends StatefulWidget {
   NotificationsScreen({
@@ -19,7 +17,7 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
-  List<AppNotification> notifications = [];
+  List<AppNotificationStore> notifications = [];
 
   @override
   void initState() {

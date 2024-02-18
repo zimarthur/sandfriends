@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../../../Common/Utils/Constants.dart';
 
 class MyCourtsTabSelector extends StatefulWidget {
   String title;
@@ -9,7 +10,8 @@ class MyCourtsTabSelector extends StatefulWidget {
   VoidCallback onTap;
   MouseCursor mouseCursor;
 
-  MyCourtsTabSelector({super.key, 
+  MyCourtsTabSelector({
+    super.key,
     required this.title,
     required this.isSelected,
     this.iconPath,

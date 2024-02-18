@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:sandfriends_web/SharedComponents/Model/StorePhoto.dart';
-import 'package:sandfriends_web/Utils/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
-import '../../../../Common/Components/SFLoading.dart';
-import '../../../../SharedComponents/ViewModel/EnvironmentProvider.dart';
+import '../../../../../Common/Components/SFLoading.dart';
+import '../../../../../Common/Model/SandfriendsQuadras/StorePhoto.dart';
+import '../../../../../Common/Providers/Environment/EnvironmentProvider.dart';
+import '../../../../../Common/Utils/Constants.dart';
 
 class StorePhotoCard extends StatefulWidget {
   StorePhoto storePhoto;

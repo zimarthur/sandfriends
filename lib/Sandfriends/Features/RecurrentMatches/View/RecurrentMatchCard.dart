@@ -6,12 +6,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Sandfriends/Features/Court/Model/HourPrice.dart';
+import 'package:sandfriends/Common/Model/AppRecurrentMatch/AppRecurrentMatchUser.dart';
+import 'package:sandfriends/Common/Model/HourPrice/HourPriceUser.dart';
 import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
 
 import '../../../../Common/Components/PixCodeClipboard.dart';
-import '../../../../Common/Model/AppRecurrentMatch.dart';
+import '../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatch.dart';
 import '../../../../Common/Model/PaymentStatus.dart';
 import '../../../../Common/Model/SelectedPayment.dart';
 import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
@@ -23,7 +24,7 @@ import '../../../../Common/Utils/SFDateTime.dart';
 import 'RecurrentMatchCardDate.dart';
 
 class RecurrentMatchCard extends StatefulWidget {
-  final AppRecurrentMatch recurrentMatch;
+  final AppRecurrentMatchUser recurrentMatch;
   final bool expanded;
   const RecurrentMatchCard({
     Key? key,
@@ -101,7 +102,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                 ),
               ),
               child: Text(
-                "${weekDaysPortuguese[widget.recurrentMatch.weekday]}:  ${widget.recurrentMatch.timeBegin.hourString} - ${widget.recurrentMatch.timeEnd.hourString}",
+                "${weekday[widget.recurrentMatch.weekday]}:  ${widget.recurrentMatch.timeBegin.hourString} - ${widget.recurrentMatch.timeEnd.hourString}",
                 style: const TextStyle(
                     color: textWhite, fontWeight: FontWeight.w500),
               ),
@@ -124,7 +125,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                         context,
                                         listen: false)
                                     .urlBuilder(widget
-                                        .recurrentMatch.court.store!.imageUrl),
+                                        .recurrentMatch.court.store!.logo!),
                                 height: 80,
                                 width: 80,
                                 placeholder: (context, url) => SizedBox(
@@ -193,7 +194,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                               ),
                                             ),
                                             Text(
-                                              "${widget.recurrentMatch.recurrentMatchesCounter}",
+                                              "${widget.recurrentMatch.matchCounter}",
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.w500,
                                                 color: textDarkGrey,
@@ -214,7 +215,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                                 : Text(
                                                     widget
                                                                 .recurrentMatch
-                                                                .monthRecurrentMatches
+                                                                .nextRecurrentMatches
                                                                 .first
                                                                 .selectedPayment ==
                                                             SelectedPayment
@@ -300,7 +301,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     itemCount: widget.recurrentMatch
-                                        .monthRecurrentMatches.length,
+                                        .nextRecurrentMatches.length,
                                     itemBuilder: ((context, index) {
                                       return Padding(
                                         padding:
@@ -308,17 +309,17 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                         child: InkWell(
                                           onTap: () {
                                             Navigator.pushNamed(context,
-                                                '/match_screen/${widget.recurrentMatch.monthRecurrentMatches[index].matchUrl}');
+                                                '/match_screen/${widget.recurrentMatch.nextRecurrentMatches[index].matchUrl}');
                                           },
                                           child: RecurrentMatchCardDate(
                                               day: widget
                                                   .recurrentMatch
-                                                  .monthRecurrentMatches[index]
+                                                  .nextRecurrentMatches[index]
                                                   .date
                                                   .day,
                                               month: monthsPortuguese[widget
                                                       .recurrentMatch
-                                                      .monthRecurrentMatches[
+                                                      .nextRecurrentMatches[
                                                           index]
                                                       .date
                                                       .month -
@@ -357,15 +358,12 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                       textScaleFactor: 0.9,
                                     ),
                                     Text(
-                                      widget
-                                                  .recurrentMatch
-                                                  .monthRecurrentMatches
-                                                  .first
-                                                  .paymentStatus ==
+                                      widget.recurrentMatch.nextRecurrentMatches
+                                                  .first.paymentStatus ==
                                               PaymentStatus.Pending
                                           ? widget
                                                       .recurrentMatch
-                                                      .monthRecurrentMatches
+                                                      .nextRecurrentMatches
                                                       .first
                                                       .selectedPayment ==
                                                   SelectedPayment.CreditCard
@@ -376,7 +374,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                         fontWeight: FontWeight.w700,
                                         color: widget
                                                     .recurrentMatch
-                                                    .monthRecurrentMatches
+                                                    .nextRecurrentMatches
                                                     .first
                                                     .paymentStatus ==
                                                 PaymentStatus.Pending
@@ -395,15 +393,14 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "${widget.recurrentMatch.monthRecurrentMatches.length} Partida(s) (${widget.recurrentMatch.monthRecurrentMatches.first.cost.formatPrice()}):",
+                                      "${widget.recurrentMatch.nextRecurrentMatches.length} Partida(s) (${widget.recurrentMatch.nextRecurrentMatches.first.cost.formatPrice()}):",
                                       style: const TextStyle(
                                         color: textDarkGrey,
                                       ),
                                       textScaleFactor: 0.9,
                                     ),
                                     Text(
-                                      widget.recurrentMatch
-                                          .currentMonthPrice()
+                                      widget.recurrentMatch.currentMonthPrice
                                           .formatPrice(),
                                       style: const TextStyle(
                                         color: textDarkGrey,
@@ -427,20 +424,17 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                       textScaleFactor: 0.9,
                                     ),
                                     Text(
-                                      widget
-                                                  .recurrentMatch
-                                                  .monthRecurrentMatches
-                                                  .first
-                                                  .selectedPayment ==
+                                      widget.recurrentMatch.nextRecurrentMatches
+                                                  .first.selectedPayment ==
                                               SelectedPayment.Pix
                                           ? "Pix"
                                           : widget
                                                       .recurrentMatch
-                                                      .monthRecurrentMatches
+                                                      .nextRecurrentMatches
                                                       .first
                                                       .selectedPayment ==
                                                   SelectedPayment.CreditCard
-                                              ? "Cartão de crédito\n${widget.recurrentMatch.monthRecurrentMatches.first.creditCard!.cardNumber}"
+                                              ? "Cartão de crédito\n${widget.recurrentMatch.nextRecurrentMatches.first.creditCard!.cardNumber}"
                                               : "Pagar no local",
                                       textAlign: TextAlign.end,
                                       style: const TextStyle(
@@ -450,10 +444,10 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                     ),
                                   ],
                                 ),
-                                if (widget.recurrentMatch.monthRecurrentMatches
+                                if (widget.recurrentMatch.nextRecurrentMatches
                                             .first.paymentStatus ==
                                         PaymentStatus.Pending &&
-                                    widget.recurrentMatch.monthRecurrentMatches
+                                    widget.recurrentMatch.nextRecurrentMatches
                                             .first.selectedPayment ==
                                         SelectedPayment.Pix)
                                   Column(
@@ -476,7 +470,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                       PixCodeClipboard(
                                         pixCode: widget
                                             .recurrentMatch
-                                            .monthRecurrentMatches
+                                            .nextRecurrentMatches
                                             .first
                                             .pixCode!,
                                         hasCopiedPixToClipboard:
@@ -537,7 +531,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                     children: [
                       if (areInTheSameMonth(widget.recurrentMatch.validUntil,
                               DateTime.now()) &&
-                          widget.recurrentMatch.monthRecurrentMatches.first
+                          widget.recurrentMatch.nextRecurrentMatches.first
                                   .paymentStatus ==
                               PaymentStatus.Confirmed)
                         Padding(
@@ -550,7 +544,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                             textPadding:
                                 EdgeInsets.symmetric(vertical: height * 0.01),
                             onTap: () {
-                              List<HourPrice> hourPrices = [];
+                              List<HourPriceUser> hourPrices = [];
                               Provider.of<CategoriesProvider>(context,
                                       listen: false)
                                   .hours
@@ -560,10 +554,10 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                     hour.hour <
                                         widget.recurrentMatch.timeEnd.hour) {
                                   hourPrices.add(
-                                    HourPrice(
+                                    HourPriceUser(
                                       hour: hour,
                                       price: widget.recurrentMatch
-                                          .monthRecurrentMatches.first.cost
+                                          .nextRecurrentMatches.first.cost
                                           .toInt(),
                                     ),
                                   );

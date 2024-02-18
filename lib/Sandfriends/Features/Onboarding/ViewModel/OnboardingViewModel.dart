@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Model/User/UserComplete.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 
 import '../../../../Common/Components/Modal/CitySelectorModal.dart';
@@ -12,7 +13,6 @@ import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
 import '../../../../Common/Model/City.dart';
 import '../../../../Common/Model/Sport.dart';
-import '../../../../Common/Model/User.dart';
 import '../Repository/OnboardingRepo.dart';
 import '../View/OnboardingScreenForm.dart';
 import '../View/OnboardingScreenWelcome.dart';
@@ -153,7 +153,7 @@ class OnboardingViewModel extends StandardScreenViewModel {
               response.responseBody!,
             );
             Provider.of<UserProvider>(context, listen: false).user =
-                User.fromJson(responseBody['User']);
+                UserComplete.fromJson(responseBody['User']);
             Navigator.pushNamed(context, '/home');
           } else {
             modalMessage = SFModalMessage(

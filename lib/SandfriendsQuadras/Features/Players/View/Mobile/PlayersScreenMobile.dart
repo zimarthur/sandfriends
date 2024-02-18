@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Features/Finances/View/Mobile/FinanceItem.dart';
-import 'package:sandfriends_web/Features/Finances/View/Mobile/FinancePercentages.dart';
-import 'package:sandfriends_web/Features/Finances/View/Mobile/FinanceResume.dart';
-import 'package:sandfriends_web/Features/Finances/ViewModel/FinancesViewModel.dart';
-import 'package:sandfriends_web/Features/Players/View/Mobile/PlayerItem.dart';
-import 'package:sandfriends_web/Features/Players/View/Mobile/PlayersResume.dart';
-import 'package:sandfriends_web/Features/Players/ViewModel/PlayersViewModel.dart';
-import 'package:sandfriends_web/Features/Rewards/View/Mobile/PlayerCalendarFilter.dart';
-import 'package:sandfriends_web/SharedComponents/Model/EnumPeriodVisualization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFPieChartMobile.dart';
-import 'package:sandfriends_web/Utils/TypesExtensions.dart';
-import '../../../../SharedComponents/View/SFPieChart.dart';
-import '../../../../Utils/Constants.dart';
+import '../../../../../Common/Components/SFPieChartMobile.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/View/Mobile/SFStandardHeader.dart';
+import '../../ViewModel/PlayersViewModel.dart';
+import 'PlayerItem.dart';
+import 'PlayersResume.dart';
 
 class PlayersScreenMobile extends StatefulWidget {
   const PlayersScreenMobile({super.key});
@@ -234,8 +226,11 @@ class PlayersScreenMobileState extends State<PlayersScreenMobile> {
                                                     viewModel.players.length,
                                                 itemBuilder: (context, index) {
                                                   return PlayerItem(
-                                                    openWhatsApp: ()=>viewModel.openWhatsApp(context, viewModel
-                                                          .players[index]),
+                                                      openWhatsApp: () =>
+                                                          viewModel.openWhatsApp(
+                                                              context,
+                                                              viewModel.players[
+                                                                  index]),
                                                       player: viewModel
                                                           .players[index]);
                                                 },

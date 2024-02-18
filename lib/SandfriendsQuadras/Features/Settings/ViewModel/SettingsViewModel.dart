@@ -1,28 +1,23 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Settings/BasicInfo/View/BasicInfo.dart';
-import 'package:sandfriends_web/Features/Settings/BrandInfo/View/BrandInfo.dart';
-import 'package:sandfriends_web/Features/Settings/EmployeeInfo/View/EmployeeInfo.dart';
-import 'package:sandfriends_web/Features/Settings/EmployeeInfo/ViewModel/EmployeeInfoViewModel.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:provider/provider.dart';
-import 'package:image/image.dart' as IMG;
 import 'package:flutter/foundation.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
-import 'package:image_picker/image_picker.dart';
-import 'package:sandfriends_web/Features/Settings/Repository/SettingsRepoImp.dart';
-import 'package:sandfriends_web/SharedComponents/Model/StorePhoto.dart';
-import 'package:sandfriends_web/Utils/Numbers.dart';
-import '../../../Remote/NetworkResponse.dart';
-import '../../../SharedComponents/Model/Store.dart';
-import '../../../SharedComponents/Model/TabItem.dart';
-import '../../../SharedComponents/View/SFModalMessage.dart';
-import '../../../Utils/PageStatus.dart';
-import '../../../Utils/SFImage.dart';
+import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
+import '../../../../Common/Components/Modal/SFModalMessage.dart';
+import '../../../../Common/Model/SandfriendsQuadras/StorePhoto.dart';
+import '../../../../Common/Model/Store/StoreComplete.dart';
+import '../../../../Common/Model/TabItem.dart';
+import '../../../../Common/Utils/SFImage.dart';
+import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/DataProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
+import '../BasicInfo/View/BasicInfo.dart';
+import '../BrandInfo/View/BrandInfo.dart';
+import '../EmployeeInfo/View/EmployeeInfo.dart';
+import '../Repository/SettingsRepo.dart';
 
 class SettingsViewModel extends ChangeNotifier {
   final settingsRepo = SettingsRepo();
@@ -72,8 +67,8 @@ class SettingsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  late Store storeRef;
-  late Store storeEdit;
+  late StoreComplete storeRef;
+  late StoreComplete storeEdit;
 
   bool hasChangedPhoto = false;
 
@@ -130,9 +125,9 @@ class SettingsViewModel extends ChangeNotifier {
   void initSettingsViewModel(BuildContext context) {
     setIsEmployeeAdmin(Provider.of<DataProvider>(context, listen: false)
         .isLoggedEmployeeAdmin());
-    storeRef = Store.copyWith(
+    storeRef = StoreComplete.copyWith(
         Provider.of<DataProvider>(context, listen: false).store!);
-    storeEdit = Store.copyWith(
+    storeEdit = StoreComplete.copyWith(
         Provider.of<DataProvider>(context, listen: false).store!);
     nameController.text = storeEdit.name;
     telephoneController.text = storeEdit.phoneNumber;
@@ -142,7 +137,7 @@ class SettingsViewModel extends ChangeNotifier {
     addressController.text = storeEdit.address;
     addressNumberController.text = storeEdit.addressNumber;
     cityController.text = storeEdit.city.name;
-    stateController.text = storeEdit.city.state.uf;
+    stateController.text = storeEdit.city.state!.uf;
     descriptionController.text = storeEdit.description ?? "";
     instagramController.text = storeEdit.instagram ?? "";
     cnpjController.text = storeEdit.cnpj ?? "";
@@ -160,7 +155,7 @@ class SettingsViewModel extends ChangeNotifier {
       storeRef.address != storeEdit.address ||
       storeRef.addressNumber != storeEdit.addressNumber ||
       storeRef.city.name != storeEdit.city.name ||
-      storeRef.city.state.uf != storeEdit.city.state.uf ||
+      storeRef.city.state!.uf != storeEdit.city.state!.uf ||
       storeRef.neighbourhood != storeEdit.neighbourhood ||
       storeRef.description != storeEdit.description ||
       storeRef.instagram != storeEdit.instagram ||
@@ -182,8 +177,8 @@ class SettingsViewModel extends ChangeNotifier {
           response.responseBody!,
         );
         Provider.of<DataProvider>(context, listen: false).store =
-            Store.fromJson(
-          responseBody["Store"],
+            StoreComplete.fromJson(
+          responseBody["StoreComplete"],
         );
         initSettingsViewModel(context);
         hasChangedPhoto = false;
@@ -256,17 +251,17 @@ class SettingsViewModel extends ChangeNotifier {
   }
 
   void onChangedPhoneNumber(String newValue) {
-    storeEdit.phoneNumber = getRawNumber(newValue);
+    storeEdit.phoneNumber = newValue.getRawNumber();
     notifyListeners();
   }
 
   void onChangedOwnerPhoneNumber(String newValue) {
-    storeEdit.ownerPhoneNumber = getRawNumber(newValue);
+    storeEdit.ownerPhoneNumber = newValue.getRawNumber();
     notifyListeners();
   }
 
   void onChangedCep(String newValue) {
-    storeEdit.cep = getRawNumber(newValue);
+    storeEdit.cep = newValue.getRawNumber();
     notifyListeners();
   }
 
@@ -291,7 +286,7 @@ class SettingsViewModel extends ChangeNotifier {
   }
 
   void onChangedState(String newValue) {
-    storeEdit.city.state.uf = newValue;
+    storeEdit.city.state!.uf = newValue;
     notifyListeners();
   }
 
@@ -306,7 +301,7 @@ class SettingsViewModel extends ChangeNotifier {
   }
 
   void onChangedCnpj(String newValue) {
-    storeEdit.cnpj = getRawNumber(newValue);
+    storeEdit.cnpj = newValue.getRawNumber();
     notifyListeners();
   }
 

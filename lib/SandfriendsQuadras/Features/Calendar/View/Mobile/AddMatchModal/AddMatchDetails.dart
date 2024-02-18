@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../Common/Components/SFDropDown.dart';
+import '../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../../Common/Components/SelectPlayer.dart';
+import '../../../../../../Common/Model/User/Player_old.dart';
+import '../../../../../../Common/Model/Sport.dart';
+import '../../../../../../Common/Model/User/UserStore.dart';
 import '../../../../../../Common/Utils/Constants.dart';
-import '../../../../../SharedComponents/Model/Player.dart';
-import '../../../../../SharedComponents/Model/Sport.dart';
-import '../../../../../SharedComponents/View/SFDropDown.dart';
-import '../../../../../Common/Components/SFTextField.dart';
-import '../../../../../SharedComponents/View/SelectPlayer.dart';
-import '../../../../../Utils/Constants.dart';
-import '../../../../../Utils/Validators.dart';
+import '../../../../../../Common/Utils/Validators.dart';
 import '../../../Model/CalendarType.dart';
 
 class AddMatchDetails extends StatefulWidget {
@@ -21,8 +21,8 @@ class AddMatchDetails extends StatefulWidget {
   TextEditingController obsController;
   List<Sport> sports;
   String selectedSport;
-  Player? selectedPlayer;
-  Function(Player?) onTapSelectPlayer;
+  UserStore? selectedPlayer;
+  Function(UserStore?) onTapSelectPlayer;
   Function(String) onChangePrice;
   TextEditingController priceController;
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
+import '../../../../../../Common/Utils/Constants.dart';
 
 class ResumedInfoRowHeader extends StatelessWidget {
   const ResumedInfoRowHeader({super.key});

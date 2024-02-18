@@ -3,21 +3,22 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Model/User/UserComplete.dart';
 import '../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../Common/Model/Sport.dart';
-import '../../Common/Model/User.dart';
+import '../Model/User/UserOld.dart';
 import '../../Common/Utils/Constants.dart';
 import 'SFLoading.dart';
 
-class SFAvatar extends StatelessWidget {
+class SFAvatarUser extends StatelessWidget {
   final double height;
-  final User user;
+  final UserComplete user;
   final Sport? sport;
   final String? editFile;
   final bool showRank;
   final VoidCallback? onTap;
 
-  SFAvatar({
+  SFAvatarUser({
     Key? key,
     required this.height,
     required this.user,

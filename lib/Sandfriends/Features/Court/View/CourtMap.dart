@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 
-import '../../../../Common/Model/Store.dart';
+import '../../../../Common/Model/Store/StoreComplete.dart';
 
 class CourtMap extends StatefulWidget {
-  final Store store;
+  final StoreUser store;
   const CourtMap({
     Key? key,
     required this.store,

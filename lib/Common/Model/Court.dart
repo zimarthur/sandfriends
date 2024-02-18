@@ -1,18 +1,19 @@
-import 'AvailableSport.dart';
 import 'OperationDay.dart';
-import 'Store.dart';
+import 'SandfriendsQuadras/AvailableSport.dart';
+import 'Store/StoreComplete.dart';
+import 'Store/StoreUser.dart';
 
 class Court {
-  final int idStoreCourt;
-  final String description;
-  final bool isIndoor;
-  Store? store;
+  int? idStoreCourt;
+  String description;
+  bool isIndoor;
+  StoreUser? store;
 
   List<AvailableSport> sports = [];
   List<OperationDay> operationDays = [];
 
   Court({
-    required this.idStoreCourt,
+    this.idStoreCourt,
     required this.description,
     required this.isIndoor,
     this.store,
@@ -31,18 +32,33 @@ class Court {
       idStoreCourt: json['IdStoreCourt'],
       description: json['Description'],
       isIndoor: json['IsIndoor'],
-      store: Store.fromJsonMatch(
+      store: StoreUser.fromJson(
         json['Store'],
       ),
     );
   }
 
-  factory Court.copyWith(Court refCourt) {
-    return Court(
-      idStoreCourt: refCourt.idStoreCourt,
+  factory Court.copyFrom(Court refCourt) {
+    final court = Court(
       description: refCourt.description,
       isIndoor: refCourt.isIndoor,
+      idStoreCourt: refCourt.idStoreCourt,
     );
+    for (var opDay in refCourt.operationDays) {
+      court.operationDays.add(
+        OperationDay.copyFrom(
+          opDay,
+        ),
+      );
+    }
+    for (var sport in refCourt.sports) {
+      court.sports.add(
+        AvailableSport.copyFrom(
+          sport,
+        ),
+      );
+    }
+    return court;
   }
 
   @override

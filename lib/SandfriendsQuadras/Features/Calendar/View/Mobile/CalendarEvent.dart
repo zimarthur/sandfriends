@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Calendar/Model/HourInformation.dart';
-import 'package:sandfriends_web/Features/Calendar/ViewModel/CalendarViewModel.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Court.dart';
-import 'package:sandfriends_web/Utils/TypesExtensions.dart';
-
-import '../../../../SharedComponents/Model/Hour.dart';
-import '../../../../Utils/Constants.dart';
-import '../../../../Utils/SFDateTime.dart';
+import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
+import '../../../../../Common/Model/Court.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../../../../Common/Utils/SFDateTime.dart';
 import '../../Model/DayMatch.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../Model/HourInformation.dart';
+import '../../ViewModel/CalendarViewModel.dart';
 
 class CalendarEvent extends StatelessWidget {
   DayMatch dayMatch;
@@ -61,14 +60,14 @@ class CalendarEvent extends StatelessWidget {
               recurrentMatch: dayMatch.recurrentMatch != null,
               creatorName: dayMatch.match != null &&
                       !dayMatch.match!.isFromRecurrentMatch
-                  ? "Partida de ${dayMatch.match!.matchCreatorName}"
-                  : "Mensalista de ${dayMatch.match != null ? dayMatch.match!.matchCreatorName : dayMatch.recurrentMatch!.creatorName}",
+                  ? "Partida de ${dayMatch.match!.matchCreator.fullName}"
+                  : "Mensalista de ${dayMatch.match != null ? dayMatch.match!.matchCreator.fullName : dayMatch.recurrentMatch!.creator.fullName}",
               timeBegin: dayMatch.match != null
-                  ? dayMatch.match!.startingHour
-                  : dayMatch.recurrentMatch!.startingHour,
+                  ? dayMatch.match!.timeBegin
+                  : dayMatch.recurrentMatch!.timeBegin,
               timeEnd: dayMatch.match != null
-                  ? dayMatch.match!.endingHour
-                  : dayMatch.recurrentMatch!.endingHour,
+                  ? dayMatch.match!.timeEnd
+                  : dayMatch.recurrentMatch!.timeEnd,
               sport: dayMatch.match != null
                   ? dayMatch.match!.sport
                   : dayMatch.recurrentMatch!.sport,
@@ -117,8 +116,8 @@ class CalendarEvent extends StatelessWidget {
                   children: [
                     Text(
                       dayMatch.match != null
-                          ? dayMatch.match!.matchCreatorName
-                          : dayMatch.recurrentMatch!.creatorName,
+                          ? dayMatch.match!.matchCreator.fullName
+                          : dayMatch.recurrentMatch!.creator.fullName,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(

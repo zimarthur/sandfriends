@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Settings/ViewModel/SettingsViewModel.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFButton.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFDivider.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-
+import '../../../../../Common/Components/SFDivider.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../View/Web/FormItem.dart';
+import '../../ViewModel/SettingsViewModel.dart';
 
 class BasicInfo extends StatefulWidget {
   SettingsViewModel viewModel;

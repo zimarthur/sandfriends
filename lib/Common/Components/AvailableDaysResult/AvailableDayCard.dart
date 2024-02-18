@@ -4,10 +4,11 @@ import 'package:intl/intl.dart';
 import 'package:sandfriends/Common/Model/AvailableDay.dart';
 import 'package:sandfriends/Common/Model/AvailableHour.dart';
 import 'package:sandfriends/Common/Model/AvailableStore.dart';
-import 'package:sandfriends/Common/Model/Store.dart';
+import 'package:sandfriends/Common/Model/Store/StoreComplete.dart';
 import 'package:sandfriends/Common/Utils/SFDateTime.dart';
 
 import '../../../Common/Utils/Constants.dart';
+import '../../Model/Store/StoreUser.dart';
 import 'AvailableStoreCard.dart';
 
 class AvailableDayCard extends StatelessWidget {
@@ -15,7 +16,7 @@ class AvailableDayCard extends StatelessWidget {
   final AvailableStore? selectedStore;
   final AvailableHour? selectedAvailableHour;
   final Function(AvailableDay) onTapHour;
-  final Function(Store) onGoToCourt;
+  final Function(StoreUser) onGoToCourt;
   final bool selectedParent;
   final bool isRecurrent;
 
@@ -50,7 +51,7 @@ class AvailableDayCard extends StatelessWidget {
               ),
               Text(
                 isRecurrent
-                    ? weekDaysPortuguese[availableDay.weekday!]
+                    ? weekday[availableDay.weekday!]
                     : DateFormat("dd/MM/yyyy").format(availableDay.day!),
                 style: TextStyle(
                   color: isRecurrent ? primaryLightBlue : primaryBlue,

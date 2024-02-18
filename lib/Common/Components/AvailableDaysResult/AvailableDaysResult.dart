@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Common/Model/AvailableHour.dart';
 import 'package:sandfriends/Common/Model/AvailableStore.dart';
-import 'package:sandfriends/Common/Model/Store.dart';
+import 'package:sandfriends/Common/Model/Store/StoreComplete.dart';
 
 import '../../../Common/Model/AvailableDay.dart';
 import '../../../Common/Utils/Constants.dart';
 import '../../../Sandfriends/Features/MatchSearch/View/MatchSearchResultTitle.dart';
+import '../../Model/Store/StoreUser.dart';
 import 'AvailableDayCard.dart';
 
 class AvailableDaysResult extends StatefulWidget {
@@ -15,7 +16,7 @@ class AvailableDaysResult extends StatefulWidget {
   final AvailableHour? selectedAvailableHour;
   final bool isRecurrent;
   final Function(AvailableDay) onTapHour;
-  final Function(Store) onGoToCourt;
+  final Function(StoreUser) onGoToCourt;
 
   const AvailableDaysResult({
     Key? key,

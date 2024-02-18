@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:geolocator/geolocator.dart';
-
-import '../../../../Common/Model/Store.dart';
 import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/SFLoading.dart';
@@ -18,7 +17,7 @@ class StoreSearchItem extends StatelessWidget {
     required this.store,
   });
 
-  final Store store;
+  final StoreUser store;
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +177,7 @@ class StoreSearchItem extends StatelessWidget {
                     imageUrl:
                         Provider.of<EnvironmentProvider>(context, listen: false)
                             .urlBuilder(
-                      store.imageUrl,
+                      store.logo!,
                     ),
                     height: 85,
                     width: 85,

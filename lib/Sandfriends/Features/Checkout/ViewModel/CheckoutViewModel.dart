@@ -4,6 +4,7 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Model/Coupon/CouponUser.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/View/AddCupomModal.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/View/CvvModal.dart';
@@ -18,18 +19,18 @@ import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvid
 import 'package:sandfriends/Common/Utils/Validators.dart';
 
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
+import '../../../../Common/Model/CouponUnited.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Model/Sport.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Utils/PageStatus.dart';
-import '../../Court/Model/HourPrice.dart';
-import '../Model/Coupon.dart';
+import '../../../../Common/Model/HourPrice/HourPriceUser.dart';
 
 class CheckoutViewModel extends StandardScreenViewModel {
   final checkoutRepo = CheckoutRepo();
 
   late Court court;
-  late List<HourPrice> hourPrices;
+  late List<HourPriceUser> hourPrices;
   late List<Hour> availableHours;
   late Sport sport;
   late DateTime date;
@@ -38,7 +39,7 @@ class CheckoutViewModel extends StandardScreenViewModel {
   late bool isRenovating;
   List<DateTime> matchDates = [];
 
-  Coupon? appliedCoupon;
+  CouponUser? appliedCoupon;
 
   String cvv = "";
 
@@ -92,7 +93,7 @@ class CheckoutViewModel extends StandardScreenViewModel {
   void initCheckoutScreen(
     BuildContext context,
     Court receivedCourt,
-    List<HourPrice> receivedHourPrices,
+    List<HourPriceUser> receivedHourPrices,
     Sport receivedSport,
     DateTime? receivedDate,
     int? receivedWeekday,
@@ -121,7 +122,7 @@ class CheckoutViewModel extends StandardScreenViewModel {
         weekday,
         startingHour.hour,
         endingHour.hour,
-        court.idStoreCourt,
+        court.idStoreCourt!,
         isRenovating,
       )
           .then((response) {
@@ -244,7 +245,7 @@ class CheckoutViewModel extends StandardScreenViewModel {
         .matchReservation(
       context,
       Provider.of<UserProvider>(context, listen: false).user!.accessToken,
-      court.idStoreCourt,
+      court.idStoreCourt!,
       sport.idSport,
       date,
       startingHour.hour,
@@ -296,7 +297,7 @@ class CheckoutViewModel extends StandardScreenViewModel {
         .recurrentMatchReservation(
       context,
       Provider.of<UserProvider>(context, listen: false).user!.accessToken,
-      court.idStoreCourt,
+      court.idStoreCourt!,
       sport.idSport,
       weekday,
       matchDates,
@@ -370,7 +371,7 @@ class CheckoutViewModel extends StandardScreenViewModel {
             Map<String, dynamic> responseBody = json.decode(
               response.responseBody!,
             );
-            appliedCoupon = Coupon.fromJson(responseBody);
+            appliedCoupon = CouponUser.fromJson(responseBody);
             pageStatus = PageStatus.OK;
             notifyListeners();
           } else {

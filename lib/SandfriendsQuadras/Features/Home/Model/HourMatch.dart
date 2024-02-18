@@ -1,10 +1,9 @@
-import 'package:sandfriends_web/SharedComponents/Model/AppMatch.dart';
-
-import '../../../SharedComponents/Model/Hour.dart';
+import 'package:sandfriends/Common/Model/AppMatch/AppMatchStore.dart';
+import '../../../../Common/Model/Hour.dart';
 
 class HourMatch {
   Hour hour;
-  List<AppMatch> matches;
+  List<AppMatchStore> matches;
 
   HourMatch({
     required this.hour,

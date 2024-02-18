@@ -1,30 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Features/Home/Model/CourtOccupation.dart';
-import 'package:sandfriends_web/Features/Home/Model/FilterCourt.dart';
-import 'package:sandfriends_web/Features/Home/Model/HourMatch.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppMatch.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppNotification.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Reward.dart';
-import 'package:sandfriends_web/SharedComponents/Model/StoreWorkingHours.dart';
-import 'package:sandfriends_web/Utils/SFDateTime.dart';
-import 'package:tuple/tuple.dart';
-
-import '../../../SharedComponents/Model/Court.dart';
-import '../../../SharedComponents/Model/Hour.dart';
-import '../../../SharedComponents/Model/Store.dart';
+import 'package:sandfriends/Common/Model/SandfriendsQuadras/AppNotificationStore.dart';
+import 'package:sandfriends/Common/Model/Store/StoreComplete.dart';
+import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
+import '../../../../Common/Model/Court.dart';
+import '../../../../Common/Model/Hour.dart';
+import '../../../../Common/Model/Reward.dart';
+import '../../../../Common/Utils/SFDateTime.dart';
+import '../../Menu/ViewModel/DataProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
+import '../Model/CourtOccupation.dart';
+import '../Model/FilterCourt.dart';
+import '../Model/HourMatch.dart';
 
 class HomeViewModel extends ChangeNotifier {
-  List<AppNotification> notifications = [];
+  List<AppNotificationStore> notifications = [];
   List<Reward> rewards = [];
   List<Hour> availableHours = [];
   List<Hour> workingHours = [];
-  List<AppMatch> matches = [];
+  List<AppMatchStore> matches = [];
   List<Court> courts = [];
   List<CourtOccupation> courtsOccupation = [];
-  late Store store;
+  late StoreComplete store;
 
   late double averageOccupation;
 
@@ -183,13 +180,13 @@ class HomeViewModel extends ChangeNotifier {
   double get todaysProfit =>
       matches.fold(0, (previousValue, element) => previousValue + element.cost);
 
-  List<AppMatch> get matchesOnDisplayesHour {
-    List<AppMatch> filteredMatches = [];
+  List<AppMatchStore> get matchesOnDisplayesHour {
+    List<AppMatchStore> filteredMatches = [];
     filteredMatches = matches
         .where((match) =>
-            (match.startingHour.hour == displayedHour.hour) ||
-            (match.startingHour.hour < displayedHour.hour &&
-                match.endingHour.hour > displayedHour.hour))
+            (match.timeBegin.hour == displayedHour.hour) ||
+            (match.timeBegin.hour < displayedHour.hour &&
+                match.timeEnd.hour > displayedHour.hour))
         .toList();
     return filteredMatches;
   }
@@ -200,7 +197,7 @@ class HomeViewModel extends ChangeNotifier {
         .where((filteredCourt) => filteredCourt.isFiltered)
         .map((filteredCourt) => filteredCourt.court.idStoreCourt!)
         .toList();
-    List<AppMatch> filteredMatches = filteredIdStoreCourts.isEmpty
+    List<AppMatchStore> filteredMatches = filteredIdStoreCourts.isEmpty
         ? matches
         : matches
             .where(
@@ -218,9 +215,9 @@ class HomeViewModel extends ChangeNotifier {
             hour: hour,
             matches: filteredMatches
                 .where((match) =>
-                    (match.startingHour.hour == hour.hour) ||
-                    (match.startingHour.hour < hour.hour &&
-                        match.endingHour.hour > hour.hour))
+                    (match.timeBegin.hour == hour.hour) ||
+                    (match.timeBegin.hour < hour.hour &&
+                        match.timeEnd.hour > hour.hour))
                 .toList(),
           ),
         );

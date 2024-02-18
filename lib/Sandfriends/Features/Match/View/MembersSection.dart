@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../Common/Components/SFAvatar.dart';
+import '../../../../Common/Components/SFAvatarUser.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../ViewModel/MatchViewModel.dart';
 
@@ -136,7 +136,7 @@ class _MembersSectionState extends State<MembersSection> {
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-                          child: SFAvatar(
+                          child: SFAvatarUser(
                             height: height * 0.064,
                             showRank: true,
                             editFile: null,

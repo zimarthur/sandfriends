@@ -48,7 +48,7 @@ class _MatchSearchFiltersState extends State<MatchSearchFilters> {
           SFSearchFilter(
             labelText: widget.city == null
                 ? "Cidade"
-                : "${widget.city!.city} - ${widget.city!.state!.uf}",
+                : "${widget.city!.name} - ${widget.city!.state!.uf}",
             iconPath: r"assets/icon/location_ping.svg",
             onTap: widget.openCitySelector,
           ),
@@ -69,7 +69,7 @@ class _MatchSearchFiltersState extends State<MatchSearchFilters> {
                           labelText: widget.days!.isEmpty
                               ? "Dia"
                               : widget.days!
-                                  .map((e) => shortWeekDaysPortuguese[e])
+                                  .map((e) => weekdayShort[e])
                                   .join("/"),
                           iconPath: r"assets/icon/calendar.svg",
                           onTap: widget.openDateSelector,

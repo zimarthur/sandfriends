@@ -1,15 +1,16 @@
-import 'package:sandfriends/Common/Model/User.dart';
-import 'AppMatch.dart';
+import 'package:sandfriends/Common/Model/User/UserOld.dart';
+import 'AppMatch/AppMatchUser.dart';
 import 'Hour.dart';
 import 'Sport.dart';
+import 'User/UserComplete.dart';
 
 class AppNotificationUser {
   final int idNotification;
   final String message;
   final String colorString;
-  final AppMatch match;
+  final AppMatchUser match;
   bool seen;
-  final User user;
+  final UserComplete user;
 
   AppNotificationUser({
     required this.idNotification,
@@ -29,13 +30,13 @@ class AppNotificationUser {
       idNotification: json['IdNotification'],
       message: json['Message'],
       colorString: json['Color'],
-      match: AppMatch.fromJson(
+      match: AppMatchUser.fromJson(
         json['Match'],
         referenceHours,
         referenceSports,
       ),
       seen: json['Seen'],
-      user: User.fromJson(
+      user: UserComplete.fromJson(
         json['User'],
       ),
     );

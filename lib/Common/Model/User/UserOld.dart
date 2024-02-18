@@ -2,13 +2,13 @@ import 'package:intl/intl.dart';
 import 'package:sandfriends/Common/Model/City.dart';
 import 'package:sandfriends/Common/Model/MatchCounter.dart';
 
-import '../Utils/SFDateTime.dart';
-import 'Rank.dart';
-import 'SidePreference.dart';
-import 'Gender.dart';
-import 'Sport.dart';
+import '../../Utils/SFDateTime.dart';
+import '../Rank.dart';
+import '../SidePreference.dart';
+import '../Gender.dart';
+import '../Sport.dart';
 
-class User {
+class UserOld {
   int? idUser;
   String accessToken;
   String? firstName;
@@ -26,7 +26,7 @@ class User {
   Sport? preferenceSport;
   String? cpf;
 
-  User({
+  UserOld({
     required this.email,
     required this.accessToken,
     this.idUser,
@@ -70,8 +70,8 @@ class User {
         .total;
   }
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    var newUser = User(
+  factory UserOld.fromJson(Map<String, dynamic> json) {
+    var newUser = UserOld(
       idUser: json['IdUser'],
       accessToken: json['AccessToken'] ?? "",
       firstName: json['FirstName'],
@@ -148,8 +148,8 @@ class User {
     }
   }
 
-  factory User.copyWith(User refUser) {
-    final user = User(
+  factory UserOld.copyWith(UserOld refUser) {
+    final user = UserOld(
       email: refUser.email,
       accessToken: refUser.accessToken,
       firstName: refUser.firstName,
@@ -167,7 +167,7 @@ class User {
     );
     for (var rank in refUser.ranks) {
       user.ranks.add(
-        Rank.CopyWith(
+        Rank.copyWith(
           rank,
         ),
       );

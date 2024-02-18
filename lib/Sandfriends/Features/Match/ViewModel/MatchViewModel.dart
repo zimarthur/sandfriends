@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Model/User/UserComplete.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/Match/View/MemberCardModal.dart';
 import 'package:sandfriends/Sandfriends/Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
@@ -10,12 +11,11 @@ import 'package:sandfriends/Common/Model/PaymentStatus.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../Common/Components/Modal/ConfirmationModal.dart';
+import '../../../../Common/Model/AppMatch/AppMatchUser.dart';
 import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/Utils/PageStatus.dart';
-import '../../../../Common/Model/AppMatch.dart';
 import '../../../../Common/Model/MatchCounter.dart';
 import '../../../../Common/Model/MatchMember.dart';
-import '../../../../Common/Model/User.dart';
 import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
@@ -25,9 +25,9 @@ class MatchViewModel extends StandardScreenViewModel {
   final matchRepo = MatchRepo();
 
   String titleText = "";
-  late AppMatch match;
+  late AppMatchUser match;
   bool isMatchInstantiated = false;
-  late User loggedUser;
+  late UserComplete loggedUser;
 
   bool _copiedToClipboard = false;
   bool get copyToClipboard => _copiedToClipboard;
@@ -96,10 +96,8 @@ class MatchViewModel extends StandardScreenViewModel {
     return (member.quit ||
         (member.refused) ||
         ((member.waitingApproval) &&
-            (member.user.idUser !=
-                Provider.of<UserProvider>(context, listen: false)
-                    .user!
-                    .idUser) &&
+            (member.user.id !=
+                Provider.of<UserProvider>(context, listen: false).user!.id) &&
             (isUserMatchCreator == false)));
   }
 
@@ -112,7 +110,7 @@ class MatchViewModel extends StandardScreenViewModel {
           response.responseBody!,
         );
         setCopyToClipBoard(false);
-        match = AppMatch.fromJson(
+        match = AppMatchUser.fromJson(
           responseBody['Match'],
           Provider.of<CategoriesProvider>(context, listen: false).hours,
           Provider.of<CategoriesProvider>(context, listen: false).sports,
@@ -121,7 +119,7 @@ class MatchViewModel extends StandardScreenViewModel {
 
         for (int i = 0; i < match.members.length; i++) {
           for (int j = 0; j < responseUsersMatchCounter.length; j++) {
-            if (match.members[i].user.idUser ==
+            if (match.members[i].user.id ==
                 responseUsersMatchCounter[j]['IdUser']) {
               match.members[i].user.matchCounter.clear();
               match.members[i].user.matchCounter.add(
@@ -132,7 +130,7 @@ class MatchViewModel extends StandardScreenViewModel {
               );
             }
           }
-          if (match.members[i].user.idUser == loggedUser.idUser) {
+          if (match.members[i].user.id == loggedUser.id) {
             if (match.members[i].quit == true ||
                 match.members[i].refused == true ||
                 match.members[i].waitingApproval == true) {
@@ -265,15 +263,15 @@ class MatchViewModel extends StandardScreenViewModel {
     widgetForm = MemberCardModal(
       viewModel: this,
       member: member,
-      onAccept: () => invitationResponse(context, member.user.idUser!, true),
-      onRefuse: () => invitationResponse(context, member.user.idUser!, false),
-      onRemove: () => removeMatchMember(context, member.user.idUser!),
+      onAccept: () => invitationResponse(context, member.user.id!, true),
+      onRefuse: () => invitationResponse(context, member.user.id!, false),
+      onRemove: () => removeMatchMember(context, member.user.id!),
     );
     pageStatus = PageStatus.FORM;
     notifyListeners();
   }
 
-  void invitationResponse(BuildContext context, int idUser, bool accepted) {
+  void invitationResponse(BuildContext context, int id, bool accepted) {
     pageStatus = PageStatus.LOADING;
     notifyListeners();
     matchRepo
@@ -281,7 +279,7 @@ class MatchViewModel extends StandardScreenViewModel {
       context,
       loggedUser.accessToken,
       match.idMatch,
-      idUser,
+      id,
       accepted,
     )
         .then((response) {
@@ -320,7 +318,7 @@ class MatchViewModel extends StandardScreenViewModel {
     });
   }
 
-  void removeMatchMember(BuildContext context, int idUser) {
+  void removeMatchMember(BuildContext context, int id) {
     pageStatus = PageStatus.LOADING;
     notifyListeners();
     matchRepo
@@ -328,7 +326,7 @@ class MatchViewModel extends StandardScreenViewModel {
           context,
           loggedUser.accessToken,
           match.idMatch,
-          idUser,
+          id,
         )
         .then(
           (response) => defaultResponse(

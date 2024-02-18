@@ -124,7 +124,7 @@ class InformationSection extends StatelessWidget {
                     "Preço:",
                   ),
                   Text(
-                    viewModel.match.rawCost.formatPrice(),
+                    viewModel.match.userCost.formatPrice(),
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         decoration: viewModel.match.coupon != null

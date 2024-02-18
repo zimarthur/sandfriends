@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:provider/provider.dart';
-import '../../../SharedComponents/View/SFButton.dart';
-import '../../../SharedComponents/View/SFHeader.dart';
+import '../../../../Common/Components/SFButton.dart';
+import '../../../../Common/Components/SFHeader.dart';
+import '../../../../Common/Utils/Constants.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
 
 import '../ViewModel/HelpViewModel.dart';
@@ -43,7 +43,6 @@ class _HelpScreenState extends State<HelpScreen> {
                     ),
                     SFButton(
                       buttonLabel: "Conversar com o suporte",
-                      buttonType: ButtonType.Primary,
                       onTap: () {
                         viewModel.talkSupport(context);
                       },

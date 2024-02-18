@@ -5,15 +5,16 @@ import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dar
 import 'package:sandfriends/Common/Model/AppNotificationUser.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/SearchType/View/SearchTypeScreen.dart';
-import 'package:sandfriends/Common/Model/AppRecurrentMatch.dart';
+import 'package:sandfriends/Common/Model/AppRecurrentMatch/AppRecurrentMatch.dart';
 import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'package:sandfriends/Sandfriends/Providers/RedirectProvider/RedirectProvider.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
 import 'package:tuple/tuple.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import '../../../../Common/Model/AppMatch/AppMatchUser.dart';
+import '../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchUser.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../../../Common/Model/AppMatch.dart';
 import '../../../../Common/Model/CreditCard/CreditCard.dart';
 import '../../../../Common/Model/Reward.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
@@ -126,7 +127,7 @@ class HomeViewModel extends StandardScreenViewModel {
 
         for (var match in responseMatches) {
           Provider.of<UserProvider>(context, listen: false).addMatch(
-            AppMatch.fromJson(
+            AppMatchUser.fromJson(
               match,
               Provider.of<CategoriesProvider>(context, listen: false).hours,
               Provider.of<CategoriesProvider>(context, listen: false).sports,
@@ -136,7 +137,7 @@ class HomeViewModel extends StandardScreenViewModel {
 
         for (var recurrentMatch in responseRecurrentMatches) {
           Provider.of<UserProvider>(context, listen: false).addRecurrentMatch(
-            AppRecurrentMatch.fromJson(
+            AppRecurrentMatchUser.fromJson(
               recurrentMatch,
               Provider.of<CategoriesProvider>(context, listen: false).hours,
               Provider.of<CategoriesProvider>(context, listen: false).sports,
@@ -146,7 +147,7 @@ class HomeViewModel extends StandardScreenViewModel {
 
         for (var openMatch in responseOpenMatches) {
           Provider.of<UserProvider>(context, listen: false).addOpenMatch(
-            AppMatch.fromJson(
+            AppMatchUser.fromJson(
               openMatch,
               Provider.of<CategoriesProvider>(context, listen: false).hours,
               Provider.of<CategoriesProvider>(context, listen: false).sports,

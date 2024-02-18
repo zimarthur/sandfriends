@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../../Common/Model/Player.dart';
+import '../../../../Common/Model/User/Player_old.dart';
+import '../../../../Common/Model/User/UserStore.dart';
 import '../../../../Remote/ApiEndPoints.dart';
 import '../../../../Remote/NetworkApiService.dart';
 import '../../../../Remote/NetworkResponse.dart';
@@ -70,7 +71,7 @@ class CalendarRepo {
     int idStoreCourt,
     DateTime date,
     int hour,
-    Player player,
+    UserStore player,
     int idSport,
     String obs,
     double price,
@@ -123,7 +124,7 @@ class CalendarRepo {
     int idStoreCourt,
     int weekday,
     int hour,
-    Player player,
+    UserStore player,
     int idSport,
     String obs,
     double price,

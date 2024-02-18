@@ -120,7 +120,7 @@ class _PaymentSectionState extends State<PaymentSection> {
               if (widget.viewModel.match.paymentStatus ==
                       PaymentStatus.Pending &&
                   widget.viewModel.match.selectedPayment == SelectedPayment.Pix)
-                widget.viewModel.match.isFromRecurrentMatch()
+                widget.viewModel.match.isFromRecurrentMatch
                     ? Container(
                         decoration: BoxDecoration(
                             borderRadius:

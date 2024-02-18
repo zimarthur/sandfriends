@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Calendar/Model/CalendarType.dart';
-import 'package:sandfriends_web/Features/Calendar/ViewModel/CalendarViewModel.dart';
-import '../../../../../../Utils/Constants.dart';
 import 'package:intl/intl.dart';
-import '../../../../../../Utils/SFDateTime.dart';
+import '../../../../../../../Common/Utils/Constants.dart';
+import '../../../../../../../Common/Utils/SFDateTime.dart';
+import '../../../../Model/CalendarType.dart';
+import '../../../../ViewModel/CalendarViewModel.dart';
 import 'HourWidget.dart';
 
 class SFCalendarWeek extends StatefulWidget {

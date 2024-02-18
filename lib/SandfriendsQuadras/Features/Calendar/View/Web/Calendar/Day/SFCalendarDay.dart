@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Calendar/Model/CalendarType.dart';
-import 'package:sandfriends_web/Features/Calendar/View/Web/Calendar/Day/EmptyHourWidget.dart';
-import 'package:sandfriends_web/Features/Calendar/View/Web/Calendar/Day/MatchHourWidget.dart';
-import 'package:sandfriends_web/Features/Calendar/ViewModel/CalendarViewModel.dart';
-import 'package:intl/intl.dart';
-
-import '../../../../../../Utils/Constants.dart';
-
-import '../../../../../../Utils/SFDateTime.dart';
+import '../../../../../../../Common/Utils/Constants.dart';
+import '../../../../../../../Common/Utils/SFDateTime.dart';
+import '../../../../Model/CalendarType.dart';
+import '../../../../ViewModel/CalendarViewModel.dart';
 import '../Week/HourWidget.dart';
+import 'EmptyHourWidget.dart';
+import 'MatchHourWidget.dart';
 
 class SFCalendarDay extends StatefulWidget {
   CalendarViewModel viewModel;

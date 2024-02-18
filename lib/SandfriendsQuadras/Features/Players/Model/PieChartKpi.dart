@@ -1,4 +1,4 @@
-import 'package:sandfriends_web/SharedComponents/View/SFPieChart.dart';
+import '../../../../Common/Components/SFPieChart.dart';
 
 class PieChartKpi {
   List<PieChartItem> pieChartitems;

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppNotification.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
+import 'package:sandfriends/Common/Model/SandfriendsQuadras/AppNotificationStore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:sandfriends_web/Utils/SFDateTime.dart';
-import '../../../../Common/Components/SFAvatar.dart';
+import '../../../../../Common/Components/SFAvatarStore.dart';
+import '../../../../../Common/Components/SFAvatarUser.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../../../../Common/Utils/SFDateTime.dart';
 
 class NotificationCard extends StatelessWidget {
-  AppNotification notification;
+  AppNotificationStore notification;
   NotificationCard({
     required this.notification,
   });
@@ -21,11 +22,9 @@ class NotificationCard extends StatelessWidget {
           Expanded(
             child: Row(
               children: [
-                SFAvatar(
+                SFAvatarStore(
                   height: 60,
-                  image: notification.match.matchCreatorPhoto,
-                  playerFirstName: notification.match.matchCreatorFirstName,
-                  playerLastName: notification.match.matchCreatorLastName,
+                  user: notification.match.matchCreator,
                   isPlayerAvatar: true,
                 ),
                 const SizedBox(
@@ -79,7 +78,7 @@ class NotificationCard extends StatelessWidget {
                             width: defaultPadding / 4,
                           ),
                           Text(
-                            "${notification.match.startingHour.hourString} - ${notification.match.endingHour.hourString}",
+                            notification.match.matchHourDescription,
                             style: TextStyle(
                               color: textDarkGrey,
                               fontSize: 12,

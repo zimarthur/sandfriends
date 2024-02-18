@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Common/Model/AppNotificationUser.dart';
 
-import '../../../Common/Model/AppMatch.dart';
-import '../../../Common/Model/AppRecurrentMatch.dart';
+import '../../../Common/Model/AppMatch/AppMatchUser.dart';
+import '../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchUser.dart';
 import '../../../Common/Model/CreditCard/CreditCard.dart';
 import '../../../Common/Model/Reward.dart';
-import '../../../Common/Model/User.dart';
+import '../../../Common/Model/User/UserComplete.dart';
 import 'package:geolocator/geolocator.dart';
 
 class UserProvider extends ChangeNotifier {
-  User? _user;
-  User? get user => _user;
-  set user(User? newUser) {
+  UserComplete? _user;
+  UserComplete? get user => _user;
+  set user(UserComplete? newUser) {
     _user = newUser;
     notifyListeners();
   }
 
-  final List<AppMatch> _matches = [];
-  List<AppMatch> get matches {
-    List<AppMatch> filteredMatchList;
+  final List<AppMatchUser> _matches = [];
+  List<AppMatchUser> get matches {
+    List<AppMatchUser> filteredMatchList;
     filteredMatchList = _matches.where((match) {
       for (int i = 0; i < match.members.length; i++) {
-        if (match.members[i].user.idUser == user!.idUser) {
+        if (match.members[i].user.id == user!.id) {
           if ((match.members[i].refused == false &&
                   match.members[i].quit == false) ||
               (match.members[i].isMatchCreator)) {
@@ -50,12 +50,12 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addMatch(AppMatch newMatch) {
+  void addMatch(AppMatchUser newMatch) {
     _matches.add(newMatch);
     notifyListeners();
   }
 
-  List<AppMatch> get nextMatches {
+  List<AppMatchUser> get nextMatches {
     var filteredList = matches.where((match) {
       if (match.date.isAfter(DateTime.now()) &&
           (match.canceled == false) &&
@@ -79,8 +79,8 @@ class UserProvider extends ChangeNotifier {
     return filteredList;
   }
 
-  final List<AppRecurrentMatch> _recurrentMatches = [];
-  List<AppRecurrentMatch> get recurrentMatches {
+  final List<AppRecurrentMatchUser> _recurrentMatches = [];
+  List<AppRecurrentMatchUser> get recurrentMatches {
     var filteredList = _recurrentMatches.where((recMatch) {
       if (recMatch.isPaymentExpired == false) {
         return true;
@@ -96,20 +96,20 @@ class UserProvider extends ChangeNotifier {
     return _recurrentMatches;
   }
 
-  void addRecurrentMatch(AppRecurrentMatch newRecurrentMatch) {
+  void addRecurrentMatch(AppRecurrentMatchUser newRecurrentMatch) {
     _recurrentMatches.add(newRecurrentMatch);
     notifyListeners();
   }
 
-  final List<AppMatch> _openMatches = [];
-  List<AppMatch> get openMatches {
+  final List<AppMatchUser> _openMatches = [];
+  List<AppMatchUser> get openMatches {
     _openMatches.sort(
       (a, b) => a.date.compareTo(b.date),
     );
     return _openMatches;
   }
 
-  void addOpenMatch(AppMatch newMatch) {
+  void addOpenMatch(AppMatchUser newMatch) {
     _openMatches.add(newMatch);
     notifyListeners();
   }

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Home/ViewModel/HomeViewModel.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFCard.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFDivider.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-
+import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/ViewModel/DataProvider.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';
+import '../../ViewModel/HomeViewModel.dart';
 import 'CourtOccupationWidget.dart';
 import 'HomeKpi.dart';
 import 'HomeMatchesWidget.dart';

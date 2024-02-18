@@ -2,18 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Features/MyCourts/Repository/MyCourtsRepoImp.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/Remote/NetworkResponse.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AvailableSport.dart';
-import 'package:sandfriends_web/SharedComponents/Model/HourPrice.dart';
-import 'package:sandfriends_web/SharedComponents/Model/OperationDay.dart';
-import 'package:sandfriends_web/SharedComponents/Model/StoreWorkingHours.dart';
-import 'package:sandfriends_web/Utils/SFDateTime.dart';
-
-import '../../../SharedComponents/Model/Court.dart';
-import '../../../SharedComponents/Model/Hour.dart';
-import '../../../SharedComponents/Model/PriceRule.dart';
+import '../../../../Common/Model/Court.dart';
+import '../../../../Common/Model/Hour.dart';
+import '../../../../Common/Model/HourPrice/HourPriceStore.dart';
+import '../../../../Common/Model/OperationDay.dart';
+import '../../../../Common/Model/SandfriendsQuadras/AvailableSport.dart';
+import '../../../../Common/Model/SandfriendsQuadras/PriceRule.dart';
+import '../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
+import '../../../../Remote/NetworkResponse.dart';
+import '../../Menu/ViewModel/DataProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
 import '../Repository/MyCourtsRepo.dart';
 import '../View/Web/PriceListWidget.dart';
@@ -131,7 +128,7 @@ class MyCourtsViewModel extends ChangeNotifier {
   }
 
   void setPriceListWidget(MyCourtsViewModel viewModel, BuildContext context,
-      List<HourPrice> hourPriceList, int dayIndex) {
+      List<HourPriceStore> hourPriceList, int dayIndex) {
     Provider.of<MenuProvider>(context, listen: false)
         .setModalForm(PriceListWidget(
       viewModel: viewModel,
@@ -193,14 +190,14 @@ class MyCourtsViewModel extends ChangeNotifier {
     }
   }
 
-  void updateHourLimits(StoreWorkingDay storeWorkingDay, List<HourPrice> prices,
-      BuildContext context) {
+  void updateHourLimits(StoreWorkingDay storeWorkingDay,
+      List<HourPriceStore> prices, BuildContext context) {
     if (prices.isEmpty) {
       for (int i = storeWorkingDay.startingHour!.hour;
           i < storeWorkingDay.endingHour!.hour;
           i++) {
         prices.add(
-          HourPrice(
+          HourPriceStore(
             startingHour: Provider.of<DataProvider>(context, listen: false)
                 .availableHours
                 .firstWhere((hr) => hr.hour == i),
@@ -227,7 +224,7 @@ class MyCourtsViewModel extends ChangeNotifier {
             i < minHour.hour;
             i++) {
           prices.add(
-            HourPrice(
+            HourPriceStore(
               startingHour: Provider.of<DataProvider>(context, listen: false)
                   .availableHours
                   .firstWhere((hr) => hr.hour == i),
@@ -246,7 +243,7 @@ class MyCourtsViewModel extends ChangeNotifier {
       } else {
         for (int i = maxHour.hour; i < storeWorkingDay.endingHour!.hour; i++) {
           prices.add(
-            HourPrice(
+            HourPriceStore(
               startingHour: Provider.of<DataProvider>(context, listen: false)
                   .availableHours
                   .firstWhere((hr) => hr.hour == i),

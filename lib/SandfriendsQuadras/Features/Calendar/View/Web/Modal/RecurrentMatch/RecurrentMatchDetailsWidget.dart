@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppMatch.dart';
-import 'package:sandfriends_web/SharedComponents/Model/AppRecurrentMatch.dart';
-import 'package:sandfriends_web/Features/Calendar/ViewModel/CalendarViewModel.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFAvatar.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFDivider.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFTextfield.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
+import 'package:sandfriends/Common/Components/SFAvatarStore.dart';
+import 'package:sandfriends/Common/Utils/SFDateTime.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends_web/Utils/SFDateTime.dart';
-import '../../../../../../Common/Components/SFButton.dart';
+import '../../../../../../../Common/Components/SFAvatarUser.dart';
+import '../../../../../../../Common/Components/SFButton.dart';
+import '../../../../../../../Common/Components/SFDivider.dart';
+import '../../../../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
+import '../../../../../../../Common/Utils/Constants.dart';
 import '../../../../../Menu/ViewModel/MenuProvider.dart';
 import 'package:intl/intl.dart';
 
@@ -17,7 +15,7 @@ import '../Match/MatchDetailsWidgetRow.dart';
 class RecurrentMatchDetailsWidget extends StatelessWidget {
   VoidCallback onReturn;
   VoidCallback onCancel;
-  AppRecurrentMatch recurrentMatch;
+  AppRecurrentMatchStore recurrentMatch;
 
   RecurrentMatchDetailsWidget({
     required this.onReturn,
@@ -69,18 +67,16 @@ class RecurrentMatchDetailsWidget extends StatelessWidget {
                     title: "Criador",
                     customValue: Row(
                       children: [
-                        SFAvatar(
+                        SFAvatarStore(
                           height: 50,
-                          image: recurrentMatch.creatorPhoto,
+                          user: recurrentMatch.creator,
                           isPlayerAvatar: true,
-                          playerFirstName: recurrentMatch.creatorFirstName,
-                          playerLastName: recurrentMatch.creatorLastName,
                         ),
                         const SizedBox(
                           width: defaultPadding,
                         ),
                         Text(
-                          recurrentMatch.creatorName,
+                          recurrentMatch.creator.fullName,
                           style: TextStyle(fontSize: 14),
                         ),
                       ],
@@ -93,7 +89,7 @@ class RecurrentMatchDetailsWidget extends StatelessWidget {
                   MatchDetailsWidgetRow(
                       title: "Horário",
                       value:
-                          "${recurrentMatch.startingHour.hourString} - ${recurrentMatch.endingHour.hourString}"),
+                          "${recurrentMatch.timeBegin.hourString} - ${recurrentMatch.timeEnd.hourString}"),
                   MatchDetailsWidgetRow(
                       title: "Esporte",
                       value: recurrentMatch.sport!.description),
@@ -138,9 +134,7 @@ class RecurrentMatchDetailsWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: SFButton(
-                    buttonLabel: "Voltar",
-                    buttonType: ButtonType.Secondary,
-                    onTap: onReturn),
+                    buttonLabel: "Voltar", isPrimary: false, onTap: onReturn),
               ),
               SizedBox(
                 width: defaultPadding,
@@ -148,7 +142,7 @@ class RecurrentMatchDetailsWidget extends StatelessWidget {
               Expanded(
                 child: SFButton(
                   buttonLabel: "Cancelar mensalista",
-                  buttonType: ButtonType.Delete,
+                  color: red,
                   onTap: onCancel,
                 ),
               ),

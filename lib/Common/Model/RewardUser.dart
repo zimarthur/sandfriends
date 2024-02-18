@@ -1,7 +1,8 @@
 import 'package:intl/intl.dart';
+import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 
 import 'Reward.dart';
-import 'Store.dart';
+import 'Store/StoreComplete.dart';
 
 class RewardUser {
   final int idRewardUser;
@@ -9,7 +10,7 @@ class RewardUser {
   final String? selectedReward;
   final bool rewardClaimed;
   final DateTime? rewardClaimedDate;
-  final Store? store;
+  final StoreUser? store;
   final String rewardClaimCode;
 
   RewardUser({
@@ -35,7 +36,7 @@ class RewardUser {
           : DateFormat('yyyy-MM-dd').parse("${json['RewardClaimedDate']}"),
       store: json['Store'] == null
           ? null
-          : Store.fromJson(
+          : StoreUser.fromJson(
               json['Store'],
             ),
     );

@@ -1,13 +1,10 @@
-import 'package:sandfriends_web/SharedComponents/Model/Hour.dart';
-import 'package:sandfriends_web/SharedComponents/Model/HourPrice.dart';
-
-import '../../Sandfriends/Features/Court/Model/HourPrice.dart';
+import 'HourPrice/HourPriceStore.dart';
 import 'Hour.dart';
-import 'PriceRule.dart';
+import 'SandfriendsQuadras/PriceRule.dart';
 
 class OperationDay {
   int weekday;
-  List<HourPrice> prices = [];
+  List<HourPriceStore> prices = [];
   bool isExpanded = false;
 
   bool get allowReccurrent =>
@@ -113,7 +110,7 @@ class OperationDay {
     final opDay = OperationDay(weekday: refOpDay.weekday);
     for (var price in refOpDay.prices) {
       opDay.prices.add(
-        HourPrice.copyFrom(price),
+        HourPriceStore.copyFrom(price),
       );
     }
     return opDay;

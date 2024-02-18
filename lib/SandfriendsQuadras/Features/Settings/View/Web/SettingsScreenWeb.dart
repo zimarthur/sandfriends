@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Finances/ViewModel/FinancesViewModel.dart';
-import 'package:sandfriends_web/Features/Settings/BrandInfo/View/BrandInfo.dart';
-import 'package:sandfriends_web/Features/Settings/EmployeeInfo/View/EmployeeInfo.dart';
-import 'package:sandfriends_web/Features/Settings/EmployeeInfo/ViewModel/EmployeeInfoViewModel.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:provider/provider.dart';
-import '../../../../Common/Components/SFButton.dart';
-
-import '../../../../SharedComponents/View/SFHeader.dart';
-import '../../../../SharedComponents/View/SFTabs.dart';
-import '../../../Menu/ViewModel/MenuProvider.dart';
-import '../../ViewModel/SettingsViewModel.dart';
-import '../../BasicInfo/View/BasicInfo.dart';
+import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Components/SFHeader.dart';
+import '../../../../../Common/Components/SFTabs.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../ViewModel/SettingsViewModel.dart';
 
 class SettingsScreenWeb extends StatefulWidget {
@@ -61,7 +53,6 @@ class _SettingsScreenWebState extends State<SettingsScreenWeb> {
                     viewModel.infoChanged
                         ? SFButton(
                             buttonLabel: "Salvar",
-                            buttonType: ButtonType.Primary,
                             onTap: () => viewModel.updateUser(context),
                             textPadding: const EdgeInsets.symmetric(
                               vertical: defaultPadding,

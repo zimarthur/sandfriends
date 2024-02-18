@@ -25,7 +25,7 @@ class Rank {
     );
   }
 
-  factory Rank.CopyWith(Rank refRank) {
+  factory Rank.copyWith(Rank refRank) {
     return Rank(
       idRankCategory: refRank.idRankCategory,
       sport: refRank.sport,

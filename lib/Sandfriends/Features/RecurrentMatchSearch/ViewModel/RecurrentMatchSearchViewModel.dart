@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/RecurrentMatchSearch/Repository/RecurrentMatchDecoder.dart';
 import 'package:sandfriends/Sandfriends/Features/RecurrentMatchSearch/View/WeekdayModal.dart';
@@ -14,7 +15,7 @@ import '../../../../Common/Model/AvailableHour.dart';
 import '../../../../Common/Model/AvailableStore.dart';
 import '../../../../Common/Model/City.dart';
 import '../../../../Common/Model/Sport.dart';
-import '../../../../Common/Model/Store.dart';
+import '../../../../Common/Model/Store/StoreComplete.dart';
 import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
@@ -213,7 +214,7 @@ class RecurrentMatchSearchViewModel extends StandardScreenViewModel {
     notifyListeners();
   }
 
-  void goToCourt(BuildContext context, Store store) {
+  void goToCourt(BuildContext context, StoreUser store) {
     Navigator.pushNamed(
       context,
       '/court',

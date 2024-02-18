@@ -80,7 +80,7 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
                   if (typed.isNotEmpty) {
                     for (var region in widget.regions) {
                       for (var city in region.cities) {
-                        if (city.city
+                        if (city.name
                             .toLowerCase()
                             .startsWith(typed.toLowerCase())) {
                           Region? selectedRegion;
@@ -138,7 +138,7 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
                                       ),
                                     ),
                                     Text(
-                                      "${widget.userCity!.city} / ${widget.userCity!.state!.uf}",
+                                      "${widget.userCity!.name} / ${widget.userCity!.state!.uf}",
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: widget.themeColor,
@@ -162,14 +162,14 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
                                     child: Container(
                                       padding: EdgeInsets.symmetric(
                                           vertical: height * 0.01),
-                                      child: Text(city.city),
+                                      child: Text(city.name),
                                       width: double.infinity,
                                       alignment: Alignment.center,
                                     ),
                                     onTap: () => widget.onSelectedCity(
                                       City(
                                         cityId: city.cityId,
-                                        city: city.city,
+                                        name: city.name,
                                         state: region,
                                       ),
                                     ),
@@ -190,7 +190,7 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
                                 onTap: () => widget.onSelectedCity(
                                   City(
                                     cityId: city.cityId,
-                                    city: city.city,
+                                    name: city.name,
                                     state: region,
                                   ),
                                 ),
@@ -202,7 +202,7 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
                                         child: Align(
                                           alignment: Alignment.center,
                                           child: Text(
-                                            "${city.city} - ${region.uf}",
+                                            "${city.name} - ${region.uf}",
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w500,
                                             ),

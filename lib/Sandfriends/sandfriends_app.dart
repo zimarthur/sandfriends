@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/generic_app.dart';
 
@@ -8,7 +9,7 @@ import '../Common/Model/City.dart';
 import '../Common/Model/Court.dart';
 import '../Common/Model/Hour.dart';
 import '../Common/Model/Sport.dart';
-import '../Common/Model/Store.dart';
+import '../Common/Model/Store/StoreComplete.dart';
 import '../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'Providers/RedirectProvider/RedirectProvider.dart';
 import 'Providers/UserProvider/UserProvider.dart';
@@ -20,7 +21,7 @@ import 'Features/Authentication/Login/View/LoginScreen.dart';
 import 'Features/Authentication/LoginSignup/View/LoginSignupScreen.dart';
 import 'Features/Checkout/View/CheckoutScreen.dart';
 import 'Features/Court/Model/CourtAvailableHours.dart';
-import 'Features/Court/Model/HourPrice.dart';
+import '../Common/Model/HourPrice/HourPriceUser.dart';
 import 'Features/Court/View/CourtScreen.dart';
 import 'Features/Home/Model/HomeTabsEnum.dart';
 import 'Features/Home/View/HomeScreen.dart';
@@ -181,10 +182,11 @@ class SandfriendsApp extends GenericApp {
           return MaterialPageRoute(
             builder: (context) {
               return CourtScreen(
-                store: arguments['store'] as Store,
+                store: arguments['store'] as StoreUser,
                 courtAvailableHours:
                     arguments['availableCourts'] as List<CourtAvailableHours>?,
-                selectedHourPrice: arguments['selectedHourPrice'] as HourPrice?,
+                selectedHourPrice:
+                    arguments['selectedHourPrice'] as HourPriceUser?,
                 selectedDate: arguments['selectedDate'] as DateTime?,
                 selectedWeekday: arguments['selectedWeekday'] as int?,
                 selectedSport: arguments['selectedSport'] as Sport?,
@@ -203,7 +205,7 @@ class SandfriendsApp extends GenericApp {
               builder: (context) {
                 return CheckoutScreen(
                   court: arguments['court'] as Court,
-                  hourPrices: arguments['hourPrices'] as List<HourPrice>,
+                  hourPrices: arguments['hourPrices'] as List<HourPriceUser>,
                   date: arguments['date'] as DateTime?,
                   weekday: arguments['weekday'] as int?,
                   sport: arguments['sport'] as Sport,

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Menu/View/Mobile/SFStandardHeader.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/DataProvider.dart';
-import 'package:sandfriends_web/Features/Menu/ViewModel/MenuProvider.dart';
-import 'package:sandfriends_web/SharedComponents/View/SFAvatar.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../SharedComponents/ViewModel/EnvironmentProvider.dart';
+import '../../../../../Common/Components/SFAvatarStore.dart';
+import '../../../../../Common/Components/SFAvatarUser.dart';
+import '../../../../../Common/Providers/Environment/EnvironmentProvider.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../../Menu/View/Mobile/SFStandardHeader.dart';
+import '../../../Menu/ViewModel/DataProvider.dart';
 
 class HomeHeader extends StatefulWidget {
   HomeHeader({super.key});
@@ -36,7 +36,7 @@ class _HomeHeaderState extends State<HomeHeader> {
       paletteGenerator = await PaletteGenerator.fromImageProvider(
         Image.network(
           Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
-            Provider.of<DataProvider>(context, listen: false).store!.logo,
+            Provider.of<DataProvider>(context, listen: false).store!.logo!,
             isImage: true,
           ),
         ).image,
@@ -139,18 +139,15 @@ class _HomeHeaderState extends State<HomeHeader> {
                 margin: EdgeInsets.only(
                   left: 2 * defaultPadding,
                 ),
-                child: SFAvatar(
-                    height: imageSize,
-                    image: Provider.of<DataProvider>(context, listen: false)
-                                .store ==
-                            null
-                        ? null
-                        : Provider.of<DataProvider>(context, listen: false)
-                            .store!
-                            .logo,
-                    storeName: Provider.of<DataProvider>(context, listen: false)
-                        .store!
-                        .name),
+                child: SFAvatarStore(
+                  height: imageSize,
+                  storePhoto: Provider.of<DataProvider>(context, listen: false)
+                      .store
+                      ?.logo,
+                  storeName: Provider.of<DataProvider>(context, listen: false)
+                      .store!
+                      .name,
+                ),
               ),
             ],
           ),

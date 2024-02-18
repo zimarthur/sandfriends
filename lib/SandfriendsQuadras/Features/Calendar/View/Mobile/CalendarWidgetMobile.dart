@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends_web/Features/Calendar/Model/DayMatch.dart';
-import 'package:sandfriends_web/Features/Calendar/View/Mobile/CalendarEvent.dart';
-import 'package:sandfriends_web/SharedComponents/Model/Court.dart';
-import 'package:sandfriends_web/Utils/Constants.dart';
-
-import '../../../../SharedComponents/Model/Hour.dart';
-import '../../Model/CalendarDailyCourtMatch.dart';
+import '../../../../../Common/Model/Court.dart';
+import '../../../../../Common/Model/Hour.dart';
+import '../../../../../Common/Utils/Constants.dart';
+import '../../Model/DayMatch.dart';
 import '../../ViewModel/CalendarViewModel.dart';
-import '../Web/Calendar/Day/SFCalendarDay.dart';
+import 'CalendarEvent.dart';
 import 'HourInformationWidget.dart';
 
 double hourColumnWidth = 50;
