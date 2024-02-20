@@ -75,7 +75,7 @@ class _CvvModalState extends State<AddCupomModal> {
             Row(
               children: [
                 SvgPicture.asset(
-                  r"assets/icon/discount.svg",
+                  r"assets/icon/discount_filled.svg",
                   color: primaryBlue,
                 ),
                 SizedBox(

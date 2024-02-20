@@ -182,7 +182,7 @@ class DataProvider extends ChangeNotifier {
     }
 
     for (var rank in responseBody['Ranks']) {
-      availableRanks.add(Rank.fromJson(rank));
+      availableRanks.add(Rank.fromJson(rank, availableSports: availableSports));
     }
 
     for (var notification in responseBody['Notifications']) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
@@ -41,7 +42,7 @@ import 'Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
 import 'Features/UserMatches/View/UserMatchesScreen.dart';
 
 class SandfriendsApp extends GenericApp {
-  const SandfriendsApp({
+  SandfriendsApp({
     super.key,
     required super.flavor,
   });

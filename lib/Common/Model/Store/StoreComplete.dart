@@ -63,13 +63,12 @@ class StoreComplete extends Store {
       ),
       ownerPhoneNumber: json["PhoneNumber2"],
     );
-    for (int i = 0; i < json['StorePhotos'].length; i++) {
-      newStore.photos.add(json['StorePhotos'][i]['Photo']);
-    }
-    for (var court in json['Courts']) {
-      newStore.courts.add(Court.fromJson(
-        court,
-      ));
+    for (var photo in json["StorePhotos"]) {
+      newStore.photos.add(
+        StorePhoto.fromJson(
+          photo,
+        ),
+      );
     }
 
     return newStore;

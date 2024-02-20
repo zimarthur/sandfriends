@@ -46,10 +46,12 @@ class StoreUser extends Store {
     for (int i = 0; i < json['StorePhotos'].length; i++) {
       newStore.photos.add(json['StorePhotos'][i]['Photo']);
     }
-    for (var court in json['Courts']) {
-      newStore.courts.add(Court.fromJson(
-        court,
-      ));
+    if (json['Courts'] != null) {
+      for (var court in json['Courts']) {
+        newStore.courts.add(Court.fromJson(
+          court,
+        ));
+      }
     }
 
     return newStore;

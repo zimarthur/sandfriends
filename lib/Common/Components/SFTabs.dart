@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../Common/Utils/Constants.dart';
-import '../../Common/Model/TabItem.dart';
+import '../Model/TabItem.dart';
+import '../Utils/Constants.dart';
 
 class SFTabs extends StatefulWidget {
   List<SFTabItem> tabs;
@@ -18,38 +18,42 @@ class SFTabs extends StatefulWidget {
 }
 
 class _SFTabsState extends State<SFTabs> {
+  double tabWidth = 150;
+
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double tabWidth = width / widget.tabs.length;
-    return SizedBox(
-      width: width,
-      height: 50,
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+      width: double.infinity,
       child: Column(
         children: [
-          Expanded(
-            child: Row(
-              children: [
-                for (int i = 0; i < widget.tabs.length; i++)
-                  Expanded(
-                    child: InkWell(
-                      onTap: () => widget.tabs[i].onTap(widget.tabs[i]),
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          widget.tabs[i].name,
-                          style: TextStyle(
-                              color: i ==
-                                      widget.tabs
-                                          .indexOf(widget.selectedPosition)
-                                  ? textBlue
-                                  : textDarkGrey,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
+          SizedBox(
+            height: 30,
+            child: ListView.builder(
+              itemCount: widget.tabs.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: (() {
+                    setState(() {
+                      widget.tabs[index].onTap(widget.tabs[index]);
+                    });
+                  }),
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: tabWidth,
+                    child: Text(
+                      widget.tabs[index].name,
+                      style: TextStyle(
+                          color: index ==
+                                  widget.tabs.indexOf(widget.selectedPosition)
+                              ? textBlue
+                              : textDarkGrey,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
-              ],
+                );
+              },
             ),
           ),
           Stack(

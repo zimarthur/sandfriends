@@ -59,16 +59,9 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                             UserDetailsModals.Photo, context),
                         child: SizedBox(
                           height: remainingHeight * 0.5,
-                          width: remainingHeight * 0.5,
+                          width: remainingHeight * 0.5 + (25 * 2),
                           child: Stack(
                             children: [
-                              Positioned(
-                                right: 0,
-                                bottom: 0,
-                                child: SvgPicture.asset(
-                                  r'assets/icon/edit.svg',
-                                ),
-                              ),
                               Center(
                                 child: SFAvatarUser(
                                   showRank: true,
@@ -78,6 +71,15 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                                   editFile: widget.viewModel.noImage
                                       ? null
                                       : widget.viewModel.imagePicker,
+                                ),
+                              ),
+                              Positioned(
+                                right: 0,
+                                bottom: 0,
+                                child: SvgPicture.asset(
+                                  r'assets/icon/edit.svg',
+                                  color: primaryBlue,
+                                  width: 25,
                                 ),
                               ),
                             ],

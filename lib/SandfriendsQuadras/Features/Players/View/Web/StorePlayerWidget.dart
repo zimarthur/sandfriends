@@ -103,7 +103,7 @@ class _StorePlayerWidgetState extends State<StorePlayerWidget> {
               Row(
                 children: [
                   SvgPicture.asset(
-                    r"assets/icon/user_plus.svg",
+                    "assets/icon/user_${isEditingPlayer ? 'edit' : 'plus'}.svg",
                     height: 30,
                     color: primaryBlue,
                   ),

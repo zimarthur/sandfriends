@@ -16,7 +16,7 @@ class SFLoading extends StatelessWidget {
     return LoadingAnimationWidget.flickr(
       leftDotColor: primaryBlue,
       rightDotColor: secondaryYellow,
-      size: size ?? width * 0.1,
+      size: size ?? 80,
     );
   }
 }

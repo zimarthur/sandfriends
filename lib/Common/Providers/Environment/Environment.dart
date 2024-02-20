@@ -11,4 +11,8 @@ class Environment {
     required this.flavor,
     required this.device,
   });
+
+  bool get isIos => device == Device.Ios;
+  bool get isAndroid => device == Device.Android;
+  bool get isWeb => device == Device.Web;
 }

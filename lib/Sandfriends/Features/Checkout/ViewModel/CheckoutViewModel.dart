@@ -100,6 +100,8 @@ class CheckoutViewModel extends StandardScreenViewModel {
     bool receivedIsRecurrent,
     bool receivedIsRenovating,
   ) {
+    pageStatus = PageStatus.LOADING;
+    notifyListeners();
     if (Provider.of<UserProvider>(context, listen: false).user!.cpf != null) {
       cpfController.text =
           Provider.of<UserProvider>(context, listen: false).user!.cpf!;

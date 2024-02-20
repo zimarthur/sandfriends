@@ -9,7 +9,9 @@ import 'package:sandfriends/Common/Managers/Firebase/FirebaseManager.dart';
 import 'package:sandfriends/Common/Managers/LocalNotifications/LocalNotificationsManager.dart';
 import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
+import 'package:sandfriends/SandfriendsQuadras/Features/Menu/ViewModel/DataProvider.dart';
 import '../Sandfriends/Providers/RedirectProvider/RedirectProvider.dart';
+import '../SandfriendsQuadras/Features/Menu/ViewModel/MenuProvider.dart';
 import 'Utils/Constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -20,7 +22,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 abstract class GenericApp extends StatefulWidget {
   final Flavor flavor;
-  const GenericApp({
+  GenericApp({
     Key? key,
     required this.flavor,
   }) : super(key: key);
@@ -31,6 +33,7 @@ abstract class GenericApp extends StatefulWidget {
   Route<dynamic>? Function(RouteSettings)? get onGenerateRoute;
   Map<String, Widget Function(BuildContext)> get routes;
   String get appTitle;
+  String? initialRoute;
 
   @override
   State<GenericApp> createState() => _AppState();
@@ -121,23 +124,35 @@ class _AppState extends State<GenericApp> {
     ]);
 
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => environmentProvider,
-        ),
-        ChangeNotifierProvider(
-          create: (_) => CategoriesProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => UserProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => RedirectProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => CategoriesProvider(),
-        ),
-      ],
+      providers: widget.product == Product.Sandfriends
+          ? [
+              ChangeNotifierProvider(
+                create: (_) => environmentProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (_) => CategoriesProvider(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => UserProvider(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => RedirectProvider(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => CategoriesProvider(),
+              ),
+            ]
+          : [
+              ChangeNotifierProvider(
+                create: (_) => environmentProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (_) => MenuProvider(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => DataProvider(),
+              ),
+            ],
       child: MaterialApp(
         title: widget.appTitle,
         debugShowCheckedModeBanner: false,
@@ -169,6 +184,7 @@ class _AppState extends State<GenericApp> {
         navigatorKey: navigatorKey,
         onGenerateRoute: widget.onGenerateRoute,
         routes: widget.routes,
+        initialRoute: widget.initialRoute,
       ),
     );
   }

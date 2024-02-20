@@ -76,8 +76,10 @@ class _LoginWidgetMobileState extends State<LoginWidgetMobile> {
                         SFTextField(
                           labelText: "E-mail",
                           pourpose: TextFieldPourpose.Email,
-                          prefixIcon:
-                              SvgPicture.asset(r"assets/icon/email.svg"),
+                          prefixIcon: SvgPicture.asset(
+                            r"assets/icon/email.svg",
+                            color: primaryBlue,
+                          ),
                           controller: widget.viewModel.userController,
                           validator: (value) =>
                               emptyCheck(value, "Digite seu e-mail"),
@@ -90,11 +92,18 @@ class _LoginWidgetMobileState extends State<LoginWidgetMobile> {
                         SFTextField(
                           controller: widget.viewModel.passwordController,
                           labelText: "Senha",
-                          prefixIcon: SvgPicture.asset(r"assets/icon/lock.svg"),
-                          suffixIcon:
-                              SvgPicture.asset(r"assets/icon/eye_closed.svg"),
-                          suffixIconPressed:
-                              SvgPicture.asset(r"assets/icon/eye_open.svg"),
+                          prefixIcon: SvgPicture.asset(
+                            r"assets/icon/lock.svg",
+                            color: primaryBlue,
+                          ),
+                          suffixIcon: SvgPicture.asset(
+                            r"assets/icon/eye_closed.svg",
+                            color: primaryBlue,
+                          ),
+                          suffixIconPressed: SvgPicture.asset(
+                            r"assets/icon/eye_open.svg",
+                            color: primaryBlue,
+                          ),
                           pourpose: TextFieldPourpose.Password,
                           validator: (value) =>
                               emptyCheck(value, "Digite sua senha"),

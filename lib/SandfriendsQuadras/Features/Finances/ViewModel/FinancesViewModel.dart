@@ -44,16 +44,17 @@ class FinancesViewModel extends ChangeNotifier {
   }
 
   void setCustomPeriod(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false)
-        .setModalForm(DatePickerModal(
-      onDateSelected: (dateStart, dateEnd) {
-        customStartDate = dateStart;
-        customEndDate = dateEnd;
-        searchCustomMatches(context);
-      },
-      onReturn: () =>
-          Provider.of<MenuProvider>(context, listen: false).closeModal(),
-    ));
+    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+      DatePickerModal(
+        onDateSelected: (dateStart, dateEnd) {
+          customStartDate = dateStart;
+          customEndDate = dateEnd;
+          searchCustomMatches(context);
+        },
+        onReturn: () =>
+            Provider.of<MenuProvider>(context, listen: false).closeModal(),
+      ),
+    );
   }
 
   void searchCustomMatches(BuildContext context) {

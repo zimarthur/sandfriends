@@ -59,7 +59,6 @@ class _DatePickerState extends State<DatePicker> {
         } else if (values.first != null) {
           widget.onDateSelected!(values.first!);
         }
-        setState(() {});
       },
     );
   }

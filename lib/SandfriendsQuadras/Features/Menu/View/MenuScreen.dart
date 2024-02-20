@@ -36,6 +36,7 @@ class _MenuScreenState extends State<MenuScreen> {
             },
             child: StandardScreen(
               viewModel: viewModel,
+              enableToolbar: false,
               drawer: Responsive.isMobile(context)
                   ? SFDrawerMobile(
                       viewModel: viewModel,

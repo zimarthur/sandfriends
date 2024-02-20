@@ -20,7 +20,7 @@ class SFButton extends StatefulWidget {
     required this.onTap,
     this.iconPath = "",
     this.iconSize = 14,
-    this.textPadding,
+    this.textPadding = const EdgeInsets.symmetric(vertical: defaultPadding / 2),
     this.iconFirst = false,
   }) : super(key: key);
 

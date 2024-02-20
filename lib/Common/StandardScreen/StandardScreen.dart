@@ -51,13 +51,17 @@ class _StandardScreenState extends State<StandardScreen> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return WillPopScope(
-      onWillPop: Platform.isIOS
+      onWillPop: Provider.of<EnvironmentProvider>(context, listen: false)
+              .environment
+              .isIos
           ? null
           : () async {
               widget.viewModel.onTapReturn(context);
               return false;
             },
       child: Scaffold(
+        endDrawer: widget.drawer,
+        key: widget.scaffoldKey,
         resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
         backgroundColor: widget.appBarType == AppBarType.Primary
             ? primaryBlue
@@ -77,12 +81,26 @@ class _StandardScreenState extends State<StandardScreen> {
                   if ((horizontalDragStart < width * 0.15) &&
                       ((details.globalPosition.dx - horizontalDragStart) >
                           width * 0.1) &&
-                      Platform.isIOS) {
+                      Provider.of<EnvironmentProvider>(context, listen: false)
+                          .environment
+                          .isIos) {
                     widget.viewModel.onTapReturn(context);
                     horizontalDragStart = 0.0;
                   }
                 },
-                child: SizedBox(
+                child: Container(
+                  decoration:
+                      Provider.of<EnvironmentProvider>(context, listen: false)
+                              .environment
+                              .isWeb
+                          ? const BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [primaryBlue, primaryLightBlue],
+                              ),
+                            )
+                          : null,
                   width: width,
                   height: height,
                   child: Responsive.isMobile(context)
@@ -100,7 +118,9 @@ class _StandardScreenState extends State<StandardScreen> {
                             Expanded(child: widget.child)
                           ],
                         )
-                      : widget.childWeb,
+                      : Center(
+                          child: widget.childWeb,
+                        ),
                 ),
               ),
               widget.viewModel.pageStatus != PageStatus.OK

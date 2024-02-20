@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../ViewModel/LoginSignupViewModel.dart';
 
@@ -84,7 +86,9 @@ class _LoginSignupWidgetState extends State<LoginSignupWidget> {
                     ),
                   ),
                   Padding(padding: EdgeInsets.only(bottom: height * 0.04)),
-                  Platform.isIOS
+                  Provider.of<EnvironmentProvider>(context, listen: false)
+                          .environment
+                          .isIos
                       ? Column(
                           children: [
                             Padding(

@@ -142,7 +142,7 @@ class InformationSection extends StatelessWidget {
                       Expanded(
                         child: Row(
                           children: [
-                            SvgPicture.asset(r"assets/icon/discount.svg"),
+                            SvgPicture.asset(r"assets/icon/discount_outline.svg"),
                             SizedBox(
                               width: defaultPadding / 4,
                             ),

@@ -96,6 +96,7 @@ class _DatePickerModalState extends State<DatePickerModal> {
           DatePicker(
             allowPastDates: widget.allowPastDates,
             multiDate: true,
+            initialDates: [startDate, endDate],
             onMultiDateSelected: (dates) {
               setState(() {
                 startDate = dates.first!;

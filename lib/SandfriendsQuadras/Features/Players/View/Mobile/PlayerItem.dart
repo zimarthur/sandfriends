@@ -36,7 +36,7 @@ class PlayerItem extends StatelessWidget {
                       bottom: 0,
                       right: 0,
                       child: SvgPicture.asset(
-                        "assets/icon/sport_${player.preferenceSport!.idSport}.svg",
+                        "assets/icon/sport_icon_${player.preferenceSport!.idSport}.svg",
                         height: 20,
                       ),
                     ),

@@ -15,10 +15,14 @@ class Rank {
     required this.color,
   });
 
-  factory Rank.fromJson(Map<String, dynamic> json) {
+  factory Rank.fromJson(Map<String, dynamic> json,
+      {List<Sport>? availableSports}) {
     return Rank(
       idRankCategory: json['IdRankCategory'],
-      sport: Sport.fromJson(json['Sport']),
+      sport: availableSports != null
+          ? availableSports
+              .firstWhere((sport) => sport.idSport == json["IdSport"])
+          : Sport.fromJson(json['Sport']),
       rankSportLevel: json['RankSportLevel'],
       name: json['RankName'],
       color: json['RankColor'],

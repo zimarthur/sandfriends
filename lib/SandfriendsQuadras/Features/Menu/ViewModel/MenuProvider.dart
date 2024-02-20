@@ -233,7 +233,7 @@ class MenuProvider extends StandardScreenViewModel {
     ),
     DrawerItem(
       title: "Financeiro",
-      icon: r"assets/icon/finance.svg",
+      icon: r"assets/icon/payment.svg",
       requiresAdmin: true,
       widgetWeb: FinancesScreenWeb(),
       widgetMobile: FinancesScreenMobile(),
@@ -261,7 +261,7 @@ class MenuProvider extends StandardScreenViewModel {
     ),
     DrawerItem(
       title: "Cupons de desconto",
-      icon: r"assets/icon/discount.svg",
+      icon: r"assets/icon/discount_filled.svg",
       requiresAdmin: true,
       widgetWeb: CouponsScreenWeb(),
       widgetMobile: CouponsScreenMobile(),

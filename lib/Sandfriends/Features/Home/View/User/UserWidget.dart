@@ -50,7 +50,7 @@ class _UserWidgetState extends State<UserWidget> {
                           child: Align(
                             alignment: Alignment.topRight,
                             child: SvgPicture.asset(
-                              r'assets/icon/info.svg',
+                              r'assets/icon/info_circle.svg',
                               height: 30,
                               width: 30,
                               color: secondaryBack,

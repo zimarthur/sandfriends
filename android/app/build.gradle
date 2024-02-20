@@ -51,7 +51,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.sandfriends.app"
+        applicationId "com.sandfriends"
         minSdkVersion 21 //flutter.minSdkVersion
         targetSdkVersion 33 //flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
@@ -99,21 +99,42 @@ android {
         prod {
             dimension "default"
             resValue "string", "app_name", "Sandfriends"
-            applicationIdSuffix ".prod"
+            applicationIdSuffix "app.prod"
             manifestPlaceholders.envUrl = ""
             signingConfig signingConfigs.releaseProd
         }
         dev {
             dimension "default"
             resValue "string", "app_name", "Sandfriends dev"
-            applicationIdSuffix ".dev"
+            applicationIdSuffix "app.dev"
             manifestPlaceholders.envUrl = "dev"
             signingConfig signingConfigs.releaseDev
         }
         demo {
             dimension "default"
             resValue "string", "app_name", "Sandfriends demo"
-            applicationIdSuffix ".demo"
+            applicationIdSuffix "app.demo"
+            manifestPlaceholders.envUrl = "demo"
+            signingConfig signingConfigs.releaseDemo
+        }
+        quadrasProd {
+            dimension "default"
+            resValue "string", "app_name", "Sandfriends Quadras"
+            applicationIdSuffix "quadras.prod"
+            manifestPlaceholders.envUrl = ""
+            signingConfig signingConfigs.releaseProd
+        }
+        quadrasDev {
+            dimension "default"
+            resValue "string", "app_name", "Sandfriends Quadras dev"
+            applicationIdSuffix "quadras.dev"
+            manifestPlaceholders.envUrl = "dev"
+            signingConfig signingConfigs.releaseDev
+        }
+        quadrasDemo {
+            dimension "default"
+            resValue "string", "app_name", "Sandfriends Quadras demo"
+            applicationIdSuffix "quadras.demo"
             manifestPlaceholders.envUrl = "demo"
             signingConfig signingConfigs.releaseDemo
         }

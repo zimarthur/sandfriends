@@ -33,14 +33,7 @@ class SandfriendsQuadrasApp extends GenericApp {
   Function(Map<String, dynamic> data) get handleNotification => (data) {};
 
   @override
-  List<ChangeNotifierProvider> get providers => [
-        ChangeNotifierProvider(
-          create: (_) => MenuProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => DataProvider(),
-        ),
-      ];
+  String? get initialRoute => '/login';
 
   @override
   Route? Function(RouteSettings p1)? get onGenerateRoute => (settings) {

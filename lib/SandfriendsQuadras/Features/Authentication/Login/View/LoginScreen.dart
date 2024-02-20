@@ -30,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
           builder: (context, viewModel, _) {
             return StandardScreen(
               viewModel: viewModel,
+              enableToolbar: false,
               childWeb: LoginWidgetWeb(
                 viewModel: viewModel,
               ),

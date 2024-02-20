@@ -19,9 +19,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
   @override
   void initState() {
-    if (!Platform.isIOS) {
-      viewModel.initGoogle();
-    }
+    viewModel.initGoogle();
 
     super.initState();
   }

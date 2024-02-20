@@ -65,11 +65,6 @@ dependencies:
   scrollable_positioned_list: ^0.3.5
   palette_generator: ^0.3.3+3
 
-  
-flutter_icons:
-  android: true
-  ios: true
-  image_path: "assets/icon/app_icon.png"
 
 dev_dependencies:
   flutter_test:
@@ -106,100 +101,12 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - assets/icon/navigation/user_screen.svg
-    - assets/icon/navigation/user_screen_selected.svg
-    - assets/icon/navigation/feed_screen.svg
-    - assets/icon/navigation/feed_screen_selected.svg
-    - assets/icon/navigation/schedule_screen.svg
-    - assets/icon/navigation/schedule_screen_selected.svg
-
-    - assets/icon/sand_bar.svg
-    - assets/icon/divider.svg
-    - assets/icon/google_logo.svg
-    - assets/icon/apple_logo.svg
-    - assets/icon/logo.png
-    - assets/icon/logo_brand.png
-    - assets/image_login.png
-
-    - assets/icon/app_icon.png
-
-    - assets/icon/user.svg
-    - assets/icon/trophy.svg
-    - assets/icon/payment.svg
-    - assets/icon/chat.svg
-    - assets/icon/logout.svg
-    - assets/icon/arrow_right.png
-    - assets/icon/arrow_left.svg
-    - assets/icon/arrow_down.svg
-    - assets/icon/arrow_up.svg
-    - assets/icon/info.svg
-    - assets/icon/email.svg
-    - assets/icon/lock.svg
-    - assets/icon/security.svg
-    - assets/icon/eye_closed.svg
-    - assets/icon/eye_open.svg
-    - assets/icon/happy_face.svg
-    - assets/icon/happy_face_secondary.svg
-    - assets/icon/sad_face.svg
-    - assets/icon/sad_face_secondary.svg
-    - assets/icon/at_email.svg
-    - assets/icon/location_ping.svg
-    - assets/icon/star.svg
-    - assets/icon/search.svg
-    - assets/icon/calendar.svg
-    - assets/icon/clock.svg
-    - assets/icon/court.svg
-    - assets/icon/left.svg
-    - assets/icon/right.svg
-    - assets/icon/whatsapp.svg
-    - assets/icon/instagram.svg
-    - assets/icon/sandfriends.svg
-    - assets/icon/sandfriends_negative.svg
-    - assets/icon/confirm.svg
-    - assets/icon/cancel.svg
-    - assets/icon/share.svg
-    - assets/icon/users.svg
-    - assets/icon/user_plus.svg
-    - assets/icon/edit.svg
-    - assets/icon/delete.svg
-    - assets/icon/favorite_selected.svg
-    - assets/icon/favorite_unselected.svg
-    - assets/icon/notification_on.svg
-    - assets/icon/notification_off.svg
-    - assets/icon/sandfriends_logo.svg
-    - assets/icon/sandfriends_logo_disabled.svg
-    - assets/icon/medal.svg
-    - assets/icon/recurrent_calendar.svg
-    - assets/icon/three_dots.svg
-    - assets/icon/copy_to_clipboard.svg
-    - assets/icon/help.svg
-    - assets/icon/configure.svg
-    - assets/icon/discount.svg
-    - assets/icon/filter_off.svg
-    - assets/icon/filter_on.svg
-    - assets/icon/sport_icon_1.svg
-    - assets/icon/sport_icon_2.svg
-    - assets/icon/sport_icon_3.svg
-    - assets/icon/order_by_distance.svg
-    - assets/icon/order_by_price.svg
-    - assets/icon/distance_between.svg
-    - assets/icon/search_by_store.svg
-    - assets/icon/search_by_default.svg
-    - assets/icon/chevron_right.svg
-    - assets/icon/chevron_left.svg
-    - assets/icon/chevron_down.svg
-
-    - assets/icon/no_credit_card.svg
-    - assets/icon/credit_card.svg
-    - assets/icon/dollar_bill.svg
-    - assets/icon/pix.svg
-    - assets/credit_card/amex.svg
-    - assets/credit_card/diners.svg
-    - assets/credit_card/elo.svg
-    - assets/credit_card/hipercard.svg
-    - assets/credit_card/visa.svg
-    - assets/credit_card/mastercard.svg
-    - assets/credit_card/default_credit_card.svg
+    - assets/
+    - assets/app_icon/
+    - assets/people/
+    - assets/icon/
+    - assets/credit_card/
+    - assets/icon/navigation/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -393,7 +393,7 @@ class MatchViewModel extends StandardScreenViewModel {
             },
           );
         },
-        buttonIconPath: r"assets/icon/configure.svg",
+        buttonIconPath: r"assets/icon/config.svg",
         buttonText: "Configurar",
         isHappy: false,
       );

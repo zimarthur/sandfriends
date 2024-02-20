@@ -20,11 +20,19 @@ class Court {
   });
 
   factory Court.fromJson(Map<String, dynamic> json) {
-    return Court(
-      idStoreCourt: json['IdStoreCourt'],
-      description: json['Description'],
-      isIndoor: json['IsIndoor'],
+    final newCourt = Court(
+      idStoreCourt: json["IdStoreCourt"],
+      description: json["Description"],
+      isIndoor: json["IsIndoor"],
     );
+    for (int weekday = 0; weekday < 7; weekday++) {
+      newCourt.operationDays.add(
+        OperationDay(
+          weekday: weekday,
+        ),
+      );
+    }
+    return newCourt;
   }
 
   factory Court.fromJsonMatch(Map<String, dynamic> json) {

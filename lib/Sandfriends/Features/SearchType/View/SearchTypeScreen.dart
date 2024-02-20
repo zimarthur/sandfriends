@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sandfriends/Common/StandardScreen/StandardScreen.dart';
 import 'package:sandfriends/Sandfriends/Features/SearchType/View/SearchTypeWidget.dart';
 
 class SearchTypeScreen extends StatelessWidget {
@@ -12,9 +13,11 @@ class SearchTypeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SearchTypeWidget(
-      showReturnArrow: showReturnArrow,
-      isRecurrent: isRecurrent,
+    return Scaffold(
+      body: SearchTypeWidget(
+        showReturnArrow: showReturnArrow,
+        isRecurrent: isRecurrent,
+      ),
     );
   }
 }

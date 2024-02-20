@@ -35,7 +35,7 @@ class FinanceItem extends StatelessWidget {
                         bottom: 0,
                         right: 0,
                         child: SvgPicture.asset(
-                          "assets/icon/sport_${match.sport!.idSport}.svg",
+                          "assets/icon/sport_icon_${match.sport!.idSport}.svg",
                           height: 20,
                         )),
                   ],
