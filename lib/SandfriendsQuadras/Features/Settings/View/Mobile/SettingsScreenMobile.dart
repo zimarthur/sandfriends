@@ -25,58 +25,60 @@ class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
     return ChangeNotifierProvider<SettingsViewModel>(
       create: (BuildContext context) => viewModel,
       child: Consumer<SettingsViewModel>(builder: (context, viewModel, _) {
-        return Container(
-          color: secondaryBack,
-          padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Ativar notificações",
-                    style: TextStyle(
-                      color: textBlue,
-                    ),
-                  ),
-                  Switch(
-                    value: Provider.of<DataProvider>(context)
-                        .loggedEmployee
-                        .allowNotifications,
-                    onChanged: (value) =>
-                        viewModel.updateAllowNotifications(context, value),
-                  )
-                ],
-              ),
-              Column(
-                children: [
-                  SFButton(
-                    buttonLabel: "Sair",
-                    color: red,
-                    onTap: () =>
-                        Provider.of<MenuProvider>(context, listen: false)
-                            .logout(context),
-                  ),
-                  SizedBox(
-                    height: defaultPadding,
-                  ),
-                  InkWell(
-                    onTap: () => viewModel.deleteAccount(context),
-                    child: Text(
-                      "Deletar conta",
+        return SafeArea(
+          child: Container(
+            color: secondaryBack,
+            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Ativar notificações",
                       style: TextStyle(
-                        color: red,
-                        decoration: TextDecoration.underline,
+                        color: textBlue,
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 2 * defaultPadding,
-                  ),
-                ],
-              )
-            ],
+                    Switch(
+                      value: Provider.of<DataProvider>(context)
+                          .loggedEmployee
+                          .allowNotifications,
+                      onChanged: (value) =>
+                          viewModel.updateAllowNotifications(context, value),
+                    )
+                  ],
+                ),
+                Column(
+                  children: [
+                    SFButton(
+                      buttonLabel: "Sair",
+                      color: red,
+                      onTap: () =>
+                          Provider.of<MenuProvider>(context, listen: false)
+                              .logout(context),
+                    ),
+                    SizedBox(
+                      height: defaultPadding,
+                    ),
+                    InkWell(
+                      onTap: () => viewModel.deleteAccount(context),
+                      child: Text(
+                        "Deletar conta",
+                        style: TextStyle(
+                          color: red,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 2 * defaultPadding,
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         );
       }),

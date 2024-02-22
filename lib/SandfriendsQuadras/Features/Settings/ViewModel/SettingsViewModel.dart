@@ -310,7 +310,7 @@ class SettingsViewModel extends ChangeNotifier {
     if (allow) {
       token = await FirebaseMessaging.instance.getToken() ?? "";
       FirebaseMessaging messaging = FirebaseMessaging.instance;
-
+      print("Token is: $token");
       NotificationSettings settings = await messaging.requestPermission(
         alert: true,
         announcement: false,

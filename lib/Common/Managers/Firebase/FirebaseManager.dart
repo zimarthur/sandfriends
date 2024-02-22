@@ -17,11 +17,11 @@ class FirebaseManager {
   Future<void> initialize({
     required Function(Map<String, dynamic>) messagingCallback,
   }) async {
-    // await Firebase.initializeApp(
-    //     options: firebaseOptions[environment.product]![environment.flavor]![
-    //         environment.device]);
-    // setupCrashlytics();
-    // setupFirebaseMessaging(messagingCallback);
+    await Firebase.initializeApp(
+        options: firebaseOptions[environment.product]![environment.flavor]![
+            environment.device]);
+    setupCrashlytics();
+    setupFirebaseMessaging(messagingCallback);
   }
 
   void setupCrashlytics() {
