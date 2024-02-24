@@ -17,9 +17,16 @@ class FirebaseManager {
   Future<void> initialize({
     required Function(Map<String, dynamic>) messagingCallback,
   }) async {
-    await Firebase.initializeApp(
-        options: firebaseOptions[environment.product]![environment.flavor]![
-            environment.device]);
+    FirebaseOptions firebaseOption = firebaseOptions[environment.product]![
+        environment.flavor]![environment.device]!;
+    FirebaseApp app = await Firebase.initializeApp();
+    print("firebase configured");
+    print("androidClientId ${app.options.androidClientId}");
+    print("apiKey ${app.options.apiKey}");
+    print("appId ${app.options.appId}");
+    print("iosBundleId ${app.options.iosBundleId}");
+    print("iosClientId ${app.options.iosClientId}");
+    print("messagingSenderId ${app.options.messagingSenderId}");
     setupCrashlytics();
     setupFirebaseMessaging(messagingCallback);
   }

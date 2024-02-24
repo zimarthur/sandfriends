@@ -41,7 +41,7 @@
             "name": "Quadras Dev",
             "request": "launch",
             "type": "dart",
-            "program": "lib/SandfriendsQuadras/main_demo.dart",
+            "program": "lib/SandfriendsQuadras/main_dev.dart",
             "args": [
                 "--flavor",
                 "quadrasDev",

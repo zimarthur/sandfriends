@@ -71,9 +71,12 @@ class _HomeHeaderState extends State<HomeHeader> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "Olá, ${Provider.of<DataProvider>(context, listen: false).loggedEmployee.firstName}!",
-                        style: TextStyle(color: textWhite, fontSize: 16),
+                      InkWell(
+                        onTap: () => throw Exception("teste hoje"),
+                        child: Text(
+                          "Olá, ${Provider.of<DataProvider>(context, listen: false).loggedEmployee.firstName}!",
+                          style: TextStyle(color: textWhite, fontSize: 16),
+                        ),
                       ),
                       SizedBox(
                         height: defaultPadding / 6,

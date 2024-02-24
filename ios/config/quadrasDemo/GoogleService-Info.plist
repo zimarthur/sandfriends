@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>496096595246-67eqmoohovmo6krsibquothv2epo9jmd.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.496096595246-67eqmoohovmo6krsibquothv2epo9jmd</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>496096595246-kg0drt0sqti3bolq927nbgq0g9c0m66o.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyByK42SdTckZPN4C6Pl0aqljbGWCAuy5wU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>496096595246</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.sandfriends.quadras.demo</string>
+	<key>PROJECT_ID</key>
+	<string>sandfriends-demo-1e87f</string>
+	<key>STORAGE_BUCKET</key>
+	<string>sandfriends-demo-1e87f.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:496096595246:ios:161e757fb0a23858df7ebf</string>
+</dict>
+</plist>
