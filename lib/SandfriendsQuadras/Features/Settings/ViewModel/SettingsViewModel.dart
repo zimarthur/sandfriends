@@ -5,6 +5,7 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Model/SandfriendsQuadras/StorePhoto.dart';
@@ -19,7 +20,7 @@ import '../BrandInfo/View/BrandInfo.dart';
 import '../EmployeeInfo/View/EmployeeInfo.dart';
 import '../Repository/SettingsRepo.dart';
 
-class SettingsViewModel extends ChangeNotifier {
+class SettingsViewModel extends StandardScreenViewModel {
   final settingsRepo = SettingsRepo();
 
   void initTabs() {

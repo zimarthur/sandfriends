@@ -36,6 +36,11 @@ class MenuProvider extends StandardScreenViewModel {
 
   final loginRepo = LoginRepo();
 
+  @override
+  void onTapReturn(BuildContext context) {
+    quickLinkHome(context);
+  }
+
   void controlMenu() {
     // if (!_scaffoldKey.currentState!.isDrawerOpen) {
     _scaffoldKey.currentState!.openDrawer();
@@ -352,11 +357,8 @@ class MenuProvider extends StandardScreenViewModel {
     );
   }
 
-  void quickLinkSettings(BuildContext context) {
-    onTabClick(
-      _drawerItems.firstWhere((element) => element.title == "Meu perfil"),
-      context,
-    );
+  void quickLinkSettingMobile(BuildContext context) {
+    Navigator.of(context).pushNamed("/settings");
   }
 
   void quickLinkBrand(BuildContext context) {

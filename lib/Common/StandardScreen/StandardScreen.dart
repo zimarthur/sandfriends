@@ -33,7 +33,7 @@ class StandardScreen extends StatefulWidget {
     required this.child,
     this.childWeb,
     this.rightWidget,
-    this.appBarType,
+    this.appBarType = AppBarType.Primary,
     this.enableToolbar = true,
     this.drawer,
     this.scaffoldKey,

@@ -89,7 +89,7 @@ class _SFDrawerMobileState extends State<SFDrawerMobile> {
                         )),
                         InkWell(
                           onTap: () =>
-                              widget.viewModel.quickLinkSettings(context),
+                              widget.viewModel.quickLinkSettingMobile(context),
                           child: SvgPicture.asset(
                             r"assets/icon/settings.svg",
                             height: 25,

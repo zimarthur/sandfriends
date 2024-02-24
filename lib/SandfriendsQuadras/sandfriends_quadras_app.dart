@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/navigator.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/generic_app.dart';
+import 'package:sandfriends/SandfriendsQuadras/Features/Settings/View/Mobile/SettingsScreenMobile.dart';
 
 import 'Features/Authentication/ChangePassword/View/ChangePasswordScreen.dart';
 import 'Features/Authentication/CreateAccount/View/CreateAccountScreen.dart';
@@ -100,5 +101,6 @@ class SandfriendsQuadrasApp extends GenericApp {
             const ForgotPasswordScreen(),
         '/home': (BuildContext context) => const MenuScreen(),
         '/notifications': (BuildContext context) => NotificationsScreen(),
+        '/settings': (BuildContext context) => SettingsScreenMobile(),
       };
 }

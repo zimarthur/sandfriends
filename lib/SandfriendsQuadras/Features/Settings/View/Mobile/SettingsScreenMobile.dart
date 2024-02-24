@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/StandardScreen/StandardScreen.dart';
 import '../../../../../Common/Components/SFButton.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/ViewModel/DataProvider.dart';
@@ -25,7 +26,9 @@ class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
     return ChangeNotifierProvider<SettingsViewModel>(
       create: (BuildContext context) => viewModel,
       child: Consumer<SettingsViewModel>(builder: (context, viewModel, _) {
-        return SafeArea(
+        return StandardScreen(
+          viewModel: viewModel,
+          titleText: "Configurações",
           child: Container(
             color: secondaryBack,
             padding: EdgeInsets.symmetric(horizontal: defaultPadding),

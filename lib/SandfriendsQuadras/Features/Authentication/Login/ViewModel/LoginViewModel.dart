@@ -57,6 +57,8 @@ class LoginViewModel extends StandardScreenViewModel {
   }
 
   void validateToken(BuildContext context) async {
+    pageStatus = PageStatus.LOADING;
+    notifyListeners();
     String? storedToken = await LocalStorageManager().getAccessToken(context);
     if (storedToken != null && storedToken.isNotEmpty) {
       loginRepo.validateToken(context, storedToken).then((response) {
