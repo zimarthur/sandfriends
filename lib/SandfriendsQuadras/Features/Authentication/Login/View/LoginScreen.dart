@@ -17,7 +17,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    viewModel.validateToken(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      viewModel.validateToken(context);
+    });
     super.initState();
   }
 

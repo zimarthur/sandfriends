@@ -121,21 +121,21 @@ android {
             dimension "default"
             resValue "string", "app_name", "Sandfriends Quadras"
             applicationIdSuffix "quadras.prod"
-            manifestPlaceholders.envUrl = ""
+            manifestPlaceholders.envUrl = "quadras"
             signingConfig signingConfigs.releaseProd
         }
         quadrasDev {
             dimension "default"
             resValue "string", "app_name", "Sandfriends Quadras dev"
             applicationIdSuffix "quadras.dev"
-            manifestPlaceholders.envUrl = "dev"
+            manifestPlaceholders.envUrl = "devquadras"
             signingConfig signingConfigs.releaseDev
         }
         quadrasDemo {
             dimension "default"
             resValue "string", "app_name", "Sandfriends Quadras demo"
             applicationIdSuffix "quadras.demo"
-            manifestPlaceholders.envUrl = "demo"
+            manifestPlaceholders.envUrl = "demoquadras"
             signingConfig signingConfigs.releaseDemo
         }
     }

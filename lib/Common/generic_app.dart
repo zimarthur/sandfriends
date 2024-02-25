@@ -98,9 +98,9 @@ class _AppState extends State<GenericApp> {
       widget.product,
       widget.flavor,
     );
-    super.initState();
     _initURIHandler();
     _incomingLinkHandler();
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await FirebaseManager(
         environment: environmentProvider.environment,
