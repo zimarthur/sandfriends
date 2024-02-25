@@ -2,40 +2,76 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Dev",
+            "name": "App Dev",
             "request": "launch",
             "type": "dart",
-            "program": "lib/main_dev.dart",
+            "program": "lib/Sandfriends/main_dev.dart",
             "args": [
                 "--flavor",
                 "dev",
                 "--target",
-                "lib/main_dev.dart",
+                "lib/Sandfriends/main_dev.dart",
             ]
         },
         {
-            "name": "Launch Prod",
+            "name": "App Prod",
             "request": "launch",
             "type": "dart",
-            "program": "lib/main_prod.dart",
+            "program": "lib/Sandfriends/main_prod.dart",
             "args": [
                 "--flavor",
                 "prod",
                 "--target",
-                "lib/main_prod.dart",
+                "lib/Sandfriends/main_prod.dart",
             ]
         },
         {
-            "name": "Launch Demo",
+            "name": "App Demo",
             "request": "launch",
             "type": "dart",
-            "program": "lib/main_demo.dart",
+            "program": "lib/Sandfriends/main_demo.dart",
             "args": [
                 "--flavor",
                 "demo",
                 "--target",
-                "lib/main_demo.dart",
+                "lib/Sandfriends/main_demo.dart",
             ]
-        }
+        },
+        {
+            "name": "Quadras Dev",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/SandfriendsQuadras/main_dev.dart",
+            "args": [
+                "--flavor",
+                "quadrasDev",
+                "--target",
+                "lib/SandfriendsQuadras/main_dev.dart",
+            ]
+        },
+        {
+            "name": "Quadras Prod",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/SandfriendsQuadras/main_prod.dart",
+            "args": [
+                "--flavor",
+                "quadrasProd",
+                "--target",
+                "lib/SandfriendsQuadras/main_prod.dart",
+            ]
+        },
+        {
+            "name": "Quadras Demo",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/SandfriendsQuadras/main_demo.dart",
+            "args": [
+                "--flavor",
+                "quadrasDemo",
+                "--target",
+                "lib/SandfriendsQuadras/main_demo.dart",
+            ]
+        },
     ]
 }

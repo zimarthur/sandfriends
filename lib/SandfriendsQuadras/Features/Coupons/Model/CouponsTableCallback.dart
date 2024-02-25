@@ -1,0 +1,1 @@
+enum CouponsTableCallback { Disable, Enable }

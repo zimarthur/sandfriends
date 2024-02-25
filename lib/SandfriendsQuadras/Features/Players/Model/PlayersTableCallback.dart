@@ -1,0 +1,1 @@
+enum PlayersTableCallback { Edit, Delete }
