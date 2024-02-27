@@ -5,11 +5,11 @@ import '../../../Common/Model/AppMatch/AppMatchUser.dart';
 import '../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchUser.dart';
 import '../../../Common/Model/CreditCard/CreditCard.dart';
 import '../../../Common/Model/Reward.dart';
+import '../../../Common/Model/Sport.dart';
 import '../../../Common/Model/User/UserComplete.dart';
 import 'package:geolocator/geolocator.dart';
 
 class UserProvider extends ChangeNotifier {
-  int a = 1;
   UserComplete? _user;
   UserComplete? get user => _user;
   set user(UserComplete? newUser) {

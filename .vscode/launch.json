@@ -73,5 +73,41 @@
                 "lib/SandfriendsQuadras/main_demo.dart",
             ]
         },
+        {
+            "name": "WebPage Dev",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/SandfriendsWebPage/main_dev.dart",
+            "args": [
+                // "--flavor",
+                // "webPageDev",
+                "--target",
+                "lib/SandfriendsWebPage/main_dev.dart",
+            ]
+        },
+        {
+            "name": "WebPage Prod",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/SandfriendsWebPage/main_prod.dart",
+            "args": [
+                "--flavor",
+                "webPageProd",
+                "--target",
+                "lib/SandfriendsWebPage/main_prod.dart",
+            ]
+        },
+        {
+            "name": "WebPage Demo",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/SandfriendsWebPage/main_demo.dart",
+            "args": [
+                "--flavor",
+                "webPageDemo",
+                "--target",
+                "lib/SandfriendsWebPage/main_demo.dart",
+            ]
+        },
     ]
 }

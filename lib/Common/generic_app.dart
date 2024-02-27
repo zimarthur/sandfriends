@@ -9,7 +9,7 @@ import 'package:sandfriends/Common/Managers/Firebase/FirebaseManager.dart';
 import 'package:sandfriends/Common/Managers/LocalNotifications/LocalNotificationsManager.dart';
 import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
-import 'package:sandfriends/SandfriendsQuadras/Features/Menu/ViewModel/DataProvider.dart';
+import 'package:sandfriends/SandfriendsQuadras/Features/Menu/ViewModel/StoreProvider.dart';
 import '../Sandfriends/Providers/RedirectProvider/RedirectProvider.dart';
 import '../SandfriendsQuadras/Features/Menu/ViewModel/MenuProvider.dart';
 import 'Utils/Constants.dart';
@@ -101,14 +101,14 @@ class _AppState extends State<GenericApp> {
     _initURIHandler();
     _incomingLinkHandler();
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await FirebaseManager(
-        environment: environmentProvider.environment,
-      ).initialize(
-        messagingCallback: widget.handleNotification,
-      );
-      await LocalNotificationsManager().initialize(widget.handleNotification);
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   await FirebaseManager(
+    //     environment: environmentProvider.environment,
+    //   ).initialize(
+    //     messagingCallback: widget.handleNotification,
+    //   );
+    //   await LocalNotificationsManager().initialize(widget.handleNotification);
+    // });
   }
 
   @override
@@ -124,35 +124,37 @@ class _AppState extends State<GenericApp> {
     ]);
 
     return MultiProvider(
-      providers: widget.product == Product.Sandfriends
-          ? [
-              ChangeNotifierProvider(
-                create: (_) => environmentProvider,
-              ),
-              ChangeNotifierProvider(
-                create: (_) => CategoriesProvider(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => UserProvider(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => RedirectProvider(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => CategoriesProvider(),
-              ),
-            ]
-          : [
-              ChangeNotifierProvider(
-                create: (_) => environmentProvider,
-              ),
-              ChangeNotifierProvider(
-                create: (_) => MenuProvider(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => DataProvider(),
-              ),
-            ],
+      providers:
+          // widget.product == Product.SandfriendsQuadras
+          //     ? [
+          //         ChangeNotifierProvider(
+          //           create: (_) => environmentProvider,
+          //         ),
+          //         ChangeNotifierProvider(
+          //           create: (_) => CategoriesProvider(),
+          //         ),
+          //         ChangeNotifierProvider(
+          //           create: (_) => MenuProvider(),
+          //         ),
+          //         ChangeNotifierProvider(
+          //           create: (_) => StoreProvider(),
+          //         ),
+          //       ]
+          //     :
+          [
+        ChangeNotifierProvider(
+          create: (_) => environmentProvider,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CategoriesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => RedirectProvider(),
+        ),
+      ],
       child: MaterialApp(
         title: widget.appTitle,
         debugShowCheckedModeBanner: false,

@@ -11,6 +11,8 @@ class City {
     this.state,
   });
 
+  String get cityState => "$name - ${state?.uf}";
+
   factory City.fromJson(Map<String, dynamic> json) {
     return City(
       cityId: json['IdCity'],

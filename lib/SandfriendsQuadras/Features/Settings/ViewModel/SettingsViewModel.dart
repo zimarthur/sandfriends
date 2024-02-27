@@ -13,7 +13,7 @@ import '../../../../Common/Model/Store/StoreComplete.dart';
 import '../../../../Common/Model/TabItem.dart';
 import '../../../../Common/Utils/SFImage.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../Menu/ViewModel/DataProvider.dart';
+import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
 import '../BasicInfo/View/BasicInfo.dart';
 import '../BrandInfo/View/BrandInfo.dart';
@@ -124,12 +124,12 @@ class SettingsViewModel extends StandardScreenViewModel {
   }
 
   void initSettingsViewModel(BuildContext context) {
-    setIsEmployeeAdmin(Provider.of<DataProvider>(context, listen: false)
+    setIsEmployeeAdmin(Provider.of<StoreProvider>(context, listen: false)
         .isLoggedEmployeeAdmin());
     storeRef = StoreComplete.copyWith(
-        Provider.of<DataProvider>(context, listen: false).store!);
+        Provider.of<StoreProvider>(context, listen: false).store!);
     storeEdit = StoreComplete.copyWith(
-        Provider.of<DataProvider>(context, listen: false).store!);
+        Provider.of<StoreProvider>(context, listen: false).store!);
     nameController.text = storeEdit.name;
     telephoneController.text = storeEdit.phoneNumber;
     telephoneOwnerController.text = storeEdit.ownerPhoneNumber ?? "";
@@ -177,7 +177,7 @@ class SettingsViewModel extends StandardScreenViewModel {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
         );
-        Provider.of<DataProvider>(context, listen: false).store =
+        Provider.of<StoreProvider>(context, listen: false).store =
             StoreComplete.fromJson(
           responseBody["StoreComplete"],
         );
@@ -329,7 +329,7 @@ class SettingsViewModel extends StandardScreenViewModel {
     settingsRepo
         .allowNotifications(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       allow,
       token,
     )
@@ -338,7 +338,7 @@ class SettingsViewModel extends StandardScreenViewModel {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
         );
-        Provider.of<DataProvider>(context, listen: false)
+        Provider.of<StoreProvider>(context, listen: false)
             .setAllowNotificationsSetttings(responseBody["AllowNotifications"]);
 
         Provider.of<MenuProvider>(context, listen: false).closeModal();
@@ -364,7 +364,7 @@ class SettingsViewModel extends StandardScreenViewModel {
         settingsRepo
             .deleteAccount(
           context,
-          Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+          Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
         )
             .then((response) {
           if (response.responseStatus == NetworkResponseStatus.success) {

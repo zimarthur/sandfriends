@@ -28,7 +28,7 @@ import '../../Rewards/View/Mobile/RewardsScreenMobile.dart';
 import '../../Settings/View/Web/SettingsScreenWeb.dart';
 import '../../Settings/View/Mobile/SettingsScreenMobile.dart';
 import '../Model/DrawerItem.dart';
-import 'DataProvider.dart';
+import 'StoreProvider.dart';
 
 class MenuProvider extends StandardScreenViewModel {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -59,7 +59,7 @@ class MenuProvider extends StandardScreenViewModel {
   }
 
   void validateAuthentication(BuildContext context) async {
-    if (Provider.of<DataProvider>(context, listen: false).store == null) {
+    if (Provider.of<StoreProvider>(context, listen: false).store == null) {
       pageStatus = PageStatus.LOADING;
       notifyListeners();
       String? storedToken = await LocalStorageManager().getAccessToken(context);
@@ -67,13 +67,14 @@ class MenuProvider extends StandardScreenViewModel {
         loginRepo.validateToken(context, storedToken).then((response) async {
           if (response.responseStatus == NetworkResponseStatus.success) {
             try {
-              Provider.of<DataProvider>(context, listen: false)
+              Provider.of<StoreProvider>(context, listen: false)
                   .setLoginResponse(context, response.responseBody!, true);
             } catch (e) {
               print(e);
             }
-            setIsEmployeeAdmin(Provider.of<DataProvider>(context, listen: false)
-                .isLoggedEmployeeAdmin());
+            setIsEmployeeAdmin(
+                Provider.of<StoreProvider>(context, listen: false)
+                    .isLoggedEmployeeAdmin());
             setSelectedDrawerItem(mainDrawer.first);
             String? lastPage = await LocalStorageManager().getLastPage(context);
             if (lastPage != null &&
@@ -96,13 +97,13 @@ class MenuProvider extends StandardScreenViewModel {
         Navigator.pushNamed(context, "/login");
       }
     } else {
-      setIsEmployeeAdmin(Provider.of<DataProvider>(context, listen: false)
+      setIsEmployeeAdmin(Provider.of<StoreProvider>(context, listen: false)
           .isLoggedEmployeeAdmin());
       setSelectedDrawerItem(mainDrawer.first);
     }
   }
 
-  Future<void> updateDataProvider(BuildContext context) async {
+  Future<void> updateStoreProvider(BuildContext context) async {
     String? storedToken = await LocalStorageManager().getAccessToken(context);
     if (storedToken != null) {
       pageStatus = PageStatus.LOADING;
@@ -110,9 +111,9 @@ class MenuProvider extends StandardScreenViewModel {
       NetworkResponse response =
           await loginRepo.validateToken(context, storedToken);
       if (response.responseStatus == NetworkResponseStatus.success) {
-        Provider.of<DataProvider>(context, listen: false)
+        Provider.of<StoreProvider>(context, listen: false)
             .setLoginResponse(context, response.responseBody!, true);
-        setIsEmployeeAdmin(Provider.of<DataProvider>(context, listen: false)
+        setIsEmployeeAdmin(Provider.of<StoreProvider>(context, listen: false)
             .isLoggedEmployeeAdmin());
         setSelectedDrawerItem(mainDrawer.first);
       }
@@ -391,7 +392,7 @@ class MenuProvider extends StandardScreenViewModel {
   }
 
   void logout(BuildContext context) {
-    Provider.of<DataProvider>(context, listen: false).clearDataProvider();
+    Provider.of<StoreProvider>(context, listen: false).clearStoreProvider();
     LocalStorageManager().storeAccessToken(context, "");
     Navigator.pushNamedAndRemoveUntil(
       context,

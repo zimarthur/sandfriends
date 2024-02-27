@@ -13,7 +13,7 @@ import '../../../../Common/Model/SandfriendsQuadras/RewardItem.dart';
 import '../../../../Common/Model/SandfriendsQuadras/SFBarChartItem.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../Menu/ViewModel/DataProvider.dart';
+import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
 import '../Model/RewardDataSource.dart';
 import '../Repository/RewardsRepo.dart';
@@ -127,7 +127,7 @@ class RewardsViewModel extends ChangeNotifier {
   List<RewardItem> possibleRewards = [];
 
   void initRewardsScreen(BuildContext context) {
-    _rewards = Provider.of<DataProvider>(context, listen: false).rewards;
+    _rewards = Provider.of<StoreProvider>(context, listen: false).rewards;
     setRewardDataSource();
   }
 
@@ -136,7 +136,8 @@ class RewardsViewModel extends ChangeNotifier {
     rewardsRepo
         .searchCustomRewards(
             context,
-            Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+            Provider.of<StoreProvider>(context, listen: false)
+                .loggedAccessToken,
             customStartDate!,
             customEndDate)
         .then((response) {
@@ -199,7 +200,7 @@ class RewardsViewModel extends ChangeNotifier {
         rewardsRepo
             .userRewardSelected(
                 context,
-                Provider.of<DataProvider>(context, listen: false)
+                Provider.of<StoreProvider>(context, listen: false)
                     .loggedAccessToken,
                 rewardCode,
                 rewardItem.idRewardItem)

@@ -8,10 +8,11 @@ import '../../../../Common/Components/SFPieChart.dart';
 import '../../../../Common/Enum/EnumPeriodVisualization.dart';
 import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
 import '../../../../Common/Model/SandfriendsQuadras/SFBarChartItem.dart';
+import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../Menu/ViewModel/DataProvider.dart';
+import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
 import '../Model/FinancesDataSource.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -24,7 +25,7 @@ class FinancesViewModel extends ChangeNotifier {
   final financesRepo = FinancesRepo();
 
   void initFinancesScreen(BuildContext context) {
-    _matches = Provider.of<DataProvider>(context, listen: false)
+    _matches = Provider.of<StoreProvider>(context, listen: false)
         .matches
         .where((match) => match.blocked == false)
         .toList();
@@ -62,7 +63,8 @@ class FinancesViewModel extends ChangeNotifier {
     financesRepo
         .searchCustomMatches(
             context,
-            Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+            Provider.of<StoreProvider>(context, listen: false)
+                .loggedAccessToken,
             customStartDate!,
             customEndDate)
         .then((response) {
@@ -75,8 +77,8 @@ class FinancesViewModel extends ChangeNotifier {
           customMatches.add(
             AppMatchStore.fromJson(
               match,
-              Provider.of<DataProvider>(context, listen: false).availableHours,
-              Provider.of<DataProvider>(context, listen: false).availableSports,
+              Provider.of<CategoriesProvider>(context, listen: false).hours,
+              Provider.of<CategoriesProvider>(context, listen: false).sports,
             ),
           );
         }

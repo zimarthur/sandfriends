@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../../../../../Common/Components/SFButton.dart';
 import '../../../../../../../Common/Components/SFDivider.dart';
 import '../../../../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
 import '../../../../../../../Common/Model/Court.dart';
 import '../../../../../../../Common/Utils/Constants.dart';
 import '../../../../../../../Common/Utils/SFDateTime.dart';
-import '../../../../../Menu/ViewModel/DataProvider.dart';
+import '../../../../../Menu/ViewModel/StoreProvider.dart';
 import '../../../../../Menu/ViewModel/MenuProvider.dart';
 import '../../../../Model/DayMatch.dart';
 import '../../../../ViewModel/CalendarViewModel.dart';
@@ -67,7 +68,7 @@ class RecurrentCourtsAvailabilityWidget extends StatelessWidget {
                 MatchDetailsWidgetRow(
                   title: "Horário",
                   value:
-                      "${dayMatch.startingHour.hourString} - ${Provider.of<DataProvider>(context, listen: false).availableHours.firstWhere((hr) => hr.hour > dayMatch.startingHour.hour).hourString}",
+                      "${dayMatch.startingHour.hourString} - ${Provider.of<CategoriesProvider>(context, listen: false).hours.firstWhere((hr) => hr.hour > dayMatch.startingHour.hour).hourString}",
                 ),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: defaultPadding),
@@ -75,13 +76,13 @@ class RecurrentCourtsAvailabilityWidget extends StatelessWidget {
                 ),
                 Expanded(
                     child: ListView.builder(
-                  itemCount: Provider.of<DataProvider>(context, listen: false)
+                  itemCount: Provider.of<StoreProvider>(context, listen: false)
                       .courts
                       .length,
                   itemBuilder: (context, index) {
                     AppRecurrentMatchStore? recurrentMatch;
                     Court court =
-                        Provider.of<DataProvider>(context, listen: false)
+                        Provider.of<StoreProvider>(context, listen: false)
                             .courts[index];
                     bool allowRecurrent = court.operationDays
                         .firstWhere((opDay) =>
@@ -92,7 +93,7 @@ class RecurrentCourtsAvailabilityWidget extends StatelessWidget {
                       recurrentMatch = dayMatch.recurrentMatches!.firstWhere(
                         (recMatch) =>
                             recMatch.court.idStoreCourt ==
-                            Provider.of<DataProvider>(context, listen: false)
+                            Provider.of<StoreProvider>(context, listen: false)
                                 .courts[index]
                                 .idStoreCourt,
                       );
@@ -101,7 +102,7 @@ class RecurrentCourtsAvailabilityWidget extends StatelessWidget {
                     return Padding(
                       padding: EdgeInsets.only(
                         bottom: index ==
-                                Provider.of<DataProvider>(context,
+                                Provider.of<StoreProvider>(context,
                                             listen: false)
                                         .courts
                                         .length -

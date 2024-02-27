@@ -52,54 +52,10 @@ void receiveLoginResponse(BuildContext context, String response) {
   Map<String, dynamic> responseBody = json.decode(
     response,
   );
-  Provider.of<CategoriesProvider>(context, listen: false).clearAll();
-
-  final responseHours = responseBody['Hours'];
-  final responseSports = responseBody['Sports'];
-  final responseGenders = responseBody['Genders'];
-  final responseRanks = responseBody['Ranks'];
-  final responseSidePreferences = responseBody['SidePreferences'];
-  final responseAvailableLocations = responseBody['States'];
+  Provider.of<CategoriesProvider>(context, listen: false)
+      .setCategoriesProvider(responseBody);
 
   final responseUser = responseBody['User'];
-
-  for (var hour in responseHours) {
-    Provider.of<CategoriesProvider>(context, listen: false).hours.add(
-          Hour.fromJson(
-            hour,
-          ),
-        );
-  }
-  for (var sport in responseSports) {
-    Provider.of<CategoriesProvider>(context, listen: false).sports.add(
-          Sport.fromJson(
-            sport,
-          ),
-        );
-  }
-  for (var gender in responseGenders) {
-    Provider.of<CategoriesProvider>(context, listen: false).genders.add(
-          Gender.fromJson(
-            gender,
-          ),
-        );
-  }
-  for (var rank in responseRanks) {
-    Provider.of<CategoriesProvider>(context, listen: false).ranks.add(
-          Rank.fromJson(
-            rank,
-          ),
-        );
-  }
-  for (var sidePreference in responseSidePreferences) {
-    Provider.of<CategoriesProvider>(context, listen: false).sidePreferences.add(
-          SidePreference.fromJson(
-            sidePreference,
-          ),
-        );
-  }
-  Provider.of<CategoriesProvider>(context, listen: false)
-      .saveReceivedAvailableRegions(responseAvailableLocations);
 
   LocalStorageManager().storeAccessToken(context, responseUser['AccessToken']);
 

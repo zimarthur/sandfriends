@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:time_range/time_range.dart';
 
@@ -40,7 +41,7 @@ class _TimeModalState extends State<TimeModal> {
         border: Border.all(color: primaryDarkBlue, width: 1),
         boxShadow: const [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
       ),
-      width: width * 0.9,
+      width: kIsWeb ? 600 : width * 0.9,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

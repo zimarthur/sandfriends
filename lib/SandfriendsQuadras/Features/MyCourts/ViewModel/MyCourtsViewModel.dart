@@ -9,8 +9,9 @@ import '../../../../Common/Model/OperationDay.dart';
 import '../../../../Common/Model/SandfriendsQuadras/AvailableSport.dart';
 import '../../../../Common/Model/SandfriendsQuadras/PriceRule.dart';
 import '../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
+import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../Menu/ViewModel/DataProvider.dart';
+import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
 import '../Repository/MyCourtsRepo.dart';
 import '../View/Web/PriceListWidget.dart';
@@ -72,7 +73,7 @@ class MyCourtsViewModel extends ChangeNotifier {
     newCourt = Court(description: "", isIndoor: true);
     selectedCourtIndex = -1;
     for (var court
-        in Provider.of<DataProvider>(context, listen: false).courts) {
+        in Provider.of<StoreProvider>(context, listen: false).courts) {
       courts.add(
         Court.copyFrom(
           court,
@@ -85,7 +86,7 @@ class MyCourtsViewModel extends ChangeNotifier {
       );
     }
 
-    Provider.of<DataProvider>(context, listen: false).availableSports.forEach(
+    Provider.of<CategoriesProvider>(context, listen: false).sports.forEach(
       (sport) {
         newCourt.sports.add(
           AvailableSport(
@@ -102,10 +103,10 @@ class MyCourtsViewModel extends ChangeNotifier {
         ),
       );
     }
-    if (Provider.of<DataProvider>(context, listen: false).storeWorkingDays !=
+    if (Provider.of<StoreProvider>(context, listen: false).storeWorkingDays !=
         null) {
       for (var strWorkingDay
-          in Provider.of<DataProvider>(context, listen: false)
+          in Provider.of<StoreProvider>(context, listen: false)
               .storeWorkingDays!) {
         refStoreWorkingDays.add(
           StoreWorkingDay.copyFrom(
@@ -115,7 +116,7 @@ class MyCourtsViewModel extends ChangeNotifier {
       }
       saveNewStoreWorkingDays(
         context,
-        Provider.of<DataProvider>(context, listen: false).storeWorkingDays!,
+        Provider.of<StoreProvider>(context, listen: false).storeWorkingDays!,
       );
     }
   }
@@ -198,13 +199,14 @@ class MyCourtsViewModel extends ChangeNotifier {
           i++) {
         prices.add(
           HourPriceStore(
-            startingHour: Provider.of<DataProvider>(context, listen: false)
-                .availableHours
-                .firstWhere((hr) => hr.hour == i),
+            startingHour:
+                Provider.of<CategoriesProvider>(context, listen: false)
+                    .hours
+                    .firstWhere((hr) => hr.hour == i),
             price: 0,
             recurrentPrice: 0,
-            endingHour: Provider.of<DataProvider>(context, listen: false)
-                .availableHours
+            endingHour: Provider.of<CategoriesProvider>(context, listen: false)
+                .hours
                 .firstWhere((hr) => hr.hour > i),
           ),
         );
@@ -225,14 +227,16 @@ class MyCourtsViewModel extends ChangeNotifier {
             i++) {
           prices.add(
             HourPriceStore(
-              startingHour: Provider.of<DataProvider>(context, listen: false)
-                  .availableHours
-                  .firstWhere((hr) => hr.hour == i),
+              startingHour:
+                  Provider.of<CategoriesProvider>(context, listen: false)
+                      .hours
+                      .firstWhere((hr) => hr.hour == i),
               price: prices.first.price,
               recurrentPrice: prices.first.recurrentPrice,
-              endingHour: Provider.of<DataProvider>(context, listen: false)
-                  .availableHours
-                  .firstWhere((hr) => hr.hour >= i),
+              endingHour:
+                  Provider.of<CategoriesProvider>(context, listen: false)
+                      .hours
+                      .firstWhere((hr) => hr.hour >= i),
             ),
           );
         }
@@ -244,14 +248,16 @@ class MyCourtsViewModel extends ChangeNotifier {
         for (int i = maxHour.hour; i < storeWorkingDay.endingHour!.hour; i++) {
           prices.add(
             HourPriceStore(
-              startingHour: Provider.of<DataProvider>(context, listen: false)
-                  .availableHours
-                  .firstWhere((hr) => hr.hour == i),
+              startingHour:
+                  Provider.of<CategoriesProvider>(context, listen: false)
+                      .hours
+                      .firstWhere((hr) => hr.hour == i),
               price: prices.last.price,
               recurrentPrice: prices.last.recurrentPrice,
-              endingHour: Provider.of<DataProvider>(context, listen: false)
-                  .availableHours
-                  .firstWhere((hr) => hr.hour > i),
+              endingHour:
+                  Provider.of<CategoriesProvider>(context, listen: false)
+                      .hours
+                      .firstWhere((hr) => hr.hour > i),
             ),
           );
         }
@@ -265,8 +271,8 @@ class MyCourtsViewModel extends ChangeNotifier {
     Hour oldStartingHour,
     String? newHourString,
   ) {
-    Hour newHour = Provider.of<DataProvider>(context, listen: false)
-        .availableHours
+    Hour newHour = Provider.of<CategoriesProvider>(context, listen: false)
+        .hours
         .firstWhere((hour) => hour.hourString == newHourString);
     if (newHourString == null || newHour.hour == oldStartingHour.hour) return;
     if (oldStartingHour.hour == operationDay.startingHour.hour) {
@@ -319,8 +325,8 @@ class MyCourtsViewModel extends ChangeNotifier {
     Hour oldEndingHour,
     String? newHourString,
   ) {
-    Hour newHour = Provider.of<DataProvider>(context, listen: false)
-        .availableHours
+    Hour newHour = Provider.of<CategoriesProvider>(context, listen: false)
+        .hours
         .firstWhere((hour) => hour.hourString == newHourString);
     if (newHourString == null || newHour.hour == oldEndingHour.hour) return;
     if (oldEndingHour.hour == operationDay.endingHour.hour) {
@@ -522,10 +528,10 @@ class MyCourtsViewModel extends ChangeNotifier {
     String missingInfo = "";
     if (nameController.text.isEmpty) {
       missingInfo = "Dê um nome a sua quadra!";
-    } else if (Provider.of<DataProvider>(context, listen: false)
+    } else if (Provider.of<StoreProvider>(context, listen: false)
             .courts
             .any((element) => element.description == nameController.text) &&
-        Provider.of<DataProvider>(context, listen: false)
+        Provider.of<StoreProvider>(context, listen: false)
                 .courts
                 .firstWhere(
                     (element) => element.description == nameController.text)
@@ -556,7 +562,7 @@ class MyCourtsViewModel extends ChangeNotifier {
       myCourtsRepo
           .addCourt(
         context,
-        Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+        Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
         currentCourt,
       )
           .then((response) {
@@ -564,8 +570,8 @@ class MyCourtsViewModel extends ChangeNotifier {
           Map<String, dynamic> responseBody = json.decode(
             response.responseBody!,
           );
-          Provider.of<DataProvider>(context, listen: false)
-              .setCourts(responseBody);
+          Provider.of<StoreProvider>(context, listen: false)
+              .setCourts(context, responseBody);
           init(context);
           Provider.of<MenuProvider>(context, listen: false)
               .setMessageModal("Sua quadra foi criada!", null, true);
@@ -593,7 +599,7 @@ class MyCourtsViewModel extends ChangeNotifier {
     myCourtsRepo
         .removeCourt(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       courts[selectedCourtIndex].idStoreCourt!,
     )
         .then((response) {
@@ -601,8 +607,8 @@ class MyCourtsViewModel extends ChangeNotifier {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
         );
-        Provider.of<DataProvider>(context, listen: false)
-            .setCourts(responseBody);
+        Provider.of<StoreProvider>(context, listen: false)
+            .setCourts(context, responseBody);
         init(context);
         Provider.of<MenuProvider>(context, listen: false)
             .setMessageModal("Sua quadra foi removida!", null, true);
@@ -649,7 +655,7 @@ class MyCourtsViewModel extends ChangeNotifier {
     myCourtsRepo
         .saveCourtChanges(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       changedCourts,
     )
         .then((response) {
@@ -657,8 +663,8 @@ class MyCourtsViewModel extends ChangeNotifier {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
         );
-        Provider.of<DataProvider>(context, listen: false)
-            .setCourts(responseBody);
+        Provider.of<StoreProvider>(context, listen: false)
+            .setCourts(context, responseBody);
         init(context);
         Provider.of<MenuProvider>(context, listen: false)
             .setMessageModal("Suas quadras foram atualizadas!", null, true);

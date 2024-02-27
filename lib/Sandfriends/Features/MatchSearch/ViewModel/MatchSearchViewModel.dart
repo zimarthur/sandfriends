@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
@@ -6,7 +9,7 @@ import 'package:sandfriends/Common/Model/AvailableHour.dart';
 import 'package:sandfriends/Common/Model/AvailableStore.dart';
 import 'package:time_range/time_range.dart';
 import 'package:tuple/tuple.dart';
-import '../../../../Common/Components/Modal/CitySelectorModal.dart';
+import '../../../../Common/Components/Modal/CitySelectorModal/CitySelectorModal.dart';
 import '../../../../Common/Components/Modal/TimeModal.dart';
 import '../../../../Common/Model/AppMatch/AppMatchUser.dart';
 import '../../../../Common/Model/Store/StoreUser.dart';
@@ -42,6 +45,7 @@ class MatchSearchViewModel extends StandardScreenViewModel {
   late CustomFilter defaultCustomFilter;
   late CustomFilter currentCustomFilter;
 
+  bool shouldGoToNextFilter = !kIsWeb;
   bool hasUserSearched = false;
 
   List<AvailableDay> _availableDays = [];
@@ -86,25 +90,30 @@ class MatchSearchViewModel extends StandardScreenViewModel {
   AvailableStore? selectedStore;
   AvailableDay? selectedDay;
 
-  void initMatchSearchViewModel(BuildContext context, int sportId) {
+  void initMatchSearchViewModel(BuildContext context) {
     defaultCustomFilter = CustomFilter(
         orderBy: OrderBy.price,
         sport: Provider.of<UserProvider>(context, listen: false)
-            .user!
-            .preferenceSport!);
+                .user
+                ?.preferenceSport ??
+            Provider.of<CategoriesProvider>(context, listen: false)
+                .sessionSport!);
     currentCustomFilter = CustomFilter.copyFrom(defaultCustomFilter);
 
-    if (Provider.of<CategoriesProvider>(context, listen: false)
-        .availableRegions
-        .any(
-          (region) => region.containsCity(
-            Provider.of<UserProvider>(context, listen: false)
-                .user!
-                .city!
-                .cityId,
-          ),
-        )) {
-      cityFilter = Provider.of<UserProvider>(context, listen: false).user!.city;
+    if (Provider.of<UserProvider>(context, listen: false).user != null) {
+      if (Provider.of<CategoriesProvider>(context, listen: false)
+          .availableRegions
+          .any(
+            (region) => region.containsCity(
+              Provider.of<UserProvider>(context, listen: false)
+                  .user!
+                  .city!
+                  .cityId,
+            ),
+          )) {
+        cityFilter =
+            Provider.of<UserProvider>(context, listen: false).user!.city;
+      }
     }
     Provider.of<UserProvider>(context, listen: false)
         .handlePositionPermission()
@@ -125,7 +134,7 @@ class MatchSearchViewModel extends StandardScreenViewModel {
       matchSearchRepo
           .searchCourts(
         context,
-        Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+        Provider.of<UserProvider>(context, listen: false).user?.accessToken,
         currentCustomFilter.sport.idSport,
         cityFilter!.cityId,
         datesFilter[0]!,
@@ -191,79 +200,59 @@ class MatchSearchViewModel extends StandardScreenViewModel {
     notifyListeners();
   }
 
-  void goToCourt(BuildContext context, StoreUser store) {
+  void resetSelectedAvailableHour() {
+    selectedDay = null;
+    selectedStore = null;
+    selectedHour = null;
+    notifyListeners();
+  }
+
+  void goToCourt(BuildContext context, StoreUser store,
+      {bool noArguments = false}) {
     Navigator.pushNamed(
       context,
       '/court',
-      arguments: {
-        'store': store,
-        'availableCourts': toCourtAvailableHours(
-          availableDays,
-          null,
-          selectedDay!.day,
-          selectedStore!.store,
-        ),
-        'selectedHourPrice': selectedHour!.lowestHourPrice,
-        'selectedDate': selectedDay!.day,
-        'selectedWeekday': null,
-        'selectedSport': currentCustomFilter.sport,
-        'isRecurrent': false,
-        'canMakeReservation': true,
-        'searchStartPeriod': Provider.of<CategoriesProvider>(context,
-                listen: false)
-            .hours
-            .firstWhere(
-                (hour) => hour.hourString == timeFilter!.start.format(context)),
-        'searchEndPeriod': Provider.of<CategoriesProvider>(context,
-                listen: false)
-            .hours
-            .firstWhere(
-                (hour) => hour.hourString == timeFilter!.end.format(context)),
-      },
+      arguments: noArguments
+          ? {
+              'store': store,
+            }
+          : {
+              'store': store,
+              'availableCourts': toCourtAvailableHours(
+                availableDays,
+                null,
+                selectedDay!.day,
+                selectedStore!.store,
+              ),
+              'selectedHourPrice': selectedHour!.lowestHourPrice,
+              'selectedDate': selectedDay!.day,
+              'selectedWeekday': null,
+              'selectedSport': currentCustomFilter.sport,
+              'isRecurrent': false,
+              'canMakeReservation': true,
+              'searchStartPeriod':
+                  Provider.of<CategoriesProvider>(context, listen: false)
+                      .hours
+                      .firstWhere((hour) =>
+                          hour.hourString == timeFilter!.start.format(context)),
+              'searchEndPeriod':
+                  Provider.of<CategoriesProvider>(context, listen: false)
+                      .hours
+                      .firstWhere((hour) =>
+                          hour.hourString == timeFilter!.end.format(context)),
+            },
     );
   }
 
   void openCitySelectorModal(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
-    if (Provider.of<CategoriesProvider>(context, listen: false)
-        .availableRegions
-        .isEmpty) {
-      Provider.of<CategoriesProvider>(context, listen: false)
-          .categoriesProviderRepo
-          .getAvailableRegions(context)
-          .then((response) {
-        if (response.responseStatus == NetworkResponseStatus.success) {
-          Provider.of<CategoriesProvider>(context, listen: false)
-              .setAvailableRegions(response.responseBody!);
-
-          displayCitySelector(context);
-        } else {
-          modalMessage = SFModalMessage(
-            title: response.responseTitle!,
-            onTap: () => openCitySelectorModal(context),
-            isHappy: false,
-            buttonText: "Tentar novamente",
-          );
-          pageStatus = PageStatus.ERROR;
-          notifyListeners();
-        }
-      });
-    } else {
-      displayCitySelector(context);
-    }
-  }
-
-  void displayCitySelector(BuildContext context) {
     widgetForm = CitySelectorModal(
-      regions: Provider.of<CategoriesProvider>(context, listen: false)
-          .availableRegions,
+      onlyAvailableCities: true,
       onSelectedCity: (city) {
         cityFilter = city;
         pageStatus = PageStatus.OK;
         notifyListeners();
       },
-      userCity: Provider.of<UserProvider>(context, listen: false).user!.city,
+      userCity: Provider.of<UserProvider>(context, listen: false).user?.city,
       onReturn: () => closeModal(),
     );
     pageStatus = PageStatus.FORM;
@@ -276,10 +265,15 @@ class MatchSearchViewModel extends StandardScreenViewModel {
       dateRange: datesFilter,
       onSubmit: (newDates) {
         onSubmitDateFilter(newDates);
-        if (timeFilter != defaultTimeFilter) {
-          openTimeSelectorModal(context);
+        if (shouldGoToNextFilter) {
+          if (timeFilter != defaultTimeFilter) {
+            openTimeSelectorModal(context);
+          } else {
+            searchCourts(context);
+          }
         } else {
-          searchCourts(context);
+          pageStatus = PageStatus.OK;
+          notifyListeners();
         }
       },
     );
@@ -296,7 +290,12 @@ class MatchSearchViewModel extends StandardScreenViewModel {
       timeRange: timeFilter,
       onSubmit: (newTimeFilter) {
         onSubmitTimeFilter(newTimeFilter);
-        searchCourts(context);
+        if (shouldGoToNextFilter) {
+          searchCourts(context);
+        } else {
+          pageStatus = PageStatus.OK;
+          notifyListeners();
+        }
       },
     );
     pageStatus = PageStatus.FORM;

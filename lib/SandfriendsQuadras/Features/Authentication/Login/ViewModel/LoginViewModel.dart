@@ -12,7 +12,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../../../Remote/NetworkResponse.dart';
 import '../../../../../Common/Components/Modal/SFModalMessage.dart';
-import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Menu/ViewModel/StoreProvider.dart';
 import '../Repository/LoginRepo.dart';
 
 class LoginViewModel extends StandardScreenViewModel {
@@ -63,7 +63,7 @@ class LoginViewModel extends StandardScreenViewModel {
     if (storedToken != null && storedToken.isNotEmpty) {
       loginRepo.validateToken(context, storedToken).then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
-          Provider.of<DataProvider>(context, listen: false)
+          Provider.of<StoreProvider>(context, listen: false)
               .setLoginResponse(context, response.responseBody!, keepConnected);
           Navigator.pushNamed(context, '/home');
         } else {
@@ -97,7 +97,7 @@ class LoginViewModel extends StandardScreenViewModel {
       )
           .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
-          Provider.of<DataProvider>(context, listen: false)
+          Provider.of<StoreProvider>(context, listen: false)
               .setLoginResponse(context, response.responseBody!, keepConnected);
           Navigator.pushNamed(context, '/home');
         } else {

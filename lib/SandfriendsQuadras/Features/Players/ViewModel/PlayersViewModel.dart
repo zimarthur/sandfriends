@@ -8,8 +8,9 @@ import '../../../../Common/Model/Gender.dart';
 import '../../../../Common/Model/User/Player_old.dart';
 import '../../../../Common/Model/Sport.dart';
 import '../../../../Common/Model/User/UserStore.dart';
+import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../Menu/ViewModel/DataProvider.dart';
+import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
 import '../Model/PieChartKpi.dart';
 import '../Model/PlayersDataSource.dart';
@@ -91,15 +92,15 @@ class PlayersViewModel extends ChangeNotifier {
     filteredGender = defaultGender;
     filteredSport = defaultSport;
     sportsFilters.add(defaultSport);
-    Provider.of<DataProvider>(context, listen: false)
-        .availableSports
+    Provider.of<CategoriesProvider>(context, listen: false)
+        .sports
         .forEach((sport) {
       availableSports.add(sport);
       sportsFilters.add(sport.description);
     });
     genderFilters.add(defaultGender);
-    Provider.of<DataProvider>(context, listen: false)
-        .availableGenders
+    Provider.of<CategoriesProvider>(context, listen: false)
+        .genders
         .forEach((gender) {
       availableGenders.add(gender);
       genderFilters.add(gender.name);
@@ -123,7 +124,7 @@ class PlayersViewModel extends ChangeNotifier {
 
   void setPlayersDataSource(BuildContext context) {
     _players.clear();
-    Provider.of<DataProvider>(context, listen: false)
+    Provider.of<StoreProvider>(context, listen: false)
         .storePlayers
         .forEach((player) {
       if ((filteredGender == defaultGender ||
@@ -171,10 +172,9 @@ class PlayersViewModel extends ChangeNotifier {
       onReturn: () => closeModal(context),
       onSavePlayer: (player) => editPlayer(context, player),
       onCreatePlayer: (player) => addPlayer(context, player),
-      sports: Provider.of<DataProvider>(context, listen: false).availableSports,
-      ranks: Provider.of<DataProvider>(context, listen: false).availableRanks,
-      genders:
-          Provider.of<DataProvider>(context, listen: false).availableGenders,
+      sports: Provider.of<CategoriesProvider>(context, listen: false).sports,
+      ranks: Provider.of<CategoriesProvider>(context, listen: false).ranks,
+      genders: Provider.of<CategoriesProvider>(context, listen: false).genders,
     ));
   }
 
@@ -183,7 +183,7 @@ class PlayersViewModel extends ChangeNotifier {
     playersRepo
         .addPlayer(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       player,
     )
         .then((response) {
@@ -192,8 +192,8 @@ class PlayersViewModel extends ChangeNotifier {
           response.responseBody!,
         );
 
-        Provider.of<DataProvider>(context, listen: false)
-            .setPlayersResponse(responseBody);
+        Provider.of<StoreProvider>(context, listen: false)
+            .setPlayersResponse(context, responseBody);
         setPlayersDataSource(context);
         Provider.of<MenuProvider>(context, listen: false)
             .setMessageModal("Jogador(a) adicionado(a)!", null, true);
@@ -212,7 +212,7 @@ class PlayersViewModel extends ChangeNotifier {
     playersRepo
         .editPlayer(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       player,
     )
         .then((response) {
@@ -221,8 +221,8 @@ class PlayersViewModel extends ChangeNotifier {
           response.responseBody!,
         );
 
-        Provider.of<DataProvider>(context, listen: false)
-            .setPlayersResponse(responseBody);
+        Provider.of<StoreProvider>(context, listen: false)
+            .setPlayersResponse(context, responseBody);
         setPlayersDataSource(context);
         Provider.of<MenuProvider>(context, listen: false)
             .setMessageModal("Jogador(a) atualizado(a)!", null, true);
@@ -241,7 +241,7 @@ class PlayersViewModel extends ChangeNotifier {
     playersRepo
         .deleteStorePlayer(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       player.id!,
     )
         .then((response) {
@@ -250,8 +250,8 @@ class PlayersViewModel extends ChangeNotifier {
           response.responseBody!,
         );
 
-        Provider.of<DataProvider>(context, listen: false)
-            .setPlayersResponse(responseBody);
+        Provider.of<StoreProvider>(context, listen: false)
+            .setPlayersResponse(context, responseBody);
         setPlayersDataSource(context);
         Provider.of<MenuProvider>(context, listen: false)
             .setMessageModal("Jogador(a) excluído(a)", null, true);

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
 import '../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
 import '../../../../Common/Model/Court.dart';
@@ -12,7 +13,7 @@ import '../../../../Common/Model/TabItem.dart';
 import '../../../../Common/Model/User/UserStore.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../Menu/ViewModel/DataProvider.dart';
+import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
 import 'package:intl/intl.dart';
 
@@ -60,31 +61,31 @@ class CalendarViewModel extends ChangeNotifier {
     isMobile = initIsMobile;
     initTabs();
     Provider.of<MenuProvider>(context, listen: false).isDrawerExpanded = false;
-    courts = Provider.of<DataProvider>(context, listen: false).courts;
+    courts = Provider.of<StoreProvider>(context, listen: false).courts;
     storeWorkingDays =
-        Provider.of<DataProvider>(context, listen: false).storeWorkingDays !=
+        Provider.of<StoreProvider>(context, listen: false).storeWorkingDays !=
                 null
-            ? Provider.of<DataProvider>(context, listen: false)
+            ? Provider.of<StoreProvider>(context, listen: false)
                 .storeWorkingDays!
                 .map((workingDay) => StoreWorkingDay.copyFrom(workingDay))
                 .toList()
             : [];
 
     availableHours =
-        Provider.of<DataProvider>(context, listen: false).availableHours;
-    matches = Provider.of<DataProvider>(context, listen: false)
+        Provider.of<CategoriesProvider>(context, listen: false).hours;
+    matches = Provider.of<StoreProvider>(context, listen: false)
         .allMatches
         .map((match) => AppMatchStore.copyWith(match))
         .toList();
 
-    recurrentMatches = Provider.of<DataProvider>(context, listen: false)
+    recurrentMatches = Provider.of<StoreProvider>(context, listen: false)
         .recurrentMatches
         .map((recMatch) => AppRecurrentMatchStore.copyWith(recMatch))
         .toList();
     matchesStartDate =
-        Provider.of<DataProvider>(context, listen: false).matchesStartDate;
+        Provider.of<StoreProvider>(context, listen: false).matchesStartDate;
     matchesEndDate =
-        Provider.of<DataProvider>(context, listen: false).matchesEndDate;
+        Provider.of<StoreProvider>(context, listen: false).matchesEndDate;
     notifyListeners();
   }
 
@@ -176,7 +177,7 @@ class CalendarViewModel extends ChangeNotifier {
       calendarRepo
           .updateMatchesList(
               context,
-              Provider.of<DataProvider>(context, listen: false)
+              Provider.of<StoreProvider>(context, listen: false)
                   .loggedAccessToken,
               newSelectedDay)
           .then((response) {
@@ -189,10 +190,8 @@ class CalendarViewModel extends ChangeNotifier {
             matches.add(
               AppMatchStore.fromJson(
                 match,
-                Provider.of<DataProvider>(context, listen: false)
-                    .availableHours,
-                Provider.of<DataProvider>(context, listen: false)
-                    .availableSports,
+                Provider.of<CategoriesProvider>(context, listen: false).hours,
+                Provider.of<CategoriesProvider>(context, listen: false).sports,
               ),
             );
           }
@@ -743,7 +742,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .blockHour(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       idStoreCourt,
       date,
       hour.hour,
@@ -779,7 +778,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .unblockHour(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       idStoreCourt,
       date,
       hour.hour,
@@ -814,7 +813,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .recurrentBlockHour(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       idStoreCourt,
       selectedWeekday,
       hour.hour,
@@ -844,7 +843,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .recurrentUnblockHour(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       idRecurrentMatch,
     )
         .then((response) {
@@ -870,7 +869,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .cancelMatch(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       idMatch,
       cancelMatchReasonController.text,
     )
@@ -899,7 +898,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .cancelRecurrentMatch(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       idRecurrentMatch,
       cancelRecurrentMatchReasonController.text,
     )
@@ -928,17 +927,17 @@ class CalendarViewModel extends ChangeNotifier {
       response,
     );
     if (matchesStartDate ==
-        Provider.of<DataProvider>(context, listen: false).matchesStartDate) {
-      Provider.of<DataProvider>(context, listen: false)
-          .setMatches(responseBody);
+        Provider.of<StoreProvider>(context, listen: false).matchesStartDate) {
+      Provider.of<StoreProvider>(context, listen: false)
+          .setMatches(context, responseBody);
     }
     matches.clear();
     for (var match in responseBody['Matches']) {
       matches.add(
         AppMatchStore.fromJson(
           match,
-          Provider.of<DataProvider>(context, listen: false).availableHours,
-          Provider.of<DataProvider>(context, listen: false).availableSports,
+          Provider.of<CategoriesProvider>(context, listen: false).hours,
+          Provider.of<CategoriesProvider>(context, listen: false).sports,
         ),
       );
     }
@@ -953,16 +952,16 @@ class CalendarViewModel extends ChangeNotifier {
       response,
     );
 
-    Provider.of<DataProvider>(context, listen: false)
-        .setRecurrentMatches(responseBody);
+    Provider.of<StoreProvider>(context, listen: false)
+        .setRecurrentMatches(context, responseBody);
 
     recurrentMatches.clear();
     for (var recurrentMatch in responseBody['RecurrentMatches']) {
       recurrentMatches.add(
         AppRecurrentMatchStore.fromJson(
           recurrentMatch,
-          Provider.of<DataProvider>(context, listen: false).availableHours,
-          Provider.of<DataProvider>(context, listen: false).availableSports,
+          Provider.of<CategoriesProvider>(context, listen: false).hours,
+          Provider.of<CategoriesProvider>(context, listen: false).sports,
         ),
       );
     }
@@ -973,7 +972,7 @@ class CalendarViewModel extends ChangeNotifier {
     Court court,
     Hour hour,
   ) {
-    int standardPrice = Provider.of<DataProvider>(context, listen: false)
+    int standardPrice = Provider.of<StoreProvider>(context, listen: false)
         .courts
         .firstWhere(
           (loopCourt) => loopCourt.idStoreCourt == court.idStoreCourt,
@@ -999,8 +998,7 @@ class CalendarViewModel extends ChangeNotifier {
         day: selectedDay,
         hour: hour,
         standardPrice: standardPrice.toDouble(),
-        sports:
-            Provider.of<DataProvider>(context, listen: false).availableSports,
+        sports: Provider.of<CategoriesProvider>(context, listen: false).sports,
         onBlock: (player, idSport, obs, price) => blockHour(
           context,
           court.idStoreCourt!,
@@ -1027,7 +1025,7 @@ class CalendarViewModel extends ChangeNotifier {
   void setRecurrentBlockHourWidget(
       BuildContext context, Court court, Hour hour) {
     HourPriceStore standardPrice =
-        Provider.of<DataProvider>(context, listen: false)
+        Provider.of<StoreProvider>(context, listen: false)
             .courts
             .firstWhere(
               (loopCourt) => loopCourt.idStoreCourt == court.idStoreCourt,
@@ -1047,8 +1045,7 @@ class CalendarViewModel extends ChangeNotifier {
         day: selectedDay,
         standardPrice: standardPrice.recurrentPrice?.toDouble() ??
             standardPrice.price.toDouble(),
-        sports:
-            Provider.of<DataProvider>(context, listen: false).availableSports,
+        sports: Provider.of<CategoriesProvider>(context, listen: false).sports,
         hour: hour,
         onBlock: (player, idSport, obs, price) => recurrentBlockHour(
           context,
@@ -1083,7 +1080,8 @@ class CalendarViewModel extends ChangeNotifier {
           playersRepo
               .addPlayer(
             context,
-            Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+            Provider.of<StoreProvider>(context, listen: false)
+                .loggedAccessToken,
             player,
           )
               .then((response) {
@@ -1092,8 +1090,8 @@ class CalendarViewModel extends ChangeNotifier {
                 response.responseBody!,
               );
 
-              Provider.of<DataProvider>(context, listen: false)
-                  .setPlayersResponse(responseBody);
+              Provider.of<StoreProvider>(context, listen: false)
+                  .setPlayersResponse(context, responseBody);
 
               Provider.of<MenuProvider>(context, listen: false).setMessageModal(
                 "Jogador(a) adicionado(a)!",
@@ -1110,11 +1108,10 @@ class CalendarViewModel extends ChangeNotifier {
             }
           });
         },
-        sports:
-            Provider.of<DataProvider>(context, listen: false).availableSports,
-        ranks: Provider.of<DataProvider>(context, listen: false).availableRanks,
+        sports: Provider.of<CategoriesProvider>(context, listen: false).sports,
+        ranks: Provider.of<CategoriesProvider>(context, listen: false).ranks,
         genders:
-            Provider.of<DataProvider>(context, listen: false).availableGenders,
+            Provider.of<CategoriesProvider>(context, listen: false).genders,
       ),
     );
   }
@@ -1128,7 +1125,7 @@ class CalendarViewModel extends ChangeNotifier {
   }) {
     if (!isHourPast(selectedDay, timeBegin)) {
       HourPriceStore standardPrice =
-          Provider.of<DataProvider>(context, listen: false)
+          Provider.of<StoreProvider>(context, listen: false)
               .courts
               .firstWhere(
                 (loopCourt) => loopCourt.idStoreCourt == court.idStoreCourt,

@@ -14,7 +14,7 @@ import 'Features/Authentication/EmailConfirmation/View/EmailConfirmationScreen.d
 import 'Features/Authentication/ForgotPassword/View/ForgotPasswordScreen.dart';
 import 'Features/Authentication/Login/View/LoginScreen.dart';
 import 'Features/Menu/View/MenuScreen.dart';
-import 'Features/Menu/ViewModel/DataProvider.dart';
+import 'Features/Menu/ViewModel/StoreProvider.dart';
 import 'Features/Menu/ViewModel/MenuProvider.dart';
 import 'Features/Notifications/View/NotificationsScreen.dart';
 

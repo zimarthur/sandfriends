@@ -3,9 +3,10 @@ import 'package:provider/provider.dart';
 import '../../../../../Common/Components/SFDropDown.dart';
 import '../../../../../Common/Model/Hour.dart';
 import '../../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
+import '../../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../../../../Common/Utils/SFDateTime.dart';
-import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Menu/ViewModel/StoreProvider.dart';
 
 class HourSelector extends StatefulWidget {
   StoreWorkingDay storeWorkingDay;
@@ -32,12 +33,12 @@ class _HourSelectorState extends State<HourSelector> {
               setState(() {
                 widget.storeWorkingDay.isEnabled = value!;
                 widget.storeWorkingDay.startingHour =
-                    Provider.of<DataProvider>(context, listen: false)
-                        .availableHours
+                    Provider.of<CategoriesProvider>(context, listen: false)
+                        .hours
                         .reduce((a, b) => a.hour < b.hour ? a : b);
                 widget.storeWorkingDay.endingHour =
-                    Provider.of<DataProvider>(context, listen: false)
-                        .availableHours
+                    Provider.of<CategoriesProvider>(context, listen: false)
+                        .hours
                         .reduce((a, b) => a.hour > b.hour ? a : b);
               });
             }),

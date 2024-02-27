@@ -1,4 +1,5 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Common/Components/DatePicker.dart';
 
@@ -43,7 +44,7 @@ class _CalendarModalState extends State<CalendarModal> {
         border: Border.all(color: primaryDarkBlue, width: 1),
         boxShadow: const [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
       ),
-      width: width * 0.9,
+      width: kIsWeb ? 400 : width * 0.9,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -62,7 +63,10 @@ class _CalendarModalState extends State<CalendarModal> {
           ),
           Padding(
             padding: EdgeInsets.only(
-                right: width * 0.15, left: width * 0.15, bottom: height * 0.03),
+              right: defaultPadding,
+              left: defaultPadding,
+              bottom: height * 0.03,
+            ),
             child: SFButton(
               buttonLabel: "Salvar",
               textPadding: EdgeInsets.symmetric(vertical: height * 0.005),

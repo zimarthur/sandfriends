@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/User/UserComplete.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 
-import '../../../../Common/Components/Modal/CitySelectorModal.dart';
+import '../../../../Common/Components/Modal/CitySelectorModal/CitySelectorModal.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
@@ -85,40 +85,8 @@ class OnboardingViewModel extends StandardScreenViewModel {
   }
 
   void openCitySelectorModal(BuildContext context) {
-    FocusScope.of(context).unfocus();
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
-    if (Provider.of<CategoriesProvider>(context, listen: false)
-        .regions
-        .isEmpty) {
-      Provider.of<CategoriesProvider>(context, listen: false)
-          .categoriesProviderRepo
-          .getAllCities(context)
-          .then((response) {
-        if (response.responseStatus == NetworkResponseStatus.success) {
-          Provider.of<CategoriesProvider>(context, listen: false)
-              .setRegions(response.responseBody!);
-
-          displayCitySelector(context);
-        } else {
-          modalMessage = SFModalMessage(
-            title: response.responseTitle!,
-            onTap: () => openCitySelectorModal(context),
-            isHappy: false,
-            buttonText: "Tentar novamente",
-          );
-          pageStatus = PageStatus.ERROR;
-          notifyListeners();
-        }
-      });
-    } else {
-      displayCitySelector(context);
-    }
-  }
-
-  void displayCitySelector(BuildContext context) {
     widgetForm = CitySelectorModal(
-      regions: Provider.of<CategoriesProvider>(context, listen: false).regions,
+      onlyAvailableCities: false,
       onSelectedCity: (city) {
         userCity = city;
         pageStatus = PageStatus.OK;

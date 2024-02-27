@@ -4,8 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/HourPrice/HourPriceStore.dart';
 import '../../../../../../Common/Components/SFDivider.dart';
 import '../../../../../../Common/Model/OperationDay.dart';
+import '../../../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../../../../Common/Utils/Constants.dart';
-import '../../../../Menu/ViewModel/DataProvider.dart';
+import '../../../../Menu/ViewModel/StoreProvider.dart';
 import '../../../ViewModel/MyCourtsViewModel.dart';
 import 'PriceRuleRadio.dart';
 import 'PriceSelector.dart';
@@ -185,11 +186,11 @@ class _CourtDayState extends State<CourtDay> {
                                                               height:
                                                                   mainRowHeight,
                                                               availableHours: Provider.of<
-                                                                          DataProvider>(
+                                                                          CategoriesProvider>(
                                                                       context,
                                                                       listen:
                                                                           false)
-                                                                  .availableHours
+                                                                  .hours
                                                                   .where(
                                                                       (hour) {
                                                                 var validDay = widget

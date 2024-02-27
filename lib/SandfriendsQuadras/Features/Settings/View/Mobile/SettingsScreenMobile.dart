@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreen.dart';
 import '../../../../../Common/Components/SFButton.dart';
 import '../../../../../Common/Utils/Constants.dart';
-import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Menu/ViewModel/StoreProvider.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';
 import '../../ViewModel/SettingsViewModel.dart';
 
@@ -45,7 +45,7 @@ class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
                       ),
                     ),
                     Switch(
-                      value: Provider.of<DataProvider>(context)
+                      value: Provider.of<StoreProvider>(context)
                           .loggedEmployee
                           .allowNotifications,
                       onChanged: (value) =>

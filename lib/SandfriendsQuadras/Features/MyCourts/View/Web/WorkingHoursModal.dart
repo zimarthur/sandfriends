@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../../Common/Components/SFButton.dart';
 import '../../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
+import '../../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../../../Common/Utils/Constants.dart';
-import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Menu/ViewModel/StoreProvider.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';
 import '../../ViewModel/MyCourtsViewModel.dart';
 import 'HourSelector.dart';
@@ -30,11 +31,12 @@ class _WorkingHoursWidgetState extends State<WorkingHoursModal> {
         storeWorkingDays.add(
           StoreWorkingDay(
             weekday: dayIndex,
-            startingHour: Provider.of<DataProvider>(context, listen: false)
-                .availableHours
-                .reduce((a, b) => a.hour < b.hour ? a : b),
-            endingHour: Provider.of<DataProvider>(context, listen: false)
-                .availableHours
+            startingHour:
+                Provider.of<CategoriesProvider>(context, listen: false)
+                    .hours
+                    .reduce((a, b) => a.hour < b.hour ? a : b),
+            endingHour: Provider.of<CategoriesProvider>(context, listen: false)
+                .hours
                 .reduce((a, b) => a.hour > b.hour ? a : b),
             isEnabled: true,
           ),
@@ -99,9 +101,10 @@ class _WorkingHoursWidgetState extends State<WorkingHoursModal> {
                           Expanded(
                             child: HourSelector(
                               storeWorkingDay: storeWorkingDay,
-                              availableHours: Provider.of<DataProvider>(context,
+                              availableHours: Provider.of<CategoriesProvider>(
+                                      context,
                                       listen: false)
-                                  .availableHours,
+                                  .hours,
                             ),
                           )
                       ],

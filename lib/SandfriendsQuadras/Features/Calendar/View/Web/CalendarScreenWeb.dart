@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../../../Common/Components/SFHeader.dart';
 import '../../../../../Common/Components/SFTabs.dart';
 import '../../../../../Common/Utils/Constants.dart';
-import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Menu/ViewModel/StoreProvider.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';
 import '../../Model/CalendarType.dart';
 import '../../Model/PeriodType.dart';
@@ -57,7 +57,7 @@ class _CalendarScreenWebState extends State<CalendarScreenWeb> {
                   selectedPosition: viewModel.selectedTab,
                 ),
                 Expanded(
-                  child: Provider.of<DataProvider>(context, listen: false)
+                  child: Provider.of<StoreProvider>(context, listen: false)
                           .courts
                           .isEmpty
                       ? NoCourtsFound()

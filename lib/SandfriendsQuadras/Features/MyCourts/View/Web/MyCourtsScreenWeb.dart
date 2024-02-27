@@ -4,7 +4,7 @@ import '../../../../../Common/Components/SFButton.dart';
 import '../../../../../Common/Components/SFHeader.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';
-import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Menu/ViewModel/StoreProvider.dart';
 import '../../ViewModel/MyCourtsViewModel.dart';
 import 'CourtDay/CourtDay.dart';
 import 'CourtDay/ResumedInfoRowHeader.dart';
@@ -101,7 +101,7 @@ class _MyCourtsScreenWebState extends State<MyCourtsScreenWeb> {
                             onTap: () {
                               viewModel.switchTabs(-1);
                             },
-                            mouseCursor: Provider.of<DataProvider>(context)
+                            mouseCursor: Provider.of<StoreProvider>(context)
                                         .storeWorkingDays ==
                                     null
                                 ? SystemMouseCursors.basic
@@ -109,14 +109,14 @@ class _MyCourtsScreenWebState extends State<MyCourtsScreenWeb> {
                           ),
                           Expanded(
                             child: ListView.builder(
-                              itemCount: Provider.of<DataProvider>(context)
+                              itemCount: Provider.of<StoreProvider>(context)
                                   .courts
                                   .length,
                               scrollDirection: Axis.horizontal,
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 return MyCourtsTabSelector(
-                                  title: Provider.of<DataProvider>(context)
+                                  title: Provider.of<StoreProvider>(context)
                                       .courts[index]
                                       .description,
                                   isSelected:

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
@@ -7,7 +9,7 @@ import 'package:sandfriends/Sandfriends/Features/RecurrentMatchSearch/View/Weekd
 import 'package:sandfriends/Common/Utils/Constants.dart';
 import 'package:time_range/time_range.dart';
 
-import '../../../../Common/Components/Modal/CitySelectorModal.dart';
+import '../../../../Common/Components/Modal/CitySelectorModal/CitySelectorModal.dart';
 import '../../../../Common/Components/Modal/TimeModal.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Model/AvailableDay.dart';
@@ -128,40 +130,8 @@ class RecurrentMatchSearchViewModel extends StandardScreenViewModel {
   }
 
   void openCitySelectorModal(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
-    if (Provider.of<CategoriesProvider>(context, listen: false)
-        .availableRegions
-        .isEmpty) {
-      Provider.of<CategoriesProvider>(context, listen: false)
-          .categoriesProviderRepo
-          .getAvailableRegions(context)
-          .then((response) {
-        if (response.responseStatus == NetworkResponseStatus.success) {
-          Provider.of<CategoriesProvider>(context, listen: false)
-              .setAvailableRegions(response.responseBody!);
-
-          displayCitySelector(context);
-        } else {
-          modalMessage = SFModalMessage(
-            title: response.responseTitle!,
-            onTap: () => openCitySelectorModal(context),
-            isHappy: false,
-            buttonText: "Tentar novamente",
-          );
-          pageStatus = PageStatus.ERROR;
-          notifyListeners();
-        }
-      });
-    } else {
-      displayCitySelector(context);
-    }
-  }
-
-  void displayCitySelector(BuildContext context) {
     widgetForm = CitySelectorModal(
-      regions: Provider.of<CategoriesProvider>(context, listen: false)
-          .availableRegions,
+      onlyAvailableCities: true,
       themeColor: primaryLightBlue,
       onSelectedCity: (city) {
         cityFilter = city;

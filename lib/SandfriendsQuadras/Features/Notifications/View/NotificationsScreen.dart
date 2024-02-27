@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../Common/Utils/Constants.dart';
 import '../../Home/View/Web/NotificationCard.dart';
-import '../../Menu/ViewModel/DataProvider.dart';
+import '../../Menu/ViewModel/StoreProvider.dart';
 
 class NotificationsScreen extends StatefulWidget {
   NotificationsScreen({
@@ -22,10 +22,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   @override
   void initState() {
     notifications =
-        Provider.of<DataProvider>(context, listen: false).notifications;
+        Provider.of<StoreProvider>(context, listen: false).notifications;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<DataProvider>(context, listen: false).hasUnseenNotifications =
-          false;
+      Provider.of<StoreProvider>(context, listen: false)
+          .hasUnseenNotifications = false;
     });
     super.initState();
   }

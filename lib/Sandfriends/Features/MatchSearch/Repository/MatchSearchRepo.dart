@@ -11,7 +11,7 @@ class MatchSearchRepo {
 
   Future<NetworkResponse> searchCourts(
     BuildContext context,
-    String accessToken,
+    String? accessToken,
     int sportId,
     int cityId,
     DateTime dateStart,
@@ -24,7 +24,7 @@ class MatchSearchRepo {
       context,
       ApiEndPoints.searchCourts,
       jsonEncode(
-        <String, Object>{
+        <String, Object?>{
           'AccessToken': accessToken,
           'IdSport': sportId,
           'IdCity': cityId,

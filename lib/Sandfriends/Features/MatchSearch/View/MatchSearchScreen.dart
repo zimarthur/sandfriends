@@ -23,7 +23,7 @@ class _MatchSearchScreenState extends State<MatchSearchScreen> {
 
   @override
   void initState() {
-    viewModel.initMatchSearchViewModel(context, widget.sportId);
+    viewModel.initMatchSearchViewModel(context);
     super.initState();
   }
 

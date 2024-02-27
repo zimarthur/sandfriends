@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'dart:io';
 import 'dart:typed_data';
-import '../../../../Common/Components/Modal/CitySelectorModal.dart';
+import '../../../../Common/Components/Modal/CitySelectorModal/CitySelectorModal.dart';
 import '../../../../Common/Model/User/UserComplete.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Model/Gender.dart';
@@ -280,24 +280,17 @@ class UserDetailsViewModel extends StandardScreenViewModel {
         );
         break;
       case UserDetailsModals.Region:
-        if (Provider.of<CategoriesProvider>(context, listen: false)
-            .regions
-            .isEmpty) {
-          getAllCities(context);
-        } else {
-          widgetForm = CitySelectorModal(
-            regions:
-                Provider.of<CategoriesProvider>(context, listen: false).regions,
-            onSelectedCity: (selectedCity) {
-              userEdited.city = selectedCity;
-              pageStatus = PageStatus.OK;
-              notifyListeners();
-            },
-            onReturn: () => closeModal(),
-          );
-          pageStatus = PageStatus.FORM;
-          notifyListeners();
-        }
+        widgetForm = CitySelectorModal(
+          onlyAvailableCities: false,
+          onSelectedCity: (selectedCity) {
+            userEdited.city = selectedCity;
+            pageStatus = PageStatus.OK;
+            notifyListeners();
+          },
+          onReturn: () => closeModal(),
+        );
+        pageStatus = PageStatus.FORM;
+        notifyListeners();
 
         break;
       case UserDetailsModals.Photo:
@@ -310,42 +303,6 @@ class UserDetailsViewModel extends StandardScreenViewModel {
     }
     pageStatus = PageStatus.FORM;
     notifyListeners();
-  }
-
-  void getAllCities(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
-    Provider.of<CategoriesProvider>(context, listen: false)
-        .categoriesProviderRepo
-        .getAllCities(context)
-        .then((response) {
-      if (response.responseStatus == NetworkResponseStatus.success) {
-        Provider.of<CategoriesProvider>(context, listen: false)
-            .setRegions(response.responseBody!);
-
-        widgetForm = CitySelectorModal(
-          regions:
-              Provider.of<CategoriesProvider>(context, listen: false).regions,
-          onSelectedCity: (selectedCity) {
-            userEdited.city = selectedCity;
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          },
-          onReturn: () => closeModal(),
-        );
-        pageStatus = PageStatus.FORM;
-        notifyListeners();
-      } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () => getAllCities(context),
-          isHappy: false,
-          buttonText: "Tentar novamente",
-        );
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
-      }
-    });
   }
 
   void setUserRank(Rank newRank) {

@@ -8,7 +8,7 @@ import '../../../../../Common/Components/SFAvatarUser.dart';
 import '../../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/View/Mobile/SFStandardHeader.dart';
-import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Menu/ViewModel/StoreProvider.dart';
 
 class HomeHeader extends StatefulWidget {
   HomeHeader({super.key});
@@ -31,12 +31,13 @@ class _HomeHeaderState extends State<HomeHeader> {
   }
 
   Future<void> _updatePaletteGenerator() async {
-    if (Provider.of<DataProvider>(context, listen: false).store != null &&
-        Provider.of<DataProvider>(context, listen: false).store!.logo != null) {
+    if (Provider.of<StoreProvider>(context, listen: false).store != null &&
+        Provider.of<StoreProvider>(context, listen: false).store!.logo !=
+            null) {
       paletteGenerator = await PaletteGenerator.fromImageProvider(
         Image.network(
           Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
-            Provider.of<DataProvider>(context, listen: false).store!.logo!,
+            Provider.of<StoreProvider>(context, listen: false).store!.logo!,
             isImage: true,
           ),
         ).image,
@@ -74,7 +75,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                       InkWell(
                         onTap: () => throw Exception("teste hoje"),
                         child: Text(
-                          "Olá, ${Provider.of<DataProvider>(context, listen: false).loggedEmployee.firstName}!",
+                          "Olá, ${Provider.of<StoreProvider>(context, listen: false).loggedEmployee.firstName}!",
                           style: TextStyle(color: textWhite, fontSize: 16),
                         ),
                       ),
@@ -82,7 +83,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                         height: defaultPadding / 6,
                       ),
                       Text(
-                        Provider.of<DataProvider>(context, listen: false)
+                        Provider.of<StoreProvider>(context, listen: false)
                             .store!
                             .name,
                         style: TextStyle(color: textLightGrey, fontSize: 12),
@@ -98,7 +99,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                   child: Padding(
                     padding: const EdgeInsets.all(defaultPadding),
                     child: SvgPicture.asset(
-                      Provider.of<DataProvider>(
+                      Provider.of<StoreProvider>(
                         context,
                       ).hasUnseenNotifications
                           ? r"assets/icon/notification_on.svg"
@@ -144,10 +145,10 @@ class _HomeHeaderState extends State<HomeHeader> {
                 ),
                 child: SFAvatarStore(
                   height: imageSize,
-                  storePhoto: Provider.of<DataProvider>(context, listen: false)
+                  storePhoto: Provider.of<StoreProvider>(context, listen: false)
                       .store
                       ?.logo,
-                  storeName: Provider.of<DataProvider>(context, listen: false)
+                  storeName: Provider.of<StoreProvider>(context, listen: false)
                       .store!
                       .name,
                 ),

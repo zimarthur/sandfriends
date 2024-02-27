@@ -7,7 +7,7 @@ import '../../../../Common/Enum/EnumCouponStatus.dart';
 import '../../../../Common/Enum/EnumPeriodVisualization.dart';
 import '../../../../Common/Model/Coupon/CouponStore.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../Menu/ViewModel/DataProvider.dart';
+import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
 import '../Model/CouponsDataSource.dart';
 import '../Model/CouponsTableCallback.dart';
@@ -73,7 +73,9 @@ class CouponsViewModel extends ChangeNotifier {
 
   void setCouponsDataSource(BuildContext context) {
     _coupons.clear();
-    Provider.of<DataProvider>(context, listen: false).coupons.forEach((coupon) {
+    Provider.of<StoreProvider>(context, listen: false)
+        .coupons
+        .forEach((coupon) {
       _coupons.add(coupon);
     });
     couponsDataSource = CouponsDataSource(
@@ -151,7 +153,7 @@ class CouponsViewModel extends ChangeNotifier {
     couponsRepo
         .enableDisableCoupon(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       coupon,
       disable,
     )
@@ -160,8 +162,8 @@ class CouponsViewModel extends ChangeNotifier {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
         );
-        Provider.of<DataProvider>(context, listen: false)
-            .setCoupons(responseBody);
+        Provider.of<StoreProvider>(context, listen: false)
+            .setCoupons(context, responseBody);
         setCouponsDataSource(context);
         Provider.of<MenuProvider>(context, listen: false)
             .setMessageModal("Cupom atualizado!", null, true);
@@ -193,15 +195,16 @@ class CouponsViewModel extends ChangeNotifier {
     couponsRepo
         .addCoupon(
             context,
-            Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+            Provider.of<StoreProvider>(context, listen: false)
+                .loggedAccessToken,
             coupon)
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
         );
-        Provider.of<DataProvider>(context, listen: false)
-            .setCoupons(responseBody);
+        Provider.of<StoreProvider>(context, listen: false)
+            .setCoupons(context, responseBody);
         setCouponsDataSource(context);
         Provider.of<MenuProvider>(context, listen: false)
             .setMessageModal("Cupom adicionado!", null, true);

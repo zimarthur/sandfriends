@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../../Common/Model/SandfriendsQuadras/Employee.dart';
 import '../../../../../Remote/NetworkResponse.dart';
-import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Menu/ViewModel/StoreProvider.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';
 import '../Model/EmployeeDataSource.dart';
 import '../Model/EmployeeTableCallbacks.dart';
@@ -25,7 +25,7 @@ class EmployeeInfoViewModel extends ChangeNotifier {
 
   void setEmployeesDataSource(BuildContext context) {
     employees.clear();
-    Provider.of<DataProvider>(context, listen: false)
+    Provider.of<StoreProvider>(context, listen: false)
         .employees
         .forEach((employee) {
       employees.add(Employee.copyFrom(employee));
@@ -109,12 +109,12 @@ class EmployeeInfoViewModel extends ChangeNotifier {
     employeeInfoRepo
         .addEmployee(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       employeeEmail,
     )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
-        Provider.of<DataProvider>(context, listen: false)
+        Provider.of<StoreProvider>(context, listen: false)
             .setEmployeesFromResponse(context, response.responseBody!);
         setEmployeesDataSource(context);
         Provider.of<MenuProvider>(context, listen: false)
@@ -140,12 +140,13 @@ class EmployeeInfoViewModel extends ChangeNotifier {
     employeeInfoRepo
         .changeEmployeeAdmin(
             context,
-            Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+            Provider.of<StoreProvider>(context, listen: false)
+                .loggedAccessToken,
             employee.idEmployee,
             isAdmin)
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
-        Provider.of<DataProvider>(context, listen: false)
+        Provider.of<StoreProvider>(context, listen: false)
             .setEmployeesFromResponse(context, response.responseBody!);
         setEmployeesDataSource(context);
         Provider.of<MenuProvider>(context, listen: false)
@@ -171,13 +172,13 @@ class EmployeeInfoViewModel extends ChangeNotifier {
     employeeInfoRepo
         .renameEmployee(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       firstName,
       lastName,
     )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
-        Provider.of<DataProvider>(context, listen: false)
+        Provider.of<StoreProvider>(context, listen: false)
             .setEmployeesFromResponse(context, response.responseBody!);
         setEmployeesDataSource(context);
         Provider.of<MenuProvider>(context, listen: false)
@@ -202,12 +203,12 @@ class EmployeeInfoViewModel extends ChangeNotifier {
     employeeInfoRepo
         .removeEmployee(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       employee.idEmployee,
     )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
-        Provider.of<DataProvider>(context, listen: false)
+        Provider.of<StoreProvider>(context, listen: false)
             .setEmployeesFromResponse(context, response.responseBody!);
         setEmployeesDataSource(context);
         Provider.of<MenuProvider>(context, listen: false)

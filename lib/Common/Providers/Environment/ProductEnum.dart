@@ -1,6 +1,7 @@
 enum Product {
   Sandfriends,
   SandfriendsQuadras,
+  SandfriendsWebPage,
 }
 
 extension ProductString on Product {
@@ -10,6 +11,8 @@ extension ProductString on Product {
         return '';
       case Product.SandfriendsQuadras:
         return 'quadras';
+      case Product.SandfriendsWebPage:
+        return 'web';
     }
   }
 
@@ -19,6 +22,8 @@ extension ProductString on Product {
         return 'app';
       case Product.SandfriendsQuadras:
         return 'quadras';
+      case Product.SandfriendsWebPage:
+        return '';
     }
   }
 }

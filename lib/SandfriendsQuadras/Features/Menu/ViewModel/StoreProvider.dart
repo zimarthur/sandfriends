@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
 import 'package:intl/intl.dart';
+import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
 import '../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
 import '../../../../Common/Model/Coupon/CouponStore.dart';
@@ -10,7 +12,6 @@ import '../../../../Common/Model/Gender.dart';
 import '../../../../Common/Model/Hour.dart';
 import '../../../../Common/Model/HourPrice/HourPriceStore.dart';
 import '../../../../Common/Model/SandfriendsQuadras/Reward.dart';
-import '../../../../Common/Model/User/Player_old.dart';
 import '../../../../Common/Model/Rank.dart';
 import '../../../../Common/Model/SandfriendsQuadras/AppNotificationStore.dart';
 import '../../../../Common/Model/SandfriendsQuadras/AvailableSport.dart';
@@ -20,7 +21,7 @@ import '../../../../Common/Model/Sport.dart';
 import '../../../../Common/Model/Store/StoreComplete.dart';
 import '../../../../Common/Model/User/UserStore.dart';
 
-class DataProvider extends ChangeNotifier {
+class StoreProvider extends ChangeNotifier {
   StoreComplete? _store;
   StoreComplete? get store => _store;
   set store(StoreComplete? value) {
@@ -28,12 +29,10 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearDataProvider() {
+  void clearStoreProvider() {
     _employees.clear();
     _store = null;
     courts.clear();
-    availableHours.clear();
-    availableSports.clear();
     notifications.clear();
     allMatches.clear();
     rewards.clear();
@@ -66,14 +65,6 @@ class DataProvider extends ChangeNotifier {
   }
 
   List<Court> courts = [];
-
-  List<Sport> availableSports = [];
-
-  List<Hour> availableHours = [];
-
-  List<Gender> availableGenders = [];
-
-  List<Rank> availableRanks = [];
 
   List<AppNotificationStore> notifications = [];
 
@@ -151,7 +142,7 @@ class DataProvider extends ChangeNotifier {
 
   void setLoginResponse(
       BuildContext context, String response, bool keepConnected) {
-    clearDataProvider();
+    clearStoreProvider();
     Map<String, dynamic> responseBody = json.decode(
       response,
     );
@@ -169,44 +160,31 @@ class DataProvider extends ChangeNotifier {
         .firstWhere((employee) => employee.email == loggedEmail)
         .isLoggedUser = true;
 
-    for (var sport in responseBody['Sports']) {
-      availableSports.add(Sport.fromJson(sport));
-    }
-
-    for (var hour in responseBody['AvailableHours']) {
-      availableHours.add(Hour.fromJson(hour));
-    }
-
-    for (var gender in responseBody['Genders']) {
-      availableGenders.add(Gender.fromJson(gender));
-    }
-
-    for (var rank in responseBody['Ranks']) {
-      availableRanks.add(Rank.fromJson(rank, availableSports: availableSports));
-    }
+    Provider.of<CategoriesProvider>(context, listen: false)
+        .setCategoriesProvider(responseBody);
 
     for (var notification in responseBody['Notifications']) {
       notifications.add(
         AppNotificationStore.fromJson(
           notification,
-          availableHours,
-          availableSports,
+          Provider.of<CategoriesProvider>(context, listen: false).hours,
+          Provider.of<CategoriesProvider>(context, listen: false).sports,
         ),
       );
     }
 
     setLastNotificationId(context);
 
-    setPlayersResponse(responseBody);
+    setPlayersResponse(context, responseBody);
 
     store = StoreComplete.fromJson(responseBody['Store']);
 
-    setCourts(responseBody);
+    setCourts(context, responseBody);
 
-    setMatches(responseBody);
-    setRecurrentMatches(responseBody);
+    setMatches(context, responseBody);
+    setRecurrentMatches(context, responseBody);
     setRewards(responseBody);
-    setCoupons(responseBody);
+    setCoupons(context, responseBody);
 
     matchesStartDate =
         DateFormat("dd/MM/yyyy").parse(responseBody['MatchesStartDate']);
@@ -216,32 +194,34 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setPlayersResponse(Map<String, dynamic> responseBody) {
+  void setPlayersResponse(
+      BuildContext context, Map<String, dynamic> responseBody) {
     storePlayers.clear();
     for (var storePlayer in responseBody['StorePlayers']) {
       storePlayers.add(UserStore.fromStorePlayerJson(
         storePlayer,
-        availableSports,
-        availableGenders,
-        availableRanks,
+        Provider.of<CategoriesProvider>(context, listen: false).sports,
+        Provider.of<CategoriesProvider>(context, listen: false).genders,
+        Provider.of<CategoriesProvider>(context, listen: false).ranks,
       ));
     }
 
     for (var matchMember in responseBody['MatchMembers']) {
       storePlayers.add(UserStore.fromUserJson(
         matchMember,
-        availableSports,
-        availableGenders,
-        availableRanks,
+        Provider.of<CategoriesProvider>(context, listen: false).sports,
+        Provider.of<CategoriesProvider>(context, listen: false).genders,
+        Provider.of<CategoriesProvider>(context, listen: false).ranks,
       ));
     }
   }
 
-  void setCourts(Map<String, dynamic> responseBody) {
+  void setCourts(BuildContext context, Map<String, dynamic> responseBody) {
     courts.clear();
     for (var court in responseBody['Courts']) {
       var newCourt = Court.fromJson(court);
-      for (var sport in availableSports) {
+      for (var sport
+          in Provider.of<CategoriesProvider>(context, listen: false).sports) {
         bool foundSport = false;
         for (var courtSport in court["Sports"]) {
           if (courtSport["IdSport"] == sport.idSport) {
@@ -258,12 +238,18 @@ class DataProvider extends ChangeNotifier {
             .prices
             .add(
               HourPriceStore(
-                startingHour: availableHours.firstWhere(
-                    (hour) => hour.hour == courtPrices["IdAvailableHour"]),
+                startingHour: Provider.of<CategoriesProvider>(context,
+                        listen: false)
+                    .hours
+                    .firstWhere(
+                        (hour) => hour.hour == courtPrices["IdAvailableHour"]),
                 price: courtPrices["Price"],
                 recurrentPrice: courtPrices["RecurrentPrice"],
-                endingHour: availableHours.firstWhere(
-                    (hour) => hour.hour > courtPrices["IdAvailableHour"]),
+                endingHour: Provider.of<CategoriesProvider>(context,
+                        listen: false)
+                    .hours
+                    .firstWhere(
+                        (hour) => hour.hour > courtPrices["IdAvailableHour"]),
               ),
             );
       }
@@ -272,27 +258,28 @@ class DataProvider extends ChangeNotifier {
     }
   }
 
-  void setMatches(Map<String, dynamic> responseBody) {
+  void setMatches(BuildContext context, Map<String, dynamic> responseBody) {
     allMatches.clear();
     for (var match in responseBody['Matches']) {
       allMatches.add(
         AppMatchStore.fromJson(
           match,
-          availableHours,
-          availableSports,
+          Provider.of<CategoriesProvider>(context, listen: false).hours,
+          Provider.of<CategoriesProvider>(context, listen: false).sports,
         ),
       );
     }
   }
 
-  void setRecurrentMatches(Map<String, dynamic> responseBody) {
+  void setRecurrentMatches(
+      BuildContext context, Map<String, dynamic> responseBody) {
     recurrentMatches.clear();
     for (var recurrentMatch in responseBody['RecurrentMatches']) {
       recurrentMatches.add(
         AppRecurrentMatchStore.fromJson(
           recurrentMatch,
-          availableHours,
-          availableSports,
+          Provider.of<CategoriesProvider>(context, listen: false).hours,
+          Provider.of<CategoriesProvider>(context, listen: false).sports,
         ),
       );
     }
@@ -307,13 +294,13 @@ class DataProvider extends ChangeNotifier {
     }
   }
 
-  void setCoupons(Map<String, dynamic> responseBody) {
+  void setCoupons(BuildContext context, Map<String, dynamic> responseBody) {
     coupons.clear();
     for (var coupon in responseBody['Coupons']) {
       coupons.add(
         CouponStore.fromJson(
           coupon,
-          availableHours,
+          Provider.of<CategoriesProvider>(context, listen: false).hours,
         ),
       );
     }
