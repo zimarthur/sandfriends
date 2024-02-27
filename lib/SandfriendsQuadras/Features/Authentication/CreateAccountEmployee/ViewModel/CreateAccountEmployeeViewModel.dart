@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:sandfriends/Common/Managers/LinkOpener/LinkOpenerManager.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:flutter/material.dart';
+import '../../../../../Common/Utils/Constants.dart';
 import '../../../../../Common/Utils/PageStatus.dart';
 import '../../../../../Remote/NetworkResponse.dart';
 import '../../../../../Common/Components/Modal/SFModalMessage.dart';
@@ -95,12 +96,10 @@ class CreateAccountEmployeeViewModel extends StandardScreenViewModel {
   }
 
   void onTapTermosDeUso(BuildContext context) {
-    LinkOpenerManager()
-        .openLink(context, 'https://www.sandfriends.com.br/termos');
+    LinkOpenerManager().openLink(context, termsUse);
   }
 
   void onTapPoliticaDePrivacidade(BuildContext context) {
-    LinkOpenerManager().openLink(
-        context, 'https://www.sandfriends.com.br/politicaprivacidade');
+    LinkOpenerManager().openLink(context, privacyPolicy);
   }
 }

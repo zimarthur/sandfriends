@@ -7,6 +7,7 @@ import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
+import '../../../../Common/Utils/Constants.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Utils/PageStatus.dart';
 
@@ -23,11 +24,11 @@ class AppInfoViewModel extends StandardScreenViewModel {
   }
 
   void onTapTerms(BuildContext context) {
-    launchUrl(Uri.parse("https://www.sandfriends.com.br/termos"));
+    launchUrl(Uri.parse(termsUse));
   }
 
   void onTapPrivacy(BuildContext context) {
-    launchUrl(Uri.parse("https://www.sandfriends.com.br/politicaprivacidade"));
+    launchUrl(Uri.parse(privacyPolicy));
   }
 
   void onDeleteAccount(BuildContext context) {

@@ -146,8 +146,7 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                                             ),
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
-                                                launchUrl(Uri.parse(
-                                                    "https://www.sandfriends.com.br/termos"));
+                                                launchUrl(Uri.parse(termsUse));
                                               }),
                                         const TextSpan(text: " e a "),
                                         TextSpan(
@@ -158,8 +157,8 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                                             ),
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
-                                                launchUrl(Uri.parse(
-                                                    "https://www.sandfriends.com.br/politicaprivacidade"));
+                                                launchUrl(
+                                                    Uri.parse(privacyPolicy));
                                               }),
                                         const TextSpan(text: "."),
                                       ],

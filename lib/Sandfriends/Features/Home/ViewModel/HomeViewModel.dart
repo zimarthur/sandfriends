@@ -264,7 +264,7 @@ class HomeViewModel extends StandardScreenViewModel {
   }
 
   void contactSupport() {
-    final url = Uri.parse("whatsapp://send?phone=$whatsApp");
+    final url = Uri.parse(whatsAppLink);
     launchUrl(url);
   }
 

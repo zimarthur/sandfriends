@@ -91,7 +91,7 @@ class _ScreenInformationModalState extends State<ScreenInformationModal> {
               ),
               InkWell(
                 onTap: () {
-                  final url = Uri.parse("whatsapp://send?phone=$whatsApp");
+                  final url = Uri.parse(whatsAppLink);
                   launchUrl(url);
                 },
                 child: Container(
