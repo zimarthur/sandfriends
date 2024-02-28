@@ -2,7 +2,7 @@ import 'HourPrice/HourPriceStore.dart';
 import 'Hour.dart';
 import 'SandfriendsQuadras/PriceRule.dart';
 
-class OperationDay {
+class OperationDayStore {
   int weekday;
   List<HourPriceStore> prices = [];
   bool isExpanded = false;
@@ -41,15 +41,15 @@ class OperationDay {
     }
   }
 
-  OperationDay({
+  OperationDayStore({
     required this.weekday,
   });
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    if (other is OperationDay == false) return false;
-    OperationDay otherOpDay = other as OperationDay;
+    if (other is OperationDayStore == false) return false;
+    OperationDayStore otherOpDay = other as OperationDayStore;
     if (prices.length != otherOpDay.prices.length) {
       return false;
     }
@@ -106,8 +106,8 @@ class OperationDay {
     return calculatedRules;
   }
 
-  factory OperationDay.copyFrom(OperationDay refOpDay) {
-    final opDay = OperationDay(weekday: refOpDay.weekday);
+  factory OperationDayStore.copyFrom(OperationDayStore refOpDay) {
+    final opDay = OperationDayStore(weekday: refOpDay.weekday);
     for (var price in refOpDay.prices) {
       opDay.prices.add(
         HourPriceStore.copyFrom(price),

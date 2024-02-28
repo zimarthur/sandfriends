@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../../Common/Model/Court.dart';
 import '../../../../Common/Model/Hour.dart';
 import '../../../../Common/Model/HourPrice/HourPriceStore.dart';
-import '../../../../Common/Model/OperationDay.dart';
+import '../../../../Common/Model/OperationDayStore.dart';
 import '../../../../Common/Model/SandfriendsQuadras/AvailableSport.dart';
 import '../../../../Common/Model/SandfriendsQuadras/PriceRule.dart';
 import '../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
@@ -98,7 +98,7 @@ class MyCourtsViewModel extends ChangeNotifier {
     );
     for (int weekday = 0; weekday < 7; weekday++) {
       newCourt.operationDays.add(
-        OperationDay(
+        OperationDayStore(
           weekday: weekday,
         ),
       );
@@ -267,7 +267,7 @@ class MyCourtsViewModel extends ChangeNotifier {
 
   void onChangedRuleStartingHour(
     BuildContext context,
-    OperationDay operationDay,
+    OperationDayStore operationDay,
     Hour oldStartingHour,
     String? newHourString,
   ) {
@@ -321,7 +321,7 @@ class MyCourtsViewModel extends ChangeNotifier {
 
   void onChangedRuleEndingHour(
     BuildContext context,
-    OperationDay operationDay,
+    OperationDayStore operationDay,
     Hour oldEndingHour,
     String? newHourString,
   ) {
@@ -375,7 +375,7 @@ class MyCourtsViewModel extends ChangeNotifier {
   void onChangedPrice(
     String stringNewPrice,
     PriceRule priceRule,
-    OperationDay operationDay,
+    OperationDayStore operationDay,
     bool isRecurrent,
     TextEditingController controller,
   ) {
@@ -397,7 +397,7 @@ class MyCourtsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setIsPriceStandard(OperationDay opDay, bool isNewPriceCustom) {
+  void setIsPriceStandard(OperationDayStore opDay, bool isNewPriceCustom) {
     if (!isNewPriceCustom) {
       int standardPrice = opDay.prices.first.price;
       int? standardRecurrentPrice = opDay.prices.first.recurrentPrice;
@@ -412,7 +412,7 @@ class MyCourtsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setAllowRecurrent(OperationDay opDay, bool allowReccurrent) {
+  void setAllowRecurrent(OperationDayStore opDay, bool allowReccurrent) {
     if (allowReccurrent) {
       for (var hourPrice in opDay.prices) {
         hourPrice.recurrentPrice = hourPrice.price;
@@ -440,7 +440,7 @@ class MyCourtsViewModel extends ChangeNotifier {
       newCourt.operationDays.clear();
       for (var opDay in currentCourt.operationDays) {
         newCourt.operationDays.add(
-          OperationDay.copyFrom(
+          OperationDayStore.copyFrom(
             opDay,
           ),
         );
@@ -460,7 +460,7 @@ class MyCourtsViewModel extends ChangeNotifier {
       courts[selectedCourtIndex].operationDays.clear();
       for (var opDay in currentCourt.operationDays) {
         courts[selectedCourtIndex].operationDays.add(
-              OperationDay.copyFrom(
+              OperationDayStore.copyFrom(
                 opDay,
               ),
             );
@@ -486,7 +486,7 @@ class MyCourtsViewModel extends ChangeNotifier {
       currentCourt.operationDays.clear();
       for (var opDay in newCourt.operationDays) {
         currentCourt.operationDays.add(
-          OperationDay.copyFrom(
+          OperationDayStore.copyFrom(
             opDay,
           ),
         );
@@ -507,7 +507,7 @@ class MyCourtsViewModel extends ChangeNotifier {
       currentCourt.operationDays.clear();
       for (var opDay in courts[newIndex].operationDays) {
         currentCourt.operationDays.add(
-          OperationDay.copyFrom(
+          OperationDayStore.copyFrom(
             opDay,
           ),
         );

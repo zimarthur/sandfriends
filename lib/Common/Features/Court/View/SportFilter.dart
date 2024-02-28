@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../Common/Model/Sport.dart';
-import '../../../../Common/Utils/Constants.dart';
+import '../../../Model/Sport.dart';
+import '../../../Utils/Constants.dart';
 
 class SportFilter extends StatefulWidget {
   Sport selectedSport;

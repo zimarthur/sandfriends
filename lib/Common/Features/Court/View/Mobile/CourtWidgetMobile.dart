@@ -2,34 +2,34 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Sandfriends/Features/Court/View/CourtContact.dart';
-import 'package:sandfriends/Sandfriends/Features/Court/View/CourtDescription.dart';
-import 'package:sandfriends/Sandfriends/Features/Court/View/CourtPhotos.dart';
-import 'package:sandfriends/Sandfriends/Features/Court/View/CourtReservationSection.dart';
+import 'package:sandfriends/Common/Features/Court/View/Mobile/CourtContact.dart';
+import 'package:sandfriends/Common/Features/Court/View/Mobile/CourtDescription.dart';
+import 'package:sandfriends/Common/Features/Court/View/Mobile/CourtPhotos.dart';
+import 'package:sandfriends/Common/Features/Court/View/CourtReservationSection.dart';
 import 'package:sandfriends/Common/Model/Court.dart';
 import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../Common/Components/SFButton.dart';
-import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
-import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
-import '../../../../Common/Components/SFLoading.dart';
-import '../../../../Common/Utils/Constants.dart';
-import '../ViewModel/CourtViewModel.dart';
+import '../../../../Components/SFButton.dart';
+import '../../../../Providers/Environment/EnvironmentProvider.dart';
+import '../../../../Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../Components/SFLoading.dart';
+import '../../../../Utils/Constants.dart';
+import '../../ViewModel/CourtViewModel.dart';
 import 'CourtMap.dart';
 
-class CourtWidget extends StatefulWidget {
+class CourtWidgetMobile extends StatefulWidget {
   final CourtViewModel viewModel;
-  const CourtWidget({
+  const CourtWidgetMobile({
     Key? key,
     required this.viewModel,
   }) : super(key: key);
 
   @override
-  State<CourtWidget> createState() => _CourtWidgetState();
+  State<CourtWidgetMobile> createState() => _CourtWidgetMobileState();
 }
 
-class _CourtWidgetState extends State<CourtWidget> {
+class _CourtWidgetMobileState extends State<CourtWidgetMobile> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;

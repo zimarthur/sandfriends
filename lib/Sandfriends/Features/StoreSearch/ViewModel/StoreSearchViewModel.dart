@@ -198,7 +198,7 @@ class StoreSearchViewModel extends StandardScreenViewModel {
   void onTapStore(BuildContext context, StoreUser store) {
     Navigator.pushNamed(
       context,
-      '/court',
+      '/quadras/${store.url}',
       arguments: {
         'store': store,
         'canMakeReservation': true,

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Sandfriends/Features/Court/View/DayFilter.dart';
-import 'package:sandfriends/Sandfriends/Features/Court/View/SportFilter.dart';
-import 'package:sandfriends/Sandfriends/Features/Court/ViewModel/CourtViewModel.dart';
+import 'package:sandfriends/Common/Features/Court/View/DayFilter.dart';
+import 'package:sandfriends/Common/Features/Court/View/SportFilter.dart';
+import 'package:sandfriends/Common/Features/Court/ViewModel/CourtViewModel.dart';
 import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
 
-import '../../../../Common/Components/AvailableDaysResult/AvailableHourCard.dart';
-import '../../../../Common/Components/SFLoading.dart';
-import '../../../../Common/Utils/SFDateTime.dart';
+import '../../../Components/AvailableDaysResult/AvailableHourCard.dart';
+import '../../../Components/SFLoading.dart';
+import '../../../Utils/SFDateTime.dart';
 
 class CourtReservationSection extends StatefulWidget {
   CourtViewModel viewModel;

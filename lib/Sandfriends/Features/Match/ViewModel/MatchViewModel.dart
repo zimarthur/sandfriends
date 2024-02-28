@@ -221,7 +221,7 @@ class MatchViewModel extends StandardScreenViewModel {
   void onTapStore(BuildContext context) {
     Navigator.pushNamed(
       context,
-      '/court',
+      '/quadras/${match.court.store!.url}',
       arguments: {
         'store': match.court.store!,
       },

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../Common/Utils/Constants.dart';
+import '../../../../Utils/Constants.dart';
 
 class CourtDescription extends StatelessWidget {
   final String description;

@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
-import '../../../../Common/Components/SFLoading.dart';
-import '../../../../Common/Utils/Constants.dart';
+import '../../../../Providers/Environment/EnvironmentProvider.dart';
+import '../../../../Components/SFLoading.dart';
+import '../../../../Utils/Constants.dart';
 
 class CourtPhotos extends StatefulWidget {
   final int selectedPhotoIndex;

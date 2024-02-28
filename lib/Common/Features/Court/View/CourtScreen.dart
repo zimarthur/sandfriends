@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Features/Court/View/Web/CourtWidgetWeb.dart';
 import 'package:sandfriends/Common/Model/HourPrice/HourPriceUser.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
+import 'package:sandfriends/Common/Utils/Constants.dart';
 
-import '../../../../Common/Model/Hour.dart';
-import '../../../../Common/Model/Sport.dart';
-import '../../../../Common/Model/Store/StoreComplete.dart';
-import '../../../../Common/StandardScreen/StandardScreen.dart';
+import '../../../Model/Hour.dart';
+import '../../../Model/Sport.dart';
+import '../../../Model/Store/StoreComplete.dart';
+import '../../../StandardScreen/StandardScreen.dart';
 import '../Model/CourtAvailableHours.dart';
 import '../ViewModel/CourtViewModel.dart';
-import 'CourtWidget.dart';
+import 'Mobile/CourtWidgetMobile.dart';
 
 class CourtScreen extends StatefulWidget {
+  final String storeUrl;
   final StoreUser? store;
-  final String? idStore;
   final List<CourtAvailableHours>? courtAvailableHours;
   final HourPriceUser? selectedHourPrice;
   final DateTime? selectedDate;
@@ -26,8 +28,8 @@ class CourtScreen extends StatefulWidget {
 
   const CourtScreen({
     super.key,
+    required this.storeUrl,
     this.store,
-    this.idStore,
     this.courtAvailableHours,
     this.selectedHourPrice,
     this.selectedDate,
@@ -51,7 +53,7 @@ class _CourtScreenState extends State<CourtScreen> {
     viewModel.initCourtViewModel(
       context,
       widget.store,
-      widget.idStore,
+      widget.storeUrl,
       widget.courtAvailableHours,
       widget.selectedHourPrice,
       widget.selectedDate,
@@ -74,9 +76,11 @@ class _CourtScreenState extends State<CourtScreen> {
           return StandardScreen(
             viewModel: viewModel,
             enableToolbar: false,
-            child: CourtWidget(
+            background: secondaryBack,
+            child: CourtWidgetMobile(
               viewModel: viewModel,
             ),
+            childWeb: CourtWidgetWeb(),
           );
         },
       ),

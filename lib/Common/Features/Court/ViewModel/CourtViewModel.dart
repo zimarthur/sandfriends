@@ -1,28 +1,32 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Model/OperationDayUser.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
+import 'package:sandfriends/Common/Providers/Environment/Environment.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
+import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
-import 'package:sandfriends/Sandfriends/Features/Court/Model/CourtAvailableHours.dart';
+import 'package:sandfriends/Common/Features/Court/Model/CourtAvailableHours.dart';
 import 'package:sandfriends/Common/Model/HourPrice/HourPriceUser.dart';
 import 'package:sandfriends/Common/Utils/SFDateTime.dart';
 import 'package:tuple/tuple.dart';
-import '../../../../Common/Model/AppMatch/AppMatchUser.dart';
+import '../../../Model/AppMatch/AppMatchUser.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../../../Common/Model/AvailableDay.dart';
-import '../../../../Common/Model/Court.dart';
-import '../../../../Common/Model/Hour.dart';
-import '../../../../Common/Model/Sport.dart';
-import '../../../../Common/Model/Store/StoreComplete.dart';
-import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
-import '../../../Providers/UserProvider/UserProvider.dart';
-import '../../../../Common/Components/Modal/SFModalMessage.dart';
-import '../../../../Common/Utils/PageStatus.dart';
-import '../../MatchSearch/Repository/MatchSearchDecoder.dart';
-import '../../MatchSearch/Repository/MatchSearchRepo.dart';
-import '../../MatchSearch/View/CalendarModal.dart';
-import '../../RecurrentMatchSearch/Repository/RecurrentMatchDecoder.dart';
-import '../../RecurrentMatchSearch/Repository/RecurrentMatchSearchRepo.dart';
+import '../../../Model/AvailableDay.dart';
+import '../../../Model/Court.dart';
+import '../../../Model/Hour.dart';
+import '../../../Model/Sport.dart';
+import '../../../Model/Store/StoreComplete.dart';
+import '../../../Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../Sandfriends/Providers/UserProvider/UserProvider.dart';
+import '../../../Components/Modal/SFModalMessage.dart';
+import '../../../Utils/PageStatus.dart';
+import '../../../../Sandfriends/Features/MatchSearch/Repository/MatchSearchDecoder.dart';
+import '../../../../Sandfriends/Features/MatchSearch/Repository/MatchSearchRepo.dart';
+import '../../../../Sandfriends/Features/MatchSearch/View/CalendarModal.dart';
+import '../../../../Sandfriends/Features/RecurrentMatchSearch/Repository/RecurrentMatchDecoder.dart';
+import '../../../../Sandfriends/Features/RecurrentMatchSearch/Repository/RecurrentMatchSearchRepo.dart';
 import '../Repository/CourtRepo.dart';
 
 class CourtViewModel extends StandardScreenViewModel {
@@ -45,6 +49,8 @@ class CourtViewModel extends StandardScreenViewModel {
   Hour? searchEndPeriod;
 
   Sport? selectedSport;
+
+  bool isLoadingOperationDays = true;
 
   void setSport(BuildContext context, Sport sport) {
     selectedSport = sport;
@@ -75,7 +81,7 @@ class CourtViewModel extends StandardScreenViewModel {
   Future<void> initCourtViewModel(
     BuildContext context,
     StoreUser? newStore,
-    String? newIdStore,
+    String newStoreUrl,
     List<CourtAvailableHours>? newCourtAvailableHours,
     HourPriceUser? newselectedHourPrice,
     DateTime? newSelectedDate,
@@ -93,7 +99,11 @@ class CourtViewModel extends StandardScreenViewModel {
     if (store == null) {
       pageStatus = PageStatus.LOADING;
       notifyListeners();
-      final response = await courtRepo.getStore(context, newIdStore!);
+      // if (Provider.of<EnvironmentProvider>(context, listen: false)
+      //         .environment
+      //         .product ==
+      //     Product.Sandfriends) {
+      final response = await courtRepo.getStore(context, newStoreUrl);
 
       if (response.responseStatus == NetworkResponseStatus.success) {
         store = StoreUser.fromJson(json.decode(response.responseBody!));
@@ -115,6 +125,7 @@ class CourtViewModel extends StandardScreenViewModel {
         pageStatus = PageStatus.ERROR;
         notifyListeners();
       }
+      //} else {}
     }
 
     if (newCourtAvailableHours != null) {
@@ -163,6 +174,27 @@ class CourtViewModel extends StandardScreenViewModel {
     }
 
     notifyListeners();
+    loadStoreOperationDays(context);
+  }
+
+  void loadStoreOperationDays(BuildContext context) {
+    courtRepo.getStoreOperationDays(context, store!.idStore).then((response) {
+      if (response.responseStatus == NetworkResponseStatus.success) {
+        List<dynamic> responseBody = json.decode(response.responseBody!);
+
+        store!.operationDays = responseBody
+            .map(
+              (opDay) => OperationDayUser.fromJson(
+                opDay,
+                Provider.of<CategoriesProvider>(context, listen: false).hours,
+              ),
+            )
+            .toList();
+      }
+
+      isLoadingOperationDays = false;
+      notifyListeners();
+    });
   }
 
   void onSelectedPhotoChanged(int newIndex) {

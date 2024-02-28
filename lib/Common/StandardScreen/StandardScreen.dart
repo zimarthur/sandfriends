@@ -20,6 +20,7 @@ class StandardScreen extends StatefulWidget {
   final Widget child;
   final Widget? childWeb;
   final AppBarType? appBarType;
+  final Color? background;
   final Widget? rightWidget;
   final bool resizeToAvoidBottomInset = false;
   final bool enableToolbar;
@@ -35,6 +36,7 @@ class StandardScreen extends StatefulWidget {
     this.rightWidget,
     this.appBarType = AppBarType.Primary,
     this.enableToolbar = true,
+    this.background,
     this.drawer,
     this.scaffoldKey,
   }) : super(key: key);
@@ -63,11 +65,12 @@ class _StandardScreenState extends State<StandardScreen> {
         endDrawer: widget.drawer,
         key: widget.scaffoldKey,
         resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-        backgroundColor: widget.appBarType == AppBarType.Primary
-            ? primaryBlue
-            : widget.appBarType == AppBarType.PrimaryLightBlue
-                ? primaryLightBlue
-                : secondaryBack,
+        backgroundColor: widget.background ??
+            (widget.appBarType == AppBarType.Primary
+                ? primaryBlue
+                : widget.appBarType == AppBarType.PrimaryLightBlue
+                    ? primaryLightBlue
+                    : secondaryBack),
         body: SafeArea(
           top: widget.enableToolbar,
           child: Stack(

@@ -13,6 +13,7 @@ class SearchFilter extends StatefulWidget {
   List<DateTime?> dates;
   TimeRangeResult? time;
   VoidCallback onSearch;
+  Axis direction;
   SearchFilter({
     required this.onTapLocation,
     required this.onTapDate,
@@ -21,6 +22,7 @@ class SearchFilter extends StatefulWidget {
     required this.dates,
     required this.time,
     required this.onSearch,
+    required this.direction,
     super.key,
   });
 
@@ -33,112 +35,149 @@ class _SearchFilterState extends State<SearchFilter> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return Center(
-      child: Container(
-        height: 80,
-        width: width * 0.6,
-        decoration: const BoxDecoration(
-          color: secondaryPaper,
-          borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(
-              defaultBorderRadius,
-            ),
-            bottomLeft: Radius.circular(
-              defaultBorderRadius,
-            ),
+    bool isVertical = widget.direction == Axis.vertical;
+    return Container(
+      height: isVertical ? 300 : 80,
+      width: isVertical ? 250 : width * 0.6,
+      decoration: BoxDecoration(
+        color: secondaryPaper,
+        borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(
+            defaultBorderRadius,
           ),
-          boxShadow: [
-            BoxShadow(
-              color: divider,
-              blurRadius: 5,
-              offset: Offset(
-                2.0,
-                5.0,
-              ),
-            )
-          ],
+          bottomLeft: Radius.circular(
+            isVertical ? 0 : defaultBorderRadius,
+          ),
+          topRight: Radius.circular(
+            isVertical ? defaultBorderRadius : 0,
+          ),
         ),
-        child: Column(
-          children: [
-            Container(
-              height: 5,
-              color: primaryLightBlue,
+        boxShadow: [
+          BoxShadow(
+            color: divider,
+            blurRadius: 5,
+            offset: Offset(
+              2.0,
+              5.0,
             ),
-            Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: SearchFilterItem(
-                      title: "Onde",
-                      hint: widget.city != null
-                          ? widget.city!.cityState
-                          : "Buscar cidades disponíveis",
-                      onTap: () => widget.onTapLocation(),
-                    ),
+          )
+        ],
+      ),
+      child: Flex(
+        direction: isVertical ? Axis.horizontal : Axis.vertical,
+        children: [
+          Container(
+            height: isVertical ? null : 5,
+            width: isVertical ? 10 : null,
+            color: primaryLightBlue,
+          ),
+          Expanded(
+            child: Flex(
+              //mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              direction: widget.direction,
+              children: [
+                Expanded(
+                  flex: isVertical ? 1 : 2,
+                  child: SearchFilterItem(
+                    title: "Onde",
+                    hint: widget.city != null
+                        ? widget.city!.cityState
+                        : "Buscar cidades disponíveis",
+                    onTap: () => widget.onTapLocation(),
+                    isVertical: isVertical,
                   ),
-                  Container(
-                    width: 1,
-                    height: 50,
-                    color: divider,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: SearchFilterItem(
-                      title: "Datas",
-                      hint: widget.dates.isEmpty
-                          ? "Selecione os dias"
-                          : widget.dates.length == 1
-                              ? "${widget.dates[0]!.day.toString().padLeft(2, '0')}/${widget.dates[0]!.month.toString().padLeft(2, '0')}"
-                              : "${widget.dates[0]!.day.toString().padLeft(2, '0')}/${widget.dates[0]!.month.toString().padLeft(2, '0')} - ${widget.dates[1]!.day.toString().padLeft(2, '0')}/${widget.dates[1]!.month.toString().padLeft(2, '0')}",
-                      onTap: () => widget.onTapDate(),
-                    ),
-                  ),
-                  Container(
-                    width: 1,
-                    height: 50,
-                    color: divider,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: SearchFilterItem(
-                      title: "Horários",
-                      hint: widget.time == null
-                          ? "Informe o período"
-                          : "${widget.time!.start.hour.toString().padLeft(2, '0')}:${widget.time!.start.minute.toString().padLeft(2, '0')} - ${widget.time!.end.hour.toString().padLeft(2, '0')}:${widget.time!.end.minute.toString().padLeft(2, '0')}",
-                      onTap: () => widget.onTapTime(),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () => widget.onSearch(),
-                    onHover: (hovered) {
-                      setState(() {
-                        isSearchHovered = hovered;
-                      });
-                    },
+                ),
+                if (!isVertical)
+                  Center(
                     child: Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: isSearchHovered ? primaryDarkBlue : primaryBlue,
-                      ),
+                      width: 1,
                       height: 50,
-                      width: 50,
-                      child: Center(
-                        child: SvgPicture.asset(
+                      color: divider,
+                    ),
+                  ),
+                Expanded(
+                  flex: 1,
+                  child: SearchFilterItem(
+                    title: "Datas",
+                    hint: widget.dates.isEmpty
+                        ? "Selecione os dias"
+                        : widget.dates.length == 1
+                            ? "${widget.dates[0]!.day.toString().padLeft(2, '0')}/${widget.dates[0]!.month.toString().padLeft(2, '0')}"
+                            : "${widget.dates[0]!.day.toString().padLeft(2, '0')}/${widget.dates[0]!.month.toString().padLeft(2, '0')} - ${widget.dates[1]!.day.toString().padLeft(2, '0')}/${widget.dates[1]!.month.toString().padLeft(2, '0')}",
+                    onTap: () => widget.onTapDate(),
+                    isVertical: isVertical,
+                  ),
+                ),
+                if (!isVertical)
+                  Center(
+                    child: Container(
+                      width: 1,
+                      height: 50,
+                      color: divider,
+                    ),
+                  ),
+                Expanded(
+                  flex: 1,
+                  child: SearchFilterItem(
+                    title: "Horários",
+                    hint: widget.time == null
+                        ? "Informe o período"
+                        : "${widget.time!.start.hour.toString().padLeft(2, '0')}:${widget.time!.start.minute.toString().padLeft(2, '0')} - ${widget.time!.end.hour.toString().padLeft(2, '0')}:${widget.time!.end.minute.toString().padLeft(2, '0')}",
+                    onTap: () => widget.onTapTime(),
+                    isVertical: isVertical,
+                  ),
+                ),
+                InkWell(
+                  onTap: () => widget.onSearch(),
+                  onHover: (hovered) {
+                    setState(() {
+                      isSearchHovered = hovered;
+                    });
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(
+                        horizontal: defaultPadding / 2,
+                        vertical: isVertical ? defaultPadding : 0),
+                    decoration: BoxDecoration(
+                      color: isSearchHovered ? primaryDarkBlue : primaryBlue,
+                      borderRadius: isVertical
+                          ? BorderRadius.circular(
+                              defaultPadding,
+                            )
+                          : null,
+                      shape: isVertical ? BoxShape.rectangle : BoxShape.circle,
+                    ),
+                    height: 50,
+                    width: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
                           r"assets/icon/search.svg",
                           color: textWhite,
                           height: 25,
                         ),
-                      ),
+                        if (isVertical)
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: defaultPadding / 2,
+                            ),
+                            child: Text(
+                              "Buscar",
+                              style: TextStyle(
+                                color: textWhite,
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -148,10 +187,12 @@ class SearchFilterItem extends StatefulWidget {
   String title;
   String hint;
   VoidCallback onTap;
+  bool isVertical;
   SearchFilterItem({
     required this.title,
     required this.hint,
     required this.onTap,
+    required this.isVertical,
     super.key,
   });
 
@@ -178,7 +219,10 @@ class _SearchFilterItemState extends State<SearchFilterItem> {
               defaultBorderRadius,
             ),
             bottomLeft: Radius.circular(
-              defaultBorderRadius,
+              widget.isVertical ? 0 : defaultBorderRadius,
+            ),
+            topRight: Radius.circular(
+              widget.isVertical ? defaultBorderRadius : 0,
             ),
           ),
           color: isHovered ? divider : secondaryPaper,

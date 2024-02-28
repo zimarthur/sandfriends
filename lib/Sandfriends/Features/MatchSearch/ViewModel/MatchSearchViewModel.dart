@@ -12,6 +12,7 @@ import 'package:tuple/tuple.dart';
 import '../../../../Common/Components/Modal/CitySelectorModal/CitySelectorModal.dart';
 import '../../../../Common/Components/Modal/TimeModal.dart';
 import '../../../../Common/Model/AppMatch/AppMatchUser.dart';
+import '../../../../Common/Model/Store/Store.dart';
 import '../../../../Common/Model/Store/StoreUser.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Model/AvailableDay.dart';
@@ -21,7 +22,7 @@ import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart'
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
-import '../../Court/Model/CourtAvailableHours.dart';
+import '../../../../Common/Features/Court/Model/CourtAvailableHours.dart';
 import '../Repository/MatchSearchDecoder.dart';
 import '../Repository/MatchSearchRepo.dart';
 import '../View/CalendarModal.dart';
@@ -207,11 +208,11 @@ class MatchSearchViewModel extends StandardScreenViewModel {
     notifyListeners();
   }
 
-  void goToCourt(BuildContext context, StoreUser store,
+  void goToCourt(BuildContext context, Store store,
       {bool noArguments = false}) {
     Navigator.pushNamed(
       context,
-      '/court',
+      '/quadras',
       arguments: noArguments
           ? {
               'store': store,

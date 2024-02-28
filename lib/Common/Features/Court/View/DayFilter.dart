@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../Common/Utils/Constants.dart';
-import '../../../../Common/Utils/SFDateTime.dart';
+import '../../../Utils/Constants.dart';
+import '../../../Utils/SFDateTime.dart';
 
 class DayFilter extends StatelessWidget {
   DateTime? date;

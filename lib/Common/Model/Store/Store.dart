@@ -12,6 +12,7 @@ abstract class Store {
   double latitude;
   double longitude;
   String phoneNumber;
+  String url;
 
   List<Court> courts = [];
 
@@ -26,6 +27,7 @@ abstract class Store {
     required this.latitude,
     required this.longitude,
     required this.phoneNumber,
+    required this.url,
   });
 
   String get completeAddress =>

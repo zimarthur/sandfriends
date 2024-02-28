@@ -9,6 +9,8 @@ import '../../../Common/Model/Sport.dart';
 import '../../../Common/Model/User/UserComplete.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../../Features/Authentication/LoadLogin/Repository/LoadLoginRepo.dart';
+
 class UserProvider extends ChangeNotifier {
   UserComplete? _user;
   UserComplete? get user => _user;

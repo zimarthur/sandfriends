@@ -8,6 +8,8 @@ import 'package:sandfriends/SandfriendsWebPage/Features/LandingPage/View/Reserva
 import 'package:sandfriends/SandfriendsWebPage/Features/LandingPage/View/SearchFilter.dart';
 import 'package:sandfriends/SandfriendsWebPage/Features/LandingPage/View/WebHeader.dart';
 
+import '../../../../Common/Components/AvailableDaysResult/AvailableDaysResult.dart';
+import '../../../../Sandfriends/Features/MatchSearch/View/NoMachesFound.dart';
 import '../ViewModel/LandingPageViewModel.dart';
 
 class LandingPageWidget extends StatefulWidget {
@@ -18,7 +20,6 @@ class LandingPageWidget extends StatefulWidget {
 }
 
 class _LandingPageWidgetState extends State<LandingPageWidget> {
-  bool a = true;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -28,28 +29,86 @@ class _LandingPageWidgetState extends State<LandingPageWidget> {
       color: secondaryBackWeb,
       height: height,
       width: width,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            InkWell(
-                onTap: () => setState(() {
-                      a = !a;
-                    }),
-                child: a ? LandingPageHeader() : Container()),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.1),
-              child: ReservationSteps(),
-            ),
-            SizedBox(
-              height: defaultPadding * 2,
-            ),
-            SizedBox(
-              height: defaultPadding * 4,
-            ),
-            LandingPageFooter()
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const WebHeader(),
+          Expanded(
+            child: viewModel.hasUserSearched == false
+                ? SingleChildScrollView(
+                    child: Column(children: [
+                      LandingPageHeader(),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.1),
+                        child: ReservationSteps(),
+                      ),
+                      SizedBox(
+                        height: defaultPadding * 2,
+                      ),
+                      SizedBox(
+                        height: defaultPadding * 4,
+                      ),
+                      LandingPageFooter()
+                    ]),
+                  )
+                : Row(
+                    children: [
+                      Container(
+                        alignment: Alignment.topLeft,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: defaultPadding / 2,
+                            vertical: defaultPadding),
+                        child: SearchFilter(
+                          onTapLocation: () =>
+                              viewModel.openCitySelectorModal(context),
+                          onTapDate: () =>
+                              viewModel.openDateSelectorModal(context),
+                          onTapTime: () =>
+                              viewModel.openTimeSelectorModal(context),
+                          city: viewModel.cityFilter,
+                          dates: viewModel.datesFilter,
+                          time: viewModel.timeFilter,
+                          onSearch: () => viewModel.searchCourts(context),
+                          direction: Axis.vertical,
+                        ),
+                      ),
+                      Expanded(
+                        child: viewModel.availableDays.isEmpty
+                            ? const NoMatchesFound()
+                            : Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: defaultPadding),
+                                child: SingleChildScrollView(
+                                  child: AvailableDaysResult(
+                                    availableDays: viewModel.availableDays,
+                                    onTapHour: (avDay) {
+                                      viewModel.onSelectedHour(avDay);
+                                      viewModel.goToCourt(
+                                        context,
+                                        viewModel.selectedStore!.store,
+                                      );
+                                    },
+                                    onGoToCourt: (store) => viewModel.goToCourt(
+                                      context,
+                                      store,
+                                      noArguments: true,
+                                    ),
+                                    selectedAvailableDay: viewModel.selectedDay,
+                                    selectedStore: viewModel.selectedStore,
+                                    selectedAvailableHour:
+                                        viewModel.selectedHour,
+                                    isRecurrent: false,
+                                    showDescription: false,
+                                    resetSelectedAvailableHour: () =>
+                                        viewModel.resetSelectedAvailableHour(),
+                                  ),
+                                ),
+                              ),
+                      ),
+                    ],
+                  ),
+          ),
+        ],
       ),
     );
   }

@@ -11,6 +11,7 @@ import 'package:time_range/time_range.dart';
 
 import '../../../../Common/Components/Modal/CitySelectorModal/CitySelectorModal.dart';
 import '../../../../Common/Components/Modal/TimeModal.dart';
+import '../../../../Common/Model/Store/Store.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Model/AvailableDay.dart';
 import '../../../../Common/Model/AvailableHour.dart';
@@ -22,7 +23,7 @@ import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart'
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
-import '../../Court/Model/CourtAvailableHours.dart';
+import '../../../../Common/Features/Court/Model/CourtAvailableHours.dart';
 import '../Repository/RecurrentMatchSearchRepo.dart';
 
 class RecurrentMatchSearchViewModel extends StandardScreenViewModel {
@@ -184,10 +185,10 @@ class RecurrentMatchSearchViewModel extends StandardScreenViewModel {
     notifyListeners();
   }
 
-  void goToCourt(BuildContext context, StoreUser store) {
+  void goToCourt(BuildContext context, Store store) {
     Navigator.pushNamed(
       context,
-      '/court',
+      '/quadras/${store.url}',
       arguments: {
         'store': store,
         'availableCourts': toCourtAvailableHours(

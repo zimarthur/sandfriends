@@ -1,11 +1,12 @@
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 import 'package:sandfriends/Common/Utils/SFDateTime.dart';
 
-import '../../../../Common/Model/AvailableDay.dart';
-import '../../../../Common/Model/AvailableHour.dart';
-import '../../../../Common/Model/Court.dart';
-import '../../../../Common/Model/Store/StoreComplete.dart';
-import '../../../../Common/Model/HourPrice/HourPriceUser.dart';
+import '../../../Model/AvailableDay.dart';
+import '../../../Model/AvailableHour.dart';
+import '../../../Model/Court.dart';
+import '../../../Model/Store/Store.dart';
+import '../../../Model/Store/StoreComplete.dart';
+import '../../../Model/HourPrice/HourPriceUser.dart';
 
 class CourtAvailableHours {
   Court court;
@@ -21,7 +22,7 @@ List<CourtAvailableHours> toCourtAvailableHours(
   List<AvailableDay> availableDays,
   int? weekday,
   DateTime? day,
-  StoreUser store,
+  Store store,
 ) {
   if (availableDays.isEmpty) {
     return [];

@@ -17,9 +17,9 @@ import 'Features/Authentication/LoadLogin/View/LoadLoginScreen.dart';
 import 'Features/Authentication/Login/View/LoginScreen.dart';
 import 'Features/Authentication/LoginSignup/View/LoginSignupScreen.dart';
 import 'Features/Checkout/View/CheckoutScreen.dart';
-import 'Features/Court/Model/CourtAvailableHours.dart';
+import '../Common/Features/Court/Model/CourtAvailableHours.dart';
 import '../Common/Model/HourPrice/HourPriceUser.dart';
-import 'Features/Court/View/CourtScreen.dart';
+import '../Common/Features/Court/View/CourtScreen.dart';
 import 'Features/Home/Model/HomeTabsEnum.dart';
 import 'Features/Home/View/HomeScreen.dart';
 import 'Features/Match/View/MatchScreen.dart';
@@ -74,13 +74,12 @@ class SandfriendsApp extends GenericApp {
               },
             ),
           );
-        } else if (uri.queryParameters['ct'] == "str") {
+        } else if (uri.path.startsWith("/quadra")) {
           navigatorKey.currentState?.push(
             MaterialPageRoute(
               builder: (context) {
                 return LoadLoginScreen(
-                  redirectUri:
-                      '/court_redirect/${uri.queryParameters['bd'].toString()}',
+                  redirectUri: uri.path,
                 );
               },
             ),
@@ -106,8 +105,7 @@ class SandfriendsApp extends GenericApp {
         String matchSearch = "/match_search";
         String matchSearchFilter = "/match_search_filter";
         String recurrentMatchSearch = "/recurrent_match_search";
-        String courtRedirect = "/court_redirect";
-        String court = "/court";
+        String court = "/quadras";
         String checkout = "/checkout";
         String userDetails = "/user_details";
         String storeSearch = "/store_search";
@@ -158,23 +156,27 @@ class SandfriendsApp extends GenericApp {
               );
             },
           );
-        } else if (settings.name!.startsWith(courtRedirect)) {
-          final storeId = settings.name!.split(court)[1].split("/")[1];
-          return MaterialPageRoute(
-            builder: (context) {
-              return CourtScreen(
-                canMakeReservation: true,
-                idStore: storeId,
-              );
-            },
-          );
-        } else if (settings.name! == court) {
-          final arguments = settings.arguments as Map;
+        }
+        // else if (settings.name!.startsWith(courtRedirect)) {
+        //   final storeId = settings.name!.split(court)[1].split("/")[1];
+        //   return MaterialPageRoute(
+        //     builder: (context) {
+        //       return CourtScreen(
+        //         canMakeReservation: true,
+        //         idStore: storeId,
+        //       );
+        //     },
+        //   );
+        // }
+        else if (settings.name!.startsWith(court)) {
+          final storeUrl = settings.name!.split("$court/")[1];
+          final arguments = (settings.arguments ?? {}) as Map;
 
           return MaterialPageRoute(
             builder: (context) {
               return CourtScreen(
-                store: arguments['store'] as StoreUser,
+                storeUrl: storeUrl,
+                store: arguments['store'] as StoreUser?,
                 courtAvailableHours:
                     arguments['availableCourts'] as List<CourtAvailableHours>?,
                 selectedHourPrice:

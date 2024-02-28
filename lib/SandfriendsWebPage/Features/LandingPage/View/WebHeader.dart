@@ -25,7 +25,11 @@ class WebHeaderState extends State<WebHeader> {
       padding: EdgeInsets.symmetric(horizontal: width * 0.1),
       child: Row(
         children: [
-          Image.asset(r"assets/sandfriends_logo_alternative_negative.png"),
+          InkWell(
+              onTap: () => Navigator.pushNamed(context,
+                  "/quadras/open-beach"), //Navigator.pushReplacementNamed(context, "/"),
+              child: Image.asset(
+                  r"assets/sandfriends_logo_alternative_negative.png")),
           Expanded(
             child: Container(),
           ),

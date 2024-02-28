@@ -16,7 +16,6 @@ class LandingPageHeader extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return Column(
       children: [
-        const WebHeader(),
         Container(
           color: primaryBlue,
           width: width,
@@ -66,6 +65,7 @@ class LandingPageHeader extends StatelessWidget {
                   dates: viewModel.datesFilter,
                   time: viewModel.timeFilter,
                   onSearch: () => viewModel.searchCourts(context),
+                  direction: Axis.horizontal,
                 ),
               )
             ],

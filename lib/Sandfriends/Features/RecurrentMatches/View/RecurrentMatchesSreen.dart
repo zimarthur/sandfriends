@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Utils/Constants.dart';
 
 import '../../../../Common/StandardScreen/StandardScreen.dart';
 import '../ViewModel/RecurrentMatchesViewModel.dart';
@@ -24,6 +25,7 @@ class _RecurrentMatchesScreenState extends State<RecurrentMatchesScreen> {
           return StandardScreen(
             viewModel: viewModel,
             enableToolbar: false,
+            background: secondaryBack,
             child: RecurrentMatchesWidget(
               viewModel: viewModel,
             ),

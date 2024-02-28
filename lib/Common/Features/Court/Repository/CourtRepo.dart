@@ -8,11 +8,23 @@ class CourtRepo {
 
   Future<NetworkResponse> getStore(
     BuildContext context,
-    String idStore,
+    String storeUrl,
   ) async {
     NetworkResponse response = await _apiService.getResponse(
       context,
-      "${ApiEndPoints.getStore}/$idStore",
+      "${ApiEndPoints.getStore}/$storeUrl",
+    );
+
+    return response;
+  }
+
+  Future<NetworkResponse> getStoreOperationDays(
+    BuildContext context,
+    int idStore,
+  ) async {
+    NetworkResponse response = await _apiService.getResponse(
+      context,
+      "${ApiEndPoints.getStoreOperationDays}/$idStore",
     );
 
     return response;

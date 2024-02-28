@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
-import 'package:sandfriends/Sandfriends/Features/Court/View/CourtContactItem.dart';
+import 'package:sandfriends/Common/Features/Court/View/Mobile/CourtContactItem.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../Common/Model/Store/StoreComplete.dart';
-import '../../../../Common/Utils/UrlLauncher.dart';
+import '../../../../Model/Store/StoreComplete.dart';
+import '../../../../Utils/UrlLauncher.dart';
 
 class CourtContact extends StatefulWidget {
   final StoreUser store;
