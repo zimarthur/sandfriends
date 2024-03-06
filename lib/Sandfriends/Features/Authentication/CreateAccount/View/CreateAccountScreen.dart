@@ -24,7 +24,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         builder: (context, viewModel, _) {
           return StandardScreen(
             titleText: "Criar conta",
-            viewModel: viewModel,
             appBarType: AppBarType.Secondary,
             child: CreateAccountWidget(
               viewModel: viewModel,

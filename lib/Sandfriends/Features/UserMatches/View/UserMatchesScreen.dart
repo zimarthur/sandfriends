@@ -29,7 +29,6 @@ class _UserMatchesScreenState extends State<UserMatchesScreen> {
       child: Consumer<UserMatchesViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             titleText: "Minhas Partidas",
             appBarType: AppBarType.Secondary,
             child: UserMatchesWidget(

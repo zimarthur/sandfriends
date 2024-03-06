@@ -17,7 +17,7 @@ import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
 import '../../MatchSearchFilter/Model/CustomFilter.dart';
 
-class StoreSearchViewModel extends StandardScreenViewModel {
+class StoreSearchViewModel extends ChangeNotifier {
   final storeSearchRepo = StoreSearchRepo();
 
   bool isRecurrent = false;
@@ -63,8 +63,8 @@ class StoreSearchViewModel extends StandardScreenViewModel {
         currentCustomFilter.orderBy = OrderBy.distance;
         notifyListeners();
       }
-      pageStatus = PageStatus.OK;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
     });
   }
 
@@ -86,24 +86,27 @@ class StoreSearchViewModel extends StandardScreenViewModel {
   }
 
   void openCitySelectorModal(BuildContext context) {
-    widgetForm = CitySelectorModal(
-      onlyAvailableCities: true,
-      onSelectedCity: (city) {
-        selectedCity = city;
-        pageStatus = PageStatus.OK;
-        notifyListeners();
-      },
-      userCity: Provider.of<UserProvider>(context, listen: false).user!.city,
-      onReturn: () => closeModal(),
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      CitySelectorModal(
+        onlyAvailableCities: true,
+        onSelectedCity: (city) {
+          selectedCity = city;
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .removeLastOverlay();
+          notifyListeners();
+        },
+        userCity: Provider.of<UserProvider>(context, listen: false).user!.city,
+        onReturn: () =>
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .removeLastOverlay(),
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 
   void searchStores(BuildContext context) {
     if (canSearchMatch) {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
 
       storeSearchRepo
           .searchStores(
@@ -138,38 +141,37 @@ class StoreSearchViewModel extends StandardScreenViewModel {
             );
           }
 
-          pageStatus = PageStatus.OK;
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setPageStatusOk();
           notifyListeners();
         } else if (response.responseStatus ==
             NetworkResponseStatus.expiredToken) {
-          modalMessage = SFModalMessage(
-            title: response.responseTitle!,
-            onTap: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/login_signup',
-                (Route<dynamic> route) => false,
-              );
-            },
-            isHappy: false,
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .addModalMessage(
+            SFModalMessage(
+              title: response.responseTitle!,
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login_signup',
+                  (Route<dynamic> route) => false,
+                );
+              },
+              isHappy: false,
+            ),
           );
-          canTapBackground = false;
-
-          pageStatus = PageStatus.ERROR;
-          notifyListeners();
+          //canTapBackground = false;
         }
       });
     } else {
-      modalMessage = SFModalMessage(
-        title: "Selecione uma cidade para buscar as quadras",
-        onTap: () {
-          pageStatus = PageStatus.OK;
-          notifyListeners();
-        },
-        isHappy: true,
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addModalMessage(
+        SFModalMessage(
+          title: "Selecione uma cidade para buscar as quadras",
+          onTap: () {},
+          isHappy: true,
+        ),
       );
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
     }
   }
 

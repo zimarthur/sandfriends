@@ -7,12 +7,9 @@ import 'package:sandfriends/Common/Features/Court/View/PhotoViewModal.dart';
 import 'package:sandfriends/Common/Features/Court/View/Web/CourtReservationModal.dart';
 import 'package:sandfriends/Common/Model/OperationDayUser.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
-import 'package:sandfriends/Common/Providers/Environment/Environment.dart';
-import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
-import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
-import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Common/Features/Court/Model/CourtAvailableHours.dart';
 import 'package:sandfriends/Common/Model/HourPrice/HourPriceUser.dart';
+import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Common/Utils/SFDateTime.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/ViewModel/CheckoutViewModel.dart';
 import 'package:time_range/time_range.dart';
@@ -23,11 +20,9 @@ import '../../../Model/AvailableDay.dart';
 import '../../../Model/Court.dart';
 import '../../../Model/Hour.dart';
 import '../../../Model/Sport.dart';
-import '../../../Model/Store/StoreComplete.dart';
 import '../../../Providers/Categories/CategoriesProvider.dart';
 import '../../../../Sandfriends/Providers/UserProvider/UserProvider.dart';
 import '../../../Components/Modal/SFModalMessage.dart';
-import '../../../Providers/Overlay/OverlayProvider.dart';
 import '../../../Utils/PageStatus.dart';
 import '../../../../Sandfriends/Features/MatchSearch/Repository/MatchSearchDecoder.dart';
 import '../../../../Sandfriends/Features/MatchSearch/Repository/MatchSearchRepo.dart';
@@ -75,19 +70,25 @@ class CourtViewModel extends CheckoutViewModel {
   int animationStep = 50;
   int animationEndMiliSeconds = 4000;
 
-  void setCourtPhotoModal() {
-    widgetForm = PhotoViewModal(
-      imagesUrl: store!.photos,
-      onClose: () => closeModal(),
+  void setCourtPhotoModal(BuildContext context) {
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      PhotoViewModal(
+        imagesUrl: store!.photos,
+        onClose: () =>
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .removeLastOverlay(),
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 
   void setCourtReservationModal(BuildContext context) {
-    Provider.of<OverlayProvider>(context, listen: false).addOverlayWidget(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       CourtReservationModal(
-        onClose: () => clearOverlays(),
+        onClose: () =>
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .clearOverlays(),
       ),
     );
   }
@@ -138,30 +139,29 @@ class CourtViewModel extends CheckoutViewModel {
     store = newStore;
 
     if (store == null) {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
 
       final response = await courtRepo.getStore(context, newStoreUrl);
 
       if (response.responseStatus == NetworkResponseStatus.success) {
         store = StoreUser.fromJson(json.decode(response.responseBody!));
-        pageStatus = PageStatus.OK;
-        notifyListeners();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
       } else {
-        canTapBackground = false;
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              '/home',
-              (Route<dynamic> route) => false,
-            );
-          },
-          isHappy: false,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/home',
+                (Route<dynamic> route) => false,
+              );
+            },
+            isHappy: false,
+          ),
         );
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       }
     }
 
@@ -277,16 +277,19 @@ class CourtViewModel extends CheckoutViewModel {
         notifyListeners();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              '/login_signup',
-              (Route<dynamic> route) => false,
-            );
-          },
-          isHappy: false,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/login_signup',
+                (Route<dynamic> route) => false,
+              );
+            },
+            isHappy: false,
+          ),
         );
 
         isLoading = false;
@@ -321,20 +324,20 @@ class CourtViewModel extends CheckoutViewModel {
         notifyListeners();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              '/login_signup',
-              (Route<dynamic> route) => false,
-            );
-          },
-          isHappy: false,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/login_signup',
+                (Route<dynamic> route) => false,
+              );
+            },
+            isHappy: false,
+          ),
         );
-
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       }
     });
   }
@@ -400,12 +403,14 @@ class CourtViewModel extends CheckoutViewModel {
   }
 
   void openDateSelectorModal(BuildContext context) {
-    Provider.of<OverlayProvider>(context, listen: false).addOverlayWidget(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       CalendarModal(
         allowMultiDates: false,
         dateRange: [selectedDate],
         onSubmit: (newDates) {
-          removeLastOverlay();
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .removeLastOverlay();
           if (newDates.length == 1) {
             selectedDate = newDates.first;
             searchStoreAvailableHours(context);
@@ -416,7 +421,8 @@ class CourtViewModel extends CheckoutViewModel {
   }
 
   void openTimeSelectorModal(BuildContext context) {
-    Provider.of<OverlayProvider>(context, listen: false).addOverlayWidget(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       TimeModal(
         timeRange: timeFilter,
         onSubmit: (timeRange) {
@@ -432,7 +438,8 @@ class CourtViewModel extends CheckoutViewModel {
                   .hours
                   .firstWhere((hour) => hour.hour == timeRange.end.hour);
           notifyListeners();
-          removeLastOverlay();
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .removeLastOverlay();
         },
       ),
     );

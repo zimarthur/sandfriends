@@ -77,6 +77,7 @@ class _CvvModalState extends State<CvvModal> {
               ),
               onTap: () {
                 if (cvvFormKey.currentState?.validate() == true) {
+                  FocusScope.of(context).unfocus();
                   widget.onCvv(cvvController.text);
                 }
               },

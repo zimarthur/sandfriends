@@ -35,7 +35,6 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
       child: Consumer<EmailConfirmationViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             enableToolbar: false,
             child: Container(
               width: double.infinity,

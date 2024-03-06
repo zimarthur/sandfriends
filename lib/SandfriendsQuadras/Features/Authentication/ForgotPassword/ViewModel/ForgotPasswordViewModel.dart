@@ -1,40 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../../Common/Utils/PageStatus.dart';
 import '../../../../../Remote/NetworkResponse.dart';
 import '../../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../Repository/ForgotPasswordRepo.dart';
 
-class ForgotPasswordViewModel extends StandardScreenViewModel {
+class ForgotPasswordViewModel extends ChangeNotifier {
   final forgotPasswordRepo = ForgotPasswordRepo();
 
   final forgotPasswordFormKey = GlobalKey<FormState>();
   TextEditingController forgotPasswordEmailController = TextEditingController();
 
   void sendForgotPassword(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     forgotPasswordRepo
         .forgotPassword(
       context,
       forgotPasswordEmailController.text,
     )
         .then((response) {
-      modalMessage = SFModalMessage(
-        title: response.responseTitle!,
-        description: response.responseDescription,
-        onTap: () {
-          if (response.responseStatus == NetworkResponseStatus.alert) {
-            goToLogin(context);
-          } else {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          }
-        },
-        isHappy: response.responseStatus == NetworkResponseStatus.alert,
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addModalMessage(
+        SFModalMessage(
+          title: response.responseTitle!,
+          description: response.responseDescription,
+          onTap: () {
+            if (response.responseStatus == NetworkResponseStatus.alert) {
+              goToLogin(context);
+            }
+          },
+          isHappy: response.responseStatus == NetworkResponseStatus.alert,
+        ),
       );
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
     });
   }
 

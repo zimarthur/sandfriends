@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/Common/Utils/PageStatus.dart';
 
 import '../Components/Modal/SFModalMessage.dart';
+import 'OverlayWidget.dart';
 
 class StandardScreenViewModel extends ChangeNotifier {
-  PageStatus pageStatus = PageStatus.OK;
+  bool isLoading = false;
 
-  SFModalMessage modalMessage = SFModalMessage(
-    title: "",
-    onTap: () {},
-    isHappy: true,
-  );
-
-  Widget? widgetForm;
   bool canTapBackground = true;
 
-  List<Widget> overlays = [];
-  void addOverlayWidget(Widget widget) {
-    overlays.add(widget);
-    notifyListeners();
+  List<OverlayWidget> overlays = [];
+  void addOverlayWidget(Widget widget, {bool showOnlyIfLast = true}) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setPageStatusOk();
+      overlays.add(
+        OverlayWidget(
+          widget: widget,
+          showOnlyIfLast: showOnlyIfLast,
+        ),
+      );
+      notifyListeners();
+    });
   }
 
   void removeLastOverlay() {
-    overlays.removeLast();
-    notifyListeners();
+    if (overlays.isNotEmpty) {
+      overlays.removeLast();
+      notifyListeners();
+    }
   }
 
   void clearOverlays() {
@@ -31,30 +34,49 @@ class StandardScreenViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void addModalMessage(SFModalMessage message) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setPageStatusOk();
+      addOverlayWidget(
+        SFModalMessage(
+          title: message.title,
+          description: message.description,
+          onTap: () {
+            if (message.onTap != null) {
+              message.onTap!();
+            }
+            removeLastOverlay();
+          },
+          buttonIconPath: message.buttonIconPath,
+          buttonText: message.buttonText,
+          hideButton: message.hideButton,
+          isHappy: message.isHappy,
+        ),
+      );
+    });
+  }
+
+  void setPageStatusOk() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      isLoading = false;
+      notifyListeners();
+    });
+  }
+
+  void setLoading() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      isLoading = true;
+      notifyListeners();
+    });
+  }
+
   void closeModal() {
-    pageStatus = PageStatus.OK;
+    setPageStatusOk();
+    removeLastOverlay();
     notifyListeners();
   }
 
   void onTapReturn(BuildContext context) {
     Navigator.pop(context);
-  }
-
-  void setWidgetForm(Widget widget) {
-    widgetForm = widget;
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
-  }
-
-  void setPageError(String message) {
-    modalMessage = SFModalMessage(
-        title: message, onTap: () => closeModal(), isHappy: false);
-    pageStatus = PageStatus.ERROR;
-    notifyListeners();
-  }
-
-  void setLoading() {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
   }
 }

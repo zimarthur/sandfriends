@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Components/Modal/SFModalMessage.dart';
 import 'package:sandfriends/Common/Managers/LinkOpener/LinkOpenerManager.dart';
 import '../../../../Common/Components/SFPieChart.dart';
 import '../../../../Common/Model/Gender.dart';
@@ -9,6 +10,7 @@ import '../../../../Common/Model/User/Player_old.dart';
 import '../../../../Common/Model/Sport.dart';
 import '../../../../Common/Model/User/UserStore.dart';
 import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
+import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
@@ -156,18 +158,20 @@ class PlayersViewModel extends ChangeNotifier {
         break;
       case PlayersTableCallback.Delete:
         Provider.of<MenuProvider>(context, listen: false).setModalConfirmation(
+            context,
             "Deseja mesmo excluir ${player.fullName}?",
             "Após a exclusão, os dados de ${player.firstName} não estarão mais disponíveis",
             () => deletePlayer(context, player), () {
-          Provider.of<MenuProvider>(context, listen: false).closeModal();
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .closeModal();
         });
         break;
     }
   }
 
   void openStorePlayerWidget(BuildContext context, UserStore? existingPlayer) {
-    Provider.of<MenuProvider>(context, listen: false)
-        .setModalForm(StorePlayerWidget(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(StorePlayerWidget(
       editPlayer: existingPlayer,
       onReturn: () => closeModal(context),
       onSavePlayer: (player) => editPlayer(context, player),
@@ -179,7 +183,7 @@ class PlayersViewModel extends ChangeNotifier {
   }
 
   void addPlayer(BuildContext context, UserStore player) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     playersRepo
         .addPlayer(
       context,
@@ -195,20 +199,26 @@ class PlayersViewModel extends ChangeNotifier {
         Provider.of<StoreProvider>(context, listen: false)
             .setPlayersResponse(context, responseBody);
         setPlayersDataSource(context);
-        Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModal("Jogador(a) adicionado(a)!", null, true);
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: "Jogador(a) adicionado(a)!",
+            onTap: () {},
+            isHappy: true,
+          ),
+        );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }
 
   void editPlayer(BuildContext context, UserStore player) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     playersRepo
         .editPlayer(
       context,
@@ -224,20 +234,26 @@ class PlayersViewModel extends ChangeNotifier {
         Provider.of<StoreProvider>(context, listen: false)
             .setPlayersResponse(context, responseBody);
         setPlayersDataSource(context);
-        Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModal("Jogador(a) atualizado(a)!", null, true);
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: "Jogador(a) atualizado(a)!",
+            onTap: () {},
+            isHappy: true,
+          ),
+        );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }
 
   void deletePlayer(BuildContext context, UserStore player) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     playersRepo
         .deleteStorePlayer(
       context,
@@ -253,20 +269,26 @@ class PlayersViewModel extends ChangeNotifier {
         Provider.of<StoreProvider>(context, listen: false)
             .setPlayersResponse(context, responseBody);
         setPlayersDataSource(context);
-        Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModal("Jogador(a) excluído(a)", null, true);
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: "Jogador(a) excluído(a)",
+            onTap: () {},
+            isHappy: true,
+          ),
+        );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }
 
   void closeModal(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).closeModal();
+    Provider.of<StandardScreenViewModel>(context, listen: false).closeModal();
   }
 
   openWhatsApp(BuildContext context, UserStore player) {

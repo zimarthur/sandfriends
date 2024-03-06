@@ -12,12 +12,11 @@ import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
 import '../Repository/UserMatchesRepo.dart';
 
-class UserMatchesViewModel extends StandardScreenViewModel {
+class UserMatchesViewModel extends ChangeNotifier {
   final userMatchesRepo = UserMatchesRepo();
 
   void initUserMatchesViewModel(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     userMatchesRepo
         .getUserMatches(
       context,
@@ -39,27 +38,29 @@ class UserMatchesViewModel extends StandardScreenViewModel {
           );
         }
 
-        pageStatus = PageStatus.OK;
-        notifyListeners();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          buttonText: "Voltar",
-          onTap: () {
-            if (response.responseStatus == NetworkResponseStatus.expiredToken) {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/login_signup',
-                (Route<dynamic> route) => false,
-              );
-            } else {
-              Navigator.pop(context);
-            }
-          },
-          isHappy: false,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            buttonText: "Voltar",
+            onTap: () {
+              if (response.responseStatus ==
+                  NetworkResponseStatus.expiredToken) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login_signup',
+                  (Route<dynamic> route) => false,
+                );
+              } else {
+                Navigator.pop(context);
+              }
+            },
+            isHappy: false,
+          ),
         );
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       }
     });
   }

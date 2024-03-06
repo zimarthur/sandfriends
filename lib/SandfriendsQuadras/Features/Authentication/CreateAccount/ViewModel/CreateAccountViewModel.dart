@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Managers/LinkOpener/LinkOpenerManager.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
@@ -11,7 +12,7 @@ import '../Model/CnpjStore.dart';
 import '../Model/CreateAccountStore.dart';
 import '../Repository/CreateAccountRepo.dart';
 
-class CreateAccountCourtViewModel extends StandardScreenViewModel {
+class CreateAccountCourtViewModel extends ChangeNotifier {
   final createAccountRepo = CreateAccountRepo();
 
   int _currentCreateAccountFormIndex = 0;
@@ -93,8 +94,7 @@ class CreateAccountCourtViewModel extends StandardScreenViewModel {
     BuildContext context,
   ) {
     if (cnpjController.text.isNotEmpty) {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
       fetchCnpj(context, cnpjController.text);
     }
   }
@@ -115,19 +115,17 @@ class CreateAccountCourtViewModel extends StandardScreenViewModel {
           response.responseBody!,
         );
         setCourtFormFields(CnpjStore.fromJson(responseBody));
-        pageStatus = PageStatus.OK;
-        notifyListeners();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
       } else {
-        modalMessage = SFModalMessage(
-          title: "CNPJ não encontrado",
-          onTap: () {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          },
-          isHappy: false,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: "CNPJ não encontrado",
+            onTap: () {},
+            isHappy: false,
+          ),
         );
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       }
     });
   }
@@ -143,8 +141,7 @@ class CreateAccountCourtViewModel extends StandardScreenViewModel {
   }
 
   void submitCreateAccount(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     createAccountRepo
         .createAccount(
       context,
@@ -171,24 +168,22 @@ class CreateAccountCourtViewModel extends StandardScreenViewModel {
       ),
     )
         .then((response) {
-      modalMessage = SFModalMessage(
-        title: response.responseTitle!,
-        description: response.responseDescription,
-        onTap: () {
-          if (response.responseStatus == NetworkResponseStatus.alert) {
-            Navigator.pushNamed(context, '/login');
-          } else {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          }
-        },
-        buttonText: response.responseStatus == NetworkResponseStatus.alert
-            ? "Concluído"
-            : "Voltar",
-        isHappy: response.responseStatus == NetworkResponseStatus.alert,
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addModalMessage(
+        SFModalMessage(
+          title: response.responseTitle!,
+          description: response.responseDescription,
+          onTap: () {
+            if (response.responseStatus == NetworkResponseStatus.alert) {
+              Navigator.pushNamed(context, '/login');
+            }
+          },
+          buttonText: response.responseStatus == NetworkResponseStatus.alert
+              ? "Concluído"
+              : "Voltar",
+          isHappy: response.responseStatus == NetworkResponseStatus.alert,
+        ),
       );
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
     });
   }
 

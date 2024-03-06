@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Model/Court.dart';
 import '../../../../Common/Model/Hour.dart';
 import '../../../../Common/Model/HourPrice/HourPriceStore.dart';
@@ -10,6 +11,7 @@ import '../../../../Common/Model/SandfriendsQuadras/AvailableSport.dart';
 import '../../../../Common/Model/SandfriendsQuadras/PriceRule.dart';
 import '../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
 import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
+import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
@@ -123,15 +125,16 @@ class MyCourtsViewModel extends ChangeNotifier {
 
   void setWorkingHoursWidget(
       BuildContext context, MyCourtsViewModel viewModel) {
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       WorkingHoursModal(viewModel: viewModel),
     );
   }
 
   void setPriceListWidget(MyCourtsViewModel viewModel, BuildContext context,
       List<HourPriceStore> hourPriceList, int dayIndex) {
-    Provider.of<MenuProvider>(context, listen: false)
-        .setModalForm(PriceListWidget(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(PriceListWidget(
       viewModel: viewModel,
       hourPriceList: hourPriceList,
       dayIndex: dayIndex,
@@ -141,7 +144,7 @@ class MyCourtsViewModel extends ChangeNotifier {
   void closeModal(
     BuildContext context,
   ) {
-    Provider.of<MenuProvider>(context, listen: false).closeModal();
+    Provider.of<StandardScreenViewModel>(context, listen: false).closeModal();
   }
 
   void saveNewStoreWorkingDays(
@@ -558,7 +561,7 @@ class MyCourtsViewModel extends ChangeNotifier {
     }
 
     if (missingInfo == "") {
-      Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
       myCourtsRepo
           .addCourt(
         context,
@@ -573,21 +576,30 @@ class MyCourtsViewModel extends ChangeNotifier {
           Provider.of<StoreProvider>(context, listen: false)
               .setCourts(context, responseBody);
           init(context);
-          Provider.of<MenuProvider>(context, listen: false)
-              .setMessageModal("Sua quadra foi criada!", null, true);
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .addModalMessage(
+            SFModalMessage(
+              title: "Sua quadra foi criada!",
+              onTap: () {},
+              isHappy: true,
+            ),
+          );
         } else if (response.responseStatus ==
             NetworkResponseStatus.expiredToken) {
           Provider.of<MenuProvider>(context, listen: false).logout(context);
         } else {
           Provider.of<MenuProvider>(context, listen: false)
-              .setMessageModalFromResponse(response);
+              .setMessageModalFromResponse(context, response);
         }
       });
     } else {
-      Provider.of<MenuProvider>(context, listen: false).setMessageModal(
-        missingInfo,
-        null,
-        true,
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addModalMessage(
+        SFModalMessage(
+          title: missingInfo,
+          onTap: () {},
+          isHappy: true,
+        ),
       );
     }
   }
@@ -595,7 +607,7 @@ class MyCourtsViewModel extends ChangeNotifier {
   void deleteCourt(
     BuildContext context,
   ) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     myCourtsRepo
         .removeCourt(
       context,
@@ -610,14 +622,20 @@ class MyCourtsViewModel extends ChangeNotifier {
         Provider.of<StoreProvider>(context, listen: false)
             .setCourts(context, responseBody);
         init(context);
-        Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModal("Sua quadra foi removida!", null, true);
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: "Sua quadra foi removida!",
+            onTap: () {},
+            isHappy: true,
+          ),
+        );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }
@@ -629,15 +647,20 @@ class MyCourtsViewModel extends ChangeNotifier {
     for (var court in courts) {
       missingInfo = courtChangesMissingFields(context, currentCourt);
       if (missingInfo != "") {
-        Provider.of<MenuProvider>(context, listen: false).setMessageModal(
-          missingInfo,
-          "Verifique ${court.description}",
-          true,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: missingInfo,
+            description: "Verifique ${court.description}",
+            onTap: () {},
+            isHappy: true,
+          ),
         );
+
         return;
       }
     }
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     List<Court> changedCourts = [];
     for (var court in courts) {
       Court refCourt = refCourts.firstWhere(
@@ -666,14 +689,20 @@ class MyCourtsViewModel extends ChangeNotifier {
         Provider.of<StoreProvider>(context, listen: false)
             .setCourts(context, responseBody);
         init(context);
-        Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModal("Suas quadras foram atualizadas!", null, true);
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: "Suas quadras foram atualizadas!",
+            onTap: () {},
+            isHappy: true,
+          ),
+        );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }

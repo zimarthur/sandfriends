@@ -36,9 +36,7 @@ class _CourtWidgetWebState extends State<CourtWidgetWeb> {
       builder: (context, viewModel, child) {
         return Column(
           children: [
-            WebHeader(
-              viewModel: viewModel,
-            ),
+            WebHeader(),
             Expanded(
               child: Container(
                 color: secondaryPaper,

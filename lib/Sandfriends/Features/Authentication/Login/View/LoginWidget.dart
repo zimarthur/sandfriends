@@ -70,7 +70,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   Padding(padding: EdgeInsets.only(bottom: height * 0.01)),
                   InkWell(
                     onTap: () {
-                      widget.viewModel.openForgotPasswordModal();
+                      widget.viewModel.openForgotPasswordModal(context);
                     },
                     child: SizedBox(
                       height: height * 0.022,

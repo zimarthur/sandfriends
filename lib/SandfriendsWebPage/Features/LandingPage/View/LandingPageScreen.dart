@@ -27,7 +27,6 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
       create: (BuildContext context) => viewModel,
       child: Consumer<LandingPageViewModel>(builder: (context, viewModel, _) {
         return StandardScreen(
-          viewModel: viewModel,
           child: Container(),
           childWeb: LandingPageWidget(),
         );

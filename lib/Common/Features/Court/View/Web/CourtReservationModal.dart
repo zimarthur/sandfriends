@@ -83,6 +83,7 @@ class _CourtReservationModalState extends State<CourtReservationModal> {
                                     themeColor: primaryBlue,
                                     viewModel: viewModel,
                                     showArrow: true,
+                                    canScroll: true,
                                   ),
                                 ),
                     ),
@@ -173,9 +174,7 @@ class _CourtReservationModalState extends State<CourtReservationModal> {
                             isActive: viewModel.selectedCourt != null,
                             child: Provider.of<UserProvider>(context).user ==
                                     null
-                                ? LoginSignup(
-                                    parentScreen: viewModel,
-                                  )
+                                ? LoginSignup()
                                 : Row(
                                     children: [
                                       SFAvatarUser(

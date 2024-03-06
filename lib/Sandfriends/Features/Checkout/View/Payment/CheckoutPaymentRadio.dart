@@ -33,62 +33,65 @@ class _CheckoutPaymentRadioState extends State<CheckoutPaymentRadio> {
   Widget build(BuildContext context) {
     bool isSelectedRadio =
         widget.radioPaymentValue == widget.radioPaymentSelected;
-    return InkWell(
-      onTap: () {
-        widget.onTap(widget.radioPaymentValue);
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-            horizontal: defaultPadding, vertical: defaultPadding / 2),
-        margin: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
-        decoration: BoxDecoration(
-          color: secondaryPaper,
-          borderRadius: BorderRadius.circular(
-            defaultBorderRadius,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
+      child: InkWell(
+        onTap: () {
+          widget.onTap(widget.radioPaymentValue);
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+              horizontal: defaultPadding, vertical: defaultPadding / 2),
+          decoration: BoxDecoration(
+            color: secondaryPaper,
+            borderRadius: BorderRadius.circular(
+              defaultBorderRadius,
+            ),
+            border: Border.all(
+                color: isSelectedRadio ? primaryBlue : textDarkGrey,
+                width: isSelectedRadio ? 2 : 1),
           ),
-          border: Border.all(
-              color: isSelectedRadio ? primaryBlue : textDarkGrey,
-              width: isSelectedRadio ? 2 : 1),
-        ),
-        child: Column(
-          children: [
-            Row(children: [
-              SvgPicture.asset(
-                widget.iconPath,
-                height: 25,
-              ),
-              const SizedBox(
-                width: defaultPadding / 2,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.title,
-                    style: const TextStyle(color: textDarkGrey),
-                  ),
-                  if (widget.subtitle != null)
+          child: Column(
+            children: [
+              Row(children: [
+                SvgPicture.asset(
+                  widget.iconPath,
+                  height: 25,
+                ),
+                const SizedBox(
+                  width: defaultPadding / 2,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     Text(
-                      widget.subtitle!,
-                      style: const TextStyle(color: textDarkGrey, fontSize: 10),
+                      widget.title,
+                      style: const TextStyle(color: textDarkGrey),
                     ),
-                ],
-              ),
-              Expanded(child: Container()),
-              Radio(
-                value: widget.radioPaymentValue,
-                groupValue: widget.radioPaymentSelected,
-                onChanged: (selectedPayment) {
-                  if (selectedPayment != null) {
-                    widget.onTap(selectedPayment);
-                  }
-                },
-                activeColor: primaryBlue,
-              )
-            ]),
-            if (widget.childWhenSelected != null && isSelectedRadio)
-              widget.childWhenSelected!
-          ],
+                    if (widget.subtitle != null)
+                      Text(
+                        widget.subtitle!,
+                        style:
+                            const TextStyle(color: textDarkGrey, fontSize: 10),
+                      ),
+                  ],
+                ),
+                Expanded(child: Container()),
+                Radio(
+                  value: widget.radioPaymentValue,
+                  groupValue: widget.radioPaymentSelected,
+                  onChanged: (selectedPayment) {
+                    if (selectedPayment != null) {
+                      widget.onTap(selectedPayment);
+                    }
+                  },
+                  activeColor: primaryBlue,
+                )
+              ]),
+              if (widget.childWhenSelected != null && isSelectedRadio)
+                widget.childWhenSelected!
+            ],
+          ),
         ),
       ),
     );

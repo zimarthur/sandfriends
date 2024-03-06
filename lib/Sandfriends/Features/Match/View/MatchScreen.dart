@@ -37,7 +37,6 @@ class _MatchScreenState extends State<MatchScreen> {
       child: Consumer<MatchViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             titleText: viewModel.titleText,
             appBarType: AppBarType.Primary,
             child: viewModel.isMatchInstantiated

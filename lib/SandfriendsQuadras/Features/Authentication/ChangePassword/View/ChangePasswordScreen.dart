@@ -33,7 +33,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       child: Consumer<ChangePasswordViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             childWeb: ChangePasswordWidget(
               viewModel: viewModel,
             ),

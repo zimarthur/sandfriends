@@ -12,7 +12,7 @@ import '../../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../../Common/Utils/PageStatus.dart';
 import '../../../../../api/google_signin_api.dart';
 
-class LoginSignupViewModel extends StandardScreenViewModel {
+class LoginSignupViewModel extends ChangeNotifier {
   final loginSignupRepo = LoginSignupRepo();
 
   void initGoogle() async {
@@ -23,8 +23,7 @@ class LoginSignupViewModel extends StandardScreenViewModel {
   }
 
   void appleAccountSelector(BuildContext context) async {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     try {
       final credential = await SignInWithApple.getAppleIDCredential(
         scopes: [
@@ -33,8 +32,7 @@ class LoginSignupViewModel extends StandardScreenViewModel {
         ],
       );
 
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
       String fullName = credential.familyName ?? "";
       String email = credential.email ?? "";
       Provider.of<UserProvider>(context, listen: false).user = UserComplete(
@@ -43,34 +41,33 @@ class LoginSignupViewModel extends StandardScreenViewModel {
       validateGoogleLogin(context, email, credential.userIdentifier);
     } catch (e) {
       print(e.toString());
-      modalMessage = SFModalMessage(
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addModalMessage(
+        SFModalMessage(
           title: e.toString(),
-          onTap: () {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          },
-          isHappy: false);
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
+          onTap: () {},
+          isHappy: false,
+        ),
+      );
     }
 
     return null;
   }
 
   void googleAccountSelector(BuildContext context) async {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     try {
       final user = await GoogleSignInApi.login();
 
       if (user == null) {
-        pageStatus = PageStatus.OK;
-        notifyListeners();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
         return;
       } else {
         user.authentication.then((googleKey) {
-          pageStatus = PageStatus.LOADING;
-          notifyListeners();
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setLoading();
           String fullName = user.displayName.toString();
           int firstSpaceIndex = fullName.indexOf(" ");
           String firstName = "";
@@ -96,15 +93,14 @@ class LoginSignupViewModel extends StandardScreenViewModel {
       }
     } catch (e) {
       print(e.toString());
-      modalMessage = SFModalMessage(
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addModalMessage(
+        SFModalMessage(
           title: e.toString(),
-          onTap: () {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          },
-          isHappy: false);
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
+          onTap: () {},
+          isHappy: false,
+        ),
+      );
     }
 
     return null;
@@ -112,24 +108,21 @@ class LoginSignupViewModel extends StandardScreenViewModel {
 
   void validateGoogleLogin(
       BuildContext context, String email, String? appleToken) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     loginSignupRepo
         .thirdPartyLogin(context, email, appleToken)
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         receiveLoginResponse(context, response.responseBody!);
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          },
-          isHappy: false,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {},
+            isHappy: false,
+          ),
         );
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       }
     });
   }

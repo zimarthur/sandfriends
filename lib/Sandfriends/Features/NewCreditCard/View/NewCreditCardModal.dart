@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Sandfriends/Features/NewCreditCard/View/NewCreditCardWidget.dart';
 
+import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../ViewModel/NewCreditCardViewModel.dart';
 
 class NewCreditCardModal extends StatefulWidget {
-  VoidCallback close;
-  NewCreditCardModal({required this.close, super.key});
+  NewCreditCardModal({super.key});
 
   @override
   State<NewCreditCardModal> createState() => _NewCreditCardModalState();
@@ -18,7 +19,12 @@ class _NewCreditCardModalState extends State<NewCreditCardModal> {
 
   @override
   void initState() {
-    viewModel.initNewCreditCard(context);
+    print("INITSTATTE 22");
+
+    viewModel.initNewCreditCard(
+      context,
+      true,
+    );
     super.initState();
   }
 
@@ -29,7 +35,7 @@ class _NewCreditCardModalState extends State<NewCreditCardModal> {
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
-        color: secondaryPaper,
+        color: secondaryBack,
         borderRadius: BorderRadius.circular(defaultBorderRadius),
         border: Border.all(color: primaryDarkBlue, width: 1),
         boxShadow: const [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
@@ -41,12 +47,34 @@ class _NewCreditCardModalState extends State<NewCreditCardModal> {
           Align(
             alignment: Alignment.topRight,
             child: InkWell(
-              onTap: () => widget.close(),
+              onTap: () =>
+                  Provider.of<StandardScreenViewModel>(context, listen: false)
+                      .removeLastOverlay(),
               child: SvgPicture.asset(
                 r"assets/icon/x.svg",
                 color: textDarkGrey,
               ),
             ),
+          ),
+          Row(
+            children: [
+              SvgPicture.asset(
+                r"assets/icon/credit_card.svg",
+                color: primaryBlue,
+              ),
+              SizedBox(
+                width: defaultPadding / 2,
+              ),
+              Expanded(
+                child: Text(
+                  "Adicionar cartão de crédito",
+                  style: TextStyle(
+                    color: primaryBlue,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
           Expanded(
             child: NewCreditCardWidget(

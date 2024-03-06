@@ -9,6 +9,7 @@ import '../../../../Common/Enum/EnumPeriodVisualization.dart';
 import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
 import '../../../../Common/Model/SandfriendsQuadras/SFBarChartItem.dart';
 import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
+import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import '../../../../Remote/NetworkResponse.dart';
@@ -45,7 +46,8 @@ class FinancesViewModel extends ChangeNotifier {
   }
 
   void setCustomPeriod(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       DatePickerModal(
         onDateSelected: (dateStart, dateEnd) {
           customStartDate = dateStart;
@@ -53,13 +55,14 @@ class FinancesViewModel extends ChangeNotifier {
           searchCustomMatches(context);
         },
         onReturn: () =>
-            Provider.of<MenuProvider>(context, listen: false).closeModal(),
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .closeModal(),
       ),
     );
   }
 
   void searchCustomMatches(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     financesRepo
         .searchCustomMatches(
             context,
@@ -82,7 +85,8 @@ class FinancesViewModel extends ChangeNotifier {
             ),
           );
         }
-        Provider.of<MenuProvider>(context, listen: false).closeModal();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .closeModal();
         periodVisualization = EnumPeriodVisualization.Custom;
         setFinancesDataSource();
         notifyListeners();
@@ -91,7 +95,7 @@ class FinancesViewModel extends ChangeNotifier {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }

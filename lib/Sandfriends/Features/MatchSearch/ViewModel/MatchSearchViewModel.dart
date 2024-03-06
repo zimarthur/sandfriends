@@ -27,7 +27,7 @@ import '../Repository/MatchSearchDecoder.dart';
 import '../Repository/MatchSearchRepo.dart';
 import '../View/CalendarModal.dart';
 
-class MatchSearchViewModel extends StandardScreenViewModel {
+class MatchSearchViewModel extends ChangeNotifier {
   final matchSearchRepo = MatchSearchRepo();
 
   String get titleText => "Busca - ${currentCustomFilter.sport.description}";
@@ -129,8 +129,7 @@ class MatchSearchViewModel extends StandardScreenViewModel {
 
   void searchCourts(context) {
     if (canSearchMatch) {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
       timeFilter ??= defaultTimeFilter;
       matchSearchRepo
           .searchCourts(
@@ -159,38 +158,38 @@ class MatchSearchViewModel extends StandardScreenViewModel {
               matchSearchDecoder(context, response.responseBody!);
           _availableDays = searchResult.item1;
           openMatches = searchResult.item2;
-          pageStatus = PageStatus.OK;
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setPageStatusOk();
+
           notifyListeners();
         } else if (response.responseStatus ==
             NetworkResponseStatus.expiredToken) {
-          modalMessage = SFModalMessage(
-            title: response.responseTitle!,
-            onTap: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/login_signup',
-                (Route<dynamic> route) => false,
-              );
-            },
-            isHappy: false,
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .addModalMessage(
+            SFModalMessage(
+              title: response.responseTitle!,
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login_signup',
+                  (Route<dynamic> route) => false,
+                );
+              },
+              isHappy: false,
+            ),
           );
-          canTapBackground = false;
-
-          pageStatus = PageStatus.ERROR;
-          notifyListeners();
+          //canTapBackground = false;
         }
       });
     } else {
-      modalMessage = SFModalMessage(
-        title: "Selecione uma cidade e uma data pra buscar os horários",
-        onTap: () {
-          pageStatus = PageStatus.OK;
-          notifyListeners();
-        },
-        isHappy: true,
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addModalMessage(
+        SFModalMessage(
+          title: "Selecione uma cidade e uma data pra buscar os horários",
+          onTap: () {},
+          isHappy: true,
+        ),
       );
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
     }
   }
 
@@ -246,40 +245,46 @@ class MatchSearchViewModel extends StandardScreenViewModel {
   }
 
   void openCitySelectorModal(BuildContext context) {
-    widgetForm = CitySelectorModal(
-      onlyAvailableCities: true,
-      onSelectedCity: (city) {
-        cityFilter = city;
-        pageStatus = PageStatus.OK;
-        notifyListeners();
-      },
-      userCity: Provider.of<UserProvider>(context, listen: false).user?.city,
-      onReturn: () => closeModal(),
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      CitySelectorModal(
+        onlyAvailableCities: true,
+        onSelectedCity: (city) {
+          cityFilter = city;
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setPageStatusOk();
+        },
+        userCity: Provider.of<UserProvider>(context, listen: false).user?.city,
+        onReturn: () =>
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .setPageStatusOk(),
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 
   void openDateSelectorModal(BuildContext context) {
-    widgetForm = CalendarModal(
-      allowMultiDates: true,
-      dateRange: datesFilter,
-      onSubmit: (newDates) {
-        onSubmitDateFilter(newDates);
-        if (shouldGoToNextFilter) {
-          if (timeFilter != defaultTimeFilter) {
-            openTimeSelectorModal(context);
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      CalendarModal(
+        allowMultiDates: true,
+        dateRange: datesFilter,
+        onSubmit: (newDates) {
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .removeLastOverlay();
+          onSubmitDateFilter(newDates);
+          if (shouldGoToNextFilter) {
+            if (timeFilter != defaultTimeFilter) {
+              openTimeSelectorModal(context);
+            } else {
+              searchCourts(context);
+            }
           } else {
-            searchCourts(context);
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .clearOverlays();
           }
-        } else {
-          pageStatus = PageStatus.OK;
-          notifyListeners();
-        }
-      },
+        },
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 
   void onSubmitDateFilter(List<DateTime?> newDates) {
@@ -287,20 +292,23 @@ class MatchSearchViewModel extends StandardScreenViewModel {
   }
 
   void openTimeSelectorModal(BuildContext context) {
-    widgetForm = TimeModal(
-      timeRange: timeFilter,
-      onSubmit: (newTimeFilter) {
-        onSubmitTimeFilter(newTimeFilter);
-        if (shouldGoToNextFilter) {
-          searchCourts(context);
-        } else {
-          pageStatus = PageStatus.OK;
-          notifyListeners();
-        }
-      },
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      TimeModal(
+        timeRange: timeFilter,
+        onSubmit: (newTimeFilter) {
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .removeLastOverlay();
+          onSubmitTimeFilter(newTimeFilter);
+          if (shouldGoToNextFilter) {
+            searchCourts(context);
+          } else {
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .setPageStatusOk();
+          }
+        },
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 
   void onSubmitTimeFilter(TimeRangeResult? newTimeFilter) {

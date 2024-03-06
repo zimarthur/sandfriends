@@ -204,6 +204,7 @@ class _CourtReservationSectionState extends State<CourtReservationSection> {
                                   courtHeight: courtHeight,
                                   themeColor: widget.themeColor,
                                   viewModel: widget.viewModel,
+                                  canScroll: false,
                                 ),
                           SizedBox(
                             height: defaultPadding,

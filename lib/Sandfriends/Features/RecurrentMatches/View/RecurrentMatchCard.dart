@@ -19,6 +19,7 @@ import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/Components/SFButton.dart';
 
 import '../../../../Common/Components/SFLoading.dart';
+import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import 'RecurrentMatchCardDate.dart';
@@ -563,6 +564,9 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                   );
                                 }
                               });
+                              Provider.of<StandardScreenViewModel>(context,
+                                      listen: false)
+                                  .setLoading();
                               Navigator.pushNamed(
                                 context,
                                 "/checkout",

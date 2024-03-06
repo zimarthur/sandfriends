@@ -2,13 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/RecurrentMatchSearch/Repository/RecurrentMatchDecoder.dart';
 import 'package:sandfriends/Sandfriends/Features/RecurrentMatchSearch/View/WeekdayModal.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
 import 'package:time_range/time_range.dart';
-
 import '../../../../Common/Components/Modal/CitySelectorModal/CitySelectorModal.dart';
 import '../../../../Common/Components/Modal/TimeModal.dart';
 import '../../../../Common/Model/Store/Store.dart';
@@ -18,15 +16,13 @@ import '../../../../Common/Model/AvailableHour.dart';
 import '../../../../Common/Model/AvailableStore.dart';
 import '../../../../Common/Model/City.dart';
 import '../../../../Common/Model/Sport.dart';
-import '../../../../Common/Model/Store/StoreComplete.dart';
 import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
-import '../../../../Common/Utils/PageStatus.dart';
 import '../../../../Common/Features/Court/Model/CourtAvailableHours.dart';
 import '../Repository/RecurrentMatchSearchRepo.dart';
 
-class RecurrentMatchSearchViewModel extends StandardScreenViewModel {
+class RecurrentMatchSearchViewModel extends ChangeNotifier {
   final recurrentMatchSearchRepo = RecurrentMatchSearchRepo();
 
   late String titleText;
@@ -76,8 +72,8 @@ class RecurrentMatchSearchViewModel extends StandardScreenViewModel {
 
   void searchRecurrentCourts(context) {
     if (canSearchRecurrentMatch) {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
       timeFilter ??= defaultTimeFilter;
       recurrentMatchSearchRepo
           .searchRecurrentCourts(
@@ -94,84 +90,95 @@ class RecurrentMatchSearchViewModel extends StandardScreenViewModel {
         if (response.responseStatus == NetworkResponseStatus.success) {
           hasUserSearched = true;
           availableDays = recurrentMatchDecoder(response.responseBody!);
-          pageStatus = PageStatus.OK;
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setPageStatusOk();
           notifyListeners();
         } else if (response.responseStatus ==
             NetworkResponseStatus.expiredToken) {
-          modalMessage = SFModalMessage(
-            title: response.responseTitle!,
-            onTap: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/login_signup',
-                (Route<dynamic> route) => false,
-              );
-            },
-            isHappy: false,
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .addModalMessage(
+            SFModalMessage(
+              title: response.responseTitle!,
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login_signup',
+                  (Route<dynamic> route) => false,
+                );
+              },
+              isHappy: false,
+            ),
           );
           if (response.responseStatus == NetworkResponseStatus.expiredToken) {
-            canTapBackground = false;
+            //canTapBackground = false;
           }
-          pageStatus = PageStatus.ERROR;
-          notifyListeners();
         }
       });
     } else {
-      modalMessage = SFModalMessage(
-        title: "Selecione uma cidade e uma data pra buscar os horários",
-        onTap: () {
-          pageStatus = PageStatus.OK;
-          notifyListeners();
-        },
-        isHappy: true,
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addModalMessage(
+        SFModalMessage(
+          title: "Selecione uma cidade e uma data pra buscar os horários",
+          onTap: () {},
+          isHappy: true,
+        ),
       );
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
     }
   }
 
   void openCitySelectorModal(BuildContext context) {
-    widgetForm = CitySelectorModal(
-      onlyAvailableCities: true,
-      themeColor: primaryLightBlue,
-      onSelectedCity: (city) {
-        cityFilter = city;
-        pageStatus = PageStatus.OK;
-        notifyListeners();
-      },
-      userCity: Provider.of<UserProvider>(context, listen: false).user!.city,
-      onReturn: () => closeModal(),
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      CitySelectorModal(
+        onlyAvailableCities: true,
+        themeColor: primaryLightBlue,
+        onSelectedCity: (city) {
+          cityFilter = city;
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .removeLastOverlay();
+
+          notifyListeners();
+        },
+        userCity: Provider.of<UserProvider>(context, listen: false).user!.city,
+        onReturn: () =>
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .removeLastOverlay(),
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 
   void openDateSelectorModal(BuildContext context) {
-    widgetForm = WeekdayModal(
-      selectedWeekdays: datesFilter,
-      onSelected: () {
-        if (timeFilter != defaultTimeFilter) {
-          openTimeSelectorModal(context);
-        } else {
-          searchRecurrentCourts(context);
-        }
-      },
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      WeekdayModal(
+        selectedWeekdays: datesFilter,
+        onSelected: () {
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .removeLastOverlay();
+          if (timeFilter != defaultTimeFilter) {
+            openTimeSelectorModal(context);
+          } else {
+            searchRecurrentCourts(context);
+          }
+        },
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 
   void openTimeSelectorModal(BuildContext context) {
-    widgetForm = TimeModal(
-      timeRange: timeFilter,
-      onSubmit: (newTimeFilter) {
-        onSubmitTimeFilter(newTimeFilter);
-        searchRecurrentCourts(context);
-      },
-      themeColor: primaryLightBlue,
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      TimeModal(
+        timeRange: timeFilter,
+        onSubmit: (newTimeFilter) {
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .removeLastOverlay();
+          onSubmitTimeFilter(newTimeFilter);
+          searchRecurrentCourts(context);
+        },
+        themeColor: primaryLightBlue,
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 
   void onSubmitTimeFilter(TimeRangeResult? newTimeFilter) {

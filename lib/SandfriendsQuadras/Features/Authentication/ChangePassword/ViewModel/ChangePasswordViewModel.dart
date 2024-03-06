@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../../Common/Components/Modal/SFModalMessage.dart';
@@ -8,7 +9,7 @@ import '../../../../../Common/Utils/PageStatus.dart';
 import '../../../../../Remote/NetworkResponse.dart';
 import '../Repository/ChangePasswordRepo.dart';
 
-class ChangePasswordViewModel extends StandardScreenViewModel {
+class ChangePasswordViewModel extends ChangeNotifier {
   void init(BuildContext context, String tokenArg, bool isStoreRequestArg) {
     token = tokenArg;
     isStoreRequest = isStoreRequestArg;
@@ -47,23 +48,24 @@ class ChangePasswordViewModel extends StandardScreenViewModel {
   void validateChangePasswordTokenUser(
     BuildContext context,
   ) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     changePasswordRepo
         .validateChangePasswordTokenUser(context, token)
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
-        pageStatus = PageStatus.OK;
-        notifyListeners();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () => validateChangePasswordTokenUser(context),
-          isHappy: false,
-          buttonText: "Tentar novamente",
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () => validateChangePasswordTokenUser(context),
+            isHappy: false,
+            buttonText: "Tentar novamente",
+          ),
         );
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       }
     });
   }
@@ -71,24 +73,25 @@ class ChangePasswordViewModel extends StandardScreenViewModel {
   void validateChangePasswordTokenEmployee(
     BuildContext context,
   ) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     changePasswordRepo
         .validateChangePasswordTokenEmployee(context, token)
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
-        pageStatus = PageStatus.OK;
-        notifyListeners();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          description: response.responseDescription,
-          onTap: () {},
-          hideButton: true,
-          isHappy: false,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            description: response.responseDescription,
+            onTap: () {},
+            hideButton: true,
+            isHappy: false,
+          ),
         );
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       }
     });
   }
@@ -96,8 +99,8 @@ class ChangePasswordViewModel extends StandardScreenViewModel {
   void changePasswordUser(
     BuildContext context,
   ) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     changePasswordRepo
         .changePasswordUser(context, token, newPasswordController.text)
         .then((response) {
@@ -107,49 +110,49 @@ class ChangePasswordViewModel extends StandardScreenViewModel {
         );
         LocalStorageManager()
             .storeAccessToken(context, responseBody["AccessToken"]);
-        modalMessage = SFModalMessage(
-          title: "Sua senha foi alterada",
-          onTap: () {
-            Navigator.pushNamed(context, "/");
-          },
-          isHappy: true,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: "Sua senha foi alterada",
+            onTap: () {
+              Navigator.pushNamed(context, "/");
+            },
+            isHappy: true,
+          ),
         );
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          description: response.responseDescription,
-          onTap: () {},
-          hideButton: true,
-          isHappy: false,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            description: response.responseDescription,
+            onTap: () {},
+            hideButton: true,
+            isHappy: false,
+          ),
         );
       }
-
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
     });
   }
 
   void changePasswordEmployee(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     changePasswordRepo
         .changePasswordEmployee(context, token, newPasswordController.text)
         .then((response) {
-      modalMessage = SFModalMessage(
-        title: response.responseTitle!,
-        description: response.responseDescription,
-        onTap: () {
-          if (response.responseStatus == NetworkResponseStatus.alert) {
-            Navigator.pushNamed(context, '/login');
-          } else {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          }
-        },
-        isHappy: response.responseStatus == NetworkResponseStatus.alert,
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addModalMessage(
+        SFModalMessage(
+          title: response.responseTitle!,
+          description: response.responseDescription,
+          onTap: () {
+            if (response.responseStatus == NetworkResponseStatus.alert) {
+              Navigator.pushNamed(context, '/login');
+            }
+          },
+          isHappy: response.responseStatus == NetworkResponseStatus.alert,
+        ),
       );
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
     });
   }
 }

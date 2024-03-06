@@ -28,7 +28,7 @@ import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Utils/PageStatus.dart';
 import '../../../../Common/Model/HourPrice/HourPriceUser.dart';
 
-class CheckoutViewModel extends StandardScreenViewModel {
+class CheckoutViewModel extends ChangeNotifier {
   final checkoutRepo = CheckoutRepo();
 
   late Court court;
@@ -104,8 +104,6 @@ class CheckoutViewModel extends StandardScreenViewModel {
     bool receivedIsRecurrent,
     bool receivedIsRenovating,
   ) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
     if (Provider.of<UserProvider>(context, listen: false).user!.cpf != null) {
       cpfController.text =
           Provider.of<UserProvider>(context, listen: false).user!.cpf!;
@@ -142,35 +140,36 @@ class CheckoutViewModel extends StandardScreenViewModel {
           for (var day in responseRecurrentDays) {
             matchDates.add(DateFormat('dd/MM/yyyy').parse(day));
           }
-
-          pageStatus = PageStatus.OK;
           notifyListeners();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .setPageStatusOk();
+          });
         } else {
-          modalMessage = SFModalMessage(
-            title: response.responseTitle!,
-            onTap: () {
-              if (response.responseStatus ==
-                  NetworkResponseStatus.expiredToken) {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/login_signup',
-                  (Route<dynamic> route) => false,
-                );
-              } else {
-                pageStatus = PageStatus.OK;
-                notifyListeners();
-              }
-            },
-            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .addModalMessage(
+            SFModalMessage(
+              title: response.responseTitle!,
+              onTap: () {
+                if (response.responseStatus ==
+                    NetworkResponseStatus.expiredToken) {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/login_signup',
+                    (Route<dynamic> route) => false,
+                  );
+                }
+              },
+              isHappy: response.responseStatus == NetworkResponseStatus.alert,
+            ),
           );
-          pageStatus = PageStatus.ERROR;
-          notifyListeners();
         }
       });
     } else {
       date = receivedDate!;
       matchDates.add(date);
-      pageStatus = PageStatus.OK;
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
       notifyListeners();
     }
   }
@@ -180,24 +179,17 @@ class CheckoutViewModel extends StandardScreenViewModel {
     if (newSelectedPayment == selectedPayment) {
       selectedPayment = SelectedPayment.NotSelected;
     } else if (newSelectedPayment == SelectedPayment.CreditCard) {
-      addOverlayWidget(
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addOverlayWidget(
         ModalCreditCardSelector(
-          closeModal: () => removeLastOverlay(),
           onSelectedCreditCard: (selectedCreditCard) =>
-              onSelectedCreditCard(selectedCreditCard),
+              onSelectedCreditCard(context, selectedCreditCard),
           onAddNewCreditCard: () {
             {
-              if (Provider.of<EnvironmentProvider>(context, listen: false)
-                  .environment
-                  .isWeb) {
-                addOverlayWidget(
-                  NewCreditCardModal(
-                    close: () => removeLastOverlay(),
-                  ),
-                );
-              } else {
-                Navigator.pushNamed(context, "/new_credit_card");
-              }
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .addOverlayWidget(
+                NewCreditCardModal(),
+              );
             }
           },
         ),
@@ -211,9 +203,11 @@ class CheckoutViewModel extends StandardScreenViewModel {
     notifyListeners();
   }
 
-  void onSelectedCreditCard(CreditCard newSelectedCreditCard) {
+  void onSelectedCreditCard(
+      BuildContext context, CreditCard newSelectedCreditCard) {
     selectedCreditCard = newSelectedCreditCard;
-    pageStatus = PageStatus.OK;
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .clearOverlays();
     selectedPayment = SelectedPayment.CreditCard;
     notifyListeners();
   }
@@ -222,27 +216,27 @@ class CheckoutViewModel extends StandardScreenViewModel {
     if (selectedPayment != SelectedPayment.NotSelected) {
       String? validationCpf = cpfValidator(cpfController.text, null);
       if (selectedPayment == SelectedPayment.Pix && validationCpf != null) {
-        modalMessage = SFModalMessage(
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
             title: validationCpf[0].toUpperCase() + validationCpf.substring(1),
             onTap: () {
-              pageStatus = PageStatus.OK;
-
               FocusScope.of(context).requestFocus(cpfFocus);
-
-              notifyListeners();
             },
-            isHappy: true);
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
+            isHappy: true,
+          ),
+        );
       } else if (selectedPayment == SelectedPayment.CreditCard) {
-        widgetForm = CvvModal(
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addOverlayWidget(
+          CvvModal(
             selectedCreditCard: selectedCreditCard!,
             onCvv: (receivedCvv) {
               cvv = receivedCvv;
               makeReservation(context);
-            });
-        pageStatus = PageStatus.FORM;
-        notifyListeners();
+            },
+          ),
+        );
       } else {
         makeReservation(context);
       }
@@ -264,8 +258,8 @@ class CheckoutViewModel extends StandardScreenViewModel {
   }
 
   void matchReservation(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     checkoutRepo
         .matchReservation(
       context,
@@ -290,34 +284,32 @@ class CheckoutViewModel extends StandardScreenViewModel {
     )
         .then((response) {
       if (selectedPayment == SelectedPayment.Pix &&
-          response.responseStatus == NetworkResponseStatus.alert) {
-        pixModalResponse(context, response.responseTitle!);
+          response.responseStatus == NetworkResponseStatus.success) {
+        pixModalResponse(context, response.responseBody!);
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            if (response.responseStatus == NetworkResponseStatus.alert) {
-              Navigator.pushNamed(context, '/home');
-            } else {
-              pageStatus = PageStatus.OK;
-              notifyListeners();
-            }
-          },
-          buttonText: response.responseStatus == NetworkResponseStatus.alert
-              ? "Concluído"
-              : "Voltar",
-          isHappy: response.responseStatus == NetworkResponseStatus.alert,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .clearOverlays();
+              if (response.responseStatus == NetworkResponseStatus.alert) {
+                Navigator.pushNamed(context, '/home');
+              }
+            },
+            buttonText: response.responseStatus == NetworkResponseStatus.alert
+                ? "Concluído"
+                : "Voltar",
+            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          ),
         );
-        canTapBackground = false;
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       }
     });
   }
 
   void recurrentMatchReservation(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     checkoutRepo
         .recurrentMatchReservation(
       context,
@@ -339,28 +331,27 @@ class CheckoutViewModel extends StandardScreenViewModel {
       isRenovating,
     )
         .then((response) {
-      canTapBackground = false;
       if (selectedPayment == SelectedPayment.Pix &&
-          response.responseStatus == NetworkResponseStatus.alert) {
-        pixModalResponse(context, response.responseTitle!);
+          response.responseStatus == NetworkResponseStatus.success) {
+        pixModalResponse(context, response.responseBody!);
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            if (response.responseStatus == NetworkResponseStatus.alert) {
-              Navigator.pushNamed(context, '/home');
-            } else {
-              pageStatus = PageStatus.OK;
-              notifyListeners();
-            }
-          },
-          buttonText: response.responseStatus == NetworkResponseStatus.alert
-              ? "Concluído"
-              : "Voltar",
-          isHappy: response.responseStatus == NetworkResponseStatus.alert,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .clearOverlays();
+              if (response.responseStatus == NetworkResponseStatus.alert) {
+                Navigator.pushNamed(context, '/home');
+              }
+            },
+            buttonText: response.responseStatus == NetworkResponseStatus.alert
+                ? "Concluído"
+                : "Voltar",
+            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          ),
         );
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       }
     });
   }
@@ -369,25 +360,29 @@ class CheckoutViewModel extends StandardScreenViewModel {
     Map<String, dynamic> responseBody = json.decode(
       response,
     );
-
-    widgetForm = PixModalResponse(
-      message: responseBody["Message"],
-      pixCode: responseBody["Pixcode"],
-      isRecurrent: isRecurrent,
-      onReturn: () => Navigator.pushNamed(context, '/home'),
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      PixModalResponse(
+        message: responseBody["Message"],
+        pixCode: responseBody["Pixcode"],
+        isRecurrent: isRecurrent,
+        onReturn: () {
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .clearOverlays();
+          Navigator.pushNamed(context, '/home');
+        },
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 
   void onAddCupom(BuildContext context) {
-    addOverlayWidget(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       AddCupomModal(
         cupomController: cupomController,
         onAddCupom: () {
-          pageStatus = PageStatus.LOADING;
-          notifyListeners();
-
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+            ..setLoading();
           checkoutRepo
               .validateCoupon(
                   context,
@@ -402,23 +397,27 @@ class CheckoutViewModel extends StandardScreenViewModel {
                 response.responseBody!,
               );
               appliedCoupon = CouponUser.fromJson(responseBody);
-              pageStatus = PageStatus.OK;
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .setPageStatusOk();
               notifyListeners();
             } else {
-              modalMessage = SFModalMessage(
-                title: response.responseTitle!,
-                onTap: () {
-                  onAddCupom(context);
-                },
-                isHappy: response.responseStatus == NetworkResponseStatus.alert,
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .addModalMessage(
+                SFModalMessage(
+                  title: response.responseTitle!,
+                  onTap: () {
+                    onAddCupom(context);
+                  },
+                  isHappy:
+                      response.responseStatus == NetworkResponseStatus.alert,
+                ),
               );
-              pageStatus = PageStatus.ERROR;
-              notifyListeners();
             }
           });
         },
         onReturn: () {
-          removeLastOverlay();
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .removeLastOverlay();
         },
       ),
     );

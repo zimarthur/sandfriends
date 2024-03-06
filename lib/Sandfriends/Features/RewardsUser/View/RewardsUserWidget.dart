@@ -25,8 +25,8 @@ class _RewardsUserWidgetState extends State<RewardsUserWidget> {
               itemCount: widget.viewModel.userRewards.length,
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () => widget.viewModel
-                      .onTapUserReward(widget.viewModel.userRewards[index]),
+                  onTap: () => widget.viewModel.onTapUserReward(
+                      context, widget.viewModel.userRewards[index]),
                   child: RewardUserCard(
                     userReward: widget.viewModel.userRewards[index],
                   ),

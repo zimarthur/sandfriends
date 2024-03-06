@@ -25,6 +25,9 @@ class _OnboardingWidgetWelcomeState extends State<OnboardingWidgetWelcome> {
     final viewModel = Provider.of<OnboardingViewModel>(context);
     return Column(
       children: [
+        Expanded(
+          child: Container(),
+        ),
         Container(
           padding: EdgeInsets.symmetric(horizontal: defaultPadding),
           width: double.infinity,
@@ -81,6 +84,9 @@ class _OnboardingWidgetWelcomeState extends State<OnboardingWidgetWelcome> {
             ],
           ),
         ),
+        Expanded(
+          child: Container(),
+        ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultPadding),
           child: SFButton(
@@ -90,7 +96,7 @@ class _OnboardingWidgetWelcomeState extends State<OnboardingWidgetWelcome> {
             },
           ),
         ),
-        Expanded(child: Container()),
+        Expanded(flex: 2, child: Container()),
         SizedBox(
           height: 30,
           width: MediaQuery.of(context).size.width,

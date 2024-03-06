@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 
 import '../../../../../Common/Components/SFAvatarUser.dart';
 import '../../../../../Common/Components/SFButton.dart';
@@ -73,8 +74,8 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
               vertical: height * 0.01,
             ),
             onTap: () =>
-                Provider.of<UserDetailsViewModel>(context, listen: false)
-                    .closeModal(),
+                Provider.of<StandardScreenViewModel>(context, listen: false)
+                    .removeLastOverlay(),
           ),
         ],
       ),

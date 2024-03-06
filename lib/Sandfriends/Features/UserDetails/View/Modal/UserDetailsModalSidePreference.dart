@@ -110,8 +110,8 @@ class _UserDetailsModalSidePreferenceState
             textPadding: EdgeInsets.symmetric(
               vertical: height * 0.02,
             ),
-            onTap: () =>
-                widget.viewModel.setUserSidePreference(currentSidePreference),
+            onTap: () => widget.viewModel
+                .setUserSidePreference(context, currentSidePreference),
           )
         ],
       ),

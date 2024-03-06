@@ -20,7 +20,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   void initState() {
-    viewModel.initOnboardingViewModel(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      viewModel.initOnboardingViewModel(context);
+    });
     super.initState();
   }
 
@@ -31,7 +33,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       child: Consumer<OnboardingViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             titleText: viewModel.onboardingPage == EnumOnboardingPage.Welcome
                 ? "Boas-vindas"
                 : "Meu perfil",

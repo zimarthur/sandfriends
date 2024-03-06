@@ -39,7 +39,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
       child: Consumer<UserDetailsViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             titleText: "Meu Perfil",
             appBarType: AppBarType.Secondary,
             rightWidget: SizedBox(
@@ -47,6 +46,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
               height: toolbarHeight * 0.9,
               child: SFButton(
                 buttonLabel: "Salvar",
+                textPadding:
+                    EdgeInsets.symmetric(horizontal: defaultPadding / 4),
                 color: viewModel.isEdited ? primaryBlue : textDisabled,
                 onTap: () {
                   if (viewModel.isEdited) {

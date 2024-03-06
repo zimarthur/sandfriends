@@ -23,7 +23,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
       child: Consumer<PaymentViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             titleText: "Formas de Pagamento",
             appBarType: AppBarType.Secondary,
             child: PaymentWidget(

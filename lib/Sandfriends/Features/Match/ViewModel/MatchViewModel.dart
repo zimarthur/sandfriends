@@ -21,7 +21,7 @@ import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../Repository/MatchRepo.dart';
 
-class MatchViewModel extends StandardScreenViewModel {
+class MatchViewModel extends ChangeNotifier {
   final matchRepo = MatchRepo();
 
   String titleText = "";
@@ -102,7 +102,8 @@ class MatchViewModel extends StandardScreenViewModel {
   }
 
   Future<void> getMatchInfo(BuildContext context, String matchUrl) async {
-    pageStatus = PageStatus.LOADING;
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     notifyListeners();
     matchRepo.getMatchInfo(context, matchUrl).then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
@@ -165,44 +166,44 @@ class MatchViewModel extends StandardScreenViewModel {
           matchExpired = true;
         }
         isMatchInstantiated = true;
-        pageStatus = PageStatus.OK;
-        notifyListeners();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            if (response.responseStatus == NetworkResponseStatus.expiredToken) {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/login_signup',
-                (Route<dynamic> route) => false,
-              );
-            } else {
-              Navigator.pushNamed(context, '/home');
-            }
-          },
-          isHappy: false,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              if (response.responseStatus ==
+                  NetworkResponseStatus.expiredToken) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login_signup',
+                  (Route<dynamic> route) => false,
+                );
+              } else {
+                Navigator.pushNamed(context, '/home');
+              }
+            },
+            isHappy: false,
+          ),
         );
-        canTapBackground = false;
-
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
+        //canTapBackground = false;
       }
     });
   }
 
   void shareMatch(BuildContext context) async {
     if (match.paymentStatus == PaymentStatus.Pending) {
-      modalMessage = SFModalMessage(
-        title: "Você precisa finalizar o pagamento antes de convidar jogadores",
-        onTap: () {
-          pageStatus = PageStatus.OK;
-          notifyListeners();
-        },
-        isHappy: false,
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addModalMessage(
+        SFModalMessage(
+          title:
+              "Você precisa finalizar o pagamento antes de convidar jogadores",
+          onTap: () {},
+          isHappy: false,
+        ),
       );
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
     } else {
       await Share.share(
           'Entre na minha partida!\n ${Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder("/redirect/?ct=mtch&bd=${match.matchUrl}")}');
@@ -230,8 +231,7 @@ class MatchViewModel extends StandardScreenViewModel {
 
   void saveCreatorNotes(BuildContext context) {
     if (creatorNotesFormKey.currentState?.validate() == true) {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
       matchRepo
           .saveCreatorNotes(
         context,
@@ -240,40 +240,40 @@ class MatchViewModel extends StandardScreenViewModel {
         creatorNotesController.text,
       )
           .then((response) {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            closeModal();
-            if (response.responseStatus == NetworkResponseStatus.alert) {
-              match.creatorNotes = creatorNotesController.text;
-              controllerHasChanged = false;
-            }
-            notifyListeners();
-          },
-          isHappy: response.responseStatus == NetworkResponseStatus.alert,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              if (response.responseStatus == NetworkResponseStatus.alert) {
+                match.creatorNotes = creatorNotesController.text;
+                controllerHasChanged = false;
+              }
+              notifyListeners();
+            },
+            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          ),
         );
-
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       });
     }
   }
 
   void openMemberCardModal(BuildContext context, MatchMember member) {
-    widgetForm = MemberCardModal(
-      viewModel: this,
-      member: member,
-      onAccept: () => invitationResponse(context, member.user.id!, true),
-      onRefuse: () => invitationResponse(context, member.user.id!, false),
-      onRemove: () => removeMatchMember(context, member.user.id!),
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      MemberCardModal(
+        viewModel: this,
+        member: member,
+        onAccept: () => invitationResponse(context, member.user.id!, true),
+        onRefuse: () => invitationResponse(context, member.user.id!, false),
+        onRemove: () => removeMatchMember(context, member.user.id!),
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 
   void invitationResponse(BuildContext context, int id, bool accepted) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     matchRepo
         .invitationResponse(
       context,
@@ -284,43 +284,42 @@ class MatchViewModel extends StandardScreenViewModel {
     )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
-        modalMessage = SFModalMessage(
-          title: accepted ? "Convite aceito" : "Convite recusado",
-          onTap: () {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-            getMatchInfo(context, match.matchUrl);
-          },
-          isHappy: accepted,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: accepted ? "Convite aceito" : "Convite recusado",
+            onTap: () {
+              getMatchInfo(context, match.matchUrl);
+            },
+            isHappy: accepted,
+          ),
         );
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            if (response.responseStatus == NetworkResponseStatus.expiredToken) {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/login_signup',
-                (Route<dynamic> route) => false,
-              );
-            } else {
-              pageStatus = PageStatus.OK;
-              notifyListeners();
-            }
-          },
-          isHappy: accepted,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              if (response.responseStatus ==
+                  NetworkResponseStatus.expiredToken) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login_signup',
+                  (Route<dynamic> route) => false,
+                );
+              }
+            },
+            isHappy: accepted,
+          ),
         );
       }
-      canTapBackground = false;
-
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
+      //canTapBackground = false;
     });
   }
 
   void removeMatchMember(BuildContext context, int id) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     matchRepo
         .removeMatchMember(
           context,
@@ -337,21 +336,20 @@ class MatchViewModel extends StandardScreenViewModel {
   }
 
   void confirmCancelMatch(BuildContext context) {
-    widgetForm = ConfirmationModal(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      ConfirmationModal(
         message: "Deseja mesmo cancelar a partida?",
         onConfirm: () => cancelMatch(context),
-        onCancel: () {
-          pageStatus = PageStatus.OK;
-          notifyListeners();
-        },
-        isHappy: false);
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
+        onCancel: () {},
+        isHappy: false,
+      ),
+    );
   }
 
   void cancelMatch(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     matchRepo
         .cancelMatch(
           context,
@@ -367,8 +365,8 @@ class MatchViewModel extends StandardScreenViewModel {
   }
 
   void leaveMatch(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     matchRepo
         .leaveMatch(
           context,
@@ -380,28 +378,29 @@ class MatchViewModel extends StandardScreenViewModel {
 
   void joinMatch(BuildContext context) {
     if (!userHasConfiguredRank(context) && match.isOpenMatch) {
-      modalMessage = SFModalMessage(
-        title:
-            "Configure seu rank em ${match.sport.description} para entrar em uma partida aberta",
-        onTap: () {
-          Navigator.pushNamed(
-            context,
-            "/user_details",
-            arguments: {
-              'initSport': match.sport,
-              'userDetailsModal': UserDetailsModals.Rank,
-            },
-          );
-        },
-        buttonIconPath: r"assets/icon/config.svg",
-        buttonText: "Configurar",
-        isHappy: false,
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addModalMessage(
+        SFModalMessage(
+          title:
+              "Configure seu rank em ${match.sport.description} para entrar em uma partida aberta",
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              "/user_details",
+              arguments: {
+                'initSport': match.sport,
+                'userDetailsModal': UserDetailsModals.Rank,
+              },
+            );
+          },
+          buttonIconPath: r"assets/icon/config.svg",
+          buttonText: "Configurar",
+          isHappy: false,
+        ),
       );
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
     } else {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
       matchRepo
           .joinMatch(
             context,
@@ -423,45 +422,40 @@ class MatchViewModel extends StandardScreenViewModel {
 
   void saveOpenMatchChanges(BuildContext context) {
     if (match.paymentStatus == PaymentStatus.Pending) {
-      modalMessage = SFModalMessage(
-        title: "Você precisa finalizar o pagamento antes de abrir a partida",
-        onTap: () {
-          pageStatus = PageStatus.OK;
-          notifyListeners();
-        },
-        isHappy: false,
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addModalMessage(
+        SFModalMessage(
+          title: "Você precisa finalizar o pagamento antes de abrir a partida",
+          onTap: () {},
+          isHappy: false,
+        ),
       );
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
     } else if (!userHasConfiguredRank(context)) {
-      modalMessage = SFModalMessage(
-        title:
-            "Antes de abrir uma partida você precisa configurar seu rank em ${match.sport.description}",
-        onTap: () {
-          pageStatus = PageStatus.OK;
-          notifyListeners();
-        },
-        isHappy: false,
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addModalMessage(
+        SFModalMessage(
+          title:
+              "Antes de abrir uma partida você precisa configurar seu rank em ${match.sport.description}",
+          onTap: () {},
+          isHappy: false,
+        ),
       );
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
     } else {
       if (match.isOpenMatch == true &&
           match.maxUsers <= match.activeMatchMembers) {
-        modalMessage = SFModalMessage(
-          title:
-              "O número de jogadores que você deseja para sua partida deve ser maior do que o número de jogadores atual",
-          onTap: () {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          },
-          isHappy: false,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title:
+                "O número de jogadores que você deseja para sua partida deve ser maior do que o número de jogadores atual",
+            onTap: () {},
+            isHappy: false,
+          ),
         );
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       } else {
-        pageStatus = PageStatus.LOADING;
-        notifyListeners();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setLoading();
+
         matchRepo
             .saveOpenMatch(context, loggedUser.accessToken, match.idMatch,
                 match.isOpenMatch, match.maxUsers)
@@ -476,19 +470,17 @@ class MatchViewModel extends StandardScreenViewModel {
   }
 
   void defaultResponse(NetworkResponse response, BuildContext context) {
-    modalMessage = SFModalMessage(
-      title: response.responseTitle!,
-      onTap: () {
-        if (response.responseStatus == NetworkResponseStatus.alert) {
-          getMatchInfo(context, match.matchUrl);
-        } else {
-          pageStatus = PageStatus.OK;
-          notifyListeners();
-        }
-      },
-      isHappy: response.responseStatus == NetworkResponseStatus.alert,
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addModalMessage(
+      SFModalMessage(
+        title: response.responseTitle!,
+        onTap: () {
+          if (response.responseStatus == NetworkResponseStatus.alert) {
+            getMatchInfo(context, match.matchUrl);
+          }
+        },
+        isHappy: response.responseStatus == NetworkResponseStatus.alert,
+      ),
     );
-    pageStatus = PageStatus.ERROR;
-    notifyListeners();
   }
 }

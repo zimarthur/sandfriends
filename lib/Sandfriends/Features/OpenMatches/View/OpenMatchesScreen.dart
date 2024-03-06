@@ -29,7 +29,6 @@ class _OpenMatchesScreenState extends State<OpenMatchesScreen> {
       child: Consumer<OpenMatchesViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             titleText: "Partidas abertas",
             appBarType: AppBarType.Primary,
             child: OpenMatchesWidget(

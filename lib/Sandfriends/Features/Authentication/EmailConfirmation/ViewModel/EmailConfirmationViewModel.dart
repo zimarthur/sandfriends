@@ -10,9 +10,8 @@ import 'package:sandfriends/Sandfriends/Features/Authentication/EmailConfirmatio
 
 import '../../../../../Remote/NetworkResponse.dart';
 import '../../../../../Common/Components/Modal/SFModalMessage.dart';
-import '../../../../../Common/Utils/PageStatus.dart';
 
-class EmailConfirmationViewModel extends StandardScreenViewModel {
+class EmailConfirmationViewModel extends ChangeNotifier {
   final emailConfirmationRepo = EmailConfirmationRepo();
 
   void confirmEmail(BuildContext context, String token) {
@@ -25,16 +24,17 @@ class EmailConfirmationViewModel extends StandardScreenViewModel {
             .storeAccessToken(context, responseBody['AccessToken']);
         Navigator.pushNamed(context, '/');
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            goToLoginSignup(context);
-          },
-          isHappy: response.responseStatus != NetworkResponseStatus.error,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              goToLoginSignup(context);
+            },
+            isHappy: response.responseStatus != NetworkResponseStatus.error,
+          ),
         );
-        pageStatus = PageStatus.ERROR;
       }
-      notifyListeners();
     });
   }
 

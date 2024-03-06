@@ -15,7 +15,7 @@ import '../../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../Menu/ViewModel/StoreProvider.dart';
 import '../Repository/LoginRepo.dart';
 
-class LoginViewModel extends StandardScreenViewModel {
+class LoginViewModel extends ChangeNotifier {
   final loginRepo = LoginRepo();
 
   TextEditingController userController = TextEditingController();
@@ -57,8 +57,7 @@ class LoginViewModel extends StandardScreenViewModel {
   }
 
   void validateToken(BuildContext context) async {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     String? storedToken = await LocalStorageManager().getAccessToken(context);
     if (storedToken != null && storedToken.isNotEmpty) {
       loginRepo.validateToken(context, storedToken).then((response) {
@@ -67,16 +66,16 @@ class LoginViewModel extends StandardScreenViewModel {
               .setLoginResponse(context, response.responseBody!, keepConnected);
           Navigator.pushNamed(context, '/home');
         } else {
-          pageStatus = PageStatus.OK;
-          notifyListeners();
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setPageStatusOk();
           if (!kIsWeb) {
             configureNotifications().then((notificationCOnfigs) {});
           }
         }
       });
     } else {
-      pageStatus = PageStatus.OK;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
       if (!kIsWeb) {
         configureNotifications().then((notificationCOnfigs) {});
       }
@@ -85,8 +84,7 @@ class LoginViewModel extends StandardScreenViewModel {
 
   void onTapLogin(BuildContext context) {
     if (loginFormKey.currentState?.validate() == true) {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
 
       loginRepo
           .login(
@@ -101,17 +99,15 @@ class LoginViewModel extends StandardScreenViewModel {
               .setLoginResponse(context, response.responseBody!, keepConnected);
           Navigator.pushNamed(context, '/home');
         } else {
-          modalMessage = SFModalMessage(
-            title: response.responseTitle!,
-            description: response.responseDescription,
-            onTap: () {
-              pageStatus = PageStatus.OK;
-              notifyListeners();
-            },
-            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .addModalMessage(
+            SFModalMessage(
+              title: response.responseTitle!,
+              description: response.responseDescription,
+              onTap: () {},
+              isHappy: response.responseStatus == NetworkResponseStatus.alert,
+            ),
           );
-          pageStatus = PageStatus.ERROR;
-          notifyListeners();
         }
       });
     }

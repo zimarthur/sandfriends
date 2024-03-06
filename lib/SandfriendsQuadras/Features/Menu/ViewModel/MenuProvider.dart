@@ -30,13 +30,12 @@ import '../../Settings/View/Mobile/SettingsScreenMobile.dart';
 import '../Model/DrawerItem.dart';
 import 'StoreProvider.dart';
 
-class MenuProvider extends StandardScreenViewModel {
+class MenuProvider extends ChangeNotifier {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
 
   final loginRepo = LoginRepo();
 
-  @override
   void onTapReturn(BuildContext context) {
     quickLinkHome(context);
   }
@@ -60,8 +59,7 @@ class MenuProvider extends StandardScreenViewModel {
 
   void validateAuthentication(BuildContext context) async {
     if (Provider.of<StoreProvider>(context, listen: false).store == null) {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
       String? storedToken = await LocalStorageManager().getAccessToken(context);
       if (storedToken != null) {
         loginRepo.validateToken(context, storedToken).then((response) async {
@@ -90,8 +88,8 @@ class MenuProvider extends StandardScreenViewModel {
           } else {
             Navigator.pushNamed(context, "/login");
           }
-          pageStatus = PageStatus.OK;
-          notifyListeners();
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setPageStatusOk();
         });
       } else {
         Navigator.pushNamed(context, "/login");
@@ -106,8 +104,7 @@ class MenuProvider extends StandardScreenViewModel {
   Future<void> updateStoreProvider(BuildContext context) async {
     String? storedToken = await LocalStorageManager().getAccessToken(context);
     if (storedToken != null) {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
       NetworkResponse response =
           await loginRepo.validateToken(context, storedToken);
       if (response.responseStatus == NetworkResponseStatus.success) {
@@ -117,57 +114,37 @@ class MenuProvider extends StandardScreenViewModel {
             .isLoggedEmployeeAdmin());
         setSelectedDrawerItem(mainDrawer.first);
       }
-      pageStatus = PageStatus.OK;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
     }
   }
 
-  void setModalLoading() {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
-  }
-
-  void setMessageModal(String title, String? description, bool isHappy,
-      {VoidCallback? onTap}) {
-    modalMessage = SFModalMessage(
-      title: title,
-      description: description,
-      onTap: onTap ??
-          () {
-            closeModal();
-          },
-      isHappy: isHappy,
-    );
-    pageStatus = PageStatus.ERROR;
-    notifyListeners();
-  }
-
-  void setMessageModalFromResponse(NetworkResponse response) {
-    setMessageModal(
-      response.responseTitle!,
-      response.responseDescription,
-      response.responseStatus == NetworkResponseStatus.alert,
+  void setMessageModalFromResponse(
+      BuildContext context, NetworkResponse response) {
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addModalMessage(
+      SFModalMessage(
+        title: response.responseTitle!,
+        description: response.responseDescription,
+        onTap: () {},
+        isHappy: response.responseStatus == NetworkResponseStatus.alert,
+      ),
     );
   }
 
-  void setModalForm(Widget widget) {
-    widgetForm = widget;
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
-  }
-
-  void setModalConfirmation(String title, String description,
-      VoidCallback onContinue, VoidCallback onReturn,
+  void setModalConfirmation(BuildContext context, String title,
+      String description, VoidCallback onContinue, VoidCallback onReturn,
       {bool? isConfirmationPositive}) {
-    widgetForm = SFModalConfirmation(
-      title: title,
-      description: description,
-      onContinue: onContinue,
-      onReturn: onReturn,
-      isConfirmationPositive: isConfirmationPositive,
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      SFModalConfirmation(
+        title: title,
+        description: description,
+        onContinue: onContinue,
+        onReturn: onReturn,
+        isConfirmationPositive: isConfirmationPositive,
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 
   bool _isDrawerOpened = false;

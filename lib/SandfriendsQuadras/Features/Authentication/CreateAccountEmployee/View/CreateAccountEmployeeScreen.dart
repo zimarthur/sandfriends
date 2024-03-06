@@ -32,7 +32,6 @@ class _CreateAccountEmployeeScreenState
       child: Consumer<CreateAccountEmployeeViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             childWeb: CreateAccountEmployeeWidget(
               viewModel: viewModel,
             ),

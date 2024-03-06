@@ -63,7 +63,7 @@ class _UserDetailsModalNameState extends State<UserDetailsModalName> {
               textPadding: EdgeInsets.symmetric(
                 vertical: height * 0.02,
               ),
-              onTap: () => widget.viewModel.setUserName(),
+              onTap: () => widget.viewModel.setUserName(context),
             ),
           ],
         ),

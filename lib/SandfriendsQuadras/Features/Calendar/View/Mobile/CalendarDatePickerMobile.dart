@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
 import 'package:provider/provider.dart';
 import '../../../../../Common/Utils/Constants.dart';
@@ -29,15 +30,17 @@ class _CalendarDatePickerMobileState extends State<CalendarDatePickerMobile> {
       },
       onHorizontalDragUpdate: (dragDetail) {
         if (dragStartDatePicker - dragDetail.globalPosition.dx > dragTreshold &&
-            Provider.of<MenuProvider>(context, listen: false).pageStatus !=
-                PageStatus.LOADING) {
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                    .isLoading ==
+                false) {
           viewModel.increaseOneDay(context);
           dragStartDatePicker = dragDetail.globalPosition.dx;
           HapticFeedback.lightImpact();
         } else if (dragDetail.globalPosition.dx - dragStartDatePicker >
                 dragTreshold &&
-            Provider.of<MenuProvider>(context, listen: false).pageStatus !=
-                PageStatus.LOADING) {
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                    .isLoading ==
+                false) {
           viewModel.decreaseOneDay(context);
           dragStartDatePicker = dragDetail.globalPosition.dx;
           HapticFeedback.lightImpact();

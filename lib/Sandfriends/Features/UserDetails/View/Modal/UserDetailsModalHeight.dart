@@ -54,7 +54,9 @@ class _UserDetailsModalHeightState extends State<UserDetailsModalHeight> {
               textPadding: EdgeInsets.symmetric(
                 vertical: height * 0.02,
               ),
-              onTap: () => widget.viewModel.setUserHeight(),
+              onTap: () => widget.viewModel.setUserHeight(
+                context,
+              ),
             )
           ],
         ),

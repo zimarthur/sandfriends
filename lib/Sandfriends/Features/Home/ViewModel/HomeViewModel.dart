@@ -26,7 +26,7 @@ import '../View/Feed/FeedWidget.dart';
 import '../View/User/AppRatingModal.dart';
 import '../View/User/UserWidget.dart';
 
-class HomeViewModel extends StandardScreenViewModel {
+class HomeViewModel extends ChangeNotifier {
   final homeRepo = HomeRepo();
 
   void changeTab(BuildContext context, HomeTabs newTab) {
@@ -97,8 +97,8 @@ class HomeViewModel extends StandardScreenViewModel {
     BuildContext context,
     Tuple2<bool?, String?>? notificationsConfig,
   ) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     homeRepo
         .getUserInfo(
       context,
@@ -184,32 +184,34 @@ class HomeViewModel extends StandardScreenViewModel {
           Provider.of<RedirectProvider>(context, listen: false).redirectUri =
               null;
         }
-        canTapBackground = true;
-        pageStatus = PageStatus.OK;
-        notifyListeners();
+        //canTapBackground = true;
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+          ..setPageStatusOk();
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            if (response.responseStatus == NetworkResponseStatus.expiredToken) {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/login_signup',
-                (Route<dynamic> route) => false,
-              );
-            } else {
-              getUserInfo(context, notificationsConfig);
-            }
-          },
-          isHappy: false,
-          buttonText:
-              response.responseStatus == NetworkResponseStatus.expiredToken
-                  ? "Concluído"
-                  : "Tentar novamente",
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              if (response.responseStatus ==
+                  NetworkResponseStatus.expiredToken) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login_signup',
+                  (Route<dynamic> route) => false,
+                );
+              } else {
+                getUserInfo(context, notificationsConfig);
+              }
+            },
+            isHappy: false,
+            buttonText:
+                response.responseStatus == NetworkResponseStatus.expiredToken
+                    ? "Concluído"
+                    : "Tentar novamente",
+          ),
         );
-        canTapBackground = false;
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
+        //canTapBackground = false;
       }
     });
   }
@@ -224,8 +226,7 @@ class HomeViewModel extends StandardScreenViewModel {
   }
 
   void sendFeedback(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     homeRepo
         .sendFeedback(
       context,
@@ -234,30 +235,32 @@ class HomeViewModel extends StandardScreenViewModel {
     )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
-        pageStatus = PageStatus.OK;
-        notifyListeners();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            if (response.responseStatus == NetworkResponseStatus.expiredToken) {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/login_signup',
-                (Route<dynamic> route) => false,
-              );
-            } else {
-              pageStatus = PageStatus.OK;
-              notifyListeners();
-            }
-          },
-          isHappy: response.responseStatus == NetworkResponseStatus.alert,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              if (response.responseStatus ==
+                  NetworkResponseStatus.expiredToken) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login_signup',
+                  (Route<dynamic> route) => false,
+                );
+              } else {
+                Provider.of<StandardScreenViewModel>(context, listen: false)
+                  ..setPageStatusOk();
+              }
+            },
+            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          ),
         );
         if (response.responseStatus == NetworkResponseStatus.expiredToken) {
-          canTapBackground = false;
+          //canTapBackground = false;
         }
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       }
       feedbackController.text = "";
     });
@@ -268,12 +271,13 @@ class HomeViewModel extends StandardScreenViewModel {
     launchUrl(url);
   }
 
-  void openAppRatingModal() {
-    widgetForm = AppRatingModal(
-      viewModel: this,
+  void openAppRatingModal(BuildContext context) {
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      AppRatingModal(
+        viewModel: this,
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 
   void goToUSerDetail(BuildContext context) {

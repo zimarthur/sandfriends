@@ -19,13 +19,6 @@ import '../../../../../Sandfriends/Providers/UserProvider/UserProvider.dart';
 import '../../../../../api/google_signin_api.dart';
 
 class ProfileOverlayViewModel extends ChangeNotifier {
-  StandardScreenViewModel parentViewModel;
-  VoidCallback? overlayClose;
-  ProfileOverlayViewModel({
-    required this.overlayClose,
-    required this.parentViewModel,
-  });
-
   final loginRepo = LoginRepo();
   final createAccountRepo = CreateAccountRepo();
 
@@ -43,12 +36,6 @@ class ProfileOverlayViewModel extends ChangeNotifier {
   final passwordVerificationCreateAccountController = TextEditingController();
 
   final emailForgotPasswordController = TextEditingController();
-
-  void closeOverlayIfPossible() {
-    if (overlayClose != null) {
-      overlayClose!();
-    }
-  }
 
   void goToForgotMyPassword() {
     currentWidget = EnumLoginSignupWidget.ForgotPassword;
@@ -134,12 +121,13 @@ class ProfileOverlayViewModel extends ChangeNotifier {
 
         if (Provider.of<UserProvider>(context, listen: false)
             .userNeedsOnboarding()) {
-          parentViewModel.addOverlayWidget(
-            OnboardingModal(parentViewModel: parentViewModel),
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .addOverlayWidget(
+            OnboardingModal(),
           );
         }
-
-        closeOverlayIfPossible();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .removeLastOverlay();
       } else {
         messageTitle = response.responseTitle;
         messageDescription = response.responseDescription;
@@ -156,20 +144,24 @@ class ProfileOverlayViewModel extends ChangeNotifier {
   }
 
   void onTapProfile(BuildContext context) {
-    closeOverlayIfPossible();
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .removeLastOverlay();
   }
 
   void onTapMatches(BuildContext context) {
-    closeOverlayIfPossible();
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .removeLastOverlay();
   }
 
   void onTapCallSupport(BuildContext context) {
-    closeOverlayIfPossible();
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .removeLastOverlay();
     LinkOpenerManager().openLink(context, whatsAppLink);
   }
 
   void onTapCallLogout(BuildContext context) {
-    closeOverlayIfPossible();
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .removeLastOverlay();
     Provider.of<UserProvider>(context, listen: false)
         .logoutUserProvider(context);
   }

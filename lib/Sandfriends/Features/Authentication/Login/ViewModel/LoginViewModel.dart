@@ -1,91 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
-import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 
 import '../../../../../Remote/NetworkResponse.dart';
 import '../../../../../Common/Components/Modal/SFModalMessage.dart';
-import '../../../../../Common/Utils/PageStatus.dart';
 import '../../LoadLogin/ViewModel/LoadLoginViewModel.dart';
 import '../Repository/LoginRepo.dart';
 import '../View/ForgotPasswordModal.dart';
 
-class LoginViewModel extends StandardScreenViewModel {
+class LoginViewModel extends ChangeNotifier {
   final loginRepo = LoginRepo();
 
   final loginFormKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  final forgotPasswordFormKey = GlobalKey<FormState>();
   final TextEditingController forgotPasswordEmailController =
       TextEditingController();
 
   void login(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     loginRepo
         .login(context, emailController.text, passwordController.text)
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         receiveLoginResponse(context, response.responseBody!);
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          },
-          isHappy: false,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {},
+            isHappy: false,
+          ),
         );
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       }
     });
   }
 
-  void openForgotPasswordModal() {
+  void openForgotPasswordModal(BuildContext context) {
     forgotPasswordEmailController.text = "";
-    pageStatus = PageStatus.FORM;
-    widgetForm = ForgotPasswordModal(viewModel: this);
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      ForgotPasswordModal(viewModel: this),
+    );
   }
 
   void requestForgotPassword(BuildContext context) {
-    if (forgotPasswordFormKey.currentState!.validate()) {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
-      loginRepo
-          .forgotPassword(
-        context,
-        forgotPasswordEmailController.text,
-      )
-          .then((response) {
-        if (response.responseStatus == NetworkResponseStatus.success) {
-          modalMessage = SFModalMessage(
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
+    loginRepo
+        .forgotPassword(
+      context,
+      forgotPasswordEmailController.text,
+    )
+        .then((response) {
+      if (response.responseStatus == NetworkResponseStatus.success) {
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
             title:
                 "Feito! Enviamos um e-mail para você escolher uma nova senha",
-            onTap: () {
-              pageStatus = PageStatus.OK;
-              notifyListeners();
-            },
+            onTap: () {},
             isHappy: true,
-          );
-        } else {
-          modalMessage = SFModalMessage(
+          ),
+        );
+      } else {
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
             title: response.responseTitle!,
             onTap: () {
-              pageStatus = PageStatus.FORM;
-              widgetForm = ForgotPasswordModal(viewModel: this);
-              notifyListeners();
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .addOverlayWidget(
+                ForgotPasswordModal(viewModel: this),
+              );
             },
             isHappy: response.responseStatus == NetworkResponseStatus.alert,
-          );
-        }
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
-      });
-    }
+          ),
+        );
+      }
+    });
   }
 
   void goToLoginSignup(BuildContext context) {

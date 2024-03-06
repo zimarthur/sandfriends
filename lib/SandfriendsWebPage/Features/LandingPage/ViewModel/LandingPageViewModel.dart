@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Common/Utils/PageStatus.dart';
 import 'package:sandfriends/Sandfriends/Features/MatchSearch/ViewModel/MatchSearchViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/Onboarding/View/OnboardingModal.dart';
@@ -18,9 +19,10 @@ import '../../Authentication/ProfileOverlay/View/ProfileOverlay.dart';
 
 class LandingPageViewModel extends MatchSearchViewModel {
   final loadLoginRepo = LoadLoginRepo();
+
   void initLandingPageViewModel(BuildContext context) async {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     String? accessToken = await LocalStorageManager().getAccessToken(context);
 
     loadLoginRepo.validateLogin(context, accessToken, false).then((response) {
@@ -43,11 +45,11 @@ class LandingPageViewModel extends MatchSearchViewModel {
           Provider.of<UserProvider>(context, listen: false).user = loggedUser;
 
           if (loggedUser.firstName == null) {
-            closeModal();
-            addOverlayWidget(
-              OnboardingModal(
-                parentViewModel: this,
-              ),
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .removeLastOverlay();
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .addOverlayWidget(
+              OnboardingModal(),
             );
 
             return;
@@ -63,8 +65,8 @@ class LandingPageViewModel extends MatchSearchViewModel {
         );
       } else {}
 
-      pageStatus = PageStatus.OK;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
     });
   }
 }

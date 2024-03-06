@@ -9,9 +9,7 @@ import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Common/Utils/Constants.dart';
 
 class WebHeader extends StatefulWidget {
-  StandardScreenViewModel viewModel;
   WebHeader({
-    required this.viewModel,
     super.key,
   });
 
@@ -44,7 +42,6 @@ class WebHeaderState extends State<WebHeader> {
               profileButton.size.width,
           child: LoginSignup(
             close: () => hideProfileOverlay(),
-            parentScreen: widget.viewModel,
           ),
         ),
       );

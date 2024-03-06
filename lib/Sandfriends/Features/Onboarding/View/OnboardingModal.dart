@@ -15,8 +15,7 @@ import '../ViewModel/OnboardingViewModel.dart';
 import 'SportSelectorModal.dart';
 
 class OnboardingModal extends StatefulWidget {
-  StandardScreenViewModel parentViewModel;
-  OnboardingModal({required this.parentViewModel, super.key});
+  OnboardingModal({super.key});
 
   @override
   State<OnboardingModal> createState() => _OnboardingModalState();
@@ -26,17 +25,11 @@ class _OnboardingModalState extends State<OnboardingModal> {
   late OnboardingViewModel viewModel;
   @override
   void initState() {
-    viewModel = OnboardingViewModel(parentViewModel: widget.parentViewModel);
+    viewModel = OnboardingViewModel();
     viewModel.initOnboardingViewModel(
       context,
     );
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    print("DISPOSED");
-    super.dispose();
   }
 
   @override

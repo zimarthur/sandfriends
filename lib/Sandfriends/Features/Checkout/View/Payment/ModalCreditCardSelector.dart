@@ -7,19 +7,25 @@ import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart
 
 import '../../../../../Common/Components/CreditCard/CreditCardWidget.dart';
 import '../../../../../Common/Components/SFButton.dart';
+import '../../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../../Common/Utils/Constants.dart';
+import '../../../../../Common/Utils/Responsive.dart';
 
-class ModalCreditCardSelector extends StatelessWidget {
+class ModalCreditCardSelector extends StatefulWidget {
   final Function(CreditCard) onSelectedCreditCard;
   VoidCallback onAddNewCreditCard;
-  VoidCallback closeModal;
   ModalCreditCardSelector({
     super.key,
     required this.onSelectedCreditCard,
     required this.onAddNewCreditCard,
-    required this.closeModal,
   });
 
+  @override
+  State<ModalCreditCardSelector> createState() =>
+      _ModalCreditCardSelectorState();
+}
+
+class _ModalCreditCardSelectorState extends State<ModalCreditCardSelector> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -36,13 +42,19 @@ class ModalCreditCardSelector extends StatelessWidget {
         boxShadow: const [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
       ),
       width: width * 0.9 > 400 ? 400 : width * 0.9,
-      height: height * 0.6 > 600 ? 600 : width * 0.6,
+      height: Responsive.isMobile(context)
+          ? height * 0.8
+          : height * 0.8 > 600
+              ? 600
+              : width * 0.6,
       child: Column(
         children: [
           Align(
             alignment: Alignment.topRight,
             child: InkWell(
-              onTap: () => closeModal(),
+              onTap: () =>
+                  Provider.of<StandardScreenViewModel>(context, listen: false)
+                      .removeLastOverlay(),
               child: SvgPicture.asset(
                 r"assets/icon/x.svg",
                 color: textDarkGrey,
@@ -59,13 +71,13 @@ class ModalCreditCardSelector extends StatelessWidget {
                 creditCards: Provider.of<UserProvider>(context).creditCards,
                 isEditable: false,
                 onSelectedCreditCard: (creditCard) =>
-                    onSelectedCreditCard(creditCard),
+                    widget.onSelectedCreditCard(creditCard),
               ),
             ),
           ),
           SFButton(
             buttonLabel: "Novo cartão de crédito",
-            onTap: () => onAddNewCreditCard(),
+            onTap: () => widget.onAddNewCreditCard(),
             textPadding:
                 const EdgeInsets.symmetric(vertical: defaultPadding / 2),
           )

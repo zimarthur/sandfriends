@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Components/Modal/SFModalMessage.dart';
 import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
 import '../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
@@ -11,6 +12,7 @@ import '../../../../Common/Model/User/Player_old.dart';
 import '../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
 import '../../../../Common/Model/TabItem.dart';
 import '../../../../Common/Model/User/UserStore.dart';
+import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
@@ -173,7 +175,7 @@ class CalendarViewModel extends ChangeNotifier {
     setShowHourInfo(value: false);
     if (newSelectedDay.isAfter(matchesEndDate) ||
         newSelectedDay.isBefore(matchesStartDate)) {
-      Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
       calendarRepo
           .updateMatchesList(
               context,
@@ -199,7 +201,8 @@ class CalendarViewModel extends ChangeNotifier {
               DateFormat("dd/MM/yyyy").parse(responseBody['MatchesStartDate']);
           matchesEndDate =
               DateFormat("dd/MM/yyyy").parse(responseBody['MatchesEndDate']);
-          Provider.of<MenuProvider>(context, listen: false).closeModal();
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .removeLastOverlay();
           _selectedDay = newSelectedDay;
           notifyListeners();
         } else if (response.responseStatus ==
@@ -207,7 +210,7 @@ class CalendarViewModel extends ChangeNotifier {
           Provider.of<MenuProvider>(context, listen: false).logout(context);
         } else {
           Provider.of<MenuProvider>(context, listen: false)
-              .setMessageModalFromResponse(response);
+              .setMessageModalFromResponse(context, response);
         }
       });
     } else {
@@ -681,7 +684,8 @@ class CalendarViewModel extends ChangeNotifier {
   }
 
   void onTapCancelOptions(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       CancelOptionsModal(
         onReturn: () => returnMainView(context),
         selectedDay: selectedDay,
@@ -738,7 +742,7 @@ class CalendarViewModel extends ChangeNotifier {
     String obs,
     double price,
   ) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     calendarRepo
         .blockHour(
       context,
@@ -756,13 +760,14 @@ class CalendarViewModel extends ChangeNotifier {
         setShowHourInfo(value: false);
         setMatchesFromResponse(context, response.responseBody!);
 
-        Provider.of<MenuProvider>(context, listen: false).closeModal();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .closeModal();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
       setShowHourInfo(value: false);
     });
@@ -774,7 +779,7 @@ class CalendarViewModel extends ChangeNotifier {
     DateTime date,
     Hour hour,
   ) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     calendarRepo
         .unblockHour(
       context,
@@ -788,13 +793,14 @@ class CalendarViewModel extends ChangeNotifier {
         setShowHourInfo(value: false);
         setMatchesFromResponse(context, response.responseBody!);
 
-        Provider.of<MenuProvider>(context, listen: false).closeModal();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .closeModal();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
       setShowHourInfo(value: false);
     });
@@ -809,7 +815,7 @@ class CalendarViewModel extends ChangeNotifier {
     String obs,
     double price,
   ) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     calendarRepo
         .recurrentBlockHour(
       context,
@@ -826,20 +832,21 @@ class CalendarViewModel extends ChangeNotifier {
       if (response.responseStatus == NetworkResponseStatus.success) {
         setShowHourInfo(value: false);
         setRecurrentMatchesFromResponse(context, response.responseBody!);
-        Provider.of<MenuProvider>(context, listen: false).closeModal();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .closeModal();
         notifyListeners();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }
 
   void recurrentUnblockHour(BuildContext context, int idRecurrentMatch) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     calendarRepo
         .recurrentUnblockHour(
       context,
@@ -850,13 +857,14 @@ class CalendarViewModel extends ChangeNotifier {
       if (response.responseStatus == NetworkResponseStatus.success) {
         setShowHourInfo(value: false);
         setRecurrentMatchesFromResponse(context, response.responseBody!);
-        Provider.of<MenuProvider>(context, listen: false).closeModal();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .closeModal();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }
@@ -865,7 +873,7 @@ class CalendarViewModel extends ChangeNotifier {
     BuildContext context,
     int idMatch,
   ) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     calendarRepo
         .cancelMatch(
       context,
@@ -879,13 +887,14 @@ class CalendarViewModel extends ChangeNotifier {
         setMatchesFromResponse(context, response.responseBody!);
         cancelMatchReasonController.text = "";
         setShowHourInfo(value: false);
-        Provider.of<MenuProvider>(context, listen: false).closeModal();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .closeModal();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }
@@ -894,7 +903,7 @@ class CalendarViewModel extends ChangeNotifier {
     BuildContext context,
     int idRecurrentMatch,
   ) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     calendarRepo
         .cancelRecurrentMatch(
       context,
@@ -908,13 +917,14 @@ class CalendarViewModel extends ChangeNotifier {
         setRecurrentMatchesFromResponse(context, response.responseBody!);
 
         cancelRecurrentMatchReasonController.text = "";
-        Provider.of<MenuProvider>(context, listen: false).closeModal();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .closeModal();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }
@@ -991,7 +1001,8 @@ class CalendarViewModel extends ChangeNotifier {
         )
         .price;
 
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       BlockHourWidget(
         isRecurrent: false,
         court: court,
@@ -1038,7 +1049,8 @@ class CalendarViewModel extends ChangeNotifier {
             .firstWhere(
               (hourPrice) => hourPrice.startingHour.hour == hour.hour,
             );
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       BlockHourWidget(
         isRecurrent: true,
         court: court,
@@ -1070,13 +1082,15 @@ class CalendarViewModel extends ChangeNotifier {
   }
 
   void genericAddNewPlayer(BuildContext context, VoidCallback callbackParent) {
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       StorePlayerWidget(
         editPlayer: null,
         onReturn: () => callbackParent(),
         onSavePlayer: (a) {},
         onCreatePlayer: (player) {
-          Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setLoading();
           playersRepo
               .addPlayer(
             context,
@@ -1093,18 +1107,22 @@ class CalendarViewModel extends ChangeNotifier {
               Provider.of<StoreProvider>(context, listen: false)
                   .setPlayersResponse(context, responseBody);
 
-              Provider.of<MenuProvider>(context, listen: false).setMessageModal(
-                "Jogador(a) adicionado(a)!",
-                null,
-                true,
-                onTap: () => callbackParent(),
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .addModalMessage(
+                SFModalMessage(
+                  title: "Jogador(a) adicionado(a)!",
+                  onTap: () {
+                    callbackParent();
+                  },
+                  isHappy: true,
+                ),
               );
             } else if (response.responseStatus ==
                 NetworkResponseStatus.expiredToken) {
               Provider.of<MenuProvider>(context, listen: false).logout(context);
             } else {
               Provider.of<MenuProvider>(context, listen: false)
-                  .setMessageModalFromResponse(response);
+                  .setMessageModalFromResponse(context, response);
             }
           });
         },
@@ -1142,7 +1160,8 @@ class CalendarViewModel extends ChangeNotifier {
               .firstWhere(
                 (hourPrice) => hourPrice.startingHour.hour == timeBegin.hour,
               );
-      Provider.of<MenuProvider>(context, listen: false).setModalForm(
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addOverlayWidget(
         AddMatchModal(
           onReturn: () => returnMainView(context),
           onSelected: (blockMatch) {
@@ -1190,7 +1209,8 @@ class CalendarViewModel extends ChangeNotifier {
   }
 
   void setMatchDetailsWidget(BuildContext context, AppMatchStore match) {
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       MatchDetailsWidget(
         match: match,
         onReturn: () => returnMainView(context),
@@ -1204,7 +1224,8 @@ class CalendarViewModel extends ChangeNotifier {
 
   void setRecurrentMatchDetailsWidget(
       BuildContext context, AppRecurrentMatchStore recurrentMatch) {
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       RecurrentMatchDetailsWidget(
         recurrentMatch: recurrentMatch,
         onReturn: () => returnMainView(context),
@@ -1223,7 +1244,8 @@ class CalendarViewModel extends ChangeNotifier {
     List<AppMatchStore> matches,
     List<AppRecurrentMatchStore> recurrentMatches,
   ) {
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       CourtsAvailabilityWidget(
         viewModel: this,
         day: day,
@@ -1239,7 +1261,8 @@ class CalendarViewModel extends ChangeNotifier {
     DateTime day,
     DayMatch dayMatch,
   ) {
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       RecurrentCourtsAvailabilityWidget(
         viewModel: this,
         day: day,
@@ -1252,7 +1275,8 @@ class CalendarViewModel extends ChangeNotifier {
     BuildContext context,
     AppMatchStore match,
   ) {
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       MatchCancelWidget(
         match: match,
         controller: cancelMatchReasonController,
@@ -1266,7 +1290,8 @@ class CalendarViewModel extends ChangeNotifier {
     BuildContext context,
     AppRecurrentMatchStore recurrentMatch,
   ) {
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       RecurrentMatchCancelWidget(
         recurrentMatch: recurrentMatch,
         controller: cancelRecurrentMatchReasonController,
@@ -1278,11 +1303,12 @@ class CalendarViewModel extends ChangeNotifier {
   }
 
   void returnMainView(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).closeModal();
+    Provider.of<StandardScreenViewModel>(context, listen: false).closeModal();
   }
 
   onTapColorsDescription(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       ColorsDescriptionModal(
         onReturn: () => returnMainView(context),
       ),

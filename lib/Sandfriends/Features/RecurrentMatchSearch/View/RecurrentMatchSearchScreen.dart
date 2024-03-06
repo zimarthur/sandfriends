@@ -35,7 +35,6 @@ class _RecurrentMatchSearchScreenState
       child: Consumer<RecurrentMatchSearchViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             titleText: viewModel.titleText,
             appBarType: AppBarType.PrimaryLightBlue,
             child: RecurrentMatchSearchWidget(

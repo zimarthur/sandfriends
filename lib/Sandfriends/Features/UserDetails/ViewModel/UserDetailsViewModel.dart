@@ -28,7 +28,7 @@ import '../View/Modal/UserDetailsModalPhoto.dart';
 import '../View/Modal/UserDetailsModalRank.dart';
 import '../View/Modal/UserDetailsModalSidePreference.dart';
 
-class UserDetailsViewModel extends StandardScreenViewModel {
+class UserDetailsViewModel extends ChangeNotifier {
   final userDetailsRepo = UserDetailsRepo();
 
   late UserComplete userEdited;
@@ -138,8 +138,8 @@ class UserDetailsViewModel extends StandardScreenViewModel {
 
   Future<void> updateUserInfo(BuildContext context) async {
     if (isEdited) {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
       if (noImage) {
         userEdited.photo = null;
       } else if (imagePicker != null) {
@@ -157,40 +157,38 @@ class UserDetailsViewModel extends StandardScreenViewModel {
           Provider.of<UserProvider>(context, listen: false).user = serverUser;
           userReference = UserComplete.copyWith(serverUser);
           userEdited = UserComplete.copyWith(serverUser);
-          modalMessage = SFModalMessage(
-            title: "Suas informações foram alteradas",
-            onTap: () {
-              pageStatus = PageStatus.OK;
-              notifyListeners();
-              imagePicker = null;
-            },
-            isHappy: true,
-          );
-          pageStatus = PageStatus.ERROR;
-          notifyListeners();
-        } else {
-          modalMessage = SFModalMessage(
-            title: response.responseTitle!,
-            onTap: () {
-              if (response.responseStatus ==
-                  NetworkResponseStatus.expiredToken) {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/login_signup',
-                  (Route<dynamic> route) => false,
-                );
-              } else {
-                pageStatus = PageStatus.OK;
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .addModalMessage(
+            SFModalMessage(
+              title: "Suas informações foram alteradas",
+              onTap: () {
+                imagePicker = null;
                 notifyListeners();
-              }
-            },
-            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+              },
+              isHappy: true,
+            ),
+          );
+        } else {
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .addModalMessage(
+            SFModalMessage(
+              title: response.responseTitle!,
+              onTap: () {
+                if (response.responseStatus ==
+                    NetworkResponseStatus.expiredToken) {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/login_signup',
+                    (Route<dynamic> route) => false,
+                  );
+                }
+              },
+              isHappy: response.responseStatus == NetworkResponseStatus.alert,
+            ),
           );
           if (response.responseStatus == NetworkResponseStatus.expiredToken) {
-            canTapBackground = false;
+            //canTapBackground = false;
           }
-          pageStatus = PageStatus.ERROR;
-          notifyListeners();
         }
       });
     }
@@ -200,48 +198,51 @@ class UserDetailsViewModel extends StandardScreenViewModel {
     Navigator.pop(context);
   }
 
-  void setUserName() {
+  void setUserName(BuildContext context) {
     if (userDetailsNameFormKey.currentState?.validate() == true) {
       userEdited.firstName = firstNameController.text;
       userEdited.lastName = lastNameController.text;
-      pageStatus = PageStatus.OK;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
     }
   }
 
-  void setUserAge() {
+  void setUserAge(BuildContext context) {
     if (userDetailsAgeFormKey.currentState?.validate() == true) {
       if (birthdayController.text != "") {
         userEdited.birthday = stringToDateTime(birthdayController.text);
       }
-
-      pageStatus = PageStatus.OK;
-
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
       notifyListeners();
     }
   }
 
-  void setUserHeight() {
+  void setUserHeight(BuildContext context) {
     if (userDetailsHeightFormKey.currentState?.validate() == true) {
       if (heightController.text.isNotEmpty) {
         userEdited.height = double.parse(heightController.text);
       }
-      pageStatus = PageStatus.OK;
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
 
       notifyListeners();
     }
   }
 
-  void setUserGender(Gender newGender) {
+  void setUserGender(BuildContext context, Gender newGender) {
     userEdited.gender = newGender;
-    pageStatus = PageStatus.OK;
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .setPageStatusOk();
 
     notifyListeners();
   }
 
-  void setUserSidePreference(SidePreference newSidePreference) {
+  void setUserSidePreference(
+      BuildContext context, SidePreference newSidePreference) {
     userEdited.sidePreference = newSidePreference;
-    pageStatus = PageStatus.OK;
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .setPageStatusOk();
 
     notifyListeners();
   }
@@ -256,66 +257,90 @@ class UserDetailsViewModel extends StandardScreenViewModel {
   void openUserDetailsModal(UserDetailsModals modal, BuildContext context) {
     switch (modal) {
       case UserDetailsModals.Name:
-        widgetForm = UserDetailsModalName(
-          viewModel: this,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addOverlayWidget(
+          UserDetailsModalName(
+            viewModel: this,
+          ),
         );
         break;
       case UserDetailsModals.Age:
-        widgetForm = UserDetailsModalAge(
-          viewModel: this,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addOverlayWidget(
+          UserDetailsModalAge(
+            viewModel: this,
+          ),
         );
         break;
       case UserDetailsModals.Height:
-        widgetForm = UserDetailsModalHeight(
-          viewModel: this,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addOverlayWidget(
+          UserDetailsModalHeight(
+            viewModel: this,
+          ),
         );
         break;
       case UserDetailsModals.Rank:
-        widgetForm = UserDetailsModalRank(
-          viewModel: this,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addOverlayWidget(
+          UserDetailsModalRank(
+            viewModel: this,
+          ),
         );
         break;
       case UserDetailsModals.SidePreference:
-        widgetForm = UserDetailsModalSidePreference(
-          viewModel: this,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addOverlayWidget(
+          UserDetailsModalSidePreference(
+            viewModel: this,
+          ),
         );
         break;
       case UserDetailsModals.Gender:
-        widgetForm = UserDetailsModalGender(
-          viewModel: this,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addOverlayWidget(
+          UserDetailsModalGender(
+            viewModel: this,
+          ),
         );
         break;
       case UserDetailsModals.Region:
-        widgetForm = CitySelectorModal(
-          onlyAvailableCities: false,
-          onSelectedCity: (selectedCity) {
-            userEdited.city = selectedCity;
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          },
-          onReturn: () => closeModal(),
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addOverlayWidget(
+          CitySelectorModal(
+            onlyAvailableCities: false,
+            onSelectedCity: (selectedCity) {
+              userEdited.city = selectedCity;
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .removeLastOverlay();
+              notifyListeners();
+            },
+            onReturn: () =>
+                Provider.of<StandardScreenViewModel>(context, listen: false)
+                    .removeLastOverlay(),
+          ),
         );
-        pageStatus = PageStatus.FORM;
-        notifyListeners();
 
         break;
       case UserDetailsModals.Photo:
-        widgetForm = UserDetailsModalPhoto(
-          viewModel: this,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addOverlayWidget(
+          UserDetailsModalPhoto(
+            viewModel: this,
+          ),
         );
         break;
       default:
         break;
     }
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 
-  void setUserRank(Rank newRank) {
+  void setUserRank(BuildContext context, Rank newRank) {
     userEdited.ranks
         .removeWhere((rank) => rank.sport.idSport == displayedSport.idSport);
     userEdited.ranks.add(newRank);
-    pageStatus = PageStatus.OK;
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .setPageStatusOk();
     notifyListeners();
   }
 

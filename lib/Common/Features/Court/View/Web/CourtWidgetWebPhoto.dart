@@ -116,7 +116,7 @@ class _CourtWidgetWebPhotoState extends State<CourtWidgetWebPhoto> {
                         bottom: 5,
                         right: 5,
                         child: InkWell(
-                          onTap: () => viewModel.setCourtPhotoModal(),
+                          onTap: () => viewModel.setCourtPhotoModal(context),
                           child: Container(
                             decoration: BoxDecoration(
                               color: secondaryPaper,

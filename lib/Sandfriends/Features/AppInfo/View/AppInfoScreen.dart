@@ -33,7 +33,6 @@ class _AppInfoScreenState extends State<AppInfoScreen> {
           return StandardScreen(
             titleText: "Informações do app",
             appBarType: AppBarType.Primary,
-            viewModel: viewModel,
             child: AppInfoWidget(
               viewModel: viewModel,
             ),

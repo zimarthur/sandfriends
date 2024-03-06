@@ -32,9 +32,7 @@ class _LandingPageWidgetState extends State<LandingPageWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          WebHeader(
-            viewModel: viewModel,
-          ),
+          WebHeader(),
           Expanded(
             child: viewModel.hasUserSearched == false
                 ? SingleChildScrollView(

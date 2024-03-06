@@ -11,11 +11,13 @@ class AvailableCourtsPrices extends StatefulWidget {
   Color themeColor;
   CourtViewModel viewModel;
   bool showArrow;
+  bool canScroll;
   AvailableCourtsPrices({
     required this.courtHeight,
     required this.themeColor,
     required this.viewModel,
     this.showArrow = false,
+    required this.canScroll,
     super.key,
   });
 
@@ -55,7 +57,7 @@ class _AvailableCourtsPricesState extends State<AvailableCourtsPrices> {
     return ListView.builder(
       padding: EdgeInsets.zero,
       shrinkWrap: true,
-      //physics: const NeverScrollableScrollPhysics(),
+      physics: widget.canScroll ? null : NeverScrollableScrollPhysics(),
       itemCount: widget.viewModel.courtAvailableHours.length,
       itemBuilder: (context, indexcourt) {
         bool isSelectedCourt = widget.viewModel.selectedCourt == null

@@ -23,6 +23,12 @@ class NewCreditCardWidget extends StatefulWidget {
 
 class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
   @override
+  void initState() {
+    print("INITSTATTE");
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       color: secondaryBack,
@@ -209,9 +215,6 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
               textPadding:
                   const EdgeInsets.symmetric(vertical: defaultPadding / 2),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).viewInsets.bottom,
-            )
           ],
         ),
       ),

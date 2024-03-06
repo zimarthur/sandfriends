@@ -8,7 +8,7 @@ import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/Managers/Firebase/FirebaseManager.dart';
 import 'package:sandfriends/Common/Managers/LocalNotifications/LocalNotificationsManager.dart';
 import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
-import 'package:sandfriends/Common/Providers/Overlay/OverlayProvider.dart';
+import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 import 'package:sandfriends/SandfriendsQuadras/Features/Menu/ViewModel/StoreProvider.dart';
 import '../Sandfriends/Providers/RedirectProvider/RedirectProvider.dart';
@@ -162,7 +162,7 @@ class _AppState extends State<GenericApp> {
           create: (_) => StoreProvider(),
         ),
         ChangeNotifierProvider(
-          create: (_) => OverlayProvider(),
+          create: (_) => StandardScreenViewModel(),
         ),
       ],
       child: MaterialApp(

@@ -23,7 +23,6 @@ class _RecurrentMatchesScreenState extends State<RecurrentMatchesScreen> {
       child: Consumer<RecurrentMatchesViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             enableToolbar: false,
             background: secondaryBack,
             child: RecurrentMatchesWidget(

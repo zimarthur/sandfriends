@@ -48,7 +48,9 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                           height: 1.4),
                     ),
                   ),
-                  Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
+                  Expanded(
+                    child: Container(),
+                  ),
                   if (viewModel.isEmailEmpty)
                     SFTextField(
                       controller: viewModel.emailController,
@@ -56,21 +58,21 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                       labelText: "Email",
                       validator: emailValidator,
                     ),
-                  Padding(padding: EdgeInsets.only(bottom: defaultPadding / 2)),
+                  Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
                   SFTextField(
                     controller: viewModel.firstNameController,
                     pourpose: TextFieldPourpose.Standard,
                     labelText: "Nome",
                     validator: nameValidator,
                   ),
-                  Padding(padding: EdgeInsets.only(bottom: defaultPadding / 2)),
+                  Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
                   SFTextField(
                     controller: viewModel.lastNameController,
                     pourpose: TextFieldPourpose.Standard,
                     labelText: "Sobrenome",
                     validator: lastNameValidator,
                   ),
-                  Padding(padding: EdgeInsets.only(bottom: defaultPadding / 2)),
+                  Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
                   SFButton(
                     buttonLabel: viewModel.userSport == null
                         ? "Selecione seu esporte de preferência"
@@ -78,7 +80,7 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                     isPrimary: false,
                     onTap: () => viewModel.openSportSelectorModal(context),
                   ),
-                  Padding(padding: EdgeInsets.only(bottom: defaultPadding / 2)),
+                  Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
                   SFButton(
                     iconFirst: true,
                     buttonLabel: viewModel.userCity == null
@@ -90,7 +92,7 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                       viewModel.openCitySelectorModal(context);
                     },
                   ),
-                  Padding(padding: EdgeInsets.only(bottom: defaultPadding / 2)),
+                  Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
                   InkWell(
                     onTap: () {
                       viewModel.termsAgreeValue = !viewModel.termsAgreeValue;
@@ -140,8 +142,9 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: defaultPadding * 2,
+                  Expanded(
+                    flex: 2,
+                    child: Container(),
                   ),
                   SFButton(
                     buttonLabel: "Começar",
@@ -150,6 +153,10 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Container(),
                   ),
                 ],
               ),

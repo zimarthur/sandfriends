@@ -105,7 +105,7 @@ class _UserDetailsModalGenderState extends State<UserDetailsModalGender> {
             textPadding: EdgeInsets.symmetric(
               vertical: height * 0.02,
             ),
-            onTap: () => widget.viewModel.setUserGender(currentGender),
+            onTap: () => widget.viewModel.setUserGender(context, currentGender),
           )
         ],
       ),

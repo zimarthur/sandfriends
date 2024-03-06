@@ -105,7 +105,7 @@ class _UserDetailsModalRankState extends State<UserDetailsModalRank> {
             textPadding: EdgeInsets.symmetric(
               vertical: height * 0.02,
             ),
-            onTap: () => widget.viewModel.setUserRank(currentRank),
+            onTap: () => widget.viewModel.setUserRank(context, currentRank),
           )
         ],
       ),

@@ -95,7 +95,8 @@ class _UserWidgetState extends State<UserWidget> {
                       UserTileButton(
                         title: "Fale com a gente",
                         iconPath: r'assets/icon/chat.svg',
-                        onTap: () => widget.viewModel.openAppRatingModal(),
+                        onTap: () =>
+                            widget.viewModel.openAppRatingModal(context),
                       ),
                       UserTileButton(
                         title: "Sair",

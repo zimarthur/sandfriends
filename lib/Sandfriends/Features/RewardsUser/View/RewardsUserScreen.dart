@@ -29,7 +29,6 @@ class _RewardsUserScreenState extends State<RewardsUserScreen> {
       child: Consumer<RewardsUserViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             appBarType: AppBarType.Secondary,
             titleText: "Minhas Recompensas",
             child: RewardsUserWidget(

@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:sandfriends/Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Components/DatePickerModal.dart';
 import '../../../../Common/Enum/EnumCouponStatus.dart';
 import '../../../../Common/Enum/EnumPeriodVisualization.dart';
 import '../../../../Common/Model/Coupon/CouponStore.dart';
+import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
@@ -119,15 +121,16 @@ class CouponsViewModel extends ChangeNotifier {
   }
 
   void setCustomPeriod(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false)
-        .setModalForm(DatePickerModal(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(DatePickerModal(
       onDateSelected: (dateStart, dateEnd) {
         customStartDate = dateStart;
         customEndDate = dateEnd;
         //searchCustomMatches(context);
       },
       onReturn: () =>
-          Provider.of<MenuProvider>(context, listen: false).closeModal(),
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .closeModal(),
     ));
   }
 
@@ -149,7 +152,7 @@ class CouponsViewModel extends ChangeNotifier {
     CouponStore coupon,
     bool disable,
   ) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     couponsRepo
         .enableDisableCoupon(
       context,
@@ -165,33 +168,38 @@ class CouponsViewModel extends ChangeNotifier {
         Provider.of<StoreProvider>(context, listen: false)
             .setCoupons(context, responseBody);
         setCouponsDataSource(context);
-        Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModal("Cupom atualizado!", null, true);
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: "Cupom atualizado!",
+            onTap: () {},
+            isHappy: true,
+          ),
+        );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }
 
-  void closeModal(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).closeModal();
-  }
-
   void openAddCouponModal(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       AddCouponModal(
-        onReturn: () => closeModal(context),
+        onReturn: () =>
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .closeModal(),
         onCreateCoupon: (coupon) => addCoupon(context, coupon),
       ),
     );
   }
 
   void addCoupon(BuildContext context, CouponStore coupon) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     couponsRepo
         .addCoupon(
             context,
@@ -206,14 +214,20 @@ class CouponsViewModel extends ChangeNotifier {
         Provider.of<StoreProvider>(context, listen: false)
             .setCoupons(context, responseBody);
         setCouponsDataSource(context);
-        Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModal("Cupom adicionado!", null, true);
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: "Cupom adicionado!",
+            onTap: () {},
+            isHappy: true,
+          ),
+        );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }

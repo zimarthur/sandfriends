@@ -20,10 +20,8 @@ import '../../../../../Common/Utils/Validators.dart';
 import '../../../../../Sandfriends/Providers/UserProvider/UserProvider.dart';
 
 class LoginSignup extends StatefulWidget {
-  StandardScreenViewModel parentScreen;
   VoidCallback? close;
   LoginSignup({
-    required this.parentScreen,
     this.close,
     super.key,
   });
@@ -35,15 +33,7 @@ class LoginSignup extends StatefulWidget {
 class _LoginSignupState extends State<LoginSignup> {
   final controller = TextEditingController();
 
-  late ProfileOverlayViewModel viewModel;
-  @override
-  void initState() {
-    viewModel = ProfileOverlayViewModel(
-      overlayClose: widget.close,
-      parentViewModel: widget.parentScreen,
-    );
-    super.initState();
-  }
+  ProfileOverlayViewModel viewModel = ProfileOverlayViewModel();
 
   @override
   Widget build(BuildContext context) {

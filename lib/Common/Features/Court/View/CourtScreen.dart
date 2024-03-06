@@ -74,8 +74,8 @@ class _CourtScreenState extends State<CourtScreen> {
       child: Consumer<CourtViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             enableToolbar: false,
+            background: secondaryBack,
             child: CourtWidgetMobile(
               viewModel: viewModel,
             ),

@@ -27,7 +27,6 @@ class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
       create: (BuildContext context) => viewModel,
       child: Consumer<SettingsViewModel>(builder: (context, viewModel, _) {
         return StandardScreen(
-          viewModel: viewModel,
           titleText: "Configurações",
           child: Container(
             color: secondaryBack,

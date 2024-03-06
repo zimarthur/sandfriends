@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../../Common/Utils/PageStatus.dart';
 import '../../../../../Remote/NetworkResponse.dart';
 import '../../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../Repository/EmailConfirmationRepo.dart';
 
-class EmailConfirmationViewModel extends StandardScreenViewModel {
+class EmailConfirmationViewModel extends ChangeNotifier {
   void initEmailConfirmationViewModel(
       BuildContext context, String tokenUrl, bool isStoreRequestUrl) {
     token = tokenUrl;
@@ -31,21 +32,20 @@ class EmailConfirmationViewModel extends StandardScreenViewModel {
         .emailConfirmationUser(context, token)
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
-        pageStatus = PageStatus.OK;
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          description: response.responseDescription,
-          onTap: () {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          },
-          isHappy: response.responseStatus == NetworkResponseStatus.alert,
-          hideButton: response.responseStatus == NetworkResponseStatus.error,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            description: response.responseDescription,
+            onTap: () {},
+            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+            hideButton: response.responseStatus == NetworkResponseStatus.error,
+          ),
         );
-        pageStatus = PageStatus.ERROR;
       }
-      notifyListeners();
     });
   }
 
@@ -54,20 +54,22 @@ class EmailConfirmationViewModel extends StandardScreenViewModel {
         .emailConfirmationStore(context, token)
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
-        pageStatus = PageStatus.OK;
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          description: response.responseDescription!,
-          onTap: () {
-            Navigator.pushNamed(context, '/login');
-          },
-          isHappy: response.responseStatus == NetworkResponseStatus.alert,
-          buttonText: "login",
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            description: response.responseDescription!,
+            onTap: () {
+              Navigator.pushNamed(context, '/login');
+            },
+            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+            buttonText: "login",
+          ),
         );
-        pageStatus = PageStatus.ERROR;
       }
-      notifyListeners();
     });
   }
 

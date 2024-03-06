@@ -14,6 +14,7 @@ import '../../../../Components/SFButton.dart';
 import '../../../../Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Providers/Categories/CategoriesProvider.dart';
 import '../../../../Components/SFLoading.dart';
+import '../../../../StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Utils/Constants.dart';
 import '../../ViewModel/CourtViewModel.dart';
 import 'CourtMap.dart';
@@ -213,7 +214,9 @@ class _CourtWidgetMobileState extends State<CourtWidgetMobile> {
                 left: width * 0.03,
                 top: MediaQuery.of(context).padding.top + height * 0.01,
                 child: InkWell(
-                  onTap: () => widget.viewModel.onTapReturn(context),
+                  onTap: () => Provider.of<StandardScreenViewModel>(context,
+                          listen: false)
+                      .onTapReturn(context),
                   child: Container(
                     height: width * 0.1,
                     width: width * 0.1,
@@ -285,6 +288,9 @@ class _CourtWidgetMobileState extends State<CourtWidgetMobile> {
                                   widget.viewModel.selectedCourt!,
                                 );
                                 checkoutCourt.store = widget.viewModel.store;
+                                Provider.of<StandardScreenViewModel>(context,
+                                        listen: false)
+                                    .setLoading();
                                 Navigator.pushNamed(
                                   context,
                                   "/checkout",

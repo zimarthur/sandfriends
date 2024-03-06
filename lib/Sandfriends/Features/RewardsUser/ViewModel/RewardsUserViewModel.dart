@@ -13,7 +13,7 @@ import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
 import '../Repository/RewardsUserRepo.dart';
 
-class RewardsUserViewModel extends StandardScreenViewModel {
+class RewardsUserViewModel extends ChangeNotifier {
   final rewardsUserRepo = RewardsUserRepo();
 
   List<RewardUser> userRewards = [];
@@ -37,30 +37,29 @@ class RewardsUserViewModel extends StandardScreenViewModel {
             ),
           );
         }
-        pageStatus = PageStatus.OK;
-        notifyListeners();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            if (response.responseStatus == NetworkResponseStatus.expiredToken) {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/login_signup',
-                (Route<dynamic> route) => false,
-              );
-            } else {
-              pageStatus = PageStatus.OK;
-              notifyListeners();
-            }
-          },
-          isHappy: false,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              if (response.responseStatus ==
+                  NetworkResponseStatus.expiredToken) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login_signup',
+                  (Route<dynamic> route) => false,
+                );
+              }
+            },
+            isHappy: false,
+          ),
         );
         if (response.responseStatus == NetworkResponseStatus.expiredToken) {
-          canTapBackground = false;
+          //canTapBackground = false;
         }
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       }
     });
   }
@@ -69,13 +68,21 @@ class RewardsUserViewModel extends StandardScreenViewModel {
     Navigator.pushNamed(context, '/rewards_user');
   }
 
-  void onTapUserReward(RewardUser userReward) {
+  void onTapUserReward(BuildContext context, RewardUser userReward) {
     if (userReward.rewardClaimed) {
-      widgetForm = RewardUserAlreadyClaimedModal(rewardUser: userReward);
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addOverlayWidget(
+        RewardUserAlreadyClaimedModal(
+          rewardUser: userReward,
+        ),
+      );
     } else {
-      widgetForm = RewardUserClaimModal(rewardUser: userReward);
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addOverlayWidget(
+        RewardUserClaimModal(
+          rewardUser: userReward,
+        ),
+      );
     }
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 }

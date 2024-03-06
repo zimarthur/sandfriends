@@ -22,7 +22,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       child: Consumer<NotificationsViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             titleText: "Notificações",
             appBarType: AppBarType.Primary,
             child: NotificationsWidget(

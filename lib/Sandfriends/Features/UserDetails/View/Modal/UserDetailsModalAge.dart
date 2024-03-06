@@ -62,7 +62,7 @@ class _UserDetailsModalAgeState extends State<UserDetailsModalAge> {
               textPadding: EdgeInsets.symmetric(
                 vertical: height * 0.02,
               ),
-              onTap: () => widget.viewModel.setUserAge(),
+              onTap: () => widget.viewModel.setUserAge(context),
             )
           ],
         ),

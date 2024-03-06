@@ -15,14 +15,17 @@ import '../../../../Common/Model/CreditCard/CreditCard.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
 
-class NewCreditCardViewModel extends StandardScreenViewModel {
+class NewCreditCardViewModel extends ChangeNotifier {
   final newCreditCardRepo = NewCreditCardRepo();
+  late bool isModal;
 
-  void initNewCreditCard(BuildContext context) {
+  void initNewCreditCard(BuildContext context, bool isModalArg) {
+    isModal = isModalArg;
     cardNumberController.addListener(() {
       cardType = getCardTypeFromNumber(cardNumberController.text);
       notifyListeners();
     });
+    notifyListeners();
   }
 
   final newCreditCardFormKey = GlobalKey<FormState>();
@@ -61,8 +64,8 @@ class NewCreditCardViewModel extends StandardScreenViewModel {
   void addNewCreditCard(BuildContext context) {
     FocusScope.of(context).unfocus();
     if (newCreditCardFormKey.currentState?.validate() == true) {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
       newCreditCardRepo
           .addUserCreditCard(
         context,
@@ -93,40 +96,42 @@ class NewCreditCardViewModel extends StandardScreenViewModel {
               ),
             );
           }
-          modalMessage = SFModalMessage(
-            title: "Seu cartão foi adicionado!",
-            onTap: () {
-              pageStatus = PageStatus.OK;
-              Navigator.pop(context);
-              notifyListeners();
-            },
-            isHappy: true,
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .addModalMessage(
+            SFModalMessage(
+              title: "Seu cartão foi adicionado!",
+              onTap: () {
+                if (isModal) {
+                  Provider.of<StandardScreenViewModel>(context, listen: false)
+                      .removeLastOverlay();
+                } else {
+                  Navigator.pop(context);
+                }
+              },
+              isHappy: true,
+            ),
           );
-          pageStatus = PageStatus.ERROR;
-          notifyListeners();
         } else {
-          modalMessage = SFModalMessage(
-            title: response.responseTitle!,
-            onTap: () {
-              if (response.responseStatus ==
-                  NetworkResponseStatus.expiredToken) {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/login_signup',
-                  (Route<dynamic> route) => false,
-                );
-              } else {
-                pageStatus = PageStatus.OK;
-                notifyListeners();
-              }
-            },
-            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .addModalMessage(
+            SFModalMessage(
+              title: response.responseTitle!,
+              onTap: () {
+                if (response.responseStatus ==
+                    NetworkResponseStatus.expiredToken) {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/login_signup',
+                    (Route<dynamic> route) => false,
+                  );
+                }
+              },
+              isHappy: response.responseStatus == NetworkResponseStatus.alert,
+            ),
           );
           if (response.responseStatus == NetworkResponseStatus.expiredToken) {
-            canTapBackground = false;
+            //canTapBackground = false;
           }
-          pageStatus = PageStatus.ERROR;
-          notifyListeners();
         }
       });
     }
@@ -139,32 +144,33 @@ class NewCreditCardViewModel extends StandardScreenViewModel {
     );
     if (cep.length == 8) {
       FocusScope.of(context).unfocus();
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+      print("ARTHUR ${cardNicknameController.text}");
       try {
-        newCreditCardRepo.getCepInfo(context, cep).then((response) {
-          Map<String, dynamic> responseBody = json.decode(
-            response.responseBody!,
-          );
-          if (responseBody.containsKey("erro")) {
-            modalMessage = SFModalMessage(
-              title: "CEP não encontrado",
-              onTap: () {
-                pageStatus = PageStatus.OK;
-                notifyListeners();
-              },
-              isHappy: false,
+        newCreditCardRepo.getCepInfo(context, cep).then(
+          (response) {
+            print("ARTHUR ${cardNicknameController.text}");
+            Map<String, dynamic> responseBody = json.decode(
+              response.responseBody!,
             );
-            pageStatus = PageStatus.ERROR;
-            notifyListeners();
-          } else {
-            cardCityController.text =
-                "${responseBody['localidade']} - ${responseBody['uf']}";
-            cardAddressController.text = responseBody['logradouro'];
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          }
-        });
+            if (responseBody.containsKey("erro")) {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .addModalMessage(
+                SFModalMessage(
+                  title: "CEP não encontrado",
+                  onTap: () {},
+                  isHappy: false,
+                ),
+              );
+            } else {
+              cardCityController.text =
+                  "${responseBody['localidade']} - ${responseBody['uf']}";
+              cardAddressController.text = responseBody['logradouro'];
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .setPageStatusOk();
+            }
+          },
+        );
       } catch (e) {}
     }
   }

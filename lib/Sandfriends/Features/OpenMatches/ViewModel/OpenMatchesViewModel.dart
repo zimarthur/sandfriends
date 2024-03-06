@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
-
 import '../../../../Common/Model/AppMatch/AppMatchUser.dart';
 import '../Repository/OpenMatchesRepoImp.dart';
 
-class OpenMatchesViewModel extends StandardScreenViewModel {
+class OpenMatchesViewModel extends ChangeNotifier {
   final openMatchesRepo = OpenMatchesRepoImp();
 
   List<AppMatchUser> openMatches = [];

@@ -35,7 +35,6 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
               viewModel: viewModel,
             ),
             enableToolbar: false,
-            viewModel: viewModel,
           );
         },
       ),

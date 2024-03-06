@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Managers/LinkOpener/LinkOpenerManager.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ import '../../../../../Remote/NetworkResponse.dart';
 import '../../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../Repository/CreateAccountEmployeeRepo.dart';
 
-class CreateAccountEmployeeViewModel extends StandardScreenViewModel {
+class CreateAccountEmployeeViewModel extends ChangeNotifier {
   final _createAccountEmployeeRepo = CreateAccountEmployeeRepo();
 
   String addEmployeeToken = "";
@@ -30,7 +31,7 @@ class CreateAccountEmployeeViewModel extends StandardScreenViewModel {
 
   void initCreateAccountEmployeeViewModel(BuildContext context, String token) {
     addEmployeeToken = token;
-    pageStatus = PageStatus.LOADING;
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     notifyListeners();
     _createAccountEmployeeRepo
         .validateNewEmployeeToken(context, addEmployeeToken)
@@ -41,26 +42,26 @@ class CreateAccountEmployeeViewModel extends StandardScreenViewModel {
         );
         email = responseBody["Email"];
         storeName = responseBody["StoreName"];
-        pageStatus = PageStatus.OK;
-        notifyListeners();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          description: response.responseDescription,
-          onTap: () {
-            Navigator.pushNamed(context, '/login');
-          },
-          isHappy: response.responseStatus == NetworkResponseStatus.alert,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            description: response.responseDescription,
+            onTap: () {
+              Navigator.pushNamed(context, '/login');
+            },
+            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          ),
         );
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       }
     });
   }
 
   void createAccountEmployee(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     _createAccountEmployeeRepo
         .createAccountEmployee(
       context,
@@ -70,24 +71,22 @@ class CreateAccountEmployeeViewModel extends StandardScreenViewModel {
       createAccountEmployeePasswordController.text,
     )
         .then((response) {
-      modalMessage = SFModalMessage(
-        title: response.responseTitle!,
-        description: response.responseDescription,
-        onTap: () {
-          if (response.responseStatus == NetworkResponseStatus.alert) {
-            Navigator.pushNamed(context, '/login');
-          } else {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          }
-        },
-        isHappy: response.responseStatus == NetworkResponseStatus.alert,
-        buttonText: response.responseStatus == NetworkResponseStatus.alert
-            ? "Concluído"
-            : "Voltar",
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addModalMessage(
+        SFModalMessage(
+          title: response.responseTitle!,
+          description: response.responseDescription,
+          onTap: () {
+            if (response.responseStatus == NetworkResponseStatus.alert) {
+              Navigator.pushNamed(context, '/login');
+            }
+          },
+          isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          buttonText: response.responseStatus == NetworkResponseStatus.alert
+              ? "Concluído"
+              : "Voltar",
+        ),
       );
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
     });
   }
 
