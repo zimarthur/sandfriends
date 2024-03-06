@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/HourPrice/HourPriceStore.dart';
 import '../../../../../../Common/Components/SFDivider.dart';
 import '../../../../../../Common/Model/OperationDayStore.dart';
-import '../../../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../../../Common/Utils/Constants.dart';
 import '../../../ViewModel/MyCourtsViewModel.dart';
 import 'PriceRuleRadio.dart';

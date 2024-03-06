@@ -28,17 +28,27 @@ class NewCreditCardViewModel extends StandardScreenViewModel {
   final newCreditCardFormKey = GlobalKey<FormState>();
 
   TextEditingController cardNicknameController = TextEditingController();
-  TextEditingController cardNumberController =
-      MaskedTextController(mask: "0000 0000 0000 0000 0000");
-  TextEditingController cardExpirationDateController =
-      MaskedTextController(mask: "00/0000");
+  TextEditingController cardNumberController = MaskedTextController(
+    mask: "0000 0000 0000 0000 0000",
+    cursorBehavior: CursorBehaviour.end,
+  );
+  TextEditingController cardExpirationDateController = MaskedTextController(
+    mask: "00/0000",
+    cursorBehavior: CursorBehaviour.end,
+  );
   TextEditingController cardOwnerController = TextEditingController();
-  TextEditingController cardCpfController =
-      MaskedTextController(mask: "000.000.000-00");
-  TextEditingController cardCepController =
-      MaskedTextController(mask: "00000-000");
-  final TextEditingController phoneNumberController =
-      MaskedTextController(mask: '(00) 00000-00000');
+  TextEditingController cardCpfController = MaskedTextController(
+    mask: "000.000.000-00",
+    cursorBehavior: CursorBehaviour.end,
+  );
+  TextEditingController cardCepController = MaskedTextController(
+    mask: "00000-000",
+    cursorBehavior: CursorBehaviour.end,
+  );
+  final TextEditingController phoneNumberController = MaskedTextController(
+    mask: '(00) 00000-00000',
+    cursorBehavior: CursorBehaviour.end,
+  );
   final formKey = GlobalKey<FormState>();
   TextEditingController cardCityController = TextEditingController();
   TextEditingController cardAddressController = TextEditingController();

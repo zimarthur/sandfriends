@@ -30,7 +30,7 @@ class _SportSelectorModalState extends State<SportSelectorModal> {
         border: Border.all(color: primaryDarkBlue, width: 1),
         boxShadow: const [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
       ),
-      width: width * 0.9,
+      width: width * 0.9 > 350 ? 350 : width * 0.9,
       padding: EdgeInsets.symmetric(
           vertical: width * 0.02, horizontal: width * 0.04),
       child: Column(

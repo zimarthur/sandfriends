@@ -9,7 +9,7 @@ import '../../../../Common/Model/OperationDayStore.dart';
 import '../../../../Common/Model/SandfriendsQuadras/AvailableSport.dart';
 import '../../../../Common/Model/SandfriendsQuadras/PriceRule.dart';
 import '../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
-import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';

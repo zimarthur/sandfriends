@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/AppRecurrentMatch/AppRecurrentMatchUser.dart';
 import 'package:sandfriends/Common/Model/HourPrice/HourPriceUser.dart';
-import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
 
 import '../../../../Common/Components/PixCodeClipboard.dart';

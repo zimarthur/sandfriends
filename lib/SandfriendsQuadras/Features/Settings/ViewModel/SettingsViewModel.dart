@@ -179,7 +179,7 @@ class SettingsViewModel extends StandardScreenViewModel {
         );
         Provider.of<StoreProvider>(context, listen: false).store =
             StoreComplete.fromJson(
-          responseBody["StoreComplete"],
+          responseBody["Store"],
         );
         initSettingsViewModel(context);
         hasChangedPhoto = false;

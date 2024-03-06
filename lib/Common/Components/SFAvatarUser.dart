@@ -83,7 +83,9 @@ class SFAvatarUser extends StatelessWidget {
                         child: FittedBox(
                           fit: BoxFit.fitHeight,
                           child: Text(
-                            "${user.firstName![0].toUpperCase()}${user.lastName![0].toUpperCase()}",
+                            user.firstName == null || user.lastName == null
+                                ? ""
+                                : "${user.firstName![0].toUpperCase()}${user.lastName![0].toUpperCase()}",
                             style: const TextStyle(
                               color: secondaryPaper,
                               fontWeight: FontWeight.w600,
@@ -98,7 +100,7 @@ class SFAvatarUser extends StatelessWidget {
                           child: CachedNetworkImage(
                             imageUrl: Provider.of<EnvironmentProvider>(context,
                                     listen: false)
-                                .urlBuilder(user.photo!),
+                                .urlBuilder(user.photo!, isImage: true),
                             fit: BoxFit.cover,
                             placeholder: (context, url) => Padding(
                               padding: EdgeInsets.all(height * 0.3),

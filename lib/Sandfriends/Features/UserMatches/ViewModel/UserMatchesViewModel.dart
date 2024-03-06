@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 
 import '../../../../Common/Model/AppMatch/AppMatchUser.dart';

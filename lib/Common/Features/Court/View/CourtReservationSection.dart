@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Features/Court/View/AvailableCourtsPrices.dart';
 import 'package:sandfriends/Common/Features/Court/View/DayFilter.dart';
 import 'package:sandfriends/Common/Features/Court/View/SportFilter.dart';
 import 'package:sandfriends/Common/Features/Court/ViewModel/CourtViewModel.dart';
-import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
 
 import '../../../Components/AvailableDaysResult/AvailableHourCard.dart';
@@ -30,23 +31,7 @@ class _CourtReservationSectionState extends State<CourtReservationSection> {
   bool isExpanded = true;
   Duration duration = Duration(milliseconds: 200);
   double dateFilterHeight = 50;
-  double courtHeigth = 120;
-  ScrollController selectedScrollController = ScrollController();
-  int jumpToPosition = 0;
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.viewModel.courtAvailableHours.isNotEmpty) {
-        selectedScrollController.animateTo(
-          jumpToPosition * 84,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeIn,
-        );
-      }
-    });
-
-    super.initState();
-  }
+  double courtHeight = 120;
 
   @override
   Widget build(BuildContext context) {
@@ -143,8 +128,8 @@ class _CourtReservationSectionState extends State<CourtReservationSection> {
             width: double.infinity,
             height: isExpanded
                 ? widget.viewModel.courtAvailableHours.isEmpty
-                    ? courtHeigth + dateFilterHeight
-                    : (courtHeigth *
+                    ? courtHeight + dateFilterHeight
+                    : (courtHeight *
                                 widget.viewModel.courtAvailableHours.length)
                             .toDouble() +
                         dateFilterHeight +
@@ -215,139 +200,10 @@ class _CourtReservationSectionState extends State<CourtReservationSection> {
                                     ),
                                   ),
                                 )
-                              : ListView.builder(
-                                  padding: EdgeInsets.zero,
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: widget
-                                      .viewModel.courtAvailableHours.length,
-                                  itemBuilder: (context, indexcourt) {
-                                    bool isSelectedCourt = widget
-                                                .viewModel.selectedCourt ==
-                                            null
-                                        ? false
-                                        : widget.viewModel.selectedCourt!
-                                                .idStoreCourt ==
-                                            widget
-                                                .viewModel
-                                                .courtAvailableHours[indexcourt]
-                                                .court
-                                                .idStoreCourt;
-                                    if (isSelectedCourt) {
-                                      jumpToPosition = widget
-                                          .viewModel
-                                          .courtAvailableHours[indexcourt]
-                                          .hourPrices
-                                          .indexOf(widget.viewModel
-                                              .selectedHourPrices.first);
-                                    }
-
-                                    return Container(
-                                      height: courtHeigth,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                              left: defaultPadding,
-                                              bottom: defaultPadding / 4,
-                                              top: defaultPadding / 4,
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  widget
-                                                      .viewModel
-                                                      .courtAvailableHours[
-                                                          indexcourt]
-                                                      .court
-                                                      .description,
-                                                  style: TextStyle(
-                                                      color: widget.themeColor,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                Text(
-                                                  widget
-                                                          .viewModel
-                                                          .courtAvailableHours[
-                                                              indexcourt]
-                                                          .court
-                                                          .isIndoor
-                                                      ? "Quadra Coberta"
-                                                      : "Quadra Descoberta",
-                                                  style: const TextStyle(
-                                                      color: textDarkGrey,
-                                                      fontSize: 11),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 50,
-                                            child: ListView.builder(
-                                              controller: isSelectedCourt
-                                                  ? selectedScrollController
-                                                  : null,
-                                              scrollDirection: Axis.horizontal,
-                                              physics:
-                                                  const BouncingScrollPhysics(),
-                                              itemCount: widget
-                                                  .viewModel
-                                                  .courtAvailableHours[
-                                                      indexcourt]
-                                                  .hourPrices
-                                                  .length,
-                                              itemBuilder:
-                                                  ((context, indexHour) {
-                                                return Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: indexHour == 0
-                                                          ? defaultPadding
-                                                          : 0),
-                                                  child: AvailableHourCard(
-                                                    hourPrice: widget
-                                                        .viewModel
-                                                        .courtAvailableHours[
-                                                            indexcourt]
-                                                        .hourPrices[indexHour],
-                                                    isSelected: widget.viewModel
-                                                            .selectedHourPrices
-                                                            .contains(widget
-                                                                    .viewModel
-                                                                    .courtAvailableHours[
-                                                                        indexcourt]
-                                                                    .hourPrices[
-                                                                indexHour]) &&
-                                                        isSelectedCourt,
-                                                    onTap: (a) => widget
-                                                        .viewModel
-                                                        .onTapHourPrice(
-                                                      widget
-                                                          .viewModel
-                                                          .courtAvailableHours[
-                                                              indexcourt]
-                                                          .court,
-                                                      widget
-                                                          .viewModel
-                                                          .courtAvailableHours[
-                                                              indexcourt]
-                                                          .hourPrices[indexHour],
-                                                    ),
-                                                    isRecurrent: widget
-                                                        .viewModel.isRecurrent!,
-                                                  ),
-                                                );
-                                              }),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
+                              : AvailableCourtsPrices(
+                                  courtHeight: courtHeight,
+                                  themeColor: widget.themeColor,
+                                  viewModel: widget.viewModel,
                                 ),
                           SizedBox(
                             height: defaultPadding,

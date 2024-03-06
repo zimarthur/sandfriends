@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Managers/PalleteGenerator/PalleteGeneratorManager.dart';
 
 import '../../../../../Common/Components/SFAvatarStore.dart';
 import '../../../../../Common/Components/SFAvatarUser.dart';
@@ -19,40 +20,29 @@ class HomeHeader extends StatefulWidget {
 
 class _HomeHeaderState extends State<HomeHeader> {
   double imageSize = 100.0;
-  late PaletteGenerator paletteGenerator;
   Color dominantColor = secondaryBack;
   Color secondColor = secondaryBack;
 
   double buttonSize = 20;
   @override
-  void initState() {
-    _updatePaletteGenerator();
-    super.initState();
-  }
-
-  Future<void> _updatePaletteGenerator() async {
-    if (Provider.of<StoreProvider>(context, listen: false).store != null &&
-        Provider.of<StoreProvider>(context, listen: false).store!.logo !=
-            null) {
-      paletteGenerator = await PaletteGenerator.fromImageProvider(
-        Image.network(
-          Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
-            Provider.of<StoreProvider>(context, listen: false).store!.logo!,
-            isImage: true,
-          ),
-        ).image,
-      );
-      if (paletteGenerator.dominantColor != null) {
-        if (mounted) {
-          setState(() {
-            dominantColor = paletteGenerator.dominantColor!.color;
-            if (paletteGenerator.vibrantColor != null) {
-              secondColor = paletteGenerator.vibrantColor!.color;
-            }
-          });
+  void initState() async {
+    PalleteGeneratorManager()
+        .getPallete(
+      context,
+      Provider.of<StoreProvider>(context, listen: false).store?.logo,
+    )
+        .then((colors) {
+      if (mounted && colors != null) {
+        if (colors.dominantColor != null) {
+          dominantColor = colors.dominantColor!;
+        }
+        if (colors.secondaryColor != null) {
+          secondColor = colors.secondaryColor!;
         }
       }
-    }
+    });
+
+    super.initState();
   }
 
   @override

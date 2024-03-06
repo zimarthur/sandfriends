@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../../Common/Utils/PageStatus.dart';
@@ -98,14 +101,29 @@ class ChangePasswordViewModel extends StandardScreenViewModel {
     changePasswordRepo
         .changePasswordUser(context, token, newPasswordController.text)
         .then((response) {
-      modalMessage = SFModalMessage(
-        title: response.responseTitle!,
-        onTap: () {
-          pageStatus = PageStatus.OK;
-          notifyListeners();
-        },
-        isHappy: response.responseStatus == NetworkResponseStatus.alert,
-      );
+      if (response.responseStatus == NetworkResponseStatus.success) {
+        final responseBody = json.decode(
+          response.responseBody!,
+        );
+        LocalStorageManager()
+            .storeAccessToken(context, responseBody["AccessToken"]);
+        modalMessage = SFModalMessage(
+          title: "Sua senha foi alterada",
+          onTap: () {
+            Navigator.pushNamed(context, "/");
+          },
+          isHappy: true,
+        );
+      } else {
+        modalMessage = SFModalMessage(
+          title: response.responseTitle!,
+          description: response.responseDescription,
+          onTap: () {},
+          hideButton: true,
+          isHappy: false,
+        );
+      }
+
       pageStatus = PageStatus.ERROR;
       notifyListeners();
     });

@@ -18,7 +18,7 @@ import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Model/AvailableDay.dart';
 import '../../../../Common/Model/City.dart';
 import '../../../../Common/Model/Store/StoreComplete.dart';
-import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
@@ -212,7 +212,7 @@ class MatchSearchViewModel extends StandardScreenViewModel {
       {bool noArguments = false}) {
     Navigator.pushNamed(
       context,
-      '/quadras',
+      '/quadras/${store.url}',
       arguments: noArguments
           ? {
               'store': store,

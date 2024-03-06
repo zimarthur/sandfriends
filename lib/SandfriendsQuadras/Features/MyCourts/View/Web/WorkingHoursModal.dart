@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../../Common/Components/SFButton.dart';
 import '../../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
-import '../../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/ViewModel/StoreProvider.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
 import 'package:sandfriends/Common/Model/AppNotificationUser.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
+import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 
 import '../../../Common/Model/AppMatch/AppMatchUser.dart';
 import '../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchUser.dart';
@@ -16,6 +20,17 @@ class UserProvider extends ChangeNotifier {
   UserComplete? get user => _user;
   set user(UserComplete? newUser) {
     _user = newUser;
+    notifyListeners();
+  }
+
+  bool userNeedsOnboarding() {
+    return user != null && user?.firstName == null;
+  }
+
+  void logoutUserProvider(BuildContext context) {
+    clear();
+    _user = null;
+    LocalStorageManager().storeAccessToken(context, "");
     notifyListeners();
   }
 

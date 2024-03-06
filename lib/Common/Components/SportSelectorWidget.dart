@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/Sport.dart';
-import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 
 import '../../Common/Utils/Constants.dart';
 

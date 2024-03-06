@@ -6,7 +6,7 @@ import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
 import '../../../../Common/Model/Court.dart';
 import '../../../../Common/Model/Hour.dart';
 import '../../../../Common/Model/SandfriendsQuadras/Reward.dart';
-import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';

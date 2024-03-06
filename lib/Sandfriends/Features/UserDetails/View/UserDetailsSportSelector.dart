@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../Common/Components/SFDropDown.dart';
-import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../ViewModel/UserDetailsViewModel.dart';
 

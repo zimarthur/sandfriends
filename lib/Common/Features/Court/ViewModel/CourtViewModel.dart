@@ -1,6 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Components/Modal/TimeModal.dart';
+import 'package:sandfriends/Common/Features/Court/View/PhotoViewModal.dart';
+import 'package:sandfriends/Common/Features/Court/View/Web/CourtReservationModal.dart';
 import 'package:sandfriends/Common/Model/OperationDayUser.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 import 'package:sandfriends/Common/Providers/Environment/Environment.dart';
@@ -10,6 +14,8 @@ import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Common/Features/Court/Model/CourtAvailableHours.dart';
 import 'package:sandfriends/Common/Model/HourPrice/HourPriceUser.dart';
 import 'package:sandfriends/Common/Utils/SFDateTime.dart';
+import 'package:sandfriends/Sandfriends/Features/Checkout/ViewModel/CheckoutViewModel.dart';
+import 'package:time_range/time_range.dart';
 import 'package:tuple/tuple.dart';
 import '../../../Model/AppMatch/AppMatchUser.dart';
 import '../../../../Remote/NetworkResponse.dart';
@@ -18,9 +24,10 @@ import '../../../Model/Court.dart';
 import '../../../Model/Hour.dart';
 import '../../../Model/Sport.dart';
 import '../../../Model/Store/StoreComplete.dart';
-import '../../../Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../Providers/Categories/CategoriesProvider.dart';
 import '../../../../Sandfriends/Providers/UserProvider/UserProvider.dart';
 import '../../../Components/Modal/SFModalMessage.dart';
+import '../../../Providers/Overlay/OverlayProvider.dart';
 import '../../../Utils/PageStatus.dart';
 import '../../../../Sandfriends/Features/MatchSearch/Repository/MatchSearchDecoder.dart';
 import '../../../../Sandfriends/Features/MatchSearch/Repository/MatchSearchRepo.dart';
@@ -29,7 +36,7 @@ import '../../../../Sandfriends/Features/RecurrentMatchSearch/Repository/Recurre
 import '../../../../Sandfriends/Features/RecurrentMatchSearch/Repository/RecurrentMatchSearchRepo.dart';
 import '../Repository/CourtRepo.dart';
 
-class CourtViewModel extends StandardScreenViewModel {
+class CourtViewModel extends CheckoutViewModel {
   final courtRepo = CourtRepo();
   final matchSearchRepo = MatchSearchRepo();
   final recurrentMatchSearchRepo = RecurrentMatchSearchRepo();
@@ -43,14 +50,47 @@ class CourtViewModel extends StandardScreenViewModel {
   Court? selectedCourt;
   DateTime? selectedDate;
   int? selectedWeekday;
-  bool? isRecurrent;
   late bool canMakeReservation;
   Hour? searchStartPeriod;
   Hour? searchEndPeriod;
 
+  TimeRangeResult? get timeFilter {
+    if (searchStartPeriod == null || searchEndPeriod == null) {
+      return null;
+    }
+    return TimeRangeResult(
+      TimeOfDay(hour: searchStartPeriod!.hour, minute: 00),
+      TimeOfDay(
+        hour: searchEndPeriod!.hour,
+        minute: 00,
+      ),
+    );
+  }
+
   Sport? selectedSport;
 
   bool isLoadingOperationDays = true;
+
+  int currentAnimation = 0;
+  int animationStep = 50;
+  int animationEndMiliSeconds = 4000;
+
+  void setCourtPhotoModal() {
+    widgetForm = PhotoViewModal(
+      imagesUrl: store!.photos,
+      onClose: () => closeModal(),
+    );
+    pageStatus = PageStatus.FORM;
+    notifyListeners();
+  }
+
+  void setCourtReservationModal(BuildContext context) {
+    Provider.of<OverlayProvider>(context, listen: false).addOverlayWidget(
+      CourtReservationModal(
+        onClose: () => clearOverlays(),
+      ),
+    );
+  }
 
   void setSport(BuildContext context, Sport sport) {
     selectedSport = sport;
@@ -96,13 +136,11 @@ class CourtViewModel extends StandardScreenViewModel {
     isRecurrent = newIsRecurrent ?? false;
     courtAvailableHours.clear();
     store = newStore;
+
     if (store == null) {
       pageStatus = PageStatus.LOADING;
       notifyListeners();
-      // if (Provider.of<EnvironmentProvider>(context, listen: false)
-      //         .environment
-      //         .product ==
-      //     Product.Sandfriends) {
+
       final response = await courtRepo.getStore(context, newStoreUrl);
 
       if (response.responseStatus == NetworkResponseStatus.success) {
@@ -125,7 +163,6 @@ class CourtViewModel extends StandardScreenViewModel {
         pageStatus = PageStatus.ERROR;
         notifyListeners();
       }
-      //} else {}
     }
 
     if (newCourtAvailableHours != null) {
@@ -163,8 +200,9 @@ class CourtViewModel extends StandardScreenViewModel {
       }
       selectedSport = newSelectedSport ??
           Provider.of<UserProvider>(context, listen: false)
-              .user!
-              .preferenceSport;
+              .user
+              ?.preferenceSport ??
+          Provider.of<CategoriesProvider>(context, listen: false).sessionSport;
       searchStartPeriod =
           Provider.of<CategoriesProvider>(context, listen: false)
               .getFirstSearchHour;
@@ -218,7 +256,7 @@ class CourtViewModel extends StandardScreenViewModel {
     matchSearchRepo
         .searchCourts(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<UserProvider>(context, listen: false).user?.accessToken,
       selectedSport!.idSport,
       store!.city.cityId,
       selectedDate!,
@@ -362,19 +400,41 @@ class CourtViewModel extends StandardScreenViewModel {
   }
 
   void openDateSelectorModal(BuildContext context) {
-    widgetForm = CalendarModal(
-      allowMultiDates: false,
-      dateRange: [selectedDate],
-      onSubmit: (newDates) {
-        pageStatus = PageStatus.OK;
-        notifyListeners();
-        if (newDates.length == 1) {
-          selectedDate = newDates.first;
-          searchStoreAvailableHours(context);
-        }
-      },
+    Provider.of<OverlayProvider>(context, listen: false).addOverlayWidget(
+      CalendarModal(
+        allowMultiDates: false,
+        dateRange: [selectedDate],
+        onSubmit: (newDates) {
+          removeLastOverlay();
+          if (newDates.length == 1) {
+            selectedDate = newDates.first;
+            searchStoreAvailableHours(context);
+          }
+        },
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
+  }
+
+  void openTimeSelectorModal(BuildContext context) {
+    Provider.of<OverlayProvider>(context, listen: false).addOverlayWidget(
+      TimeModal(
+        timeRange: timeFilter,
+        onSubmit: (timeRange) {
+          if (timeRange == null) {
+            return;
+          }
+          searchStartPeriod =
+              Provider.of<CategoriesProvider>(context, listen: false)
+                  .hours
+                  .firstWhere((hour) => hour.hour == timeRange.start.hour);
+          searchEndPeriod =
+              Provider.of<CategoriesProvider>(context, listen: false)
+                  .hours
+                  .firstWhere((hour) => hour.hour == timeRange.end.hour);
+          notifyListeners();
+          removeLastOverlay();
+        },
+      ),
+    );
   }
 }

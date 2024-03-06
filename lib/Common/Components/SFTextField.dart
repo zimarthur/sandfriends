@@ -69,7 +69,9 @@ class _SFTextFieldState extends State<SFTextField> {
       focusNode: widget.focusNode,
       textInputAction: widget.pourpose == TextFieldPourpose.Multiline
           ? TextInputAction.newline
-          : TextInputAction.next,
+          : widget.onSubmit != null
+              ? TextInputAction.done
+              : TextInputAction.next,
       keyboardType: widget.pourpose == TextFieldPourpose.Email
           ? TextInputType.emailAddress
           : widget.pourpose == TextFieldPourpose.Numeric
@@ -82,7 +84,7 @@ class _SFTextFieldState extends State<SFTextField> {
           : _passwordVisible
               ? false
               : true,
-      onChanged: widget.onChanged ?? (value) {},
+      onChanged: widget.onChanged,
       minLines: widget.minLines ?? 1,
       maxLines:
           widget.pourpose == TextFieldPourpose.Multiline ? widget.maxLines : 1,

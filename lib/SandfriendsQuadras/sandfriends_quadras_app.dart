@@ -70,21 +70,12 @@ class SandfriendsQuadrasApp extends GenericApp {
             },
           );
         } else if (settings.name!.startsWith(changePassword)) {
-          bool isStoreRequest = true;
-          String token = "";
-          final arguments = settings.name!.split("?")[1].split("&");
-          for (var argument in arguments) {
-            if (argument.startsWith("str")) {
-              isStoreRequest = argument.split("=")[1] == "1";
-            } else {
-              token = argument.split("=")[1];
-            }
-          }
+          String token = settings.name!.split("?")[1].split("=")[1];
           return MaterialPageRoute(
             builder: (context) {
               return ChangePasswordScreen(
                 token: token,
-                isStoreRequest: isStoreRequest,
+                isStoreRequest: true,
               );
             },
           );

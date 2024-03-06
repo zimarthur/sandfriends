@@ -15,6 +15,22 @@ class StandardScreenViewModel extends ChangeNotifier {
   Widget? widgetForm;
   bool canTapBackground = true;
 
+  List<Widget> overlays = [];
+  void addOverlayWidget(Widget widget) {
+    overlays.add(widget);
+    notifyListeners();
+  }
+
+  void removeLastOverlay() {
+    overlays.removeLast();
+    notifyListeners();
+  }
+
+  void clearOverlays() {
+    overlays.clear();
+    notifyListeners();
+  }
+
   void closeModal() {
     pageStatus = PageStatus.OK;
     notifyListeners();
@@ -22,5 +38,23 @@ class StandardScreenViewModel extends ChangeNotifier {
 
   void onTapReturn(BuildContext context) {
     Navigator.pop(context);
+  }
+
+  void setWidgetForm(Widget widget) {
+    widgetForm = widget;
+    pageStatus = PageStatus.FORM;
+    notifyListeners();
+  }
+
+  void setPageError(String message) {
+    modalMessage = SFModalMessage(
+        title: message, onTap: () => closeModal(), isHappy: false);
+    pageStatus = PageStatus.ERROR;
+    notifyListeners();
+  }
+
+  void setLoading() {
+    pageStatus = PageStatus.LOADING;
+    notifyListeners();
   }
 }

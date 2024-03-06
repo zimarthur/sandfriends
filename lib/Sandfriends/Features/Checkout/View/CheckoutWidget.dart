@@ -28,14 +28,16 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                 horizontal: defaultPadding, vertical: defaultPadding / 2),
             child: SingleChildScrollView(
               controller: widget.viewModel.scrollController,
-              child: const Column(
+              child: Column(
                 children: [
-                  CheckoutResume(),
-                  SizedBox(
+                  const CheckoutResume(),
+                  const SizedBox(
                     height: defaultPadding,
                   ),
-                  CheckoutPayment(),
-                  SizedBox(
+                  CheckoutPayment(
+                    viewModel: widget.viewModel,
+                  ),
+                  const SizedBox(
                     height: defaultPadding * 2,
                   ),
                 ],

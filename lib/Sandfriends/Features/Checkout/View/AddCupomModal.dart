@@ -51,7 +51,7 @@ class _CvvModalState extends State<AddCupomModal> {
         border: Border.all(color: primaryDarkBlue, width: 1),
         boxShadow: const [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
       ),
-      width: width * 0.9,
+      width: width * 0.9 > 400 ? 400 : width * 0.9,
       child: Form(
         key: cupomFormKey,
         child: Column(

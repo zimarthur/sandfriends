@@ -120,13 +120,15 @@ class CategoriesProvider extends ChangeNotifier {
   }
 
   void setAvailableRegions(Map<String, dynamic> response) {
-    availableRegions.clear();
-    for (var state in response['States']) {
-      availableRegions.add(
-        Region.fromJson(
-          state,
-        ),
-      );
+    if (response['States'] != null) {
+      availableRegions.clear();
+      for (var state in response['States']) {
+        availableRegions.add(
+          Region.fromJson(
+            state,
+          ),
+        );
+      }
     }
   }
 

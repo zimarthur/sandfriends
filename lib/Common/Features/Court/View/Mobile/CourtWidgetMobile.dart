@@ -12,7 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../Components/SFButton.dart';
 import '../../../../Providers/Environment/EnvironmentProvider.dart';
-import '../../../../Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../Providers/Categories/CategoriesProvider.dart';
 import '../../../../Components/SFLoading.dart';
 import '../../../../Utils/Constants.dart';
 import '../../ViewModel/CourtViewModel.dart';

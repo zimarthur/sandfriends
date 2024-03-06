@@ -37,7 +37,7 @@ class _TimeModalState extends State<TimeModal> {
     return Container(
       decoration: BoxDecoration(
         color: secondaryPaper,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(defaultBorderRadius),
         border: Border.all(color: primaryDarkBlue, width: 1),
         boxShadow: const [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
       ),

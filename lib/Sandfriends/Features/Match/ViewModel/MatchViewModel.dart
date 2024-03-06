@@ -16,7 +16,7 @@ import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/Utils/PageStatus.dart';
 import '../../../../Common/Model/MatchCounter.dart';
 import '../../../../Common/Model/MatchMember.dart';
-import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../Repository/MatchRepo.dart';

@@ -3,17 +3,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:time_range/time_range.dart';
 
 import '../../../../Common/Model/City.dart';
+import '../../../../Common/Model/Store/Store.dart';
 import '../../../../Common/Utils/Constants.dart';
 
 class SearchFilter extends StatefulWidget {
   VoidCallback onTapLocation;
   VoidCallback onTapDate;
   VoidCallback onTapTime;
+  Store? store;
   City? city;
   List<DateTime?> dates;
   TimeRangeResult? time;
   VoidCallback onSearch;
   Axis direction;
+  double? scaleFactor;
   SearchFilter({
     required this.onTapLocation,
     required this.onTapDate,
@@ -23,6 +26,8 @@ class SearchFilter extends StatefulWidget {
     required this.time,
     required this.onSearch,
     required this.direction,
+    this.store,
+    this.scaleFactor,
     super.key,
   });
 
@@ -37,7 +42,9 @@ class _SearchFilterState extends State<SearchFilter> {
     double width = MediaQuery.of(context).size.width;
     bool isVertical = widget.direction == Axis.vertical;
     return Container(
-      height: isVertical ? 300 : 80,
+      height: isVertical
+          ? 300
+          : 80 * (widget.scaleFactor != null ? widget.scaleFactor! : 1),
       width: isVertical ? 250 : width * 0.6,
       decoration: BoxDecoration(
         color: secondaryPaper,
@@ -73,18 +80,24 @@ class _SearchFilterState extends State<SearchFilter> {
           ),
           Expanded(
             child: Flex(
-              //mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               direction: widget.direction,
               children: [
                 Expanded(
                   flex: isVertical ? 1 : 2,
                   child: SearchFilterItem(
+                    scaleFactor: widget.scaleFactor,
                     title: "Onde",
-                    hint: widget.city != null
-                        ? widget.city!.cityState
-                        : "Buscar cidades disponíveis",
-                    onTap: () => widget.onTapLocation(),
+                    hint: widget.store != null
+                        ? widget.store!.name
+                        : widget.city != null
+                            ? widget.city!.cityState
+                            : "Buscar cidades disponíveis",
+                    onTap: () {
+                      if (widget.store == null) {
+                        widget.onTapLocation();
+                      }
+                    },
                     isVertical: isVertical,
                   ),
                 ),
@@ -99,6 +112,7 @@ class _SearchFilterState extends State<SearchFilter> {
                 Expanded(
                   flex: 1,
                   child: SearchFilterItem(
+                    scaleFactor: widget.scaleFactor,
                     title: "Datas",
                     hint: widget.dates.isEmpty
                         ? "Selecione os dias"
@@ -120,6 +134,7 @@ class _SearchFilterState extends State<SearchFilter> {
                 Expanded(
                   flex: 1,
                   child: SearchFilterItem(
+                    scaleFactor: widget.scaleFactor,
                     title: "Horários",
                     hint: widget.time == null
                         ? "Informe o período"
@@ -188,11 +203,13 @@ class SearchFilterItem extends StatefulWidget {
   String hint;
   VoidCallback onTap;
   bool isVertical;
+  double? scaleFactor;
   SearchFilterItem({
     required this.title,
     required this.hint,
     required this.onTap,
     required this.isVertical,
+    this.scaleFactor,
     super.key,
   });
 
@@ -236,6 +253,9 @@ class _SearchFilterItemState extends State<SearchFilterItem> {
               style: TextStyle(
                 fontSize: 10,
               ),
+              textScaler: widget.scaleFactor != null
+                  ? TextScaler.linear(widget.scaleFactor!)
+                  : null,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -244,6 +264,9 @@ class _SearchFilterItemState extends State<SearchFilterItem> {
               style: TextStyle(color: textDarkGrey),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
+              textScaler: widget.scaleFactor != null
+                  ? TextScaler.linear(widget.scaleFactor!)
+                  : null,
             ),
           ],
         ),

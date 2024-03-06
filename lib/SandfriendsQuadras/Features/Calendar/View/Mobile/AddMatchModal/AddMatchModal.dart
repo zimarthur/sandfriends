@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/Common/Model/HourPrice/HourPriceStore.dart';
-import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../../../Common/Components/PlayersSelection.dart';
 import '../../../../../../Common/Components/SFTextField.dart';
 import '../../../../../../Common/Model/Court.dart';

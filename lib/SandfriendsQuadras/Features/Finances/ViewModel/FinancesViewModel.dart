@@ -8,7 +8,7 @@ import '../../../../Common/Components/SFPieChart.dart';
 import '../../../../Common/Enum/EnumPeriodVisualization.dart';
 import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
 import '../../../../Common/Model/SandfriendsQuadras/SFBarChartItem.dart';
-import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import '../../../../Remote/NetworkResponse.dart';

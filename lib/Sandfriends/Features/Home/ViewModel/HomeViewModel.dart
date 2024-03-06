@@ -6,7 +6,7 @@ import 'package:sandfriends/Common/Model/AppNotificationUser.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/SearchType/View/SearchTypeScreen.dart';
 import 'package:sandfriends/Common/Model/AppRecurrentMatch/AppRecurrentMatch.dart';
-import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import 'package:sandfriends/Sandfriends/Providers/RedirectProvider/RedirectProvider.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
 import 'package:tuple/tuple.dart';

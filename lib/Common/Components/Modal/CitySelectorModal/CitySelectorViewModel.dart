@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../Model/Region.dart';
-import '../../../Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../Providers/Categories/CategoriesProvider.dart';
 import '../../../Utils/PageStatus.dart';
 
 class CitySelectorViewModel extends ChangeNotifier {

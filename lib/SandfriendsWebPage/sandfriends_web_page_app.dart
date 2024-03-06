@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Features/Court/View/CourtScreen.dart';
-import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/generic_app.dart';
 import 'package:sandfriends/SandfriendsWebPage/Features/LandingPage/View/LandingPageScreen.dart';
@@ -10,6 +10,8 @@ import '../Common/Model/Hour.dart';
 import '../Common/Model/HourPrice/HourPriceUser.dart';
 import '../Common/Model/Sport.dart';
 import '../Common/Model/Store/StoreUser.dart';
+import '../Sandfriends/Features/Authentication/EmailConfirmation/View/EmailConfirmationScreen.dart';
+import '../SandfriendsQuadras/Features/Authentication/ChangePassword/View/ChangePasswordScreen.dart';
 
 class SandfriendsWebPageApp extends GenericApp {
   SandfriendsWebPageApp({
@@ -31,6 +33,8 @@ class SandfriendsWebPageApp extends GenericApp {
   @override
   Route? Function(RouteSettings p1)? get onGenerateRoute => (settings) {
         String store = '/quadras';
+        String changePassword = '/cgpw'; //change password
+        String emailConfirmation = '/emcf'; //email confirmation
         if (settings.name!.startsWith(store)) {
           final arguments = (settings.arguments ?? {}) as Map;
           final storeUrl = settings.name!.split("$store/")[1];
@@ -47,9 +51,28 @@ class SandfriendsWebPageApp extends GenericApp {
                 selectedWeekday: arguments['selectedWeekday'] as int?,
                 selectedSport: arguments['selectedSport'] as Sport?,
                 isRecurrent: arguments['isRecurrent'] as bool?,
-                canMakeReservation: arguments['canMakeReservation'] ?? false,
+                canMakeReservation: arguments['canMakeReservation'] ?? true,
                 searchStartPeriod: arguments['searchStartPeriod'] as Hour?,
                 searchEndPeriod: arguments['searchEndPeriod'] as Hour?,
+              );
+            },
+          );
+        } else if (settings.name!.startsWith(changePassword)) {
+          String token = settings.name!.split("?")[1].split("=")[1];
+          return MaterialPageRoute(
+            builder: (context) {
+              return ChangePasswordScreen(
+                token: token,
+                isStoreRequest: false,
+              );
+            },
+          );
+        } else if (settings.name!.startsWith(emailConfirmation)) {
+          String token = settings.name!.split("?")[1].split("=")[1];
+          return MaterialPageRoute(
+            builder: (context) {
+              return EmailConfirmationScreen(
+                confirmationToken: token,
               );
             },
           );

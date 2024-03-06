@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../Common/Model/Rank.dart';
-import '../../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../../Common/Components/SFButton.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../ViewModel/UserDetailsViewModel.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../../../../Common/Components/SFButton.dart';
 import '../../../../../../../Common/Components/SFDivider.dart';
 import '../../../../../../../Common/Model/AppMatch/AppMatchStore.dart';

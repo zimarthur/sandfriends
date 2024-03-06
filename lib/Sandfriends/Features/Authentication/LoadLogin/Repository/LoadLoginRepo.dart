@@ -10,6 +10,7 @@ class LoadLoginRepo {
   Future<NetworkResponse> validateLogin(
     BuildContext context,
     String? accessToken,
+    bool requiresUserToProceed,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
@@ -17,6 +18,7 @@ class LoadLoginRepo {
       jsonEncode(
         <String, Object?>{
           "AccessToken": accessToken,
+          "RequiresUserToProceed": requiresUserToProceed,
         },
       ),
     );

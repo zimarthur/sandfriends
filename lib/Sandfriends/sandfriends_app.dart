@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
-import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/generic_app.dart';
 import '../Common/Model/City.dart';
 import '../Common/Model/Court.dart';
 import '../Common/Model/Hour.dart';
 import '../Common/Model/Sport.dart';
-import 'Providers/RedirectProvider/RedirectProvider.dart';
-import 'Providers/UserProvider/UserProvider.dart';
 import 'Features/AppInfo/View/AppInfoScreen.dart';
 import 'Features/Authentication/CreateAccount/View/CreateAccountScreen.dart';
 import 'Features/Authentication/EmailConfirmation/View/EmailConfirmationScreen.dart';

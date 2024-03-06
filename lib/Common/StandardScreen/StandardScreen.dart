@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Providers/Environment/FlavorEnum.dart';
+import 'package:sandfriends/Common/Providers/Overlay/OverlayProvider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
 
@@ -126,38 +127,57 @@ class _StandardScreenState extends State<StandardScreen> {
                         ),
                 ),
               ),
-              widget.viewModel.pageStatus != PageStatus.OK
-                  ? InkWell(
-                      onTap: () {
-                        if (widget.viewModel.pageStatus != PageStatus.LOADING &&
-                            widget.viewModel.canTapBackground) {
-                          widget.viewModel.closeModal();
-                        }
-                      },
-                      child: Container(
-                        color: primaryBlue.withOpacity(0.4),
-                        height: height,
-                        width: width,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            widget.viewModel.pageStatus == PageStatus.LOADING
-                                ? SFLoading()
-                                : InkWell(
-                                    onTap: () {},
-                                    child: widget.viewModel.pageStatus ==
-                                            PageStatus.FORM
-                                        ? widget.viewModel.widgetForm
-                                        : widget.viewModel.modalMessage,
-                                  ),
-                            SizedBox(
-                              height: MediaQuery.of(context).viewInsets.bottom,
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  : Container(),
+              if (widget.viewModel.pageStatus != PageStatus.OK ||
+                  widget.viewModel.overlays.isNotEmpty)
+                InkWell(
+                  onTap: () {
+                    if (widget.viewModel.pageStatus != PageStatus.LOADING &&
+                        widget.viewModel.canTapBackground) {
+                      widget.viewModel.closeModal();
+                    }
+                  },
+                  child: Container(
+                    color: primaryBlue.withOpacity(0.4),
+                    height: height,
+                    width: width,
+                  ),
+                ),
+              for (var overlay
+                  in Provider.of<OverlayProvider>(context).overlays)
+                SizedBox(
+                  width: width,
+                  height: height,
+                  child: Center(
+                    child: overlay,
+                  ),
+                ),
+              if (widget.viewModel.pageStatus != PageStatus.OK)
+                SizedBox(
+                  width: width,
+                  height: height,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      widget.viewModel.pageStatus == PageStatus.LOADING
+                          ? SFLoading()
+                          : InkWell(
+                              onTap: () {},
+                              child:
+                                  widget.viewModel.pageStatus == PageStatus.FORM
+                                      ? widget.viewModel.widgetForm
+                                      : (widget.viewModel.pageStatus ==
+                                                  PageStatus.ERROR ||
+                                              widget.viewModel.pageStatus ==
+                                                  PageStatus.SUCCESS)
+                                          ? widget.viewModel.modalMessage
+                                          : null,
+                            ),
+                      SizedBox(
+                        height: MediaQuery.of(context).viewInsets.bottom,
+                      )
+                    ],
+                  ),
+                ),
               if (Provider.of<EnvironmentProvider>(context, listen: false)
                       .environment
                       .flavor !=

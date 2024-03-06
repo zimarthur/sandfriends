@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Components/SFAvatarUser.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
-import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/SandfriendsWebPage/Features/Authentication/ProfileOverlay/View/ProfileOverlay.dart';
+import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
+import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Common/Utils/Constants.dart';
 
 class WebHeader extends StatefulWidget {
-  const WebHeader({super.key});
+  StandardScreenViewModel viewModel;
+  WebHeader({
+    required this.viewModel,
+    super.key,
+  });
 
   @override
   State<WebHeader> createState() => WebHeaderState();
@@ -15,6 +22,42 @@ class WebHeader extends StatefulWidget {
 class WebHeaderState extends State<WebHeader> {
   bool isSportHovered = false;
   bool isProfileHovered = false;
+  OverlayEntry? entry;
+  final profileKey = GlobalKey();
+
+  void showProfileOverlay(BuildContext context) {
+    final overlay = Overlay.of(context);
+    double profileOverLayWidth = 320;
+    final profileButton =
+        profileKey.currentContext?.findRenderObject() as RenderBox;
+    Offset profileButtonPosition = profileButton.localToGlobal(Offset.zero);
+
+    if (entry == null) {
+      entry = OverlayEntry(
+        builder: (context) => Positioned(
+          width: profileOverLayWidth,
+          top: profileButtonPosition.dy +
+              profileButton.size.height +
+              (defaultPadding / 2),
+          right: MediaQuery.of(context).size.width -
+              profileButtonPosition.dx -
+              profileButton.size.width,
+          child: LoginSignup(
+            close: () => hideProfileOverlay(),
+            parentScreen: widget.viewModel,
+          ),
+        ),
+      );
+
+      overlay.insert(entry!);
+    }
+  }
+
+  void hideProfileOverlay() {
+    entry?.remove();
+    entry = null;
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -138,41 +181,71 @@ class WebHeaderState extends State<WebHeader> {
                 isProfileHovered = false;
               });
             },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(defaultBorderRadius),
-                border: Border.all(
-                  color: divider,
-                  width: 2,
-                ),
-                color: secondaryPaper,
-                boxShadow: [
-                  if (isProfileHovered)
-                    BoxShadow(
-                      color: divider,
-                      blurRadius: 5,
-                      offset: Offset(
-                        0,
-                        3.0,
-                      ),
+            child: InkWell(
+              key: profileKey,
+              onTap: () => showProfileOverlay(context),
+              child: Provider.of<UserProvider>(context).user != null
+                  ? Stack(
+                      children: [
+                        SFAvatarUser(
+                          height: 70,
+                          user: Provider.of<UserProvider>(context).user!,
+                          showRank: false,
+                        ),
+                        if (isProfileHovered)
+                          Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: divider.withOpacity(0.4),
+                            ),
+                            height: 70,
+                            width: 70,
+                            child: Center(
+                              child: SvgPicture.asset(
+                                r"assets/icon/three_dots.svg",
+                                color: textWhite,
+                              ),
+                            ),
+                          ),
+                      ],
                     )
-                ],
-              ),
-              padding: EdgeInsets.all(defaultPadding / 2),
-              child: Row(
-                children: [
-                  SvgPicture.asset(
-                    r"assets/icon/user.svg",
-                    height: 25,
-                    color: textDarkGrey,
-                  ),
-                  SvgPicture.asset(
-                    r"assets/icon/three_dots.svg",
-                    height: 25,
-                    color: textDarkGrey,
-                  ),
-                ],
-              ),
+                  : Container(
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.circular(defaultBorderRadius),
+                        border: Border.all(
+                          color: divider,
+                          width: 2,
+                        ),
+                        color: secondaryPaper,
+                        boxShadow: [
+                          if (isProfileHovered)
+                            BoxShadow(
+                              color: divider,
+                              blurRadius: 5,
+                              offset: Offset(
+                                0,
+                                3.0,
+                              ),
+                            )
+                        ],
+                      ),
+                      padding: EdgeInsets.all(defaultPadding / 2),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            r"assets/icon/user.svg",
+                            height: 25,
+                            color: textDarkGrey,
+                          ),
+                          SvgPicture.asset(
+                            r"assets/icon/three_dots.svg",
+                            height: 25,
+                            color: textDarkGrey,
+                          ),
+                        ],
+                      ),
+                    ),
             ),
           ),
         ],

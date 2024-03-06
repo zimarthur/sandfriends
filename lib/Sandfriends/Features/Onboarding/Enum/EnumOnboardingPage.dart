@@ -1,0 +1,1 @@
+enum EnumOnboardingPage { Welcome, Information }

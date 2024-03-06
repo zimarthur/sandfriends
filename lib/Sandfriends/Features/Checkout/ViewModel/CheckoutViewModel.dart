@@ -15,11 +15,13 @@ import 'package:sandfriends/Sandfriends/Features/Checkout/View/Payment/ModalCred
 import 'package:sandfriends/Common/Model/Court.dart';
 import 'package:sandfriends/Common/Model/CreditCard/CreditCard.dart';
 import 'package:sandfriends/Common/Model/Hour.dart';
-import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import 'package:sandfriends/Common/Utils/Validators.dart';
+import 'package:sandfriends/Sandfriends/Features/NewCreditCard/View/NewCreditCardModal.dart';
 
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Model/CouponUnited.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Model/Sport.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
@@ -45,8 +47,10 @@ class CheckoutViewModel extends StandardScreenViewModel {
 
   SelectedPayment selectedPayment = SelectedPayment.NotSelected;
   CreditCard? selectedCreditCard;
-  TextEditingController cpfController =
-      MaskedTextController(mask: "000.000.000-00");
+  TextEditingController cpfController = MaskedTextController(
+    mask: "000.000.000-00",
+    cursorBehavior: CursorBehaviour.end,
+  );
   TextEditingController cvvController = MaskedTextController(mask: "0000");
   TextEditingController cupomController = TextEditingController();
 
@@ -171,14 +175,33 @@ class CheckoutViewModel extends StandardScreenViewModel {
     }
   }
 
-  void setNewSelectedPayment(SelectedPayment newSelectedPayment) {
-    if (newSelectedPayment == SelectedPayment.CreditCard) {
-      widgetForm = ModalCreditCardSelector(
-        onSelectedCreditCard: (selectedCreditCard) =>
-            onSelectedCreditCard(selectedCreditCard),
-      );
-      pageStatus = PageStatus.FORM;
+  void setNewSelectedPayment(
+      BuildContext context, SelectedPayment newSelectedPayment) {
+    if (newSelectedPayment == selectedPayment) {
       selectedPayment = SelectedPayment.NotSelected;
+    } else if (newSelectedPayment == SelectedPayment.CreditCard) {
+      addOverlayWidget(
+        ModalCreditCardSelector(
+          closeModal: () => removeLastOverlay(),
+          onSelectedCreditCard: (selectedCreditCard) =>
+              onSelectedCreditCard(selectedCreditCard),
+          onAddNewCreditCard: () {
+            {
+              if (Provider.of<EnvironmentProvider>(context, listen: false)
+                  .environment
+                  .isWeb) {
+                addOverlayWidget(
+                  NewCreditCardModal(
+                    close: () => removeLastOverlay(),
+                  ),
+                );
+              } else {
+                Navigator.pushNamed(context, "/new_credit_card");
+              }
+            }
+          },
+        ),
+      );
     } else {
       selectedPayment = newSelectedPayment;
       if (newSelectedPayment == SelectedPayment.PayInStore) {
@@ -358,43 +381,46 @@ class CheckoutViewModel extends StandardScreenViewModel {
   }
 
   void onAddCupom(BuildContext context) {
-    canTapBackground = true;
-    widgetForm = AddCupomModal(
-      cupomController: cupomController,
-      onAddCupom: () {
-        pageStatus = PageStatus.LOADING;
-        notifyListeners();
+    addOverlayWidget(
+      AddCupomModal(
+        cupomController: cupomController,
+        onAddCupom: () {
+          pageStatus = PageStatus.LOADING;
+          notifyListeners();
 
-        checkoutRepo
-            .validateCoupon(context, cupomController.text, court.store!.idStore,
-                startingHour.hour, endingHour.hour, date)
-            .then((response) {
-          if (response.responseStatus == NetworkResponseStatus.success) {
-            Map<String, dynamic> responseBody = json.decode(
-              response.responseBody!,
-            );
-            appliedCoupon = CouponUser.fromJson(responseBody);
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          } else {
-            modalMessage = SFModalMessage(
-              title: response.responseTitle!,
-              onTap: () {
-                onAddCupom(context);
-              },
-              isHappy: response.responseStatus == NetworkResponseStatus.alert,
-            );
-            pageStatus = PageStatus.ERROR;
-            notifyListeners();
-          }
-        });
-      },
-      onReturn: () {
-        canTapBackground = false;
-        closeModal();
-      },
+          checkoutRepo
+              .validateCoupon(
+                  context,
+                  cupomController.text,
+                  court.store!.idStore,
+                  startingHour.hour,
+                  endingHour.hour,
+                  date)
+              .then((response) {
+            if (response.responseStatus == NetworkResponseStatus.success) {
+              Map<String, dynamic> responseBody = json.decode(
+                response.responseBody!,
+              );
+              appliedCoupon = CouponUser.fromJson(responseBody);
+              pageStatus = PageStatus.OK;
+              notifyListeners();
+            } else {
+              modalMessage = SFModalMessage(
+                title: response.responseTitle!,
+                onTap: () {
+                  onAddCupom(context);
+                },
+                isHappy: response.responseStatus == NetworkResponseStatus.alert,
+              );
+              pageStatus = PageStatus.ERROR;
+              notifyListeners();
+            }
+          });
+        },
+        onReturn: () {
+          removeLastOverlay();
+        },
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 }

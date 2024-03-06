@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
+import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/Authentication/EmailConfirmation/Repository/EmailConfirmationRepo.dart';
 
@@ -25,7 +28,7 @@ class EmailConfirmationViewModel extends StandardScreenViewModel {
         modalMessage = SFModalMessage(
           title: response.responseTitle!,
           onTap: () {
-            Navigator.pushNamed(context, '/login_signup');
+            goToLoginSignup(context);
           },
           isHappy: response.responseStatus != NetworkResponseStatus.error,
         );
@@ -36,6 +39,13 @@ class EmailConfirmationViewModel extends StandardScreenViewModel {
   }
 
   void goToLoginSignup(BuildContext context) {
-    Navigator.pushNamed(context, '/login_signup');
+    Navigator.pushNamed(
+        context,
+        Provider.of<EnvironmentProvider>(context, listen: false)
+                    .environment
+                    .product ==
+                Product.Sandfriends
+            ? '/login_signup'
+            : "/");
   }
 }

@@ -8,7 +8,7 @@ import '../../../../Common/Model/Gender.dart';
 import '../../../../Common/Model/User/Player_old.dart';
 import '../../../../Common/Model/Sport.dart';
 import '../../../../Common/Model/User/UserStore.dart';
-import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';

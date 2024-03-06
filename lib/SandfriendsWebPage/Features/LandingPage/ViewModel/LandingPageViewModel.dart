@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Utils/PageStatus.dart';
 import 'package:sandfriends/Sandfriends/Features/MatchSearch/ViewModel/MatchSearchViewModel.dart';
+import 'package:sandfriends/Sandfriends/Features/Onboarding/View/OnboardingModal.dart';
+import 'package:sandfriends/Sandfriends/Features/Onboarding/View/OnboardingScreen.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 
 import '../../../../Common/Managers/LocalStorage/LocalStorageManager.dart';
 import '../../../../Common/Model/User/UserComplete.dart';
-import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Sandfriends/Features/Authentication/LoadLogin/Repository/LoadLoginRepo.dart';
 import '../../../../Sandfriends/Features/Authentication/LoadLogin/ViewModel/LoadLoginViewModel.dart';
+import '../../Authentication/ProfileOverlay/View/ProfileOverlay.dart';
 
 class LandingPageViewModel extends MatchSearchViewModel {
   final loadLoginRepo = LoadLoginRepo();
@@ -20,7 +23,7 @@ class LandingPageViewModel extends MatchSearchViewModel {
     notifyListeners();
     String? accessToken = await LocalStorageManager().getAccessToken(context);
 
-    loadLoginRepo.validateLogin(context, accessToken).then((response) {
+    loadLoginRepo.validateLogin(context, accessToken, false).then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
@@ -37,6 +40,18 @@ class LandingPageViewModel extends MatchSearchViewModel {
           UserComplete loggedUser = UserComplete.fromJson(
             responseUser,
           );
+          Provider.of<UserProvider>(context, listen: false).user = loggedUser;
+
+          if (loggedUser.firstName == null) {
+            closeModal();
+            addOverlayWidget(
+              OnboardingModal(
+                parentViewModel: this,
+              ),
+            );
+
+            return;
+          }
         }
         Provider.of<CategoriesProvider>(context, listen: false).setSessionSport(
           sport: Provider.of<UserProvider>(context, listen: false)

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../../../Common/Components/SFDropDown.dart';
 import '../../../../../Common/Model/Hour.dart';
 import '../../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
-import '../../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../../../../Common/Utils/SFDateTime.dart';
 import '../../../Menu/ViewModel/StoreProvider.dart';

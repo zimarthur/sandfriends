@@ -52,7 +52,7 @@ class _CalendarModalState extends State<CalendarModal> {
             padding: EdgeInsets.all(width * 0.03),
             child: DatePicker(
               allowPastDates: false,
-              multiDate: true,
+              multiDate: widget.allowMultiDates,
               initialDates: modalDateTimes,
               onMultiDateSelected: (dates) {
                 setState(() {

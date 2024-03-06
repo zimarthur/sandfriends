@@ -15,7 +15,7 @@ class LocalStorageManager {
     LocalStorageKeys.LastNotificationId: "LastNotificationId",
   };
 
-  void storeAccessToken(BuildContext context, String accessToken) {
+  void storeAccessToken(BuildContext context, String? accessToken) {
     localStorage.setValue(
         buildKey(context, keys[LocalStorageKeys.AccessToken]!), accessToken);
   }

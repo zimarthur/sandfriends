@@ -226,7 +226,8 @@ class _LoginSignupWidgetState extends State<LoginSignupWidget> {
                                       width: 12,
                                     ),
                                     SvgPicture.asset(
-                                        r"assets/icon/google_logo.svg")
+                                      r"assets/icon/google_logo.svg",
+                                    )
                                   ],
                                 ),
                               ),

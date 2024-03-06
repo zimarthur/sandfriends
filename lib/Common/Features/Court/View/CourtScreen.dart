@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Common/Features/Court/View/Web/CourtWidgetWeb.dart';
 import 'package:sandfriends/Common/Model/HourPrice/HourPriceUser.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
@@ -12,6 +11,7 @@ import '../../../StandardScreen/StandardScreen.dart';
 import '../Model/CourtAvailableHours.dart';
 import '../ViewModel/CourtViewModel.dart';
 import 'Mobile/CourtWidgetMobile.dart';
+import 'Web/CourtWidgetWeb.dart';
 
 class CourtScreen extends StatefulWidget {
   final String storeUrl;
@@ -76,7 +76,6 @@ class _CourtScreenState extends State<CourtScreen> {
           return StandardScreen(
             viewModel: viewModel,
             enableToolbar: false,
-            background: secondaryBack,
             child: CourtWidgetMobile(
               viewModel: viewModel,
             ),

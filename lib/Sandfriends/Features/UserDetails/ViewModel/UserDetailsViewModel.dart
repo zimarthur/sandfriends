@@ -14,7 +14,7 @@ import '../../../../Common/Model/Gender.dart';
 import '../../../../Common/Model/Rank.dart';
 import '../../../../Common/Model/SidePreference.dart';
 import '../../../../Common/Model/Sport.dart';
-import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
@@ -37,12 +37,18 @@ class UserDetailsViewModel extends StandardScreenViewModel {
 
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController phoneNumberController =
-      MaskedTextController(mask: '(00) 00000-00000');
-  final TextEditingController birthdayController =
-      MaskedTextController(mask: '00/00/0000');
-  final TextEditingController heightController =
-      MaskedTextController(mask: '0.00');
+  final TextEditingController phoneNumberController = MaskedTextController(
+    mask: '(00) 00000-00000',
+    cursorBehavior: CursorBehaviour.end,
+  );
+  final TextEditingController birthdayController = MaskedTextController(
+    mask: '00/00/0000',
+    cursorBehavior: CursorBehaviour.end,
+  );
+  final TextEditingController heightController = MaskedTextController(
+    mask: '0.00',
+    cursorBehavior: CursorBehaviour.end,
+  );
   String? imagePicker;
   bool noImage = false;
 

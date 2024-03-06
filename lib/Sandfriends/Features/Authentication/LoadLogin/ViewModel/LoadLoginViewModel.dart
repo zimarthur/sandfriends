@@ -12,7 +12,7 @@ import '../../../../../Common/Model/Sport.dart';
 import '../../../../../Common/Model/Gender.dart';
 import '../../../../../Common/Model/Rank.dart';
 import '../../../../../Common/Model/SidePreference.dart';
-import '../../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Providers/UserProvider/UserProvider.dart';
 import '../Repository/LoadLoginRepo.dart';
 
@@ -25,7 +25,9 @@ class LoadLoginViewModel extends ChangeNotifier {
       if (accessToken == null) {
         goToLoginSignup(context);
       } else {
-        loadLoginRepo.validateLogin(context, accessToken).then((response) {
+        loadLoginRepo
+            .validateLogin(context, accessToken, true)
+            .then((response) {
           if (response.responseStatus == NetworkResponseStatus.success) {
             receiveLoginResponse(context, response.responseBody!);
           } else {

@@ -11,7 +11,7 @@ import '../../../../Common/Components/Modal/CitySelectorModal/CitySelectorModal.
 import '../../../../Common/Model/Store/StoreUser.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Model/City.dart';
-import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
