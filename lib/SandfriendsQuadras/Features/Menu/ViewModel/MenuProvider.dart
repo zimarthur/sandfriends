@@ -33,7 +33,10 @@ import 'StoreProvider.dart';
 class MenuProvider extends StandardScreenViewModel {
   final loginRepo = LoginRepo();
 
+  @override
   void onTapReturn(BuildContext context) {
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .clearOverlays();
     quickLinkHome(context);
   }
 
@@ -54,6 +57,8 @@ class MenuProvider extends StandardScreenViewModel {
       String? storedToken = await LocalStorageManager().getAccessToken(context);
       if (storedToken != null) {
         loginRepo.validateToken(context, storedToken).then((response) async {
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setPageStatusOk();
           if (response.responseStatus == NetworkResponseStatus.success) {
             try {
               Provider.of<StoreProvider>(context, listen: false)
@@ -79,8 +84,6 @@ class MenuProvider extends StandardScreenViewModel {
           } else {
             Navigator.pushNamed(context, "/login");
           }
-          Provider.of<StandardScreenViewModel>(context, listen: false)
-              .setPageStatusOk();
         });
       } else {
         Navigator.pushNamed(context, "/login");
@@ -111,13 +114,18 @@ class MenuProvider extends StandardScreenViewModel {
   }
 
   void setMessageModalFromResponse(
-      BuildContext context, NetworkResponse response) {
+      BuildContext context, NetworkResponse response,
+      {VoidCallback? onTap}) {
     Provider.of<StandardScreenViewModel>(context, listen: false)
         .addModalMessage(
       SFModalMessage(
         title: response.responseTitle!,
         description: response.responseDescription,
-        onTap: () {},
+        onTap: () {
+          if (onTap != null) {
+            onTap();
+          }
+        },
         isHappy: response.responseStatus == NetworkResponseStatus.alert,
       ),
     );
@@ -315,7 +323,9 @@ class MenuProvider extends StandardScreenViewModel {
     if (drawerItem.logout) {
       logout(context);
     }
-    Scaffold.of(context).closeEndDrawer();
+    try {
+      Scaffold.of(context).closeEndDrawer();
+    } catch (e) {}
     notifyListeners();
   }
 
@@ -332,7 +342,8 @@ class MenuProvider extends StandardScreenViewModel {
 
   void quickLinkBrand(BuildContext context) {
     DrawerItem? drawer = permissionsDrawerItems
-        .firstWhereOrNull((tab) => tab.title == "Meu Perfil");
+        .firstWhereOrNull((tab) => tab.title == "Meu perfil");
+
     if (drawer != null) {
       onTabClick(
         drawer,

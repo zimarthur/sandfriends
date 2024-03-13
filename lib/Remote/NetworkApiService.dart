@@ -14,12 +14,13 @@ class NetworkApiService {
     String? completeUrl,
   }) async {
     try {
-      final response = await http
-          .get(Uri.parse(completeUrl ?? getCompleteUrl(context, endPoint)));
+      String uri = completeUrl ?? getCompleteUrl(context, endPoint);
+      print(uri);
+      final response = await http.get(Uri.parse(uri));
       return returnResponse(
         response,
       );
-    } on SocketException {
+    } on SocketException catch (e) {
       return NetworkResponse(
         responseStatus: NetworkResponseStatus.error,
         responseTitle: "Ops, você está sem acesso à internet",
@@ -65,6 +66,9 @@ class NetworkApiService {
   }
 
   NetworkResponse returnResponse(http.Response response) {
+    print("RESPONSE");
+    print("statusCode");
+
     String statusCode = response.statusCode.toString();
     Map<String, dynamic>? responseBody;
     try {
@@ -73,10 +77,6 @@ class NetworkApiService {
       );
     } catch (e) {}
 
-    String? title =
-        responseBody == null ? response.body : responseBody['Title'];
-    String? description =
-        responseBody == null ? null : responseBody['Description'];
     print(statusCode);
     print(response.body);
 
@@ -87,6 +87,10 @@ class NetworkApiService {
           responseBody: response.body,
         );
       }
+      String? title =
+          responseBody == null ? response.body : responseBody['Title'];
+      String? description =
+          responseBody == null ? null : responseBody['Description'];
       if (statusCode == "231") {
         return NetworkResponse(
           responseStatus: NetworkResponseStatus.alert,

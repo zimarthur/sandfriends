@@ -201,8 +201,10 @@ class RewardsViewModel extends ChangeNotifier {
         rewardItems: possibleRewards,
         onReturn: () =>
             Provider.of<StandardScreenViewModel>(context, listen: false)
-                .closeModal(),
+                .removeLastOverlay(),
         onTapRewardItem: (rewardItem) {
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setLoading();
           rewardsRepo
               .userRewardSelected(
                   context,
@@ -212,7 +214,13 @@ class RewardsViewModel extends ChangeNotifier {
                   rewardItem.idRewardItem)
               .then((response) {
             Provider.of<MenuProvider>(context, listen: false)
-                .setMessageModalFromResponse(context, response);
+                .setMessageModalFromResponse(
+              context,
+              response,
+              onTap: () =>
+                  Provider.of<StandardScreenViewModel>(context, listen: false)
+                      .clearOverlays(),
+            );
           });
         },
       ),

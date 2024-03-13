@@ -43,6 +43,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   : null,
               childWeb: MenuWidgetWeb(viewModel: viewModel),
               child: MenuWidgetMobile(viewModel: viewModel),
+              customOnTapReturn: () => viewModel.onTapReturn(context),
             ),
           );
         },

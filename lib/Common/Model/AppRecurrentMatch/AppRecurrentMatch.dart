@@ -7,7 +7,7 @@ abstract class AppRecurrentMatch {
   final int idRecurrentMatch;
   final DateTime creationDate;
   final DateTime lastPaymentDate;
-  final DateTime validUntil;
+  final DateTime? validUntil;
   final int weekday;
   final Hour timeBegin;
   final Hour timeEnd;
@@ -43,6 +43,6 @@ abstract class AppRecurrentMatch {
   double get matchCost => currentMonthPrice / nextRecurrentMatches.length;
 
   bool get isPaymentExpired {
-    return DateTime.now().isAfter(validUntil);
+    return validUntil == null ? false : DateTime.now().isAfter(validUntil!);
   }
 }

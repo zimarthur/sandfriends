@@ -121,6 +121,8 @@ class EmployeeInfoViewModel extends ChangeNotifier {
       employeeEmail,
     )
         .then((response) {
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
       if (response.responseStatus == NetworkResponseStatus.success) {
         Provider.of<StoreProvider>(context, listen: false)
             .setEmployeesFromResponse(context, response.responseBody!);
@@ -129,7 +131,10 @@ class EmployeeInfoViewModel extends ChangeNotifier {
             .addModalMessage(
           SFModalMessage(
             title: "Membro adicionado!",
-            onTap: () {},
+            onTap: () {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .clearOverlays();
+            },
             isHappy: true,
           ),
         );
@@ -168,7 +173,10 @@ class EmployeeInfoViewModel extends ChangeNotifier {
             .addModalMessage(
           SFModalMessage(
             title: "Sua equipe foi atualizada!",
-            onTap: () {},
+            onTap: () {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .clearOverlays();
+            },
             isHappy: true,
           ),
         );
@@ -207,7 +215,10 @@ class EmployeeInfoViewModel extends ChangeNotifier {
             .addModalMessage(
           SFModalMessage(
             title: "Seu nome foi atualizado!",
-            onTap: () {},
+            onTap: () {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .clearOverlays();
+            },
             isHappy: true,
           ),
         );
@@ -244,7 +255,10 @@ class EmployeeInfoViewModel extends ChangeNotifier {
             .addModalMessage(
           SFModalMessage(
             title: "Sua equipe foi atualizada!",
-            onTap: () {},
+            onTap: () {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .clearOverlays();
+            },
             isHappy: true,
           ),
         );

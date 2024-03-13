@@ -172,7 +172,10 @@ class CouponsViewModel extends ChangeNotifier {
             .addModalMessage(
           SFModalMessage(
             title: "Cupom atualizado!",
-            onTap: () {},
+            onTap: () {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .clearOverlays();
+            },
             isHappy: true,
           ),
         );
@@ -218,7 +221,10 @@ class CouponsViewModel extends ChangeNotifier {
             .addModalMessage(
           SFModalMessage(
             title: "Cupom adicionado!",
-            onTap: () {},
+            onTap: () {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .clearOverlays();
+            },
             isHappy: true,
           ),
         );

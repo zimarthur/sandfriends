@@ -42,9 +42,9 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
   DateTime liveDatetime = DateTime.now();
 
   String? get timeToExpirePayment {
-    if (liveDatetime.isAfter(widget.recurrentMatch.validUntil)) return null;
+    if (liveDatetime.isAfter(widget.recurrentMatch.validUntil!)) return null;
     int difference =
-        widget.recurrentMatch.validUntil.difference(DateTime.now()).inSeconds;
+        widget.recurrentMatch.validUntil!.difference(DateTime.now()).inSeconds;
     return "${(difference ~/ 60).toString().padLeft(2, '0')}:${(difference % 60).toString().padLeft(2, '0')}";
   }
 
@@ -208,7 +208,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                         ),
                                         areInTheSameDay(
                                                 widget
-                                                    .recurrentMatch.validUntil,
+                                                    .recurrentMatch.validUntil!,
                                                 widget.recurrentMatch
                                                     .creationDate)
                                             ? widget.expanded
@@ -243,14 +243,14 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                                     DateFormat("dd/MM/yy")
                                                         .format(
                                                       widget.recurrentMatch
-                                                          .validUntil,
+                                                          .validUntil!,
                                                     ),
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w500,
                                                       color: widget
                                                                   .recurrentMatch
-                                                                  .validUntil
+                                                                  .validUntil!
                                                                   .difference(
                                                                       DateTime
                                                                           .now())
@@ -530,7 +530,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
             widget.expanded
                 ? Column(
                     children: [
-                      if (areInTheSameMonth(widget.recurrentMatch.validUntil,
+                      if (areInTheSameMonth(widget.recurrentMatch.validUntil!,
                               DateTime.now()) &&
                           widget.recurrentMatch.nextRecurrentMatches.first
                                   .paymentStatus ==

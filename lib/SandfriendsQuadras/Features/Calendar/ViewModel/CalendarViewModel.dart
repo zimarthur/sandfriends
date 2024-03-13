@@ -183,6 +183,8 @@ class CalendarViewModel extends ChangeNotifier {
                   .loggedAccessToken,
               newSelectedDay)
           .then((response) {
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
         if (response.responseStatus == NetworkResponseStatus.success) {
           Map<String, dynamic> responseBody = json.decode(
             response.responseBody!,

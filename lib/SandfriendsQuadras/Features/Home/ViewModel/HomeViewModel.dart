@@ -274,7 +274,7 @@ class HomeViewModel extends ChangeNotifier {
     return Provider.of<StoreProvider>(context, listen: false)
             .store!
             .photos
-            .length >=
+            .length >
         2;
   }
 

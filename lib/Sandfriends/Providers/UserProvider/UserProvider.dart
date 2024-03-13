@@ -142,7 +142,7 @@ class UserProvider extends ChangeNotifier {
     }).toList();
     filteredList.sort(
       (a, b) {
-        return a.validUntil.compareTo(b.validUntil);
+        return a.validUntil!.compareTo(b.validUntil!);
       },
     );
     return _recurrentMatches;

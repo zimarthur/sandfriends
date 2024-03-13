@@ -207,8 +207,6 @@ class SettingsViewModel extends ChangeNotifier {
   }
 
   Future setStoreAvatar(BuildContext context) async {
-    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
-
     final image = await selectImage(context, 1);
 
     if (image != null) {
@@ -220,8 +218,6 @@ class SettingsViewModel extends ChangeNotifier {
   }
 
   Future addStorePhoto(BuildContext context) async {
-    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
-
     final image = await selectImage(context, 1.43);
 
     if (image != null) {

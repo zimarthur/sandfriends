@@ -45,9 +45,17 @@
             "args": [
                 "--flavor",
                 "quadrasDev",
-                "--target",
-                "lib/SandfriendsQuadras/main_dev.dart",
+                // "--target",
+                // "lib/Sandfriends/main_dev.dart",
             ]
+            // "type": "dart",
+            // "program": "lib/SandfriendsQuadras/main_dev.dart",
+            // "args": [
+            //     "--flavor",
+            //     "quadrasDev",
+            //     "--target",
+            //     "lib/SandfriendsQuadras/main_dev.dart",
+            // ]
         },
         {
             "name": "Quadras Prod",
@@ -79,8 +87,8 @@
             "type": "dart",
             "program": "lib/SandfriendsWebPage/main_dev.dart",
             "args": [
-                // "--flavor",
-                // "webPageDev",
+                "--flavor",
+                "webPageDev",
                 "--target",
                 "lib/SandfriendsWebPage/main_dev.dart",
             ]

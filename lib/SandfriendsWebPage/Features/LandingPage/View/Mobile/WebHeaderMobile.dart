@@ -26,50 +26,51 @@ class WebHeaderMobile extends StatelessWidget {
           Expanded(
             child: Container(),
           ),
-          PopupMenuButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(defaultBorderRadius),
-            ),
-            tooltip: "",
-            surfaceTintColor: secondaryPaper,
-            onSelected: (sport) {
-              Provider.of<CategoriesProvider>(context, listen: false)
-                  .setSessionSport(sport: sport);
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-              for (var sport
-                  in Provider.of<CategoriesProvider>(context, listen: false)
-                      .sports)
-                PopupMenuItem(
-                  value: sport,
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        "assets/icon/sport_icon_${sport.idSport}.svg",
-                        height: 20,
-                      ),
-                      const SizedBox(
-                        width: defaultPadding,
-                      ),
-                      Text(
-                        sport.description,
-                        style: TextStyle(
-                          color: textDarkGrey,
+          if (Provider.of<CategoriesProvider>(context).sessionSport != null)
+            PopupMenuButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(defaultBorderRadius),
+              ),
+              tooltip: "",
+              surfaceTintColor: secondaryPaper,
+              onSelected: (sport) {
+                Provider.of<CategoriesProvider>(context, listen: false)
+                    .setSessionSport(sport: sport);
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                for (var sport
+                    in Provider.of<CategoriesProvider>(context, listen: false)
+                        .sports)
+                  PopupMenuItem(
+                    value: sport,
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          "assets/icon/sport_icon_${sport.idSport}.svg",
+                          height: 20,
                         ),
-                      ),
-                    ],
+                        const SizedBox(
+                          width: defaultPadding,
+                        ),
+                        Text(
+                          sport.description,
+                          style: TextStyle(
+                            color: textDarkGrey,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+              ],
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: defaultPadding, vertical: defaultPadding / 2),
+                child: SvgPicture.asset(
+                  "assets/icon/sport_icon_${Provider.of<CategoriesProvider>(context).sessionSport!.idSport}.svg",
+                  height: 25,
                 ),
-            ],
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                  horizontal: defaultPadding, vertical: defaultPadding / 2),
-              child: SvgPicture.asset(
-                "assets/icon/sport_icon_${Provider.of<CategoriesProvider>(context).sessionSport!.idSport}.svg",
-                height: 25,
               ),
             ),
-          ),
           SizedBox(
             width: defaultPadding / 2,
           ),

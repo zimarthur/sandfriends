@@ -56,49 +56,52 @@ class _HelpScreenState extends State<HelpScreen> {
                 const SizedBox(
                   height: 2 * defaultPadding,
                 ),
-                const Text(
-                  "Perguntas frequentes",
-                  style: TextStyle(
-                    color: textBlack,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-                const SizedBox(
-                  height: 2 * defaultPadding,
-                ),
                 Expanded(
-                    child: ListView.builder(
-                  itemCount: viewModel.faqItems.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        ExpansionTile(
-                          title: Text(
-                            viewModel.faqItems[index].question,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: textBlack,
-                            ),
-                          ),
-                          backgroundColor: secondaryPaper,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(defaultBorderRadius)),
-                          childrenPadding: const EdgeInsets.all(defaultPadding),
-                          children: [
-                            ListTile(
-                              title: Text(viewModel.faqItems[index].answer),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: defaultPadding,
-                        )
-                      ],
-                    );
-                  },
-                )),
+                  child: Container(),
+                ),
+                // const Text(
+                //   "Perguntas frequentes",
+                //   style: TextStyle(
+                //     color: textBlack,
+                //     fontSize: 22,
+                //     fontWeight: FontWeight.w300,
+                //   ),
+                // ),
+                // const SizedBox(
+                //   height: 2 * defaultPadding,
+                // ),
+                // Expanded(
+                //     child: ListView.builder(
+                //   itemCount: viewModel.faqItems.length,
+                //   itemBuilder: (context, index) {
+                //     return Column(
+                //       children: [
+                //         ExpansionTile(
+                //           title: Text(
+                //             viewModel.faqItems[index].question,
+                //             style: const TextStyle(
+                //               fontWeight: FontWeight.bold,
+                //               color: textBlack,
+                //             ),
+                //           ),
+                //           backgroundColor: secondaryPaper,
+                //           shape: RoundedRectangleBorder(
+                //               borderRadius:
+                //                   BorderRadius.circular(defaultBorderRadius)),
+                //           childrenPadding: const EdgeInsets.all(defaultPadding),
+                //           children: [
+                //             ListTile(
+                //               title: Text(viewModel.faqItems[index].answer),
+                //             )
+                //           ],
+                //         ),
+                //         const SizedBox(
+                //           height: defaultPadding,
+                //         )
+                //       ],
+                //     );
+                //   },
+                // )),
               ],
             ),
           );

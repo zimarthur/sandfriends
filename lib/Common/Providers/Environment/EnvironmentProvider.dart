@@ -7,7 +7,10 @@ import 'package:sandfriends/Remote/Url.dart';
 
 class EnvironmentProvider extends ChangeNotifier {
   late Environment environment;
-  EnvironmentProvider(Product product, Flavor flavor) {
+  EnvironmentProvider(
+    Product product,
+    Flavor flavor,
+  ) {
     environment =
         Environment(product: product, flavor: flavor, device: currentDevice);
     notifyListeners();

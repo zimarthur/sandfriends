@@ -44,6 +44,7 @@ class CreateAccountEmployeeViewModel extends ChangeNotifier {
         storeName = responseBody["StoreName"];
         Provider.of<StandardScreenViewModel>(context, listen: false)
             .setPageStatusOk();
+        notifyListeners();
       } else {
         Provider.of<StandardScreenViewModel>(context, listen: false)
             .addModalMessage(

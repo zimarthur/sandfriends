@@ -61,6 +61,8 @@ class LoginViewModel extends ChangeNotifier {
     String? storedToken = await LocalStorageManager().getAccessToken(context);
     if (storedToken != null && storedToken.isNotEmpty) {
       loginRepo.validateToken(context, storedToken).then((response) {
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
         if (response.responseStatus == NetworkResponseStatus.success) {
           Provider.of<StoreProvider>(context, listen: false)
               .setLoginResponse(context, response.responseBody!, keepConnected);
@@ -94,11 +96,11 @@ class LoginViewModel extends ChangeNotifier {
         notificationsConfig,
       )
           .then((response) {
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
         if (response.responseStatus == NetworkResponseStatus.success) {
           Provider.of<StoreProvider>(context, listen: false)
               .setLoginResponse(context, response.responseBody!, keepConnected);
-          Provider.of<StandardScreenViewModel>(context, listen: false)
-              .setPageStatusOk();
           Navigator.pushNamed(context, '/home');
         } else {
           Provider.of<StandardScreenViewModel>(context, listen: false)

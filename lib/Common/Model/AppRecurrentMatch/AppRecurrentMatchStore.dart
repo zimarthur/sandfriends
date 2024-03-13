@@ -62,9 +62,11 @@ class AppRecurrentMatchStore extends AppRecurrentMatch {
       lastPaymentDate: DateFormat("dd/MM/yyyy").parse(
         json["LastPaymentDate"],
       ),
-      validUntil: DateFormat("dd/MM/yyyy").parse(
-        json["ValidUntil"],
-      ),
+      validUntil: json["ValidUntil"] == null
+          ? null
+          : DateFormat("dd/MM/yyyy").parse(
+              json["ValidUntil"],
+            ),
       weekday: json["Weekday"],
       timeBegin:
           referenceHours.firstWhere((hour) => hour.hour == json["TimeBegin"]),

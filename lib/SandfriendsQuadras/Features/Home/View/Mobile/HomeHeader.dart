@@ -25,7 +25,12 @@ class _HomeHeaderState extends State<HomeHeader> {
 
   double buttonSize = 20;
   @override
-  void initState() async {
+  void initState() {
+    getPallete();
+    super.initState();
+  }
+
+  void getPallete() {
     PalleteGeneratorManager()
         .getPallete(
       context,
@@ -33,16 +38,16 @@ class _HomeHeaderState extends State<HomeHeader> {
     )
         .then((colors) {
       if (mounted && colors != null) {
-        if (colors.dominantColor != null) {
-          dominantColor = colors.dominantColor!;
-        }
-        if (colors.secondaryColor != null) {
-          secondColor = colors.secondaryColor!;
-        }
+        setState(() {
+          if (colors.dominantColor != null) {
+            dominantColor = colors.dominantColor!;
+          }
+          if (colors.secondaryColor != null) {
+            secondColor = colors.secondaryColor!;
+          }
+        });
       }
     });
-
-    super.initState();
   }
 
   @override

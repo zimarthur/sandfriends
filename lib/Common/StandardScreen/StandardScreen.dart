@@ -24,6 +24,7 @@ class StandardScreen extends StatefulWidget {
   final bool enableToolbar;
   Widget? drawer;
   Key? scaffoldKey;
+  VoidCallback? customOnTapReturn;
 
   StandardScreen({
     Key? key,
@@ -36,6 +37,7 @@ class StandardScreen extends StatefulWidget {
     this.background,
     this.drawer,
     this.scaffoldKey,
+    this.customOnTapReturn,
   }) : super(key: key);
 
   @override
@@ -44,6 +46,15 @@ class StandardScreen extends StatefulWidget {
 
 class _StandardScreenState extends State<StandardScreen> {
   double horizontalDragStart = 0.0;
+  late VoidCallback onTapReturn;
+
+  @override
+  void initState() {
+    onTapReturn = widget.customOnTapReturn ??
+        () => Provider.of<StandardScreenViewModel>(context, listen: false)
+            .onTapReturn(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +66,7 @@ class _StandardScreenState extends State<StandardScreen> {
               .isIos
           ? null
           : () async {
-              Provider.of<StandardScreenViewModel>(context, listen: false)
-                  .onTapReturn(context);
+              onTapReturn();
               return false;
             },
       child: Scaffold(
@@ -85,8 +95,7 @@ class _StandardScreenState extends State<StandardScreen> {
                       Provider.of<EnvironmentProvider>(context, listen: false)
                           .environment
                           .isIos) {
-                    Provider.of<StandardScreenViewModel>(context, listen: false)
-                        .onTapReturn(context);
+                    onTapReturn();
                     horizontalDragStart = 0.0;
                   }
                 },
@@ -112,11 +121,7 @@ class _StandardScreenState extends State<StandardScreen> {
                             widget.enableToolbar
                                 ? SFToolbar(
                                     titleText: widget.titleText!,
-                                    onTapReturn: () =>
-                                        Provider.of<StandardScreenViewModel>(
-                                                context,
-                                                listen: false)
-                                            .onTapReturn(context),
+                                    onTapReturn: () => onTapReturn(),
                                     appBarType: widget.appBarType!,
                                     rightWidget: widget.rightWidget,
                                   )
@@ -181,10 +186,7 @@ class _StandardScreenState extends State<StandardScreen> {
                   child: Align(
                     alignment: Alignment.topRight,
                     child: Text(
-                      Provider.of<EnvironmentProvider>(context)
-                          .environment
-                          .flavor
-                          .flavorString,
+                      "${Provider.of<EnvironmentProvider>(context).environment.flavor.flavorString} 10",
                       style: const TextStyle(
                           fontSize: 12, backgroundColor: textWhite, color: red),
                     ),

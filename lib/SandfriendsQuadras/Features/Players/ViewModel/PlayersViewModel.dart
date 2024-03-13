@@ -203,7 +203,10 @@ class PlayersViewModel extends ChangeNotifier {
             .addModalMessage(
           SFModalMessage(
             title: "Jogador(a) adicionado(a)!",
-            onTap: () {},
+            onTap: () {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .removeLastOverlay();
+            },
             isHappy: true,
           ),
         );
@@ -238,7 +241,10 @@ class PlayersViewModel extends ChangeNotifier {
             .addModalMessage(
           SFModalMessage(
             title: "Jogador(a) atualizado(a)!",
-            onTap: () {},
+            onTap: () {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .removeLastOverlay();
+            },
             isHappy: true,
           ),
         );

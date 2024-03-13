@@ -100,16 +100,16 @@ class _AppState extends State<GenericApp> {
     );
     super.initState();
     if (!kIsWeb) {
-      _initURIHandler();
-      _incomingLinkHandler();
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        await FirebaseManager(
-          environment: environmentProvider.environment,
-        ).initialize(
-          messagingCallback: widget.handleNotification,
-        );
-        await LocalNotificationsManager().initialize(widget.handleNotification);
-      });
+      // _initURIHandler();
+      // _incomingLinkHandler();
+      // WidgetsBinding.instance.addPostFrameCallback((_) async {
+      //   await FirebaseManager(
+      //     environment: environmentProvider.environment,
+      //   ).initialize(
+      //     messagingCallback: widget.handleNotification,
+      //   );
+      //   await LocalNotificationsManager().initialize(widget.handleNotification);
+      // });
     }
   }
 

@@ -23,7 +23,7 @@ extension ProductString on Product {
       case Product.SandfriendsQuadras:
         return 'quadras';
       case Product.SandfriendsWebPage:
-        return '';
+        return 'app';
     }
   }
 }

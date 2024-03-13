@@ -145,9 +145,6 @@ class SandfriendsWebPageApp extends GenericApp {
       };
 
   @override
-  String? get initialRoute => "/quadras/its-dona-margarida";
-
-  @override
   Map<String, Widget Function(BuildContext p1)> get routes => {
         '/': (BuildContext context) => LandingPageScreen(),
         '/partidas': (BuildContext context) => const UserMatchesScreen(),

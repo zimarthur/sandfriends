@@ -340,8 +340,9 @@ class CourtViewModel extends CheckoutViewModel {
           Provider.of<UserProvider>(context, listen: false).user!.cpf!;
     }
 
-    notifyListeners();
     loadStoreOperationDays(context);
+    print("20");
+    notifyListeners();
   }
 
   void getUserInfo(BuildContext context) {
