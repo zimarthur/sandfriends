@@ -19,8 +19,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:uni_links/uni_links.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
 abstract class GenericApp extends StatefulWidget {
   final Flavor flavor;
   GenericApp({
@@ -35,6 +33,7 @@ abstract class GenericApp extends StatefulWidget {
   Map<String, Widget Function(BuildContext)> get routes;
   String get appTitle;
   String? initialRoute;
+  GlobalKey<NavigatorState>? navigationKey;
 
   @override
   State<GenericApp> createState() => _AppState();
@@ -99,17 +98,19 @@ class _AppState extends State<GenericApp> {
       widget.product,
       widget.flavor,
     );
-    _initURIHandler();
-    _incomingLinkHandler();
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((_) async {
-    //   await FirebaseManager(
-    //     environment: environmentProvider.environment,
-    //   ).initialize(
-    //     messagingCallback: widget.handleNotification,
-    //   );
-    //   await LocalNotificationsManager().initialize(widget.handleNotification);
-    // });
+    if (!kIsWeb) {
+      _initURIHandler();
+      _incomingLinkHandler();
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await FirebaseManager(
+          environment: environmentProvider.environment,
+        ).initialize(
+          messagingCallback: widget.handleNotification,
+        );
+        await LocalNotificationsManager().initialize(widget.handleNotification);
+      });
+    }
   }
 
   @override
@@ -125,24 +126,7 @@ class _AppState extends State<GenericApp> {
     ]);
 
     return MultiProvider(
-      providers:
-          // widget.product == Product.SandfriendsQuadras
-          //     ? [
-          //         ChangeNotifierProvider(
-          //           create: (_) => environmentProvider,
-          //         ),
-          //         ChangeNotifierProvider(
-          //           create: (_) => CategoriesProvider(),
-          //         ),
-          //         ChangeNotifierProvider(
-          //           create: (_) => MenuProvider(),
-          //         ),
-          //         ChangeNotifierProvider(
-          //           create: (_) => StoreProvider(),
-          //         ),
-          //       ]
-          //     :
-          [
+      providers: [
         ChangeNotifierProvider(
           create: (_) => environmentProvider,
         ),
@@ -193,7 +177,7 @@ class _AppState extends State<GenericApp> {
               TargetPlatform.android: CupertinoPageTransitionsBuilder(),
               TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
             })),
-        navigatorKey: navigatorKey,
+        //navigatorKey: widget.navigationKey,
         onGenerateRoute: widget.onGenerateRoute,
         routes: widget.routes,
         initialRoute: widget.initialRoute,

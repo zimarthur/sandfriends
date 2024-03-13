@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:uni_links/uni_links.dart';
 
 import '../Components/Modal/SFModalMessage.dart';
 import 'OverlayWidget.dart';
@@ -77,6 +79,7 @@ class StandardScreenViewModel extends ChangeNotifier {
   }
 
   void onTapReturn(BuildContext context) {
+    clearOverlays();
     Navigator.pop(context);
   }
 }

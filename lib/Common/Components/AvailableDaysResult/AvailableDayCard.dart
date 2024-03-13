@@ -2,10 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/AvailableDay.dart';
 import 'package:sandfriends/Common/Model/AvailableHour.dart';
 import 'package:sandfriends/Common/Model/AvailableStore.dart';
 import 'package:sandfriends/Common/Model/Store/StoreComplete.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
+import 'package:sandfriends/Common/Utils/Responsive.dart';
 import 'package:sandfriends/Common/Utils/SFDateTime.dart';
 
 import '../../../Common/Utils/Constants.dart';
@@ -71,7 +74,7 @@ class AvailableDayCard extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: availableDay.stores.length,
           itemBuilder: (context, index) {
-            return kIsWeb
+            return kIsWeb && !Responsive.isMobile(context)
                 ? AvailableStoreCardWeb(
                     availableStore: availableDay.stores[index],
                     selectedAvailableHour: selectedAvailableHour,

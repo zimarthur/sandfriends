@@ -1,13 +1,22 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../Remote/NetworkResponse.dart';
+import '../../../Sandfriends/Features/Authentication/LoadLogin/Repository/LoadLoginRepo.dart';
+import '../../../Sandfriends/Features/Home/Repository/HomeRepo.dart';
+import '../../../Sandfriends/Features/Onboarding/View/OnboardingModal.dart';
+import '../../../Sandfriends/Providers/UserProvider/UserProvider.dart';
+import '../../Managers/LocalStorage/LocalStorageManager.dart';
 import '../../Model/Gender.dart';
 import '../../Model/Hour.dart';
 import '../../Model/Rank.dart';
 import '../../Model/Region.dart';
 import '../../Model/SidePreference.dart';
 import '../../Model/Sport.dart';
+import '../../Model/User/UserComplete.dart';
+import '../../StandardScreen/StandardScreenViewModel.dart';
 import 'Repository/CategoriesProviderRepo.dart';
 
 class CategoriesProvider extends ChangeNotifier {
@@ -21,6 +30,13 @@ class CategoriesProvider extends ChangeNotifier {
 
   List<Region> regions = [];
   List<Region> availableRegions = [];
+
+  bool get isInitialized =>
+      hours.isNotEmpty &&
+      sports.isNotEmpty &&
+      genders.isNotEmpty &&
+      ranks.isNotEmpty &&
+      sidePreferences.isNotEmpty;
 
   Sport? sessionSport;
   void setSessionSport({Sport? sport}) {
@@ -109,7 +125,7 @@ class CategoriesProvider extends ChangeNotifier {
 
   void setRegions(Map<String, dynamic> response) {
     final responseAvailableLocations = response['States'];
-
+    regions.clear();
     for (var state in responseAvailableLocations) {
       regions.add(
         Region.fromJson(

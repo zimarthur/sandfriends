@@ -47,7 +47,7 @@ class NetworkApiService {
           )
           .timeout(
             const Duration(
-              seconds: 10,
+              seconds: 100,
             ),
           );
       return returnResponse(response);

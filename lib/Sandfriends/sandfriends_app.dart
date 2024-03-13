@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/generic_app.dart';
+import '../Common/Features/UserMatches/View/UserMatchesScreen.dart';
 import '../Common/Model/City.dart';
 import '../Common/Model/Court.dart';
 import '../Common/Model/Hour.dart';
@@ -18,7 +19,7 @@ import '../Common/Model/HourPrice/HourPriceUser.dart';
 import '../Common/Features/Court/View/CourtScreen.dart';
 import 'Features/Home/Model/HomeTabsEnum.dart';
 import 'Features/Home/View/HomeScreen.dart';
-import 'Features/Match/View/MatchScreen.dart';
+import '../Common/Features/Match/View/MatchScreen.dart';
 import 'Features/MatchSearch/View/MatchSearchScreen.dart';
 import 'Features/MatchSearchFilter/Model/CustomFilter.dart';
 import 'Features/MatchSearchFilter/View/MatchSearchFilterScreen.dart';
@@ -33,9 +34,8 @@ import 'Features/Rewards/View/RewardsScreen.dart';
 import 'Features/RewardsUser/View/RewardsUserScreen.dart';
 import 'Features/SearchType/View/SearchTypeScreen.dart';
 import 'Features/StoreSearch/View/StoreSearchScreen.dart';
-import 'Features/UserDetails/View/UserDetailsScreen.dart';
-import 'Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
-import 'Features/UserMatches/View/UserMatchesScreen.dart';
+import '../Common/Features/UserDetails/View/UserDetailsScreen.dart';
+import '../Common/Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
 
 class SandfriendsApp extends GenericApp {
   SandfriendsApp({
@@ -49,9 +49,12 @@ class SandfriendsApp extends GenericApp {
   Product get product => Product.Sandfriends;
 
   @override
+  GlobalKey<NavigatorState>? navigatorKey = GlobalKey<NavigatorState>();
+
+  @override
   Function(Uri uri) get handleLink => (uri) {
         if (uri.queryParameters['ct'] == "mtch") {
-          navigatorKey.currentState?.push(
+          navigatorKey!.currentState?.push(
             MaterialPageRoute(
               builder: (context) {
                 return LoadLoginScreen(
@@ -61,7 +64,7 @@ class SandfriendsApp extends GenericApp {
             ),
           );
         } else if (uri.queryParameters['ct'] == "emcf") {
-          navigatorKey.currentState?.push(
+          navigatorKey!.currentState?.push(
             MaterialPageRoute(
               builder: (context) {
                 return EmailConfirmationScreen(
@@ -71,7 +74,7 @@ class SandfriendsApp extends GenericApp {
             ),
           );
         } else if (uri.path.startsWith("/quadra")) {
-          navigatorKey.currentState?.push(
+          navigatorKey!.currentState?.push(
             MaterialPageRoute(
               builder: (context) {
                 return LoadLoginScreen(
@@ -97,7 +100,7 @@ class SandfriendsApp extends GenericApp {
 
   @override
   Route? Function(RouteSettings p1)? get onGenerateRoute => (settings) {
-        String match = "/match";
+        String match = "/partida";
         String matchSearch = "/match_search";
         String matchSearchFilter = "/match_search_filter";
         String recurrentMatchSearch = "/recurrent_match_search";

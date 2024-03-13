@@ -76,7 +76,10 @@ class _AvailableStoreCardState extends State<AvailableStoreCard> {
                       child: CachedNetworkImage(
                         imageUrl: Provider.of<EnvironmentProvider>(context,
                                 listen: false)
-                            .urlBuilder(widget.availableStore.store.logo!),
+                            .urlBuilder(
+                          widget.availableStore.store.logo!,
+                          isImage: true,
+                        ),
                         height: 82,
                         width: 82,
                         placeholder: (context, url) => SizedBox(

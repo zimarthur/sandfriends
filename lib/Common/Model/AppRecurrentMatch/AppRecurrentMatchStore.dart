@@ -16,9 +16,9 @@ class AppRecurrentMatchStore extends AppRecurrentMatch {
   bool blocked;
   String blockedReason;
 
-  List<AppMatchUser> _nextRecurrentMatches = [];
+  List<AppMatchStore> _nextRecurrentMatches = [];
   @override
-  List<AppMatchUser> get nextRecurrentMatches => _nextRecurrentMatches;
+  List<AppMatchStore> get nextRecurrentMatches => _nextRecurrentMatches;
 
   AppRecurrentMatchStore({
     required super.idRecurrentMatch,
@@ -44,7 +44,7 @@ class AppRecurrentMatchStore extends AppRecurrentMatch {
     List<Hour> referenceHours,
     List<Sport> referenceSports,
   ) {
-    List<AppMatch> nextRecurrentMatches = [];
+    List<AppMatchStore> nextRecurrentMatches = [];
     for (var match in json["NextRecurrentMatches"]) {
       nextRecurrentMatches.add(
         AppMatchStore.fromJson(
@@ -79,8 +79,7 @@ class AppRecurrentMatchStore extends AppRecurrentMatch {
       blocked: json["Blocked"] ?? false,
       blockedReason: json["BlockedReason"] ?? "",
     );
-    recurrentMatch._nextRecurrentMatches =
-        nextRecurrentMatches as List<AppMatchUser>;
+    recurrentMatch._nextRecurrentMatches = nextRecurrentMatches;
     return recurrentMatch;
   }
 
@@ -102,8 +101,11 @@ class AppRecurrentMatchStore extends AppRecurrentMatch {
       blockedReason: refMatch.blockedReason,
     );
     recurrentMatch._nextRecurrentMatches = refMatch.nextRecurrentMatches
-        .map((match) => AppMatchStore.copyWith(match as AppMatchStore))
-        .cast<AppMatchUser>()
+        .map(
+          (match) => AppMatchStore.copyWith(
+            match,
+          ),
+        )
         .toList();
     return recurrentMatch;
   }

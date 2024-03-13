@@ -15,12 +15,21 @@ import '../../../../../Common/Model/User/UserComplete.dart';
 import '../../../../../Remote/NetworkResponse.dart';
 import '../../../../../Sandfriends/Features/Authentication/CreateAccount/Repo/CreateAccountRepo.dart';
 import '../../../../../Sandfriends/Features/Authentication/Login/Repository/LoginRepo.dart';
+import '../../../../../Sandfriends/Features/Home/Repository/HomeRepo.dart';
 import '../../../../../Sandfriends/Providers/UserProvider/UserProvider.dart';
 import '../../../../../api/google_signin_api.dart';
 
 class ProfileOverlayViewModel extends ChangeNotifier {
   final loginRepo = LoginRepo();
+  final homeRepo = HomeRepo();
   final createAccountRepo = CreateAccountRepo();
+
+  late bool mustCloseWhenDone;
+  VoidCallback? close;
+  ProfileOverlayViewModel({
+    required this.mustCloseWhenDone,
+    this.close,
+  });
 
   EnumLoginSignupWidget currentWidget = EnumLoginSignupWidget.Login;
   PageStatus widgetStatus = PageStatus.OK;
@@ -43,7 +52,11 @@ class ProfileOverlayViewModel extends ChangeNotifier {
   }
 
   void goToLogin() {
-    currentWidget = EnumLoginSignupWidget.Login;
+    if (currentWidget == EnumLoginSignupWidget.Login) {
+      widgetStatus = PageStatus.OK;
+    } else {
+      currentWidget = EnumLoginSignupWidget.Login;
+    }
     notifyListeners();
   }
 
@@ -95,6 +108,8 @@ class ProfileOverlayViewModel extends ChangeNotifier {
   void onTapLogin(BuildContext context) {
     widgetStatus = PageStatus.LOADING;
     notifyListeners();
+    Provider.of<UserProvider>(context, listen: false)
+        .setHasSearchUserData(false);
     loginRepo
         .login(context, emailController.text, passwordController.text)
         .then((response) {
@@ -126,13 +141,38 @@ class ProfileOverlayViewModel extends ChangeNotifier {
             OnboardingModal(),
           );
         }
-        Provider.of<StandardScreenViewModel>(context, listen: false)
-            .removeLastOverlay();
+        getUserInfo(context);
       } else {
         messageTitle = response.responseTitle;
         messageDescription = response.responseDescription;
         widgetStatus = PageStatus.ERROR;
         notifyListeners();
+      }
+    });
+  }
+
+  void getUserInfo(BuildContext context) {
+    homeRepo
+        .getUserInfo(
+      context,
+      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      null,
+    )
+        .then((response) {
+      if (response.responseStatus == NetworkResponseStatus.success) {
+        Provider.of<UserProvider>(context, listen: false).clear();
+
+        Provider.of<UserProvider>(context, listen: false)
+            .receiveUserDataResponse(context, response.responseBody!);
+
+        //canTapBackground = true;
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
+      }
+      Provider.of<UserProvider>(context, listen: false)
+          .setHasSearchUserData(true);
+      if (mustCloseWhenDone) {
+        close!();
       }
     });
   }
@@ -144,24 +184,25 @@ class ProfileOverlayViewModel extends ChangeNotifier {
   }
 
   void onTapProfile(BuildContext context) {
-    Provider.of<StandardScreenViewModel>(context, listen: false)
-        .removeLastOverlay();
+    close!();
+    Navigator.pushNamed(context, '/jogador');
   }
 
   void onTapMatches(BuildContext context) {
-    Provider.of<StandardScreenViewModel>(context, listen: false)
-        .removeLastOverlay();
+    close!();
+
+    Navigator.pushNamed(context, '/partidas');
   }
 
   void onTapCallSupport(BuildContext context) {
-    Provider.of<StandardScreenViewModel>(context, listen: false)
-        .removeLastOverlay();
-    LinkOpenerManager().openLink(context, whatsAppLink);
+    close!();
+    LinkOpenerManager().openSandfriendsWhatsApp(
+      context,
+    );
   }
 
   void onTapCallLogout(BuildContext context) {
-    Provider.of<StandardScreenViewModel>(context, listen: false)
-        .removeLastOverlay();
+    close!();
     Provider.of<UserProvider>(context, listen: false)
         .logoutUserProvider(context);
   }

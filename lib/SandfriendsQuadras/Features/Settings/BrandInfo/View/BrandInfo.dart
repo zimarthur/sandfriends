@@ -204,7 +204,7 @@ class _BrandInfoState extends State<BrandInfo> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const Text(
-                          "(mín. 2)",
+                          "(mín. 3)",
                           style: TextStyle(color: textDarkGrey),
                         ),
                         const SizedBox(

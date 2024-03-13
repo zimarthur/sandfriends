@@ -23,7 +23,7 @@ class _CheckoutBottomToolbarDiscountState
   Widget build(BuildContext context) {
     bool hasAppliedCoupon = widget.viewModel.appliedCoupon != null;
     return InkWell(
-      onTap: () => widget.viewModel.onAddCupom(context),
+      onTap: () => widget.viewModel.setAddCupomModal(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

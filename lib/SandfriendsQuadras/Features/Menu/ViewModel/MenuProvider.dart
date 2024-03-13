@@ -30,20 +30,11 @@ import '../../Settings/View/Mobile/SettingsScreenMobile.dart';
 import '../Model/DrawerItem.dart';
 import 'StoreProvider.dart';
 
-class MenuProvider extends ChangeNotifier {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
-
+class MenuProvider extends StandardScreenViewModel {
   final loginRepo = LoginRepo();
 
   void onTapReturn(BuildContext context) {
     quickLinkHome(context);
-  }
-
-  void controlMenu() {
-    // if (!_scaffoldKey.currentState!.isDrawerOpen) {
-    _scaffoldKey.currentState!.openDrawer();
-    //}
   }
 
   void initHomeScreen(BuildContext context) {
@@ -324,7 +315,7 @@ class MenuProvider extends ChangeNotifier {
     if (drawerItem.logout) {
       logout(context);
     }
-    scaffoldKey.currentState!.closeEndDrawer();
+    Scaffold.of(context).closeEndDrawer();
     notifyListeners();
   }
 

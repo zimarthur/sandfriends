@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/Coupon/CouponUser.dart';
+import 'package:sandfriends/Common/Model/CreditCard/CreditCardValidator.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/View/AddCupomModal.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/View/CvvModal.dart';
@@ -18,6 +19,7 @@ import 'package:sandfriends/Common/Model/Hour.dart';
 import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import 'package:sandfriends/Common/Utils/Validators.dart';
 import 'package:sandfriends/Sandfriends/Features/NewCreditCard/View/NewCreditCardModal.dart';
+import 'package:sandfriends/SandfriendsWebPage/Features/Authentication/ProfileOverlay/View/ProfileOverlay.dart';
 
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Model/CouponUnited.dart';
@@ -32,6 +34,7 @@ class CheckoutViewModel extends ChangeNotifier {
   final checkoutRepo = CheckoutRepo();
 
   late Court court;
+  int? idStore;
   late List<HourPriceUser> hourPrices;
   late List<Hour> availableHours;
   late Sport sport;
@@ -42,8 +45,6 @@ class CheckoutViewModel extends ChangeNotifier {
   List<DateTime> matchDates = [];
 
   CouponUser? appliedCoupon;
-
-  String cvv = "";
 
   SelectedPayment selectedPayment = SelectedPayment.NotSelected;
   CreditCard? selectedCreditCard;
@@ -56,6 +57,7 @@ class CheckoutViewModel extends ChangeNotifier {
 
   final ScrollController scrollController = ScrollController();
   final FocusNode cpfFocus = FocusNode();
+  final FocusNode cvvFocus = FocusNode();
 
   String get matchPeriod {
     return "${startingHour.hourString} - ${endingHour.hourString}";
@@ -104,7 +106,7 @@ class CheckoutViewModel extends ChangeNotifier {
     bool receivedIsRecurrent,
     bool receivedIsRenovating,
   ) {
-    if (Provider.of<UserProvider>(context, listen: false).user!.cpf != null) {
+    if (Provider.of<UserProvider>(context, listen: false).user?.cpf != null) {
       cpfController.text =
           Provider.of<UserProvider>(context, listen: false).user!.cpf!;
     }
@@ -206,8 +208,10 @@ class CheckoutViewModel extends ChangeNotifier {
   void onSelectedCreditCard(
       BuildContext context, CreditCard newSelectedCreditCard) {
     selectedCreditCard = newSelectedCreditCard;
+
     Provider.of<StandardScreenViewModel>(context, listen: false)
-        .clearOverlays();
+        .removeLastOverlay();
+
     selectedPayment = SelectedPayment.CreditCard;
     notifyListeners();
   }
@@ -215,6 +219,7 @@ class CheckoutViewModel extends ChangeNotifier {
   void validateReservation(BuildContext context) {
     if (selectedPayment != SelectedPayment.NotSelected) {
       String? validationCpf = cpfValidator(cpfController.text, null);
+      String? validationCvv = validateCVV(cvvController.text);
       if (selectedPayment == SelectedPayment.Pix && validationCpf != null) {
         Provider.of<StandardScreenViewModel>(context, listen: false)
             .addModalMessage(
@@ -226,15 +231,16 @@ class CheckoutViewModel extends ChangeNotifier {
             isHappy: true,
           ),
         );
-      } else if (selectedPayment == SelectedPayment.CreditCard) {
+      } else if (selectedPayment == SelectedPayment.CreditCard &&
+          validationCvv != null) {
         Provider.of<StandardScreenViewModel>(context, listen: false)
-            .addOverlayWidget(
-          CvvModal(
-            selectedCreditCard: selectedCreditCard!,
-            onCvv: (receivedCvv) {
-              cvv = receivedCvv;
-              makeReservation(context);
+            .addModalMessage(
+          SFModalMessage(
+            title: validationCvv[0].toUpperCase() + validationCvv.substring(1),
+            onTap: () {
+              FocusScope.of(context).requestFocus(cvvFocus);
             },
+            isHappy: true,
           ),
         );
       } else {
@@ -280,7 +286,7 @@ class CheckoutViewModel extends ChangeNotifier {
       selectedPayment == SelectedPayment.CreditCard
           ? selectedCreditCard!.idCreditCard
           : null,
-      cvv,
+      cvvController.text,
     )
         .then((response) {
       if (selectedPayment == SelectedPayment.Pix &&
@@ -292,10 +298,16 @@ class CheckoutViewModel extends ChangeNotifier {
           SFModalMessage(
             title: response.responseTitle!,
             onTap: () {
-              Provider.of<StandardScreenViewModel>(context, listen: false)
-                  .clearOverlays();
               if (response.responseStatus == NetworkResponseStatus.alert) {
-                Navigator.pushNamed(context, '/home');
+                Navigator.pushNamed(
+                    context,
+                    Provider.of<EnvironmentProvider>(context, listen: false)
+                            .environment
+                            .isSandfriends
+                        ? '/home'
+                        : "/");
+                Provider.of<StandardScreenViewModel>(context, listen: false)
+                    .clearOverlays();
               }
             },
             buttonText: response.responseStatus == NetworkResponseStatus.alert
@@ -327,7 +339,7 @@ class CheckoutViewModel extends ChangeNotifier {
       selectedPayment == SelectedPayment.CreditCard
           ? selectedCreditCard!.idCreditCard
           : null,
-      cvv,
+      cvvController.text,
       isRenovating,
     )
         .then((response) {
@@ -356,6 +368,21 @@ class CheckoutViewModel extends ChangeNotifier {
     });
   }
 
+  void onTapLogin(BuildContext context) {
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      SizedBox(
+        width: MediaQuery.of(context).size.width * 0.7,
+        child: ProfileOverlay(
+          mustCloseWhenDone: true,
+          close: () =>
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .clearOverlays(),
+        ),
+      ),
+    );
+  }
+
   void pixModalResponse(BuildContext context, String response) {
     Map<String, dynamic> responseBody = json.decode(
       response,
@@ -367,59 +394,64 @@ class CheckoutViewModel extends ChangeNotifier {
         pixCode: responseBody["Pixcode"],
         isRecurrent: isRecurrent,
         onReturn: () {
+          Navigator.pushNamed(
+              context,
+              Provider.of<EnvironmentProvider>(context, listen: false)
+                      .environment
+                      .isSandfriends
+                  ? '/home'
+                  : "/");
           Provider.of<StandardScreenViewModel>(context, listen: false)
               .clearOverlays();
-          Navigator.pushNamed(context, '/home');
         },
       ),
     );
   }
 
-  void onAddCupom(BuildContext context) {
+  void setAddCupomModal(BuildContext context) {
     Provider.of<StandardScreenViewModel>(context, listen: false)
         .addOverlayWidget(
       AddCupomModal(
         cupomController: cupomController,
-        onAddCupom: () {
-          Provider.of<StandardScreenViewModel>(context, listen: false)
-            ..setLoading();
-          checkoutRepo
-              .validateCoupon(
-                  context,
-                  cupomController.text,
-                  court.store!.idStore,
-                  startingHour.hour,
-                  endingHour.hour,
-                  date)
-              .then((response) {
-            if (response.responseStatus == NetworkResponseStatus.success) {
-              Map<String, dynamic> responseBody = json.decode(
-                response.responseBody!,
-              );
-              appliedCoupon = CouponUser.fromJson(responseBody);
-              Provider.of<StandardScreenViewModel>(context, listen: false)
-                  .setPageStatusOk();
-              notifyListeners();
-            } else {
-              Provider.of<StandardScreenViewModel>(context, listen: false)
-                  .addModalMessage(
-                SFModalMessage(
-                  title: response.responseTitle!,
-                  onTap: () {
-                    onAddCupom(context);
-                  },
-                  isHappy:
-                      response.responseStatus == NetworkResponseStatus.alert,
-                ),
-              );
-            }
-          });
-        },
+        onAddCupom: () => onAddCupom(context),
         onReturn: () {
           Provider.of<StandardScreenViewModel>(context, listen: false)
               .removeLastOverlay();
         },
       ),
     );
+  }
+
+  void onAddCupom(BuildContext context) {
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
+    checkoutRepo
+        .validateCoupon(
+            context,
+            cupomController.text,
+            idStore ?? court.store!.idStore,
+            startingHour.hour,
+            endingHour.hour,
+            date)
+        .then((response) {
+      if (response.responseStatus == NetworkResponseStatus.success) {
+        Map<String, dynamic> responseBody = json.decode(
+          response.responseBody!,
+        );
+        appliedCoupon = CouponUser.fromJson(responseBody);
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
+        notifyListeners();
+      } else {
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {},
+            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          ),
+        );
+      }
+    });
   }
 }

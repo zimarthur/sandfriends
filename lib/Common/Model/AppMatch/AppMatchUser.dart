@@ -109,7 +109,7 @@ class AppMatchUser extends AppMatch {
     );
     var newMatch = AppMatchUser(
       idMatch: json['IdMatch'],
-      date: DateFormat('yyyy-MM-dd HH:mm')
+      date: DateFormat('dd/MM/yyyy HH:mm')
           .parse("${json['Date']} ${timeBegin.hourString}"),
       cost: double.parse(
         json['Cost'],

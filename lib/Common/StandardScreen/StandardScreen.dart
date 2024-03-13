@@ -93,8 +93,9 @@ class _StandardScreenState extends State<StandardScreen> {
                 child: Container(
                   decoration:
                       Provider.of<EnvironmentProvider>(context, listen: false)
-                              .environment
-                              .isWeb
+                                  .environment
+                                  .isWeb &&
+                              !Responsive.isMobile(context)
                           ? const BoxDecoration(
                               gradient: LinearGradient(
                                 begin: Alignment.topCenter,

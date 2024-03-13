@@ -66,9 +66,8 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
                 BoxShadow(blurRadius: 1, color: primaryDarkBlue)
               ],
             ),
-            padding: EdgeInsets.symmetric(
-              horizontal: width * 0.02,
-              vertical: width * 0.03,
+            padding: const EdgeInsets.all(
+              defaultPadding,
             ),
             width: kIsWeb ? 600 : width * 0.9,
             height: height * 0.9,
@@ -144,9 +143,9 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
                                             widget.userCity!,
                                           ),
                                           child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: height * 0.02,
-                                                horizontal: width * 0.05),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: defaultPadding / 2,
+                                                horizontal: defaultPadding),
                                             child: Row(
                                               children: [
                                                 SvgPicture.asset(
@@ -155,7 +154,7 @@ class _CitySelectorModalState extends State<CitySelectorModal> {
                                                 ),
                                                 Padding(
                                                   padding: EdgeInsets.only(
-                                                    right: width * 0.02,
+                                                    right: defaultPadding / 2,
                                                   ),
                                                 ),
                                                 Text(

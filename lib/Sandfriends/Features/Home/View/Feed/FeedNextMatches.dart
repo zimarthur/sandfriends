@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../Common/Features/UserMatches/View/Mobile/MatchCard.dart';
 import '../../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../../Common/Utils/Constants.dart';
-import '../../../UserMatches/View/MatchCard.dart';
 import '../../Model/HomeTabsEnum.dart';
 import '../../ViewModel/HomeViewModel.dart';
 

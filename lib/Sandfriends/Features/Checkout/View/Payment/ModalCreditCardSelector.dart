@@ -31,9 +31,8 @@ class _ModalCreditCardSelectorState extends State<ModalCreditCardSelector> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: width * 0.04,
-        vertical: height * 0.04,
+      padding: EdgeInsets.all(
+        defaultPadding,
       ),
       decoration: BoxDecoration(
         color: secondaryPaper,
@@ -44,7 +43,7 @@ class _ModalCreditCardSelectorState extends State<ModalCreditCardSelector> {
       width: width * 0.9 > 400 ? 400 : width * 0.9,
       height: Responsive.isMobile(context)
           ? height * 0.8
-          : height * 0.8 > 600
+          : height > 600
               ? 600
               : width * 0.6,
       child: Column(

@@ -55,11 +55,11 @@ List<Color> sfColors = [
 const double defaultPadding = 16.0;
 const double defaultBorderRadius = 16.0;
 const double toolbarHeight = 50.0;
+const double defaultWebScreenWidth = 0.9;
 
-const String instagram = "sandfriends.app";
-const String instagramLink = "https://www.instagram.com/$instagram";
+const String instagramSandfriends = "sandfriends.app";
 const String whatsAppNumber = "5551993308831";
-const String whatsAppLink = "whatsapp://send?phone=$whatsAppNumber";
+
 const String privacyPolicy =
     "https://www.sandfriends.com.br/politicaprivacidade";
 const String termsUse = "https://www.sandfriends.com.br/termos";

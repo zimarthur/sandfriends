@@ -9,17 +9,23 @@ import 'package:sandfriends/Common/Model/OperationDayUser.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 import 'package:sandfriends/Common/Features/Court/Model/CourtAvailableHours.dart';
 import 'package:sandfriends/Common/Model/HourPrice/HourPriceUser.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Common/Utils/SFDateTime.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/ViewModel/CheckoutViewModel.dart';
 import 'package:time_range/time_range.dart';
 import 'package:tuple/tuple.dart';
+import '../../../../Sandfriends/Features/Authentication/LoadLogin/Repository/LoadLoginRepo.dart';
+import '../../../../Sandfriends/Features/Home/Repository/HomeRepo.dart';
+import '../../../../Sandfriends/Features/Onboarding/View/OnboardingModal.dart';
+import '../../../Managers/LocalStorage/LocalStorageManager.dart';
 import '../../../Model/AppMatch/AppMatchUser.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../Model/AvailableDay.dart';
 import '../../../Model/Court.dart';
 import '../../../Model/Hour.dart';
 import '../../../Model/Sport.dart';
+import '../../../Model/User/UserComplete.dart';
 import '../../../Providers/Categories/CategoriesProvider.dart';
 import '../../../../Sandfriends/Providers/UserProvider/UserProvider.dart';
 import '../../../Components/Modal/SFModalMessage.dart';
@@ -35,19 +41,49 @@ class CourtViewModel extends CheckoutViewModel {
   final courtRepo = CourtRepo();
   final matchSearchRepo = MatchSearchRepo();
   final recurrentMatchSearchRepo = RecurrentMatchSearchRepo();
+  final loadLoginRepo = LoadLoginRepo();
+  final homeRepo = HomeRepo();
 
   bool isLoading = false;
 
   int selectedPhotoIndex = 0;
   StoreUser? store;
-  List<CourtAvailableHours> courtAvailableHours = [];
+  List<CourtAvailableHours> _courtAvailableHours = [];
+  List<CourtAvailableHours> get courtAvailableHours {
+    List<CourtAvailableHours> sortedCourts = _courtAvailableHours;
+    try {
+      sortedCourts.sort(
+        (a, b) => a.court.idStoreCourt!.compareTo(b.court.idStoreCourt!),
+      );
+    } catch (e) {}
+    return sortedCourts;
+  }
+
   List<HourPriceUser> selectedHourPrices = [];
+  @override
+  List<HourPriceUser> get hourPrices => selectedHourPrices;
+  @override
+  List<DateTime> get matchDates => [if (selectedDate != null) selectedDate!];
+
   Court? selectedCourt;
+  @override
+  Court get court => selectedCourt!;
+  @override
+  Sport get sport => selectedSport!;
   DateTime? selectedDate;
+  @override
+  DateTime get date => selectedDate!;
   int? selectedWeekday;
   late bool canMakeReservation;
   Hour? searchStartPeriod;
+  @override
+  Hour get startingHour => searchStartPeriod!;
   Hour? searchEndPeriod;
+  @override
+  Hour get endingHour => searchEndPeriod!;
+
+  @override
+  int? get idStore => store?.idStore;
 
   TimeRangeResult? get timeFilter {
     if (searchStartPeriod == null || searchEndPeriod == null) {
@@ -90,6 +126,7 @@ class CourtViewModel extends CheckoutViewModel {
             Provider.of<StandardScreenViewModel>(context, listen: false)
                 .clearOverlays(),
       ),
+      showOnlyIfLast: false,
     );
   }
 
@@ -133,43 +170,129 @@ class CourtViewModel extends CheckoutViewModel {
     Hour? newSearchStartPeriod,
     Hour? newSearchEndPeriod,
   ) async {
+    print("step 0");
+    if (!Provider.of<CategoriesProvider>(context, listen: false)
+        .isInitialized) {
+      print("step 1");
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
+      String? accessToken = await LocalStorageManager().getAccessToken(context);
+
+      loadLoginRepo.validateLogin(context, accessToken, false).then((response) {
+        if (response.responseStatus == NetworkResponseStatus.success) {
+          print("step 2");
+          Map<String, dynamic> responseBody = json.decode(
+            response.responseBody!,
+          );
+          Provider.of<CategoriesProvider>(context, listen: false)
+              .setCategoriesProvider(responseBody);
+
+          final responseUser = responseBody['User'];
+          //caso web, que não precisa estar logado para pesquisar quadras
+          if (responseUser != null) {
+            Provider.of<UserProvider>(context, listen: false)
+                .setHasSearchUserData(false);
+            LocalStorageManager()
+                .storeAccessToken(context, responseUser['AccessToken']);
+
+            UserComplete loggedUser = UserComplete.fromJson(
+              responseUser,
+            );
+            Provider.of<UserProvider>(context, listen: false).user = loggedUser;
+
+            if (loggedUser.firstName == null) {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .removeLastOverlay();
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .addOverlayWidget(
+                OnboardingModal(),
+              );
+
+              return;
+            }
+            print("step 3");
+            getUserInfo(context);
+          }
+          print("step 4");
+          Provider.of<CategoriesProvider>(context, listen: false)
+              .setSessionSport(
+            sport: Provider.of<UserProvider>(context, listen: false)
+                .user
+                ?.preferenceSport,
+          );
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setPageStatusOk();
+          initCourtViewModel(
+            context,
+            newStore,
+            newStoreUrl,
+            newCourtAvailableHours,
+            newselectedHourPrice,
+            newSelectedDate,
+            newSelectedWeekday,
+            newSelectedSport,
+            newIsRecurrent,
+            newCanMakeReservation,
+            newSearchStartPeriod,
+            newSearchEndPeriod,
+          );
+        } else {}
+      });
+      return;
+    }
+    print("step 5");
     canMakeReservation = newCanMakeReservation;
     isRecurrent = newIsRecurrent ?? false;
-    courtAvailableHours.clear();
+    _courtAvailableHours.clear();
     store = newStore;
 
     if (store == null) {
+      print("step 6");
       Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
 
       final response = await courtRepo.getStore(context, newStoreUrl);
 
       if (response.responseStatus == NetworkResponseStatus.success) {
+        print("step 7");
         store = StoreUser.fromJson(json.decode(response.responseBody!));
         Provider.of<StandardScreenViewModel>(context, listen: false)
             .setPageStatusOk();
       } else {
+        print("step 8");
         Provider.of<StandardScreenViewModel>(context, listen: false)
             .addModalMessage(
           SFModalMessage(
             title: response.responseTitle!,
             onTap: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/home',
-                (Route<dynamic> route) => false,
-              );
+              String homeRoute =
+                  Provider.of<EnvironmentProvider>(context, listen: false)
+                          .environment
+                          .isSandfriendsWebApp
+                      ? "/"
+                      : "/home";
+              if (Navigator.canPop(context)) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  homeRoute,
+                  (Route<dynamic> route) => false,
+                );
+              } else {
+                Navigator.pushNamed(context, homeRoute);
+              }
             },
             isHappy: false,
           ),
         );
+        return;
       }
     }
-
+    print("step 9");
     if (newCourtAvailableHours != null) {
+      print("step 10");
       selectedDate = newSelectedDate;
       selectedWeekday = newSelectedWeekday;
       selectedSport = newSelectedSport;
-      courtAvailableHours = newCourtAvailableHours;
+      _courtAvailableHours = newCourtAvailableHours;
       selectedHourPrices.add(newselectedHourPrice!);
       if (newSearchStartPeriod != null) {
         searchStartPeriod = newSearchStartPeriod;
@@ -185,7 +308,7 @@ class CourtViewModel extends CheckoutViewModel {
             Provider.of<CategoriesProvider>(context, listen: false)
                 .getLastSearchHour;
       }
-      selectedCourt = courtAvailableHours
+      selectedCourt = _courtAvailableHours
           .firstWhere(
             (court) => court.hourPrices.any(
               (hourPrice) => hourPrice == selectedHourPrices.first,
@@ -193,6 +316,7 @@ class CourtViewModel extends CheckoutViewModel {
           )
           .court;
     } else if (canMakeReservation) {
+      print("step 11");
       if (isRecurrent == true) {
         selectedWeekday = getSFWeekday(DateTime.now().weekday);
       } else {
@@ -210,13 +334,43 @@ class CourtViewModel extends CheckoutViewModel {
           .getLastSearchHour;
       searchStoreAvailableHours(context);
     }
+    print("step 13");
+    if (Provider.of<UserProvider>(context, listen: false).user?.cpf != null) {
+      cpfController.text =
+          Provider.of<UserProvider>(context, listen: false).user!.cpf!;
+    }
 
     notifyListeners();
     loadStoreOperationDays(context);
   }
 
+  void getUserInfo(BuildContext context) {
+    homeRepo
+        .getUserInfo(
+      context,
+      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      null,
+    )
+        .then((response) {
+      if (response.responseStatus == NetworkResponseStatus.success) {
+        Provider.of<UserProvider>(context, listen: false).clear();
+
+        Provider.of<UserProvider>(context, listen: false)
+            .receiveUserDataResponse(context, response.responseBody!);
+
+        //canTapBackground = true;
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
+      }
+      Provider.of<UserProvider>(context, listen: false)
+          .setHasSearchUserData(true);
+    });
+  }
+
   void loadStoreOperationDays(BuildContext context) {
+    print("step 14");
     courtRepo.getStoreOperationDays(context, store!.idStore).then((response) {
+      print("step 15");
       if (response.responseStatus == NetworkResponseStatus.success) {
         List<dynamic> responseBody = json.decode(response.responseBody!);
 
@@ -229,7 +383,7 @@ class CourtViewModel extends CheckoutViewModel {
             )
             .toList();
       }
-
+      print("step 16");
       isLoadingOperationDays = false;
       notifyListeners();
     });
@@ -253,6 +407,7 @@ class CourtViewModel extends CheckoutViewModel {
   }
 
   void searchMatches(BuildContext context) {
+    print("step 12");
     matchSearchRepo
         .searchCourts(
       context,
@@ -271,7 +426,7 @@ class CourtViewModel extends CheckoutViewModel {
             matchSearchDecoder(context, response.responseBody!);
         List<AvailableDay> availableDays = searchResult.item1;
 
-        courtAvailableHours =
+        _courtAvailableHours =
             toCourtAvailableHours(availableDays, null, selectedDate!, store!);
         isLoading = false;
         notifyListeners();
@@ -314,7 +469,7 @@ class CourtViewModel extends CheckoutViewModel {
       if (response.responseStatus == NetworkResponseStatus.success) {
         List<AvailableDay> availableDays =
             recurrentMatchDecoder(response.responseBody!);
-        courtAvailableHours = toCourtAvailableHours(
+        _courtAvailableHours = toCourtAvailableHours(
           availableDays,
           selectedWeekday,
           null,

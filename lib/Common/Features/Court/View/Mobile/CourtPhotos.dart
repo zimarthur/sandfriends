@@ -68,7 +68,7 @@ class _CourtPhotosState extends State<CourtPhotos> {
                 child: CachedNetworkImage(
                   imageUrl:
                       Provider.of<EnvironmentProvider>(context, listen: false)
-                          .urlBuilder(widget.imagesUrl[index]),
+                          .urlBuilder(widget.imagesUrl[index], isImage: true),
                   fit: BoxFit.cover,
                   placeholder: (context, url) => SizedBox(
                     width: layoutConstraints.maxWidth * 0.1,

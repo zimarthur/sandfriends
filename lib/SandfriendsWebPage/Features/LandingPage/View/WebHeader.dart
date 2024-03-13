@@ -9,7 +9,9 @@ import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Common/Utils/Constants.dart';
 
 class WebHeader extends StatefulWidget {
+  bool showSport;
   WebHeader({
+    this.showSport = true,
     super.key,
   });
 
@@ -40,8 +42,9 @@ class WebHeaderState extends State<WebHeader> {
           right: MediaQuery.of(context).size.width -
               profileButtonPosition.dx -
               profileButton.size.width,
-          child: LoginSignup(
+          child: ProfileOverlay(
             close: () => hideProfileOverlay(),
+            mustCloseWhenDone: true,
           ),
         ),
       );
@@ -66,14 +69,14 @@ class WebHeaderState extends State<WebHeader> {
       child: Row(
         children: [
           InkWell(
-              onTap: () => Navigator.pushNamed(context,
-                  "/quadras/open-beach"), //Navigator.pushReplacementNamed(context, "/"),
+              onTap: () => Navigator.of(context).pushNamed("/"),
               child: Image.asset(
                   r"assets/sandfriends_logo_alternative_negative.png")),
           Expanded(
             child: Container(),
           ),
-          if (Provider.of<CategoriesProvider>(context).sessionSport != null)
+          if (Provider.of<CategoriesProvider>(context).sessionSport != null &&
+              widget.showSport)
             PopupMenuButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(defaultBorderRadius),
@@ -181,7 +184,7 @@ class WebHeaderState extends State<WebHeader> {
             child: InkWell(
               key: profileKey,
               onTap: () => showProfileOverlay(context),
-              child: Provider.of<UserProvider>(context).user != null
+              child: Provider.of<UserProvider>(context).isDoneWithUserRequest
                   ? Stack(
                       children: [
                         SFAvatarUser(

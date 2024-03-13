@@ -15,12 +15,17 @@ import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Sandfriends/Features/Authentication/LoadLogin/Repository/LoadLoginRepo.dart';
 import '../../../../Sandfriends/Features/Authentication/LoadLogin/ViewModel/LoadLoginViewModel.dart';
+import '../../../../Sandfriends/Features/Home/Repository/HomeRepo.dart';
 import '../../Authentication/ProfileOverlay/View/ProfileOverlay.dart';
 
 class LandingPageViewModel extends MatchSearchViewModel {
   final loadLoginRepo = LoadLoginRepo();
+  final homeRepo = HomeRepo();
 
   void initLandingPageViewModel(BuildContext context) async {
+    if (Provider.of<UserProvider>(context, listen: false).user != null) {
+      return;
+    }
     Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
 
     String? accessToken = await LocalStorageManager().getAccessToken(context);
@@ -36,6 +41,8 @@ class LandingPageViewModel extends MatchSearchViewModel {
         final responseUser = responseBody['User'];
         //caso web, que não precisa estar logado para pesquisar quadras
         if (responseUser != null) {
+          Provider.of<UserProvider>(context, listen: false)
+              .setHasSearchUserData(false);
           LocalStorageManager()
               .storeAccessToken(context, responseUser['AccessToken']);
 
@@ -54,6 +61,7 @@ class LandingPageViewModel extends MatchSearchViewModel {
 
             return;
           }
+          getUserInfo(context);
         }
         Provider.of<CategoriesProvider>(context, listen: false).setSessionSport(
           sport: Provider.of<UserProvider>(context, listen: false)
@@ -68,5 +76,60 @@ class LandingPageViewModel extends MatchSearchViewModel {
       Provider.of<StandardScreenViewModel>(context, listen: false)
           .setPageStatusOk();
     });
+  }
+
+  void getUserInfo(BuildContext context) {
+    homeRepo
+        .getUserInfo(
+      context,
+      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      null,
+    )
+        .then((response) {
+      if (response.responseStatus == NetworkResponseStatus.success) {
+        Provider.of<UserProvider>(context, listen: false).clear();
+
+        Provider.of<UserProvider>(context, listen: false)
+            .receiveUserDataResponse(context, response.responseBody!);
+
+        //canTapBackground = true;
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
+      }
+      Provider.of<UserProvider>(context, listen: false)
+          .setHasSearchUserData(true);
+    });
+  }
+
+  void onTapLogin(BuildContext context) {
+    {
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addOverlayWidget(
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.7,
+          child: ProfileOverlay(
+            mustCloseWhenDone: true,
+            close: () =>
+                Provider.of<StandardScreenViewModel>(context, listen: false)
+                    .clearOverlays(),
+          ),
+        ),
+      );
+    }
+  }
+
+  void onTapLoginDrawer(BuildContext context) {
+    Scaffold.of(context).closeEndDrawer();
+    onTapLogin(context);
+  }
+
+  void onTapProfile(BuildContext context) {
+    Scaffold.of(context).closeEndDrawer();
+    Navigator.pushNamed(context, '/jogador');
+  }
+
+  void onTapMatches(BuildContext context) {
+    Scaffold.of(context).closeEndDrawer();
+    Navigator.pushNamed(context, '/partidas');
   }
 }

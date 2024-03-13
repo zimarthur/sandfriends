@@ -19,21 +19,32 @@ import 'package:sandfriends/SandfriendsWebPage/Features/Authentication/ProfileOv
 import '../../../../../Common/Utils/Validators.dart';
 import '../../../../../Sandfriends/Providers/UserProvider/UserProvider.dart';
 
-class LoginSignup extends StatefulWidget {
+class ProfileOverlay extends StatefulWidget {
   VoidCallback? close;
-  LoginSignup({
+  bool mustCloseWhenDone;
+  ProfileOverlay({
     this.close,
+    required this.mustCloseWhenDone,
     super.key,
   });
 
   @override
-  State<LoginSignup> createState() => _LoginSignupState();
+  State<ProfileOverlay> createState() => _LoginSignupState();
 }
 
-class _LoginSignupState extends State<LoginSignup> {
+class _LoginSignupState extends State<ProfileOverlay> {
   final controller = TextEditingController();
 
-  ProfileOverlayViewModel viewModel = ProfileOverlayViewModel();
+  late ProfileOverlayViewModel viewModel;
+
+  @override
+  void initState() {
+    viewModel = ProfileOverlayViewModel(
+      mustCloseWhenDone: widget.mustCloseWhenDone,
+      close: widget.close,
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +81,7 @@ class _LoginSignupState extends State<LoginSignup> {
                         ),
                       ),
                     ),
-                  Provider.of<UserProvider>(context).user != null
+                  Provider.of<UserProvider>(context).isDoneWithUserRequest
                       ? User(
                           onTapProfile: () => viewModel.onTapProfile(context),
                           onTapMatches: () => viewModel.onTapMatches(context),
@@ -85,7 +96,11 @@ class _LoginSignupState extends State<LoginSignup> {
                             Row(
                               children: [
                                 if (viewModel.currentWidget !=
-                                    EnumLoginSignupWidget.Login)
+                                        EnumLoginSignupWidget.Login ||
+                                    (viewModel.currentWidget ==
+                                            EnumLoginSignupWidget.Login &&
+                                        viewModel.widgetStatus ==
+                                            PageStatus.ERROR))
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         right: defaultPadding),

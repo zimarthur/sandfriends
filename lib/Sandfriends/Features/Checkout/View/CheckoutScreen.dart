@@ -38,6 +38,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   @override
   void initState() {
+    print(
+      widget.court,
+    );
+    print(
+      widget.hourPrices,
+    );
+    print(
+      widget.sport,
+    );
+    print(
+      widget.date,
+    );
+    print(
+      widget.weekday,
+    );
+    print(
+      widget.isRecurrent,
+    );
+    print(
+      widget.isRenovating,
+    );
     viewModel.initCheckoutScreen(
       context,
       widget.court,

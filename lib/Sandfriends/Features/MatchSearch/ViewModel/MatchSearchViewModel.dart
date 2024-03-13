@@ -27,7 +27,7 @@ import '../Repository/MatchSearchDecoder.dart';
 import '../Repository/MatchSearchRepo.dart';
 import '../View/CalendarModal.dart';
 
-class MatchSearchViewModel extends ChangeNotifier {
+class MatchSearchViewModel extends StandardScreenViewModel {
   final matchSearchRepo = MatchSearchRepo();
 
   String get titleText => "Busca - ${currentCustomFilter.sport.description}";
@@ -250,14 +250,16 @@ class MatchSearchViewModel extends ChangeNotifier {
       CitySelectorModal(
         onlyAvailableCities: true,
         onSelectedCity: (city) {
-          cityFilter = city;
           Provider.of<StandardScreenViewModel>(context, listen: false)
-              .setPageStatusOk();
+              .removeLastOverlay();
+          cityFilter = city;
+
+          notifyListeners();
         },
         userCity: Provider.of<UserProvider>(context, listen: false).user?.city,
         onReturn: () =>
             Provider.of<StandardScreenViewModel>(context, listen: false)
-                .setPageStatusOk(),
+                .removeLastOverlay(),
       ),
     );
   }
@@ -282,6 +284,7 @@ class MatchSearchViewModel extends ChangeNotifier {
             Provider.of<StandardScreenViewModel>(context, listen: false)
                 .clearOverlays();
           }
+          notifyListeners();
         },
       ),
     );
@@ -306,6 +309,7 @@ class MatchSearchViewModel extends ChangeNotifier {
             Provider.of<StandardScreenViewModel>(context, listen: false)
                 .setPageStatusOk();
           }
+          notifyListeners();
         },
       ),
     );
@@ -313,6 +317,7 @@ class MatchSearchViewModel extends ChangeNotifier {
 
   void onSubmitTimeFilter(TimeRangeResult? newTimeFilter) {
     timeFilter = newTimeFilter;
+    notifyListeners();
   }
 
   void goToMatch(BuildContext context, String matchUrl) {

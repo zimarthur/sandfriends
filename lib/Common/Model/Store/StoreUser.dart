@@ -4,7 +4,7 @@ import '../OperationDayUser.dart';
 import 'Store.dart';
 
 class StoreUser extends Store {
-  double? distanceBetweenPlayer;
+  double? distanceBetweenPlayer = 0;
   String description;
   String instagram;
 

@@ -41,7 +41,6 @@ class _MenuScreenState extends State<MenuScreen> {
                       viewModel: viewModel,
                     )
                   : null,
-              scaffoldKey: viewModel.scaffoldKey,
               childWeb: MenuWidgetWeb(viewModel: viewModel),
               child: MenuWidgetMobile(viewModel: viewModel),
             ),

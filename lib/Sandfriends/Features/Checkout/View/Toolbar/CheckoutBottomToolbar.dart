@@ -9,12 +9,11 @@ import 'package:sandfriends/Common/Utils/Constants.dart';
 import '../../ViewModel/CheckoutViewModel.dart';
 
 class CheckoutBottomToolbar extends StatelessWidget {
-  CheckoutBottomToolbar({Key? key}) : super(key: key);
+  CheckoutViewModel viewModel;
+  CheckoutBottomToolbar({required this.viewModel, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    CheckoutViewModel viewModel =
-        Provider.of<CheckoutViewModel>(context, listen: false);
     return Container(
       decoration: const BoxDecoration(
         color: secondaryPaper,

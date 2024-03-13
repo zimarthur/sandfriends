@@ -1,6 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/ViewModel/CheckoutViewModel.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
+import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 
 import 'CheckoutInfo/CheckoutResume.dart';
 import 'Payment/CheckoutPayment.dart';
@@ -34,6 +39,9 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                   const SizedBox(
                     height: defaultPadding,
                   ),
+                  const SizedBox(
+                    height: defaultPadding,
+                  ),
                   CheckoutPayment(
                     viewModel: widget.viewModel,
                   ),
@@ -45,7 +53,9 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
             ),
           ),
         ),
-        CheckoutBottomToolbar(),
+        CheckoutBottomToolbar(
+          viewModel: widget.viewModel,
+        ),
         SizedBox(
           height: MediaQuery.of(context).viewInsets.bottom,
         ),

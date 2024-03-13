@@ -97,6 +97,8 @@ class LoginViewModel extends ChangeNotifier {
         if (response.responseStatus == NetworkResponseStatus.success) {
           Provider.of<StoreProvider>(context, listen: false)
               .setLoginResponse(context, response.responseBody!, keepConnected);
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setPageStatusOk();
           Navigator.pushNamed(context, '/home');
         } else {
           Provider.of<StandardScreenViewModel>(context, listen: false)

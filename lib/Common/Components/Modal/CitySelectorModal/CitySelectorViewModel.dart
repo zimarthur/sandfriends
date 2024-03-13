@@ -10,6 +10,7 @@ import '../../../Utils/PageStatus.dart';
 class CitySelectorViewModel extends ChangeNotifier {
   PageStatus modalStatus = PageStatus.LOADING;
   List<Region> regions = [];
+
   void initModal(
     BuildContext context,
     bool onlyAvailableCities,

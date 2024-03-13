@@ -86,7 +86,7 @@ class OnboardingWidget extends StatelessWidget {
                               },
                             ),
                             OnboardingCheckItem(
-                              title: "Adicionar fotos das suas quadras (mín 2)",
+                              title: "Adicionar fotos das suas quadras (mín 3)",
                               isChecked: viewModel.photosSet(context),
                               onTap: () {
                                 Provider.of<MenuProvider>(context,

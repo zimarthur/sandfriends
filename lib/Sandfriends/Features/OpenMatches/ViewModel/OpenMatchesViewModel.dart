@@ -15,6 +15,6 @@ class OpenMatchesViewModel extends ChangeNotifier {
   }
 
   void onTapOpenMatch(BuildContext context, String matchUrl) {
-    Navigator.pushNamed(context, '/match_screen/$matchUrl');
+    Navigator.pushNamed(context, '/partida/$matchUrl');
   }
 }

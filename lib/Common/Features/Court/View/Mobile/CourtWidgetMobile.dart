@@ -40,7 +40,7 @@ class _CourtWidgetMobileState extends State<CourtWidgetMobile> {
             ? primaryBlue
             : primaryLightBlue;
     return widget.viewModel.store == null
-        ? Container()
+        ? Center(child: SFLoading())
         : Stack(
             children: [
               ListView(
@@ -88,7 +88,9 @@ class _CourtWidgetMobileState extends State<CourtWidgetMobile> {
                                             context,
                                             listen: false)
                                         .urlBuilder(
-                                            widget.viewModel.store!.logo!),
+                                      widget.viewModel.store!.logo!,
+                                      isImage: true,
+                                    ),
                                     height: height * 0.13,
                                     width: height * 0.13,
                                     placeholder: (context, url) => SizedBox(
@@ -291,6 +293,13 @@ class _CourtWidgetMobileState extends State<CourtWidgetMobile> {
                                 Provider.of<StandardScreenViewModel>(context,
                                         listen: false)
                                     .setLoading();
+                                print(checkoutCourt);
+                                print(widget.viewModel.selectedHourPrices);
+                                print(widget.viewModel.selectedSport);
+                                print(widget.viewModel.selectedDate);
+                                print(widget.viewModel.selectedWeekday);
+                                print(widget.viewModel.isRecurrent);
+
                                 Navigator.pushNamed(
                                   context,
                                   "/checkout",

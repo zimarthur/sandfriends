@@ -19,8 +19,6 @@ class _NewCreditCardModalState extends State<NewCreditCardModal> {
 
   @override
   void initState() {
-    print("INITSTATTE 22");
-
     viewModel.initNewCreditCard(
       context,
       true,
