@@ -40,7 +40,6 @@ class LoginSignupViewModel extends ChangeNotifier {
 
       validateGoogleLogin(context, email, credential.userIdentifier);
     } catch (e) {
-      print(e.toString());
       Provider.of<StandardScreenViewModel>(context, listen: false)
           .addModalMessage(
         SFModalMessage(

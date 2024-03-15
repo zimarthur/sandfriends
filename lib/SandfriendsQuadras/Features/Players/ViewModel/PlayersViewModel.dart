@@ -6,7 +6,6 @@ import 'package:sandfriends/Common/Components/Modal/SFModalMessage.dart';
 import 'package:sandfriends/Common/Managers/LinkOpener/LinkOpenerManager.dart';
 import '../../../../Common/Components/SFPieChart.dart';
 import '../../../../Common/Model/Gender.dart';
-import '../../../../Common/Model/User/Player_old.dart';
 import '../../../../Common/Model/Sport.dart';
 import '../../../../Common/Model/User/UserStore.dart';
 import '../../../../Common/Providers/Categories/CategoriesProvider.dart';

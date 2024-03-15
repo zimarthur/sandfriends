@@ -15,7 +15,10 @@ class EmailConfirmationViewModel extends ChangeNotifier {
   final emailConfirmationRepo = EmailConfirmationRepo();
 
   void confirmEmail(BuildContext context, String token) {
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     emailConfirmationRepo.confirmEmail(context, token).then((response) {
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
       if (response.responseStatus == NetworkResponseStatus.success) {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,

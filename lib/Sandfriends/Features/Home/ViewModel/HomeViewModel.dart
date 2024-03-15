@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Managers/LinkOpener/LinkOpenerManager.dart';
@@ -59,10 +60,14 @@ class HomeViewModel extends ChangeNotifier {
   void initHomeScreen(HomeTabs initialTab, BuildContext context) {
     changeTab(context, initialTab);
 
-    configureNotifications().then((notificationCOnfigs) {
-      getUserInfo(context, notificationCOnfigs);
-      notifyListeners();
-    });
+    if (!kIsWeb) {
+      configureNotifications().then((notificationCOnfigs) {
+        getUserInfo(context, notificationCOnfigs);
+        notifyListeners();
+      });
+    } else {
+      getUserInfo(context, null);
+    }
   }
 
   Future<Tuple2<bool, String?>?> configureNotifications() async {

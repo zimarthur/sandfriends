@@ -114,11 +114,6 @@ class _SFDrawerMobileState extends State<SFDrawerMobile> {
                       child: ListView.builder(
                         itemCount: widget.viewModel.mobileDrawerItems.length,
                         itemBuilder: (context, index) {
-                          print("drawer mobile");
-                          print(
-                              widget.viewModel.mobileDrawerItems[index].title);
-                          print(
-                              widget.viewModel.mobileDrawerItems[index].isNew);
                           return InkWell(
                             onTap: () {
                               widget.viewModel.onTabClick(

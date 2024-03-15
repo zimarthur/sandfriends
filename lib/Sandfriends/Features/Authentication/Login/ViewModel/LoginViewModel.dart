@@ -62,7 +62,10 @@ class LoginViewModel extends ChangeNotifier {
           SFModalMessage(
             title:
                 "Feito! Enviamos um e-mail para você escolher uma nova senha",
-            onTap: () {},
+            onTap: () {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .clearOverlays();
+            },
             isHappy: true,
           ),
         );

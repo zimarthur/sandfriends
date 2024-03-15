@@ -22,8 +22,8 @@ class Reward {
           .toString()
           .replaceAll("{x}", "${json['NTimesToReward']}"),
       rewardQuantity: json['NTimesToReward'],
-      startingDate: DateFormat('yyyy-MM-dd').parse("${json['StartingDate']}"),
-      endingDate: DateFormat('yyyy-MM-dd').parse("${json['EndingDate']}"),
+      startingDate: DateFormat('dd/MM/yyyy').parse("${json['StartingDate']}"),
+      endingDate: DateFormat('dd/MM/yyyy').parse("${json['EndingDate']}"),
     );
 
     for (int i = 0; i < json['Rewards'].length; i++) {

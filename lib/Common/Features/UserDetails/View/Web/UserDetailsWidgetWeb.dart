@@ -513,7 +513,9 @@ class _UserDetailsWidgetWebState extends State<UserDetailsWidgetWeb> {
                         height: defaultPadding,
                       ),
                       Expanded(
-                        child: UserDetailsRankList(),
+                        child: UserDetailsRankList(
+                          viewModel: widget.viewModel,
+                        ),
                       ),
                     ],
                   ),

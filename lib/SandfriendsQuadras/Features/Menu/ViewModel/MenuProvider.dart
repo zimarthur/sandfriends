@@ -36,6 +36,8 @@ class MenuProvider extends StandardScreenViewModel {
   @override
   void onTapReturn(BuildContext context) {
     Provider.of<StandardScreenViewModel>(context, listen: false)
+        .setPageStatusOk();
+    Provider.of<StandardScreenViewModel>(context, listen: false)
         .clearOverlays();
     quickLinkHome(context);
   }
@@ -211,7 +213,6 @@ class MenuProvider extends StandardScreenViewModel {
       widgetMobile: RewardsScreenMobile(),
       mainDrawer: true,
       availableMobile: true,
-      isNew: true,
     ),
     DrawerItem(
       title: "Financeiro",
@@ -221,7 +222,6 @@ class MenuProvider extends StandardScreenViewModel {
       widgetMobile: FinancesScreenMobile(),
       mainDrawer: true,
       availableMobile: true,
-      isNew: true,
     ),
     DrawerItem(
       title: "Minhas quadras",
@@ -239,7 +239,6 @@ class MenuProvider extends StandardScreenViewModel {
       widgetMobile: PlayersScreenMobile(),
       mainDrawer: true,
       availableMobile: true,
-      isNew: true,
     ),
     DrawerItem(
       title: "Cupons de desconto",
@@ -249,7 +248,6 @@ class MenuProvider extends StandardScreenViewModel {
       widgetMobile: CouponsScreenMobile(),
       mainDrawer: true,
       availableMobile: true,
-      isNew: true,
     ),
     DrawerItem(
       title: "Meu perfil",

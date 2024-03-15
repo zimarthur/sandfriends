@@ -31,23 +31,22 @@ class SandfriendsWebPageApp extends GenericApp {
   Product get product => Product.SandfriendsWebPage;
 
   @override
-  Function(Uri link) get handleLink => (link) {};
+  MaterialPageRoute? Function(Uri) get handleLink => (link) {};
 
   @override
-  Function(Map<String, dynamic> data) get handleNotification => (data) {};
+  Uri? Function(Map<String, dynamic> data) get handleNotification => (data) {};
 
   @override
   Route? Function(RouteSettings p1)? get onGenerateRoute => (settings) {
-        String store = '/quadras';
-        String changePassword = '/cgpw'; //change password
-        String emailConfirmation = '/emcf'; //email confirmation
+        String store = '/quadra/';
+        String changePassword = '/troca-senha/'; //change password
+        String emailConfirmation = "/confirme-seu-email/"; //email confirmation
         String userDetails = "/jogador";
-        String match = "/partida";
+        String match = "/partida/";
         String checkout = "/checkout";
-        print(settings.toString());
         if (settings.name!.startsWith(store)) {
           final arguments = (settings.arguments ?? {}) as Map;
-          final storeUrl = settings.name!.split("$store/");
+          final storeUrl = settings.name!.split(store);
           if (storeUrl.length == 1) {
             return null;
           }
@@ -72,34 +71,31 @@ class SandfriendsWebPageApp extends GenericApp {
             },
           );
         } else if (settings.name!.startsWith(match)) {
-          //match?id=123
-          final matchUrl = settings.name!.split(match)[1].split("/")[1];
+          //partida/1234
           return MaterialPageRoute(
             settings: settings,
             builder: (context) {
               return MatchScreen(
-                matchUrl: matchUrl,
+                matchUrl: settings.name!.split(match)[1],
               );
             },
           );
         } else if (settings.name!.startsWith(changePassword)) {
-          String token = settings.name!.split("?")[1].split("=")[1];
           return MaterialPageRoute(
             settings: settings,
             builder: (context) {
               return ChangePasswordScreen(
-                token: token,
+                token: settings.name!.split(changePassword)[1],
                 isStoreRequest: false,
               );
             },
           );
         } else if (settings.name!.startsWith(emailConfirmation)) {
-          String token = settings.name!.split("?")[1].split("=")[1];
           return MaterialPageRoute(
             settings: settings,
             builder: (context) {
               return EmailConfirmationScreen(
-                confirmationToken: token,
+                confirmationToken: settings.name!.split(emailConfirmation)[1],
               );
             },
           );

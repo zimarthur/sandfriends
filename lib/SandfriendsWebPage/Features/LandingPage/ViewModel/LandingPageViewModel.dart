@@ -24,6 +24,9 @@ class LandingPageViewModel extends MatchSearchViewModel {
 
   void initLandingPageViewModel(BuildContext context) async {
     if (Provider.of<UserProvider>(context, listen: false).user != null) {
+      initMatchSearchViewModel(
+        context,
+      );
       return;
     }
     Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();

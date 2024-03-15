@@ -200,7 +200,7 @@ class StoreSearchViewModel extends ChangeNotifier {
   void onTapStore(BuildContext context, StoreUser store) {
     Navigator.pushNamed(
       context,
-      '/quadras/${store.url}',
+      '/quadra/${store.url}',
       arguments: {
         'store': store,
         'canMakeReservation': true,

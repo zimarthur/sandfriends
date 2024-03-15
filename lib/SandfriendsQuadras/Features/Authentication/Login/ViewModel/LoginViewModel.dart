@@ -33,7 +33,7 @@ class LoginViewModel extends ChangeNotifier {
 
   Future<void> configureNotifications() async {
     final fcmToken = await FirebaseMessaging.instance.getToken();
-    print("ARTHUR token is : $fcmToken");
+    print("token is : $fcmToken");
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
     NotificationSettings settings = await messaging.requestPermission(

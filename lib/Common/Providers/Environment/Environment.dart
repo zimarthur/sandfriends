@@ -19,4 +19,6 @@ class Environment {
   bool get isSandfriends => product == Product.Sandfriends;
   bool get isSandfriendsQuadras => product == Product.SandfriendsQuadras;
   bool get isSandfriendsWebApp => product == Product.SandfriendsWebPage;
+
+  bool get isDev => flavor == Flavor.Dev;
 }

@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/User/UserComplete.dart';
 import '../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../Common/Model/Sport.dart';
-import '../Model/User/UserOld.dart';
 import '../../Common/Utils/Constants.dart';
 import 'SFLoading.dart';
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../Common/Model/Sport.dart';
 import '../../../../Common/Utils/Constants.dart';
@@ -31,59 +32,71 @@ class _SportSelectorModalState extends State<SportSelectorModal> {
         boxShadow: const [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
       ),
       width: width * 0.9 > 350 ? 350 : width * 0.9,
-      padding: EdgeInsets.symmetric(
-          vertical: width * 0.02, horizontal: width * 0.04),
+      height: height * 0.5 > 350 ? 350 : height * 0.5,
+      padding: EdgeInsets.all(
+        defaultPadding,
+      ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            height: height * 0.05,
-            width: double.infinity,
-            margin: EdgeInsets.symmetric(vertical: height * 0.01),
-            child: const FittedBox(
-              fit: BoxFit.fitWidth,
-              child: Text(
-                "Selecione seu esporte de preferência",
-                style: TextStyle(color: textBlue, fontWeight: FontWeight.w700),
-              ),
+          Text(
+            "Selecione seu esporte de preferência",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: textBlue,
+              fontWeight: FontWeight.w700,
+              fontSize: 18,
             ),
           ),
           SizedBox(
-            height: height * 0.3,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: widget.sports.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () => widget.onSelectedSport(
-                    widget.sports[index],
-                  ),
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: height * 0.02),
-                    padding: EdgeInsets.symmetric(
-                        vertical: height * 0.02, horizontal: width * 0.05),
-                    decoration: BoxDecoration(
-                      color: secondaryBack,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: widget.sports[index] == widget.selectedSport
-                            ? primaryBlue
-                            : textLightGrey,
-                        width: widget.sports[index] == widget.selectedSport
-                            ? 2
-                            : 1,
+            height: defaultPadding,
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                for (var sport in widget.sports)
+                  InkWell(
+                    onTap: () => widget.onSelectedSport(
+                      sport,
+                    ),
+                    child: Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.only(bottom: defaultPadding / 2),
+                      padding: EdgeInsets.symmetric(
+                          vertical: defaultPadding / 2,
+                          horizontal: defaultPadding),
+                      decoration: BoxDecoration(
+                        color: secondaryBack,
+                        borderRadius:
+                            BorderRadius.circular(defaultBorderRadius),
+                        border: Border.all(
+                          color: sport == widget.selectedSport
+                              ? primaryBlue
+                              : textLightGrey,
+                          width: sport == widget.selectedSport ? 2 : 1,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            sport.iconLocation,
+                            height: 20,
+                          ),
+                          SizedBox(
+                            width: defaultPadding / 2,
+                          ),
+                          Text(
+                            sport.description,
+                            style: TextStyle(
+                                color: sport == widget.selectedSport
+                                    ? textBlue
+                                    : textDarkGrey),
+                          ),
+                        ],
                       ),
                     ),
-                    child: Text(
-                      widget.sports[index].description,
-                      style: TextStyle(
-                          color: widget.sports[index] == widget.selectedSport
-                              ? textBlue
-                              : textDarkGrey),
-                    ),
                   ),
-                );
-              },
+              ],
             ),
           ),
         ],

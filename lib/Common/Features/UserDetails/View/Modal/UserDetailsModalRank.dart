@@ -59,7 +59,9 @@ class _UserDetailsModalRankState extends State<UserDetailsModalRank> {
         children: [
           SizedBox(
             height: height * 0.3,
-            child: UserDetailsRankList(),
+            child: UserDetailsRankList(
+              viewModel: widget.viewModel,
+            ),
           ),
           SFButton(
             buttonLabel: "Concluído",

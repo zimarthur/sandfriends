@@ -195,7 +195,7 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
   void goToCourt(BuildContext context, Store store) {
     Navigator.pushNamed(
       context,
-      '/quadras/${store.url}',
+      '/quadra/${store.url}',
       arguments: {
         'store': store,
         'availableCourts': toCourtAvailableHours(

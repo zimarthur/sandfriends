@@ -80,6 +80,7 @@ class StandardScreenViewModel extends ChangeNotifier {
 
   void onTapReturn(BuildContext context) {
     clearOverlays();
+    setPageStatusOk();
     Navigator.pop(context);
   }
 }

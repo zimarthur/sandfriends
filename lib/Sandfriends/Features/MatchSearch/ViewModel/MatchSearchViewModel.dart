@@ -211,7 +211,7 @@ class MatchSearchViewModel extends StandardScreenViewModel {
       {bool noArguments = false}) {
     Navigator.pushNamed(
       context,
-      '/quadras/${store.url}',
+      '/quadra/${store.url}',
       arguments: noArguments
           ? {
               'store': store,

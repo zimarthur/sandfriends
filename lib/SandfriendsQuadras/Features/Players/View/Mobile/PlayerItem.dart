@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Common/Components/SFAvatarStore.dart';
-import '../../../../../Common/Components/SFAvatarUser.dart';
-import '../../../../../Common/Model/User/Player_old.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../Common/Model/User/UserStore.dart';

@@ -170,17 +170,14 @@ class CourtViewModel extends CheckoutViewModel {
     Hour? newSearchStartPeriod,
     Hour? newSearchEndPeriod,
   ) async {
-    print("step 0");
     if (!Provider.of<CategoriesProvider>(context, listen: false)
         .isInitialized) {
-      print("step 1");
       Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
 
       String? accessToken = await LocalStorageManager().getAccessToken(context);
 
       loadLoginRepo.validateLogin(context, accessToken, false).then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
-          print("step 2");
           Map<String, dynamic> responseBody = json.decode(
             response.responseBody!,
           );
@@ -210,10 +207,8 @@ class CourtViewModel extends CheckoutViewModel {
 
               return;
             }
-            print("step 3");
             getUserInfo(context);
           }
-          print("step 4");
           Provider.of<CategoriesProvider>(context, listen: false)
               .setSessionSport(
             sport: Provider.of<UserProvider>(context, listen: false)
@@ -240,25 +235,21 @@ class CourtViewModel extends CheckoutViewModel {
       });
       return;
     }
-    print("step 5");
     canMakeReservation = newCanMakeReservation;
     isRecurrent = newIsRecurrent ?? false;
     _courtAvailableHours.clear();
     store = newStore;
 
     if (store == null) {
-      print("step 6");
       Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
 
       final response = await courtRepo.getStore(context, newStoreUrl);
 
       if (response.responseStatus == NetworkResponseStatus.success) {
-        print("step 7");
         store = StoreUser.fromJson(json.decode(response.responseBody!));
         Provider.of<StandardScreenViewModel>(context, listen: false)
             .setPageStatusOk();
       } else {
-        print("step 8");
         Provider.of<StandardScreenViewModel>(context, listen: false)
             .addModalMessage(
           SFModalMessage(
@@ -286,9 +277,7 @@ class CourtViewModel extends CheckoutViewModel {
         return;
       }
     }
-    print("step 9");
     if (newCourtAvailableHours != null) {
-      print("step 10");
       selectedDate = newSelectedDate;
       selectedWeekday = newSelectedWeekday;
       selectedSport = newSelectedSport;
@@ -316,7 +305,6 @@ class CourtViewModel extends CheckoutViewModel {
           )
           .court;
     } else if (canMakeReservation) {
-      print("step 11");
       if (isRecurrent == true) {
         selectedWeekday = getSFWeekday(DateTime.now().weekday);
       } else {
@@ -334,14 +322,12 @@ class CourtViewModel extends CheckoutViewModel {
           .getLastSearchHour;
       searchStoreAvailableHours(context);
     }
-    print("step 13");
     if (Provider.of<UserProvider>(context, listen: false).user?.cpf != null) {
       cpfController.text =
           Provider.of<UserProvider>(context, listen: false).user!.cpf!;
     }
 
     loadStoreOperationDays(context);
-    print("20");
     notifyListeners();
   }
 
@@ -369,9 +355,7 @@ class CourtViewModel extends CheckoutViewModel {
   }
 
   void loadStoreOperationDays(BuildContext context) {
-    print("step 14");
     courtRepo.getStoreOperationDays(context, store!.idStore).then((response) {
-      print("step 15");
       if (response.responseStatus == NetworkResponseStatus.success) {
         List<dynamic> responseBody = json.decode(response.responseBody!);
 
@@ -384,7 +368,6 @@ class CourtViewModel extends CheckoutViewModel {
             )
             .toList();
       }
-      print("step 16");
       isLoadingOperationDays = false;
       notifyListeners();
     });
@@ -408,7 +391,6 @@ class CourtViewModel extends CheckoutViewModel {
   }
 
   void searchMatches(BuildContext context) {
-    print("step 12");
     matchSearchRepo
         .searchCourts(
       context,

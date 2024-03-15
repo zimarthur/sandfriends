@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import '../../../../Common/Model/User/Player_old.dart';
 import '../../../../Common/Model/User/UserStore.dart';
 import '../../../../Remote/ApiEndPoints.dart';
 import '../../../../Remote/NetworkApiService.dart';

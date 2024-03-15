@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../Model/User/Player_old.dart';
 import '../Model/User/UserStore.dart';
 import '../Utils/Constants.dart';
 

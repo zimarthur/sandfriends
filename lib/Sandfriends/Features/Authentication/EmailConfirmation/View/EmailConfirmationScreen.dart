@@ -23,8 +23,9 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
 
   @override
   void initState() {
-    viewModel.confirmEmail(context, widget.confirmationToken);
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      viewModel.confirmEmail(context, widget.confirmationToken);
+    });
     super.initState();
   }
 
@@ -50,11 +51,12 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
                     ),
                   ),
                   Center(
-                      child: Image.asset(
-                    r'assets/icon/logo.png',
-                    alignment: Alignment.center,
-                    height: 120,
-                  )),
+                    child: Image.asset(
+                      r'assets/icon/logo.png',
+                      alignment: Alignment.center,
+                      height: 120,
+                    ),
+                  ),
                 ],
               ),
             ),

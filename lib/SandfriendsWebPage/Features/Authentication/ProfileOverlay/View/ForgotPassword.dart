@@ -9,6 +9,8 @@ import '../../../../../Common/Components/SFTextField.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../../../../Common/Utils/Validators.dart';
 
+final forgotPasswordFormKey = GlobalKey<FormState>();
+
 class ForgotPassword extends StatelessWidget {
   VoidCallback onTapForgotPassword;
   ForgotPassword({
@@ -19,22 +21,30 @@ class ForgotPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<ProfileOverlayViewModel>(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SFTextField(
-          controller: viewModel.emailForgotPasswordController,
-          labelText: "E-mail",
-          prefixIcon: SvgPicture.asset(r"assets/icon/email.svg"),
-          pourpose: TextFieldPourpose.Email,
-          validator: emailValidator,
-        ),
-        SizedBox(
-          height: defaultPadding,
-        ),
-        SFButton(
-            buttonLabel: "Recuperar senha", onTap: () => onTapForgotPassword()),
-      ],
+    return Form(
+      key: forgotPasswordFormKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SFTextField(
+            controller: viewModel.emailForgotPasswordController,
+            labelText: "E-mail",
+            prefixIcon: SvgPicture.asset(r"assets/icon/email.svg"),
+            pourpose: TextFieldPourpose.Email,
+            validator: emailValidator,
+          ),
+          SizedBox(
+            height: defaultPadding,
+          ),
+          SFButton(
+              buttonLabel: "Recuperar senha",
+              onTap: () {
+                if (forgotPasswordFormKey.currentState?.validate() == true) {
+                  onTapForgotPassword();
+                }
+              }),
+        ],
+      ),
     );
   }
 }

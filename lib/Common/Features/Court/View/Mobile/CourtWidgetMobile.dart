@@ -293,13 +293,6 @@ class _CourtWidgetMobileState extends State<CourtWidgetMobile> {
                                 Provider.of<StandardScreenViewModel>(context,
                                         listen: false)
                                     .setLoading();
-                                print(checkoutCourt);
-                                print(widget.viewModel.selectedHourPrices);
-                                print(widget.viewModel.selectedSport);
-                                print(widget.viewModel.selectedDate);
-                                print(widget.viewModel.selectedWeekday);
-                                print(widget.viewModel.isRecurrent);
-
                                 Navigator.pushNamed(
                                   context,
                                   "/checkout",

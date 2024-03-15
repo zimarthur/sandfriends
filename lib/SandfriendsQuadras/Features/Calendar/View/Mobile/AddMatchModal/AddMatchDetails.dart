@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../../../Common/Components/SFDropDown.dart';
 import '../../../../../../Common/Components/SFTextField.dart';
 import '../../../../../../Common/Components/SelectPlayer.dart';
-import '../../../../../../Common/Model/User/Player_old.dart';
 import '../../../../../../Common/Model/Sport.dart';
 import '../../../../../../Common/Model/User/UserStore.dart';
 import '../../../../../../Common/Utils/Constants.dart';

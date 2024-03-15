@@ -16,14 +16,17 @@ class EnvironmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String urlBuilder(String endPoint, {bool isImage = false}) {
+  String urlBuilder(String endPoint,
+      {bool isImage = false, bool isDeepLink = false}) {
     String addReq = "";
-    if (!isImage) {
+    if (!isImage && !isDeepLink) {
       addReq = "/req";
     }
     String url =
         "https://${environment.flavor.flavorString}${environment.product.productUrl}.$sandfriendsUrl$addReq$endPoint";
-    print(url);
+    if (environment.flavor == Flavor.Dev) {
+      print(url);
+    }
     return url;
   }
 }

@@ -19,6 +19,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:uni_links/uni_links.dart';
 
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 abstract class GenericApp extends StatefulWidget {
   final Flavor flavor;
   GenericApp({
@@ -28,12 +30,11 @@ abstract class GenericApp extends StatefulWidget {
 
   Product get product;
   Function(Uri) get handleLink;
-  Function(Map<String, dynamic>) get handleNotification;
+  Function(Map<String, dynamic> data) get handleNotification;
   Route<dynamic>? Function(RouteSettings)? get onGenerateRoute;
   Map<String, Widget Function(BuildContext)> get routes;
   String get appTitle;
   String? initialRoute;
-  GlobalKey<NavigatorState>? navigationKey;
 
   @override
   State<GenericApp> createState() => _AppState();
@@ -52,11 +53,9 @@ class _AppState extends State<GenericApp> {
         if (!mounted) {
           return;
         }
-        setState(() {
-          if (uri != null) {
-            widget.handleLink(uri);
-          }
-        });
+        if (uri != null) {
+          widget.handleLink(uri);
+        }
       }, onError: (Object err) {
         if (!mounted) {
           return;
@@ -100,16 +99,16 @@ class _AppState extends State<GenericApp> {
     );
     super.initState();
     if (!kIsWeb) {
-      // _initURIHandler();
-      // _incomingLinkHandler();
-      // WidgetsBinding.instance.addPostFrameCallback((_) async {
-      //   await FirebaseManager(
-      //     environment: environmentProvider.environment,
-      //   ).initialize(
-      //     messagingCallback: widget.handleNotification,
-      //   );
-      //   await LocalNotificationsManager().initialize(widget.handleNotification);
-      // });
+      _initURIHandler();
+      _incomingLinkHandler();
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await FirebaseManager(
+          environment: environmentProvider.environment,
+        ).initialize(
+          messagingCallback: widget.handleNotification,
+        );
+        await LocalNotificationsManager().initialize(widget.handleNotification);
+      });
     }
   }
 
@@ -150,6 +149,7 @@ class _AppState extends State<GenericApp> {
         ),
       ],
       child: MaterialApp(
+        navigatorKey: navigatorKey,
         title: widget.appTitle,
         debugShowCheckedModeBanner: false,
         localizationsDelegates: const [

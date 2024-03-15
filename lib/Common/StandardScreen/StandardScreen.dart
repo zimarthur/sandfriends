@@ -186,7 +186,7 @@ class _StandardScreenState extends State<StandardScreen> {
                   child: Align(
                     alignment: Alignment.topRight,
                     child: Text(
-                      "${Provider.of<EnvironmentProvider>(context).environment.flavor.flavorString} 10",
+                      "${Provider.of<EnvironmentProvider>(context).environment.flavor.flavorString} 15",
                       style: const TextStyle(
                           fontSize: 12, backgroundColor: textWhite, color: red),
                     ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../Common/Components/SFDropDown.dart';
 import '../../../../../Common/Model/Gender.dart';
-import '../../../../../Common/Model/User/Player_old.dart';
 import '../../../../../Common/Model/Rank.dart';
 import '../../../../../Common/Model/Sport.dart';
 import '../../../../../Common/Components/SFButton.dart';

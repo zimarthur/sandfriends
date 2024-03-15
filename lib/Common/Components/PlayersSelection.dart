@@ -48,7 +48,6 @@ class _PlayersSelectionState extends State<PlayersSelection> {
 
   @override
   void dispose() {
-    print("dispose");
     widget.playerController.removeListener(() {});
     super.dispose();
   }

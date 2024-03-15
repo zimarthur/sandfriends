@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:sandfriends/Common/Utils/Constants.dart';
+
 import 'Sport.dart';
 
 class Rank {
@@ -14,6 +17,10 @@ class Rank {
     required this.name,
     required this.color,
   });
+
+  Color get colorObj => name == "-"
+      ? textDarkGrey
+      : Color(int.parse("0xFF${color.replaceAll("#", "")}"));
 
   factory Rank.fromJson(Map<String, dynamic> json,
       {List<Sport>? availableSports}) {

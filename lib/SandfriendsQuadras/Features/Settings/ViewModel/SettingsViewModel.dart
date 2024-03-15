@@ -174,6 +174,8 @@ class SettingsViewModel extends ChangeNotifier {
     settingsRepo
         .updateStoreInfo(context, storeEdit, storeAvatar != null)
         .then((response) {
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
       if (response.responseStatus == NetworkResponseStatus.success) {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
@@ -338,6 +340,8 @@ class SettingsViewModel extends ChangeNotifier {
       token,
     )
         .then((response) {
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
       if (response.responseStatus == NetworkResponseStatus.success) {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
@@ -374,6 +378,8 @@ class SettingsViewModel extends ChangeNotifier {
           Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
         )
             .then((response) {
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setPageStatusOk();
           if (response.responseStatus == NetworkResponseStatus.success) {
             Provider.of<StandardScreenViewModel>(context, listen: false)
                 .addModalMessage(

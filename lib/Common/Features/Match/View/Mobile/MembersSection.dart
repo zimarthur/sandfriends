@@ -92,20 +92,22 @@ class _MembersSectionState extends State<MembersSection> {
                                           false
                                   ? Container(
                                       margin: EdgeInsets.symmetric(
-                                          horizontal: defaultPadding),
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: defaultPadding / 2,
-                                        vertical: defaultPadding,
+                                        horizontal: defaultPadding / 4,
+                                      ),
+                                      padding: EdgeInsets.all(
+                                        defaultPadding / 4,
                                       ),
                                       decoration: BoxDecoration(
                                         color: secondaryPaper,
-                                        borderRadius: BorderRadius.circular(16),
+                                        borderRadius: BorderRadius.circular(
+                                            defaultBorderRadius),
                                       ),
                                       child: const Text(
                                         "Solic. Enviada",
                                         style: TextStyle(
                                           color: secondaryYellow,
                                           fontWeight: FontWeight.w700,
+                                          fontSize: 12,
                                         ),
                                       ),
                                     )
@@ -116,10 +118,10 @@ class _MembersSectionState extends State<MembersSection> {
                                       widget.viewModel.matchExpired == false
                                   ? Container(
                                       margin: EdgeInsets.symmetric(
-                                          horizontal: defaultPadding),
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: defaultPadding / 2,
-                                        vertical: defaultPadding,
+                                        horizontal: defaultPadding / 4,
+                                      ),
+                                      padding: EdgeInsets.all(
+                                        defaultPadding / 4,
                                       ),
                                       decoration: BoxDecoration(
                                         color: secondaryPaper,
@@ -130,6 +132,7 @@ class _MembersSectionState extends State<MembersSection> {
                                         style: TextStyle(
                                           color: secondaryYellow,
                                           fontWeight: FontWeight.w700,
+                                          fontSize: 12,
                                         ),
                                       ),
                                     )

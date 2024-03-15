@@ -229,16 +229,13 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                       children: [
                         const Text("Rank:"),
                         Text(
-                          widget.viewModel.userEdited.ranks
-                              .where((ranks) =>
-                                  ranks.sport.idSport ==
-                                  widget.viewModel.displayedSport.idSport)
-                              .first
-                              .name,
-                          style: const TextStyle(
-                            color: textBlue,
+                          widget.viewModel.userRankForSport.name,
+                          style: TextStyle(
+                            color: widget.viewModel.userRankForSport.colorObj,
                             fontWeight: FontWeight.w700,
                             decoration: TextDecoration.underline,
+                            decorationColor:
+                                widget.viewModel.userRankForSport.colorObj,
                           ),
                         ),
                       ],

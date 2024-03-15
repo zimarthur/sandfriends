@@ -145,11 +145,9 @@ class NewCreditCardViewModel extends ChangeNotifier {
     if (cep.length == 8) {
       FocusScope.of(context).unfocus();
       Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
-      print("ARTHUR ${cardNicknameController.text}");
       try {
         newCreditCardRepo.getCepInfo(context, cep).then(
           (response) {
-            print("ARTHUR ${cardNicknameController.text}");
             Map<String, dynamic> responseBody = json.decode(
               response.responseBody!,
             );

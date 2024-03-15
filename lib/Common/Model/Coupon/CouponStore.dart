@@ -51,8 +51,6 @@ class CouponStore extends Coupon {
     DateTime now = DateTime.now();
     DateTime start = startDateTime;
     DateTime end = endDateTime;
-    print("asd $startDateTime");
-    print("asd $endDateTime");
     return now.isAfter(start) && now.isBefore(end);
   }
 

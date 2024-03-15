@@ -73,12 +73,6 @@ class OnboardingViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  @override
-  void dispose() {
-    print("DISPOSE VM");
-    super.dispose();
-  }
-
   void openSportSelectorModal(BuildContext context) {
     Provider.of<StandardScreenViewModel>(context, listen: false)
         .addOverlayWidget(
@@ -153,6 +147,8 @@ class OnboardingViewModel extends ChangeNotifier {
             } else {
               Provider.of<StandardScreenViewModel>(context, listen: false)
                   .setPageStatusOk();
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .clearOverlays();
             }
           } else {
             Provider.of<StandardScreenViewModel>(context, listen: false)

@@ -1,4 +1,3 @@
-import 'package:sandfriends/Common/Model/User/UserOld.dart';
 import 'AppMatch/AppMatchUser.dart';
 import 'Hour.dart';
 import 'Sport.dart';

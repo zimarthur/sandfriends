@@ -8,7 +8,6 @@ import '../../../../../../Common/Components/SFTextField.dart';
 import '../../../../../../Common/Components/SelectPlayer.dart';
 import '../../../../../../Common/Model/Court.dart';
 import '../../../../../../Common/Model/Hour.dart';
-import '../../../../../../Common/Model/User/Player_old.dart';
 import '../../../../../../Common/Model/User/UserStore.dart';
 import '../../../../../../Common/Utils/Validators.dart';
 import '../../../../../../Common/Model/Sport.dart';

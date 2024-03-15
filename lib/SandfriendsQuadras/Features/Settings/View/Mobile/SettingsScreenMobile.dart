@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreen.dart';
@@ -34,24 +35,25 @@ class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Ativar notificações",
-                      style: TextStyle(
-                        color: textBlue,
+                if (!kIsWeb)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Ativar notificações",
+                        style: TextStyle(
+                          color: textBlue,
+                        ),
                       ),
-                    ),
-                    Switch(
-                      value: Provider.of<StoreProvider>(context)
-                          .loggedEmployee
-                          .allowNotifications,
-                      onChanged: (value) =>
-                          viewModel.updateAllowNotifications(context, value),
-                    )
-                  ],
-                ),
+                      Switch(
+                        value: Provider.of<StoreProvider>(context)
+                            .loggedEmployee
+                            .allowNotifications,
+                        onChanged: (value) =>
+                            viewModel.updateAllowNotifications(context, value),
+                      )
+                    ],
+                  ),
                 Column(
                   children: [
                     SFButton(

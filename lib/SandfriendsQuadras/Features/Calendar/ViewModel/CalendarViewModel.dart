@@ -8,7 +8,6 @@ import '../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
 import '../../../../Common/Model/Court.dart';
 import '../../../../Common/Model/Hour.dart';
 import '../../../../Common/Model/HourPrice/HourPriceStore.dart';
-import '../../../../Common/Model/User/Player_old.dart';
 import '../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
 import '../../../../Common/Model/TabItem.dart';
 import '../../../../Common/Model/User/UserStore.dart';

@@ -2,16 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
-import 'package:sandfriends/Common/Model/Hour.dart';
 import 'package:sandfriends/Sandfriends/Providers/RedirectProvider/RedirectProvider.dart';
 
 import '../../../../../Common/Model/User/UserComplete.dart';
 import '../../../../../Remote/NetworkResponse.dart';
-import '../../../../../Common/Model/User/UserOld.dart';
-import '../../../../../Common/Model/Sport.dart';
-import '../../../../../Common/Model/Gender.dart';
-import '../../../../../Common/Model/Rank.dart';
-import '../../../../../Common/Model/SidePreference.dart';
 import '../../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Providers/UserProvider/UserProvider.dart';
 import '../Repository/LoadLoginRepo.dart';

@@ -207,15 +207,21 @@ class MatchViewModel extends ChangeNotifier {
       );
     } else {
       await Share.share(
-          'Entre na minha partida!\n ${Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder("/redirect/?ct=mtch&bd=${match.matchUrl}")}');
+          'Entre na minha partida!\n ${Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+        "/partida/${match.matchUrl}",
+        isDeepLink: true,
+      )}');
     }
   }
 
   void copyMatchUrlClipboard(BuildContext context) async {
     await Clipboard.setData(
       ClipboardData(
-        text: Provider.of<EnvironmentProvider>(context, listen: false)
-            .urlBuilder("/redirect/?ct=mtch&bd=${match.matchUrl}"),
+        text:
+            Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+          "/partida/${match.matchUrl}",
+          isDeepLink: true,
+        ),
       ),
     );
   }
@@ -232,7 +238,7 @@ class MatchViewModel extends ChangeNotifier {
   void onTapStore(BuildContext context) {
     Navigator.pushNamed(
       context,
-      '/quadras/${match.court.store!.url}',
+      '/quadra/${match.court.store!.url}',
       arguments: {
         'store': match.court.store!,
       },
