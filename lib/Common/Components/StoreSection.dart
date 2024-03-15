@@ -27,7 +27,6 @@ class StoreSection extends StatefulWidget {
 class _StoreSectionState extends State<StoreSection> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return LayoutBuilder(builder: (layoutContext, layoutConstraints) {
       double layoutHeight = layoutConstraints.maxHeight;
       return InkWell(
@@ -43,8 +42,8 @@ class _StoreSectionState extends State<StoreSection> {
                 "Local",
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
+                  fontSize: 18,
                 ),
-                textScaleFactor: 1.3,
               ),
             ),
             Expanded(
@@ -57,7 +56,8 @@ class _StoreSectionState extends State<StoreSection> {
                       child: CachedNetworkImage(
                         imageUrl: Provider.of<EnvironmentProvider>(context,
                                 listen: false)
-                            .urlBuilder(widget.court.store!.logo!),
+                            .urlBuilder(widget.court.store!.logo!,
+                                isImage: true),
                         height: layoutHeight * 0.65,
                         width: layoutHeight * 0.65,
                         placeholder: (context, url) => SizedBox(
@@ -78,7 +78,11 @@ class _StoreSectionState extends State<StoreSection> {
                       ),
                     ),
                   ),
-                  Padding(padding: EdgeInsets.only(right: width * 0.05)),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      right: defaultPadding,
+                    ),
+                  ),
                   Expanded(
                       child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -86,9 +90,11 @@ class _StoreSectionState extends State<StoreSection> {
                     children: [
                       Text(
                         widget.court.store!.name,
-                        textScaleFactor: 1.2,
                         style: const TextStyle(
-                            fontWeight: FontWeight.w700, color: primaryBlue),
+                          fontWeight: FontWeight.w700,
+                          color: primaryBlue,
+                          fontSize: 18,
+                        ),
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,10 +102,13 @@ class _StoreSectionState extends State<StoreSection> {
                           SvgPicture.asset(
                             r'assets/icon/location_ping.svg',
                             color: primaryBlue,
-                            width: 15,
+                            height: 15,
                           ),
                           Padding(
-                              padding: EdgeInsets.only(right: width * 0.02)),
+                            padding: EdgeInsets.only(
+                              right: defaultPadding / 2,
+                            ),
+                          ),
                           Expanded(
                             child: Text(
                               widget.fullAddress
@@ -108,6 +117,7 @@ class _StoreSectionState extends State<StoreSection> {
                               style: const TextStyle(
                                 color: primaryBlue,
                                 fontSize: 12,
+                                overflow: TextOverflow.ellipsis,
                               ),
                               maxLines: 1,
                             ),
@@ -124,8 +134,10 @@ class _StoreSectionState extends State<StoreSection> {
                             widget.court.isIndoor
                                 ? "Quadra Coberta"
                                 : "Quadra Descoberta",
-                            textScaleFactor: 0.8,
-                            style: const TextStyle(color: textDarkGrey),
+                            style: const TextStyle(
+                              color: textDarkGrey,
+                              fontSize: 11,
+                            ),
                           ),
                         ],
                       )

@@ -2,14 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Components/Modal/SFModalMessage.dart';
 import 'package:sandfriends/Common/Managers/LinkOpener/LinkOpenerManager.dart';
 import '../../../../Common/Components/SFPieChart.dart';
 import '../../../../Common/Model/Gender.dart';
-import '../../../../Common/Model/User/Player_old.dart';
 import '../../../../Common/Model/Sport.dart';
 import '../../../../Common/Model/User/UserStore.dart';
+import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
+import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../Menu/ViewModel/DataProvider.dart';
+import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
 import '../Model/PieChartKpi.dart';
 import '../Model/PlayersDataSource.dart';
@@ -91,15 +93,15 @@ class PlayersViewModel extends ChangeNotifier {
     filteredGender = defaultGender;
     filteredSport = defaultSport;
     sportsFilters.add(defaultSport);
-    Provider.of<DataProvider>(context, listen: false)
-        .availableSports
+    Provider.of<CategoriesProvider>(context, listen: false)
+        .sports
         .forEach((sport) {
       availableSports.add(sport);
       sportsFilters.add(sport.description);
     });
     genderFilters.add(defaultGender);
-    Provider.of<DataProvider>(context, listen: false)
-        .availableGenders
+    Provider.of<CategoriesProvider>(context, listen: false)
+        .genders
         .forEach((gender) {
       availableGenders.add(gender);
       genderFilters.add(gender.name);
@@ -123,7 +125,7 @@ class PlayersViewModel extends ChangeNotifier {
 
   void setPlayersDataSource(BuildContext context) {
     _players.clear();
-    Provider.of<DataProvider>(context, listen: false)
+    Provider.of<StoreProvider>(context, listen: false)
         .storePlayers
         .forEach((player) {
       if ((filteredGender == defaultGender ||
@@ -155,35 +157,36 @@ class PlayersViewModel extends ChangeNotifier {
         break;
       case PlayersTableCallback.Delete:
         Provider.of<MenuProvider>(context, listen: false).setModalConfirmation(
+            context,
             "Deseja mesmo excluir ${player.fullName}?",
             "Após a exclusão, os dados de ${player.firstName} não estarão mais disponíveis",
             () => deletePlayer(context, player), () {
-          Provider.of<MenuProvider>(context, listen: false).closeModal();
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .closeModal();
         });
         break;
     }
   }
 
   void openStorePlayerWidget(BuildContext context, UserStore? existingPlayer) {
-    Provider.of<MenuProvider>(context, listen: false)
-        .setModalForm(StorePlayerWidget(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(StorePlayerWidget(
       editPlayer: existingPlayer,
       onReturn: () => closeModal(context),
       onSavePlayer: (player) => editPlayer(context, player),
       onCreatePlayer: (player) => addPlayer(context, player),
-      sports: Provider.of<DataProvider>(context, listen: false).availableSports,
-      ranks: Provider.of<DataProvider>(context, listen: false).availableRanks,
-      genders:
-          Provider.of<DataProvider>(context, listen: false).availableGenders,
+      sports: Provider.of<CategoriesProvider>(context, listen: false).sports,
+      ranks: Provider.of<CategoriesProvider>(context, listen: false).ranks,
+      genders: Provider.of<CategoriesProvider>(context, listen: false).genders,
     ));
   }
 
   void addPlayer(BuildContext context, UserStore player) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     playersRepo
         .addPlayer(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       player,
     )
         .then((response) {
@@ -192,27 +195,36 @@ class PlayersViewModel extends ChangeNotifier {
           response.responseBody!,
         );
 
-        Provider.of<DataProvider>(context, listen: false)
-            .setPlayersResponse(responseBody);
+        Provider.of<StoreProvider>(context, listen: false)
+            .setPlayersResponse(context, responseBody);
         setPlayersDataSource(context);
-        Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModal("Jogador(a) adicionado(a)!", null, true);
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: "Jogador(a) adicionado(a)!",
+            onTap: () {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .removeLastOverlay();
+            },
+            isHappy: true,
+          ),
+        );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }
 
   void editPlayer(BuildContext context, UserStore player) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     playersRepo
         .editPlayer(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       player,
     )
         .then((response) {
@@ -221,27 +233,36 @@ class PlayersViewModel extends ChangeNotifier {
           response.responseBody!,
         );
 
-        Provider.of<DataProvider>(context, listen: false)
-            .setPlayersResponse(responseBody);
+        Provider.of<StoreProvider>(context, listen: false)
+            .setPlayersResponse(context, responseBody);
         setPlayersDataSource(context);
-        Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModal("Jogador(a) atualizado(a)!", null, true);
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: "Jogador(a) atualizado(a)!",
+            onTap: () {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .removeLastOverlay();
+            },
+            isHappy: true,
+          ),
+        );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }
 
   void deletePlayer(BuildContext context, UserStore player) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     playersRepo
         .deleteStorePlayer(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       player.id!,
     )
         .then((response) {
@@ -250,23 +271,29 @@ class PlayersViewModel extends ChangeNotifier {
           response.responseBody!,
         );
 
-        Provider.of<DataProvider>(context, listen: false)
-            .setPlayersResponse(responseBody);
+        Provider.of<StoreProvider>(context, listen: false)
+            .setPlayersResponse(context, responseBody);
         setPlayersDataSource(context);
-        Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModal("Jogador(a) excluído(a)", null, true);
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: "Jogador(a) excluído(a)",
+            onTap: () {},
+            isHappy: true,
+          ),
+        );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }
 
   void closeModal(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).closeModal();
+    Provider.of<StandardScreenViewModel>(context, listen: false).closeModal();
   }
 
   openWhatsApp(BuildContext context, UserStore player) {

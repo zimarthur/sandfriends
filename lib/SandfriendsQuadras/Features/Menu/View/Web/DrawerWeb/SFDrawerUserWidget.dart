@@ -4,7 +4,7 @@ import '../../../../../../Common/Components/SFAvatarUser.dart';
 import '../../../../../../Common/Utils/Constants.dart';
 import 'package:provider/provider.dart';
 
-import '../../../ViewModel/DataProvider.dart';
+import '../../../ViewModel/StoreProvider.dart';
 import '../../../ViewModel/MenuProvider.dart';
 import 'SFDrawerPopup.dart';
 
@@ -30,10 +30,10 @@ class _SFDrawerUserWidgetState extends State<SFDrawerUserWidget> {
             children: [
               SFAvatarStore(
                 height: 75,
-                storePhoto: Provider.of<DataProvider>(context, listen: false)
+                storePhoto: Provider.of<StoreProvider>(context, listen: false)
                     .store
                     ?.logo,
-                storeName: Provider.of<DataProvider>(context, listen: false)
+                storeName: Provider.of<StoreProvider>(context, listen: false)
                     .store!
                     .name,
               ),
@@ -47,7 +47,7 @@ class _SFDrawerUserWidgetState extends State<SFDrawerUserWidget> {
                       children: [
                         Expanded(
                           child: Text(
-                            "Olá, ${Provider.of<DataProvider>(context, listen: false).loggedEmployee.firstName}!",
+                            "Olá, ${Provider.of<StoreProvider>(context, listen: false).loggedEmployee.firstName}!",
                             style: TextStyle(
                               color: textWhite,
                             ),
@@ -86,7 +86,7 @@ class _SFDrawerUserWidgetState extends State<SFDrawerUserWidget> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        Provider.of<DataProvider>(context, listen: false)
+                        Provider.of<StoreProvider>(context, listen: false)
                             .store!
                             .name,
                         style: TextStyle(
@@ -103,10 +103,10 @@ class _SFDrawerUserWidgetState extends State<SFDrawerUserWidget> {
             children: [
               SFAvatarStore(
                   height: 50,
-                  storePhoto: Provider.of<DataProvider>(context, listen: false)
+                  storePhoto: Provider.of<StoreProvider>(context, listen: false)
                       .store
                       ?.logo,
-                  storeName: Provider.of<DataProvider>(context, listen: false)
+                  storeName: Provider.of<StoreProvider>(context, listen: false)
                       .store!
                       .name),
               InkWell(

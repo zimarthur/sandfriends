@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/Coupon/CouponUser.dart';
+import 'package:sandfriends/Common/Model/CreditCard/CreditCardValidator.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/View/AddCupomModal.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/View/CvvModal.dart';
@@ -15,21 +16,25 @@ import 'package:sandfriends/Sandfriends/Features/Checkout/View/Payment/ModalCred
 import 'package:sandfriends/Common/Model/Court.dart';
 import 'package:sandfriends/Common/Model/CreditCard/CreditCard.dart';
 import 'package:sandfriends/Common/Model/Hour.dart';
-import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import 'package:sandfriends/Common/Utils/Validators.dart';
+import 'package:sandfriends/Sandfriends/Features/NewCreditCard/View/NewCreditCardModal.dart';
+import 'package:sandfriends/SandfriendsWebPage/Features/Authentication/ProfileOverlay/View/ProfileOverlay.dart';
 
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Model/CouponUnited.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Model/Sport.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Utils/PageStatus.dart';
 import '../../../../Common/Model/HourPrice/HourPriceUser.dart';
 
-class CheckoutViewModel extends StandardScreenViewModel {
+class CheckoutViewModel extends ChangeNotifier {
   final checkoutRepo = CheckoutRepo();
 
   late Court court;
+  int? idStore;
   late List<HourPriceUser> hourPrices;
   late List<Hour> availableHours;
   late Sport sport;
@@ -41,17 +46,18 @@ class CheckoutViewModel extends StandardScreenViewModel {
 
   CouponUser? appliedCoupon;
 
-  String cvv = "";
-
   SelectedPayment selectedPayment = SelectedPayment.NotSelected;
   CreditCard? selectedCreditCard;
-  TextEditingController cpfController =
-      MaskedTextController(mask: "000.000.000-00");
+  TextEditingController cpfController = MaskedTextController(
+    mask: "000.000.000-00",
+    cursorBehavior: CursorBehaviour.end,
+  );
   TextEditingController cvvController = MaskedTextController(mask: "0000");
   TextEditingController cupomController = TextEditingController();
 
   final ScrollController scrollController = ScrollController();
   final FocusNode cpfFocus = FocusNode();
+  final FocusNode cvvFocus = FocusNode();
 
   String get matchPeriod {
     return "${startingHour.hourString} - ${endingHour.hourString}";
@@ -100,9 +106,7 @@ class CheckoutViewModel extends StandardScreenViewModel {
     bool receivedIsRecurrent,
     bool receivedIsRenovating,
   ) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
-    if (Provider.of<UserProvider>(context, listen: false).user!.cpf != null) {
+    if (Provider.of<UserProvider>(context, listen: false).user?.cpf != null) {
       cpfController.text =
           Provider.of<UserProvider>(context, listen: false).user!.cpf!;
     }
@@ -138,47 +142,60 @@ class CheckoutViewModel extends StandardScreenViewModel {
           for (var day in responseRecurrentDays) {
             matchDates.add(DateFormat('dd/MM/yyyy').parse(day));
           }
-
-          pageStatus = PageStatus.OK;
           notifyListeners();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .setPageStatusOk();
+          });
         } else {
-          modalMessage = SFModalMessage(
-            title: response.responseTitle!,
-            onTap: () {
-              if (response.responseStatus ==
-                  NetworkResponseStatus.expiredToken) {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/login_signup',
-                  (Route<dynamic> route) => false,
-                );
-              } else {
-                pageStatus = PageStatus.OK;
-                notifyListeners();
-              }
-            },
-            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .addModalMessage(
+            SFModalMessage(
+              title: response.responseTitle!,
+              onTap: () {
+                if (response.responseStatus ==
+                    NetworkResponseStatus.expiredToken) {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/login_signup',
+                    (Route<dynamic> route) => false,
+                  );
+                }
+              },
+              isHappy: response.responseStatus == NetworkResponseStatus.alert,
+            ),
           );
-          pageStatus = PageStatus.ERROR;
-          notifyListeners();
         }
       });
     } else {
       date = receivedDate!;
       matchDates.add(date);
-      pageStatus = PageStatus.OK;
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
       notifyListeners();
     }
   }
 
-  void setNewSelectedPayment(SelectedPayment newSelectedPayment) {
-    if (newSelectedPayment == SelectedPayment.CreditCard) {
-      widgetForm = ModalCreditCardSelector(
-        onSelectedCreditCard: (selectedCreditCard) =>
-            onSelectedCreditCard(selectedCreditCard),
-      );
-      pageStatus = PageStatus.FORM;
+  void setNewSelectedPayment(
+      BuildContext context, SelectedPayment newSelectedPayment) {
+    if (newSelectedPayment == selectedPayment) {
       selectedPayment = SelectedPayment.NotSelected;
+    } else if (newSelectedPayment == SelectedPayment.CreditCard) {
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addOverlayWidget(
+        ModalCreditCardSelector(
+          onSelectedCreditCard: (selectedCreditCard) =>
+              onSelectedCreditCard(context, selectedCreditCard),
+          onAddNewCreditCard: () {
+            {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .addOverlayWidget(
+                NewCreditCardModal(),
+              );
+            }
+          },
+        ),
+      );
     } else {
       selectedPayment = newSelectedPayment;
       if (newSelectedPayment == SelectedPayment.PayInStore) {
@@ -188,9 +205,13 @@ class CheckoutViewModel extends StandardScreenViewModel {
     notifyListeners();
   }
 
-  void onSelectedCreditCard(CreditCard newSelectedCreditCard) {
+  void onSelectedCreditCard(
+      BuildContext context, CreditCard newSelectedCreditCard) {
     selectedCreditCard = newSelectedCreditCard;
-    pageStatus = PageStatus.OK;
+
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .removeLastOverlay();
+
     selectedPayment = SelectedPayment.CreditCard;
     notifyListeners();
   }
@@ -198,28 +219,30 @@ class CheckoutViewModel extends StandardScreenViewModel {
   void validateReservation(BuildContext context) {
     if (selectedPayment != SelectedPayment.NotSelected) {
       String? validationCpf = cpfValidator(cpfController.text, null);
+      String? validationCvv = validateCVV(cvvController.text);
       if (selectedPayment == SelectedPayment.Pix && validationCpf != null) {
-        modalMessage = SFModalMessage(
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
             title: validationCpf[0].toUpperCase() + validationCpf.substring(1),
             onTap: () {
-              pageStatus = PageStatus.OK;
-
               FocusScope.of(context).requestFocus(cpfFocus);
-
-              notifyListeners();
             },
-            isHappy: true);
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
-      } else if (selectedPayment == SelectedPayment.CreditCard) {
-        widgetForm = CvvModal(
-            selectedCreditCard: selectedCreditCard!,
-            onCvv: (receivedCvv) {
-              cvv = receivedCvv;
-              makeReservation(context);
-            });
-        pageStatus = PageStatus.FORM;
-        notifyListeners();
+            isHappy: true,
+          ),
+        );
+      } else if (selectedPayment == SelectedPayment.CreditCard &&
+          validationCvv != null) {
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: validationCvv[0].toUpperCase() + validationCvv.substring(1),
+            onTap: () {
+              FocusScope.of(context).requestFocus(cvvFocus);
+            },
+            isHappy: true,
+          ),
+        );
       } else {
         makeReservation(context);
       }
@@ -241,8 +264,8 @@ class CheckoutViewModel extends StandardScreenViewModel {
   }
 
   void matchReservation(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     checkoutRepo
         .matchReservation(
       context,
@@ -263,38 +286,42 @@ class CheckoutViewModel extends StandardScreenViewModel {
       selectedPayment == SelectedPayment.CreditCard
           ? selectedCreditCard!.idCreditCard
           : null,
-      cvv,
+      cvvController.text,
     )
         .then((response) {
       if (selectedPayment == SelectedPayment.Pix &&
-          response.responseStatus == NetworkResponseStatus.alert) {
-        pixModalResponse(context, response.responseTitle!);
+          response.responseStatus == NetworkResponseStatus.success) {
+        pixModalResponse(context, response.responseBody!);
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            if (response.responseStatus == NetworkResponseStatus.alert) {
-              Navigator.pushNamed(context, '/home');
-            } else {
-              pageStatus = PageStatus.OK;
-              notifyListeners();
-            }
-          },
-          buttonText: response.responseStatus == NetworkResponseStatus.alert
-              ? "Concluído"
-              : "Voltar",
-          isHappy: response.responseStatus == NetworkResponseStatus.alert,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              if (response.responseStatus == NetworkResponseStatus.alert) {
+                Navigator.pushNamed(
+                    context,
+                    Provider.of<EnvironmentProvider>(context, listen: false)
+                            .environment
+                            .isSandfriends
+                        ? '/home'
+                        : "/");
+                Provider.of<StandardScreenViewModel>(context, listen: false)
+                    .clearOverlays();
+              }
+            },
+            buttonText: response.responseStatus == NetworkResponseStatus.alert
+                ? "Concluído"
+                : "Voltar",
+            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          ),
         );
-        canTapBackground = false;
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       }
     });
   }
 
   void recurrentMatchReservation(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     checkoutRepo
         .recurrentMatchReservation(
       context,
@@ -312,89 +339,119 @@ class CheckoutViewModel extends StandardScreenViewModel {
       selectedPayment == SelectedPayment.CreditCard
           ? selectedCreditCard!.idCreditCard
           : null,
-      cvv,
+      cvvController.text,
       isRenovating,
     )
         .then((response) {
-      canTapBackground = false;
       if (selectedPayment == SelectedPayment.Pix &&
-          response.responseStatus == NetworkResponseStatus.alert) {
-        pixModalResponse(context, response.responseTitle!);
+          response.responseStatus == NetworkResponseStatus.success) {
+        pixModalResponse(context, response.responseBody!);
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            if (response.responseStatus == NetworkResponseStatus.alert) {
-              Navigator.pushNamed(context, '/home');
-            } else {
-              pageStatus = PageStatus.OK;
-              notifyListeners();
-            }
-          },
-          buttonText: response.responseStatus == NetworkResponseStatus.alert
-              ? "Concluído"
-              : "Voltar",
-          isHappy: response.responseStatus == NetworkResponseStatus.alert,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .clearOverlays();
+              if (response.responseStatus == NetworkResponseStatus.alert) {
+                Navigator.pushNamed(context, '/home');
+              }
+            },
+            buttonText: response.responseStatus == NetworkResponseStatus.alert
+                ? "Concluído"
+                : "Voltar",
+            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          ),
         );
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       }
     });
+  }
+
+  void onTapLogin(BuildContext context) {
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      SizedBox(
+        width: MediaQuery.of(context).size.width * 0.7,
+        child: ProfileOverlay(
+          mustCloseWhenDone: true,
+          close: () =>
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .clearOverlays(),
+        ),
+      ),
+    );
   }
 
   void pixModalResponse(BuildContext context, String response) {
     Map<String, dynamic> responseBody = json.decode(
       response,
     );
-
-    widgetForm = PixModalResponse(
-      message: responseBody["Message"],
-      pixCode: responseBody["Pixcode"],
-      isRecurrent: isRecurrent,
-      onReturn: () => Navigator.pushNamed(context, '/home'),
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      PixModalResponse(
+        message: responseBody["Message"],
+        pixCode: responseBody["Pixcode"],
+        isRecurrent: isRecurrent,
+        onReturn: () {
+          Navigator.pushNamed(
+              context,
+              Provider.of<EnvironmentProvider>(context, listen: false)
+                      .environment
+                      .isSandfriends
+                  ? '/home'
+                  : "/");
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .clearOverlays();
+        },
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
+  }
+
+  void setAddCupomModal(BuildContext context) {
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      AddCupomModal(
+        cupomController: cupomController,
+        onAddCupom: () => onAddCupom(context),
+        onReturn: () {
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .removeLastOverlay();
+        },
+      ),
+    );
   }
 
   void onAddCupom(BuildContext context) {
-    canTapBackground = true;
-    widgetForm = AddCupomModal(
-      cupomController: cupomController,
-      onAddCupom: () {
-        pageStatus = PageStatus.LOADING;
-        notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
 
-        checkoutRepo
-            .validateCoupon(context, cupomController.text, court.store!.idStore,
-                startingHour.hour, endingHour.hour, date)
-            .then((response) {
-          if (response.responseStatus == NetworkResponseStatus.success) {
-            Map<String, dynamic> responseBody = json.decode(
-              response.responseBody!,
-            );
-            appliedCoupon = CouponUser.fromJson(responseBody);
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          } else {
-            modalMessage = SFModalMessage(
-              title: response.responseTitle!,
-              onTap: () {
-                onAddCupom(context);
-              },
-              isHappy: response.responseStatus == NetworkResponseStatus.alert,
-            );
-            pageStatus = PageStatus.ERROR;
-            notifyListeners();
-          }
-        });
-      },
-      onReturn: () {
-        canTapBackground = false;
-        closeModal();
-      },
-    );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
+    checkoutRepo
+        .validateCoupon(
+            context,
+            cupomController.text,
+            idStore ?? court.store!.idStore,
+            startingHour.hour,
+            endingHour.hour,
+            date)
+        .then((response) {
+      if (response.responseStatus == NetworkResponseStatus.success) {
+        Map<String, dynamic> responseBody = json.decode(
+          response.responseBody!,
+        );
+        appliedCoupon = CouponUser.fromJson(responseBody);
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setPageStatusOk();
+        notifyListeners();
+      } else {
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {},
+            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          ),
+        );
+      }
+    });
   }
 }

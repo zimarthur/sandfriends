@@ -17,7 +17,7 @@ class _NewCreditCardScreenState extends State<NewCreditCardScreen> {
 
   @override
   void initState() {
-    viewModel.initNewCreditCard(context);
+    viewModel.initNewCreditCard(context, false);
     super.initState();
   }
 
@@ -28,7 +28,6 @@ class _NewCreditCardScreenState extends State<NewCreditCardScreen> {
       child: Consumer<NewCreditCardViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             titleText: "Novo Cartão de Crédito",
             appBarType: AppBarType.Secondary,
             child: NewCreditCardWidget(

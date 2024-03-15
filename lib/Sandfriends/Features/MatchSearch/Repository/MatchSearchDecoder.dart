@@ -13,11 +13,11 @@ import '../../../../Common/Model/AvailableStore.dart';
 import '../../../../Common/Model/Hour.dart';
 import '../../../../Common/Model/Store/StoreComplete.dart';
 import '../../../../Common/Model/Store/StoreUser.dart';
-import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import 'package:geolocator/geolocator.dart';
 
-import '../../Court/Model/CourtAvailableHours.dart';
+import '../../../../Common/Features/Court/Model/CourtAvailableHours.dart';
 import '../../../../Common/Model/HourPrice/HourPriceUser.dart';
 
 Tuple2<List<AvailableDay>, List<AppMatchUser>> matchSearchDecoder(

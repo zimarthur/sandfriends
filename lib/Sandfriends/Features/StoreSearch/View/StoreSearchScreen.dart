@@ -40,7 +40,6 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
       child: Consumer<StoreSearchViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             titleText: viewModel.titleText,
             rightWidget: InkWell(
               onTap: () => viewModel.goToSearchFilter(context),

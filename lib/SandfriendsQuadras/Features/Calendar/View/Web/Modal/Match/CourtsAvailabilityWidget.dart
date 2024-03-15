@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../../../../Common/Components/SFButton.dart';
 import '../../../../../../../Common/Components/SFDivider.dart';
 import '../../../../../../../Common/Model/AppMatch/AppMatchStore.dart';
@@ -9,7 +10,7 @@ import '../../../../../../../Common/Model/Court.dart';
 import '../../../../../../../Common/Model/Hour.dart';
 import '../../../../../../../Common/Model/SelectedPayment.dart';
 import '../../../../../../../Common/Utils/Constants.dart';
-import '../../../../../Menu/ViewModel/DataProvider.dart';
+import '../../../../../Menu/ViewModel/StoreProvider.dart';
 import '../../../../../Menu/ViewModel/MenuProvider.dart';
 import '../../../../ViewModel/CalendarViewModel.dart';
 import 'MatchDetailsWidgetRow.dart';
@@ -73,7 +74,7 @@ class CourtsAvailabilityWidget extends StatelessWidget {
                 MatchDetailsWidgetRow(
                   title: "Horário",
                   value:
-                      "${hour.hourString} - ${Provider.of<DataProvider>(context, listen: false).availableHours.firstWhere((hr) => hr.hour > hour.hour).hourString}",
+                      "${hour.hourString} - ${Provider.of<CategoriesProvider>(context, listen: false).hours.firstWhere((hr) => hr.hour > hour.hour).hourString}",
                 ),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: defaultPadding),
@@ -81,12 +82,12 @@ class CourtsAvailabilityWidget extends StatelessWidget {
                 ),
                 Expanded(
                     child: ListView.builder(
-                  itemCount: Provider.of<DataProvider>(context, listen: false)
+                  itemCount: Provider.of<StoreProvider>(context, listen: false)
                       .courts
                       .length,
                   itemBuilder: (context, index) {
                     Court court =
-                        Provider.of<DataProvider>(context, listen: false)
+                        Provider.of<StoreProvider>(context, listen: false)
                             .courts[index];
                     AppMatchStore? match = matches.firstWhereOrNull((match) =>
                         match.court.idStoreCourt == court.idStoreCourt);
@@ -97,7 +98,7 @@ class CourtsAvailabilityWidget extends StatelessWidget {
                     return Padding(
                       padding: EdgeInsets.only(
                         bottom: index ==
-                                Provider.of<DataProvider>(context,
+                                Provider.of<StoreProvider>(context,
                                             listen: false)
                                         .courts
                                         .length -

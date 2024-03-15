@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../../Common/Model/User/Player_old.dart';
 import '../../../../Common/Model/User/UserStore.dart';
 import '../../../../Remote/ApiEndPoints.dart';
 import '../../../../Remote/NetworkApiService.dart';
@@ -80,13 +79,13 @@ class CalendarRepo {
       context,
       ApiEndPoints.blockHour,
       jsonEncode(
-        <String, Object>{
+        <String, Object?>{
           "AccessToken": accessToken,
           "IdStoreCourt": idStoreCourt,
           "Date": DateFormat("dd/MM/yyyy").format(date),
           "IdHour": hour,
-          "IdStorePlayer": player.isStorePlayer ? player.id! : "",
-          "IdUser": player.isStorePlayer ? "" : player.id!,
+          "IdStorePlayer": player.isStorePlayer ? player.id! : null,
+          "IdUser": player.isStorePlayer ? null : player.id!,
           "IdSport": idSport,
           "BlockedReason": obs,
           "Price": price,

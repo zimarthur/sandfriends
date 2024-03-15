@@ -4,7 +4,7 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../Common/Utils/Constants.dart';
-import '../../../../Menu/ViewModel/DataProvider.dart';
+import '../../../../Menu/ViewModel/StoreProvider.dart';
 
 var today = DateUtils.dateOnly(DateTime.now());
 
@@ -37,7 +37,7 @@ class _DatePickerState extends State<DatePicker> {
         weekdayLabels: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
         firstDate: widget.allowPastDates == false
             ? DateTime.now()
-            : Provider.of<DataProvider>(context, listen: false)
+            : Provider.of<StoreProvider>(context, listen: false)
                 .store!
                 .approvalDate,
         calendarType: widget.multiDate

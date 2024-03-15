@@ -28,23 +28,18 @@ import '../../Rewards/View/Mobile/RewardsScreenMobile.dart';
 import '../../Settings/View/Web/SettingsScreenWeb.dart';
 import '../../Settings/View/Mobile/SettingsScreenMobile.dart';
 import '../Model/DrawerItem.dart';
-import 'DataProvider.dart';
+import 'StoreProvider.dart';
 
 class MenuProvider extends StandardScreenViewModel {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
-
   final loginRepo = LoginRepo();
 
   @override
   void onTapReturn(BuildContext context) {
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .setPageStatusOk();
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .clearOverlays();
     quickLinkHome(context);
-  }
-
-  void controlMenu() {
-    // if (!_scaffoldKey.currentState!.isDrawerOpen) {
-    _scaffoldKey.currentState!.openDrawer();
-    //}
   }
 
   void initHomeScreen(BuildContext context) {
@@ -59,21 +54,23 @@ class MenuProvider extends StandardScreenViewModel {
   }
 
   void validateAuthentication(BuildContext context) async {
-    if (Provider.of<DataProvider>(context, listen: false).store == null) {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+    if (Provider.of<StoreProvider>(context, listen: false).store == null) {
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
       String? storedToken = await LocalStorageManager().getAccessToken(context);
       if (storedToken != null) {
         loginRepo.validateToken(context, storedToken).then((response) async {
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setPageStatusOk();
           if (response.responseStatus == NetworkResponseStatus.success) {
             try {
-              Provider.of<DataProvider>(context, listen: false)
+              Provider.of<StoreProvider>(context, listen: false)
                   .setLoginResponse(context, response.responseBody!, true);
             } catch (e) {
               print(e);
             }
-            setIsEmployeeAdmin(Provider.of<DataProvider>(context, listen: false)
-                .isLoggedEmployeeAdmin());
+            setIsEmployeeAdmin(
+                Provider.of<StoreProvider>(context, listen: false)
+                    .isLoggedEmployeeAdmin());
             setSelectedDrawerItem(mainDrawer.first);
             String? lastPage = await LocalStorageManager().getLastPage(context);
             if (lastPage != null &&
@@ -89,84 +86,66 @@ class MenuProvider extends StandardScreenViewModel {
           } else {
             Navigator.pushNamed(context, "/login");
           }
-          pageStatus = PageStatus.OK;
-          notifyListeners();
         });
       } else {
         Navigator.pushNamed(context, "/login");
       }
     } else {
-      setIsEmployeeAdmin(Provider.of<DataProvider>(context, listen: false)
+      setIsEmployeeAdmin(Provider.of<StoreProvider>(context, listen: false)
           .isLoggedEmployeeAdmin());
       setSelectedDrawerItem(mainDrawer.first);
     }
   }
 
-  Future<void> updateDataProvider(BuildContext context) async {
+  Future<void> updateStoreProvider(BuildContext context) async {
     String? storedToken = await LocalStorageManager().getAccessToken(context);
     if (storedToken != null) {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
       NetworkResponse response =
           await loginRepo.validateToken(context, storedToken);
       if (response.responseStatus == NetworkResponseStatus.success) {
-        Provider.of<DataProvider>(context, listen: false)
+        Provider.of<StoreProvider>(context, listen: false)
             .setLoginResponse(context, response.responseBody!, true);
-        setIsEmployeeAdmin(Provider.of<DataProvider>(context, listen: false)
+        setIsEmployeeAdmin(Provider.of<StoreProvider>(context, listen: false)
             .isLoggedEmployeeAdmin());
         setSelectedDrawerItem(mainDrawer.first);
       }
-      pageStatus = PageStatus.OK;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
     }
   }
 
-  void setModalLoading() {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
-  }
-
-  void setMessageModal(String title, String? description, bool isHappy,
+  void setMessageModalFromResponse(
+      BuildContext context, NetworkResponse response,
       {VoidCallback? onTap}) {
-    modalMessage = SFModalMessage(
-      title: title,
-      description: description,
-      onTap: onTap ??
-          () {
-            closeModal();
-          },
-      isHappy: isHappy,
-    );
-    pageStatus = PageStatus.ERROR;
-    notifyListeners();
-  }
-
-  void setMessageModalFromResponse(NetworkResponse response) {
-    setMessageModal(
-      response.responseTitle!,
-      response.responseDescription,
-      response.responseStatus == NetworkResponseStatus.alert,
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addModalMessage(
+      SFModalMessage(
+        title: response.responseTitle!,
+        description: response.responseDescription,
+        onTap: () {
+          if (onTap != null) {
+            onTap();
+          }
+        },
+        isHappy: response.responseStatus == NetworkResponseStatus.alert,
+      ),
     );
   }
 
-  void setModalForm(Widget widget) {
-    widgetForm = widget;
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
-  }
-
-  void setModalConfirmation(String title, String description,
-      VoidCallback onContinue, VoidCallback onReturn,
+  void setModalConfirmation(BuildContext context, String title,
+      String description, VoidCallback onContinue, VoidCallback onReturn,
       {bool? isConfirmationPositive}) {
-    widgetForm = SFModalConfirmation(
-      title: title,
-      description: description,
-      onContinue: onContinue,
-      onReturn: onReturn,
-      isConfirmationPositive: isConfirmationPositive,
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      SFModalConfirmation(
+        title: title,
+        description: description,
+        onContinue: onContinue,
+        onReturn: onReturn,
+        isConfirmationPositive: isConfirmationPositive,
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 
   bool _isDrawerOpened = false;
@@ -234,7 +213,6 @@ class MenuProvider extends StandardScreenViewModel {
       widgetMobile: RewardsScreenMobile(),
       mainDrawer: true,
       availableMobile: true,
-      isNew: true,
     ),
     DrawerItem(
       title: "Financeiro",
@@ -244,7 +222,6 @@ class MenuProvider extends StandardScreenViewModel {
       widgetMobile: FinancesScreenMobile(),
       mainDrawer: true,
       availableMobile: true,
-      isNew: true,
     ),
     DrawerItem(
       title: "Minhas quadras",
@@ -262,7 +239,6 @@ class MenuProvider extends StandardScreenViewModel {
       widgetMobile: PlayersScreenMobile(),
       mainDrawer: true,
       availableMobile: true,
-      isNew: true,
     ),
     DrawerItem(
       title: "Cupons de desconto",
@@ -272,7 +248,6 @@ class MenuProvider extends StandardScreenViewModel {
       widgetMobile: CouponsScreenMobile(),
       mainDrawer: true,
       availableMobile: true,
-      isNew: true,
     ),
     DrawerItem(
       title: "Meu perfil",
@@ -346,7 +321,9 @@ class MenuProvider extends StandardScreenViewModel {
     if (drawerItem.logout) {
       logout(context);
     }
-    scaffoldKey.currentState!.closeEndDrawer();
+    try {
+      Scaffold.of(context).closeEndDrawer();
+    } catch (e) {}
     notifyListeners();
   }
 
@@ -363,7 +340,8 @@ class MenuProvider extends StandardScreenViewModel {
 
   void quickLinkBrand(BuildContext context) {
     DrawerItem? drawer = permissionsDrawerItems
-        .firstWhereOrNull((tab) => tab.title == "Meu Perfil");
+        .firstWhereOrNull((tab) => tab.title == "Meu perfil");
+
     if (drawer != null) {
       onTabClick(
         drawer,
@@ -391,7 +369,7 @@ class MenuProvider extends StandardScreenViewModel {
   }
 
   void logout(BuildContext context) {
-    Provider.of<DataProvider>(context, listen: false).clearDataProvider();
+    Provider.of<StoreProvider>(context, listen: false).clearStoreProvider();
     LocalStorageManager().storeAccessToken(context, "");
     Navigator.pushNamedAndRemoveUntil(
       context,

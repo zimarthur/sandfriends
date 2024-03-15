@@ -9,7 +9,7 @@ import '../../../../Common/Model/AvailableStore.dart';
 import '../../../../Common/Model/Court.dart';
 import '../../../../Common/Model/Hour.dart';
 import '../../../../Common/Model/Store/StoreComplete.dart';
-import '../../Court/Model/CourtAvailableHours.dart';
+import '../../../../Common/Features/Court/Model/CourtAvailableHours.dart';
 import '../../../../Common/Model/HourPrice/HourPriceUser.dart';
 
 List<AvailableDay> recurrentMatchDecoder(String response) {

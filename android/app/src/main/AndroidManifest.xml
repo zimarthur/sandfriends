@@ -61,8 +61,7 @@
                 <!-- Accepts URIs that begin with https://YOUR_HOST -->
                 <data
                 android:scheme="https"
-                android:pathPrefix="/redirect/"
-                android:host="${envUrl}app.sandfriends.com.br"/>
+                android:host="${subDomainDeeplink}.sandfriends.com.br"/>
                 <!-- <data android:scheme="https" /> -->
             </intent-filter>
 

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/StandardScreen/StandardScreen.dart';
+import 'package:sandfriends/Sandfriends/Features/Onboarding/Enum/EnumOnboardingPage.dart';
+import 'package:sandfriends/Sandfriends/Features/Onboarding/View/OnboardingWidgetForm.dart';
+import 'package:sandfriends/Sandfriends/Features/Onboarding/View/OnboardingWidgetWelcome.dart';
 
+import '../../../../Common/Model/AppBarType.dart';
 import '../ViewModel/OnboardingViewModel.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -15,7 +20,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   void initState() {
-    viewModel.initOnboardingViewModel(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      viewModel.initOnboardingViewModel(context);
+    });
     super.initState();
   }
 
@@ -25,7 +32,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       create: (BuildContext context) => viewModel,
       child: Consumer<OnboardingViewModel>(
         builder: (context, viewModel, _) {
-          return viewModel.displayWidget;
+          return StandardScreen(
+            titleText: viewModel.onboardingPage == EnumOnboardingPage.Welcome
+                ? "Boas-vindas"
+                : "Meu perfil",
+            appBarType: AppBarType.Secondary,
+            child: viewModel.onboardingPage == EnumOnboardingPage.Welcome
+                ? OnboardingWidgetWelcome()
+                : OnboardingWidgetForm(),
+          );
         },
       ),
     );

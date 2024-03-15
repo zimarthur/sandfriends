@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../../../Common/Components/SFPaymentStatus.dart';
 import '../../../../../Common/Model/AppMatch/AppMatchStore.dart';
 import '../../../../../Common/Utils/Constants.dart';
-import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Menu/ViewModel/StoreProvider.dart';
 
 class ResumedMatch extends StatelessWidget {
   AppMatchStore match;
@@ -41,7 +41,7 @@ class ResumedMatch extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      Provider.of<DataProvider>(context, listen: false)
+                      Provider.of<StoreProvider>(context, listen: false)
                           .courts
                           .firstWhere((court) =>
                               court.idStoreCourt == match.court.idStoreCourt)

@@ -14,12 +14,17 @@ class NetworkApiService {
     String? completeUrl,
   }) async {
     try {
-      final response = await http
-          .get(Uri.parse(completeUrl ?? getCompleteUrl(context, endPoint)));
+      String uri = completeUrl ?? getCompleteUrl(context, endPoint);
+      if (Provider.of<EnvironmentProvider>(context, listen: false)
+          .environment
+          .isDev) {
+        print(uri);
+      }
+      final response = await http.get(Uri.parse(uri));
       return returnResponse(
         response,
       );
-    } on SocketException {
+    } on SocketException catch (e) {
       return NetworkResponse(
         responseStatus: NetworkResponseStatus.error,
         responseTitle: "Ops, você está sem acesso à internet",
@@ -35,8 +40,12 @@ class NetworkApiService {
   }) async {
     try {
       String uri = completeUrl ?? getCompleteUrl(context, endPoint);
-      print(uri);
-      print(body);
+      if (Provider.of<EnvironmentProvider>(context, listen: false)
+          .environment
+          .isDev) {
+        print(uri);
+        print(body);
+      }
       final response = await http
           .post(
             Uri.parse(uri),
@@ -47,9 +56,15 @@ class NetworkApiService {
           )
           .timeout(
             const Duration(
-              seconds: 10,
+              seconds: 100,
             ),
           );
+      if (Provider.of<EnvironmentProvider>(context, listen: false)
+          .environment
+          .isDev) {
+        print("Status Code: ${response.statusCode}");
+        print("Body: ${response.body}");
+      }
       return returnResponse(response);
     } on SocketException {
       return NetworkResponse(
@@ -73,13 +88,6 @@ class NetworkApiService {
       );
     } catch (e) {}
 
-    String? title =
-        responseBody == null ? response.body : responseBody['Title'];
-    String? description =
-        responseBody == null ? null : responseBody['Description'];
-    print(statusCode);
-    print(response.body);
-
     if (statusCode.startsWith("2")) {
       if (statusCode == "200") {
         return NetworkResponse(
@@ -87,6 +95,10 @@ class NetworkApiService {
           responseBody: response.body,
         );
       }
+      String? title =
+          responseBody == null ? response.body : responseBody['Title'];
+      String? description =
+          responseBody == null ? null : responseBody['Description'];
       if (statusCode == "231") {
         return NetworkResponse(
           responseStatus: NetworkResponseStatus.alert,

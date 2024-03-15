@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../../Common/Utils/Constants.dart';
-import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Menu/ViewModel/StoreProvider.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';
 import '../../ViewModel/HomeViewModel.dart';
 import 'CourtOccupationWidget.dart';
@@ -71,7 +71,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                                   children: [
                                     Row(
                                       children: [
-                                        if (Provider.of<DataProvider>(context,
+                                        if (Provider.of<StoreProvider>(context,
                                                 listen: false)
                                             .isLoggedEmployeeAdmin())
                                           Expanded(
@@ -88,7 +88,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                                               isCurrency: true,
                                             ),
                                           ),
-                                        if (Provider.of<DataProvider>(context,
+                                        if (Provider.of<StoreProvider>(context,
                                                 listen: false)
                                             .isLoggedEmployeeAdmin())
                                           SizedBox(

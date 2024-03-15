@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../../Common/Components/SFDropDown.dart';
-import '../../../../../../Common/Model/OperationDay.dart';
+import '../../../../../../Common/Model/OperationDayStore.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../Common/Utils/Constants.dart';
@@ -9,7 +9,7 @@ import '../../../../../../Common/Utils/SFDateTime.dart';
 import '../../../ViewModel/MyCourtsViewModel.dart';
 
 class ResumedInfoRow extends StatefulWidget {
-  OperationDay operationDay;
+  OperationDayStore operationDay;
   bool isEditing;
   double rowHeight;
   Function(bool) setAllowRecurrent;

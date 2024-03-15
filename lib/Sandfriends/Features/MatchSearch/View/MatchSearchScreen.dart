@@ -23,7 +23,7 @@ class _MatchSearchScreenState extends State<MatchSearchScreen> {
 
   @override
   void initState() {
-    viewModel.initMatchSearchViewModel(context, widget.sportId);
+    viewModel.initMatchSearchViewModel(context);
     super.initState();
   }
 
@@ -34,7 +34,6 @@ class _MatchSearchScreenState extends State<MatchSearchScreen> {
       child: Consumer<MatchSearchViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             titleText: viewModel.titleText,
             rightWidget: InkWell(
               onTap: () => viewModel.goToSearchFilter(context),

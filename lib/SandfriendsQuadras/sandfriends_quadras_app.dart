@@ -14,7 +14,7 @@ import 'Features/Authentication/EmailConfirmation/View/EmailConfirmationScreen.d
 import 'Features/Authentication/ForgotPassword/View/ForgotPasswordScreen.dart';
 import 'Features/Authentication/Login/View/LoginScreen.dart';
 import 'Features/Menu/View/MenuScreen.dart';
-import 'Features/Menu/ViewModel/DataProvider.dart';
+import 'Features/Menu/ViewModel/StoreProvider.dart';
 import 'Features/Menu/ViewModel/MenuProvider.dart';
 import 'Features/Notifications/View/NotificationsScreen.dart';
 
@@ -28,63 +28,42 @@ class SandfriendsQuadrasApp extends GenericApp {
   Product get product => Product.SandfriendsQuadras;
 
   @override
-  Function(Uri link) get handleLink => (link) {};
+  MaterialPageRoute? Function(Uri) get handleLink => (link) {};
 
   @override
-  Function(Map<String, dynamic> data) get handleNotification => (data) {};
+  Uri? Function(Map<String, dynamic> data) get handleNotification => (data) {};
 
   @override
   String? get initialRoute => '/login';
 
   @override
   Route? Function(RouteSettings p1)? get onGenerateRoute => (settings) {
-        String newAccountEmployee = '/adem'; //add employee
-        String emailConfirmation = '/emcf'; //email confirmation
-        String changePassword = '/cgpw'; //change password
+        String newAccountEmployee = '/novo-funcionario/'; //add employee
+        String emailConfirmation = '/confirme-seu-email/'; //email confirmation
+        String changePassword = '/troca-senha/'; //change password
         if (settings.name!.startsWith(newAccountEmployee)) {
-          final token = settings.name!.split("?")[1].split("=")[1];
           return MaterialPageRoute(
             builder: (context) {
               return CreateAccountEmployeeScreen(
-                token: token,
+                token: settings.name!.split(newAccountEmployee)[1],
               );
             },
           );
         } else if (settings.name!.startsWith(emailConfirmation)) {
-          bool isStoreRequest = true;
-          String token = "";
-          final arguments = settings.name!.split("?")[1].split("&");
-          for (var argument in arguments) {
-            if (argument.startsWith("str")) {
-              isStoreRequest = argument.split("=")[1] == "1";
-            } else {
-              token = argument.split("=")[1];
-            }
-          }
           return MaterialPageRoute(
             builder: (context) {
               return EmailConfirmationScreen(
-                token: token,
-                isStoreRequest: isStoreRequest,
+                token: settings.name!.split(emailConfirmation)[1],
+                isStoreRequest: true,
               );
             },
           );
         } else if (settings.name!.startsWith(changePassword)) {
-          bool isStoreRequest = true;
-          String token = "";
-          final arguments = settings.name!.split("?")[1].split("&");
-          for (var argument in arguments) {
-            if (argument.startsWith("str")) {
-              isStoreRequest = argument.split("=")[1] == "1";
-            } else {
-              token = argument.split("=")[1];
-            }
-          }
           return MaterialPageRoute(
             builder: (context) {
               return ChangePasswordScreen(
-                token: token,
-                isStoreRequest: isStoreRequest,
+                token: settings.name!.split(changePassword)[1],
+                isStoreRequest: true,
               );
             },
           );

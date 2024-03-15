@@ -13,14 +13,14 @@ import '../../../../Common/Model/Store/StoreComplete.dart';
 import '../../../../Common/Model/TabItem.dart';
 import '../../../../Common/Utils/SFImage.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../Menu/ViewModel/DataProvider.dart';
+import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
 import '../BasicInfo/View/BasicInfo.dart';
 import '../BrandInfo/View/BrandInfo.dart';
 import '../EmployeeInfo/View/EmployeeInfo.dart';
 import '../Repository/SettingsRepo.dart';
 
-class SettingsViewModel extends StandardScreenViewModel {
+class SettingsViewModel extends ChangeNotifier {
   final settingsRepo = SettingsRepo();
 
   void initTabs() {
@@ -124,12 +124,12 @@ class SettingsViewModel extends StandardScreenViewModel {
   }
 
   void initSettingsViewModel(BuildContext context) {
-    setIsEmployeeAdmin(Provider.of<DataProvider>(context, listen: false)
+    setIsEmployeeAdmin(Provider.of<StoreProvider>(context, listen: false)
         .isLoggedEmployeeAdmin());
     storeRef = StoreComplete.copyWith(
-        Provider.of<DataProvider>(context, listen: false).store!);
+        Provider.of<StoreProvider>(context, listen: false).store!);
     storeEdit = StoreComplete.copyWith(
-        Provider.of<DataProvider>(context, listen: false).store!);
+        Provider.of<StoreProvider>(context, listen: false).store!);
     nameController.text = storeEdit.name;
     telephoneController.text = storeEdit.phoneNumber;
     telephoneOwnerController.text = storeEdit.ownerPhoneNumber ?? "";
@@ -165,7 +165,8 @@ class SettingsViewModel extends StandardScreenViewModel {
       hasChangedPhoto;
 
   void updateUser(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     if (storeAvatar != null) {
       storeEdit.logo = base64Encode(storeAvatar!);
     }
@@ -173,21 +174,26 @@ class SettingsViewModel extends StandardScreenViewModel {
     settingsRepo
         .updateStoreInfo(context, storeEdit, storeAvatar != null)
         .then((response) {
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
       if (response.responseStatus == NetworkResponseStatus.success) {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
         );
-        Provider.of<DataProvider>(context, listen: false).store =
+        Provider.of<StoreProvider>(context, listen: false).store =
             StoreComplete.fromJson(
-          responseBody["StoreComplete"],
+          responseBody["Store"],
         );
         initSettingsViewModel(context);
         hasChangedPhoto = false;
         storeAvatar = null;
-        Provider.of<MenuProvider>(context, listen: false).setMessageModal(
-          "Seus dados foram atualizados!",
-          null,
-          true,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: "Seus dados foram atualizados!",
+            onTap: () {},
+            isHappy: true,
+          ),
         );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
@@ -195,6 +201,7 @@ class SettingsViewModel extends StandardScreenViewModel {
       } else {
         Provider.of<MenuProvider>(context, listen: false)
             .setMessageModalFromResponse(
+          context,
           response,
         );
       }
@@ -202,19 +209,17 @@ class SettingsViewModel extends StandardScreenViewModel {
   }
 
   Future setStoreAvatar(BuildContext context) async {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
     final image = await selectImage(context, 1);
 
     if (image != null) {
       storeAvatar = image;
       notifyListeners();
     }
-
-    Provider.of<MenuProvider>(context, listen: false).closeModal();
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .removeLastOverlay();
   }
 
   Future addStorePhoto(BuildContext context) async {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
     final image = await selectImage(context, 1.43);
 
     if (image != null) {
@@ -234,8 +239,8 @@ class SettingsViewModel extends StandardScreenViewModel {
       hasChangedPhoto = true;
       notifyListeners();
     }
-
-    Provider.of<MenuProvider>(context, listen: false).closeModal();
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .removeLastOverlay();
   }
 
   void deleteStorePhoto(int idStorePhoto) {
@@ -325,29 +330,33 @@ class SettingsViewModel extends StandardScreenViewModel {
         allow = false;
       }
     }
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     settingsRepo
         .allowNotifications(
       context,
-      Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
       allow,
       token,
     )
         .then((response) {
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
       if (response.responseStatus == NetworkResponseStatus.success) {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
         );
-        Provider.of<DataProvider>(context, listen: false)
+        Provider.of<StoreProvider>(context, listen: false)
             .setAllowNotificationsSetttings(responseBody["AllowNotifications"]);
-
-        Provider.of<MenuProvider>(context, listen: false).closeModal();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .removeLastOverlay();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
             .setMessageModalFromResponse(
+          context,
           response,
         );
       }
@@ -356,19 +365,24 @@ class SettingsViewModel extends StandardScreenViewModel {
 
   void deleteAccount(BuildContext context) {
     Provider.of<MenuProvider>(context, listen: false).setModalConfirmation(
+      context,
       "Deseja mesmo deletar sua conta?",
       "Você não conseguirá mais fazer acesso a plataforma se deletar sua conta.",
       isConfirmationPositive: false,
       () {
-        Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setLoading();
         settingsRepo
             .deleteAccount(
           context,
-          Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+          Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
         )
             .then((response) {
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setPageStatusOk();
           if (response.responseStatus == NetworkResponseStatus.success) {
-            Provider.of<MenuProvider>(context, listen: false).setModalForm(
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .addModalMessage(
               SFModalMessage(
                 title: "Sua conta foi deletada",
                 onTap: () => Provider.of<MenuProvider>(context, listen: false)
@@ -382,12 +396,14 @@ class SettingsViewModel extends StandardScreenViewModel {
           } else {
             Provider.of<MenuProvider>(context, listen: false)
                 .setMessageModalFromResponse(
+              context,
               response,
             );
           }
         });
       },
-      () => Provider.of<MenuProvider>(context, listen: false).closeModal(),
+      () => Provider.of<StandardScreenViewModel>(context, listen: false)
+          .removeLastOverlay(),
     );
   }
 }

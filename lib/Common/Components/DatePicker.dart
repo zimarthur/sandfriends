@@ -35,8 +35,9 @@ class _DatePickerState extends State<DatePicker> {
       config: CalendarDatePicker2Config(
         firstDayOfWeek: 1,
         weekdayLabels: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
-        firstDate:
-            widget.allowPastDates == false ? DateTime.now() : widget.firstDate,
+        firstDate: widget.allowPastDates == false
+            ? DateTime.now().subtract(Duration(days: 1))
+            : widget.firstDate,
         calendarType: widget.multiDate
             ? CalendarDatePicker2Type.range
             : CalendarDatePicker2Type.single,

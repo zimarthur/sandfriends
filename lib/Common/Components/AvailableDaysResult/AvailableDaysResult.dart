@@ -6,6 +6,7 @@ import 'package:sandfriends/Common/Model/Store/StoreComplete.dart';
 import '../../../Common/Model/AvailableDay.dart';
 import '../../../Common/Utils/Constants.dart';
 import '../../../Sandfriends/Features/MatchSearch/View/MatchSearchResultTitle.dart';
+import '../../Model/Store/Store.dart';
 import '../../Model/Store/StoreUser.dart';
 import 'AvailableDayCard.dart';
 
@@ -16,7 +17,9 @@ class AvailableDaysResult extends StatefulWidget {
   final AvailableHour? selectedAvailableHour;
   final bool isRecurrent;
   final Function(AvailableDay) onTapHour;
-  final Function(StoreUser) onGoToCourt;
+  final Function(Store) onGoToCourt;
+  final bool showDescription;
+  final VoidCallback? resetSelectedAvailableHour;
 
   const AvailableDaysResult({
     Key? key,
@@ -27,6 +30,8 @@ class AvailableDaysResult extends StatefulWidget {
     required this.onTapHour,
     required this.onGoToCourt,
     this.isRecurrent = false,
+    this.resetSelectedAvailableHour,
+    this.showDescription = true,
   }) : super(key: key);
 
   @override
@@ -39,14 +44,15 @@ class _AvailableDaysResultState extends State<AvailableDaysResult> {
     double height = MediaQuery.of(context).size.height;
     return Column(
       children: [
-        MatchSearchResultTitle(
-          title: "Quadras",
-          iconPath: r'assets/icon/court.svg',
-          description: widget.isRecurrent
-              ? "Seja mensalista na sua quadra de preferência"
-              : "Agende um horário na sua quadra de preferência",
-          themeColor: widget.isRecurrent ? primaryLightBlue : primaryBlue,
-        ),
+        if (widget.showDescription)
+          MatchSearchResultTitle(
+            title: "Quadras",
+            iconPath: r'assets/icon/court.svg',
+            description: widget.isRecurrent
+                ? "Seja mensalista na sua quadra de preferência"
+                : "Agende um horário na sua quadra de preferência",
+            themeColor: widget.isRecurrent ? primaryLightBlue : primaryBlue,
+          ),
         widget.availableDays.isEmpty
             ? Container(
                 margin: EdgeInsets.symmetric(
@@ -81,6 +87,11 @@ class _AvailableDaysResultState extends State<AvailableDaysResult> {
                     selectedAvailableHour: widget.selectedAvailableHour,
                     onGoToCourt: (store) => widget.onGoToCourt(store),
                     isRecurrent: widget.isRecurrent,
+                    resetSelectedAvailableHour: () {
+                      if (widget.resetSelectedAvailableHour != null) {
+                        widget.resetSelectedAvailableHour!();
+                      }
+                    },
                   );
                 },
               ),

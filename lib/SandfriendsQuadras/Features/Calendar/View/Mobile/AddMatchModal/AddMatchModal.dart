@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sandfriends/Common/Model/HourPrice/HourPriceStore.dart';
+import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../../../Common/Components/PlayersSelection.dart';
 import '../../../../../../Common/Components/SFTextField.dart';
 import '../../../../../../Common/Model/Court.dart';
 import '../../../../../../Common/Model/Hour.dart';
-import '../../../../../../Common/Model/User/Player_old.dart';
 import '../../../../../../Common/Model/Sport.dart';
 import '../../../../../../Common/Model/User/UserStore.dart';
 import '../../../../../../Common/Utils/Constants.dart';
-import '../../../../Menu/ViewModel/DataProvider.dart';
 import '../../../Model/BlockMatch.dart';
 import '../../../Model/CalendarType.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +58,7 @@ class _AddMatchModalState extends State<AddMatchModal> {
       hasSelectedMatchType = true;
       currentPage = AddMatchModalPage.SelectPlayer;
     }
-    sports = Provider.of<DataProvider>(context, listen: false).availableSports;
+    sports = Provider.of<CategoriesProvider>(context, listen: false).sports;
     selectedSport = sports.first.description;
     super.initState();
   }

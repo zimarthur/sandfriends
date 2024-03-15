@@ -14,29 +14,30 @@ import '../Model/AppBarType.dart';
 import '../Utils/Responsive.dart';
 
 class StandardScreen extends StatefulWidget {
-  final StandardScreenViewModel viewModel;
-
   final String? titleText;
   final Widget child;
   final Widget? childWeb;
   final AppBarType? appBarType;
+  final Color? background;
   final Widget? rightWidget;
   final bool resizeToAvoidBottomInset = false;
   final bool enableToolbar;
   Widget? drawer;
   Key? scaffoldKey;
+  VoidCallback? customOnTapReturn;
 
   StandardScreen({
     Key? key,
-    required this.viewModel,
     this.titleText,
     required this.child,
     this.childWeb,
     this.rightWidget,
     this.appBarType = AppBarType.Primary,
     this.enableToolbar = true,
+    this.background,
     this.drawer,
     this.scaffoldKey,
+    this.customOnTapReturn,
   }) : super(key: key);
 
   @override
@@ -45,6 +46,15 @@ class StandardScreen extends StatefulWidget {
 
 class _StandardScreenState extends State<StandardScreen> {
   double horizontalDragStart = 0.0;
+  late VoidCallback onTapReturn;
+
+  @override
+  void initState() {
+    onTapReturn = widget.customOnTapReturn ??
+        () => Provider.of<StandardScreenViewModel>(context, listen: false)
+            .onTapReturn(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,18 +66,19 @@ class _StandardScreenState extends State<StandardScreen> {
               .isIos
           ? null
           : () async {
-              widget.viewModel.onTapReturn(context);
+              onTapReturn();
               return false;
             },
       child: Scaffold(
         endDrawer: widget.drawer,
         key: widget.scaffoldKey,
         resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-        backgroundColor: widget.appBarType == AppBarType.Primary
-            ? primaryBlue
-            : widget.appBarType == AppBarType.PrimaryLightBlue
-                ? primaryLightBlue
-                : secondaryBack,
+        backgroundColor: widget.background ??
+            (widget.appBarType == AppBarType.Primary
+                ? primaryBlue
+                : widget.appBarType == AppBarType.PrimaryLightBlue
+                    ? primaryLightBlue
+                    : secondaryBack),
         body: SafeArea(
           top: widget.enableToolbar,
           child: Stack(
@@ -84,15 +95,16 @@ class _StandardScreenState extends State<StandardScreen> {
                       Provider.of<EnvironmentProvider>(context, listen: false)
                           .environment
                           .isIos) {
-                    widget.viewModel.onTapReturn(context);
+                    onTapReturn();
                     horizontalDragStart = 0.0;
                   }
                 },
                 child: Container(
                   decoration:
                       Provider.of<EnvironmentProvider>(context, listen: false)
-                              .environment
-                              .isWeb
+                                  .environment
+                                  .isWeb &&
+                              !Responsive.isMobile(context)
                           ? const BoxDecoration(
                               gradient: LinearGradient(
                                 begin: Alignment.topCenter,
@@ -109,8 +121,7 @@ class _StandardScreenState extends State<StandardScreen> {
                             widget.enableToolbar
                                 ? SFToolbar(
                                     titleText: widget.titleText!,
-                                    onTapReturn: () =>
-                                        widget.viewModel.onTapReturn(context),
+                                    onTapReturn: () => onTapReturn(),
                                     appBarType: widget.appBarType!,
                                     rightWidget: widget.rightWidget,
                                   )
@@ -123,38 +134,50 @@ class _StandardScreenState extends State<StandardScreen> {
                         ),
                 ),
               ),
-              widget.viewModel.pageStatus != PageStatus.OK
-                  ? InkWell(
-                      onTap: () {
-                        if (widget.viewModel.pageStatus != PageStatus.LOADING &&
-                            widget.viewModel.canTapBackground) {
-                          widget.viewModel.closeModal();
-                        }
-                      },
-                      child: Container(
+              for (var overlay
+                  in Provider.of<StandardScreenViewModel>(context).overlays)
+                Visibility(
+                  maintainState: true,
+                  visible: (Provider.of<StandardScreenViewModel>(context)
+                                  .overlays
+                                  .indexOf(overlay) +
+                              1) ==
+                          Provider.of<StandardScreenViewModel>(context)
+                              .overlays
+                              .length ||
+                      overlay.showOnlyIfLast == false,
+                  child: InkWell(
+                    onTap: () {
+                      if (Provider.of<StandardScreenViewModel>(context,
+                              listen: false)
+                          .canTapBackground) {
+                        Provider.of<StandardScreenViewModel>(context,
+                                listen: false)
+                            .closeModal();
+                      }
+                    },
+                    child: Container(
                         color: primaryBlue.withOpacity(0.4),
                         height: height,
                         width: width,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            widget.viewModel.pageStatus == PageStatus.LOADING
-                                ? SFLoading()
-                                : InkWell(
-                                    onTap: () {},
-                                    child: widget.viewModel.pageStatus ==
-                                            PageStatus.FORM
-                                        ? widget.viewModel.widgetForm
-                                        : widget.viewModel.modalMessage,
-                                  ),
+                            InkWell(onTap: () {}, child: overlay.widget),
                             SizedBox(
                               height: MediaQuery.of(context).viewInsets.bottom,
                             )
                           ],
-                        ),
-                      ),
-                    )
-                  : Container(),
+                        )),
+                  ),
+                ),
+              if (Provider.of<StandardScreenViewModel>(context).isLoading)
+                Container(
+                  color: primaryBlue.withOpacity(0.4),
+                  height: height,
+                  width: width,
+                  child: SFLoading(),
+                ),
               if (Provider.of<EnvironmentProvider>(context, listen: false)
                       .environment
                       .flavor !=
@@ -163,10 +186,7 @@ class _StandardScreenState extends State<StandardScreen> {
                   child: Align(
                     alignment: Alignment.topRight,
                     child: Text(
-                      Provider.of<EnvironmentProvider>(context)
-                          .environment
-                          .flavor
-                          .flavorString,
+                      "${Provider.of<EnvironmentProvider>(context).environment.flavor.flavorString} 15",
                       style: const TextStyle(
                           fontSize: 12, backgroundColor: textWhite, color: red),
                     ),

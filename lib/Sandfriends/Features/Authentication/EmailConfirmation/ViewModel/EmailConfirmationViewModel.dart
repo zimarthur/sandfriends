@@ -1,19 +1,24 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
+import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/Authentication/EmailConfirmation/Repository/EmailConfirmationRepo.dart';
 
 import '../../../../../Remote/NetworkResponse.dart';
 import '../../../../../Common/Components/Modal/SFModalMessage.dart';
-import '../../../../../Common/Utils/PageStatus.dart';
 
-class EmailConfirmationViewModel extends StandardScreenViewModel {
+class EmailConfirmationViewModel extends ChangeNotifier {
   final emailConfirmationRepo = EmailConfirmationRepo();
 
   void confirmEmail(BuildContext context, String token) {
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     emailConfirmationRepo.confirmEmail(context, token).then((response) {
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
       if (response.responseStatus == NetworkResponseStatus.success) {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
@@ -22,20 +27,28 @@ class EmailConfirmationViewModel extends StandardScreenViewModel {
             .storeAccessToken(context, responseBody['AccessToken']);
         Navigator.pushNamed(context, '/');
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            Navigator.pushNamed(context, '/login_signup');
-          },
-          isHappy: response.responseStatus != NetworkResponseStatus.error,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              goToLoginSignup(context);
+            },
+            isHappy: response.responseStatus != NetworkResponseStatus.error,
+          ),
         );
-        pageStatus = PageStatus.ERROR;
       }
-      notifyListeners();
     });
   }
 
   void goToLoginSignup(BuildContext context) {
-    Navigator.pushNamed(context, '/login_signup');
+    Navigator.pushNamed(
+        context,
+        Provider.of<EnvironmentProvider>(context, listen: false)
+                    .environment
+                    .product ==
+                Product.Sandfriends
+            ? '/login_signup'
+            : "/");
   }
 }

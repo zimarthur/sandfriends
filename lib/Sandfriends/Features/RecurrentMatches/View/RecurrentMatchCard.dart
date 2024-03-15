@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/AppRecurrentMatch/AppRecurrentMatchUser.dart';
 import 'package:sandfriends/Common/Model/HourPrice/HourPriceUser.dart';
-import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
 
 import '../../../../Common/Components/PixCodeClipboard.dart';
@@ -19,6 +19,7 @@ import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/Components/SFButton.dart';
 
 import '../../../../Common/Components/SFLoading.dart';
+import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import 'RecurrentMatchCardDate.dart';
@@ -41,9 +42,9 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
   DateTime liveDatetime = DateTime.now();
 
   String? get timeToExpirePayment {
-    if (liveDatetime.isAfter(widget.recurrentMatch.validUntil)) return null;
+    if (liveDatetime.isAfter(widget.recurrentMatch.validUntil!)) return null;
     int difference =
-        widget.recurrentMatch.validUntil.difference(DateTime.now()).inSeconds;
+        widget.recurrentMatch.validUntil!.difference(DateTime.now()).inSeconds;
     return "${(difference ~/ 60).toString().padLeft(2, '0')}:${(difference % 60).toString().padLeft(2, '0')}";
   }
 
@@ -207,7 +208,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                         ),
                                         areInTheSameDay(
                                                 widget
-                                                    .recurrentMatch.validUntil,
+                                                    .recurrentMatch.validUntil!,
                                                 widget.recurrentMatch
                                                     .creationDate)
                                             ? widget.expanded
@@ -242,14 +243,14 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                                     DateFormat("dd/MM/yy")
                                                         .format(
                                                       widget.recurrentMatch
-                                                          .validUntil,
+                                                          .validUntil!,
                                                     ),
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w500,
                                                       color: widget
                                                                   .recurrentMatch
-                                                                  .validUntil
+                                                                  .validUntil!
                                                                   .difference(
                                                                       DateTime
                                                                           .now())
@@ -529,7 +530,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
             widget.expanded
                 ? Column(
                     children: [
-                      if (areInTheSameMonth(widget.recurrentMatch.validUntil,
+                      if (areInTheSameMonth(widget.recurrentMatch.validUntil!,
                               DateTime.now()) &&
                           widget.recurrentMatch.nextRecurrentMatches.first
                                   .paymentStatus ==
@@ -563,6 +564,9 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                   );
                                 }
                               });
+                              Provider.of<StandardScreenViewModel>(context,
+                                      listen: false)
+                                  .setLoading();
                               Navigator.pushNamed(
                                 context,
                                 "/checkout",

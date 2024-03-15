@@ -60,7 +60,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           return StandardScreen(
             titleText: "Resumo do agendamento",
             appBarType: AppBarType.Secondary,
-            viewModel: viewModel,
             child: CheckoutWidget(
               viewModel: viewModel,
             ),

@@ -1,9 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreen.dart';
 import '../../../../../Common/Components/SFButton.dart';
 import '../../../../../Common/Utils/Constants.dart';
-import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Menu/ViewModel/StoreProvider.dart';
 import '../../../Menu/ViewModel/MenuProvider.dart';
 import '../../ViewModel/SettingsViewModel.dart';
 
@@ -27,7 +28,6 @@ class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
       create: (BuildContext context) => viewModel,
       child: Consumer<SettingsViewModel>(builder: (context, viewModel, _) {
         return StandardScreen(
-          viewModel: viewModel,
           titleText: "Configurações",
           child: Container(
             color: secondaryBack,
@@ -35,24 +35,25 @@ class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Ativar notificações",
-                      style: TextStyle(
-                        color: textBlue,
+                if (!kIsWeb)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Ativar notificações",
+                        style: TextStyle(
+                          color: textBlue,
+                        ),
                       ),
-                    ),
-                    Switch(
-                      value: Provider.of<DataProvider>(context)
-                          .loggedEmployee
-                          .allowNotifications,
-                      onChanged: (value) =>
-                          viewModel.updateAllowNotifications(context, value),
-                    )
-                  ],
-                ),
+                      Switch(
+                        value: Provider.of<StoreProvider>(context)
+                            .loggedEmployee
+                            .allowNotifications,
+                        onChanged: (value) =>
+                            viewModel.updateAllowNotifications(context, value),
+                      )
+                    ],
+                  ),
                 Column(
                   children: [
                     SFButton(

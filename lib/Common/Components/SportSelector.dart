@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../Common/Utils/Constants.dart';
 import '../../Common/Model/Sport.dart';
-import '../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../Providers/Categories/CategoriesProvider.dart';
 import 'SFButton.dart';
 
 class SportSelector extends StatelessWidget {

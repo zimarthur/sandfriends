@@ -8,8 +8,10 @@ import '../ViewModel/ChangePasswordViewModel.dart';
 
 class ChangePasswordWidget extends StatefulWidget {
   ChangePasswordViewModel viewModel;
+  bool isMobile;
   ChangePasswordWidget({
     required this.viewModel,
+    required this.isMobile,
   });
 
   @override
@@ -23,7 +25,11 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
 
     return Container(
       padding: const EdgeInsets.all(2 * defaultPadding),
-      width: width * 0.4 < 350 ? 350 : width * 0.4,
+      width: widget.isMobile
+          ? width
+          : width * 0.4 < 350
+              ? 350
+              : width * 0.4,
       decoration: BoxDecoration(
         color: secondaryPaper,
         borderRadius: BorderRadius.circular(defaultBorderRadius),

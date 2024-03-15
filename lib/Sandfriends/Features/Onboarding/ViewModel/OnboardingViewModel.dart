@@ -3,24 +3,28 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/User/UserComplete.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
+import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
+import 'package:sandfriends/Sandfriends/Features/Onboarding/Enum/EnumOnboardingPage.dart';
 
-import '../../../../Common/Components/Modal/CitySelectorModal.dart';
+import '../../../../Common/Components/Modal/CitySelectorModal/CitySelectorModal.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
 import '../../../../Common/Model/City.dart';
 import '../../../../Common/Model/Sport.dart';
 import '../Repository/OnboardingRepo.dart';
-import '../View/OnboardingScreenForm.dart';
-import '../View/OnboardingScreenWelcome.dart';
+import '../View/OnboardingWidgetForm.dart';
+import '../View/OnboardingWidgetWelcome.dart';
 import '../View/SportSelectorModal.dart';
 
-class OnboardingViewModel extends StandardScreenViewModel {
+class OnboardingViewModel extends ChangeNotifier {
   void initOnboardingViewModel(BuildContext context) {
-    displayWidget = OnboardingWidgetWelcome(viewModel: this);
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .setPageStatusOk();
     firstNameController.text =
         Provider.of<UserProvider>(context, listen: false).user?.firstName ?? "";
     lastNameController.text =
@@ -33,7 +37,7 @@ class OnboardingViewModel extends StandardScreenViewModel {
 
   final onboardingRepo = OnboardingRepo();
 
-  late Widget displayWidget;
+  EnumOnboardingPage onboardingPage = EnumOnboardingPage.Welcome;
 
   final onboardingFormKey = GlobalKey<FormState>();
   final TextEditingController firstNameController = TextEditingController();
@@ -60,82 +64,63 @@ class OnboardingViewModel extends StandardScreenViewModel {
   }
 
   void goToOnboardingForm(BuildContext context) {
-    displayWidget = OnboardingWidgetForm(viewModel: this);
+    onboardingPage = EnumOnboardingPage.Information;
     notifyListeners();
   }
 
   void goToOnboardingWelcome(BuildContext context) {
-    displayWidget = OnboardingWidgetWelcome(viewModel: this);
+    onboardingPage = EnumOnboardingPage.Welcome;
     notifyListeners();
   }
 
   void openSportSelectorModal(BuildContext context) {
-    FocusScope.of(context).unfocus();
-    widgetForm = SportSelectorModal(
-      sports: Provider.of<CategoriesProvider>(context, listen: false).sports,
-      selectedSport: userSport,
-      onSelectedSport: (newSport) {
-        userSport = newSport;
-        pageStatus = PageStatus.OK;
-        notifyListeners();
-      },
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      SportSelectorModal(
+        sports: Provider.of<CategoriesProvider>(context, listen: false).sports,
+        selectedSport: userSport,
+        onSelectedSport: (newSport) {
+          onSelectedSport(newSport);
+          notifyListeners();
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .removeLastOverlay();
+        },
+      ),
     );
-    pageStatus = PageStatus.FORM;
+  }
+
+  void onSelectedSport(Sport newSport) {
+    userSport = newSport;
     notifyListeners();
   }
 
   void openCitySelectorModal(BuildContext context) {
-    FocusScope.of(context).unfocus();
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
-    if (Provider.of<CategoriesProvider>(context, listen: false)
-        .regions
-        .isEmpty) {
-      Provider.of<CategoriesProvider>(context, listen: false)
-          .categoriesProviderRepo
-          .getAllCities(context)
-          .then((response) {
-        if (response.responseStatus == NetworkResponseStatus.success) {
-          Provider.of<CategoriesProvider>(context, listen: false)
-              .setRegions(response.responseBody!);
-
-          displayCitySelector(context);
-        } else {
-          modalMessage = SFModalMessage(
-            title: response.responseTitle!,
-            onTap: () => openCitySelectorModal(context),
-            isHappy: false,
-            buttonText: "Tentar novamente",
-          );
-          pageStatus = PageStatus.ERROR;
-          notifyListeners();
-        }
-      });
-    } else {
-      displayCitySelector(context);
-    }
-  }
-
-  void displayCitySelector(BuildContext context) {
-    widgetForm = CitySelectorModal(
-      regions: Provider.of<CategoriesProvider>(context, listen: false).regions,
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(CitySelectorModal(
+      onlyAvailableCities: false,
       onSelectedCity: (city) {
-        userCity = city;
-        pageStatus = PageStatus.OK;
-        notifyListeners();
+        onSelectedCity(city);
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .removeLastOverlay();
         FocusScope.of(context).unfocus();
       },
-      onReturn: () => closeModal(),
-    );
-    pageStatus = PageStatus.FORM;
+      onReturn: () =>
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .removeLastOverlay(),
+    ));
+  }
+
+  void onSelectedCity(City newCity) {
+    userCity = newCity;
     notifyListeners();
   }
 
   addUserInfo(BuildContext context) {
     if (isFormValid) {
       if (onboardingFormKey.currentState?.validate() == true) {
-        pageStatus = PageStatus.LOADING;
-        notifyListeners();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .setLoading();
+
         onboardingRepo
             .addUserInfo(
           context,
@@ -154,18 +139,26 @@ class OnboardingViewModel extends StandardScreenViewModel {
             );
             Provider.of<UserProvider>(context, listen: false).user =
                 UserComplete.fromJson(responseBody['User']);
-            Navigator.pushNamed(context, '/home');
+            if (Provider.of<EnvironmentProvider>(context, listen: false)
+                    .environment
+                    .product ==
+                Product.Sandfriends) {
+              Navigator.pushNamed(context, '/home');
+            } else {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .setPageStatusOk();
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .clearOverlays();
+            }
           } else {
-            modalMessage = SFModalMessage(
-              title: response.responseTitle!,
-              onTap: () {
-                pageStatus = PageStatus.OK;
-                notifyListeners();
-              },
-              isHappy: false,
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .addModalMessage(
+              SFModalMessage(
+                title: response.responseTitle!,
+                onTap: () {},
+                isHappy: false,
+              ),
             );
-            pageStatus = PageStatus.ERROR;
-            notifyListeners();
           }
         });
       }

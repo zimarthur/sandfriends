@@ -79,10 +79,10 @@ android {
             storePassword keystoreProperties['storePasswordDemo']
         }
         debug {
-            keyAlias keystoreProperties['keyAliasProd']
-            keyPassword keystoreProperties['keyPasswordProd']
-            storeFile keystoreProperties['storeFileProd'] ? file(keystoreProperties['storeFileProd']) : null
-            storePassword keystoreProperties['storePasswordProd']
+            keyAlias keystoreProperties['keyAliasDev']
+            keyPassword keystoreProperties['keyPasswordDev']
+            storeFile keystoreProperties['storeFileDev'] ? file(keystoreProperties['storeFileDev']) : null
+            storePassword keystoreProperties['storePasswordDev']
         }
     }
     
@@ -100,44 +100,52 @@ android {
             dimension "default"
             resValue "string", "app_name", "Sandfriends"
             applicationIdSuffix "app.prod"
-            manifestPlaceholders.envUrl = ""
+            manifestPlaceholders.subDomainDeeplink = "app"
             signingConfig signingConfigs.releaseProd
         }
         dev {
             dimension "default"
             resValue "string", "app_name", "Sandfriends dev"
             applicationIdSuffix "app.dev"
-            manifestPlaceholders.envUrl = "dev"
+            manifestPlaceholders.subDomainDeeplink = "devapp"
             signingConfig signingConfigs.releaseDev
         }
         demo {
             dimension "default"
             resValue "string", "app_name", "Sandfriends demo"
             applicationIdSuffix "app.demo"
-            manifestPlaceholders.envUrl = "demo"
+            manifestPlaceholders.subDomainDeeplink = "demoapp"
             signingConfig signingConfigs.releaseDemo
         }
         quadrasProd {
             dimension "default"
             resValue "string", "app_name", "Sandfriends Quadras"
             applicationIdSuffix "quadras.prod"
-            manifestPlaceholders.envUrl = "quadras"
+            manifestPlaceholders.subDomainDeeplink = "quadras"
             signingConfig signingConfigs.releaseProd
         }
         quadrasDev {
             dimension "default"
             resValue "string", "app_name", "Sandfriends Quadras dev"
             applicationIdSuffix "quadras.dev"
-            manifestPlaceholders.envUrl = "devquadras"
+            manifestPlaceholders.subDomainDeeplink = "devquadras"
             signingConfig signingConfigs.releaseDev
         }
         quadrasDemo {
             dimension "default"
             resValue "string", "app_name", "Sandfriends Quadras demo"
             applicationIdSuffix "quadras.demo"
-            manifestPlaceholders.envUrl = "demoquadras"
+            manifestPlaceholders.subDomainDeeplink = "demoquadras"
             signingConfig signingConfigs.releaseDemo
         }
+        webPageDev {
+            dimension "default"
+            resValue "string", "app_name", "Sandfriends Quadras dev"
+            applicationIdSuffix "quadras.dev"
+            manifestPlaceholders.subDomainDeeplink = "devquadras"
+            signingConfig signingConfigs.releaseDev
+        }
+       
     }
 }
 

@@ -7,10 +7,11 @@ import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
+import '../../../../Common/Utils/Constants.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Utils/PageStatus.dart';
 
-class AppInfoViewModel extends StandardScreenViewModel {
+class AppInfoViewModel extends ChangeNotifier {
   final appInfoRepo = AppInfoRepo();
 
   String appVersion = "";
@@ -23,28 +24,29 @@ class AppInfoViewModel extends StandardScreenViewModel {
   }
 
   void onTapTerms(BuildContext context) {
-    launchUrl(Uri.parse("https://www.sandfriends.com.br/termos"));
+    launchUrl(Uri.parse(termsUse));
   }
 
   void onTapPrivacy(BuildContext context) {
-    launchUrl(Uri.parse("https://www.sandfriends.com.br/politicaprivacidade"));
+    launchUrl(Uri.parse(privacyPolicy));
   }
 
   void onDeleteAccount(BuildContext context) {
-    widgetForm = DeleteAccountConfirmationModal(
-      onDelete: () => deleteAccount(context),
-      onReturn: () {
-        pageStatus = PageStatus.OK;
-        notifyListeners();
-      },
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      DeleteAccountConfirmationModal(
+        onDelete: () => deleteAccount(context),
+        onReturn: () {
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setPageStatusOk();
+        },
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 
   void deleteAccount(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+
     appInfoRepo
         .removeUser(context,
             Provider.of<UserProvider>(context, listen: false).user!.accessToken)
@@ -56,20 +58,21 @@ class AppInfoViewModel extends StandardScreenViewModel {
           (Route<dynamic> route) => false,
         );
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              '/login_signup',
-              (Route<dynamic> route) => false,
-            );
-          },
-          isHappy: false,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/login_signup',
+                (Route<dynamic> route) => false,
+              );
+            },
+            isHappy: false,
+          ),
         );
-        canTapBackground = false;
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
+        //canTapBackground = false;
       }
     });
   }

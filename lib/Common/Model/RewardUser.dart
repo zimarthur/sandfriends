@@ -33,7 +33,7 @@ class RewardUser {
       rewardClaimed: json['RewardClaimed'],
       rewardClaimedDate: json['RewardClaimedDate'] == null
           ? null
-          : DateFormat('yyyy-MM-dd').parse("${json['RewardClaimedDate']}"),
+          : DateFormat('dd/MM/yyyy').parse("${json['RewardClaimedDate']}"),
       store: json['Store'] == null
           ? null
           : StoreUser.fromJson(

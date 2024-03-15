@@ -3,7 +3,7 @@ import 'package:sandfriends/Common/Components/SFAvatarStore.dart';
 import '../../../../../../Common/Components/SFAvatarUser.dart';
 import '../../../../../../Common/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../ViewModel/DataProvider.dart';
+import '../../../ViewModel/StoreProvider.dart';
 import '../../../ViewModel/MenuProvider.dart';
 import '../../Web/DrawerWeb/SFDrawerListTile.dart';
 import 'package:provider/provider.dart';
@@ -55,11 +55,11 @@ class _SFDrawerMobileState extends State<SFDrawerMobile> {
                           children: [
                             SFAvatarStore(
                                 height: 100,
-                                storePhoto: Provider.of<DataProvider>(context,
+                                storePhoto: Provider.of<StoreProvider>(context,
                                         listen: false)
                                     .store
                                     ?.logo,
-                                storeName: Provider.of<DataProvider>(context,
+                                storeName: Provider.of<StoreProvider>(context,
                                         listen: false)
                                     .store!
                                     .name),
@@ -67,7 +67,7 @@ class _SFDrawerMobileState extends State<SFDrawerMobile> {
                               height: defaultPadding / 4,
                             ),
                             Text(
-                              Provider.of<DataProvider>(context, listen: false)
+                              Provider.of<StoreProvider>(context, listen: false)
                                       .store
                                       ?.name ??
                                   "",
@@ -78,7 +78,7 @@ class _SFDrawerMobileState extends State<SFDrawerMobile> {
                               ),
                             ),
                             Text(
-                              Provider.of<DataProvider>(context, listen: false)
+                              Provider.of<StoreProvider>(context, listen: false)
                                   .loggedEmployee
                                   .fullName,
                               style: TextStyle(
@@ -114,11 +114,6 @@ class _SFDrawerMobileState extends State<SFDrawerMobile> {
                       child: ListView.builder(
                         itemCount: widget.viewModel.mobileDrawerItems.length,
                         itemBuilder: (context, index) {
-                          print("drawer mobile");
-                          print(
-                              widget.viewModel.mobileDrawerItems[index].title);
-                          print(
-                              widget.viewModel.mobileDrawerItems[index].isNew);
                           return InkWell(
                             onTap: () {
                               widget.viewModel.onTabClick(

@@ -6,6 +6,7 @@ import 'package:sandfriends/Common/Utils/SFDateTime.dart';
 
 import '../../../../Common/Components/SFButton.dart';
 
+import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../ViewModel/RecurrentMatchesViewModel.dart';
 import 'RecurrentMatchCard.dart';
@@ -58,7 +59,10 @@ class _RecurrentMatchesWidgetState extends State<RecurrentMatchesWidget> {
                             horizontal: width * 0.02,
                           ),
                           child: InkWell(
-                            onTap: () => widget.viewModel.onTapReturn(
+                            onTap: () => Provider.of<StandardScreenViewModel>(
+                                    context,
+                                    listen: false)
+                                .onTapReturn(
                               context,
                             ),
                             child: Container(

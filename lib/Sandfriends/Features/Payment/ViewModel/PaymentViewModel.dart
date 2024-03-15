@@ -11,12 +11,11 @@ import '../../../../Common/Model/CreditCard/CreditCard.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
 
-class PaymentViewModel extends StandardScreenViewModel {
+class PaymentViewModel extends ChangeNotifier {
   final paymentRepo = PaymentRepo();
 
   void onDeleteCreditCard(BuildContext context, CreditCard creditCard) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     paymentRepo
         .deleteCreditCard(
       context,
@@ -36,38 +35,35 @@ class PaymentViewModel extends StandardScreenViewModel {
             ),
           );
         }
-        modalMessage = SFModalMessage(
-          title: "Seu cartão foi removido!",
-          onTap: () {
-            pageStatus = PageStatus.OK;
-            notifyListeners();
-          },
-          isHappy: true,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: "Seu cartão foi removido!",
+            onTap: () {},
+            isHappy: true,
+          ),
         );
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       } else {
-        modalMessage = SFModalMessage(
-          title: response.responseTitle!,
-          onTap: () {
-            if (response.responseStatus == NetworkResponseStatus.expiredToken) {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/login_signup',
-                (Route<dynamic> route) => false,
-              );
-            } else {
-              pageStatus = PageStatus.OK;
-              notifyListeners();
-            }
-          },
-          isHappy: response.responseStatus == NetworkResponseStatus.alert,
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            onTap: () {
+              if (response.responseStatus ==
+                  NetworkResponseStatus.expiredToken) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login_signup',
+                  (Route<dynamic> route) => false,
+                );
+              }
+            },
+            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          ),
         );
         if (response.responseStatus == NetworkResponseStatus.expiredToken) {
-          canTapBackground = false;
+          //canTapBackground = false;
         }
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       }
     });
   }

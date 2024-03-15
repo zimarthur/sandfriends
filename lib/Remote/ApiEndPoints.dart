@@ -23,6 +23,7 @@ class ApiEndPoints {
   static const String sendFeedback = "/SendFeedback";
 
   static const String getStore = "/GetStore";
+  static const String getStoreOperationDays = "/GetStoreOperationHours";
 
   static const String searchCourts = "/SearchCourts";
   static const String searchStores = "/SearchStores";

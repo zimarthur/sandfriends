@@ -24,7 +24,6 @@ class _RewardsScreenState extends State<RewardsScreen> {
       child: Consumer<RewardsViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             titleText: "Recompensas",
             appBarType: AppBarType.Secondary,
             rightWidget: InkWell(

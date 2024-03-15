@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
-import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/generic_app.dart';
+import '../Common/Features/UserMatches/View/UserMatchesScreen.dart';
 import '../Common/Model/City.dart';
 import '../Common/Model/Court.dart';
 import '../Common/Model/Hour.dart';
 import '../Common/Model/Sport.dart';
-import 'Providers/RedirectProvider/RedirectProvider.dart';
-import 'Providers/UserProvider/UserProvider.dart';
+import '../SandfriendsQuadras/Features/Authentication/ChangePassword/View/ChangePasswordScreen.dart';
 import 'Features/AppInfo/View/AppInfoScreen.dart';
 import 'Features/Authentication/CreateAccount/View/CreateAccountScreen.dart';
 import 'Features/Authentication/EmailConfirmation/View/EmailConfirmationScreen.dart';
@@ -17,12 +15,12 @@ import 'Features/Authentication/LoadLogin/View/LoadLoginScreen.dart';
 import 'Features/Authentication/Login/View/LoginScreen.dart';
 import 'Features/Authentication/LoginSignup/View/LoginSignupScreen.dart';
 import 'Features/Checkout/View/CheckoutScreen.dart';
-import 'Features/Court/Model/CourtAvailableHours.dart';
+import '../Common/Features/Court/Model/CourtAvailableHours.dart';
 import '../Common/Model/HourPrice/HourPriceUser.dart';
-import 'Features/Court/View/CourtScreen.dart';
+import '../Common/Features/Court/View/CourtScreen.dart';
 import 'Features/Home/Model/HomeTabsEnum.dart';
 import 'Features/Home/View/HomeScreen.dart';
-import 'Features/Match/View/MatchScreen.dart';
+import '../Common/Features/Match/View/MatchScreen.dart';
 import 'Features/MatchSearch/View/MatchSearchScreen.dart';
 import 'Features/MatchSearchFilter/Model/CustomFilter.dart';
 import 'Features/MatchSearchFilter/View/MatchSearchFilterScreen.dart';
@@ -37,9 +35,8 @@ import 'Features/Rewards/View/RewardsScreen.dart';
 import 'Features/RewardsUser/View/RewardsUserScreen.dart';
 import 'Features/SearchType/View/SearchTypeScreen.dart';
 import 'Features/StoreSearch/View/StoreSearchScreen.dart';
-import 'Features/UserDetails/View/UserDetailsScreen.dart';
-import 'Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
-import 'Features/UserMatches/View/UserMatchesScreen.dart';
+import '../Common/Features/UserDetails/View/UserDetailsScreen.dart';
+import '../Common/Features/UserDetails/ViewModel/UserDetailsViewModel.dart';
 
 class SandfriendsApp extends GenericApp {
   SandfriendsApp({
@@ -53,61 +50,79 @@ class SandfriendsApp extends GenericApp {
   Product get product => Product.Sandfriends;
 
   @override
-  Function(Uri uri) get handleLink => (uri) {
-        if (uri.queryParameters['ct'] == "mtch") {
+  Function(Uri) get handleLink => (uri) {
+        String emailConfirmation = "/confirme-seu-email/";
+        String match = "/partida/";
+        String court = "/quadra/";
+        String changePassword = '/troca-senha/'; //change password
+
+        if (uri.path.startsWith(match)) {
           navigatorKey.currentState?.push(
             MaterialPageRoute(
               builder: (context) {
                 return LoadLoginScreen(
-                  redirectUri: '/match/${uri.queryParameters['bd'].toString()}',
+                  redirectUri: uri.path,
                 );
               },
             ),
           );
-        } else if (uri.queryParameters['ct'] == "emcf") {
+        } else if (uri.path.startsWith(emailConfirmation)) {
           navigatorKey.currentState?.push(
             MaterialPageRoute(
               builder: (context) {
                 return EmailConfirmationScreen(
-                  confirmationToken: uri.queryParameters['bd'].toString(),
+                  confirmationToken: uri.path.split(emailConfirmation)[1],
                 );
               },
             ),
           );
-        } else if (uri.queryParameters['ct'] == "str") {
+        } else if (uri.path.startsWith(court)) {
           navigatorKey.currentState?.push(
             MaterialPageRoute(
               builder: (context) {
                 return LoadLoginScreen(
-                  redirectUri:
-                      '/court_redirect/${uri.queryParameters['bd'].toString()}',
+                  redirectUri: uri.path,
+                );
+              },
+            ),
+          );
+        } else if (uri.path.startsWith(changePassword)) {
+          navigatorKey.currentState?.push(
+            MaterialPageRoute(
+              builder: (context) {
+                return ChangePasswordScreen(
+                  token: uri.path.split(changePassword)[1],
+                  isStoreRequest: false,
                 );
               },
             ),
           );
         }
+        return null;
       };
 
   @override
   Function(Map<String, dynamic> data) get handleNotification => (data) {
         switch (data["type"]) {
           case "match":
-            handleLink(Uri.dataFromString(
-                "https://sandfriends.com.br/redirect/?ct=mtch&bd=${data["matchUrl"]}"));
+            return handleLink(
+              Uri.parse(
+                "https://sandfriends.com.br/partida/${data["matchUrl"]}",
+              ),
+            );
 
-            break;
           default:
+            return null;
         }
       };
 
   @override
   Route? Function(RouteSettings p1)? get onGenerateRoute => (settings) {
-        String match = "/match";
+        String match = "/partida";
         String matchSearch = "/match_search";
         String matchSearchFilter = "/match_search_filter";
         String recurrentMatchSearch = "/recurrent_match_search";
-        String courtRedirect = "/court_redirect";
-        String court = "/court";
+        String court = "/quadra/";
         String checkout = "/checkout";
         String userDetails = "/user_details";
         String storeSearch = "/store_search";
@@ -158,23 +173,15 @@ class SandfriendsApp extends GenericApp {
               );
             },
           );
-        } else if (settings.name!.startsWith(courtRedirect)) {
-          final storeId = settings.name!.split(court)[1].split("/")[1];
-          return MaterialPageRoute(
-            builder: (context) {
-              return CourtScreen(
-                canMakeReservation: true,
-                idStore: storeId,
-              );
-            },
-          );
-        } else if (settings.name! == court) {
-          final arguments = settings.arguments as Map;
+        } else if (settings.name!.startsWith(court)) {
+          final storeUrl = settings.name!.split(court)[1];
+          final arguments = (settings.arguments ?? {}) as Map;
 
           return MaterialPageRoute(
             builder: (context) {
               return CourtScreen(
-                store: arguments['store'] as StoreUser,
+                storeUrl: storeUrl,
+                store: arguments['store'] as StoreUser?,
                 courtAvailableHours:
                     arguments['availableCourts'] as List<CourtAvailableHours>?,
                 selectedHourPrice:

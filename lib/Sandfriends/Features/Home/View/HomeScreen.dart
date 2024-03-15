@@ -33,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Consumer<HomeViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             enableToolbar: false,
             child: Column(
               children: [

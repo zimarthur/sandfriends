@@ -7,20 +7,26 @@ import 'package:sandfriends/Remote/Url.dart';
 
 class EnvironmentProvider extends ChangeNotifier {
   late Environment environment;
-  EnvironmentProvider(Product product, Flavor flavor) {
+  EnvironmentProvider(
+    Product product,
+    Flavor flavor,
+  ) {
     environment =
         Environment(product: product, flavor: flavor, device: currentDevice);
     notifyListeners();
   }
 
-  String urlBuilder(String endPoint, {bool isImage = false}) {
+  String urlBuilder(String endPoint,
+      {bool isImage = false, bool isDeepLink = false}) {
     String addReq = "";
-    if (!isImage && environment.product == Product.SandfriendsQuadras) {
+    if (!isImage && !isDeepLink) {
       addReq = "/req";
     }
     String url =
         "https://${environment.flavor.flavorString}${environment.product.productUrl}.$sandfriendsUrl$addReq$endPoint";
-    print(url);
+    if (environment.flavor == Flavor.Dev) {
+      print(url);
+    }
     return url;
   }
 }

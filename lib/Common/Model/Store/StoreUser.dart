@@ -1,13 +1,29 @@
 import '../City.dart';
 import '../Court.dart';
+import '../OperationDayUser.dart';
 import 'Store.dart';
 
 class StoreUser extends Store {
-  double? distanceBetweenPlayer;
+  double? distanceBetweenPlayer = 0;
   String description;
   String instagram;
 
   List<String> photos = [];
+
+  List<OperationDayUser>? operationDays;
+  List<OperationDayUser>? get sortedOperationDays {
+    if (operationDays == null) {
+      return null;
+    }
+
+    List<OperationDayUser> sortedList = operationDays!;
+    sortedList.sort(
+      (a, b) => a.weekday.compareTo(
+        b.weekday,
+      ),
+    );
+    return sortedList;
+  }
 
   StoreUser({
     required super.idStore,
@@ -20,6 +36,7 @@ class StoreUser extends Store {
     required super.latitude,
     required super.longitude,
     required super.phoneNumber,
+    required super.url,
     required this.description,
     required this.instagram,
   });
@@ -42,6 +59,7 @@ class StoreUser extends Store {
       description: json['Description'],
       instagram: json['Instagram'],
       phoneNumber: json['PhoneNumber1'],
+      url: json['Url'],
     );
     for (int i = 0; i < json['StorePhotos'].length; i++) {
       newStore.photos.add(json['StorePhotos'][i]['Photo']);
@@ -59,19 +77,19 @@ class StoreUser extends Store {
 
   factory StoreUser.copyWith(StoreUser refStore) {
     var newStore = StoreUser(
-      idStore: refStore.idStore,
-      name: refStore.name,
-      address: refStore.address,
-      addressNumber: refStore.addressNumber,
-      neighbourhood: refStore.neighbourhood,
-      city: refStore.city,
-      latitude: refStore.latitude,
-      longitude: refStore.longitude,
-      logo: refStore.logo,
-      description: refStore.description,
-      instagram: refStore.instagram,
-      phoneNumber: refStore.phoneNumber,
-    );
+        idStore: refStore.idStore,
+        name: refStore.name,
+        address: refStore.address,
+        addressNumber: refStore.addressNumber,
+        neighbourhood: refStore.neighbourhood,
+        city: refStore.city,
+        latitude: refStore.latitude,
+        longitude: refStore.longitude,
+        logo: refStore.logo,
+        description: refStore.description,
+        instagram: refStore.instagram,
+        phoneNumber: refStore.phoneNumber,
+        url: refStore.url);
     for (int i = 0; i < refStore.photos.length; i++) {
       newStore.photos.add(refStore.photos[i]);
     }

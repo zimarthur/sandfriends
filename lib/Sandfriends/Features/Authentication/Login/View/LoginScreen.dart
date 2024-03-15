@@ -24,7 +24,6 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (context, viewModel, _) {
           return StandardScreen(
             titleText: "Login",
-            viewModel: viewModel,
             appBarType: AppBarType.Secondary,
             child: LoginWidget(
               viewModel: viewModel,

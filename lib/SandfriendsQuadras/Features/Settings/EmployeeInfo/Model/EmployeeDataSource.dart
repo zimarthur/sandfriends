@@ -144,15 +144,16 @@ class EmployeeDataSource extends DataGridSource {
       } else {
         //dono alterando info de funcion.
         menuItems = [
-          const PopupMenuItem(
-            value: EmployeeTableCallbacks.GiveAdmin,
-            child: Text(
-              'Conceder admin.',
-              style: TextStyle(
-                color: textDarkGrey,
+          if (employeeRow.registrationDate != null)
+            PopupMenuItem(
+              value: EmployeeTableCallbacks.GiveAdmin,
+              child: Text(
+                'Conceder admin.',
+                style: TextStyle(
+                  color: textDarkGrey,
+                ),
               ),
             ),
-          ),
           const PopupMenuItem(
             value: EmployeeTableCallbacks.RemoveEmployee,
             child: Text(

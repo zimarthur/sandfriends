@@ -6,8 +6,9 @@ import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
 import '../../../../Common/Model/Court.dart';
 import '../../../../Common/Model/Hour.dart';
 import '../../../../Common/Model/SandfriendsQuadras/Reward.dart';
+import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
-import '../../Menu/ViewModel/DataProvider.dart';
+import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
 import '../Model/CourtOccupation.dart';
 import '../Model/FilterCourt.dart';
@@ -67,23 +68,23 @@ class HomeViewModel extends ChangeNotifier {
   void setViewModel(
     BuildContext context,
   ) {
-    store = Provider.of<DataProvider>(context, listen: false).store!;
+    store = Provider.of<StoreProvider>(context, listen: false).store!;
     availableHours =
-        Provider.of<DataProvider>(context, listen: false).availableHours;
+        Provider.of<CategoriesProvider>(context, listen: false).hours;
     setWorkingHours(context);
 
     displayedHour = availableHours.firstWhere((hour) =>
         DateTime.now().hour == hour.hour ||
         (DateTime.now().hour == 0 && hour.hour == 24));
     notifications =
-        Provider.of<DataProvider>(context, listen: false).notifications;
-    courts = Provider.of<DataProvider>(context, listen: false).courts;
-    matches = Provider.of<DataProvider>(context, listen: false)
+        Provider.of<StoreProvider>(context, listen: false).notifications;
+    courts = Provider.of<StoreProvider>(context, listen: false).courts;
+    matches = Provider.of<StoreProvider>(context, listen: false)
         .matches
         .where((match) => (areInTheSameDay(match.date, DateTime.now())))
         .toList();
     setOccupationValues();
-    rewards = Provider.of<DataProvider>(context, listen: false)
+    rewards = Provider.of<StoreProvider>(context, listen: false)
         .rewards
         .where((reward) => areInTheSameDay(reward.claimedDate, DateTime.now()))
         .toList();
@@ -108,16 +109,16 @@ class HomeViewModel extends ChangeNotifier {
 
   void updateViewModel(BuildContext context) async {
     await Provider.of<MenuProvider>(context, listen: false)
-        .updateDataProvider(context);
+        .updateStoreProvider(context);
     setViewModel(context);
   }
 
   void setWorkingHours(BuildContext context) {
-    if (Provider.of<DataProvider>(context, listen: false).storeWorkingDays ==
+    if (Provider.of<StoreProvider>(context, listen: false).storeWorkingDays ==
         null) {
       workingHours = availableHours;
     } else {
-      final todayWorkingDay = Provider.of<DataProvider>(context, listen: false)
+      final todayWorkingDay = Provider.of<StoreProvider>(context, listen: false)
           .storeWorkingDays!
           .firstWhere(
             (workingDay) =>
@@ -257,7 +258,7 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   bool courtsSet(BuildContext context) {
-    if (Provider.of<DataProvider>(context, listen: false).courts.isNotEmpty) {
+    if (Provider.of<StoreProvider>(context, listen: false).courts.isNotEmpty) {
       return true;
     } else {
       return false;
@@ -265,22 +266,22 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   bool logoSet(BuildContext context) {
-    return Provider.of<DataProvider>(context, listen: false).store!.logo !=
+    return Provider.of<StoreProvider>(context, listen: false).store!.logo !=
         null;
   }
 
   bool photosSet(BuildContext context) {
-    return Provider.of<DataProvider>(context, listen: false)
+    return Provider.of<StoreProvider>(context, listen: false)
             .store!
             .photos
-            .length >=
+            .length >
         2;
   }
 
   bool storeDescriptionSet(BuildContext context) {
-    if (Provider.of<DataProvider>(context, listen: false).store!.description !=
+    if (Provider.of<StoreProvider>(context, listen: false).store!.description !=
             null &&
-        Provider.of<DataProvider>(context, listen: false)
+        Provider.of<StoreProvider>(context, listen: false)
             .store!
             .description!
             .isNotEmpty) {

@@ -96,7 +96,7 @@ class _AppRatingModalState extends State<AppRatingModal> {
             SFButton(
               buttonLabel: "Fale com a gente pelo whats",
               isPrimary: false,
-              onTap: () => widget.viewModel.contactSupport(),
+              onTap: () => widget.viewModel.contactSupport(context),
               iconPath: r"assets/icon/whatsapp.svg",
               textPadding: EdgeInsets.symmetric(
                 horizontal: width * 0.04,

@@ -46,6 +46,7 @@ class StoreSearchItem extends StatelessWidget {
                   Provider.of<EnvironmentProvider>(context, listen: false)
                       .urlBuilder(
                     store.photos.first,
+                    isImage: true,
                   ),
                 ),
                 fit: BoxFit.cover,
@@ -178,6 +179,7 @@ class StoreSearchItem extends StatelessWidget {
                         Provider.of<EnvironmentProvider>(context, listen: false)
                             .urlBuilder(
                       store.logo!,
+                      isImage: true,
                     ),
                     height: 85,
                     width: 85,

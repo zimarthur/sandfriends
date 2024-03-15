@@ -3,9 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/HourPrice/HourPriceStore.dart';
 import '../../../../../../Common/Components/SFDivider.dart';
-import '../../../../../../Common/Model/OperationDay.dart';
+import '../../../../../../Common/Model/OperationDayStore.dart';
+import '../../../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../../../Common/Utils/Constants.dart';
-import '../../../../Menu/ViewModel/DataProvider.dart';
 import '../../../ViewModel/MyCourtsViewModel.dart';
 import 'PriceRuleRadio.dart';
 import 'PriceSelector.dart';
@@ -15,7 +15,7 @@ import 'ResumedInfoRow.dart';
 class CourtDay extends StatefulWidget {
   double width;
   double height;
-  OperationDay operationDay;
+  OperationDayStore operationDay;
   MyCourtsViewModel viewModel;
 
   CourtDay({
@@ -185,11 +185,11 @@ class _CourtDayState extends State<CourtDay> {
                                                               height:
                                                                   mainRowHeight,
                                                               availableHours: Provider.of<
-                                                                          DataProvider>(
+                                                                          CategoriesProvider>(
                                                                       context,
                                                                       listen:
                                                                           false)
-                                                                  .availableHours
+                                                                  .hours
                                                                   .where(
                                                                       (hour) {
                                                                 var validDay = widget

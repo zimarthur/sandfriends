@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../SandfriendsQuadras/Features/Menu/ViewModel/DataProvider.dart';
-import '../Model/User/Player_old.dart';
+import '../../SandfriendsQuadras/Features/Menu/ViewModel/StoreProvider.dart';
 import '../Model/User/UserStore.dart';
 import '../Utils/Constants.dart';
 
@@ -36,8 +35,7 @@ class _PlayersSelectionState extends State<PlayersSelection> {
       .toList();
   @override
   void initState() {
-    print("initState");
-    players = Provider.of<DataProvider>(context, listen: false).storePlayers;
+    players = Provider.of<StoreProvider>(context, listen: false).storePlayers;
     widget.playerController.addListener(() {
       if (mounted) {
         setState(() {
@@ -50,7 +48,6 @@ class _PlayersSelectionState extends State<PlayersSelection> {
 
   @override
   void dispose() {
-    print("dispose");
     widget.playerController.removeListener(() {});
     super.dispose();
   }

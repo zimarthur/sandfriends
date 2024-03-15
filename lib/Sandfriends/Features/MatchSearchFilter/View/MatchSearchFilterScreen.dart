@@ -54,7 +54,6 @@ class _MatchSearchFilterScreenState extends State<MatchSearchFilterScreen> {
       child: Consumer<MatchSearchFilterViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             titleText: "Filtros",
             // rightWidget: viewModel.customFilterHasChanged
             //     ? InkWell(

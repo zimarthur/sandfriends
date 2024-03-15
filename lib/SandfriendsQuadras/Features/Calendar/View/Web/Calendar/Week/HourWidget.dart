@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../../../../../Common/Model/Hour.dart';
 import '../../../../../../../Common/Utils/Constants.dart';
 import '../../../../../../../Common/Utils/SFDateTime.dart';
-import '../../../../../Menu/ViewModel/DataProvider.dart';
+import '../../../../../Menu/ViewModel/StoreProvider.dart';
 import '../../../../Model/CalendarType.dart';
 import '../../../../Model/DayMatch.dart';
 
@@ -46,7 +46,7 @@ class _HourWidgetState extends State<HourWidget> {
   Widget build(BuildContext context) {
     //caso uma quadra não aceite mensalista em um dia da semana, ela deve ser desconsiderada no length de quadras
     if (widget.calendarType == CalendarType.RecurrentMatch) {
-      courtsLength = Provider.of<DataProvider>(context, listen: false)
+      courtsLength = Provider.of<StoreProvider>(context, listen: false)
           .courts
           .where((court) => court.operationDays
               .firstWhere(
@@ -55,7 +55,7 @@ class _HourWidgetState extends State<HourWidget> {
           .length;
     } else {
       courtsLength =
-          Provider.of<DataProvider>(context, listen: false).courts.length;
+          Provider.of<StoreProvider>(context, listen: false).courts.length;
     }
 
     if (!widget.isOperationHour) {

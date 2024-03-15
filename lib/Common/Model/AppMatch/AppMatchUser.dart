@@ -109,7 +109,7 @@ class AppMatchUser extends AppMatch {
     );
     var newMatch = AppMatchUser(
       idMatch: json['IdMatch'],
-      date: DateFormat('yyyy-MM-dd HH:mm')
+      date: DateFormat('dd/MM/yyyy HH:mm')
           .parse("${json['Date']} ${timeBegin.hourString}"),
       cost: double.parse(
         json['Cost'],
@@ -136,7 +136,7 @@ class AppMatchUser extends AppMatch {
       creditCard: json['CreditCard'] == null
           ? null
           : CreditCard.fromJson(json['CreditCard']),
-      paymentExpirationDate: DateFormat('yyyy-MM-dd HH:mm:ss')
+      paymentExpirationDate: DateFormat('dd/MM/yyyy HH:mm:ss')
           .parse(json['PaymentExpirationDate']),
       idRecurrentMatch: json['IdRecurrentMatch'],
       coupon: json['Coupon'] != null

@@ -209,9 +209,6 @@ class _NewCreditCardWidgetState extends State<NewCreditCardWidget> {
               textPadding:
                   const EdgeInsets.symmetric(vertical: defaultPadding / 2),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).viewInsets.bottom,
-            )
           ],
         ),
       ),

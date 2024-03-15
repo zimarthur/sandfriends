@@ -67,7 +67,7 @@ class AppMatchStore extends AppMatch {
       blockedReason: json["BlockedReason"] ?? "",
       paymentStatus: decoderPaymentStatus(json['PaymentStatus']),
       selectedPayment: decoderSelectedPayment(json['PaymentType']),
-      paymentExpirationDate: DateFormat('yyyy-MM-dd HH:mm:ss')
+      paymentExpirationDate: DateFormat('dd/MM/yyyy HH:mm:ss')
           .parse(json['PaymentExpirationDate']),
       netCost: double.parse(json["CostFinal"]),
     );

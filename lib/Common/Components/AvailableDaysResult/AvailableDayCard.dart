@@ -1,24 +1,31 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/AvailableDay.dart';
 import 'package:sandfriends/Common/Model/AvailableHour.dart';
 import 'package:sandfriends/Common/Model/AvailableStore.dart';
 import 'package:sandfriends/Common/Model/Store/StoreComplete.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
+import 'package:sandfriends/Common/Utils/Responsive.dart';
 import 'package:sandfriends/Common/Utils/SFDateTime.dart';
 
 import '../../../Common/Utils/Constants.dart';
+import '../../Model/Store/Store.dart';
 import '../../Model/Store/StoreUser.dart';
 import 'AvailableStoreCard.dart';
+import 'AvailableStoreCardWeb.dart';
 
 class AvailableDayCard extends StatelessWidget {
   final AvailableDay availableDay;
   final AvailableStore? selectedStore;
   final AvailableHour? selectedAvailableHour;
   final Function(AvailableDay) onTapHour;
-  final Function(StoreUser) onGoToCourt;
+  final Function(Store) onGoToCourt;
   final bool selectedParent;
   final bool isRecurrent;
+  final VoidCallback? resetSelectedAvailableHour;
 
   const AvailableDayCard({
     Key? key,
@@ -29,6 +36,7 @@ class AvailableDayCard extends StatelessWidget {
     required this.onGoToCourt,
     required this.selectedParent,
     required this.isRecurrent,
+    this.resetSelectedAvailableHour,
   }) : super(key: key);
 
   @override
@@ -66,28 +74,56 @@ class AvailableDayCard extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: availableDay.stores.length,
           itemBuilder: (context, index) {
-            return AvailableStoreCard(
-              availableStore: availableDay.stores[index],
-              selectedAvailableHour: selectedAvailableHour,
-              onTapHour: (avStore) {
-                List<AvailableStore> availableStore = [];
-                availableStore.add(avStore);
-                AvailableDay avDay = AvailableDay(
-                  day: availableDay.day,
-                  stores: availableStore,
-                  weekday: availableDay.weekday,
-                );
-                onTapHour(avDay);
-              },
-              onGoToCourt: (store) => onGoToCourt(store),
-              selectedParent: selectedParent == false ||
-                      selectedStore == null ||
-                      selectedStore!.store.idStore !=
-                          availableDay.stores[index].store.idStore
-                  ? false
-                  : true,
-              isRecurrent: isRecurrent,
-            );
+            return kIsWeb && !Responsive.isMobile(context)
+                ? AvailableStoreCardWeb(
+                    availableStore: availableDay.stores[index],
+                    selectedAvailableHour: selectedAvailableHour,
+                    onTapHour: (avStore) {
+                      List<AvailableStore> availableStore = [];
+                      availableStore.add(avStore);
+                      AvailableDay avDay = AvailableDay(
+                        day: availableDay.day,
+                        stores: availableStore,
+                        weekday: availableDay.weekday,
+                      );
+                      onTapHour(avDay);
+                    },
+                    resetSelectedAvailableHour: () {
+                      if (resetSelectedAvailableHour != null) {
+                        resetSelectedAvailableHour!();
+                      }
+                    },
+                    onGoToCourt: (store) => onGoToCourt(store),
+                    selectedParent: selectedParent == false ||
+                            selectedStore == null ||
+                            selectedStore!.store.idStore !=
+                                availableDay.stores[index].store.idStore
+                        ? false
+                        : true,
+                    isRecurrent: isRecurrent,
+                  )
+                : AvailableStoreCard(
+                    availableStore: availableDay.stores[index],
+                    selectedAvailableHour: selectedAvailableHour,
+                    onTapHour: (avStore) {
+                      List<AvailableStore> availableStore = [];
+                      availableStore.add(avStore);
+                      AvailableDay avDay = AvailableDay(
+                        day: availableDay.day,
+                        stores: availableStore,
+                        weekday: availableDay.weekday,
+                      );
+                      onTapHour(avDay);
+                    },
+                    onGoToCourt: (store) => onGoToCourt(store),
+                    selectedParent: selectedParent == false ||
+                            selectedStore == null ||
+                            selectedStore!.store.idStore !=
+                                availableDay.stores[index].store.idStore
+                        ? false
+                        : true,
+                    isRecurrent: isRecurrent,
+                  );
           },
         ),
       ],

@@ -12,7 +12,7 @@ import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
 import '../Model/CustomFilter.dart';
 
-class MatchSearchFilterViewModel extends StandardScreenViewModel {
+class MatchSearchFilterViewModel extends ChangeNotifier {
   City? cityFilter;
   late CustomFilter defaultCustomFilter;
   late CustomFilter currentCustomFilter;
@@ -73,23 +73,23 @@ class MatchSearchFilterViewModel extends StandardScreenViewModel {
     if (newOrderBy == OrderBy.distance &&
         Provider.of<UserProvider>(context, listen: false).userLocation ==
             null) {
-      modalMessage = SFModalMessage(
-        title: Provider.of<UserProvider>(context, listen: false)
-                .locationPermanentlyDenied
-            ? "Você desabilitou a localização permanentemente. Apague os dados do app para habilitá-la novamente."
-            : "Habilite o acesso a localização para ver as quadras mais perto de você!",
-        onTap: () {
-          Provider.of<UserProvider>(context, listen: false)
-              .handlePositionPermission();
-          pageStatus = PageStatus.OK;
-          notifyListeners();
-        },
-        buttonText: "Ok!",
-        isHappy: !Provider.of<UserProvider>(context, listen: false)
-            .locationPermanentlyDenied,
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addModalMessage(
+        SFModalMessage(
+          title: Provider.of<UserProvider>(context, listen: false)
+                  .locationPermanentlyDenied
+              ? "Você desabilitou a localização permanentemente. Apague os dados do app para habilitá-la novamente."
+              : "Habilite o acesso a localização para ver as quadras mais perto de você!",
+          onTap: () {
+            Provider.of<UserProvider>(context, listen: false)
+                .handlePositionPermission();
+          },
+          buttonText: "Ok!",
+          isHappy: !Provider.of<UserProvider>(context, listen: false)
+              .locationPermanentlyDenied,
+        ),
       );
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
+
       return;
     }
     currentCustomFilter.orderBy = newOrderBy;

@@ -4,7 +4,7 @@ import '../../../../../Common/Components/SFButton.dart';
 import '../../../../../Common/Components/Table/SFTable.dart';
 import '../../../../../Common/Components/Table/SFTableHeader.dart';
 import '../../../../../Common/Utils/Constants.dart';
-import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Menu/ViewModel/StoreProvider.dart';
 import '../../ViewModel/SettingsViewModel.dart';
 import '../ViewModel/EmployeeInfoViewModel.dart';
 
@@ -30,7 +30,7 @@ class _EmployeeInfoState extends State<EmployeeInfo> {
         builder: (context, viewModel, _) {
           return Column(
             children: [
-              if (Provider.of<DataProvider>(context, listen: false)
+              if (Provider.of<StoreProvider>(context, listen: false)
                   .loggedEmployee
                   .isCourtOwner)
                 Row(

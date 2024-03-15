@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/User/UserComplete.dart';
 import '../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../Common/Model/Sport.dart';
-import '../Model/User/UserOld.dart';
 import '../../Common/Utils/Constants.dart';
 import 'SFLoading.dart';
 
@@ -83,7 +82,9 @@ class SFAvatarUser extends StatelessWidget {
                         child: FittedBox(
                           fit: BoxFit.fitHeight,
                           child: Text(
-                            "${user.firstName![0].toUpperCase()}${user.lastName![0].toUpperCase()}",
+                            user.firstName == null || user.lastName == null
+                                ? ""
+                                : "${user.firstName![0].toUpperCase()}${user.lastName![0].toUpperCase()}",
                             style: const TextStyle(
                               color: secondaryPaper,
                               fontWeight: FontWeight.w600,
@@ -98,7 +99,7 @@ class SFAvatarUser extends StatelessWidget {
                           child: CachedNetworkImage(
                             imageUrl: Provider.of<EnvironmentProvider>(context,
                                     listen: false)
-                                .urlBuilder(user.photo!),
+                                .urlBuilder(user.photo!, isImage: true),
                             fit: BoxFit.cover,
                             placeholder: (context, url) => Padding(
                               padding: EdgeInsets.all(height * 0.3),

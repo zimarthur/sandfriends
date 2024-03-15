@@ -23,7 +23,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       child: Consumer<CreateAccountCourtViewModel>(
         builder: (context, viewModel, _) {
           return StandardScreen(
-            viewModel: viewModel,
             childWeb: CreateAccountWidgetWeb(
               viewModel: viewModel,
             ),

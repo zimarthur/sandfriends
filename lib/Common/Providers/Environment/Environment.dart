@@ -15,4 +15,10 @@ class Environment {
   bool get isIos => device == Device.Ios;
   bool get isAndroid => device == Device.Android;
   bool get isWeb => device == Device.Web;
+
+  bool get isSandfriends => product == Product.Sandfriends;
+  bool get isSandfriendsQuadras => product == Product.SandfriendsQuadras;
+  bool get isSandfriendsWebApp => product == Product.SandfriendsWebPage;
+
+  bool get isDev => flavor == Flavor.Dev;
 }

@@ -7,9 +7,10 @@ import 'package:sandfriends/Common/Providers/Environment/FlavorEnum.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/Managers/Firebase/FirebaseManager.dart';
 import 'package:sandfriends/Common/Managers/LocalNotifications/LocalNotificationsManager.dart';
-import 'package:sandfriends/Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
+import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
-import 'package:sandfriends/SandfriendsQuadras/Features/Menu/ViewModel/DataProvider.dart';
+import 'package:sandfriends/SandfriendsQuadras/Features/Menu/ViewModel/StoreProvider.dart';
 import '../Sandfriends/Providers/RedirectProvider/RedirectProvider.dart';
 import '../SandfriendsQuadras/Features/Menu/ViewModel/MenuProvider.dart';
 import 'Utils/Constants.dart';
@@ -18,7 +19,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:uni_links/uni_links.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 abstract class GenericApp extends StatefulWidget {
   final Flavor flavor;
@@ -29,7 +30,7 @@ abstract class GenericApp extends StatefulWidget {
 
   Product get product;
   Function(Uri) get handleLink;
-  Function(Map<String, dynamic>) get handleNotification;
+  Function(Map<String, dynamic> data) get handleNotification;
   Route<dynamic>? Function(RouteSettings)? get onGenerateRoute;
   Map<String, Widget Function(BuildContext)> get routes;
   String get appTitle;
@@ -52,11 +53,9 @@ class _AppState extends State<GenericApp> {
         if (!mounted) {
           return;
         }
-        setState(() {
-          if (uri != null) {
-            widget.handleLink(uri);
-          }
-        });
+        if (uri != null) {
+          widget.handleLink(uri);
+        }
       }, onError: (Object err) {
         if (!mounted) {
           return;
@@ -98,17 +97,19 @@ class _AppState extends State<GenericApp> {
       widget.product,
       widget.flavor,
     );
-    _initURIHandler();
-    _incomingLinkHandler();
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await FirebaseManager(
-        environment: environmentProvider.environment,
-      ).initialize(
-        messagingCallback: widget.handleNotification,
-      );
-      await LocalNotificationsManager().initialize(widget.handleNotification);
-    });
+    if (!kIsWeb) {
+      _initURIHandler();
+      _incomingLinkHandler();
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await FirebaseManager(
+          environment: environmentProvider.environment,
+        ).initialize(
+          messagingCallback: widget.handleNotification,
+        );
+        await LocalNotificationsManager().initialize(widget.handleNotification);
+      });
+    }
   }
 
   @override
@@ -124,36 +125,31 @@ class _AppState extends State<GenericApp> {
     ]);
 
     return MultiProvider(
-      providers: widget.product == Product.Sandfriends
-          ? [
-              ChangeNotifierProvider(
-                create: (_) => environmentProvider,
-              ),
-              ChangeNotifierProvider(
-                create: (_) => CategoriesProvider(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => UserProvider(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => RedirectProvider(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => CategoriesProvider(),
-              ),
-            ]
-          : [
-              ChangeNotifierProvider(
-                create: (_) => environmentProvider,
-              ),
-              ChangeNotifierProvider(
-                create: (_) => MenuProvider(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => DataProvider(),
-              ),
-            ],
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => environmentProvider,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CategoriesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => RedirectProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => MenuProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => StoreProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => StandardScreenViewModel(),
+        ),
+      ],
       child: MaterialApp(
+        navigatorKey: navigatorKey,
         title: widget.appTitle,
         debugShowCheckedModeBanner: false,
         localizationsDelegates: const [
@@ -181,7 +177,7 @@ class _AppState extends State<GenericApp> {
               TargetPlatform.android: CupertinoPageTransitionsBuilder(),
               TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
             })),
-        navigatorKey: navigatorKey,
+        //navigatorKey: widget.navigationKey,
         onGenerateRoute: widget.onGenerateRoute,
         routes: widget.routes,
         initialRoute: widget.initialRoute,

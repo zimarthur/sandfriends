@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Components/SFAvatarUser.dart';
 import 'package:sandfriends/Common/Model/User/UserStore.dart';
+import 'package:sandfriends/Sandfriends/Features/Home/View/User/UserCardHome.dart';
 
 import '../Providers/Environment/EnvironmentProvider.dart';
 import '../Utils/Constants.dart';
@@ -113,23 +115,53 @@ class _SFAvatarStoreState extends State<SFAvatarStore> {
                                   );
                           },
                         )
-                      : widget.isPlayerAvatar
-                          ? Center(
-                              child: SizedBox(
-                                height: widget.height * 0.4,
-                                width: widget.height * 0.4,
-                                child: FittedBox(
-                                  fit: BoxFit.fitHeight,
-                                  child: Text(
-                                    "${widget.user!.firstName![0].toUpperCase()}${widget.user!.lastName![0].toUpperCase()}",
-                                    style: TextStyle(
-                                      color: secondaryPaper,
-                                      fontWeight: FontWeight.w600,
+                      : widget.user != null
+                          ? widget.user!.photo != null
+                              ? CachedNetworkImage(
+                                  imageUrl: Provider.of<EnvironmentProvider>(
+                                          context,
+                                          listen: false)
+                                      .urlBuilder(
+                                    widget.user!.photo!,
+                                    isImage: true,
+                                  ),
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => Padding(
+                                    padding:
+                                        EdgeInsets.all(widget.height * 0.3),
+                                    child: SFLoading(
+                                      size: widget.height * 0.4,
                                     ),
                                   ),
-                                ),
-                              ),
-                            )
+                                  errorWidget: (context, url, error) {
+                                    return Container(
+                                      color: textLightGrey.withOpacity(0.5),
+                                      height: widget.height * 0.4,
+                                      width: widget.height * 0.4,
+                                      child: const Center(
+                                        child: Icon(
+                                          Icons.dangerous,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                )
+                              : Center(
+                                  child: SizedBox(
+                                    height: widget.height * 0.4,
+                                    width: widget.height * 0.4,
+                                    child: FittedBox(
+                                      fit: BoxFit.fitHeight,
+                                      child: Text(
+                                        "${widget.user!.firstName![0].toUpperCase()}${widget.user!.lastName![0].toUpperCase()}",
+                                        style: TextStyle(
+                                          color: secondaryPaper,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
                           : Center(
                               child: SizedBox(
                                 height: widget.height * 0.4,

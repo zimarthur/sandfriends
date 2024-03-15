@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../../Common/Components/DatePickerModal.dart';
 import '../../../../../Common/Components/SFDropDown.dart';
 import '../../../../../Common/Enum/EnumDiscountType.dart';
@@ -14,7 +15,7 @@ import '../../../../../Common/Utils/Validators.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
-import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Menu/ViewModel/StoreProvider.dart';
 
 class AddCouponModal extends StatefulWidget {
   VoidCallback onReturn;
@@ -50,7 +51,7 @@ class _AddCouponModalState extends State<AddCouponModal> {
   @override
   void initState() {
     availableHours =
-        Provider.of<DataProvider>(context, listen: false).availableHours;
+        Provider.of<CategoriesProvider>(context, listen: false).hours;
     startingHour = availableHours.first;
     endingHour = availableHours.last;
     couponController.addListener(() {

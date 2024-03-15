@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sandfriends/Common/StandardScreen/StandardScreen.dart';
 import '../../../../../Common/Components/SFLoading.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../../../../Common/Utils/PageStatus.dart';
@@ -44,28 +45,12 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
         create: (BuildContext context) => viewModel,
         child: Consumer<EmailConfirmationViewModel>(
           builder: (context, viewModel, _) {
-            return SafeArea(
-              child: Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [primaryBlue, primaryLightBlue])),
-                height: height,
-                width: width,
-                child: Center(
-                  child: viewModel.pageStatus == PageStatus.LOADING
-                      ? SizedBox(
-                          height: 300,
-                          width: 300,
-                          child: SFLoading(size: 80),
-                        )
-                      : viewModel.pageStatus == PageStatus.ERROR
-                          ? viewModel.modalMessage
-                          : EmailConfirmationWidget(
-                              viewModel: viewModel,
-                            ),
-                ),
+            return StandardScreen(
+              childWeb: EmailConfirmationWidget(
+                viewModel: viewModel,
+              ),
+              child: EmailConfirmationWidget(
+                viewModel: viewModel,
               ),
             );
           },

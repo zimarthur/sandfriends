@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 
 import '../../../../../Common/Components/Modal/SFModalMessage.dart';
@@ -6,7 +7,7 @@ import '../../../../../Remote/NetworkResponse.dart';
 import '../../../../../Common/Utils/PageStatus.dart';
 import '../Repo/CreateAccountRepo.dart';
 
-class CreateAccountViewModel extends StandardScreenViewModel {
+class CreateAccountViewModel extends ChangeNotifier {
   final _createAccountRepo = CreateAccountRepo();
 
   final createAccountFormKey = GlobalKey<FormState>();
@@ -22,31 +23,31 @@ class CreateAccountViewModel extends StandardScreenViewModel {
   void createAccount(BuildContext context) {
     if (createAccountFormKey.currentState!.validate()) {
       FocusScope.of(context).unfocus();
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
       _createAccountRepo
           .createAccount(context, emailController.text, passwordController.text)
           .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
-          modalMessage = SFModalMessage(
-            title: response.responseBody!,
-            onTap: () {
-              Navigator.pushNamed(context, '/login');
-            },
-            isHappy: true,
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .addModalMessage(
+            SFModalMessage(
+              title: response.responseBody!,
+              onTap: () {
+                Navigator.pushNamed(context, '/login');
+              },
+              isHappy: true,
+            ),
           );
         } else {
-          modalMessage = SFModalMessage(
-            title: response.responseTitle!,
-            onTap: () {
-              pageStatus = PageStatus.OK;
-              notifyListeners();
-            },
-            isHappy: response.responseStatus == NetworkResponseStatus.alert,
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .addModalMessage(
+            SFModalMessage(
+              title: response.responseTitle!,
+              onTap: () {},
+              isHappy: response.responseStatus == NetworkResponseStatus.alert,
+            ),
           );
         }
-        pageStatus = PageStatus.ERROR;
-        notifyListeners();
       });
     }
   }

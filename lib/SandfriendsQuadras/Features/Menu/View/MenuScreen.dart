@@ -35,16 +35,15 @@ class _MenuScreenState extends State<MenuScreen> {
               viewModel.quickLinkHome(context);
             },
             child: StandardScreen(
-              viewModel: viewModel,
               enableToolbar: false,
               drawer: Responsive.isMobile(context)
                   ? SFDrawerMobile(
                       viewModel: viewModel,
                     )
                   : null,
-              scaffoldKey: viewModel.scaffoldKey,
               childWeb: MenuWidgetWeb(viewModel: viewModel),
               child: MenuWidgetMobile(viewModel: viewModel),
+              customOnTapReturn: () => viewModel.onTapReturn(context),
             ),
           );
         },

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:time_range/time_range.dart';
 
@@ -25,7 +26,9 @@ class _TimeModalState extends State<TimeModal> {
 
   @override
   void initState() {
-    modalTimeRange = widget.timeRange;
+    modalTimeRange = widget.timeRange ??
+        TimeRangeResult(const TimeOfDay(hour: 6, minute: 0),
+            const TimeOfDay(hour: 23, minute: 00));
     super.initState();
   }
 
@@ -36,11 +39,11 @@ class _TimeModalState extends State<TimeModal> {
     return Container(
       decoration: BoxDecoration(
         color: secondaryPaper,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(defaultBorderRadius),
         border: Border.all(color: primaryDarkBlue, width: 1),
         boxShadow: const [BoxShadow(blurRadius: 1, color: primaryDarkBlue)],
       ),
-      width: width * 0.9,
+      width: kIsWeb ? 600 : width * 0.9,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -78,9 +81,7 @@ class _TimeModalState extends State<TimeModal> {
               borderColor: widget.themeColor,
               backgroundColor: Colors.transparent,
               activeBackgroundColor: widget.themeColor,
-              initialRange: modalTimeRange ??
-                  TimeRangeResult(const TimeOfDay(hour: 6, minute: 0),
-                      const TimeOfDay(hour: 23, minute: 00)),
+              initialRange: modalTimeRange,
               firstTime: const TimeOfDay(hour: 6, minute: 0),
               lastTime: const TimeOfDay(hour: 23, minute: 00),
               timeStep: 60,

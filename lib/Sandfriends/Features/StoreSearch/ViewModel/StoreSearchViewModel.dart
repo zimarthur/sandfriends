@@ -7,17 +7,17 @@ import 'package:sandfriends/Sandfriends/Features/StoreSearch/Repository/StoreSea
 import 'package:sandfriends/Common/Model/Store/StoreComplete.dart';
 import 'package:geolocator/geolocator.dart';
 
-import '../../../../Common/Components/Modal/CitySelectorModal.dart';
+import '../../../../Common/Components/Modal/CitySelectorModal/CitySelectorModal.dart';
 import '../../../../Common/Model/Store/StoreUser.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Model/City.dart';
-import '../../../../Common/Providers/CategoriesProvider/CategoriesProvider.dart';
+import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
 import '../../MatchSearchFilter/Model/CustomFilter.dart';
 
-class StoreSearchViewModel extends StandardScreenViewModel {
+class StoreSearchViewModel extends ChangeNotifier {
   final storeSearchRepo = StoreSearchRepo();
 
   bool isRecurrent = false;
@@ -63,8 +63,8 @@ class StoreSearchViewModel extends StandardScreenViewModel {
         currentCustomFilter.orderBy = OrderBy.distance;
         notifyListeners();
       }
-      pageStatus = PageStatus.OK;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .setPageStatusOk();
     });
   }
 
@@ -86,56 +86,27 @@ class StoreSearchViewModel extends StandardScreenViewModel {
   }
 
   void openCitySelectorModal(BuildContext context) {
-    pageStatus = PageStatus.LOADING;
-    notifyListeners();
-    if (Provider.of<CategoriesProvider>(context, listen: false)
-        .availableRegions
-        .isEmpty) {
-      Provider.of<CategoriesProvider>(context, listen: false)
-          .categoriesProviderRepo
-          .getAvailableRegions(context)
-          .then((response) {
-        if (response.responseStatus == NetworkResponseStatus.success) {
-          Provider.of<CategoriesProvider>(context, listen: false)
-              .setAvailableRegions(response.responseBody!);
-
-          displayCitySelector(context);
-        } else {
-          modalMessage = SFModalMessage(
-            title: response.responseTitle!,
-            onTap: () => openCitySelectorModal(context),
-            isHappy: false,
-            buttonText: "Tentar novamente",
-          );
-          pageStatus = PageStatus.ERROR;
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      CitySelectorModal(
+        onlyAvailableCities: true,
+        onSelectedCity: (city) {
+          selectedCity = city;
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .removeLastOverlay();
           notifyListeners();
-        }
-      });
-    } else {
-      displayCitySelector(context);
-    }
-  }
-
-  void displayCitySelector(BuildContext context) {
-    widgetForm = CitySelectorModal(
-      regions: Provider.of<CategoriesProvider>(context, listen: false)
-          .availableRegions,
-      onSelectedCity: (city) {
-        selectedCity = city;
-        pageStatus = PageStatus.OK;
-        notifyListeners();
-      },
-      userCity: Provider.of<UserProvider>(context, listen: false).user!.city,
-      onReturn: () => closeModal(),
+        },
+        userCity: Provider.of<UserProvider>(context, listen: false).user!.city,
+        onReturn: () =>
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .removeLastOverlay(),
+      ),
     );
-    pageStatus = PageStatus.FORM;
-    notifyListeners();
   }
 
   void searchStores(BuildContext context) {
     if (canSearchMatch) {
-      pageStatus = PageStatus.LOADING;
-      notifyListeners();
+      Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
 
       storeSearchRepo
           .searchStores(
@@ -170,38 +141,37 @@ class StoreSearchViewModel extends StandardScreenViewModel {
             );
           }
 
-          pageStatus = PageStatus.OK;
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setPageStatusOk();
           notifyListeners();
         } else if (response.responseStatus ==
             NetworkResponseStatus.expiredToken) {
-          modalMessage = SFModalMessage(
-            title: response.responseTitle!,
-            onTap: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/login_signup',
-                (Route<dynamic> route) => false,
-              );
-            },
-            isHappy: false,
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .addModalMessage(
+            SFModalMessage(
+              title: response.responseTitle!,
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login_signup',
+                  (Route<dynamic> route) => false,
+                );
+              },
+              isHappy: false,
+            ),
           );
-          canTapBackground = false;
-
-          pageStatus = PageStatus.ERROR;
-          notifyListeners();
+          //canTapBackground = false;
         }
       });
     } else {
-      modalMessage = SFModalMessage(
-        title: "Selecione uma cidade para buscar as quadras",
-        onTap: () {
-          pageStatus = PageStatus.OK;
-          notifyListeners();
-        },
-        isHappy: true,
+      Provider.of<StandardScreenViewModel>(context, listen: false)
+          .addModalMessage(
+        SFModalMessage(
+          title: "Selecione uma cidade para buscar as quadras",
+          onTap: () {},
+          isHappy: true,
+        ),
       );
-      pageStatus = PageStatus.ERROR;
-      notifyListeners();
     }
   }
 
@@ -230,7 +200,7 @@ class StoreSearchViewModel extends StandardScreenViewModel {
   void onTapStore(BuildContext context, StoreUser store) {
     Navigator.pushNamed(
       context,
-      '/court',
+      '/quadra/${store.url}',
       arguments: {
         'store': store,
         'canMakeReservation': true,

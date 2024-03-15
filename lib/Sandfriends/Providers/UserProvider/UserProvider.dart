@@ -1,19 +1,48 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
 import 'package:sandfriends/Common/Model/AppNotificationUser.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
+import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 
 import '../../../Common/Model/AppMatch/AppMatchUser.dart';
 import '../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchUser.dart';
 import '../../../Common/Model/CreditCard/CreditCard.dart';
 import '../../../Common/Model/Reward.dart';
+import '../../../Common/Model/Sport.dart';
 import '../../../Common/Model/User/UserComplete.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../../../Common/Providers/Categories/CategoriesProvider.dart';
+import '../../Features/Authentication/LoadLogin/Repository/LoadLoginRepo.dart';
+
 class UserProvider extends ChangeNotifier {
-  int a = 1;
   UserComplete? _user;
   UserComplete? get user => _user;
   set user(UserComplete? newUser) {
     _user = newUser;
+    notifyListeners();
+  }
+
+  bool _hasSearchUserData = false;
+  bool get hasSearchUserData => _hasSearchUserData;
+  void setHasSearchUserData(bool value) {
+    _hasSearchUserData = value;
+    notifyListeners();
+  }
+
+  bool get isDoneWithUserRequest => user != null && hasSearchUserData == true;
+
+  bool userNeedsOnboarding() {
+    return user != null && user?.firstName == null;
+  }
+
+  void logoutUserProvider(BuildContext context) {
+    clear();
+    _user = null;
+    LocalStorageManager().storeAccessToken(context, "");
     notifyListeners();
   }
 
@@ -80,6 +109,28 @@ class UserProvider extends ChangeNotifier {
     return filteredList;
   }
 
+  List<AppMatchUser> get pastMatches {
+    var filteredList = matches.where((match) {
+      if (match.date.isBefore(DateTime.now())) {
+        return true;
+      } else {
+        return false;
+      }
+    }).toList();
+    filteredList.sort(
+      (a, b) {
+        int compare = a.date.compareTo(b.date);
+
+        if (compare == 0) {
+          return a.timeBegin.hour.compareTo(b.timeBegin.hour);
+        } else {
+          return compare;
+        }
+      },
+    );
+    return filteredList;
+  }
+
   final List<AppRecurrentMatchUser> _recurrentMatches = [];
   List<AppRecurrentMatchUser> get recurrentMatches {
     var filteredList = _recurrentMatches.where((recMatch) {
@@ -91,7 +142,7 @@ class UserProvider extends ChangeNotifier {
     }).toList();
     filteredList.sort(
       (a, b) {
-        return a.validUntil.compareTo(b.validUntil);
+        return a.validUntil!.compareTo(b.validUntil!);
       },
     );
     return _recurrentMatches;
@@ -201,5 +252,74 @@ class UserProvider extends ChangeNotifier {
     userLocation = await _geolocatorPlatform.getCurrentPosition();
     notifyListeners();
     return true;
+  }
+
+  void receiveUserDataResponse(BuildContext context, String response) {
+    Map<String, dynamic> responseBody = json.decode(
+      response,
+    );
+
+    final responseMatchCounter = responseBody['MatchCounter'];
+    final responseMatches = responseBody['UserMatches'];
+    final responseRecurrentMatches = responseBody['UserRecurrentMatches'];
+    final responseOpenMatches = responseBody['OpenMatches'];
+    final responseNotifications = responseBody['Notifications'];
+    final responseRewards = responseBody['UserRewards'];
+    final responseCreditCards = responseBody['CreditCards'];
+
+    Provider.of<UserProvider>(context, listen: false)
+        .user!
+        .matchCounterFromJson(responseMatchCounter);
+
+    for (var match in responseMatches) {
+      Provider.of<UserProvider>(context, listen: false).addMatch(
+        AppMatchUser.fromJson(
+          match,
+          Provider.of<CategoriesProvider>(context, listen: false).hours,
+          Provider.of<CategoriesProvider>(context, listen: false).sports,
+        ),
+      );
+    }
+
+    for (var recurrentMatch in responseRecurrentMatches) {
+      Provider.of<UserProvider>(context, listen: false).addRecurrentMatch(
+        AppRecurrentMatchUser.fromJson(
+          recurrentMatch,
+          Provider.of<CategoriesProvider>(context, listen: false).hours,
+          Provider.of<CategoriesProvider>(context, listen: false).sports,
+        ),
+      );
+    }
+
+    for (var openMatch in responseOpenMatches) {
+      Provider.of<UserProvider>(context, listen: false).addOpenMatch(
+        AppMatchUser.fromJson(
+          openMatch,
+          Provider.of<CategoriesProvider>(context, listen: false).hours,
+          Provider.of<CategoriesProvider>(context, listen: false).sports,
+        ),
+      );
+    }
+
+    Provider.of<UserProvider>(context, listen: false).setRewards(
+        Reward.fromJson(responseRewards['Reward']),
+        responseRewards['UserRewardQuantity']);
+
+    for (var appNotification in responseNotifications) {
+      Provider.of<UserProvider>(context, listen: false).addNotifications(
+        AppNotificationUser.fromJson(
+          appNotification,
+          Provider.of<CategoriesProvider>(context, listen: false).hours,
+          Provider.of<CategoriesProvider>(context, listen: false).sports,
+        ),
+      );
+    }
+    for (var creditCard in responseCreditCards) {
+      Provider.of<UserProvider>(context, listen: false).addCreditCard(
+        CreditCard.fromJson(
+          creditCard,
+        ),
+      );
+    }
   }
 }

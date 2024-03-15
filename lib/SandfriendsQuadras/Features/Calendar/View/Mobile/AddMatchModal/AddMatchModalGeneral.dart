@@ -4,7 +4,6 @@ import 'package:sandfriends/Common/Model/HourPrice/HourPriceStore.dart';
 import '../../../../../../Common/Components/SFButton.dart';
 import '../../../../../../Common/Model/Court.dart';
 import '../../../../../../Common/Model/Hour.dart';
-import '../../../../../../Common/Model/User/Player_old.dart';
 import '../../../../../../Common/Model/Sport.dart';
 import '../../../../../../Common/Model/User/UserStore.dart';
 import '../../../../../../Common/Utils/Constants.dart';
@@ -207,7 +206,6 @@ class _AddMatchModalGeneralState extends State<AddMatchModalGeneral> {
                         ? "Criar partida"
                         : "Continuar",
                     onTap: () {
-                      print("price ${price}");
                       if (!widget.hasSelectedMatchType) {
                         widget.setHasSelectedMatchType(true);
                       } else if (widget.selectedPlayer != null &&

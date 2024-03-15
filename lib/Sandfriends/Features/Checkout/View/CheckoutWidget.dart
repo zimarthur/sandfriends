@@ -1,6 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/ViewModel/CheckoutViewModel.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
+import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 
 import 'CheckoutInfo/CheckoutResume.dart';
 import 'Payment/CheckoutPayment.dart';
@@ -28,14 +33,19 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                 horizontal: defaultPadding, vertical: defaultPadding / 2),
             child: SingleChildScrollView(
               controller: widget.viewModel.scrollController,
-              child: const Column(
+              child: Column(
                 children: [
-                  CheckoutResume(),
-                  SizedBox(
+                  const CheckoutResume(),
+                  const SizedBox(
                     height: defaultPadding,
                   ),
-                  CheckoutPayment(),
-                  SizedBox(
+                  const SizedBox(
+                    height: defaultPadding,
+                  ),
+                  CheckoutPayment(
+                    viewModel: widget.viewModel,
+                  ),
+                  const SizedBox(
                     height: defaultPadding * 2,
                   ),
                 ],
@@ -43,7 +53,9 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
             ),
           ),
         ),
-        CheckoutBottomToolbar(),
+        CheckoutBottomToolbar(
+          viewModel: widget.viewModel,
+        ),
         SizedBox(
           height: MediaQuery.of(context).viewInsets.bottom,
         ),

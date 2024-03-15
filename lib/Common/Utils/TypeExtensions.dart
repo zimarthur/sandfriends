@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
@@ -20,5 +22,17 @@ extension StringExtension on String {
 extension DoubleExtension on double {
   String formatPrice({bool showRS = true}) {
     return "${showRS ? "R\$" : ""}${this.toStringAsFixed(2).replaceAll(".", ",")}";
+  }
+}
+
+extension IntExtension on int {
+  String formatPrice({bool showRS = true}) {
+    return "${showRS ? "R\$" : ""}$this,00";
+  }
+}
+
+extension DateTimeExtension on DateTime {
+  String formatDate({bool showYear = true}) {
+    return DateFormat(showYear ? "dd/MM/yy" : "dd/MM").format(this);
   }
 }

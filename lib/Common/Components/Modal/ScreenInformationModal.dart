@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sandfriends/Common/Managers/LinkOpener/LinkOpenerManager.dart';
 import 'package:sandfriends/Common/Model/ScreenInformation.dart';
 import '../../../../../Common/Components/SFButton.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
@@ -90,10 +91,8 @@ class _ScreenInformationModalState extends State<ScreenInformationModal> {
                 color: divider,
               ),
               InkWell(
-                onTap: () {
-                  final url = Uri.parse("whatsapp://send?phone=$whatsApp");
-                  launchUrl(url);
-                },
+                onTap: () =>
+                    LinkOpenerManager().openSandfriendsWhatsApp(context),
                 child: Container(
                   decoration: BoxDecoration(
                       color: green,

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Managers/PalleteGenerator/PalleteGeneratorManager.dart';
 
 import '../../../../../Common/Components/SFAvatarStore.dart';
 import '../../../../../Common/Components/SFAvatarUser.dart';
 import '../../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/View/Mobile/SFStandardHeader.dart';
-import '../../../Menu/ViewModel/DataProvider.dart';
+import '../../../Menu/ViewModel/StoreProvider.dart';
 
 class HomeHeader extends StatefulWidget {
   HomeHeader({super.key});
@@ -19,39 +20,34 @@ class HomeHeader extends StatefulWidget {
 
 class _HomeHeaderState extends State<HomeHeader> {
   double imageSize = 100.0;
-  late PaletteGenerator paletteGenerator;
   Color dominantColor = secondaryBack;
   Color secondColor = secondaryBack;
 
   double buttonSize = 20;
   @override
   void initState() {
-    _updatePaletteGenerator();
+    getPallete();
     super.initState();
   }
 
-  Future<void> _updatePaletteGenerator() async {
-    if (Provider.of<DataProvider>(context, listen: false).store != null &&
-        Provider.of<DataProvider>(context, listen: false).store!.logo != null) {
-      paletteGenerator = await PaletteGenerator.fromImageProvider(
-        Image.network(
-          Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
-            Provider.of<DataProvider>(context, listen: false).store!.logo!,
-            isImage: true,
-          ),
-        ).image,
-      );
-      if (paletteGenerator.dominantColor != null) {
-        if (mounted) {
-          setState(() {
-            dominantColor = paletteGenerator.dominantColor!.color;
-            if (paletteGenerator.vibrantColor != null) {
-              secondColor = paletteGenerator.vibrantColor!.color;
-            }
-          });
-        }
+  void getPallete() {
+    PalleteGeneratorManager()
+        .getPallete(
+      context,
+      Provider.of<StoreProvider>(context, listen: false).store?.logo,
+    )
+        .then((colors) {
+      if (mounted && colors != null) {
+        setState(() {
+          if (colors.dominantColor != null) {
+            dominantColor = colors.dominantColor!;
+          }
+          if (colors.secondaryColor != null) {
+            secondColor = colors.secondaryColor!;
+          }
+        });
       }
-    }
+    });
   }
 
   @override
@@ -74,7 +70,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                       InkWell(
                         onTap: () => throw Exception("teste hoje"),
                         child: Text(
-                          "Olá, ${Provider.of<DataProvider>(context, listen: false).loggedEmployee.firstName}!",
+                          "Olá, ${Provider.of<StoreProvider>(context, listen: false).loggedEmployee.firstName}!",
                           style: TextStyle(color: textWhite, fontSize: 16),
                         ),
                       ),
@@ -82,7 +78,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                         height: defaultPadding / 6,
                       ),
                       Text(
-                        Provider.of<DataProvider>(context, listen: false)
+                        Provider.of<StoreProvider>(context, listen: false)
                             .store!
                             .name,
                         style: TextStyle(color: textLightGrey, fontSize: 12),
@@ -98,7 +94,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                   child: Padding(
                     padding: const EdgeInsets.all(defaultPadding),
                     child: SvgPicture.asset(
-                      Provider.of<DataProvider>(
+                      Provider.of<StoreProvider>(
                         context,
                       ).hasUnseenNotifications
                           ? r"assets/icon/notification_on.svg"
@@ -144,10 +140,10 @@ class _HomeHeaderState extends State<HomeHeader> {
                 ),
                 child: SFAvatarStore(
                   height: imageSize,
-                  storePhoto: Provider.of<DataProvider>(context, listen: false)
+                  storePhoto: Provider.of<StoreProvider>(context, listen: false)
                       .store
                       ?.logo,
-                  storeName: Provider.of<DataProvider>(context, listen: false)
+                  storeName: Provider.of<StoreProvider>(context, listen: false)
                       .store!
                       .name,
                 ),

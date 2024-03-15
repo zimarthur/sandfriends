@@ -19,6 +19,8 @@ class ForgotPasswordModal extends StatefulWidget {
 }
 
 class _ForgotPasswordModalState extends State<ForgotPasswordModal> {
+  final forgotPasswordFormKeyApp = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -67,7 +69,7 @@ class _ForgotPasswordModalState extends State<ForgotPasswordModal> {
               ),
             ),
             Form(
-              key: widget.viewModel.forgotPasswordFormKey,
+              key: forgotPasswordFormKeyApp,
               child: Padding(
                 padding: EdgeInsets.only(bottom: height * 0.02),
                 child: SFTextField(
@@ -84,7 +86,12 @@ class _ForgotPasswordModalState extends State<ForgotPasswordModal> {
                 height: height * 0.05,
                 child: SFButton(
                   buttonLabel: "Enviar",
-                  onTap: () => widget.viewModel.requestForgotPassword(context),
+                  onTap: () {
+                    if (forgotPasswordFormKeyApp.currentState?.validate() ==
+                        true) {
+                      widget.viewModel.requestForgotPassword(context);
+                    }
+                  },
                 ),
               ),
             ),

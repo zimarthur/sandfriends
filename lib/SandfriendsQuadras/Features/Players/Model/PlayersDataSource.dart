@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../../../Common/Model/User/Player_old.dart';
 import '../../../../Common/Model/User/UserStore.dart';
 import '../../../../Common/Utils/Constants.dart';
 import 'PlayersTableCallback.dart';

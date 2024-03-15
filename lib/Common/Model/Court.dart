@@ -1,6 +1,5 @@
-import 'OperationDay.dart';
+import 'OperationDayStore.dart';
 import 'SandfriendsQuadras/AvailableSport.dart';
-import 'Store/StoreComplete.dart';
 import 'Store/StoreUser.dart';
 
 class Court {
@@ -10,7 +9,7 @@ class Court {
   StoreUser? store;
 
   List<AvailableSport> sports = [];
-  List<OperationDay> operationDays = [];
+  List<OperationDayStore> operationDays = [];
 
   Court({
     this.idStoreCourt,
@@ -27,7 +26,7 @@ class Court {
     );
     for (int weekday = 0; weekday < 7; weekday++) {
       newCourt.operationDays.add(
-        OperationDay(
+        OperationDayStore(
           weekday: weekday,
         ),
       );
@@ -54,7 +53,7 @@ class Court {
     );
     for (var opDay in refCourt.operationDays) {
       court.operationDays.add(
-        OperationDay.copyFrom(
+        OperationDayStore.copyFrom(
           opDay,
         ),
       );

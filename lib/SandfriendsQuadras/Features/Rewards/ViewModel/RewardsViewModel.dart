@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'dart:math' as math;
 
 import '../../../../Common/Components/DatePickerModal.dart';
@@ -13,7 +14,7 @@ import '../../../../Common/Model/SandfriendsQuadras/RewardItem.dart';
 import '../../../../Common/Model/SandfriendsQuadras/SFBarChartItem.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import '../../../../Remote/NetworkResponse.dart';
-import '../../Menu/ViewModel/DataProvider.dart';
+import '../../Menu/ViewModel/StoreProvider.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
 import '../Model/RewardDataSource.dart';
 import '../Repository/RewardsRepo.dart';
@@ -36,7 +37,8 @@ class RewardsViewModel extends ChangeNotifier {
   }
 
   void setCustomPeriod(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       DatePickerModal(
         onDateSelected: (dateStart, dateEnd) {
           customStartDate = dateStart;
@@ -44,7 +46,8 @@ class RewardsViewModel extends ChangeNotifier {
           searchCustomRewards(context);
         },
         onReturn: () =>
-            Provider.of<MenuProvider>(context, listen: false).closeModal(),
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .closeModal(),
         allowFutureDates: false,
       ),
     );
@@ -127,16 +130,17 @@ class RewardsViewModel extends ChangeNotifier {
   List<RewardItem> possibleRewards = [];
 
   void initRewardsScreen(BuildContext context) {
-    _rewards = Provider.of<DataProvider>(context, listen: false).rewards;
+    _rewards = Provider.of<StoreProvider>(context, listen: false).rewards;
     setRewardDataSource();
   }
 
   void searchCustomRewards(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     rewardsRepo
         .searchCustomRewards(
             context,
-            Provider.of<DataProvider>(context, listen: false).loggedAccessToken,
+            Provider.of<StoreProvider>(context, listen: false)
+                .loggedAccessToken,
             customStartDate!,
             customEndDate)
         .then((response) {
@@ -150,7 +154,8 @@ class RewardsViewModel extends ChangeNotifier {
             Reward.fromJson(reward),
           );
         }
-        Provider.of<MenuProvider>(context, listen: false).closeModal();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .closeModal();
         periodVisualization = EnumPeriodVisualization.Custom;
         setRewardDataSource();
         notifyListeners();
@@ -159,13 +164,13 @@ class RewardsViewModel extends ChangeNotifier {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }
 
   void sendUserRewardCode(BuildContext context, String rewardCode) {
-    Provider.of<MenuProvider>(context, listen: false).setModalLoading();
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     rewardsRepo.sendUserRewardCode(context, rewardCode).then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         Map<String, dynamic> responseBody = json.decode(
@@ -184,47 +189,60 @@ class RewardsViewModel extends ChangeNotifier {
         Provider.of<MenuProvider>(context, listen: false).logout(context);
       } else {
         Provider.of<MenuProvider>(context, listen: false)
-            .setMessageModalFromResponse(response);
+            .setMessageModalFromResponse(context, response);
       }
     });
   }
 
   void setRewardsSelectorModal(BuildContext context, String rewardCode) {
-    Provider.of<MenuProvider>(context, listen: false)
-        .setModalForm(ChoseRewardModal(
-      rewardItems: possibleRewards,
-      onReturn: () =>
-          Provider.of<MenuProvider>(context, listen: false).closeModal(),
-      onTapRewardItem: (rewardItem) {
-        rewardsRepo
-            .userRewardSelected(
-                context,
-                Provider.of<DataProvider>(context, listen: false)
-                    .loggedAccessToken,
-                rewardCode,
-                rewardItem.idRewardItem)
-            .then((response) {
-          Provider.of<MenuProvider>(context, listen: false)
-              .setMessageModalFromResponse(response);
-        });
-      },
-    ));
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      ChoseRewardModal(
+        rewardItems: possibleRewards,
+        onReturn: () =>
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .removeLastOverlay(),
+        onTapRewardItem: (rewardItem) {
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setLoading();
+          rewardsRepo
+              .userRewardSelected(
+                  context,
+                  Provider.of<StoreProvider>(context, listen: false)
+                      .loggedAccessToken,
+                  rewardCode,
+                  rewardItem.idRewardItem)
+              .then((response) {
+            Provider.of<MenuProvider>(context, listen: false)
+                .setMessageModalFromResponse(
+              context,
+              response,
+              onTap: () =>
+                  Provider.of<StandardScreenViewModel>(context, listen: false)
+                      .clearOverlays(),
+            );
+          });
+        },
+      ),
+    );
   }
 
   /////////////ADD REWARD //////////////////////////////
   void addReward(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       AddRewardModal(
         onSendRewardCode: (rewardCode) =>
             sendUserRewardCode(context, rewardCode),
         onReturn: () =>
-            Provider.of<MenuProvider>(context, listen: false).closeModal(),
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .closeModal(),
       ),
     );
   }
 
   void validateAddReward(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).closeModal();
+    Provider.of<StandardScreenViewModel>(context, listen: false).closeModal();
   }
 
   ///////////////////////////////////////////////////////

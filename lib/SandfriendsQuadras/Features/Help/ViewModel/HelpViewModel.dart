@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../Menu/ViewModel/MenuProvider.dart';
 import '../Model/Faq.dart';
 import '../View/TalkToSupportWidget.dart';
@@ -15,12 +16,13 @@ class HelpViewModel extends ChangeNotifier {
   ];
 
   void talkSupport(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).setModalForm(
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
       TalkToSupportWidget(),
     );
   }
 
   void returnMainView(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).closeModal();
+    Provider.of<StandardScreenViewModel>(context, listen: false).closeModal();
   }
 }
