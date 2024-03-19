@@ -180,7 +180,7 @@ class ProfileOverlayViewModel extends ChangeNotifier {
   void googleLogin(BuildContext context) async {
     widgetStatus = PageStatus.LOADING;
     notifyListeners();
-    final user = await GoogleSignInApi.login();
+    //final user = await GoogleSignInApi.login();
   }
 
   void onTapProfile(BuildContext context) {

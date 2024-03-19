@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
 import 'package:intl/intl.dart';
+import 'package:sandfriends/Common/Model/Infrastructure.dart';
 import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
 import '../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
@@ -180,7 +181,7 @@ class StoreProvider extends ChangeNotifier {
     store = StoreComplete.fromJson(responseBody['Store']);
 
     setCourts(context, responseBody);
-
+    setStoreInfrastructures(context, responseBody);
     setMatches(context, responseBody);
     setRecurrentMatches(context, responseBody);
     setRewards(responseBody);
@@ -255,6 +256,26 @@ class StoreProvider extends ChangeNotifier {
       }
 
       courts.add(newCourt);
+    }
+  }
+
+  void setStoreInfrastructures(
+      BuildContext context, Map<String, dynamic> responseBody) {
+    store?.infrastructures.clear();
+    List<int> infrastructureIds = [];
+    for (var infrastructure in responseBody['Store']['StoreInfrastructures']) {
+      infrastructureIds.add(infrastructure["IdInfrastructureCategory"]);
+    }
+
+    for (var infrastrucutre
+        in Provider.of<CategoriesProvider>(context, listen: false)
+            .infrastructures) {
+      store?.infrastructures.add(
+        Infrastructure.copyFrom(
+          infrastrucutre,
+          isSelected: infrastructureIds.contains(infrastrucutre.id),
+        ),
+      );
     }
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 import 'package:sandfriends/Common/Features/Court/View/Mobile/CourtContactItem.dart';
+import 'package:sandfriends/Common/Utils/Constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../Model/Store/StoreComplete.dart';
@@ -27,14 +28,13 @@ class _CourtContactState extends State<CourtContact> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: height * 0.02, horizontal: width * 0.02),
-          child: Text(
-            "Contato",
-            style: TextStyle(
-                color: widget.themeColor, fontWeight: FontWeight.w700),
-          ),
+        Text(
+          "Contato",
+          style:
+              TextStyle(color: widget.themeColor, fontWeight: FontWeight.w700),
+        ),
+        SizedBox(
+          height: defaultPadding / 2,
         ),
         CourtContactItem(
           title: widget.store.phoneNumber,

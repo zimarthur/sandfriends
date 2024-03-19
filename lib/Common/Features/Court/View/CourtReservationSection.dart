@@ -39,11 +39,8 @@ class _CourtReservationSectionState extends State<CourtReservationSection> {
     double width = MediaQuery.of(context).size.width;
     return Column(
       children: [
-        Container(
-          color: textLightGrey,
-          margin: EdgeInsets.symmetric(
-              vertical: height * 0.02, horizontal: width * 0.02),
-          height: 1,
+        SizedBox(
+          height: defaultPadding * 2,
         ),
         AnimatedContainer(
           duration: duration,

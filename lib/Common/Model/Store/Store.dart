@@ -1,3 +1,5 @@
+import 'package:sandfriends/Common/Model/Infrastructure.dart';
+
 import '../City.dart';
 import '../Court.dart';
 
@@ -15,6 +17,7 @@ abstract class Store {
   String url;
 
   List<Court> courts = [];
+  List<Infrastructure> infrastructures = [];
 
   Store({
     required this.idStore,

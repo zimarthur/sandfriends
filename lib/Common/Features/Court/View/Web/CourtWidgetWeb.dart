@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Features/Court/View/Mobile/CourtInfrastructure.dart';
 import 'package:sandfriends/Common/Features/Court/View/Web/CourtContactItem.dart';
 import 'package:sandfriends/Common/Features/Court/View/Web/CourtWidgetWebPhoto.dart';
 import 'package:sandfriends/Common/Managers/LinkOpener/LinkOpenerManager.dart';
@@ -270,8 +271,7 @@ class _CourtWidgetWebState extends State<CourtWidgetWeb> {
                                           "Sobre a quadra",
                                           style: TextStyle(
                                             color: primaryBlue,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
+                                            fontWeight: FontWeight.w700,
                                           ),
                                         ),
                                         SizedBox(
@@ -283,6 +283,14 @@ class _CourtWidgetWebState extends State<CourtWidgetWeb> {
                                             color: textDarkGrey,
                                           ),
                                         ),
+                                        SizedBox(
+                                          height: defaultPadding,
+                                        ),
+                                        CourtInfrastructure(
+                                          infrastructures:
+                                              viewModel.store!.infrastructures,
+                                          themeColor: primaryBlue,
+                                        )
                                       ],
                                     ),
                                   ),

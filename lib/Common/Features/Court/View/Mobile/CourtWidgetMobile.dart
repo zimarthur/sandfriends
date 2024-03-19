@@ -4,12 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Features/Court/View/Mobile/CourtContact.dart';
 import 'package:sandfriends/Common/Features/Court/View/Mobile/CourtDescription.dart';
+import 'package:sandfriends/Common/Features/Court/View/Mobile/CourtInfrastructure.dart';
 import 'package:sandfriends/Common/Features/Court/View/Mobile/CourtPhotos.dart';
 import 'package:sandfriends/Common/Features/Court/View/CourtReservationSection.dart';
 import 'package:sandfriends/Common/Model/Court.dart';
 import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:auto_size_text/auto_size_text.dart';
 import '../../../../Components/SFButton.dart';
 import '../../../../Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Providers/Categories/CategoriesProvider.dart';
@@ -63,158 +64,179 @@ class _CourtWidgetMobileState extends State<CourtWidgetMobile> {
                       Container(
                         margin: EdgeInsets.only(
                           top: width * 0.7 - 2 * defaultPadding,
+                          // left: defaultPadding / 4,
+                          //right: defaultPadding / 4,
                         ),
                         padding: EdgeInsets.symmetric(
-                          horizontal: width * 0.05,
+                          horizontal: defaultPadding / 2,
                         ),
                         height: height * 0.15,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           color: secondaryBack,
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(2 * defaultPadding),
-                            topRight: Radius.circular(2 * defaultPadding),
+                            topLeft: Radius.circular(defaultBorderRadius * 1.5),
+                            topRight:
+                                Radius.circular(defaultBorderRadius * 1.5),
                           ),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.only(top: height * 0.02),
-                          child: SizedBox(
-                            height: height * 0.2,
-                            child: Row(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                  child: CachedNetworkImage(
-                                    imageUrl: Provider.of<EnvironmentProvider>(
-                                            context,
-                                            listen: false)
-                                        .urlBuilder(
-                                      widget.viewModel.store!.logo!,
-                                      isImage: true,
-                                    ),
+                          padding: EdgeInsets.only(top: defaultPadding),
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(16.0),
+                                child: CachedNetworkImage(
+                                  imageUrl: Provider.of<EnvironmentProvider>(
+                                          context,
+                                          listen: false)
+                                      .urlBuilder(
+                                    widget.viewModel.store!.logo!,
+                                    isImage: true,
+                                  ),
+                                  height: height * 0.13,
+                                  width: height * 0.13,
+                                  placeholder: (context, url) => SizedBox(
                                     height: height * 0.13,
                                     width: height * 0.13,
-                                    placeholder: (context, url) => SizedBox(
-                                      height: height * 0.13,
-                                      width: height * 0.13,
-                                      child: Center(
-                                        child: SFLoading(),
-                                      ),
+                                    child: Center(
+                                      child: SFLoading(),
                                     ),
-                                    errorWidget: (context, url, error) =>
-                                        Container(
-                                      height: height * 0.13,
-                                      width: height * 0.13,
-                                      color: textLightGrey.withOpacity(0.5),
-                                      child: const Center(
-                                        child: Icon(Icons.dangerous),
-                                      ),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                    height: height * 0.13,
+                                    width: height * 0.13,
+                                    color: textLightGrey.withOpacity(0.5),
+                                    child: const Center(
+                                      child: Icon(Icons.dangerous),
                                     ),
                                   ),
                                 ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: width * 0.05),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          height: height * 0.05,
-                                          child: FittedBox(
-                                            fit: BoxFit.fitWidth,
-                                            child: Text(
-                                              widget.viewModel.store!.name,
-                                              style: TextStyle(
-                                                color: themeColor,
-                                                fontWeight: FontWeight.w700,
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: defaultPadding / 2,
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      AutoSizeText(
+                                        widget.viewModel.store!.name,
+                                        style: TextStyle(
+                                          color: themeColor,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 24,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      SizedBox(
+                                        height: defaultPadding / 2,
+                                      ),
+                                      Expanded(
+                                        child: InkWell(
+                                          onTap: () {
+                                            launchUrl(Uri.parse(
+                                                "https://maps.google.com/maps?q=${widget.viewModel.store!.latitude},${widget.viewModel.store!.longitude}"));
+                                          },
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SvgPicture.asset(
+                                                r'assets/icon/location_ping.svg',
+                                                color: textDarkGrey,
+                                                width: 12,
                                               ),
-                                            ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  right: defaultPadding / 2,
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  widget.viewModel.store!
+                                                      .completeAddress,
+                                                  style: TextStyle(
+                                                    color: textDarkGrey,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Expanded(
-                                          child: InkWell(
-                                            onTap: () {
-                                              launchUrl(Uri.parse(
-                                                  "https://maps.google.com/maps?q=${widget.viewModel.store!.latitude},${widget.viewModel.store!.longitude}"));
-                                            },
-                                            child: Center(
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  SvgPicture.asset(
-                                                    r'assets/icon/location_ping.svg',
-                                                    color: themeColor,
-                                                    width: 15,
-                                                  ),
-                                                  Padding(
-                                                      padding: EdgeInsets.only(
-                                                          right: width * 0.02)),
-                                                  Expanded(
-                                                    child: Text(
-                                                      widget.viewModel.store!
-                                                          .completeAddress,
-                                                      style: TextStyle(
-                                                        color: themeColor,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ],
                   ),
-                  if (widget.viewModel.canMakeReservation)
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.02),
-                      child: CourtReservationSection(
-                        viewModel: widget.viewModel,
+                  ListView(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: defaultPadding / 2,
+                    ),
+                    children: [
+                      if (widget.viewModel.canMakeReservation)
+                        CourtReservationSection(
+                          viewModel: widget.viewModel,
+                          themeColor: themeColor,
+                        ),
+                      SizedBox(
+                        height: defaultPadding,
+                      ),
+                      CourtDescription(
+                        description: widget.viewModel.store!.description,
                         themeColor: themeColor,
                       ),
-                    ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  CourtDescription(
-                    description: widget.viewModel.store!.description,
-                    themeColor: themeColor,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: height * 0.02),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.02),
-                    height: height * 0.2,
-                    child: CourtMap(
-                      store: widget.viewModel.store!,
-                    ),
-                  ),
-                  CourtContact(
-                    store: widget.viewModel.store!,
-                    themeColor: themeColor,
-                  ),
-                  Container(
-                    height: height * 0.15,
+                      SizedBox(
+                        height: defaultPadding,
+                      ),
+                      if (widget
+                          .viewModel.store!.infrastructures.isNotEmpty) ...[
+                        CourtInfrastructure(
+                          infrastructures:
+                              widget.viewModel.store!.infrastructures,
+                          themeColor: themeColor,
+                        ),
+                        SizedBox(
+                          height: defaultPadding,
+                        ),
+                      ],
+                      Container(
+                        height: height * 0.2,
+                        child: CourtMap(
+                          store: widget.viewModel.store!,
+                        ),
+                      ),
+                      SizedBox(
+                        height: defaultPadding,
+                      ),
+                      CourtContact(
+                        store: widget.viewModel.store!,
+                        themeColor: themeColor,
+                      ),
+                      Container(
+                        height: height * 0.15,
+                      )
+                    ],
                   )
                 ],
               ),
               Positioned(
-                left: width * 0.03,
-                top: MediaQuery.of(context).padding.top + height * 0.01,
+                left: defaultPadding,
+                top: MediaQuery.of(context).padding.top + defaultPadding,
                 child: InkWell(
                   onTap: () => Provider.of<StandardScreenViewModel>(context,
                           listen: false)
@@ -222,7 +244,7 @@ class _CourtWidgetMobileState extends State<CourtWidgetMobile> {
                   child: Container(
                     height: width * 0.1,
                     width: width * 0.1,
-                    padding: EdgeInsets.all(width * 0.02),
+                    padding: EdgeInsets.all(defaultPadding / 2),
                     decoration: const BoxDecoration(
                         color: secondaryBack, shape: BoxShape.circle),
                     child: SvgPicture.asset(
@@ -246,7 +268,6 @@ class _CourtWidgetMobileState extends State<CourtWidgetMobile> {
                         ),
                       ),
                     ),
-                    height: height * 0.1,
                     width: width,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -261,7 +282,7 @@ class _CourtWidgetMobileState extends State<CourtWidgetMobile> {
                                     ).hourString}",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontSize: height * 0.02,
+                                  fontSize: defaultPadding,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -271,7 +292,7 @@ class _CourtWidgetMobileState extends State<CourtWidgetMobile> {
                                   color: textDarkGrey,
                                   fontWeight: FontWeight.w500,
                                   decoration: TextDecoration.underline,
-                                  fontSize: height * 0.017,
+                                  fontSize: 12,
                                   decorationColor: textDarkGrey,
                                 ),
                               ),
@@ -280,11 +301,11 @@ class _CourtWidgetMobileState extends State<CourtWidgetMobile> {
                         ),
                         Container(
                           padding:
-                              EdgeInsets.symmetric(vertical: height * 0.02),
+                              EdgeInsets.symmetric(vertical: defaultPadding),
                           child: SFButton(
                               buttonLabel: "Escolher pagamento",
                               color: secondaryYellow,
-                              textPadding: EdgeInsets.all(width * 0.03),
+                              textPadding: EdgeInsets.all(defaultPadding / 1.5),
                               onTap: () {
                                 Court checkoutCourt = Court.copyFrom(
                                   widget.viewModel.selectedCourt!,

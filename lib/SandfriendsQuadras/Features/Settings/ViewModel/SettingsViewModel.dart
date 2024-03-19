@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
+import 'package:sandfriends/SandfriendsQuadras/Features/Settings/InfrastructureInfo/InfrastructureInfo.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Model/SandfriendsQuadras/StorePhoto.dart';
 import '../../../../Common/Model/Store/StoreComplete.dart';
@@ -37,6 +38,15 @@ class SettingsViewModel extends ChangeNotifier {
       SFTabItem(
         name: "Marca",
         displayWidget: BrandInfo(
+          viewModel: this,
+        ),
+        onTap: (newTab) => setSelectedTab(newTab),
+      ),
+    );
+    tabItems.add(
+      SFTabItem(
+        name: "Infraestrutura",
+        displayWidget: InfrastructureInfo(
           viewModel: this,
         ),
         onTap: (newTab) => setSelectedTab(newTab),
@@ -162,7 +172,21 @@ class SettingsViewModel extends ChangeNotifier {
       storeRef.instagram != storeEdit.instagram ||
       storeRef.cnpj != storeEdit.cnpj ||
       storeAvatar != null ||
-      hasChangedPhoto;
+      hasChangedPhoto ||
+      hasChangedInfrastructure;
+
+  bool get hasChangedInfrastructure {
+    bool hasChanged = false;
+    storeEdit.infrastructures.forEach((editInf) {
+      if (storeRef.infrastructures
+              .firstWhere((refInf) => refInf.id == editInf.id)
+              .isSelected !=
+          editInf.isSelected) {
+        hasChanged = true;
+      }
+    });
+    return hasChanged;
+  }
 
   void updateUser(BuildContext context) {
     Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
@@ -184,7 +208,10 @@ class SettingsViewModel extends ChangeNotifier {
             StoreComplete.fromJson(
           responseBody["Store"],
         );
+        Provider.of<StoreProvider>(context, listen: false)
+            .setStoreInfrastructures(context, responseBody);
         initSettingsViewModel(context);
+
         hasChangedPhoto = false;
         storeAvatar = null;
         Provider.of<StandardScreenViewModel>(context, listen: false)
@@ -308,6 +335,13 @@ class SettingsViewModel extends ChangeNotifier {
 
   void onChangedCnpj(String newValue) {
     storeEdit.cnpj = newValue.getRawNumber();
+    notifyListeners();
+  }
+
+  void onTapInfrastructure(int idInfrastructure, bool isSelected) {
+    storeEdit.infrastructures
+        .firstWhere((inf) => inf.id == idInfrastructure)
+        .isSelected = isSelected;
     notifyListeners();
   }
 

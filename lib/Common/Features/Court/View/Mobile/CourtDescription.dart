@@ -18,21 +18,19 @@ class CourtDescription extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: height * 0.01, horizontal: width * 0.02),
-          child: Text(
-            "Sobre a quadra",
-            style: TextStyle(color: themeColor, fontWeight: FontWeight.w700),
+        Text(
+          "Sobre a quadra",
+          style: TextStyle(
+            color: themeColor,
+            fontWeight: FontWeight.w700,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: height * 0.01, horizontal: width * 0.02),
-          child: Text(
-            description,
-            style: const TextStyle(color: textDarkGrey),
-          ),
+        SizedBox(
+          height: defaultPadding / 2,
+        ),
+        Text(
+          description,
+          style: const TextStyle(color: textDarkGrey),
         ),
       ],
     );

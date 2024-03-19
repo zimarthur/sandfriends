@@ -1,3 +1,5 @@
+import 'package:sandfriends/Common/Model/Infrastructure.dart';
+
 import '../City.dart';
 import '../Court.dart';
 import '../OperationDayUser.dart';
@@ -68,6 +70,13 @@ class StoreUser extends Store {
       for (var court in json['Courts']) {
         newStore.courts.add(Court.fromJson(
           court,
+        ));
+      }
+    }
+    if (json['StoreInfrastructures'] != null) {
+      for (var infrastrucutre in json['StoreInfrastructures']) {
+        newStore.infrastructures.add(Infrastructure.fromJson(
+          infrastrucutre,
         ));
       }
     }

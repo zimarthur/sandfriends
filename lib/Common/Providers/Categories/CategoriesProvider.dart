@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Model/Infrastructure.dart';
 
 import '../../../Remote/NetworkResponse.dart';
 import '../../../Sandfriends/Features/Authentication/LoadLogin/Repository/LoadLoginRepo.dart';
@@ -27,6 +28,7 @@ class CategoriesProvider extends ChangeNotifier {
   List<Gender> genders = [];
   List<Rank> ranks = [];
   List<SidePreference> sidePreferences = [];
+  List<Infrastructure> infrastructures = [];
 
   List<Region> regions = [];
   List<Region> availableRegions = [];
@@ -50,6 +52,7 @@ class CategoriesProvider extends ChangeNotifier {
     ranks.clear();
     sidePreferences.clear();
     regions.clear();
+    infrastructures.clear();
     notifyListeners();
   }
 
@@ -61,6 +64,7 @@ class CategoriesProvider extends ChangeNotifier {
     setRanks(response);
     setSidePreferences(response);
     setAvailableRegions(response);
+    setInfrastructures(response);
   }
 
   void setHours(Map<String, dynamic> response) {
@@ -118,6 +122,18 @@ class CategoriesProvider extends ChangeNotifier {
       sidePreferences.add(
         SidePreference.fromJson(
           sidePreference,
+        ),
+      );
+    }
+  }
+
+  void setInfrastructures(Map<String, dynamic> response) {
+    final responseInfrastructures = response['Infrastructures'];
+    infrastructures.clear();
+    for (var infrastructure in responseInfrastructures) {
+      infrastructures.add(
+        Infrastructure.fromJson(
+          infrastructure,
         ),
       );
     }

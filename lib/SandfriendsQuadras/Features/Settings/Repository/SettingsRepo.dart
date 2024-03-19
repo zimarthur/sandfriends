@@ -43,6 +43,13 @@ class SettingsRepo {
                   "IdStorePhoto": photo.idStorePhoto,
                   "Photo": photo.photo,
                 }
+          ],
+          "StoreInfrastructures": [
+            for (var inf in store.infrastructures)
+              if (inf.isSelected)
+                {
+                  "IdInfrastructureCategory": inf.id,
+                }
           ]
         },
       ),

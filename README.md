@@ -1,6 +1,6 @@
 # sandfriends
 
-A new Flutter project.
+Sua próxima partida está aqui
 
 ## Getting Started
 

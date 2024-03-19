@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:sandfriends/Common/Model/City.dart';
 import 'package:sandfriends/Common/Model/HourPrice/HourPriceStore.dart';
+import 'package:sandfriends/Common/Model/Infrastructure.dart';
 import 'package:sandfriends/Common/Model/Store/Store.dart';
 import '../Court.dart';
 import '../SandfriendsQuadras/StorePhoto.dart';
@@ -104,6 +105,13 @@ class StoreComplete extends Store {
       newStore.courts.add(
         Court.copyFrom(
           court,
+        ),
+      );
+    }
+    for (var infrastructure in refStore.infrastructures) {
+      newStore.infrastructures.add(
+        Infrastructure.copyFrom(
+          infrastructure,
         ),
       );
     }
