@@ -70,6 +70,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
                           viewModel.updateViewModel(context);
                         },
                         child: ListView(
+                          padding: EdgeInsets.zero,
                           controller: pageController,
                           physics: PageScrollPhysics(),
                           children: [
@@ -212,6 +213,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
                                           child: ListView.builder(
                                             itemCount:
                                                 viewModel.hourMatches.length,
+                                            padding: EdgeInsets.zero,
                                             controller: listController,
                                             itemBuilder: (context, index) {
                                               return Container(
@@ -287,6 +289,9 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
                                                                   .matches
                                                                   .length,
                                                               shrinkWrap: true,
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .zero,
                                                               physics:
                                                                   NeverScrollableScrollPhysics(),
                                                               itemBuilder:

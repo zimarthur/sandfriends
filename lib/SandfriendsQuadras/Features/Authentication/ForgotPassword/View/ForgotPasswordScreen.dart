@@ -22,6 +22,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         child: Consumer<ForgotPasswordViewModel>(
           builder: (context, viewModel, _) {
             return StandardScreen(
+              enableToolbar: false,
               childWeb: ForgotPasswordWidget(
                 viewModel: viewModel,
               ),
