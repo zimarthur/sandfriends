@@ -19,6 +19,11 @@ class UserComplete extends User {
   String email;
   City? city;
   String? cpf;
+  bool allowNotifications;
+  String? notificationsToken;
+  bool allowNotificationsOpenMatches;
+  bool allowNotificationsCoupons;
+
   UserComplete({
     required super.firstName,
     required super.lastName,
@@ -34,6 +39,10 @@ class UserComplete extends User {
     this.sidePreference,
     this.city,
     this.cpf,
+    this.allowNotifications = false,
+    this.notificationsToken,
+    this.allowNotificationsOpenMatches = false,
+    this.allowNotificationsCoupons = false,
   });
 
   int? get age {
@@ -85,6 +94,11 @@ class UserComplete extends User {
           : SidePreference.fromJson(json['SidePreferenceCategory']),
       photo: json['Photo'],
       cpf: json['Cpf'],
+      allowNotifications: json['AllowNotifications'] ?? false,
+      notificationsToken: json['NotificationsToken'],
+      allowNotificationsOpenMatches:
+          json['AllowNotificationsOpenMatches'] ?? false,
+      allowNotificationsCoupons: json['AllowNotificationsCoupons'] ?? false,
     );
     for (int i = 0; i < json['Ranks'].length; i++) {
       newUser.ranks.add(Rank.fromJson(json['Ranks'][i]['RankCategory']));
@@ -157,6 +171,10 @@ class UserComplete extends User {
       preferenceSport: refUser.preferenceSport,
       sidePreference: refUser.sidePreference,
       cpf: refUser.cpf,
+      allowNotifications: refUser.allowNotifications,
+      notificationsToken: refUser.notificationsToken,
+      allowNotificationsCoupons: refUser.allowNotificationsCoupons,
+      allowNotificationsOpenMatches: refUser.allowNotificationsOpenMatches,
     );
     for (var rank in refUser.ranks) {
       user.ranks.add(

@@ -102,9 +102,8 @@ class _AppState extends State<GenericApp> {
       _initURIHandler();
       _incomingLinkHandler();
       WidgetsBinding.instance.addPostFrameCallback((_) async {
-        await FirebaseManager(
-          environment: environmentProvider.environment,
-        ).initialize(
+        await FirebaseManager().initialize(
+          environmentProvider.environment,
           messagingCallback: widget.handleNotification,
         );
         await LocalNotificationsManager().initialize(widget.handleNotification);

@@ -279,6 +279,6 @@ class SandfriendsApp extends GenericApp {
         '/payment': (BuildContext context) => const PaymentScreen(),
         '/new_credit_card': (BuildContext context) =>
             const NewCreditCardScreen(),
-        '/app_info': (BuildContext context) => const AppInfoScreen(),
+        '/settings': (BuildContext context) => const AppInfoScreen(),
       };
 }
