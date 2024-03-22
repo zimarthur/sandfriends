@@ -31,6 +31,18 @@ class AppInfoViewModel extends ChangeNotifier {
     launchUrl(Uri.parse(privacyPolicy));
   }
 
+<<<<<<< Updated upstream
+=======
+  void onTapLogout(BuildContext context) {
+    LocalStorageManager().storeAccessToken(context, "");
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/login_signup',
+      (Route<dynamic> route) => false,
+    );
+  }
+
+>>>>>>> Stashed changes
   void onDeleteAccount(BuildContext context) {
     Provider.of<StandardScreenViewModel>(context, listen: false)
         .addOverlayWidget(
