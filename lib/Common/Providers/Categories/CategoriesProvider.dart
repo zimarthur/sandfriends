@@ -47,6 +47,7 @@ class CategoriesProvider extends ChangeNotifier {
   }
 
   void clearAll() {
+    hours.clear();
     sports.clear();
     genders.clear();
     ranks.clear();

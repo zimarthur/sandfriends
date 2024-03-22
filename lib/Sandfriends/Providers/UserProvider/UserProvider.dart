@@ -46,6 +46,20 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setNotificationsSettings(
+    String response,
+  ) {
+    Map<String, dynamic> responseBody = json.decode(
+      response,
+    );
+    user!.allowNotifications = responseBody["AllowNotifications"];
+    user!.notificationsToken = responseBody["NotificationsToken"];
+    user!.allowNotificationsCoupons = responseBody["AllowNotificationsCoupons"];
+    user!.allowNotificationsOpenMatches =
+        responseBody["AllowNotificationsOpenMatches"];
+    notifyListeners();
+  }
+
   final List<AppMatchUser> _matches = [];
   List<AppMatchUser> get matches {
     List<AppMatchUser> filteredMatchList;

@@ -9,12 +9,8 @@ import 'package:sandfriends/Common/Managers/LocalNotifications/LocalNotification
 import '../../Providers/Environment/Environment.dart';
 
 class FirebaseManager {
-  Environment environment;
-  FirebaseManager({
-    required this.environment,
-  });
-
-  Future<void> initialize({
+  Future<void> initialize(
+    Environment environment, {
     required Function(Map<String, dynamic>) messagingCallback,
   }) async {
     FirebaseOptions firebaseOption = firebaseOptions[environment.product]![
@@ -51,5 +47,9 @@ class FirebaseManager {
     if (initialMessage != null) {
       messagingCallback(initialMessage.data);
     }
+  }
+
+  Future<String?> getToken() async {
+    return await FirebaseMessaging.instance.getToken();
   }
 }

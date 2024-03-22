@@ -14,6 +14,7 @@ class ApiEndPoints {
   static const String getUserInfo = "/GetUserInfo";
   static const String updateUserInfo = "/UpdateUser";
   static const String removeUser = "/RemoveUser";
+  static const String setUserNotifications = "/SetUserNotifications";
 
   static const String getUserMatches = "/GetUserMatches";
 

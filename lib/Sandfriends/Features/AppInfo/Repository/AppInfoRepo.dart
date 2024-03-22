@@ -22,4 +22,28 @@ class AppInfoRepo {
     );
     return response;
   }
+
+  Future<NetworkResponse> setUserNotifications(
+    BuildContext context,
+    String accessToken,
+    bool allowNotifications,
+    String notificationsToken,
+    bool allowNotificationsCoupons,
+    bool allowNotificationsOpenMatches,
+  ) async {
+    NetworkResponse response = await _apiService.postResponse(
+      context,
+      ApiEndPoints.setUserNotifications,
+      jsonEncode(
+        <String, Object>{
+          "AccessToken": accessToken,
+          "NotificationsToken": notificationsToken,
+          "AllowNotifications": allowNotifications,
+          "AllowNotificationsCoupons": allowNotificationsCoupons,
+          "AllowNotificationsOpenMatches": allowNotificationsOpenMatches,
+        },
+      ),
+    );
+    return response;
+  }
 }

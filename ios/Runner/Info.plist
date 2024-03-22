@@ -50,5 +50,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Sandfriends precisa do acesso da galeria para trocar seu avatar</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Conceda acesso à sua localização para encontrar as quadras perto de você</string>
+	<key>NSLocationWhenInUseUsageDescription </key>
+	<string>Conceda acesso à sua localização para encontrar as quadras perto de você</string>
 </dict>
 </plist>

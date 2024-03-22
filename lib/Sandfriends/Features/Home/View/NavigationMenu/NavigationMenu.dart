@@ -21,23 +21,26 @@ class _NavigationMenuState extends State<NavigationMenu> {
   List<NavigationMenuItem> navigationMenuItems = [
     NavigationMenuItem(
       tab: HomeTabs.User,
+      title: "Meu perfil",
       image: r"assets/icon/navigation/user_screen.svg",
       imageActive: r"assets/icon/navigation/user_screen_selected.svg",
     ),
     NavigationMenuItem(
       tab: HomeTabs.Feed,
+      title: "Início",
       image: r"assets/icon/navigation/feed_screen.svg",
       imageActive: r"assets/icon/navigation/feed_screen_selected.svg",
     ),
     NavigationMenuItem(
       tab: HomeTabs.MatchSearch,
+      title: "Agendar",
       image: r"assets/icon/navigation/schedule_screen.svg",
       imageActive: r"assets/icon/navigation/schedule_screen_selected.svg",
     ),
   ];
 
   double iconSize = 24.0;
-  double navigationMenuHeight = 65.0;
+  double navigationMenuHeight = 70.0;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +73,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
                   height: 4,
                   width: iconSize,
                   margin: EdgeInsets.only(
-                      top: (navigationMenuHeight / 2) - (iconSize / 2) - 10),
+                    top: 5,
+                  ),
                 ),
                 left: tileLocation,
                 duration: const Duration(
@@ -88,13 +92,28 @@ class _NavigationMenuState extends State<NavigationMenu> {
                           child: InkWell(
                             onTap: () =>
                                 widget.onChangeTab(navigationMenuitem.tab),
-                            child: Center(
-                              child: SvgPicture.asset(
-                                navigationMenuitem.tab == widget.selectedTab
-                                    ? navigationMenuitem.imageActive
-                                    : navigationMenuitem.image,
-                                height: iconSize,
-                              ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  navigationMenuitem.tab == widget.selectedTab
+                                      ? navigationMenuitem.imageActive
+                                      : navigationMenuitem.image,
+                                  height: iconSize,
+                                ),
+                                SizedBox(
+                                  height: defaultPadding / 4,
+                                ),
+                                Text(navigationMenuitem.title,
+                                    style: TextStyle(
+                                      color: primaryBlue,
+                                      fontSize: 10,
+                                      fontWeight: navigationMenuitem.tab ==
+                                              widget.selectedTab
+                                          ? FontWeight.w600
+                                          : FontWeight.normal,
+                                    ))
+                              ],
                             ),
                           ),
                         ),
@@ -113,11 +132,13 @@ class _NavigationMenuState extends State<NavigationMenu> {
 class NavigationMenuItem {
   NavigationMenuItem({
     required this.tab,
+    required this.title,
     required this.image,
     required this.imageActive,
   });
 
   final HomeTabs tab;
+  final String title;
   final String image;
   final String imageActive;
 }
