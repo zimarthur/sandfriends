@@ -98,7 +98,11 @@ class AppInfoViewModel extends ChangeNotifier {
 
   void onTapLogout(BuildContext context) {
     LocalStorageManager().storeAccessToken(context, "");
-    Navigator.pushNamed(context, '/login_signup');
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/login_signup',
+      (Route<dynamic> route) => false,
+    );
   }
 
   void onDeleteAccount(BuildContext context) {

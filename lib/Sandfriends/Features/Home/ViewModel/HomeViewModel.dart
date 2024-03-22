@@ -243,7 +243,11 @@ class HomeViewModel extends ChangeNotifier {
 
   void logOff(BuildContext context) {
     LocalStorageManager().storeAccessToken(context, "");
-    Navigator.pushNamed(context, '/login_signup');
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/login_signup',
+      (Route<dynamic> route) => false,
+    );
   }
 
   void goToAppSettings(BuildContext context) {
