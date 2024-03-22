@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Managers/Firebase/FirebaseManager.dart';
 import 'package:sandfriends/Common/Managers/LinkOpener/LinkOpenerManager.dart';
 import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
 import 'package:sandfriends/Common/Model/AppNotificationUser.dart';
@@ -61,7 +62,7 @@ class HomeViewModel extends ChangeNotifier {
     changeTab(context, initialTab);
 
     if (!kIsWeb) {
-      configureNotifications().then((notificationCOnfigs) {
+      configureNotifications(context).then((notificationCOnfigs) {
         getUserInfo(context, notificationCOnfigs);
         notifyListeners();
       });
@@ -70,10 +71,12 @@ class HomeViewModel extends ChangeNotifier {
     }
   }
 
-  Future<Tuple2<bool, String?>?> configureNotifications() async {
+  Future<Tuple2<bool, String?>?> configureNotifications(
+      BuildContext context) async {
     bool? authorization;
     String? fcmToken;
     try {
+      FirebaseManager().getToken();
       fcmToken = await FirebaseMessaging.instance.getToken();
       FirebaseMessaging messaging = FirebaseMessaging.instance;
       print("token is ${fcmToken}");
@@ -243,7 +246,7 @@ class HomeViewModel extends ChangeNotifier {
     Navigator.pushNamed(context, '/login_signup');
   }
 
-  void showAppInfoModal(BuildContext context) {
-    Navigator.pushNamed(context, "/app_info");
+  void goToAppSettings(BuildContext context) {
+    Navigator.pushNamed(context, "/settings");
   }
 }

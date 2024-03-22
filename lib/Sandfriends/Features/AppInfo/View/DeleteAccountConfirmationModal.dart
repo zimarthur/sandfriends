@@ -50,6 +50,7 @@ class _DeleteAccountConfirmationModalState
             "Você quer mesmo excluir sua conta?",
             style: TextStyle(
               color: primaryBlue,
+              fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,
             textScaleFactor: 1.2,
@@ -58,7 +59,7 @@ class _DeleteAccountConfirmationModalState
             height: defaultPadding / 2,
           ),
           Text(
-              "Seus dados não serão reperados e suas partidas serão perdidas."),
+              "Seus dados não serão recuperados e suas partidas serão perdidas."),
           SizedBox(
             height: defaultPadding * 2,
           ),

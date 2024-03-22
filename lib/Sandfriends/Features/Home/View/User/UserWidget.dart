@@ -46,13 +46,13 @@ class _UserWidgetState extends State<UserWidget> {
                         width: 60,
                         child: InkWell(
                           onTap: () =>
-                              widget.viewModel.showAppInfoModal(context),
+                              widget.viewModel.goToAppSettings(context),
                           child: Align(
                             alignment: Alignment.topRight,
                             child: SvgPicture.asset(
-                              r'assets/icon/info_circle.svg',
-                              height: 30,
-                              width: 30,
+                              r'assets/icon/config.svg',
+                              height: 25,
+                              width: 25,
                               color: secondaryBack,
                             ),
                           ),
