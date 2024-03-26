@@ -78,6 +78,8 @@ class OperationDayStore {
           endingHour: hourPrice.endingHour,
           price: hourPrice.price,
           priceRecurrent: hourPrice.recurrentPrice,
+          priceTeacher: hourPrice.priceTeacher,
+          priceRecurrentTeacher: hourPrice.recurrentPriceTeacher,
         );
       } else if (hourPrice.price != newPriceRule!.price ||
           hourPrice.recurrentPrice != newPriceRule.priceRecurrent ||
@@ -89,6 +91,8 @@ class OperationDayStore {
           endingHour: hourPrice.endingHour,
           price: hourPrice.price,
           priceRecurrent: hourPrice.recurrentPrice,
+          priceTeacher: hourPrice.priceTeacher,
+          priceRecurrentTeacher: hourPrice.recurrentPriceTeacher,
         );
       }
       if (prices.last == hourPrice) {
@@ -99,6 +103,8 @@ class OperationDayStore {
           endingHour: hourPrice.endingHour,
           price: hourPrice.price,
           priceRecurrent: hourPrice.recurrentPrice,
+          priceTeacher: hourPrice.priceTeacher,
+          priceRecurrentTeacher: hourPrice.recurrentPriceTeacher,
         );
       }
     }

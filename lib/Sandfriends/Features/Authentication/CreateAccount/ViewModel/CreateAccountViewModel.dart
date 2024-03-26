@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 
 import '../../../../../Common/Components/Modal/SFModalMessage.dart';
+import '../../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../../Remote/NetworkResponse.dart';
 import '../../../../../Common/Utils/PageStatus.dart';
 import '../Repo/CreateAccountRepo.dart';
@@ -25,7 +26,14 @@ class CreateAccountViewModel extends ChangeNotifier {
       FocusScope.of(context).unfocus();
       Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
       _createAccountRepo
-          .createAccount(context, emailController.text, passwordController.text)
+          .createAccount(
+        context,
+        emailController.text,
+        passwordController.text,
+        Provider.of<EnvironmentProvider>(context, listen: false)
+            .environment
+            .isSandfriendsAulas,
+      )
           .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
           Provider.of<StandardScreenViewModel>(context, listen: false)

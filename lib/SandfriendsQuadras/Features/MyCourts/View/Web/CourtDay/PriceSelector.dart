@@ -9,6 +9,7 @@ class PriceSelector extends StatefulWidget {
   PriceRule priceRule;
   bool editHour;
   bool allowRecurrent;
+  bool showTeacherPrices;
   double height;
   List<Hour> availableHours;
   Function(Hour, String?) onChangedStartingHour;
@@ -23,6 +24,7 @@ class PriceSelector extends StatefulWidget {
     required this.height,
     required this.availableHours,
     required this.allowRecurrent,
+    required this.showTeacherPrices,
     required this.onChangedStartingHour,
     required this.onChangedEndingHour,
     required this.onChangedPrice,
@@ -42,6 +44,22 @@ class _PriceSelectorState extends State<PriceSelector> {
     priceController.text = widget.priceRule.price.toString();
     recurrentPriceController.text = widget.priceRule.priceRecurrent.toString();
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(PriceSelector oldWidget) {
+    if (oldWidget.showTeacherPrices != widget.showTeacherPrices) {
+      if (widget.showTeacherPrices) {
+        priceController.text = widget.priceRule.priceTeacher.toString();
+        recurrentPriceController.text =
+            widget.priceRule.priceRecurrentTeacher.toString();
+      } else {
+        priceController.text = widget.priceRule.price.toString();
+        recurrentPriceController.text =
+            widget.priceRule.priceRecurrent.toString();
+      }
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override

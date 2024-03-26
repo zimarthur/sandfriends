@@ -176,7 +176,16 @@ class CourtViewModel extends CheckoutViewModel {
 
       String? accessToken = await LocalStorageManager().getAccessToken(context);
 
-      loadLoginRepo.validateLogin(context, accessToken, false).then((response) {
+      loadLoginRepo
+          .validateLogin(
+        context,
+        accessToken,
+        false,
+        Provider.of<EnvironmentProvider>(context, listen: false)
+            .environment
+            .isSandfriendsAulas,
+      )
+          .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
           Map<String, dynamic> responseBody = json.decode(
             response.responseBody!,

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
 import 'package:intl/intl.dart';
 import 'package:sandfriends/Common/Model/Infrastructure.dart';
+import 'package:sandfriends/Common/Model/School.dart';
 import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
 import '../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
@@ -82,6 +83,18 @@ class StoreProvider extends ChangeNotifier {
   List<CouponStore> coupons = [];
 
   List<UserStore> storePlayers = [];
+
+  List<School> schools = [];
+  void addSchool(School newSchool) {
+    schools.add(newSchool);
+    notifyListeners();
+  }
+
+  void updateSchool(School editedSchool) {
+    schools.removeWhere((school) => school.idSchool == editedSchool.idSchool);
+    schools.add(editedSchool);
+    notifyListeners();
+  }
 
   final List<Employee> _employees = [];
   List<Employee> get employees {
@@ -176,6 +189,7 @@ class StoreProvider extends ChangeNotifier {
 
     setLastNotificationId(context);
 
+    setSchoolsResponse(context, responseBody);
     setPlayersResponse(context, responseBody);
 
     store = StoreComplete.fromJson(responseBody['Store']);
@@ -193,6 +207,17 @@ class StoreProvider extends ChangeNotifier {
         DateFormat("dd/MM/yyyy").parse(responseBody['MatchesEndDate']);
 
     notifyListeners();
+  }
+
+  void setSchoolsResponse(
+      BuildContext context, Map<String, dynamic> responseBody) {
+    schools.clear();
+    for (var school in responseBody['Store']['StoreSchools']) {
+      schools.add(School.fromJson(
+        school,
+        Provider.of<CategoriesProvider>(context, listen: false).sports,
+      ));
+    }
   }
 
   void setPlayersResponse(
@@ -246,6 +271,8 @@ class StoreProvider extends ChangeNotifier {
                         (hour) => hour.hour == courtPrices["IdAvailableHour"]),
                 price: courtPrices["Price"],
                 recurrentPrice: courtPrices["RecurrentPrice"],
+                priceTeacher: courtPrices["PriceTeacher"],
+                recurrentPriceTeacher: courtPrices["RecurrentPriceTeacher"],
                 endingHour: Provider.of<CategoriesProvider>(context,
                         listen: false)
                     .hours

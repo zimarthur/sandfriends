@@ -8,13 +8,17 @@ class EmailConfirmationRepo {
   final _apiService = NetworkApiService();
 
   Future<NetworkResponse> confirmEmail(
-      BuildContext context, String token) async {
+    BuildContext context,
+    String token,
+    bool isTeacher,
+  ) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
       ApiEndPoints.emailConfirmation,
       jsonEncode(
         <String, Object>{
           "EmailConfirmationToken": token,
+          "IsTeacher": isTeacher,
         },
       ),
     );

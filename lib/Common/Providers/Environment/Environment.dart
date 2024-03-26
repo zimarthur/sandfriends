@@ -17,6 +17,7 @@ class Environment {
   bool get isWeb => device == Device.Web;
 
   bool get isSandfriends => product == Product.Sandfriends;
+  bool get isSandfriendsAulas => product == Product.SandfriendsAulas;
   bool get isSandfriendsQuadras => product == Product.SandfriendsQuadras;
   bool get isSandfriendsWebApp => product == Product.SandfriendsWebPage;
 

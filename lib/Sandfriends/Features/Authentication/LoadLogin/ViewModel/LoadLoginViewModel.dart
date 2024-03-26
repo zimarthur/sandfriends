@@ -5,6 +5,7 @@ import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dar
 import 'package:sandfriends/Sandfriends/Providers/RedirectProvider/RedirectProvider.dart';
 
 import '../../../../../Common/Model/User/UserComplete.dart';
+import '../../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../../Remote/NetworkResponse.dart';
 import '../../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Providers/UserProvider/UserProvider.dart';
@@ -20,7 +21,14 @@ class LoadLoginViewModel extends ChangeNotifier {
         goToLoginSignup(context);
       } else {
         loadLoginRepo
-            .validateLogin(context, accessToken, true)
+            .validateLogin(
+          context,
+          accessToken,
+          true,
+          Provider.of<EnvironmentProvider>(context, listen: false)
+              .environment
+              .isSandfriendsAulas,
+        )
             .then((response) {
           if (response.responseStatus == NetworkResponseStatus.success) {
             receiveLoginResponse(context, response.responseBody!);

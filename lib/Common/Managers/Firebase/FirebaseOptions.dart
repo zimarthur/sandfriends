@@ -75,6 +75,17 @@ Map<Product, Map<Flavor, Map<Device, FirebaseOptions>>> firebaseOptions =
       )
     }
   },
+  Product.SandfriendsAulas: {
+    Flavor.Dev: {
+      Device.Android: FirebaseOptions(
+        apiKey: 'AIzaSyA5JAplCVAq1nigDWwrWQSEaXa-9NBw63c',
+        appId: '1:619166716922:android:c2b774ca386f8426fe4a43',
+        messagingSenderId: '619166716922',
+        projectId: 'sandfriends-dev',
+        storageBucket: 'sandfriends-dev.appspot.com',
+      )
+    }
+  },
   Product.SandfriendsQuadras: {
     Flavor.Prod: {
       Device.Ios: FirebaseOptions(

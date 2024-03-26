@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
 
 import '../../../../../Common/Components/SFButton.dart';
 import '../../../../../../Common/Components/SFTextField.dart';
@@ -41,7 +43,12 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Image.asset(
-                          r"assets/icon/logo_brand.png",
+                          Provider.of<EnvironmentProvider>(context,
+                                      listen: false)
+                                  .environment
+                                  .isSandfriendsAulas
+                              ? r"assets/logo_brand_aulas.png"
+                              : r"assets/logo_brand.png",
                           height: height * 0.22,
                         ),
                         Padding(

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../Common/Components/SFButton.dart';
 import '../../../../../../Common/Components/SFTextField.dart';
+import '../../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../../../../Common/Utils/Validators.dart';
 
@@ -38,7 +40,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    r"assets/icon/logo_brand.png",
+                    Provider.of<EnvironmentProvider>(context, listen: false)
+                            .environment
+                            .isSandfriendsAulas
+                        ? r"assets/logo_brand_aulas.png"
+                        : r"assets/logo_brand.png",
                     height: height * 0.22,
                   ),
                   Padding(padding: EdgeInsets.only(bottom: height * 0.08)),

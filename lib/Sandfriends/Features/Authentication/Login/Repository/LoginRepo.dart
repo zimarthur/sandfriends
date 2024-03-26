@@ -8,7 +8,11 @@ class LoginRepo {
   final _apiService = NetworkApiService();
 
   Future<NetworkResponse> login(
-      BuildContext context, String email, String password) async {
+    BuildContext context,
+    String email,
+    String password,
+    bool isTeacher,
+  ) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
       ApiEndPoints.loginUser,
@@ -17,6 +21,7 @@ class LoginRepo {
           "Email": email,
           "Password": password,
           'ThirdPartyLogin': false,
+          "IsTeacher": isTeacher,
         },
       ),
     );
@@ -24,13 +29,17 @@ class LoginRepo {
   }
 
   Future<NetworkResponse> forgotPassword(
-      BuildContext context, String email) async {
+    BuildContext context,
+    String email,
+    bool isTeacher,
+  ) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
       ApiEndPoints.changePasswordRequest,
       jsonEncode(
         <String, Object>{
           "Email": email,
+          "IsTeacher": isTeacher,
         },
       ),
     );

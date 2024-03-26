@@ -111,4 +111,9 @@ class ApiEndPoints {
   //coupons
   static const String addCoupon = "/AddCoupon";
   static const String enableDisableCoupon = "/EnableDisableCoupon";
+
+  //schools
+  static const String addSchool = "/AddSchool";
+  static const String editSchool = "/EditSchool";
+  static const String addSchoolTeacher = "/AddSchoolTeacher";
 }

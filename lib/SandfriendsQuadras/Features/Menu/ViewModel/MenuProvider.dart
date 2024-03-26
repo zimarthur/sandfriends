@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
+import 'package:sandfriends/SandfriendsQuadras/Features/Classes/View/ClassesScreenWeb.dart';
 import '../../../../Common/Components/Modal/SFModalConfirmation.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/Constants.dart';
@@ -230,6 +231,15 @@ class MenuProvider extends StandardScreenViewModel {
       widgetWeb: MyCourtsScreenWeb(),
       widgetMobile: MyCourtsScreenMobile(),
       mainDrawer: true,
+    ),
+    DrawerItem(
+      title: "Aulas",
+      icon: r"assets/icon/class.svg",
+      requiresAdmin: false,
+      widgetWeb: ClassesScreenWeb(),
+      widgetMobile: PlayersScreenMobile(),
+      mainDrawer: true,
+      availableMobile: false,
     ),
     DrawerItem(
       title: "Jogadores",

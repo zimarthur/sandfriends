@@ -217,6 +217,10 @@ class _MyCourtsScreenWebState extends State<MyCourtsScreenWeb> {
                                                 return Column(
                                                   children: [
                                                     CourtDay(
+                                                      courtId: viewModel
+                                                              .currentCourt
+                                                              .idStoreCourt ??
+                                                          -1,
                                                       width: courtWeekdayWidth,
                                                       height: myHeight,
                                                       operationDay: viewModel

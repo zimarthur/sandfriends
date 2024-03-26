@@ -117,6 +117,27 @@ android {
             manifestPlaceholders.subDomainDeeplink = "demoapp"
             signingConfig signingConfigs.releaseDemo
         }
+        aulasProd {
+            dimension "default"
+            resValue "string", "app_name", "Sandfriends Aulas"
+            applicationIdSuffix "aulas.prod"
+            manifestPlaceholders.subDomainDeeplink = "aulas"
+            signingConfig signingConfigs.releaseProd
+        }
+        aulasDev {
+            dimension "default"
+            resValue "string", "app_name", "Sandfriends Aulas dev"
+            applicationIdSuffix "aulas.dev"
+            manifestPlaceholders.subDomainDeeplink = "devaulas"
+            signingConfig signingConfigs.releaseDev
+        }
+        aulasDemo {
+            dimension "default"
+            resValue "string", "app_name", "Sandfriends Aulas demo"
+            applicationIdSuffix "aulas.demo"
+            manifestPlaceholders.subDomainDeeplink = "demoaulas"
+            signingConfig signingConfigs.releaseDemo
+        }
         quadrasProd {
             dimension "default"
             resValue "string", "app_name", "Sandfriends Quadras"
