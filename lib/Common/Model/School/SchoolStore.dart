@@ -1,29 +1,24 @@
 import 'package:intl/intl.dart';
+import 'package:sandfriends/Common/Model/School/School.dart';
 import 'package:sandfriends/Common/Model/Sport.dart';
 import 'package:sandfriends/Common/Model/Teacher.dart';
 
-class School {
-  int idSchool;
-  String name;
-  DateTime creationDate;
-  Sport sport;
-  String? logo;
-
+class SchoolStore extends School {
   List<Teacher> teachers = [];
 
-  School({
-    required this.idSchool,
-    required this.name,
-    required this.creationDate,
-    required this.sport,
-    required this.logo,
+  SchoolStore({
+    required super.idSchool,
+    required super.name,
+    required super.creationDate,
+    required super.sport,
+    required super.logo,
   });
 
-  factory School.fromJson(
+  factory SchoolStore.fromJson(
     Map<String, dynamic> json,
     List<Sport> referenceSports,
   ) {
-    School newSchool = School(
+    SchoolStore newSchool = SchoolStore(
       idSchool: json["IdStoreSchool"],
       name: json["Name"],
       creationDate: DateFormat("dd/MM/yyyy").parse(
@@ -43,5 +38,24 @@ class School {
       }
     }
     return newSchool;
+  }
+
+  factory SchoolStore.copyFrom(SchoolStore refSchool) {
+    final school = SchoolStore(
+      idSchool: refSchool.idSchool,
+      name: refSchool.name,
+      sport: refSchool.sport,
+      creationDate: refSchool.creationDate,
+      logo: refSchool.logo,
+    );
+    for (var teacher in refSchool.teachers) {
+      school.teachers.add(
+        Teacher.copyFrom(
+          teacher,
+        ),
+      );
+    }
+
+    return school;
   }
 }

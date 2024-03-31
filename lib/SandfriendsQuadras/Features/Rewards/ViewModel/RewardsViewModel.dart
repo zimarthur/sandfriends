@@ -15,7 +15,7 @@ import '../../../../Common/Model/SandfriendsQuadras/SFBarChartItem.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
-import '../../Menu/ViewModel/MenuProvider.dart';
+import '../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../Model/RewardDataSource.dart';
 import '../Repository/RewardsRepo.dart';
 import '../View/Web/AddRewardModal.dart';
@@ -161,9 +161,10 @@ class RewardsViewModel extends ChangeNotifier {
         notifyListeners();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });
@@ -186,9 +187,10 @@ class RewardsViewModel extends ChangeNotifier {
         notifyListeners();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });
@@ -213,7 +215,7 @@ class RewardsViewModel extends ChangeNotifier {
                   rewardCode,
                   rewardItem.idRewardItem)
               .then((response) {
-            Provider.of<MenuProvider>(context, listen: false)
+            Provider.of<MenuProviderQuadras>(context, listen: false)
                 .setMessageModalFromResponse(
               context,
               response,

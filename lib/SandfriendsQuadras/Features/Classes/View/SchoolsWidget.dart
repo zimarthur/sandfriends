@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Components/SFAvatarStore.dart';
-import 'package:sandfriends/Common/Model/School.dart';
+import 'package:sandfriends/Common/Model/School/School.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
 import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
 import 'package:sandfriends/SandfriendsQuadras/Features/Classes/View/SchoolDetails.dart';

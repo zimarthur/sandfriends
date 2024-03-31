@@ -8,6 +8,7 @@ import '../Rank.dart';
 import '../SidePreference.dart';
 import '../Sport.dart';
 import 'User.dart';
+import 'package:collection/collection.dart';
 
 class UserComplete extends User {
   String accessToken;
@@ -67,9 +68,10 @@ class UserComplete extends User {
   }
 
   int getUserSportMatches(Sport selectedSport) {
-    return matchCounter
-        .firstWhere((element) => element.sport.idSport == selectedSport.idSport)
-        .total;
+    MatchCounter? sportMatchCounter = matchCounter.firstWhereOrNull(
+        (element) => element.sport.idSport == selectedSport.idSport);
+
+    return sportMatchCounter == null ? 0 : sportMatchCounter.total;
   }
 
   factory UserComplete.fromJson(Map<String, dynamic> json) {

@@ -13,7 +13,7 @@ import 'package:sandfriends/Common/Utils/Validators.dart';
 import '../../../../../Common/Components/SFButton.dart';
 import '../../../../../../Common/Components/SFTextField.dart';
 import '../../../../Common/Components/CreditCard/CreditCardCard.dart';
-import '../../../../Common/Model/School.dart';
+import '../../../../Common/Model/School/School.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../../../../Common/Utils/SFImage.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';

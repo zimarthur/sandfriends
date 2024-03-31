@@ -15,7 +15,7 @@ import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
-import '../../Menu/ViewModel/MenuProvider.dart';
+import '../../Menu/ViewModel/MenuProviderQuadras.dart';
 import 'package:intl/intl.dart';
 
 import '../../Players/Repository/PlayersRepo.dart';
@@ -61,7 +61,8 @@ class CalendarViewModel extends ChangeNotifier {
   void initCalendarViewModel(BuildContext context, bool initIsMobile) {
     isMobile = initIsMobile;
     initTabs();
-    Provider.of<MenuProvider>(context, listen: false).isDrawerExpanded = false;
+    Provider.of<MenuProviderQuadras>(context, listen: false).isDrawerExpanded =
+        false;
     courts = Provider.of<StoreProvider>(context, listen: false).courts;
     storeWorkingDays =
         Provider.of<StoreProvider>(context, listen: false).storeWorkingDays !=
@@ -208,9 +209,10 @@ class CalendarViewModel extends ChangeNotifier {
           notifyListeners();
         } else if (response.responseStatus ==
             NetworkResponseStatus.expiredToken) {
-          Provider.of<MenuProvider>(context, listen: false).logout(context);
+          Provider.of<MenuProviderQuadras>(context, listen: false)
+              .logout(context);
         } else {
-          Provider.of<MenuProvider>(context, listen: false)
+          Provider.of<MenuProviderQuadras>(context, listen: false)
               .setMessageModalFromResponse(context, response);
         }
       });
@@ -765,9 +767,10 @@ class CalendarViewModel extends ChangeNotifier {
             .closeModal();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
       setShowHourInfo(value: false);
@@ -798,9 +801,10 @@ class CalendarViewModel extends ChangeNotifier {
             .closeModal();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
       setShowHourInfo(value: false);
@@ -838,9 +842,10 @@ class CalendarViewModel extends ChangeNotifier {
         notifyListeners();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });
@@ -862,9 +867,10 @@ class CalendarViewModel extends ChangeNotifier {
             .closeModal();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });
@@ -892,9 +898,10 @@ class CalendarViewModel extends ChangeNotifier {
             .closeModal();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });
@@ -922,9 +929,10 @@ class CalendarViewModel extends ChangeNotifier {
             .closeModal();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });
@@ -1120,9 +1128,10 @@ class CalendarViewModel extends ChangeNotifier {
               );
             } else if (response.responseStatus ==
                 NetworkResponseStatus.expiredToken) {
-              Provider.of<MenuProvider>(context, listen: false).logout(context);
+              Provider.of<MenuProviderQuadras>(context, listen: false)
+                  .logout(context);
             } else {
-              Provider.of<MenuProvider>(context, listen: false)
+              Provider.of<MenuProviderQuadras>(context, listen: false)
                   .setMessageModalFromResponse(context, response);
             }
           });

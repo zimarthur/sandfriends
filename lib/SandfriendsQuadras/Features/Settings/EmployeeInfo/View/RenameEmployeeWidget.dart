@@ -5,7 +5,7 @@ import '../../../../../../Common/Components/SFTextField.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../../../../Common/Utils/Validators.dart';
 
-import '../../../Menu/ViewModel/MenuProvider.dart';
+import '../../../Menu/ViewModel/MenuProviderQuadras.dart';
 
 class RenameEmployeeWidget extends StatelessWidget {
   Function(String, String) onRename;
@@ -20,7 +20,8 @@ class RenameEmployeeWidget extends StatelessWidget {
     final renameEmployeeFormKey = GlobalKey<FormState>();
     TextEditingController renameFirstNameController = TextEditingController();
     TextEditingController renameLastNameController = TextEditingController();
-    double width = Provider.of<MenuProvider>(context).getScreenWidth(context);
+    double width =
+        Provider.of<MenuProviderQuadras>(context).getScreenWidth(context);
     return Container(
       width: width * 0.4 < 350 ? 350 : width * 0.4,
       padding: const EdgeInsets.all(defaultPadding),

@@ -9,7 +9,7 @@ import '../../../../Common/Model/SandfriendsQuadras/Reward.dart';
 import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
-import '../../Menu/ViewModel/MenuProvider.dart';
+import '../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../Model/CourtOccupation.dart';
 import '../Model/FilterCourt.dart';
 import '../Model/HourMatch.dart';
@@ -108,7 +108,7 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void updateViewModel(BuildContext context) async {
-    await Provider.of<MenuProvider>(context, listen: false)
+    await Provider.of<MenuProviderQuadras>(context, listen: false)
         .updateStoreProvider(context);
     setViewModel(context);
   }

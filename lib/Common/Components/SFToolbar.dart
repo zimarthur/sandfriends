@@ -26,8 +26,15 @@ class _SFToolbarState extends State<SFToolbar> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return SizedBox(
-      height: toolbarHeight,
+    double topPadding = MediaQuery.of(context).padding.top;
+    return Container(
+      padding: EdgeInsets.only(top: topPadding),
+      color: widget.appBarType == AppBarType.Primary
+          ? primaryBlue
+          : widget.appBarType == AppBarType.PrimaryLightBlue
+              ? primaryLightBlue
+              : secondaryPaper,
+      height: toolbarHeight + topPadding,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -46,7 +53,7 @@ class _SFToolbarState extends State<SFToolbar> {
                       width: width * 0.05,
                       color: widget.appBarType == AppBarType.Secondary
                           ? primaryBlue
-                          : secondaryBack,
+                          : secondaryPaper,
                     ),
                   ),
                 ),
@@ -59,7 +66,7 @@ class _SFToolbarState extends State<SFToolbar> {
             style: TextStyle(
               color: widget.appBarType == AppBarType.Secondary
                   ? primaryBlue
-                  : secondaryBack,
+                  : secondaryPaper,
             ),
           ),
           widget.rightWidget == null

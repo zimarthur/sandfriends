@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
 import 'package:intl/intl.dart';
 import 'package:sandfriends/Common/Model/Infrastructure.dart';
-import 'package:sandfriends/Common/Model/School.dart';
+import 'package:sandfriends/Common/Model/School/School.dart';
 import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
 import '../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
@@ -19,6 +19,7 @@ import '../../../../Common/Model/SandfriendsQuadras/AppNotificationStore.dart';
 import '../../../../Common/Model/SandfriendsQuadras/AvailableSport.dart';
 import '../../../../Common/Model/SandfriendsQuadras/Employee.dart';
 import '../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
+import '../../../../Common/Model/School/SchoolStore.dart';
 import '../../../../Common/Model/Sport.dart';
 import '../../../../Common/Model/Store/StoreComplete.dart';
 import '../../../../Common/Model/User/UserStore.dart';
@@ -84,16 +85,26 @@ class StoreProvider extends ChangeNotifier {
 
   List<UserStore> storePlayers = [];
 
-  List<School> schools = [];
-  void addSchool(School newSchool) {
+  List<SchoolStore> schools = [];
+  void addSchool(SchoolStore newSchool) {
     schools.add(newSchool);
     notifyListeners();
   }
 
-  void updateSchool(School editedSchool) {
-    schools.removeWhere((school) => school.idSchool == editedSchool.idSchool);
+  void updateSchool(SchoolStore editedSchool) {
+    schools.removeWhere((element) => element.idSchool == editedSchool.idSchool);
     schools.add(editedSchool);
     notifyListeners();
+    // for (var school in schools) {
+    //   if (school.idSchool == editedSchool.idSchool) {
+    //     school = School.copyFrom(editedSchool);
+    //     notifyListeners();
+    //     break;
+    //   }
+    // }
+    for (var school in schools) {
+      print("AAAAA ${school.idSchool} ${school.teachers.length}");
+    }
   }
 
   final List<Employee> _employees = [];
@@ -213,7 +224,7 @@ class StoreProvider extends ChangeNotifier {
       BuildContext context, Map<String, dynamic> responseBody) {
     schools.clear();
     for (var school in responseBody['Store']['StoreSchools']) {
-      schools.add(School.fromJson(
+      schools.add(SchoolStore.fromJson(
         school,
         Provider.of<CategoriesProvider>(context, listen: false).sports,
       ));

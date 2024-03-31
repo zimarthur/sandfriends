@@ -107,6 +107,10 @@ class UserDetailsViewModel extends ChangeNotifier {
 
     if (initSport != null) {
       displayedSport = initSport;
+    } else {
+      displayedSport = Provider.of<UserProvider>(context, listen: false)
+          .user!
+          .preferenceSport!;
     }
     if (initModal != UserDetailsModals.None) {
       openUserDetailsModal(initModal, context);
@@ -341,6 +345,15 @@ class UserDetailsViewModel extends ChangeNotifier {
       default:
         break;
     }
+  }
+
+  void updateUserPhoto(
+      BuildContext context, bool newNoImage, String? newImagePicker) {
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .clearOverlays();
+    noImage = newNoImage;
+    imagePicker = newImagePicker;
+    notifyListeners();
   }
 
   void setUserRank(BuildContext context, Rank newRank) {

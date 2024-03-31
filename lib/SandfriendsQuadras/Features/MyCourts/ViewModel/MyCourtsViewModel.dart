@@ -14,7 +14,7 @@ import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
-import '../../Menu/ViewModel/MenuProvider.dart';
+import '../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../Repository/MyCourtsRepo.dart';
 import '../View/Web/PriceListWidget.dart';
 import '../View/Web/WorkingHoursModal.dart';
@@ -610,9 +610,10 @@ class MyCourtsViewModel extends ChangeNotifier {
           );
         } else if (response.responseStatus ==
             NetworkResponseStatus.expiredToken) {
-          Provider.of<MenuProvider>(context, listen: false).logout(context);
+          Provider.of<MenuProviderQuadras>(context, listen: false)
+              .logout(context);
         } else {
-          Provider.of<MenuProvider>(context, listen: false)
+          Provider.of<MenuProviderQuadras>(context, listen: false)
               .setMessageModalFromResponse(context, response);
         }
       });
@@ -656,9 +657,10 @@ class MyCourtsViewModel extends ChangeNotifier {
         );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });
@@ -724,9 +726,10 @@ class MyCourtsViewModel extends ChangeNotifier {
         );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });

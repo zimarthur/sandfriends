@@ -7,7 +7,7 @@ import '../../../../../../../Common/Components/SFButton.dart';
 import '../../../../../../../Common/Components/SFDivider.dart';
 import '../../../../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
 import '../../../../../../../Common/Utils/Constants.dart';
-import '../../../../../Menu/ViewModel/MenuProvider.dart';
+import '../../../../../Menu/ViewModel/MenuProviderQuadras.dart';
 import 'package:intl/intl.dart';
 
 import '../Match/MatchDetailsWidgetRow.dart';
@@ -25,8 +25,10 @@ class RecurrentMatchDetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = Provider.of<MenuProvider>(context).getScreenWidth(context);
-    double height = Provider.of<MenuProvider>(context).getScreenHeight(context);
+    double width =
+        Provider.of<MenuProviderQuadras>(context).getScreenWidth(context);
+    double height =
+        Provider.of<MenuProviderQuadras>(context).getScreenHeight(context);
     return Container(
       height: height * 0.9,
       width: 500,

@@ -4,15 +4,29 @@ import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Managers/PalleteGenerator/PalleteGeneratorManager.dart';
 
-import '../../../../../Common/Components/SFAvatarStore.dart';
-import '../../../../../Common/Components/SFAvatarUser.dart';
-import '../../../../../Common/Providers/Environment/EnvironmentProvider.dart';
-import '../../../../../Common/Utils/Constants.dart';
-import '../../../Menu/View/Mobile/SFStandardHeader.dart';
-import '../../../Menu/ViewModel/StoreProvider.dart';
+import '../../../Common/Components/SFAvatarStore.dart';
+import '../../../Common/Components/SFAvatarUser.dart';
+import '../../../Common/Providers/Environment/EnvironmentProvider.dart';
+import '../../../Common/Utils/Constants.dart';
+import '../../SandfriendsQuadras/Features/Menu/View/Mobile/SFStandardHeader.dart';
 
 class HomeHeader extends StatefulWidget {
-  HomeHeader({super.key});
+  Color primaryColor;
+  Color secondaryColor;
+  String name;
+  String? nameDescription;
+  bool notificationsOn;
+  String? photo;
+  String? photoName;
+  HomeHeader(
+      {required this.primaryColor,
+      required this.secondaryColor,
+      required this.name,
+      required this.nameDescription,
+      required this.notificationsOn,
+      required this.photo,
+      required this.photoName,
+      super.key});
 
   @override
   State<HomeHeader> createState() => _HomeHeaderState();
@@ -20,35 +34,8 @@ class HomeHeader extends StatefulWidget {
 
 class _HomeHeaderState extends State<HomeHeader> {
   double imageSize = 100.0;
-  Color dominantColor = secondaryBack;
-  Color secondColor = secondaryBack;
 
   double buttonSize = 20;
-  @override
-  void initState() {
-    getPallete();
-    super.initState();
-  }
-
-  void getPallete() {
-    PalleteGeneratorManager()
-        .getPallete(
-      context,
-      Provider.of<StoreProvider>(context, listen: false).store?.logo,
-    )
-        .then((colors) {
-      if (mounted && colors != null) {
-        setState(() {
-          if (colors.dominantColor != null) {
-            dominantColor = colors.dominantColor!;
-          }
-          if (colors.secondaryColor != null) {
-            secondColor = colors.secondaryColor!;
-          }
-        });
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,22 +54,20 @@ class _HomeHeaderState extends State<HomeHeader> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      InkWell(
-                        onTap: () => throw Exception("teste hoje"),
-                        child: Text(
-                          "Olá, ${Provider.of<StoreProvider>(context, listen: false).loggedEmployee.firstName}!",
-                          style: TextStyle(color: textWhite, fontSize: 16),
-                        ),
-                      ),
-                      SizedBox(
-                        height: defaultPadding / 6,
-                      ),
                       Text(
-                        Provider.of<StoreProvider>(context, listen: false)
-                            .store!
-                            .name,
-                        style: TextStyle(color: textLightGrey, fontSize: 12),
+                        "Olá, ${widget.name}!",
+                        style: TextStyle(color: textWhite, fontSize: 16),
                       ),
+                      if (widget.nameDescription != null)
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(top: defaultPadding / 6),
+                          child: Text(
+                            widget.nameDescription!,
+                            style:
+                                TextStyle(color: textLightGrey, fontSize: 12),
+                          ),
+                        ),
                     ],
                   ),
                 ),
@@ -94,9 +79,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                   child: Padding(
                     padding: const EdgeInsets.all(defaultPadding),
                     child: SvgPicture.asset(
-                      Provider.of<StoreProvider>(
-                        context,
-                      ).hasUnseenNotifications
+                      widget.notificationsOn
                           ? r"assets/icon/notification_on.svg"
                           : r"assets/icon/notification_off.svg",
                       height: buttonSize,
@@ -120,10 +103,10 @@ class _HomeHeaderState extends State<HomeHeader> {
                   Container(
                     height: imageSize / 8,
                     decoration: BoxDecoration(
-                      color: dominantColor,
+                      color: widget.secondaryColor,
                       boxShadow: [
                         BoxShadow(
-                          color: secondColor,
+                          color: widget.secondaryColor,
                           spreadRadius: 2,
                           blurRadius: 10,
                           offset: Offset(0, 10),
@@ -140,12 +123,8 @@ class _HomeHeaderState extends State<HomeHeader> {
                 ),
                 child: SFAvatarStore(
                   height: imageSize,
-                  storePhoto: Provider.of<StoreProvider>(context, listen: false)
-                      .store
-                      ?.logo,
-                  storeName: Provider.of<StoreProvider>(context, listen: false)
-                      .store!
-                      .name,
+                  storePhoto: widget.photo,
+                  storeName: widget.photoName,
                 ),
               ),
             ],

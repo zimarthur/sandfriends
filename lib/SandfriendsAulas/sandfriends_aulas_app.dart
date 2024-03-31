@@ -2,6 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/generic_app.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/ClassPlans/View/ClassPlansScreen.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/Classes/View/ClassesScreen.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/CreateTeam/View/CreateTeamScreen.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/Finances/View/FinancesScreen.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/Home/View/HomeScreen.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/PartnerSchools/View/PartnerSchoolsScreen.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/Students/View/StudentsScreen.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/TeacherDetails/View/TeacherDetailsScreen.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/TeamDetails/View/TeamDetailsScreen.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/Teams/View/TeamsAulasScreen.dart';
 import '../Common/Features/UserMatches/View/UserMatchesScreen.dart';
 import '../Common/Model/City.dart';
 import '../Common/Model/Court.dart';
@@ -12,7 +22,9 @@ import '../Sandfriends/Features/Authentication/EmailConfirmation/View/EmailConfi
 import '../Sandfriends/Features/Authentication/LoadLogin/View/LoadLoginScreen.dart';
 import '../Sandfriends/Features/Authentication/Login/View/LoginScreen.dart';
 import '../Sandfriends/Features/Authentication/LoginSignup/View/LoginSignupScreen.dart';
+import '../Sandfriends/Features/Checkout/View/CheckoutScreen.dart';
 import '../Sandfriends/Features/Onboarding/View/OnboardingScreen.dart';
+import '../Sandfriends/Features/RecurrentMatchSearch/View/RecurrentMatchSearchScreen.dart';
 import '../SandfriendsQuadras/Features/Authentication/ChangePassword/View/ChangePasswordScreen.dart';
 import '../Common/Features/Court/Model/CourtAvailableHours.dart';
 import '../Common/Model/HourPrice/HourPriceUser.dart';
@@ -105,8 +117,53 @@ class SandfriendsAulasApp extends GenericApp {
         // String matchSearch = "/match_search";
         // String matchSearchFilter = "/match_search_filter";
         // String recurrentMatchSearch = "/recurrent_match_search";
-        // String court = "/quadra/";
-        // String checkout = "/checkout";
+        String court = "/quadra/";
+        String checkout = "/checkout";
+
+        if (settings.name!.startsWith(court)) {
+          final storeUrl = settings.name!.split(court)[1];
+          final arguments = (settings.arguments ?? {}) as Map;
+
+          return MaterialPageRoute(
+            builder: (context) {
+              return CourtScreen(
+                storeUrl: storeUrl,
+                store: arguments['store'] as StoreUser?,
+                courtAvailableHours:
+                    arguments['availableCourts'] as List<CourtAvailableHours>?,
+                selectedHourPrice:
+                    arguments['selectedHourPrice'] as HourPriceUser?,
+                selectedDate: arguments['selectedDate'] as DateTime?,
+                selectedWeekday: arguments['selectedWeekday'] as int?,
+                selectedSport: arguments['selectedSport'] as Sport?,
+                isRecurrent: arguments['isRecurrent'] as bool?,
+                canMakeReservation: arguments['canMakeReservation'] ?? false,
+                searchStartPeriod: arguments['searchStartPeriod'] as Hour?,
+                searchEndPeriod: arguments['searchEndPeriod'] as Hour?,
+              );
+            },
+          );
+        } else if (settings.name! == checkout) {
+          if (settings.arguments != null) {
+            final arguments = settings.arguments as Map;
+
+            return MaterialPageRoute(
+              builder: (context) {
+                return CheckoutScreen(
+                  court: arguments['court'] as Court,
+                  hourPrices: arguments['hourPrices'] as List<HourPriceUser>,
+                  date: arguments['date'] as DateTime?,
+                  weekday: arguments['weekday'] as int?,
+                  sport: arguments['sport'] as Sport,
+                  isRecurrent: arguments['isRecurrent'] as bool,
+                  isRenovating: arguments['isRenovating'] as bool,
+                );
+              },
+            );
+          }
+        }
+        return null;
+
         // String userDetails = "/user_details";
         // String storeSearch = "/store_search";
         // String searchType = "/search_type";
@@ -156,48 +213,7 @@ class SandfriendsAulasApp extends GenericApp {
         //       );
         //     },
         //   );
-        // } else if (settings.name!.startsWith(court)) {
-        //   final storeUrl = settings.name!.split(court)[1];
-        //   final arguments = (settings.arguments ?? {}) as Map;
-
-        //   return MaterialPageRoute(
-        //     builder: (context) {
-        //       return CourtScreen(
-        //         storeUrl: storeUrl,
-        //         store: arguments['store'] as StoreUser?,
-        //         courtAvailableHours:
-        //             arguments['availableCourts'] as List<CourtAvailableHours>?,
-        //         selectedHourPrice:
-        //             arguments['selectedHourPrice'] as HourPriceUser?,
-        //         selectedDate: arguments['selectedDate'] as DateTime?,
-        //         selectedWeekday: arguments['selectedWeekday'] as int?,
-        //         selectedSport: arguments['selectedSport'] as Sport?,
-        //         isRecurrent: arguments['isRecurrent'] as bool?,
-        //         canMakeReservation: arguments['canMakeReservation'] ?? false,
-        //         searchStartPeriod: arguments['searchStartPeriod'] as Hour?,
-        //         searchEndPeriod: arguments['searchEndPeriod'] as Hour?,
-        //       );
-        //     },
-        //   );
-        // } else if (settings.name! == checkout) {
-        //   if (settings.arguments != null) {
-        //     final arguments = settings.arguments as Map;
-
-        //     return MaterialPageRoute(
-        //       builder: (context) {
-        //         return CheckoutScreen(
-        //           court: arguments['court'] as Court,
-        //           hourPrices: arguments['hourPrices'] as List<HourPriceUser>,
-        //           date: arguments['date'] as DateTime?,
-        //           weekday: arguments['weekday'] as int?,
-        //           sport: arguments['sport'] as Sport,
-        //           isRecurrent: arguments['isRecurrent'] as bool,
-        //           isRenovating: arguments['isRenovating'] as bool,
-        //         );
-        //       },
-        //     );
-        //   }
-        // } else if (settings.name! == userDetails) {
+        // }  else if (settings.name! == userDetails) {
         //   Sport? initSport;
         //   UserDetailsModals initModalEnum = UserDetailsModals.None;
         //   if (settings.arguments != null) {
@@ -237,7 +253,6 @@ class SandfriendsAulasApp extends GenericApp {
         //     },
         //   );
         // }
-        return null;
       };
 
   @override
@@ -248,9 +263,20 @@ class SandfriendsAulasApp extends GenericApp {
         '/create_account': (BuildContext context) =>
             const CreateAccountScreen(),
         '/onboarding': (BuildContext context) => const OnboardingScreen(),
-        // '/home': (BuildContext context) => const HomeScreen(
-        //       initialTab: HomeTabs.Feed,
-        //     ),
+        '/home': (BuildContext context) => const HomeScreenAulas(),
+        '/students': (BuildContext context) => const StudentsScreenAulas(),
+        '/finances': (BuildContext context) => const FinancesScreenAulas(),
+        '/classes': (BuildContext context) => const ClassesScreenAulas(),
+        '/teacher_details': (BuildContext context) =>
+            const TeacherDetailsScreen(),
+        '/class_plans': (BuildContext context) => const ClassPlansScreenAulas(),
+        '/teams': (BuildContext context) => const TeamsAulasScreen(),
+        '/create_team': (BuildContext context) => const CreateTeamScreen(),
+        '/partner_schools': (BuildContext context) =>
+            const PartnerSchoolsScreen(),
+        '/recurrent_match_search': (BuildContext context) =>
+            const RecurrentMatchSearchScreen(),
+        '/team_details': (BuildContext context) => const TeamDetailsScreen(),
         // '/user_matches': (BuildContext context) => const UserMatchesScreen(),
         // '/user_payments': (BuildContext context) => const OnboardingScreen(),
         // '/notifications': (BuildContext context) => const NotificationsScreen(),

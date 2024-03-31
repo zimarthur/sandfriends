@@ -4,12 +4,12 @@ import '../../../../../../Common/Components/SFAvatarUser.dart';
 import '../../../../../../Common/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../ViewModel/StoreProvider.dart';
-import '../../../ViewModel/MenuProvider.dart';
+import '../../../ViewModel/MenuProviderQuadras.dart';
 import '../../Web/DrawerWeb/SFDrawerListTile.dart';
 import 'package:provider/provider.dart';
 
 class SFDrawerMobile extends StatefulWidget {
-  MenuProvider viewModel;
+  MenuProviderQuadras viewModel;
   SFDrawerMobile({
     required this.viewModel,
   });
@@ -117,7 +117,8 @@ class _SFDrawerMobileState extends State<SFDrawerMobile> {
                           return InkWell(
                             onTap: () {
                               widget.viewModel.onTabClick(
-                                  widget.viewModel.mobileDrawerItems[index],
+                                  widget.viewModel.mobileDrawerItems[index]
+                                      .drawerPage,
                                   context);
                             },
                             onHover: (value) {

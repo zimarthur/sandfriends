@@ -100,6 +100,8 @@ class CourtViewModel extends CheckoutViewModel {
 
   Sport? selectedSport;
 
+  bool isTeacher = false;
+
   bool isLoadingOperationDays = true;
 
   int currentAnimation = 0;
@@ -170,6 +172,9 @@ class CourtViewModel extends CheckoutViewModel {
     Hour? newSearchStartPeriod,
     Hour? newSearchEndPeriod,
   ) async {
+    isTeacher = Provider.of<EnvironmentProvider>(context, listen: false)
+        .environment
+        .isSandfriendsAulas;
     if (!Provider.of<CategoriesProvider>(context, listen: false)
         .isInitialized) {
       Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
@@ -337,6 +342,7 @@ class CourtViewModel extends CheckoutViewModel {
     }
 
     loadStoreOperationDays(context);
+
     notifyListeners();
   }
 
@@ -456,6 +462,7 @@ class CourtViewModel extends CheckoutViewModel {
       searchStartPeriod!.hourString,
       searchEndPeriod!.hourString,
       store!.idStore,
+      isTeacher,
     )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {

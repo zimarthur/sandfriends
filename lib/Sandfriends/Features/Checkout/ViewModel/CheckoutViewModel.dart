@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/Coupon/CouponUser.dart';
 import 'package:sandfriends/Common/Model/CreditCard/CreditCardValidator.dart';
+import 'package:sandfriends/Common/Model/Team.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/View/AddCupomModal.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/View/CvvModal.dart';
@@ -43,6 +44,8 @@ class CheckoutViewModel extends ChangeNotifier {
   late bool isRecurrent;
   late bool isRenovating;
   List<DateTime> matchDates = [];
+
+  Team? selectedTeam;
 
   CouponUser? appliedCoupon;
 
@@ -147,6 +150,17 @@ class CheckoutViewModel extends ChangeNotifier {
             Provider.of<StandardScreenViewModel>(context, listen: false)
                 .setPageStatusOk();
           });
+          if (matchDates.isEmpty) {
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .addModalMessage(
+              SFModalMessage(
+                title:
+                    "Esse horário está disponível para mensalista, mas não tem mais horários nesse mês. Tente outro horário",
+                onTap: () => Navigator.pop(context),
+                isHappy: false,
+              ),
+            );
+          }
         } else {
           Provider.of<StandardScreenViewModel>(context, listen: false)
               .addModalMessage(
@@ -341,6 +355,7 @@ class CheckoutViewModel extends ChangeNotifier {
           : null,
       cvvController.text,
       isRenovating,
+      selectedTeam,
     )
         .then((response) {
       if (selectedPayment == SelectedPayment.Pix &&
@@ -453,5 +468,12 @@ class CheckoutViewModel extends ChangeNotifier {
         );
       }
     });
+  }
+
+  void onSelectTeam(Team team) {
+    if (team.sport == sport) {
+      selectedTeam = team;
+      notifyListeners();
+    }
   }
 }

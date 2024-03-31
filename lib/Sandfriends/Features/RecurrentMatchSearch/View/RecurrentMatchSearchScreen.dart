@@ -7,10 +7,8 @@ import '../../../../Common/Model/AppBarType.dart';
 import '../../../../Common/StandardScreen/StandardScreen.dart';
 
 class RecurrentMatchSearchScreen extends StatefulWidget {
-  final int sportId;
   const RecurrentMatchSearchScreen({
     Key? key,
-    required this.sportId,
   }) : super(key: key);
 
   @override
@@ -24,7 +22,9 @@ class _RecurrentMatchSearchScreenState
 
   @override
   void initState() {
-    viewModel.initRecurrentMatchSearchViewModel(context, widget.sportId);
+    viewModel.initRecurrentMatchSearchViewModel(
+      context,
+    );
     super.initState();
   }
 

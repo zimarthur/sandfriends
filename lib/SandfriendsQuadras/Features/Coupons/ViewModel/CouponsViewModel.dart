@@ -10,7 +10,7 @@ import '../../../../Common/Model/Coupon/CouponStore.dart';
 import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
-import '../../Menu/ViewModel/MenuProvider.dart';
+import '../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../Model/CouponsDataSource.dart';
 import '../Model/CouponsTableCallback.dart';
 import '../Model/EnumOrderByCoupon.dart';
@@ -181,9 +181,10 @@ class CouponsViewModel extends ChangeNotifier {
         );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });
@@ -230,9 +231,10 @@ class CouponsViewModel extends ChangeNotifier {
         );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });

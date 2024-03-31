@@ -21,6 +21,7 @@ class SFStandardHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(isPrimaryBlue);
     return Container(
       color: primaryBlue,
       child: SafeArea(
@@ -64,7 +65,7 @@ class SFStandardHeader extends StatelessWidget {
                           padding: const EdgeInsets.all(defaultPadding),
                           child: SvgPicture.asset(
                             r"assets/icon/menu_burger.svg",
-                            color: textWhite,
+                            color: isPrimaryBlue ? textWhite : textBlue,
                             height: 20,
                           ),
                         ),

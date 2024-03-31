@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../../../Common/Utils/Constants.dart';
-import '../../ViewModel/MenuProvider.dart';
+import '../../ViewModel/MenuProviderQuadras.dart';
 import 'DrawerWeb/SFDrawerWeb.dart';
 
 class MenuWidgetWeb extends StatefulWidget {
-  MenuProvider viewModel;
+  MenuProviderQuadras viewModel;
   MenuWidgetWeb({required this.viewModel, super.key});
 
   @override

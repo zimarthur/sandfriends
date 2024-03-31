@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/View/Toolbar/CheckoutBottomToolbarDiscount.dart';
 import 'package:sandfriends/Common/Model/SelectedPayment.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/View/Toolbar/CheckoutBottomToolbarItem.dart';
@@ -96,9 +97,14 @@ class CheckoutBottomToolbar extends StatelessWidget {
           ),
           SFButton(
             buttonLabel:
-                viewModel.selectedPayment != SelectedPayment.NotSelected
-                    ? "Agendar"
-                    : "Selecione a forma de pagamento",
+                (Provider.of<EnvironmentProvider>(context, listen: false)
+                            .environment
+                            .isSandfriendsAulas &&
+                        viewModel.selectedTeam == null)
+                    ? "Selecione a turma"
+                    : viewModel.selectedPayment != SelectedPayment.NotSelected
+                        ? "Agendar"
+                        : "Selecione a forma de pagamento",
             color: viewModel.selectedPayment != SelectedPayment.NotSelected
                 ? primaryBlue
                 : divider,

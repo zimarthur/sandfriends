@@ -18,6 +18,7 @@ class SFAvatarStore extends StatefulWidget {
   final bool isPlayerAvatar;
   final String? storeName;
   final String? storePhoto;
+  bool enableShadow;
 
   SFAvatarStore({
     super.key,
@@ -25,6 +26,7 @@ class SFAvatarStore extends StatefulWidget {
     this.editImage,
     this.user,
     this.isPlayerAvatar = false,
+    this.enableShadow = false,
     this.storeName,
     this.storePhoto,
   });
@@ -37,13 +39,23 @@ class _SFAvatarStoreState extends State<SFAvatarStore> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.all(widget.enableShadow ? 6 : 0),
       decoration: BoxDecoration(
         color: secondaryPaper,
         borderRadius: BorderRadius.circular(
             widget.isPlayerAvatar ? widget.height * 0.5 : defaultBorderRadius),
+        boxShadow: widget.enableShadow
+            ? [
+                BoxShadow(
+                  color: divider,
+                  spreadRadius: 1,
+                  blurRadius: 2,
+                  offset: Offset(0, 0),
+                ),
+              ]
+            : null,
       ),
       height: widget.height,
-      padding: EdgeInsets.all(widget.height * 0.05),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(widget.isPlayerAvatar

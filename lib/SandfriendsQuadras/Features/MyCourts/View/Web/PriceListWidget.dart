@@ -4,7 +4,7 @@ import '../../../../../Common/Components/SFButton.dart';
 import '../../../../../Common/Model/HourPrice/HourPriceStore.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../../../../Common/Utils/SFDateTime.dart';
-import '../../../Menu/ViewModel/MenuProvider.dart';
+import '../../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../../ViewModel/MyCourtsViewModel.dart';
 
 class PriceListWidget extends StatelessWidget {
@@ -21,8 +21,10 @@ class PriceListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = Provider.of<MenuProvider>(context).getScreenWidth(context);
-    double height = Provider.of<MenuProvider>(context).getScreenHeight(context);
+    double width =
+        Provider.of<MenuProviderQuadras>(context).getScreenWidth(context);
+    double height =
+        Provider.of<MenuProviderQuadras>(context).getScreenHeight(context);
     return Container(
       height: height * 0.8,
       width: 500,

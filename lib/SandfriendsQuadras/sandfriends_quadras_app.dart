@@ -15,7 +15,7 @@ import 'Features/Authentication/ForgotPassword/View/ForgotPasswordScreen.dart';
 import 'Features/Authentication/Login/View/LoginScreen.dart';
 import 'Features/Menu/View/MenuScreen.dart';
 import 'Features/Menu/ViewModel/StoreProvider.dart';
-import 'Features/Menu/ViewModel/MenuProvider.dart';
+import 'Features/Menu/ViewModel/MenuProviderQuadras.dart';
 import 'Features/Notifications/View/NotificationsScreen.dart';
 
 class SandfriendsQuadrasApp extends GenericApp {

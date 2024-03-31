@@ -5,7 +5,7 @@ import '../../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
 import '../../../../../Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/ViewModel/StoreProvider.dart';
-import '../../../Menu/ViewModel/MenuProvider.dart';
+import '../../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../../ViewModel/MyCourtsViewModel.dart';
 import 'HourSelector.dart';
 
@@ -56,8 +56,10 @@ class _WorkingHoursWidgetState extends State<WorkingHoursModal> {
 
   @override
   Widget build(BuildContext context) {
-    double width = Provider.of<MenuProvider>(context).getScreenWidth(context);
-    double height = Provider.of<MenuProvider>(context).getScreenHeight(context);
+    double width =
+        Provider.of<MenuProviderQuadras>(context).getScreenWidth(context);
+    double height =
+        Provider.of<MenuProviderQuadras>(context).getScreenHeight(context);
     return Container(
       height: height * 0.8,
       width: 500,

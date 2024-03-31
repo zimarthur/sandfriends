@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
-import '../../Menu/ViewModel/MenuProvider.dart';
+import '../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../Model/Faq.dart';
 import '../View/TalkToSupportWidget.dart';
 

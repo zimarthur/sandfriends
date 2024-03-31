@@ -121,7 +121,6 @@ class SandfriendsApp extends GenericApp {
         String match = "/partida";
         String matchSearch = "/match_search";
         String matchSearchFilter = "/match_search_filter";
-        String recurrentMatchSearch = "/recurrent_match_search";
         String court = "/quadra/";
         String checkout = "/checkout";
         String userDetails = "/user_details";
@@ -150,16 +149,6 @@ class SandfriendsApp extends GenericApp {
                 selectedCityId: arguments['selectedCityId'] as City?,
                 hideOrderBy: arguments['hideOrderBy'] as bool?,
                 isRecurrent: arguments['isRecurrent'] as bool,
-              );
-            },
-          );
-        } else if (settings.name! == recurrentMatchSearch) {
-          final arguments = settings.arguments as Map;
-
-          return MaterialPageRoute(
-            builder: (context) {
-              return RecurrentMatchSearchScreen(
-                sportId: arguments['sportId'],
               );
             },
           );
@@ -280,5 +269,7 @@ class SandfriendsApp extends GenericApp {
         '/new_credit_card': (BuildContext context) =>
             const NewCreditCardScreen(),
         '/settings': (BuildContext context) => const AppInfoScreen(),
+        "/recurrent_match_search": (BuildContext context) =>
+            const RecurrentMatchSearchScreen(),
       };
 }

@@ -6,7 +6,7 @@ import '../../../../../Common/Components/SFHeader.dart';
 import '../../../../../Common/Components/Table/SFTable.dart';
 import '../../../../../Common/Components/Table/SFTableHeader.dart';
 import '../../../../../Common/Utils/Constants.dart';
-import '../../../Menu/ViewModel/MenuProvider.dart';
+import '../../../Menu/ViewModel/MenuProviderQuadras.dart';
 import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -30,8 +30,10 @@ class _CouponsScreenWebState extends State<CouponsScreenWeb> {
 
   @override
   Widget build(BuildContext context) {
-    double width = Provider.of<MenuProvider>(context).getScreenWidth(context);
-    double height = Provider.of<MenuProvider>(context).getScreenHeight(context);
+    double width =
+        Provider.of<MenuProviderQuadras>(context).getScreenWidth(context);
+    double height =
+        Provider.of<MenuProviderQuadras>(context).getScreenHeight(context);
     return ChangeNotifierProvider<CouponsViewModel>(
       create: (BuildContext context) => viewModel,
       child: Consumer<CouponsViewModel>(

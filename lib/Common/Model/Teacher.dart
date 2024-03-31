@@ -5,9 +5,9 @@ import 'User/User.dart';
 
 class Teacher {
   int idTeacher;
-  User user;
+  UserStore user;
   bool waitingApproval;
-  DateTime entryDate;
+  DateTime? entryDate;
 
   Teacher({
     required this.idTeacher,
@@ -21,11 +21,22 @@ class Teacher {
   ) {
     return Teacher(
       idTeacher: json["IdStoreSchoolTeacher"],
-      waitingApproval: json["IdStoreSchoolTeacher"],
-      entryDate: DateFormat("dd/MM/yyyy").parse(
-        json["ResponseDate"],
-      ),
+      waitingApproval: json["WaitingApproval"],
+      entryDate: json["ResponseDate"] != null
+          ? DateFormat("dd/MM/yyyy").parse(
+              json["ResponseDate"],
+            )
+          : null,
       user: UserStore.fromUserMinJson(json["User"]),
+    );
+  }
+
+  factory Teacher.copyFrom(Teacher refTeacher) {
+    return Teacher(
+      idTeacher: refTeacher.idTeacher,
+      user: UserStore.copyFrom(refTeacher.user),
+      waitingApproval: refTeacher.waitingApproval,
+      entryDate: refTeacher.entryDate,
     );
   }
 }

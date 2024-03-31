@@ -1,14 +1,20 @@
 import 'package:intl/intl.dart';
 import 'package:sandfriends/Common/Model/AppRecurrentMatch/AppRecurrentMatch.dart';
+import 'package:sandfriends/Common/Model/Rank.dart';
 
 import '../AppMatch/AppMatchStore.dart';
 import '../AppMatch/AppMatchUser.dart';
 import '../Court.dart';
+import '../Gender.dart';
 import '../Hour.dart';
 import '../Sport.dart';
+import '../Team.dart';
 
 class AppRecurrentMatchUser extends AppRecurrentMatch {
   List<AppMatchUser> _nextRecurrentMatches = [];
+
+  Team? team;
+
   @override
   List<AppMatchUser> get nextRecurrentMatches => _nextRecurrentMatches;
 
@@ -23,12 +29,15 @@ class AppRecurrentMatchUser extends AppRecurrentMatch {
     required super.sport,
     required super.court,
     required super.matchCounter,
+    this.team,
   });
 
   factory AppRecurrentMatchUser.fromJson(
     Map<String, dynamic> json,
     List<Hour> referenceHours,
     List<Sport> referenceSports,
+    List<Rank> referenceRanks,
+    List<Gender> referenceGenders,
   ) {
     var newRecurrentMatch = AppRecurrentMatchUser(
       idRecurrentMatch: json['IdRecurrentMatch'],
@@ -44,6 +53,14 @@ class AppRecurrentMatchUser extends AppRecurrentMatch {
           .firstWhere((sport) => sport.idSport == json["IdSport"]),
       court: Court.fromJsonMatch(json['StoreCourt']),
       matchCounter: json['RecurrentMatchCounter'],
+      team: json['Team'] != null
+          ? Team.fromJson(
+              json["Team"],
+              referenceSports,
+              referenceRanks,
+              referenceGenders,
+            )
+          : null,
     );
 
     for (int i = 0; i < json['NextRecurrentMatches'].length; i++) {

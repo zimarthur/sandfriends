@@ -14,7 +14,7 @@ import '../../../../Common/Utils/Constants.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
-import '../../Menu/ViewModel/MenuProvider.dart';
+import '../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../Model/FinancesDataSource.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' as math;
@@ -92,9 +92,10 @@ class FinancesViewModel extends ChangeNotifier {
         notifyListeners();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });

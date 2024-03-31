@@ -4,7 +4,7 @@ import '../../../../../Common/Utils/Constants.dart';
 import '../../ViewModel/HomeViewModel.dart';
 import 'CourtOccupationWidget.dart';
 import 'FilterChip.dart';
-import 'HomeHeader.dart';
+import 'HomeHeaderQuadras.dart';
 import 'KPI.dart';
 import 'MatchCard.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +57,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
         builder: (context, viewModel, _) {
           return Column(
             children: [
-              HomeHeader(),
+              HomeHeaderQuadras(),
               Expanded(
                 child: LayoutBuilder(
                   builder: (context, constraints) {

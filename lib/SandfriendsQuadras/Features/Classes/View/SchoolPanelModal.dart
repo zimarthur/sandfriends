@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Components/SFAvatarStore.dart';
+import 'package:sandfriends/Common/Components/SFAvatarUser.dart';
 import 'package:sandfriends/Common/Model/CreditCard/CreditCard.dart';
 import 'package:sandfriends/Common/Model/CreditCard/CreditCardValidator.dart';
 import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
@@ -13,7 +14,8 @@ import 'package:sandfriends/Common/Utils/Validators.dart';
 import '../../../../../Common/Components/SFButton.dart';
 import '../../../../../../Common/Components/SFTextField.dart';
 import '../../../../Common/Components/CreditCard/CreditCardCard.dart';
-import '../../../../Common/Model/School.dart';
+import '../../../../Common/Model/School/School.dart';
+import '../../../../Common/Model/Teacher.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../../../../Common/Utils/SFImage.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
@@ -37,6 +39,10 @@ class SchoolPanelModal extends StatefulWidget {
 class _SchoolPanelModalState extends State<SchoolPanelModal> {
   @override
   Widget build(BuildContext context) {
+    final school = Provider.of<StoreProvider>(context)
+        .schools
+        .firstWhere((element) => element.idSchool == widget.school.idSchool);
+
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Container(
@@ -70,11 +76,11 @@ class _SchoolPanelModalState extends State<SchoolPanelModal> {
                     children: [
                       SFAvatarStore(
                         height: 100,
-                        storePhoto: widget.school.logo ??
+                        storePhoto: school.logo ??
                             Provider.of<StoreProvider>(context, listen: false)
                                 .store
                                 ?.logo,
-                        storeName: widget.school.name,
+                        storeName: school.name,
                       ),
                       SizedBox(
                         width: defaultPadding,
@@ -86,7 +92,7 @@ class _SchoolPanelModalState extends State<SchoolPanelModal> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.school.name,
+                                school.name,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 22,
@@ -98,14 +104,14 @@ class _SchoolPanelModalState extends State<SchoolPanelModal> {
                               Row(
                                 children: [
                                   SvgPicture.asset(
-                                    widget.school.sport.iconLocation,
+                                    school.sport.iconLocation,
                                     height: 25,
                                   ),
                                   SizedBox(
                                     width: defaultPadding / 2,
                                   ),
                                   Text(
-                                    widget.school.sport.description,
+                                    school.sport.description,
                                     style: TextStyle(
                                       color: textDarkGrey,
                                       fontSize: 12,
@@ -117,7 +123,7 @@ class _SchoolPanelModalState extends State<SchoolPanelModal> {
                                 height: defaultPadding / 4,
                               ),
                               Text(
-                                "desde ${widget.school.creationDate.formatWrittenMonthYear()}",
+                                "desde ${school.creationDate.formatWrittenMonthYear()}",
                                 style: TextStyle(
                                   color: textDarkGrey,
                                   fontSize: 12,
@@ -187,7 +193,86 @@ class _SchoolPanelModalState extends State<SchoolPanelModal> {
                       ),
                     )
                   ],
-                )
+                ),
+                SizedBox(
+                  height: defaultPadding,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: school.teachers.length,
+                      itemBuilder: (context, index) {
+                        Teacher teacher = school.teachers[index];
+                        return SizedBox(
+                          height: 70,
+                          child: Stack(
+                            alignment: Alignment.centerLeft,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(
+                                  left: 60,
+                                  top: defaultPadding / 2,
+                                  bottom: defaultPadding / 2,
+                                ),
+                                width: double.infinity,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            teacher.user.fullName,
+                                            style: TextStyle(
+                                              color: primaryBlue,
+                                            ),
+                                          ),
+                                          if (teacher.entryDate != null)
+                                            Text(
+                                              "desde ${teacher.entryDate!.formatWrittenMonthYear()}",
+                                              style: TextStyle(
+                                                color: textDarkGrey,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                    if (teacher.waitingApproval)
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: secondaryYellowDark50,
+                                          borderRadius: BorderRadius.circular(
+                                            defaultBorderRadius / 2,
+                                          ),
+                                        ),
+                                        padding: EdgeInsets.all(
+                                          defaultPadding / 4,
+                                        ),
+                                        child: Text(
+                                          "Solic.\nenviada",
+                                          style: TextStyle(
+                                            color: secondaryYellowDark,
+                                            fontSize: 10,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      )
+                                  ],
+                                ),
+                              ),
+                              SFAvatarStore(
+                                height: 50,
+                                user: teacher.user,
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                ),
               ],
             ),
           )

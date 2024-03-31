@@ -11,7 +11,12 @@ import '../../../Common/Model/AppMatch/AppMatchUser.dart';
 import '../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchUser.dart';
 import '../../../Common/Model/CreditCard/CreditCard.dart';
 import '../../../Common/Model/Reward.dart';
+import '../../../Common/Model/School/School.dart';
+import '../../../Common/Model/School/SchoolStore.dart';
+import '../../../Common/Model/School/SchoolTeacher.dart';
+import '../../../Common/Model/School/SchoolUser.dart';
 import '../../../Common/Model/Sport.dart';
+import '../../../Common/Model/Teacher.dart';
 import '../../../Common/Model/User/UserComplete.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -23,6 +28,27 @@ class UserProvider extends ChangeNotifier {
   UserComplete? get user => _user;
   set user(UserComplete? newUser) {
     _user = newUser;
+    notifyListeners();
+  }
+
+  List<Teacher>? availableTeachers;
+  List<SchoolUser>? availableSchools;
+  bool get needsToLoadClasses =>
+      availableSchools == null || availableTeachers == null;
+
+  void setAvailableTeachers(List<Teacher> teachers) {
+    if (availableTeachers != null) {
+      availableTeachers!.clear();
+    }
+    availableTeachers = teachers;
+    notifyListeners();
+  }
+
+  void setAvailableSchools(List<SchoolUser> schools) {
+    if (availableSchools != null) {
+      availableSchools!.clear();
+    }
+    availableSchools = schools;
     notifyListeners();
   }
 
@@ -301,6 +327,8 @@ class UserProvider extends ChangeNotifier {
           recurrentMatch,
           Provider.of<CategoriesProvider>(context, listen: false).hours,
           Provider.of<CategoriesProvider>(context, listen: false).sports,
+          Provider.of<CategoriesProvider>(context, listen: false).ranks,
+          Provider.of<CategoriesProvider>(context, listen: false).genders,
         ),
       );
     }

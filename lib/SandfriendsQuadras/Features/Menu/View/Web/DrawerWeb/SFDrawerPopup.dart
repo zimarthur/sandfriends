@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import '../../../../../../Common/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../ViewModel/MenuProvider.dart';
+import '../../../ViewModel/MenuProviderQuadras.dart';
 
 class SFDrawerPopup extends StatefulWidget {
   bool showIcon;
-  MenuProvider menuProvider;
+  MenuProviderQuadras menuProvider;
   SFDrawerPopup({
     super.key,
     required this.showIcon,

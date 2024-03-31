@@ -15,9 +15,10 @@ import 'package:sandfriends/SandfriendsQuadras/Features/Classes/View/SchoolsWidg
 import 'package:sandfriends/SandfriendsQuadras/Features/Menu/ViewModel/StoreProvider.dart';
 
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
-import '../../../../Common/Model/School.dart';
+import '../../../../Common/Model/School/School.dart';
+import '../../../../Common/Model/School/SchoolStore.dart';
 import '../../../../Common/Model/TabItem.dart';
-import '../../Menu/ViewModel/MenuProvider.dart';
+import '../../Menu/ViewModel/MenuProviderQuadras.dart';
 
 class ClassesViewModel extends ChangeNotifier {
   final classesRepo = ClassesRepo();
@@ -92,7 +93,7 @@ class ClassesViewModel extends ChangeNotifier {
           response.responseBody!,
         );
         Provider.of<StoreProvider>(context, listen: false).addSchool(
-          School.fromJson(
+          SchoolStore.fromJson(
             responseBody["NewSchool"],
             Provider.of<CategoriesProvider>(context, listen: false).sports,
           ),
@@ -115,7 +116,7 @@ class ClassesViewModel extends ChangeNotifier {
             onTap: () {
               if (response.responseStatus ==
                   NetworkResponseStatus.expiredToken) {
-                Provider.of<MenuProvider>(context, listen: false)
+                Provider.of<MenuProviderQuadras>(context, listen: false)
                     .logout(context);
               }
             },
@@ -149,7 +150,7 @@ class ClassesViewModel extends ChangeNotifier {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
         );
-        School editedSchool = School.fromJson(
+        SchoolStore editedSchool = SchoolStore.fromJson(
           responseBody["EditSchool"],
           Provider.of<CategoriesProvider>(context, listen: false).sports,
         );
@@ -174,7 +175,7 @@ class ClassesViewModel extends ChangeNotifier {
             onTap: () {
               if (response.responseStatus ==
                   NetworkResponseStatus.expiredToken) {
-                Provider.of<MenuProvider>(context, listen: false)
+                Provider.of<MenuProviderQuadras>(context, listen: false)
                     .logout(context);
               }
             },
@@ -233,6 +234,46 @@ class ClassesViewModel extends ChangeNotifier {
         .then((response) {
       Provider.of<StandardScreenViewModel>(context, listen: false)
           .setPageStatusOk();
+      if (response.responseStatus == NetworkResponseStatus.success) {
+        Map<String, dynamic> responseBody = json.decode(
+          response.responseBody!,
+        );
+        SchoolStore editedSchool = SchoolStore.fromJson(
+          responseBody["EditSchool"],
+          Provider.of<CategoriesProvider>(context, listen: false).sports,
+        );
+
+        Provider.of<StoreProvider>(context, listen: false)
+            .updateSchool(editedSchool);
+
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .removeLastOverlay();
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: "Professor adicionado!",
+            onTap: () {},
+            isHappy: true,
+          ),
+        );
+      } else {
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title: response.responseTitle!,
+            description: response.responseDescription,
+            onTap: () {
+              if (response.responseStatus ==
+                  NetworkResponseStatus.expiredToken) {
+                Provider.of<MenuProviderQuadras>(context, listen: false)
+                    .logout(context);
+              }
+            },
+            isHappy: false,
+          ),
+        );
+      }
     });
   }
+
 }

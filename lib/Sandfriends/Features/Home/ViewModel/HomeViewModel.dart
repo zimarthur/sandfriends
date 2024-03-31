@@ -25,11 +25,12 @@ import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
 import '../Model/HomeTabsEnum.dart';
 import '../Repository/HomeRepo.dart';
+import '../View/Classes/View/ClassesWidget.dart';
 import '../View/Feed/FeedWidget.dart';
 import '../View/User/AppRatingModal.dart';
 import '../View/User/UserWidget.dart';
 
-class HomeViewModel extends ChangeNotifier {
+class HomeViewModel extends StandardScreenViewModel {
   final homeRepo = HomeRepo();
 
   void changeTab(BuildContext context, HomeTabs newTab) {
@@ -44,7 +45,8 @@ class HomeViewModel extends ChangeNotifier {
         displayWidget = SearchTypeScreen(
           isRecurrent: false,
         );
-
+      case HomeTabs.Classes:
+        displayWidget = ClassesWidget();
       default:
         displayWidget = FeedWidget(
           viewModel: this,

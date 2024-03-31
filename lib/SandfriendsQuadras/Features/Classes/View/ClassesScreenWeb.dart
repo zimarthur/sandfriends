@@ -9,7 +9,7 @@ import '../../../../../Common/Utils/Constants.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../Common/Components/SFTabs.dart';
-import '../../Menu/ViewModel/MenuProvider.dart';
+import '../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../ViewModel/ClassesViewModel.dart';
 
 class ClassesScreenWeb extends StatefulWidget {
@@ -30,8 +30,10 @@ class _ClassesScreenWebState extends State<ClassesScreenWeb> {
 
   @override
   Widget build(BuildContext context) {
-    double width = Provider.of<MenuProvider>(context).getScreenWidth(context);
-    double height = Provider.of<MenuProvider>(context).getScreenHeight(context);
+    double width =
+        Provider.of<MenuProviderQuadras>(context).getScreenWidth(context);
+    double height =
+        Provider.of<MenuProviderQuadras>(context).getScreenHeight(context);
     return ChangeNotifierProvider<ClassesViewModel>(
       create: (BuildContext context) => viewModel,
       child: Consumer<ClassesViewModel>(

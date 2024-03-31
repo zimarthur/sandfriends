@@ -12,16 +12,14 @@ class StandardScreenViewModel extends ChangeNotifier {
 
   List<OverlayWidget> overlays = [];
   void addOverlayWidget(Widget widget, {bool showOnlyIfLast = true}) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setPageStatusOk();
-      overlays.add(
-        OverlayWidget(
-          widget: widget,
-          showOnlyIfLast: showOnlyIfLast,
-        ),
-      );
-      notifyListeners();
-    });
+    setPageStatusOk();
+    overlays.add(
+      OverlayWidget(
+        widget: widget,
+        showOnlyIfLast: showOnlyIfLast,
+      ),
+    );
+    notifyListeners();
   }
 
   void removeLastOverlay() {
@@ -37,25 +35,23 @@ class StandardScreenViewModel extends ChangeNotifier {
   }
 
   void addModalMessage(SFModalMessage message) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setPageStatusOk();
-      addOverlayWidget(
-        SFModalMessage(
-          title: message.title,
-          description: message.description,
-          onTap: () {
-            if (message.onTap != null) {
-              message.onTap!();
-            }
-            removeLastOverlay();
-          },
-          buttonIconPath: message.buttonIconPath,
-          buttonText: message.buttonText,
-          hideButton: message.hideButton,
-          isHappy: message.isHappy,
-        ),
-      );
-    });
+    setPageStatusOk();
+    addOverlayWidget(
+      SFModalMessage(
+        title: message.title,
+        description: message.description,
+        onTap: () {
+          if (message.onTap != null) {
+            message.onTap!();
+          }
+          removeLastOverlay();
+        },
+        buttonIconPath: message.buttonIconPath,
+        buttonText: message.buttonText,
+        hideButton: message.hideButton,
+        isHappy: message.isHappy,
+      ),
+    );
   }
 
   void setPageStatusOk() {

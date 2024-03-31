@@ -47,6 +47,20 @@ class ApiEndPoints {
 
   static const getUserRewards = "/UserRewardsHistory";
 
+  static const getClassesInfo = "/GetClassesInfo";
+
+  //AULAS
+
+  static const String getTeacherInfo = "/GetTeacherInfo";
+
+  static const String addClassPlan = "/AddTeacherClassPlan";
+  static const String deleteClassPlan = "/DeleteTeacherClassPlan";
+  static const String editClassPlan = "/EditTeacherClassPlan";
+
+  static const String addTeam = "/AddTeam";
+
+  static const String schoolInvitationResponse = "/SchoolInvitationResponse";
+
   //SANDFRIENDS QUADRAS
   //login
   static const String loginEmployee = "/EmployeeLogin";
