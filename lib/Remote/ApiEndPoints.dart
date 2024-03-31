@@ -58,6 +58,8 @@ class ApiEndPoints {
   static const String editClassPlan = "/EditTeacherClassPlan";
 
   static const String addTeam = "/AddTeam";
+  static const String joinTeam = "/JoinTeam";
+  static const String sendMemberResponse = "/SendMemberResponse";
 
   static const String schoolInvitationResponse = "/SchoolInvitationResponse";
 

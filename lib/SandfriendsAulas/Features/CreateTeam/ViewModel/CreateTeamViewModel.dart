@@ -85,6 +85,7 @@ class CreateTeamViewModel extends StandardScreenViewModel {
         Provider.of<TeacherProvider>(context, listen: false).addTeam(
           Team.fromJson(
             responseBody["NewTeam"],
+            Provider.of<CategoriesProvider>(context, listen: false).hours,
             Provider.of<CategoriesProvider>(context, listen: false).sports,
             Provider.of<CategoriesProvider>(context, listen: false).ranks,
             Provider.of<CategoriesProvider>(context, listen: false).genders,

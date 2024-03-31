@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
+import 'package:sandfriends/Common/Model/Team.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/generic_app.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/ClassPlans/View/ClassPlansScreen.dart';
@@ -119,7 +120,7 @@ class SandfriendsAulasApp extends GenericApp {
         // String recurrentMatchSearch = "/recurrent_match_search";
         String court = "/quadra/";
         String checkout = "/checkout";
-
+        String teamDetails = "/turma";
         if (settings.name!.startsWith(court)) {
           final storeUrl = settings.name!.split(court)[1];
           final arguments = (settings.arguments ?? {}) as Map;
@@ -157,6 +158,18 @@ class SandfriendsAulasApp extends GenericApp {
                   sport: arguments['sport'] as Sport,
                   isRecurrent: arguments['isRecurrent'] as bool,
                   isRenovating: arguments['isRenovating'] as bool,
+                );
+              },
+            );
+          }
+        } else if (settings.name! == teamDetails) {
+          if (settings.arguments != null) {
+            final arguments = settings.arguments as Map;
+
+            return MaterialPageRoute(
+              builder: (context) {
+                return TeamDetailsScreen(
+                  team: arguments['team'] as Team,
                 );
               },
             );
@@ -276,7 +289,7 @@ class SandfriendsAulasApp extends GenericApp {
             const PartnerSchoolsScreen(),
         '/recurrent_match_search': (BuildContext context) =>
             const RecurrentMatchSearchScreen(),
-        '/team_details': (BuildContext context) => const TeamDetailsScreen(),
+
         // '/user_matches': (BuildContext context) => const UserMatchesScreen(),
         // '/user_payments': (BuildContext context) => const OnboardingScreen(),
         // '/notifications': (BuildContext context) => const NotificationsScreen(),

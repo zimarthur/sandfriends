@@ -97,7 +97,8 @@ class _ClassesWidgetState extends State<ClassesWidget> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: defaultPadding),
                           child: SectionTitleText(
-                              title: "Professores disponíveis"),
+                            title: "Professores perceiros",
+                          ),
                         ),
                         SizedBox(
                           height: defaultPadding / 2,
@@ -134,10 +135,23 @@ class _ClassesWidgetState extends State<ClassesWidget> {
                                               left: index == 0
                                                   ? defaultPadding
                                                   : 0),
-                                          child: TeacherItem(
-                                            teacher: Provider.of<UserProvider>(
-                                                    context)
-                                                .availableTeachers![index],
+                                          child: GestureDetector(
+                                            onTap: () => Navigator.pushNamed(
+                                              context,
+                                              "/prof",
+                                              arguments: {
+                                                "Teacher": Provider.of<
+                                                            UserProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .availableTeachers![index],
+                                              },
+                                            ),
+                                            child: TeacherItem(
+                                              teacher: Provider.of<
+                                                      UserProvider>(context)
+                                                  .availableTeachers![index],
+                                            ),
                                           ),
                                         );
                                       },

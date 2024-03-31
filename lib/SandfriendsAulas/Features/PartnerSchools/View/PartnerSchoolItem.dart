@@ -127,6 +127,23 @@ class PartnerSchoolItem extends StatelessWidget {
                               color: textDarkGrey, fontWeight: FontWeight.w300),
                         ),
                       ],
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          "assets/icon/court.svg",
+                          color: textDarkGrey,
+                          height: 15,
+                        ),
+                        SizedBox(
+                          width: defaultPadding / 2,
+                        ),
+                        Text(
+                          school.sport.description,
+                          style: TextStyle(
+                              color: textDarkGrey, fontWeight: FontWeight.w300),
+                        ),
+                      ],
                     )
                   ],
                 ))

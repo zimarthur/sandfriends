@@ -42,8 +42,12 @@ class ClassesViewModel extends ChangeNotifier {
 
         for (var teacher in responseBody["Teachers"]) {
           teachers.add(
-            Teacher.fromJson(
+            Teacher.fromJsonUser(
               teacher,
+              Provider.of<CategoriesProvider>(context, listen: false).hours,
+              Provider.of<CategoriesProvider>(context, listen: false).sports,
+              Provider.of<CategoriesProvider>(context, listen: false).ranks,
+              Provider.of<CategoriesProvider>(context, listen: false).genders,
             ),
           );
         }

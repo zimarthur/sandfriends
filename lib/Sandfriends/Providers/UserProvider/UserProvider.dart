@@ -17,6 +17,8 @@ import '../../../Common/Model/School/SchoolTeacher.dart';
 import '../../../Common/Model/School/SchoolUser.dart';
 import '../../../Common/Model/Sport.dart';
 import '../../../Common/Model/Teacher.dart';
+import '../../../Common/Model/Team.dart';
+import '../../../Common/Model/TeamMember.dart';
 import '../../../Common/Model/User/UserComplete.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -42,6 +44,21 @@ class UserProvider extends ChangeNotifier {
     }
     availableTeachers = teachers;
     notifyListeners();
+  }
+
+  void updateTeamMembers(List<TeamMember> members, Team teamUpdated) {
+    if (availableTeachers == null) {
+      return;
+    }
+    for (var teacher in availableTeachers!) {
+      for (var team in teacher.teams) {
+        if (team.idTeam == teamUpdated.idTeam) {
+          team.members = members;
+          notifyListeners();
+          break;
+        }
+      }
+    }
   }
 
   void setAvailableSchools(List<SchoolUser> schools) {

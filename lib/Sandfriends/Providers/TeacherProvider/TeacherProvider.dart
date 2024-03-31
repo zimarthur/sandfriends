@@ -118,6 +118,7 @@ class TeacherProvider extends ChangeNotifier {
           _teams.add(
             Team.fromJson(
               team,
+              Provider.of<CategoriesProvider>(context, listen: false).hours,
               Provider.of<CategoriesProvider>(context, listen: false).sports,
               Provider.of<CategoriesProvider>(context, listen: false).ranks,
               Provider.of<CategoriesProvider>(context, listen: false).genders,

@@ -71,11 +71,13 @@ class UserStore extends User {
   }
   factory UserStore.fromUserMinJson(Map<String, dynamic> parsedJson) {
     return UserStore(
-        id: parsedJson["IdUser"],
-        firstName: parsedJson["UserFirstName"] ?? parsedJson["FirstName"],
-        lastName: parsedJson["UserLastName"] ?? parsedJson["LastName"],
-        isStorePlayer: false,
-        photo: parsedJson["UserPhoto"] ?? parsedJson["Photo"]);
+      id: parsedJson["IdUser"],
+      firstName: parsedJson["UserFirstName"] ?? parsedJson["FirstName"],
+      lastName: parsedJson["UserLastName"] ?? parsedJson["LastName"],
+      isStorePlayer: false,
+      photo: parsedJson["UserPhoto"] ?? parsedJson["Photo"],
+      phoneNumber: parsedJson["PhoneNumber"],
+    );
   }
 
   factory UserStore.copyFrom(UserStore refUserStore) {

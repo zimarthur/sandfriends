@@ -93,15 +93,11 @@ class _ClassPlansScreenAulasState extends State<TeamsAulasScreen> {
                                                 ? 60
                                                 : defaultPadding,
                                           ),
-                                          child: GestureDetector(
-                                            onTap: () => Navigator.pushNamed(
-                                                context, "/team_details"),
-                                            child: TeamItem(
-                                                team: Provider.of<
-                                                            TeacherProvider>(
-                                                        context)
-                                                    .teams[index]),
-                                          ),
+                                          child: TeamItem(
+                                              team:
+                                                  Provider.of<TeacherProvider>(
+                                                          context)
+                                                      .teams[index]),
                                         );
                                       },
                                     ),

@@ -56,6 +56,7 @@ class AppRecurrentMatchUser extends AppRecurrentMatch {
       team: json['Team'] != null
           ? Team.fromJson(
               json["Team"],
+              referenceHours,
               referenceSports,
               referenceRanks,
               referenceGenders,
