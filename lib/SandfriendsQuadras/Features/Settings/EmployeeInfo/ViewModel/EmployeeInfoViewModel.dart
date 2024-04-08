@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Components/Modal/SFModalMessage.dart';
 import '../../../../../Common/Model/SandfriendsQuadras/Employee.dart';
+import '../../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../../Remote/NetworkResponse.dart';
 import '../../../Menu/ViewModel/StoreProvider.dart';
@@ -119,7 +120,7 @@ class EmployeeInfoViewModel extends ChangeNotifier {
     employeeInfoRepo
         .addEmployee(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       employeeEmail,
     )
         .then((response) {
@@ -163,8 +164,8 @@ class EmployeeInfoViewModel extends ChangeNotifier {
     employeeInfoRepo
         .changeEmployeeAdmin(
             context,
-            Provider.of<StoreProvider>(context, listen: false)
-                .loggedAccessToken,
+            Provider.of<EnvironmentProvider>(context, listen: false)
+                .accessToken!,
             employee.idEmployee,
             isAdmin)
         .then((response) {
@@ -206,7 +207,7 @@ class EmployeeInfoViewModel extends ChangeNotifier {
     employeeInfoRepo
         .renameEmployee(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       firstName,
       lastName,
     )
@@ -248,7 +249,7 @@ class EmployeeInfoViewModel extends ChangeNotifier {
     employeeInfoRepo
         .removeEmployee(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       employee.idEmployee,
     )
         .then((response) {

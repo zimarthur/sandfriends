@@ -84,7 +84,8 @@ class _SFDrawerAulasState extends State<SFDrawerAulas> {
                           ],
                         )),
                         InkWell(
-                          onTap: () {},
+                          onTap: () =>
+                              Navigator.pushNamed(context, "/settings"),
                           child: SvgPicture.asset(
                             r"assets/icon/settings.svg",
                             height: 25,

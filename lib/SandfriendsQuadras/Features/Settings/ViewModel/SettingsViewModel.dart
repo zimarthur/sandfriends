@@ -12,6 +12,7 @@ import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Model/SandfriendsQuadras/StorePhoto.dart';
 import '../../../../Common/Model/Store/StoreComplete.dart';
 import '../../../../Common/Model/TabItem.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/Utils/SFImage.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
@@ -370,7 +371,7 @@ class SettingsViewModel extends ChangeNotifier {
     settingsRepo
         .allowNotifications(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       allow,
       token,
     )
@@ -412,7 +413,7 @@ class SettingsViewModel extends ChangeNotifier {
         settingsRepo
             .deleteAccount(
           context,
-          Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+          Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
         )
             .then((response) {
           Provider.of<StandardScreenViewModel>(context, listen: false)

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:sandfriends/Common/Enum/EnumClassFormat.dart';
 import 'package:sandfriends/Common/Enum/EnumClassFrequency.dart';
 import 'package:sandfriends/Common/Model/ClassPlan.dart';
-import 'package:sandfriends/Common/Model/School/School.dart';
-import 'package:sandfriends/Common/Model/Teacher.dart';
+import 'package:sandfriends/Common/Model/Classes/School/School.dart';
+import 'package:sandfriends/Common/Model/Classes/Teacher/Teacher.dart';
+import 'package:sandfriends/Common/Model/Classes/TeacherSchool/TeacherSchool.dart';
 import 'package:sandfriends/Common/Model/Team.dart';
 import 'package:tuple/tuple.dart';
 import '../../../../Remote/ApiEndPoints.dart';
@@ -17,7 +18,7 @@ class PartnerSchoolsRepo {
   Future<NetworkResponse> schoolInvitationResponse(
     BuildContext context,
     String accessToken,
-    Teacher teacher,
+    TeacherSchool teacherSchool,
     bool accepted,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
@@ -26,7 +27,7 @@ class PartnerSchoolsRepo {
       jsonEncode(
         <String, Object?>{
           'AccessToken': accessToken,
-          'IdTeacher': teacher.idTeacher,
+          'IdTeacher': teacherSchool.idTeacher,
           "Accepted": accepted,
         },
       ),

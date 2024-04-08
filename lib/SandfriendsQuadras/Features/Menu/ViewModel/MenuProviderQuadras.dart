@@ -9,6 +9,7 @@ import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/SandfriendsQuadras/Features/Classes/View/ClassesScreenWeb.dart';
 import '../../../../Common/Components/Modal/SFModalConfirmation.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../../../../Common/Utils/PageStatus.dart';
 import '../../../../Common/Utils/Responsive.dart';
@@ -152,7 +153,8 @@ class MenuProviderQuadras extends DrawerProvider {
   void validateAuthentication(BuildContext context) async {
     if (Provider.of<StoreProvider>(context, listen: false).store == null) {
       Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
-      String? storedToken = await LocalStorageManager().getAccessToken(context);
+      String? storedToken =
+          Provider.of<EnvironmentProvider>(context, listen: false).accessToken;
       if (storedToken != null) {
         loginRepo.validateToken(context, storedToken).then((response) async {
           Provider.of<StandardScreenViewModel>(context, listen: false)
@@ -195,7 +197,8 @@ class MenuProviderQuadras extends DrawerProvider {
   }
 
   Future<void> updateStoreProvider(BuildContext context) async {
-    String? storedToken = await LocalStorageManager().getAccessToken(context);
+    String? storedToken =
+        Provider.of<EnvironmentProvider>(context, listen: false).accessToken;
     if (storedToken != null) {
       Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
       NetworkResponse response =

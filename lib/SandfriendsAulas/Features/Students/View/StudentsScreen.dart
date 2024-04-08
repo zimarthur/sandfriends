@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/Home/ViewModel/HomeScreenViewModel.dart';
 import 'package:sandfriends/SandfriendsAulas/Providers/MenuProviderAulas.dart';
@@ -9,6 +10,8 @@ import '../../../../Common/StandardScreen/StandardScreen.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../../../../Sandfriends/Providers/UserProvider/UserProvider.dart';
 import '../../../../SandfriendsQuadras/Features/Home/View/Mobile/KPI.dart';
+import '../../../../SandfriendsQuadras/Features/Menu/View/Mobile/SFStandardHeader.dart';
+import '../../../../SandfriendsQuadras/Features/Players/View/Mobile/PlayersResume.dart';
 import '../../Menu/SFDrawerAulas.dart';
 import '../ViewModel/StudentsScreenViewModel.dart';
 
@@ -21,11 +24,29 @@ class StudentsScreenAulas extends StatefulWidget {
 
 class _StudentsScreenAulasState extends State<StudentsScreenAulas> {
   final viewModel = StudentsScreenAulasViewModel();
-
+  bool isExpanded = false;
   @override
   void initState() {
     viewModel.initStudentsViewModel(context);
     super.initState();
+  }
+
+  void expand() {
+    setState(() {
+      isExpanded = true;
+    });
+  }
+
+  void collapse() {
+    setState(() {
+      isExpanded = false;
+    });
+  }
+
+  void toggleExpand() {
+    setState(() {
+      isExpanded = !isExpanded;
+    });
   }
 
   @override
@@ -48,18 +69,72 @@ class _StudentsScreenAulasState extends State<StudentsScreenAulas> {
               ),
               child: Column(
                 children: [
-                  HomeHeader(
-                    primaryColor: primaryBlue,
-                    secondaryColor: primaryLightBlue,
-                    name: Provider.of<UserProvider>(context).user!.firstName!,
-                    nameDescription: null,
-                    notificationsOn: false,
-                    photo: Provider.of<UserProvider>(context).user!.photo,
-                    photoName:
-                        Provider.of<UserProvider>(context).user!.fullName,
+                  SFStandardHeader(
+                    title: "Alunos",
+                    leftWidget: InkWell(
+                      onTap: () => toggleExpand(),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          padding: const EdgeInsets.all(defaultPadding),
+                          margin:
+                              const EdgeInsets.only(left: defaultPadding / 2),
+                          child: SvgPicture.asset(
+                            r"assets/icon/search.svg",
+                            color: textWhite,
+                            height: 20,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                   Expanded(
-                    child: Container(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        PlayersResume(
+                          collapse: () => collapse(),
+                          expand: () => expand(),
+                          isExpanded: isExpanded,
+                          playerController: viewModel.nameFilterController,
+                          onUpdatePlayerFilter: (newPlayer) =>
+                              viewModel.filterName(context),
+                          playersQuantity:
+                              "34", // viewModel.players.length.toString(),
+                        ),
+                        SizedBox(
+                          height: defaultPadding,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: defaultPadding / 2),
+                          child: Text(
+                            "Alunos",
+                            style: TextStyle(
+                              color: textDarkGrey,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: defaultPadding / 2,
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: defaultPadding / 2),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                defaultBorderRadius,
+                              ),
+                              color: secondaryPaper,
+                              border: Border.all(
+                                color: divider,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

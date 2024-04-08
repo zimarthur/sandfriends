@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
 import 'package:intl/intl.dart';
 import 'package:sandfriends/Common/Model/Infrastructure.dart';
-import 'package:sandfriends/Common/Model/School/School.dart';
+import 'package:sandfriends/Common/Model/Classes/School/School.dart';
 import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
 import '../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchStore.dart';
@@ -19,10 +19,11 @@ import '../../../../Common/Model/SandfriendsQuadras/AppNotificationStore.dart';
 import '../../../../Common/Model/SandfriendsQuadras/AvailableSport.dart';
 import '../../../../Common/Model/SandfriendsQuadras/Employee.dart';
 import '../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
-import '../../../../Common/Model/School/SchoolStore.dart';
+import '../../../../Common/Model/Classes/School/SchoolStore.dart';
 import '../../../../Common/Model/Sport.dart';
 import '../../../../Common/Model/Store/StoreComplete.dart';
 import '../../../../Common/Model/User/UserStore.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 
 class StoreProvider extends ChangeNotifier {
   StoreComplete? _store;
@@ -162,16 +163,19 @@ class StoreProvider extends ChangeNotifier {
     return loggedEmployee.admin;
   }
 
-  String loggedAccessToken = "";
   String loggedEmail = "";
 
   void setLoginResponse(
-      BuildContext context, String response, bool keepConnected) {
+    BuildContext context,
+    String response,
+    bool keepConnected,
+  ) {
     clearStoreProvider();
     Map<String, dynamic> responseBody = json.decode(
       response,
     );
-    loggedAccessToken = responseBody["AccessToken"];
+    Provider.of<EnvironmentProvider>(context, listen: false)
+        .setAccessToken(responseBody["AccessToken"]);
     loggedEmail = responseBody["LoggedEmail"];
     if (keepConnected) {
       LocalStorageManager()
@@ -226,7 +230,10 @@ class StoreProvider extends ChangeNotifier {
     for (var school in responseBody['Store']['StoreSchools']) {
       schools.add(SchoolStore.fromJson(
         school,
+        Provider.of<CategoriesProvider>(context, listen: false).hours,
         Provider.of<CategoriesProvider>(context, listen: false).sports,
+        Provider.of<CategoriesProvider>(context, listen: false).ranks,
+        Provider.of<CategoriesProvider>(context, listen: false).genders,
       ));
     }
   }

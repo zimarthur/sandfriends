@@ -23,15 +23,15 @@ class WeekdayRowSelector extends StatelessWidget {
 
       if (layoutConstraints.maxWidth <
           ((desiredButtonWidth * weekdays) +
-              (minSpaceBetween * (weekdays + 1)))) {
+              (minSpaceBetween * (weekdays - 1)))) {
         buttonWidth =
-            (layoutConstraints.maxWidth - (minSpaceBetween * (weekdays + 1))) /
+            (layoutConstraints.maxWidth - (minSpaceBetween * (weekdays - 1))) /
                 weekdays;
       } else {
         buttonWidth = desiredButtonWidth;
       }
       return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           for (int weekday = 0; weekday < 7; weekday++)
             GestureDetector(

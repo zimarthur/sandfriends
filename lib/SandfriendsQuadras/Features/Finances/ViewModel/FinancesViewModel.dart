@@ -9,6 +9,7 @@ import '../../../../Common/Enum/EnumPeriodVisualization.dart';
 import '../../../../Common/Model/AppMatch/AppMatchStore.dart';
 import '../../../../Common/Model/SandfriendsQuadras/SFBarChartItem.dart';
 import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
@@ -66,8 +67,8 @@ class FinancesViewModel extends ChangeNotifier {
     financesRepo
         .searchCustomMatches(
             context,
-            Provider.of<StoreProvider>(context, listen: false)
-                .loggedAccessToken,
+            Provider.of<EnvironmentProvider>(context, listen: false)
+                .accessToken!,
             customStartDate!,
             customEndDate)
         .then((response) {

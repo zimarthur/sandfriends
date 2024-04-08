@@ -6,6 +6,7 @@ import 'package:sandfriends/Common/Components/SFAvatarUser.dart';
 import 'package:sandfriends/Common/Components/SFLoading.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/Classes/View/ClassItem.dart';
 import 'package:sandfriends/SandfriendsAulas/SharedComponents/AulasSectionTitleText.dart';
 
 import '../ViewModel/ClassesViewModel.dart';
@@ -97,6 +98,63 @@ class _ClassesWidgetState extends State<ClassesWidget> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: defaultPadding),
                           child: SectionTitleText(
+                            title: "Próximas aulas",
+                          ),
+                        ),
+                        SizedBox(
+                          height: defaultPadding / 2,
+                        ),
+                        Provider.of<UserProvider>(context).nextClasses == null
+                            ? SFLoading()
+                            : Provider.of<UserProvider>(context)
+                                    .nextClasses!
+                                    .isEmpty
+                                ? SizedBox(
+                                    height: 200,
+                                    child: Center(
+                                      child: Text(
+                                        "Você não tem nenhuma aula",
+                                        style: TextStyle(
+                                          color: textDarkGrey,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : SizedBox(
+                                    height: 300,
+                                    width: double.infinity,
+                                    child: ListView.builder(
+                                        itemCount:
+                                            Provider.of<UserProvider>(context)
+                                                .nextClasses!
+                                                .length,
+                                        scrollDirection: Axis.horizontal,
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                          return SizedBox(
+                                            width: 300,
+                                            child: Center(
+                                              child: ClassItem(
+                                                team: Provider.of<UserProvider>(
+                                                        context)
+                                                    .nextClasses![index]
+                                                    .team!,
+                                                match:
+                                                    Provider.of<UserProvider>(
+                                                            context)
+                                                        .nextClasses![index],
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                  ),
+                        SizedBox(
+                          height: defaultPadding,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: defaultPadding),
+                          child: SectionTitleText(
                             title: "Professores perceiros",
                           ),
                         ),
@@ -178,7 +236,7 @@ class _ClassesWidgetState extends State<ClassesWidget> {
                                 ),
                               )
                             : Provider.of<UserProvider>(context)
-                                    .availableTeachers!
+                                    .availableSchools!
                                     .isEmpty
                                 ? SizedBox(
                                     width: double.infinity,

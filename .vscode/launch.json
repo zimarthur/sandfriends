@@ -44,7 +44,7 @@
             "program": "lib/SandfriendsAulas/main_dev.dart",
             "args": [
                 "--flavor",
-                "dev",
+                "aulasDev",
                 "--target",
                 "lib/SandfriendsAulas/main_dev.dart",
             ]
@@ -56,7 +56,7 @@
             "program": "lib/SandfriendsAulas/main_prod.dart",
             "args": [
                 "--flavor",
-                "prod",
+                "aulasProd",
                 "--target",
                 "lib/SandfriendsAulas/main_prod.dart",
             ]
@@ -68,7 +68,7 @@
             "program": "lib/SandfriendsAulas/main_demo.dart",
             "args": [
                 "--flavor",
-                "demo",
+                "aulasDemo",
                 "--target",
                 "lib/SandfriendsAulas/main_demo.dart",
             ]

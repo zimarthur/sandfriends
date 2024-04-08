@@ -3,6 +3,7 @@ import 'package:sandfriends/Common/Model/User/User.dart';
 import '../Gender.dart';
 import '../Rank.dart';
 import '../Sport.dart';
+import 'UserComplete.dart';
 
 class UserStore extends User {
   bool isStorePlayer;
@@ -77,6 +78,23 @@ class UserStore extends User {
       isStorePlayer: false,
       photo: parsedJson["UserPhoto"] ?? parsedJson["Photo"],
       phoneNumber: parsedJson["PhoneNumber"],
+    );
+  }
+
+  factory UserStore.fromUserComplete(
+    UserComplete userComplete,
+  ) {
+    return UserStore(
+      id: userComplete.id,
+      firstName: userComplete.firstName,
+      lastName: userComplete.lastName,
+      phoneNumber: userComplete.phoneNumber,
+      gender: userComplete.gender,
+      isStorePlayer: false,
+      preferenceSport: userComplete.preferenceSport,
+      rank: userComplete.ranks
+          .firstWhere((rank) => rank.sport == userComplete.preferenceSport),
+      photo: userComplete.photo,
     );
   }
 

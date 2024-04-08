@@ -76,97 +76,96 @@ class _ClassPlansScreenAulasState extends State<TeamDetailsScreen> {
                       padding: EdgeInsets.symmetric(
                         horizontal: defaultPadding / 2,
                       ),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TeamDetailsInfoRow(
-                              viewModel: viewModel,
-                            ),
-                            SizedBox(
-                              height: defaultPadding,
-                            ),
-                            if (!viewModel.isTeacherCreator)
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: !isUserInTeam
-                                        ? SFButton(
-                                            buttonLabel: "Participar",
-                                            onTap: () => viewModel.joinTeam(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TeamDetailsInfoRow(
+                            viewModel: viewModel,
+                          ),
+                          SizedBox(
+                            height: defaultPadding,
+                          ),
+                          if (!viewModel.isTeacherCreator)
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: !isUserInTeam
+                                      ? SFButton(
+                                          buttonLabel: "Participar",
+                                          onTap: () => viewModel.joinTeam(
+                                            context,
+                                          ),
+                                          color: primaryLightBlue,
+                                          iconPath: r"assets/icon/plus.svg",
+                                          iconSize: 20,
+                                        )
+                                      : SFButton(
+                                          buttonLabel: hasUserSentInvitation
+                                              ? "Convite enviado"
+                                              : "Você já está nesse grupo",
+                                          onTap: () {},
+                                          color: primaryLightBlue,
+                                          isPrimary: false,
+                                          iconPath: hasUserSentInvitation
+                                              ? r"assets/icon/check_circle.svg"
+                                              : "",
+                                          iconSize: 20,
+                                        ),
+                                ),
+                                if (viewModel.team.teacher!.phoneNumber != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: defaultPadding),
+                                    child: GestureDetector(
+                                      onTap: () => LinkOpenerManager()
+                                          .openWhatsApp(
                                               context,
-                                            ),
+                                              viewModel
+                                                  .team.teacher!.phoneNumber!),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: secondaryPaper,
+                                          border: Border.all(
                                             color: primaryLightBlue,
-                                            iconPath: r"assets/icon/plus.svg",
-                                            iconSize: 20,
-                                          )
-                                        : SFButton(
-                                            buttonLabel: hasUserSentInvitation
-                                                ? "Convite enviado"
-                                                : "Você já está nesse grupo",
-                                            onTap: () {},
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            defaultBorderRadius,
+                                          ),
+                                        ),
+                                        width: 40,
+                                        height: 40,
+                                        child: Center(
+                                          child: SvgPicture.asset(
+                                            r"assets/icon/whatsapp.svg",
                                             color: primaryLightBlue,
-                                            isPrimary: false,
-                                            iconPath: hasUserSentInvitation
-                                                ? r"assets/icon/check_circle.svg"
-                                                : "",
-                                            iconSize: 20,
-                                          ),
-                                  ),
-                                  if (viewModel.team.teacher.phoneNumber !=
-                                      null)
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: defaultPadding),
-                                      child: GestureDetector(
-                                        onTap: () => LinkOpenerManager()
-                                            .openWhatsApp(
-                                                context,
-                                                viewModel
-                                                    .team.teacher.phoneNumber!),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: secondaryPaper,
-                                            border: Border.all(
-                                              color: primaryLightBlue,
-                                            ),
-                                            borderRadius: BorderRadius.circular(
-                                              defaultBorderRadius,
-                                            ),
-                                          ),
-                                          width: 40,
-                                          height: 40,
-                                          child: Center(
-                                            child: SvgPicture.asset(
-                                              r"assets/icon/whatsapp.svg",
-                                              color: primaryLightBlue,
-                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                ],
-                              ),
-                            SizedBox(
-                              height: defaultPadding / 2,
+                                  ),
+                              ],
                             ),
-                            SFTabs(
-                              tabs: viewModel.tabItems,
-                              selectedPosition: viewModel.selectedTab,
-                              expanded: true,
-                              color: primaryLightBlue,
-                            ),
-                            SizedBox(
-                              height: defaultPadding / 2,
-                            ),
-                            Padding(
+                          SizedBox(
+                            height: defaultPadding / 2,
+                          ),
+                          SFTabs(
+                            tabs: viewModel.tabItems,
+                            selectedPosition: viewModel.selectedTab,
+                            expanded: true,
+                            color: primaryLightBlue,
+                          ),
+                          SizedBox(
+                            height: defaultPadding / 2,
+                          ),
+                          Expanded(
+                            child: Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: defaultPadding / 2,
                               ),
                               child: viewModel.selectedTab.displayWidget,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

@@ -12,6 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Managers/LocalStorage/LocalStorageManager.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Utils/PageStatus.dart';
@@ -46,7 +47,7 @@ class AppInfoViewModel extends ChangeNotifier {
       appInfoRepo
           .setUserNotifications(
         context,
-        Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+        Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
         Provider.of<UserProvider>(context, listen: false)
             .user!
             .allowNotifications,
@@ -122,8 +123,10 @@ class AppInfoViewModel extends ChangeNotifier {
     Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
 
     appInfoRepo
-        .removeUser(context,
-            Provider.of<UserProvider>(context, listen: false).user!.accessToken)
+        .removeUser(
+      context,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
+    )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.expiredToken) {
         Navigator.pushNamedAndRemoveUntil(

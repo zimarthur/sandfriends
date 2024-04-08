@@ -3,14 +3,15 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sandfriends/Common/Model/School/SchoolTeacher.dart';
-import 'package:sandfriends/Common/Model/Teacher.dart';
+import 'package:sandfriends/Common/Model/Classes/Teacher/Teacher.dart';
+import 'package:sandfriends/Common/Model/Classes/Teacher/TeacherUser.dart';
 import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 
-import '../../../../../../Common/Model/School/SchoolStore.dart';
-import '../../../../../../Common/Model/School/SchoolUser.dart';
+import '../../../../../../Common/Model/Classes/School/SchoolStore.dart';
+import '../../../../../../Common/Model/Classes/School/SchoolUser.dart';
+import '../../../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../../../Remote/NetworkResponse.dart';
 import '../Repo/ClassesRepo.dart';
 
@@ -28,21 +29,34 @@ class ClassesViewModel extends ChangeNotifier {
       Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     }
     classesRepo
-        .getClassesInfo(context,
-            Provider.of<UserProvider>(context, listen: false).user!.accessToken)
+        .getClassesInfo(
+      context,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
+    )
         .then((response) {
       Provider.of<StandardScreenViewModel>(context, listen: false)
           .setPageStatusOk();
-      List<Teacher> teachers = [];
       List<SchoolUser> schools = [];
+      List<TeacherUser> teachers = [];
       if (response.responseStatus == NetworkResponseStatus.success) {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
         );
 
+        for (var school in responseBody["Schools"]) {
+          schools.add(
+            SchoolUser.fromJson(
+              school,
+              Provider.of<CategoriesProvider>(context, listen: false).hours,
+              Provider.of<CategoriesProvider>(context, listen: false).sports,
+              Provider.of<CategoriesProvider>(context, listen: false).ranks,
+              Provider.of<CategoriesProvider>(context, listen: false).genders,
+            ),
+          );
+        }
         for (var teacher in responseBody["Teachers"]) {
           teachers.add(
-            Teacher.fromJsonUser(
+            TeacherUser.fromJson(
               teacher,
               Provider.of<CategoriesProvider>(context, listen: false).hours,
               Provider.of<CategoriesProvider>(context, listen: false).sports,
@@ -51,19 +65,11 @@ class ClassesViewModel extends ChangeNotifier {
             ),
           );
         }
-        for (var school in responseBody["Schools"]) {
-          schools.add(
-            SchoolUser.fromJson(
-              school,
-              Provider.of<CategoriesProvider>(context, listen: false).sports,
-            ),
-          );
-        }
+        Provider.of<UserProvider>(context, listen: false)
+            .setAvailableTeachers(teachers);
+        Provider.of<UserProvider>(context, listen: false)
+            .setAvailableSchools(schools);
       }
-      Provider.of<UserProvider>(context, listen: false)
-          .setAvailableTeachers(teachers);
-      Provider.of<UserProvider>(context, listen: false)
-          .setAvailableSchools(schools);
     });
   }
 }

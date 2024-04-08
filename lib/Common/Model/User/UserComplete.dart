@@ -11,7 +11,6 @@ import 'User.dart';
 import 'package:collection/collection.dart';
 
 class UserComplete extends User {
-  String accessToken;
   DateTime? birthday;
   double? height;
   SidePreference? sidePreference;
@@ -34,7 +33,6 @@ class UserComplete extends User {
     super.gender,
     super.preferenceSport,
     required this.email,
-    required this.accessToken,
     this.birthday,
     this.height,
     this.sidePreference,
@@ -77,7 +75,6 @@ class UserComplete extends User {
   factory UserComplete.fromJson(Map<String, dynamic> json) {
     var newUser = UserComplete(
       id: json['IdUser'],
-      accessToken: json['AccessToken'] ?? "",
       firstName: json['FirstName'],
       lastName: json['LastName'],
       height: json['Height'],
@@ -108,7 +105,7 @@ class UserComplete extends User {
     return newUser;
   }
 
-  Map<String, Object> toJson() {
+  Map<String, Object> toJson(String accessToken) {
     List<Map<String, dynamic>> rankJson = [];
     for (var rank in ranks) {
       rankJson.add({
@@ -160,7 +157,6 @@ class UserComplete extends User {
   factory UserComplete.copyWith(UserComplete refUser) {
     final user = UserComplete(
       email: refUser.email,
-      accessToken: refUser.accessToken,
       firstName: refUser.firstName,
       lastName: refUser.lastName,
       birthday: refUser.birthday,

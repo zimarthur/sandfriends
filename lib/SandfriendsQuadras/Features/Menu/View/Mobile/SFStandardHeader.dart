@@ -21,7 +21,6 @@ class SFStandardHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(isPrimaryBlue);
     return Container(
       color: primaryBlue,
       child: SafeArea(

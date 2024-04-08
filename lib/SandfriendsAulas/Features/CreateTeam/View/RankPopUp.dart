@@ -8,7 +8,7 @@ import '../../../../Common/Model/Sport.dart';
 import '../../../../Common/Utils/Constants.dart';
 
 class RankPopUp extends StatefulWidget {
-  Rank? selectedRank;
+  Rank selectedRank;
   Sport currentSport;
   Function(Rank) onSelectedRank;
   RankPopUp({
@@ -76,19 +76,12 @@ class _SportFilterState extends State<RankPopUp> {
           ),
           height: 40,
           child: Center(
-            child: widget.selectedRank == null
-                ? Text(
-                    "-",
-                    style: TextStyle(
-                      color: textDarkGrey,
-                    ),
-                  )
-                : Text(
-                    widget.selectedRank!.name,
-                    style: TextStyle(
-                      color: widget.selectedRank!.colorObj,
-                    ),
-                  ),
+            child: Text(
+              widget.selectedRank.name,
+              style: TextStyle(
+                color: widget.selectedRank.colorObj,
+              ),
+            ),
           )),
     );
   }

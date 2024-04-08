@@ -17,6 +17,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import '../../../../Common/Model/AppMatch/AppMatchUser.dart';
 import '../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchUser.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Model/CreditCard/CreditCard.dart';
 import '../../../../Common/Model/Reward.dart';
@@ -113,7 +114,7 @@ class HomeViewModel extends StandardScreenViewModel {
     homeRepo
         .getUserInfo(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       notificationsConfig,
     )
         .then((response) {
@@ -178,7 +179,7 @@ class HomeViewModel extends StandardScreenViewModel {
     homeRepo
         .sendFeedback(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       feedbackController.text,
     )
         .then((response) {

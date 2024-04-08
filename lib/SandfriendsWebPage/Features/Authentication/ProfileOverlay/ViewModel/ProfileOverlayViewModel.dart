@@ -172,7 +172,7 @@ class ProfileOverlayViewModel extends ChangeNotifier {
     homeRepo
         .getUserInfo(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       null,
     )
         .then((response) {

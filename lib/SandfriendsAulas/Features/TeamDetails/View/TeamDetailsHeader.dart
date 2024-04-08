@@ -57,7 +57,7 @@ class TeamDetailsHeader extends StatelessWidget {
                       ),
                       child: SFAvatarUser(
                         height: 120,
-                        user: viewModel.team.teacher,
+                        user: viewModel.team.teacher!,
                         showRank: false,
                         customBorderColor: primaryLightBlue,
                       ),
@@ -81,7 +81,7 @@ class TeamDetailsHeader extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(
-                            "por ${viewModel.team.teacher.fullName}",
+                            "por ${viewModel.team.teacher!.fullName}",
                             style: TextStyle(
                                 color: textWhite,
                                 fontSize: 12,

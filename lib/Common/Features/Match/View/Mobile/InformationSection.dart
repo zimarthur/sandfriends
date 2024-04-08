@@ -21,8 +21,8 @@ class InformationSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              "Detalhes da Partida",
+            Text(
+              "Detalhes da ${viewModel.isClass ? 'Aula' : 'Partida'}",
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 18,
@@ -111,25 +111,27 @@ class InformationSection extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: defaultPadding,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Preço:",
-                  ),
-                  Text(
-                    viewModel.match.userCost.formatPrice(),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        decoration: viewModel.match.coupon != null
-                            ? TextDecoration.lineThrough
-                            : null),
-                  ),
-                ],
-              ),
+              if (viewModel.isUserTeacher || !viewModel.isClass) ...[
+                const SizedBox(
+                  height: defaultPadding,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Preço:",
+                    ),
+                    Text(
+                      viewModel.match.userCost.formatPrice(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          decoration: viewModel.match.coupon != null
+                              ? TextDecoration.lineThrough
+                              : null),
+                    ),
+                  ],
+                ),
+              ],
               if (viewModel.match.coupon != null)
                 Padding(
                   padding: const EdgeInsets.only(top: defaultPadding / 4),

@@ -1,10 +1,15 @@
 import 'package:intl/intl.dart';
-import 'package:sandfriends/Common/Model/School/School.dart';
+import 'package:sandfriends/Common/Model/Classes/School/School.dart';
 import 'package:sandfriends/Common/Model/Sport.dart';
-import 'package:sandfriends/Common/Model/Teacher.dart';
+import 'package:sandfriends/Common/Model/Classes/Teacher/Teacher.dart';
+
+import '../../Gender.dart';
+import '../../Hour.dart';
+import '../../Rank.dart';
+import '../Teacher/TeacherStore.dart';
 
 class SchoolStore extends School {
-  List<Teacher> teachers = [];
+  List<TeacherStore> teachers = [];
 
   SchoolStore({
     required super.idSchool,
@@ -16,7 +21,10 @@ class SchoolStore extends School {
 
   factory SchoolStore.fromJson(
     Map<String, dynamic> json,
-    List<Sport> referenceSports,
+    List<Hour> hours,
+    List<Sport> sports,
+    List<Rank> ranks,
+    List<Gender> genders,
   ) {
     SchoolStore newSchool = SchoolStore(
       idSchool: json["IdStoreSchool"],
@@ -24,15 +32,18 @@ class SchoolStore extends School {
       creationDate: DateFormat("dd/MM/yyyy").parse(
         json["CreationDate"],
       ),
-      sport: referenceSports
-          .firstWhere((sport) => sport.idSport == json["IdSport"]),
+      sport: sports.firstWhere((sport) => sport.idSport == json["IdSport"]),
       logo: json["Logo"],
     );
     if (json['StoreSchoolTeachers'] != null) {
       for (var teacher in json['StoreSchoolTeachers']) {
         newSchool.teachers.add(
-          Teacher.fromJson(
+          TeacherStore.fromJson(
             teacher,
+            hours,
+            sports,
+            ranks,
+            genders,
           ),
         );
       }
@@ -50,7 +61,7 @@ class SchoolStore extends School {
     );
     for (var teacher in refSchool.teachers) {
       school.teachers.add(
-        Teacher.copyFrom(
+        TeacherStore.copyFrom(
           teacher,
         ),
       );

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Managers/LinkOpener/LinkOpenerManager.dart';
-import 'package:sandfriends/Common/Model/Teacher.dart';
+import 'package:sandfriends/Common/Model/Classes/Teacher/Teacher.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
 import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
 import 'package:sandfriends/Sandfriends/Features/Teacher/ViewModel/TeacherViewModel.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/Teams/View/TeamItem.dart';
 import 'package:sandfriends/SandfriendsAulas/SharedComponents/AulasSectionTitleText.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import '../../../../Common/Components/SFAvatarUser.dart';
 import '../../../../Common/Components/SFReturnButton.dart';
@@ -73,7 +74,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
                         ),
                       ),
                       Text(
-                        "desde ${viewModel.teacher.entryDate!.formatWrittenMonthYear()}",
+                        "desde ", //ARRUMA${viewModel.teacher.user.entryDate!.formatWrittenMonthYear()}",
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
                           color: textDarkGrey,
@@ -108,10 +109,15 @@ class _TeacherScreenState extends State<TeacherScreen> {
                                 SizedBox(
                                   width: defaultPadding / 2,
                                 ),
-                                Text(
-                                  "Chamar ${viewModel.teacher.user.firstName} no WhatsApp",
-                                  style: TextStyle(
-                                    color: textWhite,
+                                Expanded(
+                                  child: AutoSizeText(
+                                    "Chamar ${viewModel.teacher.user.firstName} no WhatsApp",
+                                    style: TextStyle(
+                                      color: textWhite,
+                                    ),
+                                    minFontSize: 10,
+                                    maxFontSize: 14,
+                                    maxLines: 1,
                                   ),
                                 ),
                               ],

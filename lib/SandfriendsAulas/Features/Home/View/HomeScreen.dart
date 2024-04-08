@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Model/AppMatch/AppMatchUser.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/Classes/View/ClassItem.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/Home/View/Onboarding/OnboardingTeacher.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/Home/ViewModel/HomeScreenViewModel.dart';
 import 'package:sandfriends/SandfriendsAulas/Providers/MenuProviderAulas.dart';
 
@@ -75,39 +78,7 @@ class _HomeScreenAulasState extends State<HomeScreenAulas> {
                           SizedBox(
                             height: defaultPadding,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: defaultPadding),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: KPI(
-                                    title: "Faturamento hoje",
-                                    value: r"480",
-                                    iconPath: r"assets/icon/money.svg",
-                                    primaryColor: success,
-                                    secondaryColor: success50,
-                                    isCurrency: true,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: defaultPadding,
-                                ),
-                                Expanded(
-                                  child: KPI(
-                                    title: "Aulas hoje",
-                                    value: "7",
-                                    iconPath: r"assets/icon/court.svg",
-                                    primaryColor: blueText,
-                                    secondaryColor: blueBg,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 2 * defaultPadding,
-                          ),
+                          OnboardingTeacher(),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: defaultPadding,
@@ -147,10 +118,19 @@ class _HomeScreenAulasState extends State<HomeScreenAulas> {
                                       .pushNamed("/students"),
                                 ),
                                 HomeLinkItem(
-                                  iconPath: r"assets/icon/price.svg",
-                                  title: "Financeiro",
+                                  iconPath: r"assets/icon/class_plans.svg",
+                                  title: "Planos",
                                   onTap: () => Navigator.of(context)
-                                      .pushNamed("/finances"),
+                                      .pushNamed("/class_plans"),
+                                ),
+                                HomeLinkItem(
+                                  iconPath: r"assets/icon/user.svg",
+                                  title: "Meu perfil",
+                                  onTap: () => Navigator.of(context)
+                                      .pushNamed("/teacher_details"),
+                                ),
+                                SizedBox(
+                                  width: defaultPadding,
                                 ),
                               ],
                             ),
@@ -173,6 +153,38 @@ class _HomeScreenAulasState extends State<HomeScreenAulas> {
                           SizedBox(
                             height: defaultPadding / 2,
                           ),
+                          Provider.of<TeacherProvider>(context, listen: false)
+                                  .todayMatches
+                                  .isEmpty
+                              ? SizedBox(
+                                  width: double.infinity,
+                                  height: 300,
+                                  child: Center(
+                                    child: Text(
+                                      "Você não tem aulas hoje",
+                                      style: TextStyle(
+                                        color: textDarkGrey,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: Provider.of<TeacherProvider>(
+                                    context,
+                                  ).todayMatches.length,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: defaultPadding / 2),
+                                  itemBuilder: (context, index) {
+                                    AppMatchUser match =
+                                        Provider.of<TeacherProvider>(
+                                      context,
+                                    ).todayMatches[index];
+                                    return ClassItem(
+                                      match: match,
+                                      team: match.team!,
+                                    );
+                                  })
                         ],
                       ),
                     ),

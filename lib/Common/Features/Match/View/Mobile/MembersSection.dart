@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sandfriends/Common/Model/AppMatch/AppMatchUser.dart';
+import 'package:sandfriends/Common/Model/MatchMember.dart';
 
 import '../../../../Components/SFAvatarUser.dart';
 import '../../../../Utils/Constants.dart';
@@ -21,13 +23,17 @@ class MembersSection extends StatefulWidget {
 class _MembersSectionState extends State<MembersSection> {
   @override
   Widget build(BuildContext context) {
+    AppMatchUser match = widget.viewModel.match;
+    List<MatchMember> matchMembers = widget.viewModel.isClass
+        ? match.classMembers
+        : widget.viewModel.isUserMatchCreator
+            ? match.members
+            : match.activeMatchMembers;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.viewModel.referenceIsOpenMatch
-              ? "Jogadores (${widget.viewModel.match.activeMatchMembers}/${widget.viewModel.referenceMaxUsers})"
-              : "Jogadores (${widget.viewModel.match.activeMatchMembers})",
+          "${widget.viewModel.isClass ? 'Alunos confirmados' : 'Jogadores'} (${matchMembers.length}${match.isOpenMatch ? '/${widget.viewModel.referenceMaxUsers}' : ''})",
           style: const TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 18,
@@ -37,17 +43,13 @@ class _MembersSectionState extends State<MembersSection> {
           padding: EdgeInsets.symmetric(
               horizontal: defaultPadding, vertical: defaultPadding / 2),
           child: ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: widget.viewModel.match.members.length,
-            itemBuilder: (context, index) {
-              if (widget.viewModel
-                  .hideMember(widget.viewModel.match.members[index], context)) {
-                return Container();
-              } else {
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: matchMembers.length,
+              itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () => widget.viewModel.openMemberCardModal(
-                      context, widget.viewModel.match.members[index]),
+                  onTap: () => widget.viewModel
+                      .openMemberCardModal(context, matchMembers[index]),
                   child: Container(
                     height: widget.memberHeight, // height * 0.08,
                     margin: EdgeInsets.symmetric(
@@ -67,8 +69,7 @@ class _MembersSectionState extends State<MembersSection> {
                           alignment: Alignment.centerLeft,
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: widget.viewModel.match.members[index]
-                                    .waitingApproval
+                            color: matchMembers[index].waitingApproval
                                 ? secondaryYellow
                                 : primaryLightBlue,
                             borderRadius: BorderRadius.circular(8),
@@ -77,17 +78,14 @@ class _MembersSectionState extends State<MembersSection> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  widget.viewModel.match.members[index].user
-                                      .firstName!,
+                                  matchMembers[index].user.firstName!,
                                   style: const TextStyle(
                                     color: textWhite,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
                               ),
-                              widget.viewModel.match.members[index]
-                                              .waitingApproval ==
-                                          true &&
+                              matchMembers[index].waitingApproval == true &&
                                       widget.viewModel.isUserMatchCreator ==
                                           false
                                   ? Container(
@@ -112,8 +110,7 @@ class _MembersSectionState extends State<MembersSection> {
                                       ),
                                     )
                                   : Container(),
-                              widget.viewModel.match.members[index]
-                                          .waitingApproval &&
+                              matchMembers[index].waitingApproval &&
                                       widget.viewModel.isUserMatchCreator &&
                                       widget.viewModel.matchExpired == false
                                   ? Container(
@@ -146,7 +143,7 @@ class _MembersSectionState extends State<MembersSection> {
                             height: widget.memberHeight,
                             showRank: true,
                             editFile: null,
-                            user: widget.viewModel.match.members[index].user,
+                            user: matchMembers[index].user,
                             sport: widget.viewModel.match.sport,
                           ),
                         ),
@@ -154,9 +151,7 @@ class _MembersSectionState extends State<MembersSection> {
                     ),
                   ),
                 );
-              }
-            },
-          ),
+              }),
         ),
       ],
     );

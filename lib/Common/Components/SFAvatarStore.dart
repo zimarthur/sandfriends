@@ -56,44 +56,112 @@ class _SFAvatarStoreState extends State<SFAvatarStore> {
             : null,
       ),
       height: widget.height,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(widget.isPlayerAvatar
-              ? widget.height * 0.45
-              : defaultBorderRadius),
-          color: primaryBlue,
-        ),
-        height: widget.height * 0.95,
-        child: AspectRatio(
-          aspectRatio: 1 / 1,
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(widget.isPlayerAvatar
-                  ? widget.height * 0.45
-                  : defaultBorderRadius),
-              child: widget.editImage != null
-                  ? Image.memory(
-                      widget.editImage!,
-                      fit: BoxFit.cover,
-                    )
-                  : widget.storePhoto != null
-                      ? CachedNetworkImage(
-                          imageUrl: Provider.of<EnvironmentProvider>(context,
-                                  listen: false)
-                              .urlBuilder(
-                            widget.storePhoto!,
-                            isImage: true,
-                          ),
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Padding(
-                            padding: EdgeInsets.all(widget.height * 0.3),
-                            child: SFLoading(
-                              size: widget.height * 0.4,
+      width: widget.height,
+      child: Center(
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(widget.isPlayerAvatar
+                ? widget.height * 0.45
+                : defaultBorderRadius),
+            color: primaryBlue,
+          ),
+          height: widget.height * 0.95,
+          width: widget.height * 0.95,
+          child: AspectRatio(
+            aspectRatio: 1 / 1,
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(widget.isPlayerAvatar
+                    ? widget.height * 0.45
+                    : defaultBorderRadius),
+                child: widget.editImage != null
+                    ? Image.memory(
+                        widget.editImage!,
+                        fit: BoxFit.cover,
+                      )
+                    : widget.storePhoto != null
+                        ? CachedNetworkImage(
+                            imageUrl: Provider.of<EnvironmentProvider>(context,
+                                    listen: false)
+                                .urlBuilder(
+                              widget.storePhoto!,
+                              isImage: true,
                             ),
-                          ),
-                          errorWidget: (context, url, error) {
-                            print("ERRO ${error}");
-                            return widget.isPlayerAvatar
-                                ? Center(
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Padding(
+                              padding: EdgeInsets.all(widget.height * 0.3),
+                              child: SFLoading(
+                                size: widget.height * 0.4,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) {
+                              print("ERRO ${error}");
+                              return widget.isPlayerAvatar
+                                  ? Center(
+                                      child: SizedBox(
+                                        height: widget.height * 0.4,
+                                        width: widget.height * 0.4,
+                                        child: FittedBox(
+                                          fit: BoxFit.fitHeight,
+                                          child: Text(
+                                            "${widget.user!.firstName![0].toUpperCase()}${widget.user!.lastName![0].toUpperCase()}",
+                                            style: TextStyle(
+                                              color: secondaryPaper,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Center(
+                                      child: SizedBox(
+                                        height: widget.height * 0.4,
+                                        width: widget.height * 0.4,
+                                        child: FittedBox(
+                                          fit: BoxFit.fitHeight,
+                                          child: Text(
+                                            widget.storeName![0].toUpperCase(),
+                                            style: TextStyle(
+                                              color: secondaryPaper,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                            },
+                          )
+                        : widget.user != null
+                            ? widget.user!.photo != null
+                                ? CachedNetworkImage(
+                                    imageUrl: Provider.of<EnvironmentProvider>(
+                                            context,
+                                            listen: false)
+                                        .urlBuilder(
+                                      widget.user!.photo!,
+                                      isImage: true,
+                                    ),
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) => Padding(
+                                      padding:
+                                          EdgeInsets.all(widget.height * 0.3),
+                                      child: SFLoading(
+                                        size: widget.height * 0.4,
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) {
+                                      return Container(
+                                        color: textLightGrey.withOpacity(0.5),
+                                        height: widget.height * 0.4,
+                                        width: widget.height * 0.4,
+                                        child: const Center(
+                                          child: Icon(
+                                            Icons.dangerous,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  )
+                                : Center(
                                     child: SizedBox(
                                       height: widget.height * 0.4,
                                       width: widget.height * 0.4,
@@ -109,87 +177,23 @@ class _SFAvatarStoreState extends State<SFAvatarStore> {
                                       ),
                                     ),
                                   )
-                                : Center(
-                                    child: SizedBox(
-                                      height: widget.height * 0.4,
-                                      width: widget.height * 0.4,
-                                      child: FittedBox(
-                                        fit: BoxFit.fitHeight,
-                                        child: Text(
-                                          widget.storeName![0].toUpperCase(),
-                                          style: TextStyle(
-                                            color: secondaryPaper,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
+                            : Center(
+                                child: SizedBox(
+                                  height: widget.height * 0.4,
+                                  width: widget.height * 0.4,
+                                  child: FittedBox(
+                                    fit: BoxFit.fitHeight,
+                                    child: Text(
+                                      widget.storeName![0].toUpperCase(),
+                                      style: TextStyle(
+                                        color: secondaryPaper,
+                                        fontWeight: FontWeight.w600,
                                       ),
-                                    ),
-                                  );
-                          },
-                        )
-                      : widget.user != null
-                          ? widget.user!.photo != null
-                              ? CachedNetworkImage(
-                                  imageUrl: Provider.of<EnvironmentProvider>(
-                                          context,
-                                          listen: false)
-                                      .urlBuilder(
-                                    widget.user!.photo!,
-                                    isImage: true,
-                                  ),
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) => Padding(
-                                    padding:
-                                        EdgeInsets.all(widget.height * 0.3),
-                                    child: SFLoading(
-                                      size: widget.height * 0.4,
-                                    ),
-                                  ),
-                                  errorWidget: (context, url, error) {
-                                    return Container(
-                                      color: textLightGrey.withOpacity(0.5),
-                                      height: widget.height * 0.4,
-                                      width: widget.height * 0.4,
-                                      child: const Center(
-                                        child: Icon(
-                                          Icons.dangerous,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                )
-                              : Center(
-                                  child: SizedBox(
-                                    height: widget.height * 0.4,
-                                    width: widget.height * 0.4,
-                                    child: FittedBox(
-                                      fit: BoxFit.fitHeight,
-                                      child: Text(
-                                        "${widget.user!.firstName![0].toUpperCase()}${widget.user!.lastName![0].toUpperCase()}",
-                                        style: TextStyle(
-                                          color: secondaryPaper,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                          : Center(
-                              child: SizedBox(
-                                height: widget.height * 0.4,
-                                width: widget.height * 0.4,
-                                child: FittedBox(
-                                  fit: BoxFit.fitHeight,
-                                  child: Text(
-                                    widget.storeName![0].toUpperCase(),
-                                    style: TextStyle(
-                                      color: secondaryPaper,
-                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),
-                              ),
-                            )),
+                              )),
+          ),
         ),
       ),
     );

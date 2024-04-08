@@ -4,7 +4,6 @@ import 'package:sandfriends/Common/Features/UserDetails/View/UserDetailsScreen.d
 import 'package:sandfriends/Common/Providers/Drawer/DrawerProvider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/Classes/View/ClassesScreen.dart';
-import 'package:sandfriends/SandfriendsAulas/Features/Finances/View/FinancesScreen.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/Home/View/HomeScreen.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/Students/View/StudentsScreen.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/TeacherDetails/View/TeacherDetailsScreen.dart';
@@ -60,13 +59,6 @@ class MenuProviderAulas extends DrawerProvider {
           onTap: (context) => goToStudents(context),
           deviceAvailable: DeviceAvailable.Mobile,
         ),
-        DrawerItem(
-          drawerPage: DrawerPage.Finances,
-          title: "Financeiro",
-          icon: r"assets/icon/price.svg",
-          onTap: (context) => goToFinances(context),
-          deviceAvailable: DeviceAvailable.Mobile,
-        ),
       ],
     );
     onTabClick(currentPage, context, triggerTap: false);
@@ -103,9 +95,5 @@ class MenuProviderAulas extends DrawerProvider {
 
   void goToStudents(BuildContext context) {
     Navigator.of(context).pushNamed("/students");
-  }
-
-  void goToFinances(BuildContext context) {
-    Navigator.of(context).pushNamed("/finances");
   }
 }

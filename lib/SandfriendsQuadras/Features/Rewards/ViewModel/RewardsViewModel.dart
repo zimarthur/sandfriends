@@ -12,6 +12,7 @@ import '../../../../Common/Enum/EnumPeriodVisualization.dart';
 import '../../../../Common/Model/SandfriendsQuadras/Reward.dart';
 import '../../../../Common/Model/SandfriendsQuadras/RewardItem.dart';
 import '../../../../Common/Model/SandfriendsQuadras/SFBarChartItem.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
@@ -139,8 +140,8 @@ class RewardsViewModel extends ChangeNotifier {
     rewardsRepo
         .searchCustomRewards(
             context,
-            Provider.of<StoreProvider>(context, listen: false)
-                .loggedAccessToken,
+            Provider.of<EnvironmentProvider>(context, listen: false)
+                .accessToken!,
             customStartDate!,
             customEndDate)
         .then((response) {
@@ -210,8 +211,8 @@ class RewardsViewModel extends ChangeNotifier {
           rewardsRepo
               .userRewardSelected(
                   context,
-                  Provider.of<StoreProvider>(context, listen: false)
-                      .loggedAccessToken,
+                  Provider.of<EnvironmentProvider>(context, listen: false)
+                      .accessToken!,
                   rewardCode,
                   rewardItem.idRewardItem)
               .then((response) {

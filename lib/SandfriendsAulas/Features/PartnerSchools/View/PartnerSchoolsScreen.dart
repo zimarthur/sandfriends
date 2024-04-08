@@ -7,7 +7,6 @@ import 'package:sandfriends/Common/Components/SFButton.dart';
 import 'package:sandfriends/Common/Components/SFTextField.dart';
 import 'package:sandfriends/Common/Features/Court/View/SportFilter.dart';
 import 'package:sandfriends/Common/Model/AppBarType.dart';
-import 'package:sandfriends/Common/Model/School/SchoolTeacher.dart';
 import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import 'package:sandfriends/Sandfriends/Providers/TeacherProvider/TeacherProvider.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
@@ -60,12 +59,14 @@ class _ClassPlansScreenAulasState extends State<PartnerSchoolsScreen> {
                     Expanded(
                       child: ListView.builder(
                         itemCount: Provider.of<TeacherProvider>(context)
-                            .schools
+                            .teacher
+                            .teacherSchools
                             .length,
                         itemBuilder: (context, index) {
                           return PartnerSchoolItem(
-                            school: Provider.of<TeacherProvider>(context)
-                                .schools[index],
+                            teacherSchool: Provider.of<TeacherProvider>(context)
+                                .teacher
+                                .teacherSchools[index],
                             onInviteResponse: (school) =>
                                 viewModel.onInviteResponse(context, school),
                           );

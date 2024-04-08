@@ -11,6 +11,7 @@ import '../../../../Common/Model/SandfriendsQuadras/AvailableSport.dart';
 import '../../../../Common/Model/SandfriendsQuadras/PriceRule.dart';
 import '../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
 import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
@@ -589,7 +590,7 @@ class MyCourtsViewModel extends ChangeNotifier {
       myCourtsRepo
           .addCourt(
         context,
-        Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+        Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
         currentCourt,
       )
           .then((response) {
@@ -636,7 +637,7 @@ class MyCourtsViewModel extends ChangeNotifier {
     myCourtsRepo
         .removeCourt(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       courts[selectedCourtIndex].idStoreCourt!,
     )
         .then((response) {
@@ -705,7 +706,7 @@ class MyCourtsViewModel extends ChangeNotifier {
     myCourtsRepo
         .saveCourtChanges(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       changedCourts,
     )
         .then((response) {

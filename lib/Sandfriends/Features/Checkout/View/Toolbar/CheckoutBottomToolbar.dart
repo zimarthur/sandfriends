@@ -105,9 +105,7 @@ class CheckoutBottomToolbar extends StatelessWidget {
                     : viewModel.selectedPayment != SelectedPayment.NotSelected
                         ? "Agendar"
                         : "Selecione a forma de pagamento",
-            color: viewModel.selectedPayment != SelectedPayment.NotSelected
-                ? primaryBlue
-                : divider,
+            color: viewModel.canMakeReservation ? primaryBlue : divider,
             onTap: () => viewModel.validateReservation(context),
             textPadding:
                 const EdgeInsets.symmetric(vertical: defaultPadding / 2),

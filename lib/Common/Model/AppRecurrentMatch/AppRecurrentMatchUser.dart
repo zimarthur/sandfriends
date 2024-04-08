@@ -70,6 +70,8 @@ class AppRecurrentMatchUser extends AppRecurrentMatch {
           json['NextRecurrentMatches'][i],
           referenceHours,
           referenceSports,
+          referenceRanks,
+          referenceGenders,
         ),
       );
     }

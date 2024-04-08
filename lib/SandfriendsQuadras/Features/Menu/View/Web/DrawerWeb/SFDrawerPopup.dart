@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sandfriends/SandfriendsQuadras/Features/Menu/Model/DrawerItem.dart';
 import '../../../../../../Common/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -56,7 +57,8 @@ class _SFDrawerPopupState extends State<SFDrawerPopup> {
           ),
       ],
       onSelected: (value) {
-        widget.menuProvider.onTabClick(value, context);
+        widget.menuProvider
+            .onTabClick((value as DrawerItem).drawerPage, context);
       },
     );
   }

@@ -78,7 +78,7 @@ class TeamItem extends StatelessWidget {
                         width: defaultPadding / 2,
                       ),
                       Text(
-                        team.members.length.toString(),
+                        team.acceptedMembers.length.toString(),
                         style: TextStyle(color: textWhite),
                       ),
                     ],

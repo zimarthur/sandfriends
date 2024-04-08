@@ -98,6 +98,7 @@ class _AppState extends State<GenericApp> {
       widget.product,
       widget.flavor,
     );
+
     super.initState();
     if (!kIsWeb) {
       _initURIHandler();

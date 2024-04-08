@@ -6,7 +6,6 @@ import 'package:sandfriends/Common/generic_app.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/ClassPlans/View/ClassPlansScreen.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/Classes/View/ClassesScreen.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/CreateTeam/View/CreateTeamScreen.dart';
-import 'package:sandfriends/SandfriendsAulas/Features/Finances/View/FinancesScreen.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/Home/View/HomeScreen.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/PartnerSchools/View/PartnerSchoolsScreen.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/Students/View/StudentsScreen.dart';
@@ -18,6 +17,7 @@ import '../Common/Model/City.dart';
 import '../Common/Model/Court.dart';
 import '../Common/Model/Hour.dart';
 import '../Common/Model/Sport.dart';
+import '../Sandfriends/Features/AppInfo/View/AppInfoScreen.dart';
 import '../Sandfriends/Features/Authentication/CreateAccount/View/CreateAccountScreen.dart';
 import '../Sandfriends/Features/Authentication/EmailConfirmation/View/EmailConfirmationScreen.dart';
 import '../Sandfriends/Features/Authentication/LoadLogin/View/LoadLoginScreen.dart';
@@ -121,6 +121,8 @@ class SandfriendsAulasApp extends GenericApp {
         String court = "/quadra/";
         String checkout = "/checkout";
         String teamDetails = "/turma";
+        String match = "/partida";
+
         if (settings.name!.startsWith(court)) {
           final storeUrl = settings.name!.split(court)[1];
           final arguments = (settings.arguments ?? {}) as Map;
@@ -141,6 +143,16 @@ class SandfriendsAulasApp extends GenericApp {
                 canMakeReservation: arguments['canMakeReservation'] ?? false,
                 searchStartPeriod: arguments['searchStartPeriod'] as Hour?,
                 searchEndPeriod: arguments['searchEndPeriod'] as Hour?,
+              );
+            },
+          );
+        } else if (settings.name!.startsWith(match)) {
+          //match?id=123
+          final matchUrl = settings.name!.split(match)[1].split("/")[1];
+          return MaterialPageRoute(
+            builder: (context) {
+              return MatchScreen(
+                matchUrl: matchUrl,
               );
             },
           );
@@ -278,7 +290,6 @@ class SandfriendsAulasApp extends GenericApp {
         '/onboarding': (BuildContext context) => const OnboardingScreen(),
         '/home': (BuildContext context) => const HomeScreenAulas(),
         '/students': (BuildContext context) => const StudentsScreenAulas(),
-        '/finances': (BuildContext context) => const FinancesScreenAulas(),
         '/classes': (BuildContext context) => const ClassesScreenAulas(),
         '/teacher_details': (BuildContext context) =>
             const TeacherDetailsScreen(),
@@ -290,6 +301,7 @@ class SandfriendsAulasApp extends GenericApp {
         '/recurrent_match_search': (BuildContext context) =>
             const RecurrentMatchSearchScreen(),
 
+        '/settings': (BuildContext context) => const AppInfoScreen(),
         // '/user_matches': (BuildContext context) => const UserMatchesScreen(),
         // '/user_payments': (BuildContext context) => const OnboardingScreen(),
         // '/notifications': (BuildContext context) => const NotificationsScreen(),
@@ -301,6 +313,5 @@ class SandfriendsAulasApp extends GenericApp {
         // '/payment': (BuildContext context) => const PaymentScreen(),
         // '/new_credit_card': (BuildContext context) =>
         //     const NewCreditCardScreen(),
-        // '/settings': (BuildContext context) => const AppInfoScreen(),
       };
 }

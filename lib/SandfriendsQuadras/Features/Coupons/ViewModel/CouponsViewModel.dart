@@ -7,6 +7,7 @@ import '../../../../Common/Components/DatePickerModal.dart';
 import '../../../../Common/Enum/EnumCouponStatus.dart';
 import '../../../../Common/Enum/EnumPeriodVisualization.dart';
 import '../../../../Common/Model/Coupon/CouponStore.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
@@ -156,7 +157,7 @@ class CouponsViewModel extends ChangeNotifier {
     couponsRepo
         .enableDisableCoupon(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       coupon,
       disable,
     )
@@ -207,8 +208,8 @@ class CouponsViewModel extends ChangeNotifier {
     couponsRepo
         .addCoupon(
             context,
-            Provider.of<StoreProvider>(context, listen: false)
-                .loggedAccessToken,
+            Provider.of<EnvironmentProvider>(context, listen: false)
+                .accessToken!,
             coupon)
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
-import 'package:sandfriends/Common/Model/Teacher.dart';
+import 'package:sandfriends/Common/Model/Classes/Teacher/Teacher.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/generic_app.dart';
 import 'package:sandfriends/Sandfriends/Features/Teacher/View/TeacherScreen.dart';

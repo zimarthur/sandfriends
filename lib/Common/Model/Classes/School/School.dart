@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:sandfriends/Common/Model/Sport.dart';
-import 'package:sandfriends/Common/Model/Teacher.dart';
+import 'package:sandfriends/Common/Model/Classes/Teacher/Teacher.dart';
 
 abstract class School {
   int idSchool;

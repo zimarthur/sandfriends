@@ -58,6 +58,7 @@ class DrawerProvider extends StandardScreenViewModel {
 
   void onTabClick(DrawerPage drawerPage, BuildContext context,
       {triggerTap = true}) {
+    print("AAAAAAAAA");
     DrawerItem? foundDrawer = permissionsDrawerItems
         .firstWhereOrNull((drawer) => drawer.drawerPage == drawerPage);
     if (foundDrawer != null) {

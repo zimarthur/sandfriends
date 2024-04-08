@@ -16,6 +16,7 @@ import 'package:sandfriends/SandfriendsAulas/Providers/MenuProviderAulas.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 
 class ClassPlansScreenAulasViewModel extends MenuProviderAulas {
   final classPlansRepo = ClassPlansRepo();
@@ -37,7 +38,7 @@ class ClassPlansScreenAulasViewModel extends MenuProviderAulas {
   }
 
   ClassPlan? currentPlan;
-  void setCurrentPlan({ClassPlan? editPlan}) {
+  void setCurrentPlan(BuildContext context, {ClassPlan? editPlan}) {
     if (editPlan != null) {
       if (isSamePlanId(editPlan)) {
         currentPlan = null;
@@ -47,10 +48,26 @@ class ClassPlansScreenAulasViewModel extends MenuProviderAulas {
         priceController.text = currentPlan!.price.toString();
       }
     } else {
+      List<ClassPlan> currentClassPlans =
+          Provider.of<TeacherProvider>(context, listen: false)
+              .teacher
+              .classPlans;
       currentPlan = ClassPlan(
           idClassPlan: null,
-          format: EnumClassFormat.Group,
-          classFrequency: EnumClassFrequency.OnceWeek,
+          format: !currentClassPlans.any((plan) =>
+                  plan.classFrequency == EnumClassFrequency.None &&
+                  plan.format == EnumClassFormat.Group)
+              ? EnumClassFormat.Group
+              : !currentClassPlans.any((plan) =>
+                      plan.classFrequency == EnumClassFrequency.None &&
+                      plan.format == EnumClassFormat.Pair)
+                  ? EnumClassFormat.Pair
+                  : !currentClassPlans.any((plan) =>
+                          plan.classFrequency == EnumClassFrequency.None &&
+                          plan.format == EnumClassFormat.Pair)
+                      ? EnumClassFormat.Individual
+                      : EnumClassFormat.Group,
+          classFrequency: EnumClassFrequency.None,
           price: 0);
       priceController.text = currentPlan!.price.toString();
     }
@@ -98,7 +115,7 @@ class ClassPlansScreenAulasViewModel extends MenuProviderAulas {
     classPlansRepo
         .deleteClassPlan(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       currentPlan!,
     )
         .then((response) {
@@ -162,7 +179,7 @@ class ClassPlansScreenAulasViewModel extends MenuProviderAulas {
     classPlansRepo
         .editClassPlan(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       currentPlan!,
     )
         .then((response) {
@@ -223,7 +240,7 @@ class ClassPlansScreenAulasViewModel extends MenuProviderAulas {
     classPlansRepo
         .addClassPlan(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       currentPlan!,
     )
         .then((response) {

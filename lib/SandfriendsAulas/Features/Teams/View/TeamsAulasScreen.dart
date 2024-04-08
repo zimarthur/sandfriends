@@ -52,14 +52,17 @@ class _ClassPlansScreenAulasState extends State<TeamsAulasScreen> {
               child: Column(
                 children: [
                   SFStandardHeader(
-                    title: "Suas turmas",
+                    title: "Minhas turmas",
                   ),
                   Expanded(
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: defaultPadding / 2,
                       ),
-                      child: Provider.of<TeacherProvider>(context).teams.isEmpty
+                      child: Provider.of<TeacherProvider>(context)
+                              .teacher
+                              .teams
+                              .isEmpty
                           ? NoTeamsRegistered()
                           : PlusButtonOverlay(
                               onTap: () =>
@@ -79,6 +82,7 @@ class _ClassPlansScreenAulasState extends State<TeamsAulasScreen> {
                                       padding: EdgeInsets.zero,
                                       itemCount:
                                           Provider.of<TeacherProvider>(context)
+                                              .teacher
                                               .teams
                                               .length,
                                       itemBuilder: (context, index) {
@@ -87,6 +91,7 @@ class _ClassPlansScreenAulasState extends State<TeamsAulasScreen> {
                                             bottom: index ==
                                                     (Provider.of<TeacherProvider>(
                                                                 context)
+                                                            .teacher
                                                             .teams
                                                             .length -
                                                         1)
@@ -94,10 +99,11 @@ class _ClassPlansScreenAulasState extends State<TeamsAulasScreen> {
                                                 : defaultPadding,
                                           ),
                                           child: TeamItem(
-                                              team:
-                                                  Provider.of<TeacherProvider>(
-                                                          context)
-                                                      .teams[index]),
+                                            team: Provider.of<TeacherProvider>(
+                                                    context)
+                                                .teacher
+                                                .teams[index],
+                                          ),
                                         );
                                       },
                                     ),

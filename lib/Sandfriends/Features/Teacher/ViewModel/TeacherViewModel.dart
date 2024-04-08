@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sandfriends/Common/Model/Teacher.dart';
+import 'package:sandfriends/Common/Model/Classes/Teacher/Teacher.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 
 class TeacherViewModel extends StandardScreenViewModel {

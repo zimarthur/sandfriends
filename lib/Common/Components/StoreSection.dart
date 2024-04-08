@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Components/SFAvatarStore.dart';
 import 'package:sandfriends/Common/Utils/Heros.dart';
 
 import '../../Common/Providers/Environment/EnvironmentProvider.dart';
@@ -50,34 +51,13 @@ class _StoreSectionState extends State<StoreSection> {
               child: Row(
                 children: [
                   Hero(
-                    tag: heroStorePhoto,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16.0),
-                      child: CachedNetworkImage(
-                        imageUrl: Provider.of<EnvironmentProvider>(context,
-                                listen: false)
-                            .urlBuilder(widget.court.store!.logo!,
-                                isImage: true),
+                      tag: heroStorePhoto,
+                      child: SFAvatarStore(
                         height: layoutHeight * 0.65,
-                        width: layoutHeight * 0.65,
-                        placeholder: (context, url) => SizedBox(
-                          height: layoutHeight * 0.65,
-                          width: layoutHeight * 0.65,
-                          child: Center(
-                            child: SFLoading(),
-                          ),
-                        ),
-                        errorWidget: (context, url, error) => Container(
-                          color: textLightGrey.withOpacity(0.5),
-                          height: layoutHeight * 0.65,
-                          width: layoutHeight * 0.65,
-                          child: const Center(
-                            child: Icon(Icons.dangerous),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                        storeName: widget.court.store!.name,
+                        storePhoto: widget.court.store!.logo,
+                        enableShadow: true,
+                      )),
                   Padding(
                     padding: EdgeInsets.only(
                       right: defaultPadding,

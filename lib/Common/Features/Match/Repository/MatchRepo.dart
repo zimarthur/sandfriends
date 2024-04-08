@@ -139,6 +139,24 @@ class MatchRepo {
     return response;
   }
 
+  Future<NetworkResponse> joinClass(
+    BuildContext context,
+    String accessToken,
+    int idMatch,
+  ) async {
+    NetworkResponse response = await _apiService.postResponse(
+      context,
+      ApiEndPoints.joinClass,
+      jsonEncode(
+        <String, Object>{
+          "AccessToken": accessToken,
+          "IdMatch": idMatch,
+        },
+      ),
+    );
+    return response;
+  }
+
   Future<NetworkResponse> saveOpenMatch(
     BuildContext context,
     String accessToken,

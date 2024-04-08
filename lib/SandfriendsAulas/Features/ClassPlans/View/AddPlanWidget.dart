@@ -140,6 +140,7 @@ class _AddPlanWidgetState extends State<AddPlanWidget> {
                                   pourpose: TextFieldPourpose.Numeric,
                                   controller: widget.viewModel.priceController,
                                   sufixText: " /aula",
+                                  prefixText: r"R$",
                                   textAlign: TextAlign.center,
                                   validator: (a) {},
                                 ),

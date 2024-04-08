@@ -92,7 +92,7 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
       recurrentMatchSearchRepo
           .searchRecurrentCourts(
         context,
-        Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+        Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
         selectedSport.idSport,
         cityFilter!.cityId,
         datesFilter.join(";"),

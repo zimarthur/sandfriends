@@ -5,8 +5,11 @@ import 'package:sandfriends/Common/Components/SFAvatarStore.dart';
 import 'package:sandfriends/Common/Model/AppRecurrentMatch/AppRecurrentMatch.dart';
 import 'package:sandfriends/Common/Model/AppRecurrentMatch/AppRecurrentMatchUser.dart';
 import 'package:sandfriends/Common/Utils/SFDateTime.dart';
+import 'package:sandfriends/Sandfriends/Features/Home/View/Classes/View/ClassesWidget.dart';
 import 'package:sandfriends/Sandfriends/Providers/TeacherProvider/TeacherProvider.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/Classes/Model/EnumClassView.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/Classes/View/ClassItem.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/Classes/View/RecurrentClassesWidget.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/Classes/View/WeekdayRowSelector.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/Home/ViewModel/HomeScreenViewModel.dart';
 import 'package:sandfriends/SandfriendsAulas/Providers/MenuProviderAulas.dart';
@@ -22,6 +25,7 @@ import '../../../../Sandfriends/Providers/UserProvider/UserProvider.dart';
 import '../../../../SandfriendsQuadras/Features/Home/View/Mobile/KPI.dart';
 import '../../Menu/SFDrawerAulas.dart';
 import '../ViewModel/ClassesScreenViewModel.dart';
+import 'ClassesWidget.dart';
 
 class ClassesScreenAulas extends StatefulWidget {
   const ClassesScreenAulas({super.key});
@@ -32,6 +36,10 @@ class ClassesScreenAulas extends StatefulWidget {
 
 class _ClassesScreenAulasState extends State<ClassesScreenAulas> {
   final viewModel = ClassesScreenAulasViewModel();
+  List<ClassView> availableClassViews = [
+    ClassView.Classes,
+    ClassView.RecurrentClasses
+  ];
 
   @override
   void initState() {
@@ -58,8 +66,7 @@ class _ClassesScreenAulasState extends State<ClassesScreenAulas> {
                 viewModel: viewModel,
               ),
               child: PlusButtonOverlay(
-                onTap: () =>
-                    Navigator.pushNamed(context, "/recurrent_match_search"),
+                onTap: () => viewModel.onAddClass(context),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -76,7 +83,7 @@ class _ClassesScreenAulasState extends State<ClassesScreenAulas> {
                       ),
                       child: Container(
                         margin: EdgeInsets.symmetric(
-                            horizontal: defaultPadding / 2),
+                            horizontal: defaultPadding / 4),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(
                             defaultBorderRadius,
@@ -180,13 +187,56 @@ class _ClassesScreenAulasState extends State<ClassesScreenAulas> {
                       height: defaultPadding,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: defaultPadding),
-                      child: SectionTitleText(title: "Aulas fixas"),
-                    ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: defaultPadding / 2),
+                        child: PopupMenuButton(
+                          surfaceTintColor: secondaryPaper,
+                          onSelected: (newClassView) =>
+                              viewModel.onChangedClassView(newClassView),
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry>[
+                            for (var classView in availableClassViews)
+                              PopupMenuItem(
+                                value: classView,
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      "assets/icon/${classView == ClassView.Classes ? 'calendar' : 'recurrent_clock'}.svg",
+                                      color: textDarkGrey,
+                                      width: 20,
+                                    ),
+                                    SizedBox(
+                                      width: defaultPadding / 2,
+                                    ),
+                                    Text(
+                                      classView.title,
+                                      style: TextStyle(
+                                        color: textDarkGrey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                          ],
+                          child: Row(
+                            children: [
+                              SectionTitleText(
+                                title: viewModel.classView.title,
+                              ),
+                              SizedBox(
+                                width: defaultPadding / 2,
+                              ),
+                              SvgPicture.asset(
+                                r"assets/icon/chevron_down.svg",
+                                color: textDarkGrey,
+                                height: 15,
+                              ),
+                            ],
+                          ),
+                        )),
                     Expanded(
                       child: Container(
-                        margin: EdgeInsets.all(defaultPadding),
+                        margin: EdgeInsets.all(defaultPadding / 4),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(
                             defaultBorderRadius,
@@ -201,56 +251,19 @@ class _ClassesScreenAulasState extends State<ClassesScreenAulas> {
                             SizedBox(
                               height: defaultPadding,
                             ),
-                            WeekdayRowSelector(
-                              currentWeekday: viewModel.currentWeekday,
-                              onSelectedWeekday: (newWeekday) =>
-                                  viewModel.onUpdateWeekday(
-                                newWeekday,
-                              ),
-                            ),
                             Expanded(
-                              child: Builder(builder: (context) {
-                                List<AppRecurrentMatchUser>
-                                    recurrentMatchesForWeekday =
-                                    Provider.of<TeacherProvider>(context)
-                                        .recurrentMatches
-                                        .where((recMatch) =>
-                                            recMatch.weekday ==
-                                            viewModel.currentWeekday)
-                                        .toList();
-                                return recurrentMatchesForWeekday.isEmpty
-                                    ? Center(
-                                        child: Text(
-                                          "Nenhuma aula nessa dia",
-                                          style: TextStyle(
-                                            color: textDarkGrey,
-                                          ),
-                                        ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: defaultPadding / 2,
+                                ),
+                                child: viewModel.classView == ClassView.Classes
+                                    ? ClassesWidgetTeacher(
+                                        viewModel: viewModel,
                                       )
-                                    : ListView.builder(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: defaultPadding / 2),
-                                        itemCount:
-                                            recurrentMatchesForWeekday.length,
-                                        itemBuilder: (context, index) {
-                                          return Padding(
-                                            padding: EdgeInsets.only(
-                                              bottom: index ==
-                                                      (recurrentMatchesForWeekday
-                                                              .length -
-                                                          1)
-                                                  ? 60
-                                                  : defaultPadding,
-                                            ),
-                                            child: ClassItem(
-                                              recMatch:
-                                                  recurrentMatchesForWeekday[
-                                                      index],
-                                            ),
-                                          );
-                                        },
-                                      );
-                              }),
+                                    : RecurrenClassesWidget(
+                                        viewModel: viewModel,
+                                      ),
+                              ),
                             ),
                           ],
                         ),

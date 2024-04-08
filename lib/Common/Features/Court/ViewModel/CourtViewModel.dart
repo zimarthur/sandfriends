@@ -18,6 +18,7 @@ import 'package:tuple/tuple.dart';
 import '../../../../Sandfriends/Features/Authentication/LoadLogin/Repository/LoadLoginRepo.dart';
 import '../../../../Sandfriends/Features/Home/Repository/HomeRepo.dart';
 import '../../../../Sandfriends/Features/Onboarding/View/OnboardingModal.dart';
+import '../../../../Sandfriends/Providers/TeacherProvider/TeacherProvider.dart';
 import '../../../Managers/LocalStorage/LocalStorageManager.dart';
 import '../../../Model/AppMatch/AppMatchUser.dart';
 import '../../../../Remote/NetworkResponse.dart';
@@ -26,6 +27,7 @@ import '../../../Model/Court.dart';
 import '../../../Model/Hour.dart';
 import '../../../Model/Sport.dart';
 import '../../../Model/User/UserComplete.dart';
+import '../../../Model/User/UserStore.dart';
 import '../../../Providers/Categories/CategoriesProvider.dart';
 import '../../../../Sandfriends/Providers/UserProvider/UserProvider.dart';
 import '../../../Components/Modal/SFModalMessage.dart';
@@ -179,7 +181,8 @@ class CourtViewModel extends CheckoutViewModel {
         .isInitialized) {
       Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
 
-      String? accessToken = await LocalStorageManager().getAccessToken(context);
+      String? accessToken =
+          Provider.of<EnvironmentProvider>(context, listen: false).accessToken;
 
       loadLoginRepo
           .validateLogin(
@@ -210,7 +213,13 @@ class CourtViewModel extends CheckoutViewModel {
               responseUser,
             );
             Provider.of<UserProvider>(context, listen: false).user = loggedUser;
-
+            if (Provider.of<EnvironmentProvider>(context, listen: false)
+                .environment
+                .isSandfriendsAulas) {
+              Provider.of<TeacherProvider>(context, listen: false)
+                  .teacher
+                  .user = UserStore.fromUserComplete(loggedUser);
+            }
             if (loggedUser.firstName == null) {
               Provider.of<StandardScreenViewModel>(context, listen: false)
                   .removeLastOverlay();
@@ -350,7 +359,7 @@ class CourtViewModel extends CheckoutViewModel {
     homeRepo
         .getUserInfo(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       null,
     )
         .then((response) {
@@ -409,7 +418,7 @@ class CourtViewModel extends CheckoutViewModel {
     matchSearchRepo
         .searchCourts(
       context,
-      Provider.of<UserProvider>(context, listen: false).user?.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       selectedSport!.idSport,
       store!.city.cityId,
       selectedDate!,
@@ -455,7 +464,7 @@ class CourtViewModel extends CheckoutViewModel {
     recurrentMatchSearchRepo
         .searchRecurrentCourts(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       selectedSport!.idSport,
       store!.city.cityId,
       selectedWeekday.toString(),

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends/Common/Model/School/SchoolTeacher.dart';
+import 'package:sandfriends/Common/Model/Classes/TeacherSchool/TeacherSchool.dart';
 
 import '../../../../Common/Components/SFAvatarStore.dart';
+import '../../../../Common/Model/Classes/TeacherSchool/TeacherSchoolUser.dart';
 import '../../../../Common/Utils/Constants.dart';
 
 class PartnerSchoolItem extends StatelessWidget {
-  SchoolTeacher school;
-  Function(SchoolTeacher) onInviteResponse;
+  TeacherSchoolUser teacherSchool;
+  Function(TeacherSchoolUser) onInviteResponse;
   PartnerSchoolItem({
-    required this.school,
+    required this.teacherSchool,
     required this.onInviteResponse,
     super.key,
   });
@@ -18,13 +19,13 @@ class PartnerSchoolItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (school.teacherInformation.waitingApproval) {
-          onInviteResponse(school);
+        if (teacherSchool.waitingApproval) {
+          onInviteResponse(teacherSchool);
         }
       },
       child: Column(
         children: [
-          if (school.teacherInformation.waitingApproval)
+          if (teacherSchool.waitingApproval)
             Container(
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -53,7 +54,7 @@ class PartnerSchoolItem extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      "${school.name} enviou um convite",
+                      "${teacherSchool.school.name} enviou um convite",
                       style: TextStyle(
                         color: textWhite,
                       ),
@@ -64,7 +65,7 @@ class PartnerSchoolItem extends StatelessWidget {
             ),
           Container(
             decoration: BoxDecoration(
-              borderRadius: school.teacherInformation.waitingApproval
+              borderRadius: teacherSchool.waitingApproval
                   ? BorderRadius.only(
                       bottomLeft: Radius.circular(
                         defaultBorderRadius,
@@ -77,10 +78,10 @@ class PartnerSchoolItem extends StatelessWidget {
                       defaultBorderRadius,
                     ),
               border: Border.all(
-                color: school.teacherInformation.waitingApproval
+                color: teacherSchool.waitingApproval
                     ? primaryLightBlue
                     : primaryBlue,
-                width: school.teacherInformation.waitingApproval ? 2 : 1,
+                width: teacherSchool.waitingApproval ? 2 : 1,
               ),
             ),
             margin: EdgeInsets.only(
@@ -93,8 +94,8 @@ class PartnerSchoolItem extends StatelessWidget {
               children: [
                 SFAvatarStore(
                   height: 80,
-                  storeName: school.name,
-                  storePhoto: school.logo,
+                  storeName: teacherSchool.school.name,
+                  storePhoto: teacherSchool.school.logo,
                 ),
                 SizedBox(
                   width: defaultPadding / 2,
@@ -105,7 +106,7 @@ class PartnerSchoolItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      school.name,
+                      teacherSchool.school.name,
                       style: TextStyle(
                         color: primaryBlue,
                         fontWeight: FontWeight.bold,
@@ -115,14 +116,14 @@ class PartnerSchoolItem extends StatelessWidget {
                     Row(
                       children: [
                         SvgPicture.asset(
-                          school.sport.iconLocation,
+                          teacherSchool.school.sport.iconLocation,
                           height: 15,
                         ),
                         SizedBox(
                           width: defaultPadding / 2,
                         ),
                         Text(
-                          school.sport.description,
+                          teacherSchool.school.sport.description,
                           style: TextStyle(
                               color: textDarkGrey, fontWeight: FontWeight.w300),
                         ),
@@ -139,7 +140,7 @@ class PartnerSchoolItem extends StatelessWidget {
                           width: defaultPadding / 2,
                         ),
                         Text(
-                          school.sport.description,
+                          teacherSchool.school.store.name,
                           style: TextStyle(
                               color: textDarkGrey, fontWeight: FontWeight.w300),
                         ),

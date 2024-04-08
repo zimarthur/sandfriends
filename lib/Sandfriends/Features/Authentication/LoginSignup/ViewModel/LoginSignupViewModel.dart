@@ -36,8 +36,8 @@ class LoginSignupViewModel extends ChangeNotifier {
       Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
       String fullName = credential.familyName ?? "";
       String email = credential.email ?? "";
-      Provider.of<UserProvider>(context, listen: false).user = UserComplete(
-          email: email, accessToken: "", firstName: fullName, lastName: "");
+      Provider.of<UserProvider>(context, listen: false).user =
+          UserComplete(email: email, firstName: fullName, lastName: "");
 
       validateGoogleLogin(context, email, credential.userIdentifier);
     } catch (e) {
@@ -81,10 +81,10 @@ class LoginSignupViewModel extends ChangeNotifier {
           if (firstName != "") {
             Provider.of<UserProvider>(context, listen: false).user =
                 UserComplete(
-                    email: user.email,
-                    accessToken: "",
-                    firstName: firstName,
-                    lastName: lastName);
+              email: user.email,
+              firstName: firstName,
+              lastName: lastName,
+            );
           }
 
           validateGoogleLogin(context, user.email, null);

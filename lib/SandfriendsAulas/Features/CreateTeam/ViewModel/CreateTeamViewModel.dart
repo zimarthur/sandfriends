@@ -11,6 +11,7 @@ import 'package:sandfriends/Remote/NetworkResponse.dart';
 
 import '../../../../Common/Model/Rank.dart';
 import '../../../../Common/Model/Team.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Sandfriends/Providers/TeacherProvider/TeacherProvider.dart';
 import '../../../../Sandfriends/Providers/UserProvider/UserProvider.dart';
 import '../Repo/CreateTeamRepo.dart';
@@ -24,20 +25,49 @@ class CreateTeamViewModel extends StandardScreenViewModel {
   late Team newTeam;
 
   void initCreateTeamViewModel(BuildContext context) {
+    hasClassPlansSet(context);
+    Sport sport = Provider.of<UserProvider>(context, listen: false)
+        .user!
+        .preferenceSport!;
     newTeam = Team(
       idTeam: null,
-      teacher: Provider.of<UserProvider>(context, listen: false).user!,
       name: "",
       description: "",
       creationDate: DateTime.now(),
-      sport: Provider.of<UserProvider>(context, listen: false)
-          .user!
-          .preferenceSport!,
+      sport: sport,
       gender:
           Provider.of<CategoriesProvider>(context, listen: false).genders.first,
-      rank: null,
+      rank: Provider.of<CategoriesProvider>(context, listen: false)
+          .ranks
+          .where((rank) => rank.sport == sport)
+          .toList()
+          .firstWhere((rank) => rank.isNeutralRank),
     );
     notifyListeners();
+  }
+
+  bool hasClassPlansSet(BuildContext context) {
+    if (Provider.of<TeacherProvider>(context, listen: false)
+            .teacher
+            .hasSetMinClassPlans ==
+        false) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        Provider.of<StandardScreenViewModel>(context, listen: false)
+            .addModalMessage(
+          SFModalMessage(
+            title:
+                "Você precisa cadastrar seus planos de aula antes de criar uma turma",
+            buttonText: "Ver planos de aula",
+            onTap: () {
+              Navigator.pushNamed(context, "/class_plans");
+            },
+            isHappy: false,
+          ),
+        );
+      });
+      return false;
+    }
+    return true;
   }
 
   String get maxSizeDescriptionText => "${newTeam.description.length}/255";
@@ -47,6 +77,9 @@ class CreateTeamViewModel extends StandardScreenViewModel {
   }
 
   void onCreateTeam(BuildContext context) {
+    if (hasClassPlansSet(context) == false) {
+      return;
+    }
     String? errorString;
     if (nameController.text.isEmpty) {
       errorString = "Digite o nome da turma";
@@ -74,7 +107,7 @@ class CreateTeamViewModel extends StandardScreenViewModel {
     createTeamRepo
         .addTeam(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       newTeam,
     )
         .then((response) {

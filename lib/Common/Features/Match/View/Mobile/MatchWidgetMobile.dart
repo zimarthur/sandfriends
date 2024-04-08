@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sandfriends/Common/Features/Match/View/Mobile/ClassSection.dart';
 import 'package:sandfriends/Common/Features/Match/View/Mobile/ActionsSection.dart';
 import 'package:sandfriends/Common/Features/Match/View/Mobile/CreatorNotesSection.dart';
 import 'package:sandfriends/Common/Features/Match/View/Mobile/InformationSection.dart';
@@ -38,7 +39,12 @@ class _MatchWidgetState extends State<MatchWidgetMobile> {
           horizontal: defaultPadding / 2,
         ),
         child: ListView(
+          padding: EdgeInsets.zero,
           children: [
+            if (widget.viewModel.isClass)
+              ClassSection(
+                viewModel: widget.viewModel,
+              ),
             SizedBox(
               height: height * 0.2,
               child: StoreSection(

@@ -10,12 +10,15 @@ class UserDetailsRepo {
   final _apiService = NetworkApiService();
 
   Future<NetworkResponse> updateUserInfo(
-      BuildContext context, UserComplete user) async {
+    BuildContext context,
+    UserComplete user,
+    String accesToken,
+  ) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
       ApiEndPoints.updateUserInfo,
       jsonEncode(
-        user.toJson(),
+        user.toJson(accesToken),
       ),
     );
     return response;

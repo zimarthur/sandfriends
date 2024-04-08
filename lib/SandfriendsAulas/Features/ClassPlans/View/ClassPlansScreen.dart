@@ -64,11 +64,13 @@ class _ClassPlansScreenAulasState extends State<ClassPlansScreenAulas> {
                         horizontal: defaultPadding,
                       ),
                       child: Provider.of<TeacherProvider>(context)
+                                  .teacher
                                   .classPlans
                                   .isEmpty &&
                               viewModel.currentPlan == null
                           ? NoPlansRegistered(
-                              onRegisterPlans: () => viewModel.setCurrentPlan(),
+                              onRegisterPlans: () =>
+                                  viewModel.setCurrentPlan(context),
                             )
                           : ClassPlansWidget(
                               viewModel: viewModel,

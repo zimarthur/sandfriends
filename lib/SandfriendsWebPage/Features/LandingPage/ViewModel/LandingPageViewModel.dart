@@ -32,7 +32,8 @@ class LandingPageViewModel extends MatchSearchViewModel {
     }
     Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
 
-    String? accessToken = await LocalStorageManager().getAccessToken(context);
+    String? accessToken =
+        Provider.of<EnvironmentProvider>(context, listen: false).accessToken;
 
     loadLoginRepo
         .validateLogin(
@@ -95,7 +96,7 @@ class LandingPageViewModel extends MatchSearchViewModel {
     homeRepo
         .getUserInfo(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       null,
     )
         .then((response) {

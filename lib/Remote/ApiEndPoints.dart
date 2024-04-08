@@ -43,6 +43,7 @@ class ApiEndPoints {
   static const String cancelMatchUser = "/CancelMatch";
   static const String leaveMatch = "/LeaveMatch";
   static const String joinMatch = "/JoinMatch";
+  static const String joinClass = "/JoinClass";
   static const String saveOpenMatch = "/SaveOpenMatch";
 
   static const getUserRewards = "/UserRewardsHistory";
@@ -62,6 +63,8 @@ class ApiEndPoints {
   static const String sendMemberResponse = "/SendMemberResponse";
 
   static const String schoolInvitationResponse = "/SchoolInvitationResponse";
+
+  static const String searchClasses = "/SearchClasses";
 
   //SANDFRIENDS QUADRAS
   //login

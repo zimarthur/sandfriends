@@ -45,6 +45,7 @@ class CheckoutViewModel extends ChangeNotifier {
   late bool isRenovating;
   List<DateTime> matchDates = [];
 
+  bool isTeacher = false;
   Team? selectedTeam;
 
   CouponUser? appliedCoupon;
@@ -99,6 +100,10 @@ class CheckoutViewModel extends ChangeNotifier {
     return matchDates.length * matchPrice;
   }
 
+  bool get canMakeReservation =>
+      selectedPayment != SelectedPayment.NotSelected &&
+      (!isTeacher || (isTeacher && selectedTeam != null));
+
   void initCheckoutScreen(
     BuildContext context,
     Court receivedCourt,
@@ -113,7 +118,9 @@ class CheckoutViewModel extends ChangeNotifier {
       cpfController.text =
           Provider.of<UserProvider>(context, listen: false).user!.cpf!;
     }
-
+    isTeacher = Provider.of<EnvironmentProvider>(context, listen: false)
+        .environment
+        .isSandfriendsAulas;
     availableHours =
         Provider.of<CategoriesProvider>(context, listen: false).hours;
     court = receivedCourt;
@@ -127,7 +134,7 @@ class CheckoutViewModel extends ChangeNotifier {
       checkoutRepo
           .recurrentMonthAvailableHours(
         context,
-        Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+        Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
         weekday,
         startingHour.hour,
         endingHour.hour,
@@ -231,7 +238,7 @@ class CheckoutViewModel extends ChangeNotifier {
   }
 
   void validateReservation(BuildContext context) {
-    if (selectedPayment != SelectedPayment.NotSelected) {
+    if (canMakeReservation) {
       String? validationCpf = cpfValidator(cpfController.text, null);
       String? validationCvv = validateCVV(cvvController.text);
       if (selectedPayment == SelectedPayment.Pix && validationCpf != null) {
@@ -262,7 +269,8 @@ class CheckoutViewModel extends ChangeNotifier {
       }
     } else {
       scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
+        scrollController.position.maxScrollExtent /
+            (selectedTeam == null && isTeacher ? 2 : 1),
         duration: Duration(milliseconds: 300),
         curve: Curves.easeOut,
       );
@@ -283,7 +291,7 @@ class CheckoutViewModel extends ChangeNotifier {
     checkoutRepo
         .matchReservation(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       court.idStoreCourt!,
       sport.idSport,
       date,
@@ -339,7 +347,7 @@ class CheckoutViewModel extends ChangeNotifier {
     checkoutRepo
         .recurrentMatchReservation(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       court.idStoreCourt!,
       sport.idSport,
       weekday,

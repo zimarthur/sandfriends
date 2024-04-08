@@ -9,6 +9,7 @@ import '../../../../Common/Model/Gender.dart';
 import '../../../../Common/Model/Sport.dart';
 import '../../../../Common/Model/User/UserStore.dart';
 import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
@@ -187,7 +188,7 @@ class PlayersViewModel extends ChangeNotifier {
     playersRepo
         .addPlayer(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       player,
     )
         .then((response) {
@@ -226,7 +227,7 @@ class PlayersViewModel extends ChangeNotifier {
     playersRepo
         .editPlayer(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       player,
     )
         .then((response) {
@@ -265,7 +266,7 @@ class PlayersViewModel extends ChangeNotifier {
     playersRepo
         .deleteStorePlayer(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       player.id!,
     )
         .then((response) {

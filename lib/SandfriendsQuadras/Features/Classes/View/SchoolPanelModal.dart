@@ -5,6 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Components/SFAvatarStore.dart';
 import 'package:sandfriends/Common/Components/SFAvatarUser.dart';
+import 'package:sandfriends/Common/Model/Classes/School/SchoolStore.dart';
+import 'package:sandfriends/Common/Model/Classes/Teacher/TeacherStore.dart';
 import 'package:sandfriends/Common/Model/CreditCard/CreditCard.dart';
 import 'package:sandfriends/Common/Model/CreditCard/CreditCardValidator.dart';
 import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
@@ -14,14 +16,14 @@ import 'package:sandfriends/Common/Utils/Validators.dart';
 import '../../../../../Common/Components/SFButton.dart';
 import '../../../../../../Common/Components/SFTextField.dart';
 import '../../../../Common/Components/CreditCard/CreditCardCard.dart';
-import '../../../../Common/Model/School/School.dart';
-import '../../../../Common/Model/Teacher.dart';
+import '../../../../Common/Model/Classes/School/School.dart';
+import '../../../../Common/Model/Classes/Teacher/Teacher.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../../../../Common/Utils/SFImage.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
 
 class SchoolPanelModal extends StatefulWidget {
-  School school;
+  SchoolStore school;
   VoidCallback onReturn;
   VoidCallback onAddTeacher;
 
@@ -201,7 +203,7 @@ class _SchoolPanelModalState extends State<SchoolPanelModal> {
                   child: ListView.builder(
                       itemCount: school.teachers.length,
                       itemBuilder: (context, index) {
-                        Teacher teacher = school.teachers[index];
+                        TeacherStore teacher = school.teachers[index];
                         return SizedBox(
                           height: 70,
                           child: Stack(
@@ -229,19 +231,19 @@ class _SchoolPanelModalState extends State<SchoolPanelModal> {
                                               color: primaryBlue,
                                             ),
                                           ),
-                                          if (teacher.entryDate != null)
-                                            Text(
-                                              "desde ${teacher.entryDate!.formatWrittenMonthYear()}",
-                                              style: TextStyle(
-                                                color: textDarkGrey,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                            ),
+                                          //ARRUMAif (teacher.entryDate != null)
+                                          // Text(
+                                          //   "desde ${teacher.entryDate!.formatWrittenMonthYear()}",
+                                          //   style: TextStyle(
+                                          //     color: textDarkGrey,
+                                          //     fontSize: 12,
+                                          //     fontWeight: FontWeight.w300,
+                                          //   ),
+                                          // ),
                                         ],
                                       ),
                                     ),
-                                    if (teacher.waitingApproval)
+                                    if (teacher.teacherSchool.waitingApproval)
                                       Container(
                                         decoration: BoxDecoration(
                                           color: secondaryYellowDark50,

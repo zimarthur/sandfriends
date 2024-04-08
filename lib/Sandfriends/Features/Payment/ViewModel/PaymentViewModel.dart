@@ -6,6 +6,7 @@ import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/Payment/Repository/PaymentRepo.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Model/CreditCard/CreditCard.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
@@ -19,7 +20,7 @@ class PaymentViewModel extends ChangeNotifier {
     paymentRepo
         .deleteCreditCard(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       creditCard.idCreditCard,
     )
         .then((response) {

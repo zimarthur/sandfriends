@@ -65,7 +65,8 @@ class LoginViewModel extends ChangeNotifier {
       passwordController.text = "aaaaaaaa";
     }
     Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
-    String? storedToken = await LocalStorageManager().getAccessToken(context);
+    String? storedToken =
+        Provider.of<EnvironmentProvider>(context, listen: false).accessToken;
     if (storedToken != null && storedToken.isNotEmpty) {
       loginRepo.validateToken(context, storedToken).then((response) {
         Provider.of<StandardScreenViewModel>(context, listen: false)

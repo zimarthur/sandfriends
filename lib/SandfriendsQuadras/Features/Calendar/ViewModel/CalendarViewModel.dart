@@ -11,6 +11,7 @@ import '../../../../Common/Model/HourPrice/HourPriceStore.dart';
 import '../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
 import '../../../../Common/Model/TabItem.dart';
 import '../../../../Common/Model/User/UserStore.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import '../../../../Remote/NetworkResponse.dart';
@@ -179,8 +180,8 @@ class CalendarViewModel extends ChangeNotifier {
       calendarRepo
           .updateMatchesList(
               context,
-              Provider.of<StoreProvider>(context, listen: false)
-                  .loggedAccessToken,
+              Provider.of<EnvironmentProvider>(context, listen: false)
+                  .accessToken!,
               newSelectedDay)
           .then((response) {
         Provider.of<StandardScreenViewModel>(context, listen: false)
@@ -749,7 +750,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .blockHour(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       idStoreCourt,
       date,
       hour.hour,
@@ -787,7 +788,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .unblockHour(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       idStoreCourt,
       date,
       hour.hour,
@@ -824,7 +825,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .recurrentBlockHour(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       idStoreCourt,
       selectedWeekday,
       hour.hour,
@@ -856,7 +857,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .recurrentUnblockHour(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       idRecurrentMatch,
     )
         .then((response) {
@@ -884,7 +885,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .cancelMatch(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       idMatch,
       cancelMatchReasonController.text,
     )
@@ -915,7 +916,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .cancelRecurrentMatch(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       idRecurrentMatch,
       cancelRecurrentMatchReasonController.text,
     )
@@ -1103,8 +1104,8 @@ class CalendarViewModel extends ChangeNotifier {
           playersRepo
               .addPlayer(
             context,
-            Provider.of<StoreProvider>(context, listen: false)
-                .loggedAccessToken,
+            Provider.of<EnvironmentProvider>(context, listen: false)
+                .accessToken!,
             player,
           )
               .then((response) {

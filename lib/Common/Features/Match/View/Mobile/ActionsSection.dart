@@ -4,6 +4,7 @@ import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dar
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
 import 'package:uni_links/uni_links.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../../Components/SFButton.dart';
 
@@ -27,16 +28,16 @@ class _ActionSectionState extends State<ActionSection> {
         ? Column(
             children: [
               widget.viewModel.matchExpired == false
-                  ? Provider.of<EnvironmentProvider>(context, listen: false)
-                          .environment
-                          .isSandfriends
+                  ? !kIsWeb
                       ? SFButton(
-                          buttonLabel: "Convidar Jogadores",
+                          buttonLabel:
+                              "Convidar ${widget.viewModel.isClass ? 'Alunos' : 'Jogadores'}",
                           iconPath: r"assets/icon/share.svg",
                           onTap: () => widget.viewModel.shareMatch(context),
                         )
                       : SFButton(
-                          buttonLabel: "Copiar link da partida",
+                          buttonLabel:
+                              "Copiar link da ${widget.viewModel.isClass ? 'aula' : 'partida'}",
                           iconPath: r"assets/icon/copy_to_clipboard.svg",
                           onTap: () =>
                               widget.viewModel.copyMatchUrlClipboard(context),
@@ -49,7 +50,8 @@ class _ActionSectionState extends State<ActionSection> {
               ),
               widget.viewModel.matchExpired == false
                   ? SFButton(
-                      buttonLabel: "Cancelar Partida",
+                      buttonLabel:
+                          "Cancelar ${widget.viewModel.isClass ? 'aula' : 'partida'}",
                       isPrimary: false,
                       color: red,
                       iconPath: r"assets/icon/delete.svg",
@@ -72,7 +74,8 @@ class _ActionSectionState extends State<ActionSection> {
                 children: [
                   widget.viewModel.matchExpired == false
                       ? SFButton(
-                          buttonLabel: "Sair da Partida",
+                          buttonLabel:
+                              "Sair da ${widget.viewModel.isClass ? 'aula' : 'partida'}",
                           isPrimary: false,
                           onTap: () => widget.viewModel.leaveMatch(
                             context,
@@ -89,12 +92,20 @@ class _ActionSectionState extends State<ActionSection> {
             : widget.viewModel.matchExpired == false
                 ? Column(
                     children: [
-                      SFButton(
-                        buttonLabel: "Entrar na Partida",
-                        onTap: () => widget.viewModel.joinMatch(
-                          context,
-                        ),
-                      ),
+                      widget.viewModel.isClass
+                          ? SFButton(
+                              buttonLabel: "Confirmar presença",
+                              onTap: () => widget.viewModel.joinClass(
+                                context,
+                              ),
+                              iconPath: r"assets/icon/check_circle.svg",
+                            )
+                          : SFButton(
+                              buttonLabel: "Entrar na Partida",
+                              onTap: () => widget.viewModel.joinMatch(
+                                context,
+                              ),
+                            ),
                       Padding(
                         padding: EdgeInsets.only(
                           bottom: defaultPadding,

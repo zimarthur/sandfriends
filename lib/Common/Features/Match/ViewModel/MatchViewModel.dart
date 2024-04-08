@@ -64,6 +64,15 @@ class MatchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool get isUserTeacher => isUserMatchCreator && isClass;
+
+  bool _isClass = false;
+  bool get isClass => _isClass;
+  set isClass(bool newValue) {
+    _isClass = newValue;
+    notifyListeners();
+  }
+
   bool _matchExpired = false;
   bool get matchExpired => _matchExpired;
   set matchExpired(bool newValue) {
@@ -116,6 +125,8 @@ class MatchViewModel extends ChangeNotifier {
           responseBody['Match'],
           Provider.of<CategoriesProvider>(context, listen: false).hours,
           Provider.of<CategoriesProvider>(context, listen: false).sports,
+          Provider.of<CategoriesProvider>(context, listen: false).ranks,
+          Provider.of<CategoriesProvider>(context, listen: false).genders,
         );
         final responseUsersMatchCounter = responseBody['UsersMatchCounter'];
 
@@ -157,7 +168,9 @@ class MatchViewModel extends ChangeNotifier {
           referenceMaxUsers = match.maxUsers;
         }
 
-        titleText = "Partida de ${match.matchCreator.firstName}";
+        isClass = match.team != null;
+        titleText =
+            "${isClass ? 'Aula' : 'Partida'} de ${match.matchCreator.firstName}";
         creatorNotesController.text = match.creatorNotes;
 
         if ((match.date.isBefore(DateTime.now())) ||
@@ -206,11 +219,16 @@ class MatchViewModel extends ChangeNotifier {
         ),
       );
     } else {
-      await Share.share(
-          'Entre na minha partida!\n ${Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
+      String link =
+          Provider.of<EnvironmentProvider>(context, listen: false).urlBuilder(
         "/partida/${match.matchUrl}",
         isDeepLink: true,
-      )}');
+      );
+      await Share.share(
+        match.team != null
+            ? 'Confirme sua presença na aula!\n $link'
+            : 'Entre na minha partida!\n $link',
+      );
     }
   }
 
@@ -251,7 +269,7 @@ class MatchViewModel extends ChangeNotifier {
       matchRepo
           .saveCreatorNotes(
         context,
-        loggedUser.accessToken,
+        Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
         match.idMatch,
         creatorNotesController.text,
       )
@@ -293,7 +311,7 @@ class MatchViewModel extends ChangeNotifier {
     matchRepo
         .invitationResponse(
       context,
-      loggedUser.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       match.idMatch,
       id,
       accepted,
@@ -339,7 +357,7 @@ class MatchViewModel extends ChangeNotifier {
     matchRepo
         .removeMatchMember(
           context,
-          loggedUser.accessToken,
+          Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
           match.idMatch,
           id,
         )
@@ -369,7 +387,7 @@ class MatchViewModel extends ChangeNotifier {
     matchRepo
         .cancelMatch(
           context,
-          loggedUser.accessToken,
+          Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
           match.idMatch,
         )
         .then(
@@ -386,7 +404,7 @@ class MatchViewModel extends ChangeNotifier {
     matchRepo
         .leaveMatch(
           context,
-          loggedUser.accessToken,
+          Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
           match.idMatch,
         )
         .then((response) => defaultResponse(response, context));
@@ -420,11 +438,28 @@ class MatchViewModel extends ChangeNotifier {
       matchRepo
           .joinMatch(
             context,
-            loggedUser.accessToken,
+            Provider.of<EnvironmentProvider>(context, listen: false)
+                .accessToken!,
             match.idMatch,
           )
           .then((response) => defaultResponse(response, context));
     }
+  }
+
+  void joinClass(BuildContext context) {
+    Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
+    matchRepo
+        .joinClass(
+          context,
+          Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
+          match.idMatch,
+        )
+        .then(
+          (response) => defaultResponse(
+            response,
+            context,
+          ),
+        );
   }
 
   bool userHasConfiguredRank(BuildContext context) {
@@ -458,7 +493,7 @@ class MatchViewModel extends ChangeNotifier {
       );
     } else {
       if (match.isOpenMatch == true &&
-          match.maxUsers <= match.activeMatchMembers) {
+          match.maxUsers <= match.activeMatchMembers.length) {
         Provider.of<StandardScreenViewModel>(context, listen: false)
             .addModalMessage(
           SFModalMessage(
@@ -473,8 +508,13 @@ class MatchViewModel extends ChangeNotifier {
             .setLoading();
 
         matchRepo
-            .saveOpenMatch(context, loggedUser.accessToken, match.idMatch,
-                match.isOpenMatch, match.maxUsers)
+            .saveOpenMatch(
+                context,
+                Provider.of<EnvironmentProvider>(context, listen: false)
+                    .accessToken!,
+                match.idMatch,
+                match.isOpenMatch,
+                match.maxUsers)
             .then(
               (response) => defaultResponse(
                 response,

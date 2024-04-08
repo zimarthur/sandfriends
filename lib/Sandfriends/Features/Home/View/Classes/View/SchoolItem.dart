@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sandfriends/Common/Model/School/SchoolUser.dart';
+import 'package:sandfriends/Common/Model/Classes/School/SchoolUser.dart';
 
 import '../../../../../../Common/Components/SFAvatarStore.dart';
-import '../../../../../../Common/Model/School/School.dart';
+import '../../../../../../Common/Model/Classes/School/School.dart';
 import '../../../../../../Common/Utils/Constants.dart';
 
 class SchoolItem extends StatelessWidget {

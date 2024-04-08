@@ -9,14 +9,14 @@ import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 
 import '../../../Common/Model/AppMatch/AppMatchUser.dart';
 import '../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchUser.dart';
+import '../../../Common/Model/Classes/Teacher/TeacherUser.dart';
 import '../../../Common/Model/CreditCard/CreditCard.dart';
 import '../../../Common/Model/Reward.dart';
-import '../../../Common/Model/School/School.dart';
-import '../../../Common/Model/School/SchoolStore.dart';
-import '../../../Common/Model/School/SchoolTeacher.dart';
-import '../../../Common/Model/School/SchoolUser.dart';
+import '../../../Common/Model/Classes/School/School.dart';
+import '../../../Common/Model/Classes/School/SchoolStore.dart';
+import '../../../Common/Model/Classes/School/SchoolUser.dart';
 import '../../../Common/Model/Sport.dart';
-import '../../../Common/Model/Teacher.dart';
+import '../../../Common/Model/Classes/Teacher/Teacher.dart';
 import '../../../Common/Model/Team.dart';
 import '../../../Common/Model/TeamMember.dart';
 import '../../../Common/Model/User/UserComplete.dart';
@@ -33,12 +33,54 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Teacher>? availableTeachers;
   List<SchoolUser>? availableSchools;
+  List<TeacherUser>? availableTeachers;
+
   bool get needsToLoadClasses =>
       availableSchools == null || availableTeachers == null;
 
-  void setAvailableTeachers(List<Teacher> teachers) {
+  List<Team>? get userTeams {
+    if (availableTeachers == null) {
+      return null;
+    }
+    List<Team> teams = [];
+    for (var teacher in availableTeachers!) {
+      for (var team in teacher.teams) {
+        if (team.acceptedMembers.any((member) => member.user.id == user!.id)) {
+          teams.add(team);
+        }
+      }
+    }
+    return teams;
+  }
+
+  List<AppMatchUser>? get nextClasses {
+    if (userTeams == null) {
+      return null;
+    }
+    List<AppMatchUser> matches = [];
+
+    for (var team in userTeams!) {
+      for (var match in team.teamNextMatches) {
+        matches.add(match);
+      }
+    }
+    matches.sort(
+      (a, b) {
+        int compare = b.date.compareTo(a.date);
+
+        if (compare == 0) {
+          return b.timeBegin.hour.compareTo(a.timeBegin.hour);
+        } else {
+          return compare;
+        }
+      },
+    );
+
+    return matches;
+  }
+
+  void setAvailableTeachers(List<TeacherUser> teachers) {
     if (availableTeachers != null) {
       availableTeachers!.clear();
     }
@@ -46,7 +88,10 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateTeamMembers(List<TeamMember> members, Team teamUpdated) {
+  void updateTeamMembers(
+    List<TeamMember> members,
+    Team teamUpdated,
+  ) {
     if (availableTeachers == null) {
       return;
     }
@@ -334,6 +379,8 @@ class UserProvider extends ChangeNotifier {
           match,
           Provider.of<CategoriesProvider>(context, listen: false).hours,
           Provider.of<CategoriesProvider>(context, listen: false).sports,
+          Provider.of<CategoriesProvider>(context, listen: false).ranks,
+          Provider.of<CategoriesProvider>(context, listen: false).genders,
         ),
       );
     }
@@ -356,6 +403,8 @@ class UserProvider extends ChangeNotifier {
           openMatch,
           Provider.of<CategoriesProvider>(context, listen: false).hours,
           Provider.of<CategoriesProvider>(context, listen: false).sports,
+          Provider.of<CategoriesProvider>(context, listen: false).ranks,
+          Provider.of<CategoriesProvider>(context, listen: false).genders,
         ),
       );
     }
@@ -370,6 +419,8 @@ class UserProvider extends ChangeNotifier {
           appNotification,
           Provider.of<CategoriesProvider>(context, listen: false).hours,
           Provider.of<CategoriesProvider>(context, listen: false).sports,
+          Provider.of<CategoriesProvider>(context, listen: false).ranks,
+          Provider.of<CategoriesProvider>(context, listen: false).genders,
         ),
       );
     }

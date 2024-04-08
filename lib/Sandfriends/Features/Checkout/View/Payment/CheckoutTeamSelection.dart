@@ -77,7 +77,7 @@ class _CheckoutPaymentState extends State<CheckoutTeamSelection> {
           padding: EdgeInsets.all(
             defaultPadding,
           ),
-          child: Provider.of<TeacherProvider>(context).teams.isEmpty
+          child: Provider.of<TeacherProvider>(context).teacher.teams.isEmpty
               ? Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 2 * defaultPadding),
@@ -106,10 +106,14 @@ class _CheckoutPaymentState extends State<CheckoutTeamSelection> {
                   padding: EdgeInsets.zero,
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: Provider.of<TeacherProvider>(context).teams.length,
+                  itemCount: Provider.of<TeacherProvider>(context)
+                      .teacher
+                      .teams
+                      .length,
                   itemBuilder: (context, index) {
-                    Team team =
-                        Provider.of<TeacherProvider>(context).teams[index];
+                    Team team = Provider.of<TeacherProvider>(context)
+                        .teacher
+                        .teams[index];
                     return GestureDetector(
                       onTap: () => widget.viewModel.onSelectTeam(team),
                       child: Container(

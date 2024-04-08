@@ -8,11 +8,13 @@ import 'package:sandfriends/Common/Model/TeamMember.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/TeamDetails/Repo/TeamRepo.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/TeamDetails/View/TeamDetailsAbout.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/TeamDetails/View/TeamDetailsNextMatches.dart';
 
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Model/TabItem.dart';
 import '../../../../Common/Model/Team.dart';
 import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Remote/NetworkResponse.dart';
 
@@ -27,21 +29,19 @@ class TeamDetailsViewModel extends StandardScreenViewModel {
     Team teamArg,
   ) {
     team = teamArg;
-    isTeacherCreator = team.teacher.id ==
+    isTeacherCreator = team.teacher!.id ==
         Provider.of<UserProvider>(context, listen: false).user!.id;
     tabItems = [
       SFTabItem(
         name: "Sobre",
-        displayWidget: TeamDetailsAbout(
-            // viewModel: this,
-            ),
+        displayWidget: TeamDetailsAbout(),
         onTap: (newTab) {
           setSelectedTab(newTab);
         },
       ),
       SFTabItem(
         name: "Próximas aulas",
-        displayWidget: Container(),
+        displayWidget: TeamDetailsNextMatches(),
         onTap: (newTab) {
           setSelectedTab(newTab);
         },
@@ -67,7 +67,7 @@ class TeamDetailsViewModel extends StandardScreenViewModel {
     teamRepo
         .joinTeam(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       team,
     )
         .then((response) {
@@ -155,7 +155,7 @@ class TeamDetailsViewModel extends StandardScreenViewModel {
     teamRepo
         .sendMemberResponse(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       member,
       accepted,
     )

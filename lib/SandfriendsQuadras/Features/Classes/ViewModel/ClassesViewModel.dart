@@ -15,9 +15,10 @@ import 'package:sandfriends/SandfriendsQuadras/Features/Classes/View/SchoolsWidg
 import 'package:sandfriends/SandfriendsQuadras/Features/Menu/ViewModel/StoreProvider.dart';
 
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
-import '../../../../Common/Model/School/School.dart';
-import '../../../../Common/Model/School/SchoolStore.dart';
+import '../../../../Common/Model/Classes/School/School.dart';
+import '../../../../Common/Model/Classes/School/SchoolStore.dart';
 import '../../../../Common/Model/TabItem.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../Menu/ViewModel/MenuProviderQuadras.dart';
 
 class ClassesViewModel extends ChangeNotifier {
@@ -81,7 +82,7 @@ class ClassesViewModel extends ChangeNotifier {
     classesRepo
         .addSchool(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       newSchool,
       encodedLogo,
     )
@@ -95,7 +96,10 @@ class ClassesViewModel extends ChangeNotifier {
         Provider.of<StoreProvider>(context, listen: false).addSchool(
           SchoolStore.fromJson(
             responseBody["NewSchool"],
+            Provider.of<CategoriesProvider>(context, listen: false).hours,
             Provider.of<CategoriesProvider>(context, listen: false).sports,
+            Provider.of<CategoriesProvider>(context, listen: false).ranks,
+            Provider.of<CategoriesProvider>(context, listen: false).genders,
           ),
         );
         Provider.of<StandardScreenViewModel>(context, listen: false)
@@ -139,7 +143,7 @@ class ClassesViewModel extends ChangeNotifier {
     classesRepo
         .editSchool(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       newSchool,
       encodedLogo,
     )
@@ -152,7 +156,10 @@ class ClassesViewModel extends ChangeNotifier {
         );
         SchoolStore editedSchool = SchoolStore.fromJson(
           responseBody["EditSchool"],
+          Provider.of<CategoriesProvider>(context, listen: false).hours,
           Provider.of<CategoriesProvider>(context, listen: false).sports,
+          Provider.of<CategoriesProvider>(context, listen: false).ranks,
+          Provider.of<CategoriesProvider>(context, listen: false).genders,
         );
 
         Provider.of<StoreProvider>(context, listen: false)
@@ -186,7 +193,7 @@ class ClassesViewModel extends ChangeNotifier {
     });
   }
 
-  void onTapSchool(BuildContext context, School school) {
+  void onTapSchool(BuildContext context, SchoolStore school) {
     Provider.of<StandardScreenViewModel>(context, listen: false)
         .addOverlayWidget(
       SchoolPanelModal(
@@ -227,7 +234,7 @@ class ClassesViewModel extends ChangeNotifier {
     classesRepo
         .addSchoolTeacher(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       school,
       email,
     )
@@ -240,7 +247,10 @@ class ClassesViewModel extends ChangeNotifier {
         );
         SchoolStore editedSchool = SchoolStore.fromJson(
           responseBody["EditSchool"],
+          Provider.of<CategoriesProvider>(context, listen: false).hours,
           Provider.of<CategoriesProvider>(context, listen: false).sports,
+          Provider.of<CategoriesProvider>(context, listen: false).ranks,
+          Provider.of<CategoriesProvider>(context, listen: false).genders,
         );
 
         Provider.of<StoreProvider>(context, listen: false)
@@ -275,5 +285,4 @@ class ClassesViewModel extends ChangeNotifier {
       }
     });
   }
-
 }

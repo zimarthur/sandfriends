@@ -26,6 +26,53 @@ class _ClassPlansWidgetState extends State<ClassPlansWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        if (Provider.of<TeacherProvider>(context).teacher.hasSetMinClassPlans ==
+            false)
+          Container(
+            margin: EdgeInsets.only(top: defaultPadding),
+            decoration: BoxDecoration(
+              color: redBg,
+              borderRadius: BorderRadius.circular(
+                defaultBorderRadius,
+              ),
+              border: Border.all(
+                color: redText,
+              ),
+            ),
+            padding: EdgeInsets.all(defaultPadding / 2),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SvgPicture.asset(
+                  r"assets/icon/attention.svg",
+                  color: redText,
+                  height: 25,
+                ),
+                SizedBox(
+                  width: defaultPadding,
+                ),
+                Expanded(
+                    child: Column(
+                  children: [
+                    Text(
+                      "Seus planos ainda não estão completos",
+                      style: TextStyle(
+                        color: redText,
+                      ),
+                    ),
+                    Text(
+                      "Você precisa ter, pelo menos, um plano avulso nas modalidades individual, em dupla e em grupo",
+                      style: TextStyle(
+                        color: textDarkGrey,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ],
+                ))
+              ],
+            ),
+          ),
         SizedBox(
           height: defaultPadding,
         ),
@@ -42,7 +89,7 @@ class _ClassPlansWidgetState extends State<ClassPlansWidget> {
               title: "Meus planos",
             ),
             InkWell(
-              onTap: () => widget.viewModel.setCurrentPlan(),
+              onTap: () => widget.viewModel.setCurrentPlan(context),
               child: SvgPicture.asset(
                 r"assets/icon/plus_circle.svg",
                 height: 25,
@@ -59,11 +106,14 @@ class _ClassPlansWidgetState extends State<ClassPlansWidget> {
             child: ScrollablePositionedList.builder(
                 itemScrollController: scrollController,
                 padding: EdgeInsets.zero,
-                itemCount:
-                    Provider.of<TeacherProvider>(context).classPlans.length,
+                itemCount: Provider.of<TeacherProvider>(context)
+                    .teacher
+                    .classPlans
+                    .length,
                 itemBuilder: (context, index) {
                   return index >=
                           Provider.of<TeacherProvider>(context)
+                              .teacher
                               .classPlans
                               .length
                       ? Container()
@@ -82,8 +132,10 @@ class _ClassPlansWidgetState extends State<ClassPlansWidget> {
                               );
                             });
                             widget.viewModel.setCurrentPlan(
+                              context,
                               editPlan: Provider.of<TeacherProvider>(context,
                                       listen: false)
+                                  .teacher
                                   .classPlans[index],
                             );
                           },
@@ -91,10 +143,12 @@ class _ClassPlansWidgetState extends State<ClassPlansWidget> {
                             context,
                           ),
                           classPlan: Provider.of<TeacherProvider>(context)
+                              .teacher
                               .classPlans[index],
                           isSelected: widget.viewModel.currentPlan != null &&
                               widget.viewModel.currentPlan!.idClassPlan ==
                                   Provider.of<TeacherProvider>(context)
+                                      .teacher
                                       .classPlans[index]
                                       .idClassPlan,
                         );
