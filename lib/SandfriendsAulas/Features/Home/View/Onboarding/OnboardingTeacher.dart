@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
 import 'package:sandfriends/Sandfriends/Providers/TeacherProvider/TeacherProvider.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
@@ -41,7 +42,8 @@ class _OnboardingTeacherState extends State<OnboardingTeacher> {
         .isEmpty) {
       index = 3;
     }
-    return index == null
+    return index == null ||
+            Provider.of<StandardScreenViewModel>(context).isLoading
         ? Container()
         : Container(
             margin: EdgeInsets.symmetric(
@@ -65,7 +67,7 @@ class _OnboardingTeacherState extends State<OnboardingTeacher> {
                 Row(
                   children: [
                     SvgPicture.asset(
-                      r"assets/icon/check_circle.svg",
+                      r"assets/icon/check_circle_outline.svg",
                       color: blueText,
                       height: 20,
                     ),

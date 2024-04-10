@@ -9,6 +9,7 @@ import 'package:sandfriends/Common/Model/Sport.dart';
 import 'package:sandfriends/Common/Model/User/User.dart';
 import 'package:sandfriends/Common/Model/User/UserComplete.dart';
 import 'package:sandfriends/Common/Model/User/UserStore.dart';
+import 'package:sandfriends/Common/Utils/SFDateTime.dart';
 import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
 
 import 'Hour.dart';
@@ -32,9 +33,11 @@ class Team {
     List<AppMatchUser> nextMatches = [];
     for (var recMatch in recurrentMatches) {
       for (var match in recMatch.nextRecurrentMatches) {
-        nextMatches.add(
-          match,
-        );
+        if (!isHourPast(match.date, match.timeBegin)) {
+          nextMatches.add(
+            match,
+          );
+        }
       }
     }
     return nextMatches;

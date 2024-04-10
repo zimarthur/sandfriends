@@ -17,12 +17,11 @@ class TeacherSchoolStore extends TeacherSchool {
   factory TeacherSchoolStore.fromJson(
     Map<String, dynamic> json,
   ) {
-    Map<String, dynamic> schoolJson = json["StoreSchool"];
     TeacherSchoolStore newSchool = TeacherSchoolStore(
-      idTeacher: schoolJson["IdStoreSchool"],
-      waitingApproval: schoolJson["Name"],
+      idTeacher: json["IdStoreSchoolTeacher"],
+      waitingApproval: json["WaitingApproval"],
       entryDate: DateFormat("dd/MM/yyyy").parse(
-        schoolJson["CreationDate"],
+        json["ResponseDate"],
       ),
     );
 

@@ -57,9 +57,10 @@ class TeacherProvider extends ChangeNotifier {
   }
 
   List<AppMatchUser> get todayMatches {
-    return matches
+    List<AppMatchUser> matchesForToday = matches
         .where((match) => areInTheSameDay(match.date, DateTime.now()))
         .toList();
+    return matchesForToday;
   }
 
   late TeacherUser teacher;
@@ -127,7 +128,6 @@ class TeacherProvider extends ChangeNotifier {
           Provider.of<CategoriesProvider>(context, listen: false).genders,
         );
         notifyListeners();
-        print(teacher);
       }
       Provider.of<StandardScreenViewModel>(context, listen: false)
           .setPageStatusOk();

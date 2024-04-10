@@ -65,7 +65,7 @@ class _PlayerCalendarFilterState extends State<PlayerCalendarFilter> {
                       ),
                       if (drawerItem == widget.selectedPeriod)
                         SvgPicture.asset(
-                          r"assets/icon/check_circle.svg",
+                          r"assets/icon/check_circle_outline.svg",
                           color: primaryBlue,
                         )
                     ],

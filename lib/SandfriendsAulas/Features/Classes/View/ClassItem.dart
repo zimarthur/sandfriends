@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Components/SFAvatarUser.dart';
 import 'package:sandfriends/Common/Model/AppMatch/AppMatchUser.dart';
 import 'package:sandfriends/Common/Model/AppRecurrentMatch/AppRecurrentMatchUser.dart';
@@ -7,6 +8,7 @@ import 'package:sandfriends/Common/Model/Court.dart';
 import 'package:sandfriends/Common/Model/Team.dart';
 import 'package:sandfriends/Common/Model/TeamMember.dart';
 import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
+import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 
 import '../../../../Common/Components/SFAvatarStore.dart';
 import '../../../../Common/Utils/Constants.dart';
@@ -16,17 +18,24 @@ class ClassItem extends StatelessWidget {
   AppMatchUser? match;
   Team team;
   bool showDate;
+  bool showConfirmationStatus;
   ClassItem({
     this.recMatch,
     this.match,
     required this.team,
     this.showDate = false,
+    this.showConfirmationStatus = false,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     Court court = match != null ? match!.court : recMatch!.court;
+    bool isUserInMatch = match == null
+        ? false
+        : match!.classMembers.any((member) =>
+            member.user.id ==
+            Provider.of<UserProvider>(context, listen: false).user!.id);
     return GestureDetector(
       onTap: () {
         if (match != null) {
@@ -51,14 +60,50 @@ class ClassItem extends StatelessWidget {
               padding: const EdgeInsets.all(
                 defaultPadding / 4,
               ),
-              child: Text(
-                match != null && showDate
-                    ? match!.date.formatDate()
-                    : team.name,
-                style: TextStyle(
-                  color: textWhite,
-                ),
-                overflow: TextOverflow.ellipsis,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      match != null && showDate
+                          ? match!.date.formatDate()
+                          : team.name,
+                      style: TextStyle(
+                        color: textWhite,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  if (showConfirmationStatus)
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            defaultBorderRadius,
+                          ),
+                          color: isUserInMatch ? green : red),
+                      padding: EdgeInsets.all(
+                        defaultPadding / 4,
+                      ),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            "assets/icon/${isUserInMatch ? 'check_circle' : 'x_circle'}.svg",
+                            color: textWhite,
+                            height: 15,
+                          ),
+                          SizedBox(
+                            width: defaultPadding / 2,
+                          ),
+                          Text(
+                            isUserInMatch ? "Confirmei!" : "Não confirmei",
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: textWhite,
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                ],
               ),
             ),
             Container(
@@ -68,7 +113,7 @@ class ClassItem extends StatelessWidget {
                   defaultBorderRadius,
                 ),
               ),
-              height: 110,
+              height: 115,
               padding: EdgeInsets.symmetric(
                 vertical: defaultPadding / 2,
                 horizontal: defaultPadding / 4,
@@ -104,30 +149,62 @@ class ClassItem extends StatelessWidget {
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    team.sport.description,
-                                    style: TextStyle(
-                                      color: textLightGrey,
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                  if (team.rank != null)
-                                    Text(
-                                      team.rank!.name,
-                                      style: TextStyle(
-                                        color: textLightGrey,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  Text(
-                                    team.gender.name,
-                                    style: TextStyle(
-                                      color: textLightGrey,
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                ],
+                                children: showConfirmationStatus
+                                    ? [
+                                        Text(
+                                          "Prof:",
+                                          style: TextStyle(
+                                            color: textLightGrey,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w300,
+                                          ),
+                                        ),
+                                        Text(
+                                          team.teacher!.firstName!,
+                                          style: TextStyle(
+                                            color: textDarkGrey,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Turma:",
+                                          style: TextStyle(
+                                            color: textLightGrey,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w300,
+                                          ),
+                                        ),
+                                        Text(
+                                          team.name,
+                                          style: TextStyle(
+                                            color: textDarkGrey,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ]
+                                    : [
+                                        Text(
+                                          team.sport.description,
+                                          style: TextStyle(
+                                            color: textLightGrey,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                        Text(
+                                          team.rank.name,
+                                          style: TextStyle(
+                                            color: textLightGrey,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                        Text(
+                                          team.gender.name,
+                                          style: TextStyle(
+                                            color: textLightGrey,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
                               ),
                               SizedBox(
                                 height: defaultPadding / 4,

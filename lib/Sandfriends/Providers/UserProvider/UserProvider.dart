@@ -67,10 +67,10 @@ class UserProvider extends ChangeNotifier {
     }
     matches.sort(
       (a, b) {
-        int compare = b.date.compareTo(a.date);
+        int compare = a.date.compareTo(b.date);
 
         if (compare == 0) {
-          return b.timeBegin.hour.compareTo(a.timeBegin.hour);
+          return a.timeBegin.hour.compareTo(b.timeBegin.hour);
         } else {
           return compare;
         }

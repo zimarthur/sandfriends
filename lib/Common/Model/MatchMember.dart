@@ -7,6 +7,9 @@ class MatchMember {
   final bool isMatchCreator;
   final bool refused;
   final bool quit;
+  bool hasPaid;
+
+  double? cost;
 
   MatchMember({
     required this.user,
@@ -15,6 +18,8 @@ class MatchMember {
     required this.isMatchCreator,
     required this.refused,
     required this.quit,
+    required this.hasPaid,
+    required this.cost,
   });
 
   factory MatchMember.fromJson(Map<String, dynamic> json) {
@@ -25,6 +30,8 @@ class MatchMember {
       isMatchCreator: json['IsMatchCreator'],
       refused: json['Refused'],
       quit: json['Quit'] ?? false,
+      hasPaid: json['HasPaid'] ?? false,
+      cost: json["Cost"] != null ? double.parse(json["Cost"]) : null,
     );
   }
 }

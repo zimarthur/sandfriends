@@ -199,7 +199,7 @@ class _MatchHourWidgetState extends State<MatchHourWidget> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SvgPicture.asset(
-                                r"assets/icon/check_circle.svg",
+                                r"assets/icon/check_circle_outline.svg",
                                 color: green,
                               ),
                               if (buttonExpanded)

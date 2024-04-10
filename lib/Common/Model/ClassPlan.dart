@@ -16,6 +16,20 @@ class ClassPlan {
     }
   }
 
+  String get completeDescription {
+    String formatDescription = format == EnumClassFormat.Individual
+        ? "Aula individual"
+        : format == EnumClassFormat.Pair
+            ? "Aula em dupla"
+            : "Aula em grupo";
+    String frequencyDescription = classFrequency == EnumClassFrequency.None
+        ? "Avulso"
+        : classFrequency == EnumClassFrequency.OnceWeek
+            ? "1x na semana"
+            : "2x na semana";
+    return "$formatDescription | $frequencyDescription | ${price.formatPrice()}";
+  }
+
   ClassPlan({
     required this.idClassPlan,
     required this.format,

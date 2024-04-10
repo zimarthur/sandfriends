@@ -31,7 +31,7 @@ class TeacherItem extends StatelessWidget {
           ),
           AutoSizeText(
             teacher.user.firstName!,
-            style: TextStyle(color: textDarkGrey),
+            style: TextStyle(color: textBlue),
             maxLines: 1,
             minFontSize: 10,
             maxFontSize: 14,

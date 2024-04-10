@@ -98,7 +98,7 @@ class _ActionSectionState extends State<ActionSection> {
                               onTap: () => widget.viewModel.joinClass(
                                 context,
                               ),
-                              iconPath: r"assets/icon/check_circle.svg",
+                              iconPath: r"assets/icon/check_circle_outline.svg",
                             )
                           : SFButton(
                               buttonLabel: "Entrar na Partida",

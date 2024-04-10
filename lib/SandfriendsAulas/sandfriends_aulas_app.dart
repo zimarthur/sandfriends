@@ -8,6 +8,8 @@ import 'package:sandfriends/SandfriendsAulas/Features/Classes/View/ClassesScreen
 import 'package:sandfriends/SandfriendsAulas/Features/CreateTeam/View/CreateTeamScreen.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/Home/View/HomeScreen.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/PartnerSchools/View/PartnerSchoolsScreen.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/StudentPaymentDetails/View/StudentPaymentDetailsScreen.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/Students/Model/UserClassPayment.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/Students/View/StudentsScreen.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/TeacherDetails/View/TeacherDetailsScreen.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/TeamDetails/View/TeamDetailsScreen.dart';
@@ -122,6 +124,7 @@ class SandfriendsAulasApp extends GenericApp {
         String checkout = "/checkout";
         String teamDetails = "/turma";
         String match = "/partida";
+        String studentPaymentDetails = "/student_payment_details";
 
         if (settings.name!.startsWith(court)) {
           final storeUrl = settings.name!.split(court)[1];
@@ -182,6 +185,19 @@ class SandfriendsAulasApp extends GenericApp {
               builder: (context) {
                 return TeamDetailsScreen(
                   team: arguments['team'] as Team,
+                );
+              },
+            );
+          }
+        } else if (settings.name! == studentPaymentDetails) {
+          if (settings.arguments != null) {
+            final arguments = settings.arguments as Map;
+
+            return MaterialPageRoute(
+              builder: (context) {
+                return StudentPaymentDetailsScreen(
+                  userClassPayment:
+                      arguments['userClassPayment'] as UserClassPayment,
                 );
               },
             );

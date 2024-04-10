@@ -153,7 +153,7 @@ class _HomeScreenAulasState extends State<HomeScreenAulas> {
                           SizedBox(
                             height: defaultPadding / 2,
                           ),
-                          Provider.of<TeacherProvider>(context, listen: false)
+                          Provider.of<TeacherProvider>(context)
                                   .todayMatches
                                   .isEmpty
                               ? SizedBox(

@@ -107,7 +107,7 @@ class _ClassPlansScreenAulasState extends State<TeamDetailsScreen> {
                                           color: primaryLightBlue,
                                           isPrimary: false,
                                           iconPath: hasUserSentInvitation
-                                              ? r"assets/icon/check_circle.svg"
+                                              ? r"assets/icon/check_circle_outline.svg"
                                               : "",
                                           iconSize: 20,
                                         ),

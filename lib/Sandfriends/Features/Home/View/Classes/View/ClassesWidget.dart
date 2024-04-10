@@ -120,33 +120,38 @@ class _ClassesWidgetState extends State<ClassesWidget> {
                                       ),
                                     ),
                                   )
-                                : SizedBox(
-                                    height: 300,
-                                    width: double.infinity,
-                                    child: ListView.builder(
-                                        itemCount:
-                                            Provider.of<UserProvider>(context)
-                                                .nextClasses!
-                                                .length,
+                                : LayoutBuilder(
+                                    builder:
+                                        (layoutContext, layoutConstraints) {
+                                      return SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,
-                                        shrinkWrap: true,
-                                        itemBuilder: (context, index) {
-                                          return SizedBox(
-                                            width: 300,
-                                            child: Center(
-                                              child: ClassItem(
-                                                team: Provider.of<UserProvider>(
+                                        child: Row(
+                                          children: [
+                                            for (var match
+                                                in Provider.of<UserProvider>(
                                                         context)
-                                                    .nextClasses![index]
-                                                    .team!,
-                                                match:
-                                                    Provider.of<UserProvider>(
-                                                            context)
-                                                        .nextClasses![index],
+                                                    .nextClasses!)
+                                              Container(
+                                                width:
+                                                    layoutConstraints.maxWidth *
+                                                        0.9,
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal:
+                                                        defaultPadding / 2),
+                                                child: Center(
+                                                  child: ClassItem(
+                                                    team: match.team!,
+                                                    match: match,
+                                                    showDate: true,
+                                                    showConfirmationStatus:
+                                                        true,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        }),
+                                          ],
+                                        ),
+                                      );
+                                    },
                                   ),
                         SizedBox(
                           height: defaultPadding,

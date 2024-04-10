@@ -27,6 +27,7 @@ class AppMatchUser extends AppMatch {
   Coupon? coupon;
 
   Team? team;
+  MatchMember? selectedMember;
 
   AppMatchUser({
     required super.idMatch,
@@ -194,5 +195,33 @@ class AppMatchUser extends AppMatch {
     );
     newMatch.members = members;
     return newMatch;
+  }
+
+  factory AppMatchUser.copyWith(AppMatchUser refMatch) {
+    AppMatchUser match = AppMatchUser(
+      idMatch: refMatch.idMatch,
+      date: refMatch.date,
+      cost: refMatch.cost,
+      creatorNotes: refMatch.creatorNotes,
+      idRecurrentMatch: refMatch.idRecurrentMatch,
+      court: refMatch.court,
+      sport: refMatch.sport,
+      timeBegin: refMatch.timeBegin,
+      timeEnd: refMatch.timeEnd,
+      canceled: refMatch.canceled,
+      paymentExpirationDate: refMatch.paymentExpirationDate,
+      paymentStatus: refMatch.paymentStatus,
+      selectedPayment: refMatch.selectedPayment,
+      coupon: refMatch.coupon,
+      isOpenMatch: refMatch.isOpenMatch,
+      matchUrl: refMatch.matchUrl,
+      maxUsers: refMatch.maxUsers,
+      userCost: refMatch.userCost,
+      creditCard: refMatch.creditCard,
+      pixCode: refMatch.pixCode,
+      team: refMatch.team,
+    );
+    match.members = refMatch.members;
+    return match;
   }
 }

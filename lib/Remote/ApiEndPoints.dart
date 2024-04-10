@@ -66,6 +66,8 @@ class ApiEndPoints {
 
   static const String searchClasses = "/SearchClasses";
 
+  static const String updateClassPaymentDetails = "/UpdateClassPaymentDetails";
+
   //SANDFRIENDS QUADRAS
   //login
   static const String loginEmployee = "/EmployeeLogin";

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Components/SFAvatarUser.dart';
+import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
 import 'package:sandfriends/SandfriendsAulas/Features/Home/ViewModel/HomeScreenViewModel.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/Students/Model/UserClassPayment.dart';
+import 'package:sandfriends/SandfriendsAulas/Features/Students/View/StudentPaymentItem.dart';
 import 'package:sandfriends/SandfriendsAulas/Providers/MenuProviderAulas.dart';
 
 import '../../../../Common/Components/HomeHeader.dart';
@@ -99,8 +103,9 @@ class _StudentsScreenAulasState extends State<StudentsScreenAulas> {
                           playerController: viewModel.nameFilterController,
                           onUpdatePlayerFilter: (newPlayer) =>
                               viewModel.filterName(context),
-                          playersQuantity:
-                              "34", // viewModel.players.length.toString(),
+                          playersQuantity: viewModel
+                              .filteredClassPaymentUsers.length
+                              .toString(),
                         ),
                         SizedBox(
                           height: defaultPadding,
@@ -122,6 +127,9 @@ class _StudentsScreenAulasState extends State<StudentsScreenAulas> {
                           child: Container(
                             margin: const EdgeInsets.symmetric(
                                 horizontal: defaultPadding / 2),
+                            padding: EdgeInsets.all(
+                              defaultPadding / 2,
+                            ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(
                                 defaultBorderRadius,
@@ -131,6 +139,18 @@ class _StudentsScreenAulasState extends State<StudentsScreenAulas> {
                                 color: divider,
                               ),
                             ),
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount:
+                                    viewModel.filteredClassPaymentUsers.length,
+                                padding: EdgeInsets.zero,
+                                itemBuilder: (context, index) {
+                                  UserClassPayment userClassPayment = viewModel
+                                      .filteredClassPaymentUsers[index];
+                                  return StudentPaymentItem(
+                                    userClassPayment: userClassPayment,
+                                  );
+                                }),
                           ),
                         ),
                       ],

@@ -39,6 +39,6 @@ extension DateTimeExtension on DateTime {
   }
 
   String formatWrittenMonthYear() {
-    return "${monthsPortuguese[month]}/$year";
+    return "${monthsPortuguese[month - 1]}/$year";
   }
 }
