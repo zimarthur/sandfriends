@@ -15,6 +15,7 @@ import 'package:sandfriends/Common/Utils/Constants.dart';
 import 'package:tuple/tuple.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import '../../../../Common/Managers/Firebase/NotificationsConfig.dart';
 import '../../../../Common/Model/AppMatch/AppMatchUser.dart';
 import '../../../../Common/Model/AppRecurrentMatch/AppRecurrentMatchUser.dart';
 import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
@@ -65,7 +66,9 @@ class HomeViewModel extends StandardScreenViewModel {
     changeTab(context, initialTab);
 
     if (!kIsWeb) {
-      configureNotifications(context).then((notificationCOnfigs) {
+      FirebaseManager()
+          .configureNotifications(context)
+          .then((notificationCOnfigs) {
         getUserInfo(context, notificationCOnfigs);
         notifyListeners();
       });
@@ -74,40 +77,9 @@ class HomeViewModel extends StandardScreenViewModel {
     }
   }
 
-  Future<Tuple2<bool, String?>?> configureNotifications(
-      BuildContext context) async {
-    bool? authorization;
-    String? fcmToken;
-    try {
-      FirebaseManager().getToken();
-      fcmToken = await FirebaseMessaging.instance.getToken();
-      FirebaseMessaging messaging = FirebaseMessaging.instance;
-      print("token is ${fcmToken}");
-      NotificationSettings settings = await messaging.requestPermission(
-        alert: true,
-        announcement: false,
-        badge: true,
-        carPlay: false,
-        criticalAlert: false,
-        provisional: false,
-        sound: true,
-      );
-      authorization =
-          settings.authorizationStatus == AuthorizationStatus.authorized
-              ? true
-              : settings.authorizationStatus == AuthorizationStatus.denied
-                  ? false
-                  : null;
-    } catch (e) {}
-
-    return authorization != null
-        ? Tuple2<bool, String?>(authorization, fcmToken)
-        : null;
-  }
-
   void getUserInfo(
     BuildContext context,
-    Tuple2<bool?, String?>? notificationsConfig,
+    NotificationsConfig? notificationsConfig,
   ) {
     Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
 

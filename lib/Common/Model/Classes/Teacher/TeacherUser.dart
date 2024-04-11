@@ -70,6 +70,7 @@ class TeacherUser extends Teacher {
     TeacherUser newTeacher = TeacherUser(
       user: UserStore.fromUserMinJson(json),
     );
+    print("USER ${newTeacher.user.fullName}");
     if (json["Teams"] != null) {
       for (var team in json["Teams"]) {
         newTeacher.teams.add(

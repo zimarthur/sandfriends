@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sandfriends/Common/Model/Classes/School/SchoolUser.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
 import 'package:sandfriends/Common/Model/Classes/Teacher/Teacher.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/generic_app.dart';
+import 'package:sandfriends/Sandfriends/Features/SchoolDetails/View/SchoolDetailsScreen.dart';
 import 'package:sandfriends/Sandfriends/Features/Teacher/View/TeacherScreen.dart';
 import '../Common/Features/UserMatches/View/UserMatchesScreen.dart';
 import '../Common/Model/City.dart';
@@ -132,6 +134,7 @@ class SandfriendsApp extends GenericApp {
         String searchType = "/search_type";
         String teacher = "/prof";
         String teamDetails = "/turma";
+        String schoolDetails = "/escola";
         if (settings.name! == matchSearch) {
           final arguments = settings.arguments as Map;
 
@@ -266,6 +269,18 @@ class SandfriendsApp extends GenericApp {
               builder: (context) {
                 return TeamDetailsScreen(
                   team: arguments['team'] as Team,
+                );
+              },
+            );
+          }
+        } else if (settings.name! == schoolDetails) {
+          if (settings.arguments != null) {
+            final arguments = settings.arguments as Map;
+
+            return MaterialPageRoute(
+              builder: (context) {
+                return SchoolDetailsScreen(
+                  school: arguments['school'] as SchoolUser,
                 );
               },
             );

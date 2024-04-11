@@ -31,9 +31,11 @@ class TeacherSchoolUser extends TeacherSchool {
     TeacherSchoolUser newSchool = TeacherSchoolUser(
       idTeacher: json["IdStoreSchoolTeacher"],
       waitingApproval: json["WaitingApproval"],
-      entryDate: DateFormat("dd/MM/yyyy").parse(
-        json["ResponseDate"],
-      ),
+      entryDate: json["ResponseDate"] != null
+          ? DateFormat("dd/MM/yyyy").parse(
+              json["ResponseDate"],
+            )
+          : null,
       school: SchoolUser.fromJson(
         schoolJson,
         hours,

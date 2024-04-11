@@ -32,12 +32,31 @@ class _MembersSectionState extends State<MembersSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "${widget.viewModel.isClass ? 'Alunos confirmados' : 'Jogadores'} (${matchMembers.length}${match.isOpenMatch ? '/${widget.viewModel.referenceMaxUsers}' : ''})",
-          style: const TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 18,
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                "${widget.viewModel.isClass ? 'Alunos confirmados' : 'Jogadores'} (${matchMembers.length}${match.isOpenMatch ? '/${widget.viewModel.referenceMaxUsers}' : ''})",
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            if (widget.viewModel.isUserTeacher)
+              GestureDetector(
+                onTap: () => widget.viewModel.openClassMembersEdit(context),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: defaultPadding / 2,
+                  ),
+                  child: SvgPicture.asset(
+                    r"assets/icon/edit.svg",
+                    color: primaryBlue,
+                  ),
+                ),
+              )
+          ],
         ),
         Padding(
           padding: EdgeInsets.symmetric(

@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:sandfriends/Common/Model/Classes/School/School.dart';
+import 'package:sandfriends/Common/Model/Classes/Teacher/TeacherStore.dart';
 import 'package:sandfriends/Common/Model/Classes/Teacher/TeacherUser.dart';
 import 'package:sandfriends/Common/Model/Sport.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
@@ -11,7 +12,7 @@ import '../../Rank.dart';
 
 class SchoolUser extends School {
   StoreUser store;
-  List<TeacherUser> teachers = [];
+  List<TeacherStore> teachers = [];
 
   SchoolUser({
     required super.idSchool,
@@ -44,7 +45,7 @@ class SchoolUser extends School {
     if (json['StoreSchoolTeachers'] != null) {
       for (var teacher in json['StoreSchoolTeachers']) {
         newSchool.teachers.add(
-          TeacherUser.fromJson(
+          TeacherStore.fromJson(
             teacher,
             hours,
             sports,

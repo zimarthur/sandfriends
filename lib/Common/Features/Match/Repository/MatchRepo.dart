@@ -178,4 +178,30 @@ class MatchRepo {
     );
     return response;
   }
+
+  Future<NetworkResponse> updateClassMatchMembers(
+    BuildContext context,
+    String accessToken,
+    int idMatch,
+    List<int> usersToAdd,
+    List<int> usersToRemove,
+  ) async {
+    NetworkResponse response = await _apiService.postResponse(
+      context,
+      ApiEndPoints.updateClassMatchMembers,
+      jsonEncode(
+        <String, Object>{
+          "AccessToken": accessToken,
+          "IdMatch": idMatch,
+          "UsersToAdd": [
+            for (var user in usersToAdd) user,
+          ],
+          "UsersToRemove": [
+            for (var user in usersToRemove) user,
+          ]
+        },
+      ),
+    );
+    return response;
+  }
 }

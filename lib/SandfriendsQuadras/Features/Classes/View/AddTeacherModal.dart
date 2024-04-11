@@ -57,9 +57,12 @@ class _AddTeacherModalState extends State<AddTeacherModal> {
               alignment: Alignment.topRight,
               child: InkWell(
                 onTap: () => widget.onReturn(),
-                child: SvgPicture.asset(
-                  r"assets/icon/x.svg",
-                  color: textDarkGrey,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+                  child: SvgPicture.asset(
+                    r"assets/icon/x.svg",
+                    color: textDarkGrey,
+                  ),
                 ),
               ),
             ),

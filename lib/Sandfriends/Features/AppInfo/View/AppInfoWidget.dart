@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
 import 'package:sandfriends/Sandfriends/Features/AppInfo/ViewModel/AppInfoViewModel.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 
@@ -96,79 +97,84 @@ class AppInfoWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Container(
-                    height: 0.5,
-                    color: divider,
-                    margin: EdgeInsets.symmetric(
-                      vertical: defaultPadding / 2,
+                  if (Provider.of<EnvironmentProvider>(context, listen: false)
+                      .environment
+                      .isSandfriends) ...[
+                    Container(
+                      height: 0.5,
+                      color: divider,
+                      margin: EdgeInsets.symmetric(
+                        vertical: defaultPadding / 2,
+                      ),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: (defaultPadding / 2) + 25,
-                      ),
-                      Text(
-                        "Receber cupons de desconto",
-                        style: TextStyle(color: textDarkGrey, fontSize: 10),
-                      ),
-                      Expanded(
-                        child: Container(),
-                      ),
-                      SizedBox(
-                        height: 35,
-                        child: FittedBox(
-                          fit: BoxFit.fitHeight,
-                          child: Switch(
-                            activeColor: primaryBlue,
-                            value: Provider.of<UserProvider>(context)
-                                .user!
-                                .allowNotificationsCoupons,
-                            onChanged: (isEnable) {
-                              Provider.of<UserProvider>(
-                                context,
-                                listen: false,
-                              ).user!.allowNotificationsCoupons = isEnable;
-                              viewModel.onTapEnableNotifications(context);
-                            },
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: (defaultPadding / 2) + 25,
+                        ),
+                        Text(
+                          "Receber cupons de desconto",
+                          style: TextStyle(color: textDarkGrey, fontSize: 10),
+                        ),
+                        Expanded(
+                          child: Container(),
+                        ),
+                        SizedBox(
+                          height: 35,
+                          child: FittedBox(
+                            fit: BoxFit.fitHeight,
+                            child: Switch(
+                              activeColor: primaryBlue,
+                              value: Provider.of<UserProvider>(context)
+                                  .user!
+                                  .allowNotificationsCoupons,
+                              onChanged: (isEnable) {
+                                Provider.of<UserProvider>(
+                                  context,
+                                  listen: false,
+                                ).user!.allowNotificationsCoupons = isEnable;
+                                viewModel.onTapEnableNotifications(context);
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: (defaultPadding / 2) + 25,
-                      ),
-                      Text(
-                        "Receber novas partida abertas",
-                        style: TextStyle(color: textDarkGrey, fontSize: 10),
-                      ),
-                      Expanded(
-                        child: Container(),
-                      ),
-                      SizedBox(
-                        height: 35,
-                        child: FittedBox(
-                          fit: BoxFit.fitHeight,
-                          child: Switch(
-                            activeColor: primaryBlue,
-                            value: Provider.of<UserProvider>(context)
-                                .user!
-                                .allowNotificationsOpenMatches,
-                            onChanged: (isEnable) {
-                              Provider.of<UserProvider>(
-                                context,
-                                listen: false,
-                              ).user!.allowNotificationsOpenMatches = isEnable;
-                              viewModel.onTapEnableNotifications(context);
-                            },
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: (defaultPadding / 2) + 25,
+                        ),
+                        Text(
+                          "Receber novas partida abertas",
+                          style: TextStyle(color: textDarkGrey, fontSize: 10),
+                        ),
+                        Expanded(
+                          child: Container(),
+                        ),
+                        SizedBox(
+                          height: 35,
+                          child: FittedBox(
+                            fit: BoxFit.fitHeight,
+                            child: Switch(
+                              activeColor: primaryBlue,
+                              value: Provider.of<UserProvider>(context)
+                                  .user!
+                                  .allowNotificationsOpenMatches,
+                              onChanged: (isEnable) {
+                                Provider.of<UserProvider>(
+                                  context,
+                                  listen: false,
+                                ).user!.allowNotificationsOpenMatches =
+                                    isEnable;
+                                viewModel.onTapEnableNotifications(context);
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  ],
                 ],
               ),
             ),

@@ -9,6 +9,7 @@ import 'package:sandfriends/Common/Model/Team.dart';
 import 'package:sandfriends/Common/Model/TeamMember.dart';
 import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import '../../../../Common/Components/SFAvatarStore.dart';
 import '../../../../Common/Utils/Constants.dart';
@@ -137,12 +138,14 @@ class ClassItem extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              AutoSizeText(
                                 court.store!.name,
                                 style: TextStyle(
                                   color: textDarkGrey,
-                                  fontSize: 14,
                                 ),
+                                maxLines: 1,
+                                minFontSize: 10,
+                                maxFontSize: 14,
                               ),
                               SizedBox(
                                 height: defaultPadding / 4,

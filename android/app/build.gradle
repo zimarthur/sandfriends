@@ -126,7 +126,7 @@ android {
         }
         aulasDev {
             dimension "default"
-            resValue "string", "app_name", "Sandfriends Aulas dev"
+            resValue "string", "app_name", "SandAulas dev"
             applicationIdSuffix "aulas.dev"
             manifestPlaceholders.subDomainDeeplink = "devaulas"
             signingConfig signingConfigs.releaseDev

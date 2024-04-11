@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Features/Match/View/Mobile/TeamMembersEditModal.dart';
 import 'package:sandfriends/Common/Model/User/UserComplete.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Common/Features/Match/View/MemberCardModal.dart';
@@ -373,9 +374,11 @@ class MatchViewModel extends ChangeNotifier {
     Provider.of<StandardScreenViewModel>(context, listen: false)
         .addOverlayWidget(
       ConfirmationModal(
-        message: "Deseja mesmo cancelar a partida?",
+        message: "Deseja mesmo cancelar a ${isClass ? 'aula' : 'partida'}?",
         onConfirm: () => cancelMatch(context),
-        onCancel: () {},
+        onCancel: () =>
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .clearOverlays(),
         isHappy: false,
       ),
     );
@@ -534,8 +537,42 @@ class MatchViewModel extends ChangeNotifier {
           if (response.responseStatus == NetworkResponseStatus.alert) {
             getMatchInfo(context, match.matchUrl);
           }
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .clearOverlays();
         },
         isHappy: response.responseStatus == NetworkResponseStatus.alert,
+      ),
+    );
+  }
+
+  void openClassMembersEdit(BuildContext context) {
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .addOverlayWidget(
+      TeamMembersEditModal(
+        match: match,
+        onUpdate: (usersToAdd, usersToRemove) {
+          Provider.of<StandardScreenViewModel>(context, listen: false)
+              .setLoading();
+          matchRepo
+              .updateClassMatchMembers(
+            context,
+            Provider.of<EnvironmentProvider>(context, listen: false)
+                .accessToken!,
+            match.idMatch,
+            usersToAdd,
+            usersToRemove,
+          )
+              .then((response) {
+            if (response.responseStatus == NetworkResponseStatus.alert) {
+              Provider.of<StandardScreenViewModel>(context, listen: false)
+                  .clearOverlays();
+            }
+            defaultResponse(
+              response,
+              context,
+            );
+          });
+        },
       ),
     );
   }

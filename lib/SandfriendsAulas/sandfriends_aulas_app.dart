@@ -26,6 +26,7 @@ import '../Sandfriends/Features/Authentication/LoadLogin/View/LoadLoginScreen.da
 import '../Sandfriends/Features/Authentication/Login/View/LoginScreen.dart';
 import '../Sandfriends/Features/Authentication/LoginSignup/View/LoginSignupScreen.dart';
 import '../Sandfriends/Features/Checkout/View/CheckoutScreen.dart';
+import '../Sandfriends/Features/Notifications/View/NotificationsScreen.dart';
 import '../Sandfriends/Features/Onboarding/View/OnboardingScreen.dart';
 import '../Sandfriends/Features/RecurrentMatchSearch/View/RecurrentMatchSearchScreen.dart';
 import '../SandfriendsQuadras/Features/Authentication/ChangePassword/View/ChangePasswordScreen.dart';
@@ -318,6 +319,7 @@ class SandfriendsAulasApp extends GenericApp {
             const RecurrentMatchSearchScreen(),
 
         '/settings': (BuildContext context) => const AppInfoScreen(),
+        '/notifications': (BuildContext context) => const NotificationsScreen(),
         // '/user_matches': (BuildContext context) => const UserMatchesScreen(),
         // '/user_payments': (BuildContext context) => const OnboardingScreen(),
         // '/notifications': (BuildContext context) => const NotificationsScreen(),

@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:sandfriends/Common/Model/User/User.dart';
 
 import '../Gender.dart';
@@ -19,6 +20,7 @@ class UserStore extends User {
     super.preferenceSport,
     this.rank,
     required this.isStorePlayer,
+    super.registrationDate,
   });
 
   factory UserStore.fromUserJson(
@@ -45,6 +47,9 @@ class UserStore extends User {
         (rank) => rank.idRankCategory == parsedJson["IdRankCategory"],
       ),
       photo: parsedJson["Photo"],
+      registrationDate: parsedJson['RegistrationDate'] != null
+          ? DateFormat('dd/MM/yyyy').parse(parsedJson['RegistrationDate'])
+          : null,
     );
   }
   factory UserStore.fromStorePlayerJson(
@@ -68,6 +73,9 @@ class UserStore extends User {
       rank: availableRanks.firstWhere(
         (rank) => rank.idRankCategory == parsedJson["IdRankCategory"],
       ),
+      registrationDate: parsedJson['RegistrationDate'] != null
+          ? DateFormat('dd/MM/yyyy').parse(parsedJson['RegistrationDate'])
+          : null,
     );
   }
   factory UserStore.fromUserMinJson(Map<String, dynamic> parsedJson) {
@@ -78,6 +86,9 @@ class UserStore extends User {
       isStorePlayer: false,
       photo: parsedJson["UserPhoto"] ?? parsedJson["Photo"],
       phoneNumber: parsedJson["PhoneNumber"],
+      registrationDate: parsedJson['RegistrationDate'] != null
+          ? DateFormat('dd/MM/yyyy').parse(parsedJson['RegistrationDate'])
+          : null,
     );
   }
 
@@ -95,6 +106,7 @@ class UserStore extends User {
       rank: userComplete.ranks
           .firstWhere((rank) => rank.sport == userComplete.preferenceSport),
       photo: userComplete.photo,
+      registrationDate: userComplete.registrationDate,
     );
   }
 
@@ -109,6 +121,7 @@ class UserStore extends User {
       preferenceSport: refUserStore.preferenceSport,
       rank: refUserStore.rank,
       photo: refUserStore.photo,
+      registrationDate: refUserStore.registrationDate,
     );
   }
 }

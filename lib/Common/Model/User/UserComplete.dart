@@ -42,6 +42,7 @@ class UserComplete extends User {
     this.notificationsToken,
     this.allowNotificationsOpenMatches = false,
     this.allowNotificationsCoupons = false,
+    super.registrationDate,
   });
 
   int? get age {
@@ -98,6 +99,9 @@ class UserComplete extends User {
       allowNotificationsOpenMatches:
           json['AllowNotificationsOpenMatches'] ?? false,
       allowNotificationsCoupons: json['AllowNotificationsCoupons'] ?? false,
+      registrationDate: json['RegistrationDate'] != null
+          ? DateFormat('dd/MM/yyyy').parse(json['RegistrationDate'])
+          : null,
     );
     for (int i = 0; i < json['Ranks'].length; i++) {
       newUser.ranks.add(Rank.fromJson(json['Ranks'][i]['RankCategory']));
@@ -173,6 +177,7 @@ class UserComplete extends User {
       notificationsToken: refUser.notificationsToken,
       allowNotificationsCoupons: refUser.allowNotificationsCoupons,
       allowNotificationsOpenMatches: refUser.allowNotificationsOpenMatches,
+      registrationDate: refUser.registrationDate,
     );
     for (var rank in refUser.ranks) {
       user.ranks.add(

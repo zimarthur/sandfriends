@@ -74,7 +74,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
                         ),
                       ),
                       Text(
-                        "desde ", //ARRUMA${viewModel.teacher.user.entryDate!.formatWrittenMonthYear()}",
+                        "desde ${viewModel.teacher.user.registrationDate!.formatWrittenMonthYear()}",
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
                           color: textDarkGrey,

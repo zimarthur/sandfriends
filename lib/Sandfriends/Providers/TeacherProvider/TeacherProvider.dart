@@ -18,6 +18,8 @@ import 'package:sandfriends/Sandfriends/Providers/TeacherProvider/teacherRepo.da
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 
 import '../../../Common/Enum/EnumClassFormat.dart';
+import '../../../Common/Managers/Firebase/NotificationsConfig.dart';
+import '../../../Common/Model/AppNotificationUser.dart';
 import '../../../Common/Model/Classes/TeacherSchool/TeacherSchoolUser.dart';
 import '../../../Common/Model/Team.dart';
 import '../../../Common/Model/User/UserComplete.dart';
@@ -74,7 +76,10 @@ class TeacherProvider extends ChangeNotifier {
       .toList()
       .length;
 
-  void getTeacherInfo(BuildContext context) {
+  void getTeacherInfo(
+    BuildContext context,
+    NotificationsConfig? notificationsConfig,
+  ) {
     Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     teacherRepo
         .getTeacherInfo(
@@ -127,6 +132,20 @@ class TeacherProvider extends ChangeNotifier {
           Provider.of<CategoriesProvider>(context, listen: false).ranks,
           Provider.of<CategoriesProvider>(context, listen: false).genders,
         );
+
+        Provider.of<UserProvider>(context, listen: false).clearNotifications();
+        for (var appNotification in responseBody["Notifications"]) {
+          Provider.of<UserProvider>(context, listen: false).addNotifications(
+            AppNotificationUser.fromJson(
+              appNotification,
+              Provider.of<CategoriesProvider>(context, listen: false).hours,
+              Provider.of<CategoriesProvider>(context, listen: false).sports,
+              Provider.of<CategoriesProvider>(context, listen: false).ranks,
+              Provider.of<CategoriesProvider>(context, listen: false).genders,
+            ),
+          );
+        }
+
         notifyListeners();
       }
       Provider.of<StandardScreenViewModel>(context, listen: false)

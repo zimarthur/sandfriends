@@ -1,0 +1,138 @@
+{
+  "project_info": {
+    "project_number": "329100803665",
+    "project_id": "sandfriends-prod",
+    "storage_bucket": "sandfriends-prod.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329100803665:android:8ead35e5e7c0d150af4270",
+        "android_client_info": {
+          "package_name": "com.sandfriends.app.prod"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "329100803665-v86f3e9em0m1m0v76vprmmtor6trr0pq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sandfriends.app.prod",
+            "certificate_hash": "27c6d83c7f92f2f4a6066085a9e8a850e6e56901"
+          }
+        },
+        {
+          "client_id": "329100803665-vbu9gj951uu58uu0qmjilv0fkmaj2esa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sandfriends.app.prod",
+            "certificate_hash": "f411cef717b3575866ae6cba330c5a5091064bb7"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACNkmqOyYaCZKYyDuZRDpYp1weZrI3aqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "329100803665-mbsc1tv1nav9j2tl9psrnm0tipmb1r1e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "329100803665-bqlce4fk9ggfaunifvgkhflg9nkuv822.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sandfriends.quadras.prod"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329100803665:android:89091d0e3468bdb1af4270",
+        "android_client_info": {
+          "package_name": "com.sandfriends.aulas.prod"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "329100803665-i7b7fnos5uvlgpktsalsb01m3gdc9h62.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sandfriends.aulas.prod",
+            "certificate_hash": "6c1558745a796ecbd8f5554318b7a518d8b079c3"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACNkmqOyYaCZKYyDuZRDpYp1weZrI3aqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "329100803665-mbsc1tv1nav9j2tl9psrnm0tipmb1r1e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "329100803665-bqlce4fk9ggfaunifvgkhflg9nkuv822.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sandfriends.quadras.prod"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329100803665:android:1a81f3597ada3614af4270",
+        "android_client_info": {
+          "package_name": "com.sandfriends.quadras.prod"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "329100803665-0l7lmmcdfoqkg0h9vjffqmsk79p4b531.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sandfriends.quadras.prod",
+            "certificate_hash": "27c6d83c7f92f2f4a6066085a9e8a850e6e56901"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACNkmqOyYaCZKYyDuZRDpYp1weZrI3aqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "329100803665-mbsc1tv1nav9j2tl9psrnm0tipmb1r1e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "329100803665-bqlce4fk9ggfaunifvgkhflg9nkuv822.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sandfriends.quadras.prod"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

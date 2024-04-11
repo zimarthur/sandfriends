@@ -231,15 +231,16 @@ class _SchoolPanelModalState extends State<SchoolPanelModal> {
                                               color: primaryBlue,
                                             ),
                                           ),
-                                          //ARRUMAif (teacher.entryDate != null)
-                                          // Text(
-                                          //   "desde ${teacher.entryDate!.formatWrittenMonthYear()}",
-                                          //   style: TextStyle(
-                                          //     color: textDarkGrey,
-                                          //     fontSize: 12,
-                                          //     fontWeight: FontWeight.w300,
-                                          //   ),
-                                          // ),
+                                          if (teacher.user.registrationDate !=
+                                              null)
+                                            Text(
+                                              "desde ${teacher.user.registrationDate!.formatWrittenMonthYear()}",
+                                              style: TextStyle(
+                                                color: textDarkGrey,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                            ),
                                         ],
                                       ),
                                     ),

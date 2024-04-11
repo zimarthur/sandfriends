@@ -10,6 +10,7 @@ abstract class User {
   String? phoneNumber;
   Gender? gender;
   Sport? preferenceSport;
+  DateTime? registrationDate;
 
   String get fullName => "$firstName $lastName";
   User({
@@ -20,5 +21,6 @@ abstract class User {
     this.photo,
     this.gender,
     this.preferenceSport,
+    this.registrationDate,
   });
 }

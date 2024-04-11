@@ -1,5 +1,5 @@
 flutter_icons:
   android: true
   ios: true
-  image_path: 'assets/app_icon/quadras_prod.png'
+  image_path: 'assets/app_icon/quadrasprod.png'
   remove_alpha_ios: true

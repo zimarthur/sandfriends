@@ -34,11 +34,21 @@ class _ClassMatchPaymentModalState extends State<ClassMatchPaymentModal> {
 
   TextEditingController priceController = TextEditingController();
   late bool hasPaid;
+  List<MatchMember> sortedMembers = [];
+
   @override
   void initState() {
     priceController.text =
         widget.match.selectedMember!.cost!.toStringAsFixed(0);
     hasPaid = widget.match.selectedMember!.hasPaid;
+    sortedMembers = widget.match.classMembers;
+    for (int i = 0; i < sortedMembers.length; i++) {
+      if (sortedMembers[i].user.id == widget.user.id) {
+        MatchMember auxMember = sortedMembers[i];
+        sortedMembers[i] = sortedMembers[0];
+        sortedMembers[0] = auxMember;
+      }
+    }
     super.initState();
   }
 
@@ -73,9 +83,12 @@ class _ClassMatchPaymentModalState extends State<ClassMatchPaymentModal> {
                 onTap: () =>
                     Provider.of<StandardScreenViewModel>(context, listen: false)
                         .removeLastOverlay(),
-                child: SvgPicture.asset(
-                  r"assets/icon/x.svg",
-                  color: textDarkGrey,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+                  child: SvgPicture.asset(
+                    r"assets/icon/x.svg",
+                    color: textDarkGrey,
+                  ),
                 ),
               ),
             ),
@@ -183,17 +196,8 @@ class _ClassMatchPaymentModalState extends State<ClassMatchPaymentModal> {
                     height: 80,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: widget.match.classMembers.length,
+                      itemCount: sortedMembers.length,
                       itemBuilder: (context, index) {
-                        List<MatchMember> sortedMembers =
-                            widget.match.classMembers;
-                        for (int i = 0; i < sortedMembers.length; i++) {
-                          if (sortedMembers[i].user == widget.user) {
-                            MatchMember auxMember = sortedMembers[i];
-                            sortedMembers[i] = sortedMembers[0];
-                            sortedMembers[0] = auxMember;
-                          }
-                        }
                         return Column(
                           children: [
                             SFAvatarUser(
@@ -387,7 +391,7 @@ class _ClassMatchPaymentModalState extends State<ClassMatchPaymentModal> {
                 if (hasChanged &&
                     classPaymentPriceKey.currentState?.validate() == true) {
                   widget.onUpdateClassPayment(
-                      hasChanged, double.parse(priceController.text));
+                      hasPaid, double.parse(priceController.text));
                 }
               },
             )

@@ -45,6 +45,7 @@ class ApiEndPoints {
   static const String joinMatch = "/JoinMatch";
   static const String joinClass = "/JoinClass";
   static const String saveOpenMatch = "/SaveOpenMatch";
+  static const String updateClassMatchMembers = "/UpdateClassMatchMembers";
 
   static const getUserRewards = "/UserRewardsHistory";
 

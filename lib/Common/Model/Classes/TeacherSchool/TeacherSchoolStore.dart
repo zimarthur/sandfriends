@@ -6,6 +6,7 @@ import 'package:sandfriends/Common/Model/Sport.dart';
 import 'package:sandfriends/Common/Model/Classes/Teacher/Teacher.dart';
 
 import '../../Store/StoreUser.dart';
+import 'TeacherSchoolUser.dart';
 
 class TeacherSchoolStore extends TeacherSchool {
   TeacherSchoolStore({
@@ -20,9 +21,11 @@ class TeacherSchoolStore extends TeacherSchool {
     TeacherSchoolStore newSchool = TeacherSchoolStore(
       idTeacher: json["IdStoreSchoolTeacher"],
       waitingApproval: json["WaitingApproval"],
-      entryDate: DateFormat("dd/MM/yyyy").parse(
-        json["ResponseDate"],
-      ),
+      entryDate: json["ResponseDate"] != null
+          ? DateFormat("dd/MM/yyyy").parse(
+              json["ResponseDate"],
+            )
+          : null,
     );
 
     return newSchool;
@@ -33,6 +36,17 @@ class TeacherSchoolStore extends TeacherSchool {
       idTeacher: refSchool.idTeacher,
       waitingApproval: refSchool.waitingApproval,
       entryDate: refSchool.entryDate,
+    );
+
+    return school;
+  }
+
+  factory TeacherSchoolStore.fromTeacherSchoolUser(
+      TeacherSchoolUser refTeacherSchool) {
+    final school = TeacherSchoolStore(
+      idTeacher: refTeacherSchool.idTeacher,
+      waitingApproval: refTeacherSchool.waitingApproval,
+      entryDate: refTeacherSchool.entryDate,
     );
 
     return school;

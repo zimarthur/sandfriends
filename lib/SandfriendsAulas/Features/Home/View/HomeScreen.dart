@@ -60,7 +60,9 @@ class _HomeScreenAulasState extends State<HomeScreenAulas> {
                     secondaryColor: primaryLightBlue,
                     name: Provider.of<UserProvider>(context).user!.firstName!,
                     nameDescription: null,
-                    notificationsOn: false,
+                    notificationsOn: Provider.of<UserProvider>(context)
+                        .notifications
+                        .any((notification) => notification.seen == false),
                     photo: Provider.of<UserProvider>(context).user!.photo,
                     photoName:
                         Provider.of<UserProvider>(context).user!.fullName,
@@ -69,7 +71,10 @@ class _HomeScreenAulasState extends State<HomeScreenAulas> {
                       child: RefreshIndicator(
                     onRefresh: () async =>
                         Provider.of<TeacherProvider>(context, listen: false)
-                            .getTeacherInfo(context),
+                            .getTeacherInfo(
+                      context,
+                      null,
+                    ),
                     child: SingleChildScrollView(
                       physics: AlwaysScrollableScrollPhysics(),
                       child: Column(

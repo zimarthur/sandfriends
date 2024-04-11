@@ -122,7 +122,7 @@ class TeamItem extends StatelessWidget {
                   width: defaultPadding / 2,
                 ),
                 Text(
-                  "${team.sport.description} - ${team.rank == null ? 'qualquer categ.' : team.rank!.name} - ${team.gender.name}",
+                  "${team.sport.description} | ${team.rank.name} | ${team.gender.name}",
                   style: TextStyle(
                     color: textDarkGrey,
                     fontWeight: FontWeight.w300,
