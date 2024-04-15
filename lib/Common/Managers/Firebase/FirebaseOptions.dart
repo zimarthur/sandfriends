@@ -75,6 +75,74 @@ Map<Product, Map<Flavor, Map<Device, FirebaseOptions>>> firebaseOptions =
       )
     }
   },
+<<<<<<< Updated upstream
+=======
+  Product.SandfriendsAulas: {
+    Flavor.Prod: {
+      Device.Android: FirebaseOptions(
+        apiKey: 'AIzaSyACNkmqOyYaCZKYyDuZRDpYp1weZrI3aqI',
+        appId: '1:329100803665:android:89091d0e3468bdb1af4270',
+        messagingSenderId: '329100803665',
+        projectId: 'sandfriends-prod',
+        storageBucket: 'sandfriends-prod.appspot.com',
+      ),
+      Device.Ios: FirebaseOptions(
+        apiKey: 'AIzaSyACNkmqOyYaCZKYyDuZRDpYp1weZrI3aqI',
+        appId: '1:329100803665:ios:6f2a696d309228c8af4270',
+        messagingSenderId: '329100803665',
+        projectId: 'sandfriends-prod',
+        storageBucket: 'sandfriends-prod.appspot.com',
+        androidClientId:
+            '329100803665-0l7lmmcdfoqkg0h9vjffqmsk79p4b531.apps.googleusercontent.com',
+        iosClientId:
+            '329100803665-vncm7d9dkugv69t3kai50mbt6d7uoeff.apps.googleusercontent.com',
+        iosBundleId: 'com.sandfriends.aulas.prod',
+      ),
+    },
+    Flavor.Demo: {
+      Device.Android: FirebaseOptions(
+        apiKey: 'AIzaSyA_XpefBCpokfQTZv-g5wMAdPsI2vEulLw',
+        appId: '1:496096595246:android:0b9343a7d7d61696df7ebf',
+        messagingSenderId: '496096595246',
+        projectId: 'sandfriends-demo-1e87f',
+        storageBucket: 'sandfriends-demo-1e87f.appspot.com',
+      ),
+      Device.Ios: FirebaseOptions(
+        apiKey: 'AIzaSyA_XpefBCpokfQTZv-g5wMAdPsI2vEulLw',
+        appId: '1:496096595246:ios:46c87b36e64d558edf7ebf',
+        messagingSenderId: '496096595246',
+        projectId: 'sandfriends-demo-1e87f',
+        storageBucket: 'sandfriends-demo-1e87f.appspot.com',
+        androidClientId:
+            '496096595246-kg0drt0sqti3bolq927nbgq0g9c0m66o.apps.googleusercontent.com',
+        iosClientId:
+            '496096595246-m2d1pss1cb8t225re9vnp09ienmlfrju.apps.googleusercontent.com',
+        iosBundleId: 'com.sandfriends.aulas.demo',
+      ),
+    },
+    Flavor.Dev: {
+      Device.Android: FirebaseOptions(
+        apiKey: 'AIzaSyA5JAplCVAq1nigDWwrWQSEaXa-9NBw63c',
+        appId: '1:619166716922:android:c2b774ca386f8426fe4a43',
+        messagingSenderId: '619166716922',
+        projectId: 'sandfriends-dev',
+        storageBucket: 'sandfriends-dev.appspot.com',
+      ),
+      Device.Ios: FirebaseOptions(
+        apiKey: 'AIzaSyA5JAplCVAq1nigDWwrWQSEaXa-9NBw63c',
+        appId: '1:619166716922:ios:047e74b4f783c05efe4a43',
+        messagingSenderId: '619166716922',
+        projectId: 'sandfriends-dev',
+        storageBucket: 'sandfriends-dev.appspot.com',
+        androidClientId:
+            '619166716922-0qm315q4oia1vniu1lvpdtbc6takkupv.apps.googleusercontent.com',
+        iosClientId:
+            '619166716922-vmc3cbthlemgm6eqs5kkjijoe0badk6e.apps.googleusercontent.com',
+        iosBundleId: 'com.sandfriends.aulas.dev',
+      ),
+    },
+  },
+>>>>>>> Stashed changes
   Product.SandfriendsQuadras: {
     Flavor.Prod: {
       Device.Ios: FirebaseOptions(
