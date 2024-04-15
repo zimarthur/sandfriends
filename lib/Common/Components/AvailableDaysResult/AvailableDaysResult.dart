@@ -70,6 +70,7 @@ class _AvailableDaysResultState extends State<AvailableDaysResult> {
                 itemCount: widget.availableDays.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
                 itemBuilder: (context, index) {
                   return AvailableDayCard(
                     availableDay: widget.availableDays[index],

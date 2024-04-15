@@ -1,1 +1,1 @@
-enum HomeTabs { User, Feed, MatchSearch }
+enum HomeTabs { User, Feed, Classes, MatchSearch }

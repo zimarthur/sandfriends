@@ -36,7 +36,7 @@ class _OnboardingCheckItemState extends State<OnboardingCheckItem> {
           child: Row(
             children: [
               SvgPicture.asset(
-                r"assets/icon/check.svg",
+                r"assets/icon/check_circle.svg",
                 color: widget.isChecked
                     ? primaryBlue
                     : isHovered

@@ -5,7 +5,7 @@ import '../../../../../../Common/Components/SFTextField.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../../../../Common/Utils/Validators.dart';
 
-import '../../../Menu/ViewModel/MenuProvider.dart';
+import '../../../Menu/ViewModel/MenuProviderQuadras.dart';
 
 class AddEmployeeWidget extends StatefulWidget {
   Function(String) onAdd;
@@ -25,7 +25,8 @@ class _AddEmployeeWidgetState extends State<AddEmployeeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    double width = Provider.of<MenuProvider>(context).getScreenWidth(context);
+    double width =
+        Provider.of<MenuProviderQuadras>(context).getScreenWidth(context);
     return Container(
       width: width * 0.4 < 350 ? 350 : width * 0.4,
       padding: const EdgeInsets.all(defaultPadding),

@@ -37,6 +37,8 @@ class MyCourtsRepo {
                       "IdHour": price.startingHour.hour,
                       "Price": price.price,
                       "RecurrentPrice": price.recurrentPrice,
+                      "PriceTeacher": price.priceTeacher,
+                      "RecurrentPriceTeacher": price.recurrentPriceTeacher,
                     }
                 ]
               }
@@ -96,6 +98,9 @@ class MyCourtsRepo {
                             "IdHour": price.startingHour.hour,
                             "Price": price.price,
                             "RecurrentPrice": price.recurrentPrice,
+                            "PriceTeacher": price.priceTeacher,
+                            "RecurrentPriceTeacher":
+                                price.recurrentPriceTeacher,
                           }
                       ]
                     }

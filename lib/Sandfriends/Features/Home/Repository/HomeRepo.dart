@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
+import '../../../../Common/Managers/Firebase/NotificationsConfig.dart';
 import '../../../../Remote/ApiEndPoints.dart';
 import '../../../../Remote/NetworkApiService.dart';
 import '../../../../Remote/NetworkResponse.dart';
@@ -11,7 +12,7 @@ class HomeRepo {
   Future<NetworkResponse> getUserInfo(
     BuildContext context,
     String accessToken,
-    Tuple2<bool?, String?>? notificationsConfig,
+    NotificationsConfig? notificationsConfig,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
@@ -21,10 +22,10 @@ class HomeRepo {
           'AccessToken': accessToken,
           'UpdateNotifications': notificationsConfig != null,
           'AllowNotifications': notificationsConfig != null
-              ? notificationsConfig.item1 ?? false
+              ? notificationsConfig.authorized
               : false,
           'NotificationsToken': notificationsConfig != null
-              ? notificationsConfig.item2 ?? ""
+              ? notificationsConfig.token ?? ""
               : "",
         },
       ),

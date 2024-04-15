@@ -32,6 +32,12 @@ class _NavigationMenuState extends State<NavigationMenu> {
       imageActive: r"assets/icon/navigation/feed_screen_selected.svg",
     ),
     NavigationMenuItem(
+      tab: HomeTabs.Classes,
+      title: "Aulas",
+      image: r"assets/icon/navigation/classes_screen.svg",
+      imageActive: r"assets/icon/navigation/classes_screen_selected.svg",
+    ),
+    NavigationMenuItem(
       tab: HomeTabs.MatchSearch,
       title: "Agendar",
       image: r"assets/icon/navigation/schedule_screen.svg",

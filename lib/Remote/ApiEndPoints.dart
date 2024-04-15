@@ -43,9 +43,31 @@ class ApiEndPoints {
   static const String cancelMatchUser = "/CancelMatch";
   static const String leaveMatch = "/LeaveMatch";
   static const String joinMatch = "/JoinMatch";
+  static const String joinClass = "/JoinClass";
   static const String saveOpenMatch = "/SaveOpenMatch";
+  static const String updateClassMatchMembers = "/UpdateClassMatchMembers";
 
   static const getUserRewards = "/UserRewardsHistory";
+
+  static const getClassesInfo = "/GetClassesInfo";
+
+  //AULAS
+
+  static const String getTeacherInfo = "/GetTeacherInfo";
+
+  static const String addClassPlan = "/AddTeacherClassPlan";
+  static const String deleteClassPlan = "/DeleteTeacherClassPlan";
+  static const String editClassPlan = "/EditTeacherClassPlan";
+
+  static const String addTeam = "/AddTeam";
+  static const String joinTeam = "/JoinTeam";
+  static const String sendMemberResponse = "/SendMemberResponse";
+
+  static const String schoolInvitationResponse = "/SchoolInvitationResponse";
+
+  static const String searchClasses = "/SearchClasses";
+
+  static const String updateClassPaymentDetails = "/UpdateClassPaymentDetails";
 
   //SANDFRIENDS QUADRAS
   //login
@@ -111,4 +133,9 @@ class ApiEndPoints {
   //coupons
   static const String addCoupon = "/AddCoupon";
   static const String enableDisableCoupon = "/EnableDisableCoupon";
+
+  //schools
+  static const String addSchool = "/AddSchool";
+  static const String editSchool = "/EditSchool";
+  static const String addSchoolTeacher = "/AddSchoolTeacher";
 }

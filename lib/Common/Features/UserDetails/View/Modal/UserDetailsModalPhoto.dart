@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Model/User/UserComplete.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 
 import '../../../../Components/SFAvatarUser.dart';
@@ -21,6 +22,19 @@ class UserDetailsModalPhoto extends StatefulWidget {
 }
 
 class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
+  late bool noImage;
+  late String? imagePicker;
+  late UserComplete userEdited;
+
+  @override
+  void initState() {
+    noImage = widget.viewModel.noImage;
+    imagePicker = widget.viewModel.imagePicker;
+    userEdited = widget.viewModel.userEdited;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -49,10 +63,9 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
             children: [
               SFAvatarUser(
                 height: width * 0.7,
-                user: Provider.of<UserDetailsViewModel>(context).userEdited,
+                user: userEdited,
                 showRank: false,
-                editFile:
-                    Provider.of<UserDetailsViewModel>(context).imagePicker,
+                editFile: imagePicker,
                 onTap: () => pickImage(),
               ),
               CheckboxListTile(
@@ -62,9 +75,14 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
                     color: textDarkGrey,
                   ),
                 ),
-                value: Provider.of<UserDetailsViewModel>(context).noImage,
+                value: noImage,
                 controlAffinity: ListTileControlAffinity.leading,
-                onChanged: (newValue) => widget.viewModel.setNoPhoto(newValue!),
+                onChanged: (newValue) => setState(() {
+                  if (newValue != null) {
+                    imagePicker = null;
+                    noImage = newValue;
+                  }
+                }),
               ),
             ],
           ),
@@ -74,8 +92,7 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
               vertical: height * 0.01,
             ),
             onTap: () =>
-                Provider.of<StandardScreenViewModel>(context, listen: false)
-                    .removeLastOverlay(),
+                widget.viewModel.updateUserPhoto(context, noImage, imagePicker),
           ),
         ],
       ),
@@ -83,14 +100,13 @@ class _UserDetailsModalPhotoState extends State<UserDetailsModalPhoto> {
   }
 
   Future pickImage() async {
-    if (Provider.of<UserDetailsViewModel>(context, listen: false).noImage) {
+    if (noImage) {
       return;
     }
     XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (file == null) return;
     setState(() {
-      Provider.of<UserDetailsViewModel>(context, listen: false).imagePicker =
-          file.path;
+      imagePicker = file.path;
     });
   }
 }

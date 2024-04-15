@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/ViewModel/CheckoutViewModel.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
 import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
@@ -33,7 +34,11 @@ class CheckoutDetails extends StatelessWidget {
                 title: "Modalidade",
                 value: Provider.of<CheckoutViewModel>(context, listen: false)
                         .isRecurrent
-                    ? "Mensalista"
+                    ? Provider.of<EnvironmentProvider>(context, listen: false)
+                            .environment
+                            .isSandfriendsAulas
+                        ? "Aula mensalista"
+                        : "Mensalista"
                     : "Avulso",
               ),
               CheckoutDetailsItem(

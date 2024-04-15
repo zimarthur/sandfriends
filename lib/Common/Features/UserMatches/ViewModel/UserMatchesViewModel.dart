@@ -9,6 +9,7 @@ import '../../../Model/AppMatch/AppMatchUser.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Sandfriends/Providers/UserProvider/UserProvider.dart';
 import '../../../Components/Modal/SFModalMessage.dart';
+import '../../../Providers/Environment/EnvironmentProvider.dart';
 import '../../../Utils/PageStatus.dart';
 import '../Repository/UserMatchesRepo.dart';
 
@@ -23,7 +24,7 @@ class UserMatchesViewModel extends ChangeNotifier {
     userMatchesRepo
         .getUserMatches(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
     )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
@@ -37,6 +38,8 @@ class UserMatchesViewModel extends ChangeNotifier {
               match,
               Provider.of<CategoriesProvider>(context, listen: false).hours,
               Provider.of<CategoriesProvider>(context, listen: false).sports,
+              Provider.of<CategoriesProvider>(context, listen: false).ranks,
+              Provider.of<CategoriesProvider>(context, listen: false).genders,
             ),
           );
         }

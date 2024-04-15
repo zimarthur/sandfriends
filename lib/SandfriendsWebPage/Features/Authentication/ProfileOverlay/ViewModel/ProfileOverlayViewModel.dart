@@ -12,6 +12,7 @@ import 'package:sandfriends/SandfriendsWebPage/Features/Authentication/ProfileOv
 import '../../../../../Common/Managers/LinkOpener/LinkOpenerManager.dart';
 import '../../../../../Common/Managers/LocalStorage/LocalStorageManager.dart';
 import '../../../../../Common/Model/User/UserComplete.dart';
+import '../../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../../Remote/NetworkResponse.dart';
 import '../../../../../Sandfriends/Features/Authentication/CreateAccount/Repo/CreateAccountRepo.dart';
 import '../../../../../Sandfriends/Features/Authentication/Login/Repository/LoginRepo.dart';
@@ -67,6 +68,9 @@ class ProfileOverlayViewModel extends ChangeNotifier {
         .forgotPassword(
       context,
       emailForgotPasswordController.text,
+      Provider.of<EnvironmentProvider>(context, listen: false)
+          .environment
+          .isSandfriendsAulas,
     )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
@@ -90,8 +94,14 @@ class ProfileOverlayViewModel extends ChangeNotifier {
     widgetStatus = PageStatus.LOADING;
     notifyListeners();
     createAccountRepo
-        .createAccount(context, emailCreateAccountController.text,
-            passwordCreateAccountController.text)
+        .createAccount(
+      context,
+      emailCreateAccountController.text,
+      passwordCreateAccountController.text,
+      Provider.of<EnvironmentProvider>(context, listen: false)
+          .environment
+          .isSandfriendsAulas,
+    )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         messageTitle = "Sua conta foi criada";
@@ -111,7 +121,14 @@ class ProfileOverlayViewModel extends ChangeNotifier {
     Provider.of<UserProvider>(context, listen: false)
         .setHasSearchUserData(false);
     loginRepo
-        .login(context, emailController.text, passwordController.text)
+        .login(
+      context,
+      emailController.text,
+      passwordController.text,
+      Provider.of<EnvironmentProvider>(context, listen: false)
+          .environment
+          .isSandfriendsAulas,
+    )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         emailController.text = "";
@@ -155,7 +172,7 @@ class ProfileOverlayViewModel extends ChangeNotifier {
     homeRepo
         .getUserInfo(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       null,
     )
         .then((response) {

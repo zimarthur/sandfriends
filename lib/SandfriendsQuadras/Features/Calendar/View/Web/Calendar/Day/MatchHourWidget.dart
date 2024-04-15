@@ -53,7 +53,7 @@ class _MatchHourWidgetState extends State<MatchHourWidget> {
       timeEnd = widget.match!.timeEnd.hourString;
       title =
           "${widget.match!.isFromRecurrentMatch ? "Mensalista" : "Partida"} de ${widget.match!.matchCreator.fullName}";
-      sport = widget.match!.sport!.description;
+      sport = widget.match!.sport.description;
       if (blocked) {
         observation = widget.match!.blockedReason;
       } else {
@@ -199,7 +199,7 @@ class _MatchHourWidgetState extends State<MatchHourWidget> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SvgPicture.asset(
-                                r"assets/icon/check_circle.svg",
+                                r"assets/icon/check_circle_outline.svg",
                                 color: green,
                               ),
                               if (buttonExpanded)

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Model/User/User.dart';
 import 'package:sandfriends/Common/Model/User/UserComplete.dart';
 import '../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../Common/Model/Sport.dart';
@@ -11,11 +12,12 @@ import 'SFLoading.dart';
 
 class SFAvatarUser extends StatelessWidget {
   final double height;
-  final UserComplete user;
+  final User user;
   final Sport? sport;
   final String? editFile;
   final bool showRank;
   final VoidCallback? onTap;
+  final Color? customBorderColor;
 
   SFAvatarUser({
     Key? key,
@@ -25,6 +27,7 @@ class SFAvatarUser extends StatelessWidget {
     this.editFile,
     required this.showRank,
     this.onTap,
+    this.customBorderColor,
   }) : super(key: key);
 
   Color? rankTile;
@@ -33,8 +36,9 @@ class SFAvatarUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (showRank) {
+      UserComplete userComplete = user as UserComplete;
       var selectedSportId = sport!.idSport;
-      var selectedRank = user.ranks
+      var selectedRank = userComplete.ranks
           .where((rank) => rank.sport.idSport == selectedSportId)
           .first;
       if (selectedRank.color == "0") {
@@ -57,7 +61,7 @@ class SFAvatarUser extends StatelessWidget {
         backgroundColor: rankTile,
         radius: height * 0.5,
         child: CircleAvatar(
-          backgroundColor: secondaryPaper,
+          backgroundColor: customBorderColor ?? secondaryPaper,
           radius: height * 0.45,
           child: CircleAvatar(
             backgroundColor: avatarBackground,

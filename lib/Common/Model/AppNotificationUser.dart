@@ -1,5 +1,7 @@
 import 'AppMatch/AppMatchUser.dart';
+import 'Gender.dart';
 import 'Hour.dart';
+import 'Rank.dart';
 import 'Sport.dart';
 import 'User/UserComplete.dart';
 
@@ -24,6 +26,8 @@ class AppNotificationUser {
     Map<String, dynamic> json,
     List<Hour> referenceHours,
     List<Sport> referenceSports,
+    List<Rank> referenceRanks,
+    List<Gender> referenceGenders,
   ) {
     return AppNotificationUser(
       idNotification: json['IdNotification'],
@@ -33,6 +37,8 @@ class AppNotificationUser {
         json['Match'],
         referenceHours,
         referenceSports,
+        referenceRanks,
+        referenceGenders,
       ),
       seen: json['Seen'],
       user: UserComplete.fromJson(

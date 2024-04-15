@@ -11,11 +11,12 @@ import '../../../../Common/Model/HourPrice/HourPriceStore.dart';
 import '../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
 import '../../../../Common/Model/TabItem.dart';
 import '../../../../Common/Model/User/UserStore.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Common/Utils/SFDateTime.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
-import '../../Menu/ViewModel/MenuProvider.dart';
+import '../../Menu/ViewModel/MenuProviderQuadras.dart';
 import 'package:intl/intl.dart';
 
 import '../../Players/Repository/PlayersRepo.dart';
@@ -61,7 +62,8 @@ class CalendarViewModel extends ChangeNotifier {
   void initCalendarViewModel(BuildContext context, bool initIsMobile) {
     isMobile = initIsMobile;
     initTabs();
-    Provider.of<MenuProvider>(context, listen: false).isDrawerExpanded = false;
+    Provider.of<MenuProviderQuadras>(context, listen: false).isDrawerExpanded =
+        false;
     courts = Provider.of<StoreProvider>(context, listen: false).courts;
     storeWorkingDays =
         Provider.of<StoreProvider>(context, listen: false).storeWorkingDays !=
@@ -178,8 +180,8 @@ class CalendarViewModel extends ChangeNotifier {
       calendarRepo
           .updateMatchesList(
               context,
-              Provider.of<StoreProvider>(context, listen: false)
-                  .loggedAccessToken,
+              Provider.of<EnvironmentProvider>(context, listen: false)
+                  .accessToken!,
               newSelectedDay)
           .then((response) {
         Provider.of<StandardScreenViewModel>(context, listen: false)
@@ -208,9 +210,10 @@ class CalendarViewModel extends ChangeNotifier {
           notifyListeners();
         } else if (response.responseStatus ==
             NetworkResponseStatus.expiredToken) {
-          Provider.of<MenuProvider>(context, listen: false).logout(context);
+          Provider.of<MenuProviderQuadras>(context, listen: false)
+              .logout(context);
         } else {
-          Provider.of<MenuProvider>(context, listen: false)
+          Provider.of<MenuProviderQuadras>(context, listen: false)
               .setMessageModalFromResponse(context, response);
         }
       });
@@ -747,7 +750,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .blockHour(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       idStoreCourt,
       date,
       hour.hour,
@@ -765,9 +768,10 @@ class CalendarViewModel extends ChangeNotifier {
             .closeModal();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
       setShowHourInfo(value: false);
@@ -784,7 +788,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .unblockHour(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       idStoreCourt,
       date,
       hour.hour,
@@ -798,9 +802,10 @@ class CalendarViewModel extends ChangeNotifier {
             .closeModal();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
       setShowHourInfo(value: false);
@@ -820,7 +825,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .recurrentBlockHour(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       idStoreCourt,
       selectedWeekday,
       hour.hour,
@@ -838,9 +843,10 @@ class CalendarViewModel extends ChangeNotifier {
         notifyListeners();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });
@@ -851,7 +857,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .recurrentUnblockHour(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       idRecurrentMatch,
     )
         .then((response) {
@@ -862,9 +868,10 @@ class CalendarViewModel extends ChangeNotifier {
             .closeModal();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });
@@ -878,7 +885,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .cancelMatch(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       idMatch,
       cancelMatchReasonController.text,
     )
@@ -892,9 +899,10 @@ class CalendarViewModel extends ChangeNotifier {
             .closeModal();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });
@@ -908,7 +916,7 @@ class CalendarViewModel extends ChangeNotifier {
     calendarRepo
         .cancelRecurrentMatch(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       idRecurrentMatch,
       cancelRecurrentMatchReasonController.text,
     )
@@ -922,9 +930,10 @@ class CalendarViewModel extends ChangeNotifier {
             .closeModal();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });
@@ -1095,8 +1104,8 @@ class CalendarViewModel extends ChangeNotifier {
           playersRepo
               .addPlayer(
             context,
-            Provider.of<StoreProvider>(context, listen: false)
-                .loggedAccessToken,
+            Provider.of<EnvironmentProvider>(context, listen: false)
+                .accessToken!,
             player,
           )
               .then((response) {
@@ -1120,9 +1129,10 @@ class CalendarViewModel extends ChangeNotifier {
               );
             } else if (response.responseStatus ==
                 NetworkResponseStatus.expiredToken) {
-              Provider.of<MenuProvider>(context, listen: false).logout(context);
+              Provider.of<MenuProviderQuadras>(context, listen: false)
+                  .logout(context);
             } else {
-              Provider.of<MenuProvider>(context, listen: false)
+              Provider.of<MenuProviderQuadras>(context, listen: false)
                   .setMessageModalFromResponse(context, response);
             }
           });

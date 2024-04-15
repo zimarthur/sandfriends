@@ -123,7 +123,7 @@ class MatchCard extends StatelessWidget {
                         child: FittedBox(
                           fit: BoxFit.fitWidth,
                           child: Text(
-                            "Partida de ${match.matchCreator.firstName}",
+                            "${match.team != null ? 'Aula' : 'Partida'} de ${match.matchCreator.firstName}",
                             style: const TextStyle(
                               fontWeight: FontWeight.w700,
                               color: textBlue,
@@ -215,7 +215,7 @@ class MatchCard extends StatelessWidget {
                         ),
                       ),
                     )
-                  : match.paymentStatus == PaymentStatus.Pending
+                  : match.team != null
                       ? Positioned(
                           right: width * 0.02,
                           top: width * 0.02,
@@ -225,24 +225,33 @@ class MatchCard extends StatelessWidget {
                                 vertical: width * 0.01),
                             decoration: BoxDecoration(
                               color: match.date.isBefore(DateTime.now())
-                                  ? Colors.red.withOpacity(0.6)
-                                  : Colors.red,
+                                  ? secondaryLightBlue.withOpacity(0.6)
+                                  : secondaryLightBlue,
                               borderRadius: BorderRadius.circular(16),
                             ),
-                            child: Text(
-                              match.selectedPayment ==
-                                      SelectedPayment.CreditCard
-                                  ? "Proc. Pagamento"
-                                  : "Pend. Pagamento",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: textWhite,
-                              ),
-                              textScaleFactor: 0.9,
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  r"assets/icon/class.svg",
+                                  color: textWhite,
+                                  height: 15,
+                                ),
+                                SizedBox(
+                                  width: defaultPadding / 2,
+                                ),
+                                const Text(
+                                  "Aula",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: textWhite,
+                                  ),
+                                  textScaleFactor: 0.9,
+                                ),
+                              ],
                             ),
                           ),
                         )
-                      : match.selectedPayment == SelectedPayment.PayInStore
+                      : match.paymentStatus == PaymentStatus.Pending
                           ? Positioned(
                               right: width * 0.02,
                               top: width * 0.02,
@@ -252,12 +261,15 @@ class MatchCard extends StatelessWidget {
                                     vertical: width * 0.01),
                                 decoration: BoxDecoration(
                                   color: match.date.isBefore(DateTime.now())
-                                      ? secondaryLightBlue.withOpacity(0.6)
-                                      : secondaryLightBlue,
+                                      ? Colors.red.withOpacity(0.6)
+                                      : Colors.red,
                                   borderRadius: BorderRadius.circular(16),
                                 ),
-                                child: const Text(
-                                  "Pagar no local",
+                                child: Text(
+                                  match.selectedPayment ==
+                                          SelectedPayment.CreditCard
+                                      ? "Proc. Pagamento"
+                                      : "Pend. Pagamento",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: textWhite,
@@ -266,10 +278,7 @@ class MatchCard extends StatelessWidget {
                                 ),
                               ),
                             )
-                          : match.hasUserSentInvitation(
-                                  Provider.of<UserProvider>(context,
-                                          listen: false)
-                                      .user!)
+                          : match.selectedPayment == SelectedPayment.PayInStore
                               ? Positioned(
                                   right: width * 0.02,
                                   top: width * 0.02,
@@ -279,12 +288,12 @@ class MatchCard extends StatelessWidget {
                                         vertical: width * 0.01),
                                     decoration: BoxDecoration(
                                       color: match.date.isBefore(DateTime.now())
-                                          ? secondaryYellow.withOpacity(0.6)
-                                          : secondaryYellow,
+                                          ? secondaryLightBlue.withOpacity(0.6)
+                                          : secondaryLightBlue,
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: const Text(
-                                      "Solic. Enviada",
+                                      "Pagar no local",
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: textWhite,
@@ -293,7 +302,36 @@ class MatchCard extends StatelessWidget {
                                     ),
                                   ),
                                 )
-                              : Container(),
+                              : match.hasUserSentInvitation(
+                                      Provider.of<UserProvider>(context,
+                                              listen: false)
+                                          .user!)
+                                  ? Positioned(
+                                      right: width * 0.02,
+                                      top: width * 0.02,
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width * 0.02,
+                                            vertical: width * 0.01),
+                                        decoration: BoxDecoration(
+                                          color: match.date
+                                                  .isBefore(DateTime.now())
+                                              ? secondaryYellow.withOpacity(0.6)
+                                              : secondaryYellow,
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
+                                        child: const Text(
+                                          "Solic. Enviada",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: textWhite,
+                                          ),
+                                          textScaleFactor: 0.9,
+                                        ),
+                                      ),
+                                    )
+                                  : Container(),
             ],
           ),
         ),

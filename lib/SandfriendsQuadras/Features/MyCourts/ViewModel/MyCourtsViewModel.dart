@@ -11,10 +11,11 @@ import '../../../../Common/Model/SandfriendsQuadras/AvailableSport.dart';
 import '../../../../Common/Model/SandfriendsQuadras/PriceRule.dart';
 import '../../../../Common/Model/SandfriendsQuadras/StoreWorkingHours.dart';
 import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
-import '../../Menu/ViewModel/MenuProvider.dart';
+import '../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../Repository/MyCourtsRepo.dart';
 import '../View/Web/PriceListWidget.dart';
 import '../View/Web/WorkingHoursModal.dart';
@@ -32,6 +33,12 @@ class MyCourtsViewModel extends ChangeNotifier {
   List<Court> courts = [];
   List<StoreWorkingDay> refStoreWorkingDays = [];
   List<StoreWorkingDay> storeWorkingDays = [];
+
+  // bool isSettingTeacherPrices = false;
+  // void setIsSettingTeacherPrices(bool value) {
+  //   isSettingTeacherPrices = value;
+  //   notifyListeners();
+  // }
 
   bool get courtInfoChanged {
     if (refStoreWorkingDays.isNotEmpty) {
@@ -208,6 +215,8 @@ class MyCourtsViewModel extends ChangeNotifier {
                     .firstWhere((hr) => hr.hour == i),
             price: 0,
             recurrentPrice: 0,
+            priceTeacher: 0,
+            recurrentPriceTeacher: 0,
             endingHour: Provider.of<CategoriesProvider>(context, listen: false)
                 .hours
                 .firstWhere((hr) => hr.hour > i),
@@ -235,7 +244,9 @@ class MyCourtsViewModel extends ChangeNotifier {
                       .hours
                       .firstWhere((hr) => hr.hour == i),
               price: prices.first.price,
+              priceTeacher: prices.first.price,
               recurrentPrice: prices.first.recurrentPrice,
+              recurrentPriceTeacher: prices.first.recurrentPrice,
               endingHour:
                   Provider.of<CategoriesProvider>(context, listen: false)
                       .hours
@@ -256,7 +267,9 @@ class MyCourtsViewModel extends ChangeNotifier {
                       .hours
                       .firstWhere((hr) => hr.hour == i),
               price: prices.last.price,
+              priceTeacher: prices.last.price,
               recurrentPrice: prices.last.recurrentPrice,
+              recurrentPriceTeacher: prices.last.recurrentPrice,
               endingHour:
                   Provider.of<CategoriesProvider>(context, listen: false)
                       .hours
@@ -381,6 +394,7 @@ class MyCourtsViewModel extends ChangeNotifier {
     OperationDayStore operationDay,
     bool isRecurrent,
     TextEditingController controller,
+    bool isSettingTeacherPrices,
   ) {
     int? newPrice = int.tryParse(stringNewPrice);
     if (newPrice == null) {
@@ -391,9 +405,17 @@ class MyCourtsViewModel extends ChangeNotifier {
       if (hourPrice.startingHour.hour >= priceRule.startingHour.hour &&
           hourPrice.startingHour.hour < priceRule.endingHour.hour) {
         if (isRecurrent) {
-          hourPrice.recurrentPrice = newPrice;
+          if (isSettingTeacherPrices) {
+            hourPrice.recurrentPriceTeacher = newPrice;
+          } else {
+            hourPrice.recurrentPrice = newPrice;
+          }
         } else {
-          hourPrice.price = newPrice;
+          if (isSettingTeacherPrices) {
+            hourPrice.priceTeacher = newPrice;
+          } else {
+            hourPrice.price = newPrice;
+          }
         }
       }
     }
@@ -543,8 +565,11 @@ class MyCourtsViewModel extends ChangeNotifier {
       missingInfo = "Já existe uma quadra com esse nome no seu estabelecimento";
     } else if (!court.sports.any((sport) => sport.isAvailable)) {
       missingInfo = "Informe os esportes permitidos na quadra";
-    } else if (court.operationDays.any((opDay) => opDay.prices
-        .any((price) => price.price == 0 || price.recurrentPrice == 0))) {
+    } else if (court.operationDays.any((opDay) => opDay.prices.any((price) =>
+        price.price == 0 ||
+        price.recurrentPrice == 0 ||
+        price.priceTeacher == 0 ||
+        price.recurrentPriceTeacher == 0))) {
       missingInfo = "Opa! Você tem alguma quadra sem preço configurado";
     }
     return missingInfo;
@@ -565,7 +590,7 @@ class MyCourtsViewModel extends ChangeNotifier {
       myCourtsRepo
           .addCourt(
         context,
-        Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+        Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
         currentCourt,
       )
           .then((response) {
@@ -586,9 +611,10 @@ class MyCourtsViewModel extends ChangeNotifier {
           );
         } else if (response.responseStatus ==
             NetworkResponseStatus.expiredToken) {
-          Provider.of<MenuProvider>(context, listen: false).logout(context);
+          Provider.of<MenuProviderQuadras>(context, listen: false)
+              .logout(context);
         } else {
-          Provider.of<MenuProvider>(context, listen: false)
+          Provider.of<MenuProviderQuadras>(context, listen: false)
               .setMessageModalFromResponse(context, response);
         }
       });
@@ -611,7 +637,7 @@ class MyCourtsViewModel extends ChangeNotifier {
     myCourtsRepo
         .removeCourt(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       courts[selectedCourtIndex].idStoreCourt!,
     )
         .then((response) {
@@ -632,9 +658,10 @@ class MyCourtsViewModel extends ChangeNotifier {
         );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });
@@ -651,7 +678,8 @@ class MyCourtsViewModel extends ChangeNotifier {
             .addModalMessage(
           SFModalMessage(
             title: missingInfo,
-            description: "Verifique ${court.description}",
+            description:
+                "Verifique ${court.description}.\n(Lembre-se se configurar o preço para os professores)",
             onTap: () {},
             isHappy: true,
           ),
@@ -678,7 +706,7 @@ class MyCourtsViewModel extends ChangeNotifier {
     myCourtsRepo
         .saveCourtChanges(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       changedCourts,
     )
         .then((response) {
@@ -699,9 +727,10 @@ class MyCourtsViewModel extends ChangeNotifier {
         );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });

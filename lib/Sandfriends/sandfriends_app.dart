@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:sandfriends/Common/Model/Classes/School/SchoolUser.dart';
 import 'package:sandfriends/Common/Model/Store/StoreUser.dart';
+import 'package:sandfriends/Common/Model/Classes/Teacher/Teacher.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/generic_app.dart';
+import 'package:sandfriends/Sandfriends/Features/SchoolDetails/View/SchoolDetailsScreen.dart';
+import 'package:sandfriends/Sandfriends/Features/Teacher/View/TeacherScreen.dart';
 import '../Common/Features/UserMatches/View/UserMatchesScreen.dart';
 import '../Common/Model/City.dart';
 import '../Common/Model/Court.dart';
 import '../Common/Model/Hour.dart';
 import '../Common/Model/Sport.dart';
+import '../Common/Model/Team.dart';
+import '../SandfriendsAulas/Features/TeamDetails/View/TeamDetailsScreen.dart';
 import '../SandfriendsQuadras/Features/Authentication/ChangePassword/View/ChangePasswordScreen.dart';
 import 'Features/AppInfo/View/AppInfoScreen.dart';
 import 'Features/Authentication/CreateAccount/View/CreateAccountScreen.dart';
@@ -121,12 +127,14 @@ class SandfriendsApp extends GenericApp {
         String match = "/partida";
         String matchSearch = "/match_search";
         String matchSearchFilter = "/match_search_filter";
-        String recurrentMatchSearch = "/recurrent_match_search";
         String court = "/quadra/";
         String checkout = "/checkout";
         String userDetails = "/user_details";
         String storeSearch = "/store_search";
         String searchType = "/search_type";
+        String teacher = "/prof";
+        String teamDetails = "/turma";
+        String schoolDetails = "/escola";
         if (settings.name! == matchSearch) {
           final arguments = settings.arguments as Map;
 
@@ -150,16 +158,6 @@ class SandfriendsApp extends GenericApp {
                 selectedCityId: arguments['selectedCityId'] as City?,
                 hideOrderBy: arguments['hideOrderBy'] as bool?,
                 isRecurrent: arguments['isRecurrent'] as bool,
-              );
-            },
-          );
-        } else if (settings.name! == recurrentMatchSearch) {
-          final arguments = settings.arguments as Map;
-
-          return MaterialPageRoute(
-            builder: (context) {
-              return RecurrentMatchSearchScreen(
-                sportId: arguments['sportId'],
               );
             },
           );
@@ -253,6 +251,40 @@ class SandfriendsApp extends GenericApp {
               );
             },
           );
+        } else if (settings.name! == teacher) {
+          final arguments = settings.arguments as Map;
+
+          return MaterialPageRoute(
+            builder: (context) {
+              return TeacherScreen(
+                teacher: arguments['Teacher'] as Teacher,
+              );
+            },
+          );
+        } else if (settings.name! == teamDetails) {
+          if (settings.arguments != null) {
+            final arguments = settings.arguments as Map;
+
+            return MaterialPageRoute(
+              builder: (context) {
+                return TeamDetailsScreen(
+                  team: arguments['team'] as Team,
+                );
+              },
+            );
+          }
+        } else if (settings.name! == schoolDetails) {
+          if (settings.arguments != null) {
+            final arguments = settings.arguments as Map;
+
+            return MaterialPageRoute(
+              builder: (context) {
+                return SchoolDetailsScreen(
+                  school: arguments['school'] as SchoolUser,
+                );
+              },
+            );
+          }
         }
         return null;
       };
@@ -280,5 +312,7 @@ class SandfriendsApp extends GenericApp {
         '/new_credit_card': (BuildContext context) =>
             const NewCreditCardScreen(),
         '/settings': (BuildContext context) => const AppInfoScreen(),
+        "/recurrent_match_search": (BuildContext context) =>
+            const RecurrentMatchSearchScreen(),
       };
 }

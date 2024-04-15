@@ -8,6 +8,7 @@ import 'package:sandfriends/Sandfriends/Features/RewardsUser/View/RewardUserClai
 import 'package:sandfriends/Common/Model/RewardUser.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
@@ -22,7 +23,7 @@ class RewardsUserViewModel extends ChangeNotifier {
     rewardsUserRepo
         .getUserRewards(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
     )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {

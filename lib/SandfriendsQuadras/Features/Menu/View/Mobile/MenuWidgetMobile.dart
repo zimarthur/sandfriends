@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../ViewModel/MenuProvider.dart';
-import '../../../Home/View/Mobile/HomeHeader.dart';
+import '../../ViewModel/MenuProviderQuadras.dart';
+import '../../../Home/View/Mobile/HomeHeaderQuadras.dart';
 
 class MenuWidgetMobile extends StatefulWidget {
-  MenuProvider viewModel;
+  MenuProviderQuadras viewModel;
   MenuWidgetMobile({required this.viewModel, super.key});
 
   @override
@@ -13,6 +13,6 @@ class MenuWidgetMobile extends StatefulWidget {
 class _MenuWidgetMobileState extends State<MenuWidgetMobile> {
   @override
   Widget build(BuildContext context) {
-    return widget.viewModel.selectedDrawerItem.widgetMobile;
+    return widget.viewModel.selectedDrawerItem.widgetMobile ?? Container();
   }
 }

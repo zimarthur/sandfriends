@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 
+import '../../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../../Remote/NetworkResponse.dart';
 import '../../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../LoadLogin/ViewModel/LoadLoginViewModel.dart';
@@ -22,7 +23,14 @@ class LoginViewModel extends ChangeNotifier {
     Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
 
     loginRepo
-        .login(context, emailController.text, passwordController.text)
+        .login(
+      context,
+      emailController.text,
+      passwordController.text,
+      Provider.of<EnvironmentProvider>(context, listen: false)
+          .environment
+          .isSandfriendsAulas,
+    )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         receiveLoginResponse(context, response.responseBody!);
@@ -54,6 +62,9 @@ class LoginViewModel extends ChangeNotifier {
         .forgotPassword(
       context,
       forgotPasswordEmailController.text,
+      Provider.of<EnvironmentProvider>(context, listen: false)
+          .environment
+          .isSandfriendsAulas,
     )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {

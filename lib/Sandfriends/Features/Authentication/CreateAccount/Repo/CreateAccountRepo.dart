@@ -13,7 +13,11 @@ class CreateAccountRepo {
   final _apiService = NetworkApiService();
 
   Future<NetworkResponse> createAccount(
-      BuildContext context, String email, String password) async {
+    BuildContext context,
+    String email,
+    String password,
+    bool isTeacher,
+  ) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
       ApiEndPoints.createAccountUser,
@@ -21,6 +25,7 @@ class CreateAccountRepo {
         <String, Object>{
           "Email": email,
           "Password": password,
+          "IsTeacher": isTeacher,
         },
       ),
     );

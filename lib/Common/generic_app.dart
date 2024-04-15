@@ -9,10 +9,11 @@ import 'package:sandfriends/Common/Managers/Firebase/FirebaseManager.dart';
 import 'package:sandfriends/Common/Managers/LocalNotifications/LocalNotificationsManager.dart';
 import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
+import 'package:sandfriends/Sandfriends/Providers/TeacherProvider/TeacherProvider.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 import 'package:sandfriends/SandfriendsQuadras/Features/Menu/ViewModel/StoreProvider.dart';
 import '../Sandfriends/Providers/RedirectProvider/RedirectProvider.dart';
-import '../SandfriendsQuadras/Features/Menu/ViewModel/MenuProvider.dart';
+import '../SandfriendsQuadras/Features/Menu/ViewModel/MenuProviderQuadras.dart';
 import 'Utils/Constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -97,6 +98,7 @@ class _AppState extends State<GenericApp> {
       widget.product,
       widget.flavor,
     );
+
     super.initState();
     if (!kIsWeb) {
       _initURIHandler();
@@ -135,10 +137,13 @@ class _AppState extends State<GenericApp> {
           create: (_) => UserProvider(),
         ),
         ChangeNotifierProvider(
+          create: (_) => TeacherProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (_) => RedirectProvider(),
         ),
         ChangeNotifierProvider(
-          create: (_) => MenuProvider(),
+          create: (_) => MenuProviderQuadras(),
         ),
         ChangeNotifierProvider(
           create: (_) => StoreProvider(),

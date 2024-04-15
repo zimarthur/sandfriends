@@ -88,7 +88,7 @@ class _UserWidgetState extends State<UserWidget> {
                       ),
                       UserTileButton(
                           title: "Configurar pagamentos",
-                          iconPath: r'assets/icon/payment.svg',
+                          iconPath: r'assets/icon/price.svg',
                           onTap: () {
                             Navigator.pushNamed(context, '/payment');
                           }),

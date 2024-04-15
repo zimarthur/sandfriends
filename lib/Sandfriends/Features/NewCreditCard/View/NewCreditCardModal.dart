@@ -48,9 +48,12 @@ class _NewCreditCardModalState extends State<NewCreditCardModal> {
               onTap: () =>
                   Provider.of<StandardScreenViewModel>(context, listen: false)
                       .removeLastOverlay(),
-              child: SvgPicture.asset(
-                r"assets/icon/x.svg",
-                color: textDarkGrey,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+                child: SvgPicture.asset(
+                  r"assets/icon/x.svg",
+                  color: textDarkGrey,
+                ),
               ),
             ),
           ),

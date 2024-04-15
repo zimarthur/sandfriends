@@ -5,7 +5,7 @@ import 'package:sandfriends/Common/StandardScreen/StandardScreen.dart';
 import '../../../../../Common/Components/SFButton.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../../Menu/ViewModel/StoreProvider.dart';
-import '../../../Menu/ViewModel/MenuProvider.dart';
+import '../../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../../ViewModel/SettingsViewModel.dart';
 
 class SettingsScreenMobile extends StatefulWidget {
@@ -59,9 +59,9 @@ class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
                     SFButton(
                       buttonLabel: "Sair",
                       color: red,
-                      onTap: () =>
-                          Provider.of<MenuProvider>(context, listen: false)
-                              .logout(context),
+                      onTap: () => Provider.of<MenuProviderQuadras>(context,
+                              listen: false)
+                          .logout(context),
                     ),
                     SizedBox(
                       height: defaultPadding,

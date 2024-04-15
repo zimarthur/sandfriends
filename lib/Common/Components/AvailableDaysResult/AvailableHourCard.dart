@@ -98,7 +98,7 @@ class _AvailableHourCardState extends State<AvailableHourCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SvgPicture.asset(
-                        r"assets/icon/payment.svg",
+                        r"assets/icon/price.svg",
                         color: isSelectedOrHovered
                             ? textWhite
                             : widget.isRecurrent

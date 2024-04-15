@@ -310,7 +310,7 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                         child: InkWell(
                                           onTap: () {
                                             Navigator.pushNamed(context,
-                                                '/match_screen/${widget.recurrentMatch.nextRecurrentMatches[index].matchUrl}');
+                                                '/partida/${widget.recurrentMatch.nextRecurrentMatches[index].matchUrl}');
                                           },
                                           child: RecurrentMatchCardDate(
                                               day: widget

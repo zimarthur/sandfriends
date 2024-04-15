@@ -21,7 +21,8 @@ class _OpenMatchSectionState extends State<OpenMatchSection> {
   @override
   Widget build(BuildContext context) {
     return widget.viewModel.isUserMatchCreator &&
-            widget.viewModel.matchExpired == false
+            widget.viewModel.matchExpired == false &&
+            !widget.viewModel.isClass
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

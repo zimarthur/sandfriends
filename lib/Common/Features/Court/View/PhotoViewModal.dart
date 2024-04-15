@@ -55,10 +55,13 @@ class _PhotoViewModalState extends State<PhotoViewModal> {
               ),
               InkWell(
                 onTap: () => widget.onClose(),
-                child: SvgPicture.asset(
-                  r"assets/icon/x.svg",
-                  color: textDarkGrey,
-                  height: 20,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+                  child: SvgPicture.asset(
+                    r"assets/icon/x.svg",
+                    color: textDarkGrey,
+                    height: 20,
+                  ),
                 ),
               ),
             ],

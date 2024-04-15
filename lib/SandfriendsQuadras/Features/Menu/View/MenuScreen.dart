@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreen.dart';
 import '../../../../Common/Utils/Responsive.dart';
-import '../ViewModel/MenuProvider.dart';
+import '../ViewModel/MenuProviderQuadras.dart';
 import 'Mobile/DrawerMobile/SFDrawerMobile.dart';
 import 'Mobile/MenuWidgetMobile.dart';
 import 'Web/MenuWidgetWeb.dart';
@@ -15,7 +15,7 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  final viewModel = MenuProvider();
+  final viewModel = MenuProviderQuadras();
 
   @override
   void initState() {
@@ -25,9 +25,9 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<MenuProvider>(
+    return ChangeNotifierProvider<MenuProviderQuadras>(
       create: (BuildContext context) => viewModel,
-      child: Consumer<MenuProvider>(
+      child: Consumer<MenuProviderQuadras>(
         builder: (context, viewModel, _) {
           return PopScope(
             canPop: false,

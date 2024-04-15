@@ -8,9 +8,9 @@ import '../Rank.dart';
 import '../SidePreference.dart';
 import '../Sport.dart';
 import 'User.dart';
+import 'package:collection/collection.dart';
 
 class UserComplete extends User {
-  String accessToken;
   DateTime? birthday;
   double? height;
   SidePreference? sidePreference;
@@ -33,7 +33,6 @@ class UserComplete extends User {
     super.gender,
     super.preferenceSport,
     required this.email,
-    required this.accessToken,
     this.birthday,
     this.height,
     this.sidePreference,
@@ -43,6 +42,7 @@ class UserComplete extends User {
     this.notificationsToken,
     this.allowNotificationsOpenMatches = false,
     this.allowNotificationsCoupons = false,
+    super.registrationDate,
   });
 
   int? get age {
@@ -67,15 +67,15 @@ class UserComplete extends User {
   }
 
   int getUserSportMatches(Sport selectedSport) {
-    return matchCounter
-        .firstWhere((element) => element.sport.idSport == selectedSport.idSport)
-        .total;
+    MatchCounter? sportMatchCounter = matchCounter.firstWhereOrNull(
+        (element) => element.sport.idSport == selectedSport.idSport);
+
+    return sportMatchCounter == null ? 0 : sportMatchCounter.total;
   }
 
   factory UserComplete.fromJson(Map<String, dynamic> json) {
     var newUser = UserComplete(
       id: json['IdUser'],
-      accessToken: json['AccessToken'] ?? "",
       firstName: json['FirstName'],
       lastName: json['LastName'],
       height: json['Height'],
@@ -99,6 +99,9 @@ class UserComplete extends User {
       allowNotificationsOpenMatches:
           json['AllowNotificationsOpenMatches'] ?? false,
       allowNotificationsCoupons: json['AllowNotificationsCoupons'] ?? false,
+      registrationDate: json['RegistrationDate'] != null
+          ? DateFormat('dd/MM/yyyy').parse(json['RegistrationDate'])
+          : null,
     );
     for (int i = 0; i < json['Ranks'].length; i++) {
       newUser.ranks.add(Rank.fromJson(json['Ranks'][i]['RankCategory']));
@@ -106,7 +109,7 @@ class UserComplete extends User {
     return newUser;
   }
 
-  Map<String, Object> toJson() {
+  Map<String, Object> toJson(String accessToken) {
     List<Map<String, dynamic>> rankJson = [];
     for (var rank in ranks) {
       rankJson.add({
@@ -158,7 +161,6 @@ class UserComplete extends User {
   factory UserComplete.copyWith(UserComplete refUser) {
     final user = UserComplete(
       email: refUser.email,
-      accessToken: refUser.accessToken,
       firstName: refUser.firstName,
       lastName: refUser.lastName,
       birthday: refUser.birthday,
@@ -175,6 +177,7 @@ class UserComplete extends User {
       notificationsToken: refUser.notificationsToken,
       allowNotificationsCoupons: refUser.allowNotificationsCoupons,
       allowNotificationsOpenMatches: refUser.allowNotificationsOpenMatches,
+      registrationDate: refUser.registrationDate,
     );
     for (var rank in refUser.ranks) {
       user.ranks.add(

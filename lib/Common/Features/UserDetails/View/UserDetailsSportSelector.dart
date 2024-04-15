@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../Components/SFDropDown.dart';
 import '../../../Providers/Categories/CategoriesProvider.dart';
+import '../../../Providers/Environment/EnvironmentProvider.dart';
 import '../../../Utils/Constants.dart';
 import '../ViewModel/UserDetailsViewModel.dart';
 import 'Web/SportFavorite.dart';
@@ -47,8 +48,12 @@ class _UserDetailsSportSelectorState extends State<UserDetailsSportSelector> {
         const SizedBox(
           height: defaultPadding / 8,
         ),
-        const Text(
-          "Alterne entre os esportes para informar seu nível em cada um deles.",
+        Text(
+          Provider.of<EnvironmentProvider>(context, listen: false)
+                  .environment
+                  .isSandfriends
+              ? "Alterne entre os esportes para informar seu nível em cada um deles."
+              : "Marque com o coração o esporte que você da aula.",
           style: TextStyle(
             color: textDarkGrey,
             fontSize: 11,

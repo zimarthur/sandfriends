@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sandfriends/Common/Utils/TypeExtensions.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../Components/SFAvatarUser.dart';
 import '../../../../Utils/Constants.dart';
 import '../../ViewModel/MatchViewModel.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -21,8 +22,8 @@ class InformationSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              "Detalhes da Partida",
+            Text(
+              "Detalhes da ${viewModel.isClass ? 'Aula' : 'Partida'}",
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 18,
@@ -63,6 +64,57 @@ class InformationSection extends StatelessWidget {
           ),
           child: Column(
             children: [
+              if (viewModel.isClass) ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Prof:",
+                    ),
+                    GestureDetector(
+                      onTap: () => viewModel.openMemberCardModal(
+                        context,
+                        viewModel.match.tacher,
+                      ),
+                      child: Row(
+                        children: [
+                          SFAvatarUser(
+                            height: 60,
+                            user: viewModel.match.team!.teacher!,
+                            showRank: false,
+                          ),
+                          SizedBox(
+                            width: defaultPadding / 2,
+                          ),
+                          Text(
+                            viewModel.match.team!.teacher!.fullName,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Turma:",
+                    ),
+                    Text(
+                      viewModel.match.team!.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: defaultPadding,
+                ),
+              ],
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -111,25 +163,27 @@ class InformationSection extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: defaultPadding,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Preço:",
-                  ),
-                  Text(
-                    viewModel.match.userCost.formatPrice(),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        decoration: viewModel.match.coupon != null
-                            ? TextDecoration.lineThrough
-                            : null),
-                  ),
-                ],
-              ),
+              if (viewModel.isUserTeacher || !viewModel.isClass) ...[
+                const SizedBox(
+                  height: defaultPadding,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Preço:",
+                    ),
+                    Text(
+                      viewModel.match.userCost.formatPrice(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          decoration: viewModel.match.coupon != null
+                              ? TextDecoration.lineThrough
+                              : null),
+                    ),
+                  ],
+                ),
+              ],
               if (viewModel.match.coupon != null)
                 Padding(
                   padding: const EdgeInsets.only(top: defaultPadding / 4),

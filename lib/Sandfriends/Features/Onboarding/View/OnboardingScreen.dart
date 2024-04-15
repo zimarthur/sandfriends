@@ -37,6 +37,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ? "Boas-vindas"
                 : "Meu perfil",
             appBarType: AppBarType.Secondary,
+            customOnTapReturn: () => viewModel.onTapReturn(context),
             child: viewModel.onboardingPage == EnumOnboardingPage.Welcome
                 ? OnboardingWidgetWelcome()
                 : OnboardingWidgetForm(),
