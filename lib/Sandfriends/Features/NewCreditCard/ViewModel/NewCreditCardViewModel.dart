@@ -10,6 +10,7 @@ import 'package:sandfriends/Common/Model/CreditCard/CardType.dart';
 import 'package:sandfriends/Common/Model/CreditCard/CreditCardUtils.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Model/CreditCard/CreditCard.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
@@ -69,7 +70,7 @@ class NewCreditCardViewModel extends ChangeNotifier {
       newCreditCardRepo
           .addUserCreditCard(
         context,
-        Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+        Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
         phoneNumberController.text.replaceAll(RegExp('[^0-9]'), ''),
         cardNumberController.text.replaceAll(" ", ""),
         cardNicknameController.text,

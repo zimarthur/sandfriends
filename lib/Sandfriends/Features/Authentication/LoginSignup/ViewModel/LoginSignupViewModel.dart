@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/User/UserComplete.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/Authentication/LoadLogin/ViewModel/LoadLoginViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/Authentication/LoginSignup/Repo/LoginSignupRepo.dart';
@@ -35,8 +36,8 @@ class LoginSignupViewModel extends ChangeNotifier {
       Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
       String fullName = credential.familyName ?? "";
       String email = credential.email ?? "";
-      Provider.of<UserProvider>(context, listen: false).user = UserComplete(
-          email: email, accessToken: "", firstName: fullName, lastName: "");
+      Provider.of<UserProvider>(context, listen: false).user =
+          UserComplete(email: email, firstName: fullName, lastName: "");
 
       validateGoogleLogin(context, email, credential.userIdentifier);
     } catch (e) {
@@ -80,10 +81,10 @@ class LoginSignupViewModel extends ChangeNotifier {
           if (firstName != "") {
             Provider.of<UserProvider>(context, listen: false).user =
                 UserComplete(
-                    email: user.email,
-                    accessToken: "",
-                    firstName: firstName,
-                    lastName: lastName);
+              email: user.email,
+              firstName: firstName,
+              lastName: lastName,
+            );
           }
 
           validateGoogleLogin(context, user.email, null);
@@ -109,7 +110,14 @@ class LoginSignupViewModel extends ChangeNotifier {
       BuildContext context, String email, String? appleToken) {
     Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
     loginSignupRepo
-        .thirdPartyLogin(context, email, appleToken)
+        .thirdPartyLogin(
+      context,
+      email,
+      appleToken,
+      Provider.of<EnvironmentProvider>(context, listen: false)
+          .environment
+          .isSandfriendsAulas,
+    )
         .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         receiveLoginResponse(context, response.responseBody!);

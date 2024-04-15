@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/CreditCard/CreditCardValidator.dart';
 import 'package:sandfriends/Common/Model/SelectedPayment.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/View/Payment/CheckoutPaymentRadio.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/ViewModel/CheckoutViewModel.dart';
 import 'package:sandfriends/Common/Utils/Constants.dart';
@@ -109,42 +110,45 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
             if (widget.showTitle)
               Column(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: defaultPadding / 2, top: defaultPadding / 4),
-                    child: Row(children: [
-                      SvgPicture.asset(
-                        r"assets/icon/star.svg",
-                        color: secondaryYellow,
-                      ),
-                      SizedBox(
-                        width: defaultPadding / 2,
-                      ),
-                      Expanded(
-                        child: RichText(
-                          maxLines: 2,
-                          textScaleFactor: 0.8,
-                          text: TextSpan(
-                            text: 'Pague pelo app para conquistar ',
-                            style: const TextStyle(
-                              color: textDarkGrey,
-                              fontFamily: 'Lexend',
-                            ),
-                            children: [
-                              TextSpan(
-                                text: "recompensas",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: secondaryYellow,
-                                  fontFamily: 'Lexend',
-                                ),
+                  if (Provider.of<EnvironmentProvider>(context, listen: false)
+                      .environment
+                      .isSandfriends)
+                    Padding(
+                      padding: EdgeInsets.only(
+                          bottom: defaultPadding / 2, top: defaultPadding / 4),
+                      child: Row(children: [
+                        SvgPicture.asset(
+                          r"assets/icon/star.svg",
+                          color: secondaryYellow,
+                        ),
+                        SizedBox(
+                          width: defaultPadding / 2,
+                        ),
+                        Expanded(
+                          child: RichText(
+                            maxLines: 2,
+                            textScaleFactor: 0.8,
+                            text: TextSpan(
+                              text: 'Pague pelo app para conquistar ',
+                              style: const TextStyle(
+                                color: textDarkGrey,
+                                fontFamily: 'Lexend',
                               ),
-                            ],
+                              children: [
+                                TextSpan(
+                                  text: "recompensas",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: secondaryYellow,
+                                    fontFamily: 'Lexend',
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ]),
-                  ),
+                      ]),
+                    ),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: defaultPadding),

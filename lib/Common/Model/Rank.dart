@@ -18,6 +18,8 @@ class Rank {
     required this.color,
   });
 
+  bool get isNeutralRank => rankSportLevel == 0;
+
   Color get colorObj => name == "-"
       ? textDarkGrey
       : Color(int.parse("0xFF${color.replaceAll("#", "")}"));

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sandfriends/Common/Model/Coupon/CouponUser.dart';
+import 'package:sandfriends/Common/Model/Team.dart';
 import '../../../../Remote/ApiEndPoints.dart';
 import '../../../../Remote/NetworkApiService.dart';
 import '../../../../Remote/NetworkResponse.dart';
@@ -66,12 +67,13 @@ class CheckoutRepo {
     int? idCreditCard,
     String cvv,
     bool isRenovating,
+    Team? team,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
       ApiEndPoints.recurrentMatchReservation,
       jsonEncode(
-        <String, Object>{
+        <String, Object?>{
           "AccessToken": accessToken,
           "IdStoreCourt": idStoreCourt,
           "SportId": sportId,
@@ -89,6 +91,7 @@ class CheckoutRepo {
           "IdCreditCard": idCreditCard ?? "",
           "Cvv": cvv,
           "IsRenovating": isRenovating,
+          "IdTeam": team?.idTeam,
         },
       ),
     );

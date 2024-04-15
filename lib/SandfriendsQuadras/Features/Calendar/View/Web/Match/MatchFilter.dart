@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../../../Common/Utils/Constants.dart';
-import '../../../../Menu/ViewModel/MenuProvider.dart';
+import '../../../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../../../ViewModel/CalendarViewModel.dart';
 import '../CalendarToggle.dart';
 import 'DatePicker.dart';
@@ -14,8 +14,10 @@ class MatchFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = Provider.of<MenuProvider>(context).getScreenWidth(context);
-    double height = Provider.of<MenuProvider>(context).getScreenHeight(context);
+    double width =
+        Provider.of<MenuProviderQuadras>(context).getScreenWidth(context);
+    double height =
+        Provider.of<MenuProviderQuadras>(context).getScreenHeight(context);
     return SizedBox(
       width: 300,
       height: height,

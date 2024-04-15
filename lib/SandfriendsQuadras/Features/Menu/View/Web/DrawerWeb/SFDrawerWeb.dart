@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../../../../../Common/Utils/Constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../ViewModel/MenuProvider.dart';
+import '../../../ViewModel/MenuProviderQuadras.dart';
 import 'SFDrawerDivider.dart';
 import 'SFDrawerListTile.dart';
 import 'SFDrawerUserWidget.dart';
 
 class SFDrawerWeb extends StatefulWidget {
-  MenuProvider viewModel;
+  MenuProviderQuadras viewModel;
   SFDrawerWeb({
     required this.viewModel,
   });
@@ -74,7 +74,9 @@ class _SFDrawerWebState extends State<SFDrawerWeb> {
                 return InkWell(
                   onTap: () {
                     widget.viewModel.onTabClick(
-                        widget.viewModel.mainDrawer[index], context);
+                      widget.viewModel.mainDrawer[index].drawerPage,
+                      context,
+                    );
                   },
                   onHover: (value) {
                     widget.viewModel.setHoveredDrawerTitle(

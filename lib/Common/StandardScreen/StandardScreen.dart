@@ -73,127 +73,122 @@ class _StandardScreenState extends State<StandardScreen> {
         endDrawer: widget.drawer,
         key: widget.scaffoldKey,
         resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-        backgroundColor: widget.background ??
-            (widget.appBarType == AppBarType.Primary
-                ? primaryBlue
-                : widget.appBarType == AppBarType.PrimaryLightBlue
-                    ? primaryLightBlue
-                    : secondaryBack),
-        body: SafeArea(
-          top: widget.enableToolbar,
-          child: Stack(
-            children: [
-              GestureDetector(
-                onTap: () => FocusScope.of(context).unfocus(),
-                onHorizontalDragStart: (details) {
-                  horizontalDragStart = details.globalPosition.dx;
-                },
-                onHorizontalDragUpdate: (details) {
-                  if ((horizontalDragStart < width * 0.15) &&
-                      ((details.globalPosition.dx - horizontalDragStart) >
-                          width * 0.1) &&
-                      Provider.of<EnvironmentProvider>(context, listen: false)
-                          .environment
-                          .isIos) {
-                    onTapReturn();
-                    horizontalDragStart = 0.0;
-                  }
-                },
-                child: Container(
-                  decoration:
-                      Provider.of<EnvironmentProvider>(context, listen: false)
-                                  .environment
-                                  .isWeb &&
-                              !Responsive.isMobile(context)
-                          ? const BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [primaryBlue, primaryLightBlue],
-                              ),
-                            )
-                          : null,
-                  width: width,
-                  height: height,
-                  child: Responsive.isMobile(context)
-                      ? Column(
-                          children: [
-                            widget.enableToolbar
-                                ? SFToolbar(
-                                    titleText: widget.titleText!,
-                                    onTapReturn: () => onTapReturn(),
-                                    appBarType: widget.appBarType!,
-                                    rightWidget: widget.rightWidget,
-                                  )
-                                : Container(),
-                            Expanded(child: widget.child)
-                          ],
-                        )
-                      : Center(
-                          child: widget.childWeb,
-                        ),
+        backgroundColor: widget.background ?? secondaryBack,
+        body: Stack(
+          children: [
+            GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              onHorizontalDragStart: (details) {
+                horizontalDragStart = details.globalPosition.dx;
+              },
+              onHorizontalDragUpdate: (details) {
+                if ((horizontalDragStart < width * 0.15) &&
+                    ((details.globalPosition.dx - horizontalDragStart) >
+                        width * 0.1) &&
+                    Provider.of<EnvironmentProvider>(context, listen: false)
+                        .environment
+                        .isIos) {
+                  onTapReturn();
+                  horizontalDragStart = 0.0;
+                }
+              },
+              child: Container(
+                decoration:
+                    Provider.of<EnvironmentProvider>(context, listen: false)
+                                .environment
+                                .isWeb &&
+                            !Responsive.isMobile(context)
+                        ? const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [primaryBlue, primaryLightBlue],
+                            ),
+                          )
+                        : null,
+                width: width,
+                height: height,
+                child: Responsive.isMobile(context)
+                    ? Column(
+                        children: [
+                          widget.enableToolbar
+                              ? SFToolbar(
+                                  titleText: widget.titleText!,
+                                  onTapReturn: () => onTapReturn(),
+                                  appBarType: widget.appBarType!,
+                                  rightWidget: widget.rightWidget,
+                                )
+                              : Container(),
+                          Expanded(child: widget.child)
+                        ],
+                      )
+                    : Center(
+                        child: widget.childWeb,
+                      ),
+              ),
+            ),
+            for (var overlay
+                in Provider.of<StandardScreenViewModel>(context).overlays)
+              Visibility(
+                maintainState: true,
+                visible: (Provider.of<StandardScreenViewModel>(context)
+                                .overlays
+                                .indexOf(overlay) +
+                            1) ==
+                        Provider.of<StandardScreenViewModel>(context)
+                            .overlays
+                            .length ||
+                    overlay.showOnlyIfLast == false,
+                child: InkWell(
+                  onTap: () {
+                    if (Provider.of<StandardScreenViewModel>(context,
+                            listen: false)
+                        .canTapBackground) {
+                      Provider.of<StandardScreenViewModel>(context,
+                              listen: false)
+                          .closeModal();
+                    }
+                  },
+                  child: Container(
+                      color: primaryBlue.withOpacity(0.4),
+                      height: height,
+                      width: width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(onTap: () {}, child: overlay.widget),
+                          SizedBox(
+                            height: MediaQuery.of(context).viewInsets.bottom,
+                          )
+                        ],
+                      )),
                 ),
               ),
-              for (var overlay
-                  in Provider.of<StandardScreenViewModel>(context).overlays)
-                Visibility(
-                  maintainState: true,
-                  visible: (Provider.of<StandardScreenViewModel>(context)
-                                  .overlays
-                                  .indexOf(overlay) +
-                              1) ==
-                          Provider.of<StandardScreenViewModel>(context)
-                              .overlays
-                              .length ||
-                      overlay.showOnlyIfLast == false,
-                  child: InkWell(
-                    onTap: () {
-                      if (Provider.of<StandardScreenViewModel>(context,
-                              listen: false)
-                          .canTapBackground) {
-                        Provider.of<StandardScreenViewModel>(context,
-                                listen: false)
-                            .closeModal();
-                      }
-                    },
-                    child: Container(
-                        color: primaryBlue.withOpacity(0.4),
-                        height: height,
-                        width: width,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(onTap: () {}, child: overlay.widget),
-                            SizedBox(
-                              height: MediaQuery.of(context).viewInsets.bottom,
-                            )
-                          ],
-                        )),
-                  ),
-                ),
-              if (Provider.of<StandardScreenViewModel>(context).isLoading)
-                Container(
-                  color: primaryBlue.withOpacity(0.4),
-                  height: height,
-                  width: width,
-                  child: SFLoading(),
-                ),
-              if (Provider.of<EnvironmentProvider>(context, listen: false)
-                      .environment
-                      .flavor !=
-                  Flavor.Prod)
-                SafeArea(
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      "${Provider.of<EnvironmentProvider>(context).environment.flavor.flavorString}",
-                      style: const TextStyle(
-                          fontSize: 12, backgroundColor: textWhite, color: red),
+            if (Provider.of<StandardScreenViewModel>(context).isLoading)
+              Container(
+                color: primaryBlue.withOpacity(0.4),
+                height: height,
+                width: width,
+                child: SFLoading(),
+              ),
+            if (Provider.of<EnvironmentProvider>(context, listen: false)
+                    .environment
+                    .flavor !=
+                Flavor.Prod)
+              SafeArea(
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    "${Provider.of<EnvironmentProvider>(context).environment.flavor.flavorString}",
+                    style: const TextStyle(
+                      fontSize: 12,
+                      backgroundColor: textWhite,
+                      color: red,
                     ),
                   ),
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
       ),
     );

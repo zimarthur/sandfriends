@@ -16,7 +16,15 @@ class EmailConfirmationViewModel extends ChangeNotifier {
 
   void confirmEmail(BuildContext context, String token) {
     Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
-    emailConfirmationRepo.confirmEmail(context, token).then((response) {
+    emailConfirmationRepo
+        .confirmEmail(
+      context,
+      token,
+      Provider.of<EnvironmentProvider>(context, listen: false)
+          .environment
+          .isSandfriendsAulas,
+    )
+        .then((response) {
       Provider.of<StandardScreenViewModel>(context, listen: false)
           .setPageStatusOk();
       if (response.responseStatus == NetworkResponseStatus.success) {

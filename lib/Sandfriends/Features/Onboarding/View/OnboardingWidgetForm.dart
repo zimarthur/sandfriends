@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../Common/Model/AppBarType.dart';
 import '../../../../Common/Components/SFButton.dart';
 
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/StandardScreen/StandardScreen.dart';
 import '../../../../Common/Components/SFTextField.dart';
 import '../../../../Common/Utils/Constants.dart';
@@ -75,7 +76,12 @@ class _OnboardingWidgetFormState extends State<OnboardingWidgetForm> {
                   Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
                   SFButton(
                     buttonLabel: viewModel.userSport == null
-                        ? "Selecione seu esporte de preferência"
+                        ? Provider.of<EnvironmentProvider>(context,
+                                    listen: false)
+                                .environment
+                                .isSandfriendsAulas
+                            ? "Selecione o esporte das suas aulas"
+                            : "Selecione seu esporte de preferência"
                         : viewModel.userSport!.description,
                     isPrimary: false,
                     onTap: () => viewModel.openSportSelectorModal(context),

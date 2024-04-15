@@ -5,7 +5,7 @@ import '../../../../../../../Common/Components/SFTextField.dart';
 import '../../../../../../../Common/Model/AppMatch/AppMatchStore.dart';
 import '../../../../../../../Common/Utils/Constants.dart';
 import '../../../../../../../Common/Utils/Responsive.dart';
-import '../../../../../Menu/ViewModel/MenuProvider.dart';
+import '../../../../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../../../../ViewModel/CalendarViewModel.dart';
 
 class MatchCancelWidget extends StatelessWidget {
@@ -23,8 +23,10 @@ class MatchCancelWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = Provider.of<MenuProvider>(context).getScreenWidth(context);
-    double height = Provider.of<MenuProvider>(context).getScreenHeight(context);
+    double width =
+        Provider.of<MenuProviderQuadras>(context).getScreenWidth(context);
+    double height =
+        Provider.of<MenuProviderQuadras>(context).getScreenHeight(context);
     double mobileWidth = MediaQuery.of(context).size.width;
     return Container(
       width: Responsive.isMobile(context) ? mobileWidth * 0.95 : 500,

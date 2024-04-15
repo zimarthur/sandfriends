@@ -10,6 +10,7 @@ import '../../../../Common/Utils/Constants.dart';
 class CalendarModal extends StatefulWidget {
   final List<DateTime?> dateRange;
   final bool allowMultiDates;
+  final bool allowPast;
   final Function(List<DateTime?>) onSubmit;
 
   const CalendarModal({
@@ -17,6 +18,7 @@ class CalendarModal extends StatefulWidget {
     required this.allowMultiDates,
     required this.dateRange,
     required this.onSubmit,
+    this.allowPast = false,
   }) : super(key: key);
 
   @override
@@ -51,9 +53,14 @@ class _CalendarModalState extends State<CalendarModal> {
           Padding(
             padding: EdgeInsets.all(width * 0.03),
             child: DatePicker(
-              allowPastDates: false,
+              allowPastDates: widget.allowMultiDates,
               multiDate: widget.allowMultiDates,
               initialDates: modalDateTimes,
+              onDateSelected: (date) {
+                setState(() {
+                  modalDateTimes = [date];
+                });
+              },
               onMultiDateSelected: (dates) {
                 setState(() {
                   modalDateTimes = dates;

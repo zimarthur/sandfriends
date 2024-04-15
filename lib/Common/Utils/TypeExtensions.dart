@@ -1,5 +1,7 @@
 import 'package:intl/intl.dart';
 
+import 'SFDateTime.dart';
+
 extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
@@ -34,5 +36,9 @@ extension IntExtension on int {
 extension DateTimeExtension on DateTime {
   String formatDate({bool showYear = true}) {
     return DateFormat(showYear ? "dd/MM/yy" : "dd/MM").format(this);
+  }
+
+  String formatWrittenMonthYear() {
+    return "${monthsPortuguese[month - 1]}/$year";
   }
 }

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'dart:io';
 import 'dart:typed_data';
+import '../../../../Sandfriends/Providers/TeacherProvider/TeacherProvider.dart';
 import '../../../Components/Modal/CitySelectorModal/CitySelectorModal.dart';
 import '../../../Model/User/UserComplete.dart';
 import '../../../../Remote/NetworkResponse.dart';
@@ -14,9 +15,11 @@ import '../../../Model/Gender.dart';
 import '../../../Model/Rank.dart';
 import '../../../Model/SidePreference.dart';
 import '../../../Model/Sport.dart';
+import '../../../Model/User/UserStore.dart';
 import '../../../Providers/Categories/CategoriesProvider.dart';
 import '../../../../Sandfriends/Providers/UserProvider/UserProvider.dart';
 import '../../../Components/Modal/SFModalMessage.dart';
+import '../../../Providers/Environment/EnvironmentProvider.dart';
 import '../../../Utils/PageStatus.dart';
 import '../../../Utils/SFDateTime.dart';
 import '../Repository/UserDetailsRepo.dart';
@@ -107,6 +110,10 @@ class UserDetailsViewModel extends ChangeNotifier {
 
     if (initSport != null) {
       displayedSport = initSport;
+    } else {
+      displayedSport = Provider.of<UserProvider>(context, listen: false)
+          .user!
+          .preferenceSport!;
     }
     if (initModal != UserDetailsModals.None) {
       openUserDetailsModal(initModal, context);
@@ -161,7 +168,13 @@ class UserDetailsViewModel extends ChangeNotifier {
         Uint8List bytes = imageFile.readAsBytesSync();
         userEdited.photo = base64Encode(bytes);
       }
-      userDetailsRepo.updateUserInfo(context, userEdited).then((response) {
+      userDetailsRepo
+          .updateUserInfo(
+        context,
+        userEdited,
+        Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
+      )
+          .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
           Map<String, dynamic> responseBody = json.decode(
             response.responseBody!,
@@ -169,6 +182,12 @@ class UserDetailsViewModel extends ChangeNotifier {
           UserComplete serverUser = UserComplete.fromJson(responseBody);
           serverUser.matchCounter = userReference.matchCounter;
           Provider.of<UserProvider>(context, listen: false).user = serverUser;
+          if (Provider.of<EnvironmentProvider>(context, listen: false)
+              .environment
+              .isSandfriendsAulas) {
+            Provider.of<TeacherProvider>(context, listen: false).teacher.user =
+                UserStore.fromUserComplete(serverUser);
+          }
           userReference = UserComplete.copyWith(serverUser);
           userEdited = UserComplete.copyWith(serverUser);
           Provider.of<StandardScreenViewModel>(context, listen: false)
@@ -341,6 +360,15 @@ class UserDetailsViewModel extends ChangeNotifier {
       default:
         break;
     }
+  }
+
+  void updateUserPhoto(
+      BuildContext context, bool newNoImage, String? newImagePicker) {
+    Provider.of<StandardScreenViewModel>(context, listen: false)
+        .clearOverlays();
+    noImage = newNoImage;
+    imagePicker = newImagePicker;
+    notifyListeners();
   }
 
   void setUserRank(BuildContext context, Rank newRank) {

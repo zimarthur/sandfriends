@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../../Common/Model/AppBarType.dart';
 import '../../../../Common/Components/SFButton.dart';
 
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/StandardScreen/StandardScreen.dart';
 import '../../../../Common/Utils/Constants.dart';
 import '../ViewModel/OnboardingViewModel.dart';
@@ -41,7 +42,7 @@ class _OnboardingWidgetWelcomeState extends State<OnboardingWidgetWelcome> {
                 width: 64,
               ),
               Padding(padding: EdgeInsets.only(bottom: defaultPadding / 2)),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -53,7 +54,7 @@ class _OnboardingWidgetWelcomeState extends State<OnboardingWidgetWelcome> {
                     ),
                   ),
                   Text(
-                    "Sandfriend!",
+                    "${Provider.of<EnvironmentProvider>(context, listen: false).environment.isSandfriendsAulas ? 'Prof' : ''} Sandfriend!",
                     style: TextStyle(
                       color: textBlue,
                       fontWeight: FontWeight.w700,
@@ -63,8 +64,12 @@ class _OnboardingWidgetWelcomeState extends State<OnboardingWidgetWelcome> {
                 ],
               ),
               Padding(padding: EdgeInsets.only(bottom: defaultPadding)),
-              const Text(
-                "Você está quase pronto para agendar suas partidas e conhecer novos jogadores.",
+              Text(
+                Provider.of<EnvironmentProvider>(context, listen: false)
+                        .environment
+                        .isSandfriendsAulas
+                    ? "Você está quase pronto para gerenciar suas aulas e conhecer novos alunos."
+                    : "Você está quase pronto para agendar suas partidas e conhecer novos jogadores.",
                 style: TextStyle(
                   color: textBlue,
                   fontWeight: FontWeight.w300,

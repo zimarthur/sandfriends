@@ -75,8 +75,6 @@ Map<Product, Map<Flavor, Map<Device, FirebaseOptions>>> firebaseOptions =
       )
     }
   },
-<<<<<<< Updated upstream
-=======
   Product.SandfriendsAulas: {
     Flavor.Prod: {
       Device.Android: FirebaseOptions(
@@ -142,7 +140,6 @@ Map<Product, Map<Flavor, Map<Device, FirebaseOptions>>> firebaseOptions =
       ),
     },
   },
->>>>>>> Stashed changes
   Product.SandfriendsQuadras: {
     Flavor.Prod: {
       Device.Ios: FirebaseOptions(

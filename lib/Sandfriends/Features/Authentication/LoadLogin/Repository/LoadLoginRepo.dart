@@ -11,6 +11,7 @@ class LoadLoginRepo {
     BuildContext context,
     String? accessToken,
     bool requiresUserToProceed,
+    bool isTeacher,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
@@ -19,6 +20,7 @@ class LoadLoginRepo {
         <String, Object?>{
           "AccessToken": accessToken,
           "RequiresUserToProceed": requiresUserToProceed,
+          "IsTeacher": isTeacher,
         },
       ),
     );

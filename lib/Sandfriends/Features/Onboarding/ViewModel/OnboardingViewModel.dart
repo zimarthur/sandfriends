@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/User/UserComplete.dart';
+import 'package:sandfriends/Common/Model/User/UserStore.dart';
 import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
 import 'package:sandfriends/Common/Providers/Environment/ProductEnum.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
@@ -11,6 +12,7 @@ import 'package:sandfriends/Sandfriends/Features/Onboarding/Enum/EnumOnboardingP
 import '../../../../Common/Components/Modal/CitySelectorModal/CitySelectorModal.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
+import '../../../Providers/TeacherProvider/TeacherProvider.dart';
 import '../../../Providers/UserProvider/UserProvider.dart';
 import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Utils/PageStatus.dart';
@@ -73,6 +75,14 @@ class OnboardingViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void onTapReturn(BuildContext context) {
+    if (onboardingPage == EnumOnboardingPage.Welcome) {
+      Navigator.pushNamed(context, "/login_signup");
+    } else {
+      goToOnboardingWelcome(context);
+    }
+  }
+
   void openSportSelectorModal(BuildContext context) {
     Provider.of<StandardScreenViewModel>(context, listen: false)
         .addOverlayWidget(
@@ -124,7 +134,7 @@ class OnboardingViewModel extends ChangeNotifier {
         onboardingRepo
             .addUserInfo(
           context,
-          Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+          Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
           firstNameController.text,
           lastNameController.text,
           "",
@@ -140,9 +150,20 @@ class OnboardingViewModel extends ChangeNotifier {
             Provider.of<UserProvider>(context, listen: false).user =
                 UserComplete.fromJson(responseBody['User']);
             if (Provider.of<EnvironmentProvider>(context, listen: false)
+                .environment
+                .isSandfriendsAulas) {
+              Provider.of<TeacherProvider>(context, listen: false)
+                  .teacher
+                  .user = UserStore.fromUserComplete(
+                Provider.of<UserProvider>(context, listen: false).user!,
+              );
+            }
+            if (Provider.of<EnvironmentProvider>(context, listen: false)
                     .environment
-                    .product ==
-                Product.Sandfriends) {
+                    .isSandfriends ||
+                Provider.of<EnvironmentProvider>(context, listen: false)
+                    .environment
+                    .isSandfriendsAulas) {
               Navigator.pushNamed(context, '/home');
             } else {
               Provider.of<StandardScreenViewModel>(context, listen: false)

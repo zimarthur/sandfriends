@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/MatchSearchFilter/Model/CustomFilter.dart';
 import 'package:sandfriends/Common/Model/AvailableHour.dart';
@@ -134,7 +135,7 @@ class MatchSearchViewModel extends StandardScreenViewModel {
       matchSearchRepo
           .searchCourts(
         context,
-        Provider.of<UserProvider>(context, listen: false).user?.accessToken,
+        Provider.of<EnvironmentProvider>(context, listen: false).accessToken,
         currentCustomFilter.sport.idSport,
         cityFilter!.cityId,
         datesFilter[0]!,

@@ -15,7 +15,6 @@ class NotificationsViewModel extends ChangeNotifier {
         )
         .seen = true;
     notifyListeners();
-    Navigator.pushNamed(
-        context, '/match_screen/${notification.match.matchUrl}');
+    Navigator.pushNamed(context, '/partida/${notification.match.matchUrl}');
   }
 }

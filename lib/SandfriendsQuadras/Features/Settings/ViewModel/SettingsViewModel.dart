@@ -12,10 +12,11 @@ import '../../../../Common/Components/Modal/SFModalMessage.dart';
 import '../../../../Common/Model/SandfriendsQuadras/StorePhoto.dart';
 import '../../../../Common/Model/Store/StoreComplete.dart';
 import '../../../../Common/Model/TabItem.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/Utils/SFImage.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
-import '../../Menu/ViewModel/MenuProvider.dart';
+import '../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../BasicInfo/View/BasicInfo.dart';
 import '../BrandInfo/View/BrandInfo.dart';
 import '../EmployeeInfo/View/EmployeeInfo.dart';
@@ -224,9 +225,10 @@ class SettingsViewModel extends ChangeNotifier {
         );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(
           context,
           response,
@@ -369,7 +371,7 @@ class SettingsViewModel extends ChangeNotifier {
     settingsRepo
         .allowNotifications(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       allow,
       token,
     )
@@ -386,9 +388,10 @@ class SettingsViewModel extends ChangeNotifier {
             .removeLastOverlay();
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(
           context,
           response,
@@ -398,7 +401,8 @@ class SettingsViewModel extends ChangeNotifier {
   }
 
   void deleteAccount(BuildContext context) {
-    Provider.of<MenuProvider>(context, listen: false).setModalConfirmation(
+    Provider.of<MenuProviderQuadras>(context, listen: false)
+        .setModalConfirmation(
       context,
       "Deseja mesmo deletar sua conta?",
       "Você não conseguirá mais fazer acesso a plataforma se deletar sua conta.",
@@ -409,7 +413,7 @@ class SettingsViewModel extends ChangeNotifier {
         settingsRepo
             .deleteAccount(
           context,
-          Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+          Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
         )
             .then((response) {
           Provider.of<StandardScreenViewModel>(context, listen: false)
@@ -419,16 +423,18 @@ class SettingsViewModel extends ChangeNotifier {
                 .addModalMessage(
               SFModalMessage(
                 title: "Sua conta foi deletada",
-                onTap: () => Provider.of<MenuProvider>(context, listen: false)
-                    .logout(context),
+                onTap: () =>
+                    Provider.of<MenuProviderQuadras>(context, listen: false)
+                        .logout(context),
                 isHappy: false,
               ),
             );
           } else if (response.responseStatus ==
               NetworkResponseStatus.expiredToken) {
-            Provider.of<MenuProvider>(context, listen: false).logout(context);
+            Provider.of<MenuProviderQuadras>(context, listen: false)
+                .logout(context);
           } else {
-            Provider.of<MenuProvider>(context, listen: false)
+            Provider.of<MenuProviderQuadras>(context, listen: false)
                 .setMessageModalFromResponse(
               context,
               response,

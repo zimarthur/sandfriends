@@ -6,11 +6,15 @@ class HourPriceStore {
   int price;
   int? recurrentPrice;
   bool newPriceRule = false;
+  int priceTeacher;
+  int? recurrentPriceTeacher;
 
   HourPriceStore({
     required this.startingHour,
     required this.price,
     required this.recurrentPrice,
+    required this.priceTeacher,
+    required this.recurrentPriceTeacher,
     required this.endingHour,
   });
 
@@ -22,7 +26,9 @@ class HourPriceStore {
     return startingHour.hour == otherHourPrice.startingHour.hour &&
         endingHour.hour == otherHourPrice.endingHour.hour &&
         price == otherHourPrice.price &&
-        recurrentPrice == otherHourPrice.recurrentPrice;
+        recurrentPrice == otherHourPrice.recurrentPrice &&
+        priceTeacher == otherHourPrice.priceTeacher &&
+        recurrentPriceTeacher == otherHourPrice.recurrentPriceTeacher;
   }
 
   @override
@@ -35,6 +41,8 @@ class HourPriceStore {
       price: refHourPrice.price,
       recurrentPrice: refHourPrice.recurrentPrice,
       endingHour: refHourPrice.endingHour,
+      priceTeacher: refHourPrice.priceTeacher,
+      recurrentPriceTeacher: refHourPrice.recurrentPriceTeacher,
     );
   }
 }

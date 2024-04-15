@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Components/Modal/SFModalMessage.dart';
 import '../../../../../Common/Model/SandfriendsQuadras/Employee.dart';
+import '../../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../../Remote/NetworkResponse.dart';
 import '../../../Menu/ViewModel/StoreProvider.dart';
-import '../../../Menu/ViewModel/MenuProvider.dart';
+import '../../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../Model/EmployeeDataSource.dart';
 import '../Model/EmployeeTableCallbacks.dart';
 import '../Repository/EmployeeInfoRepo.dart';
@@ -63,7 +64,7 @@ class EmployeeInfoViewModel extends ChangeNotifier {
 
         break;
       case EmployeeTableCallbacks.GiveAdmin:
-        Provider.of<MenuProvider>(context, listen: false).setModalConfirmation(
+        Provider.of<MenuProviderQuadras>(context, listen: false).setModalConfirmation(
             context,
             "Deseja mesmo conceder acesso de administrador a ${employee.firstName}?",
             "${employee.firstName} terá acesso a todos seus relatórios financeiros",
@@ -76,10 +77,11 @@ class EmployeeInfoViewModel extends ChangeNotifier {
 
         break;
       case EmployeeTableCallbacks.RemoveAdmin:
-        Provider.of<MenuProvider>(context, listen: false).setModalConfirmation(
-            context,
-            "Deseja mesmo retirar acessor de administrador de ${employee.firstName}?",
-            "", () {
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .setModalConfirmation(
+                context,
+                "Deseja mesmo retirar acessor de administrador de ${employee.firstName}?",
+                "", () {
           changeEmployeeAdmin(context, employee, false);
         }, () {
           Provider.of<StandardScreenViewModel>(context, listen: false)
@@ -87,10 +89,11 @@ class EmployeeInfoViewModel extends ChangeNotifier {
         });
         break;
       case EmployeeTableCallbacks.RemoveEmployee:
-        Provider.of<MenuProvider>(context, listen: false).setModalConfirmation(
-            context,
-            "Deseja mesmo remover ${employee.firstName} de sua equipe?",
-            "", () {
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .setModalConfirmation(
+                context,
+                "Deseja mesmo remover ${employee.firstName} de sua equipe?",
+                "", () {
           removeEmployee(context, employee);
         }, () {
           Provider.of<StandardScreenViewModel>(context, listen: false)
@@ -117,7 +120,7 @@ class EmployeeInfoViewModel extends ChangeNotifier {
     employeeInfoRepo
         .addEmployee(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       employeeEmail,
     )
         .then((response) {
@@ -140,9 +143,10 @@ class EmployeeInfoViewModel extends ChangeNotifier {
         );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(
           context,
           response,
@@ -160,8 +164,8 @@ class EmployeeInfoViewModel extends ChangeNotifier {
     employeeInfoRepo
         .changeEmployeeAdmin(
             context,
-            Provider.of<StoreProvider>(context, listen: false)
-                .loggedAccessToken,
+            Provider.of<EnvironmentProvider>(context, listen: false)
+                .accessToken!,
             employee.idEmployee,
             isAdmin)
         .then((response) {
@@ -182,9 +186,10 @@ class EmployeeInfoViewModel extends ChangeNotifier {
         );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(
           context,
           response,
@@ -202,7 +207,7 @@ class EmployeeInfoViewModel extends ChangeNotifier {
     employeeInfoRepo
         .renameEmployee(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       firstName,
       lastName,
     )
@@ -224,9 +229,10 @@ class EmployeeInfoViewModel extends ChangeNotifier {
         );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(
           context,
           response,
@@ -243,7 +249,7 @@ class EmployeeInfoViewModel extends ChangeNotifier {
     employeeInfoRepo
         .removeEmployee(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       employee.idEmployee,
     )
         .then((response) {
@@ -264,9 +270,10 @@ class EmployeeInfoViewModel extends ChangeNotifier {
         );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(
           context,
           response,

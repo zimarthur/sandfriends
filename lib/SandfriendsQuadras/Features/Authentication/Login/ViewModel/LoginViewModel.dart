@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sandfriends/Common/Managers/LocalStorage/LocalStorageManager.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../../Common/Utils/PageStatus.dart';
 import 'package:provider/provider.dart';
@@ -57,8 +58,15 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   void validateToken(BuildContext context) async {
+    if (Provider.of<EnvironmentProvider>(context, listen: false)
+        .environment
+        .isDev) {
+      userController.text = "sandquadras@gmail.com";
+      passwordController.text = "aaaaaaaa";
+    }
     Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
-    String? storedToken = await LocalStorageManager().getAccessToken(context);
+    String? storedToken =
+        Provider.of<EnvironmentProvider>(context, listen: false).accessToken;
     if (storedToken != null && storedToken.isNotEmpty) {
       loginRepo.validateToken(context, storedToken).then((response) {
         Provider.of<StandardScreenViewModel>(context, listen: false)

@@ -5,12 +5,12 @@ import '../../../../../../Common/Utils/Constants.dart';
 import 'package:provider/provider.dart';
 
 import '../../../ViewModel/StoreProvider.dart';
-import '../../../ViewModel/MenuProvider.dart';
+import '../../../ViewModel/MenuProviderQuadras.dart';
 import 'SFDrawerPopup.dart';
 
 class SFDrawerUserWidget extends StatefulWidget {
   bool fullSize;
-  MenuProvider menuProvider;
+  MenuProviderQuadras menuProvider;
 
   SFDrawerUserWidget({
     required this.fullSize,

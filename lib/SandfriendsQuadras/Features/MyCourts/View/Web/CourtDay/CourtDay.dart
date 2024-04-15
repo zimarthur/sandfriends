@@ -17,6 +17,7 @@ class CourtDay extends StatefulWidget {
   double height;
   OperationDayStore operationDay;
   MyCourtsViewModel viewModel;
+  int courtId;
 
   CourtDay({
     super.key,
@@ -24,6 +25,7 @@ class CourtDay extends StatefulWidget {
     required this.height,
     required this.operationDay,
     required this.viewModel,
+    required this.courtId,
   });
 
   @override
@@ -40,6 +42,15 @@ class _CourtDayState extends State<CourtDay> {
   List<HourPriceStore> priceRules = [];
 
   bool forceIsPriceCustom = false;
+  bool isSettingTeacherPrices = false;
+
+  @override
+  void didUpdateWidget(CourtDay oldWidget) {
+    if (oldWidget.courtId != widget.courtId) {
+      isSettingTeacherPrices = false;
+    }
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,11 +128,56 @@ class _CourtDayState extends State<CourtDay> {
                                       child: Column(
                                         children: [
                                           const SFDivider(),
-                                          Container(
-                                            alignment: Alignment.centerLeft,
-                                            height: mainRowHeight,
-                                            child: const Text(
-                                              "Regra de preço",
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: defaultPadding / 2),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Regra de preço",
+                                                ),
+                                                Container(
+                                                  child: Row(
+                                                    children: [
+                                                      SizedBox(
+                                                        height: 25,
+                                                        child: FittedBox(
+                                                          fit: BoxFit.fitHeight,
+                                                          child: Switch(
+                                                            value:
+                                                                isSettingTeacherPrices,
+                                                            activeColor:
+                                                                primaryBlue,
+                                                            onChanged:
+                                                                (value) =>
+                                                                    setState(
+                                                                        () {
+                                                              isSettingTeacherPrices =
+                                                                  value;
+                                                            }),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width:
+                                                            defaultPadding / 4,
+                                                      ),
+                                                      Text(
+                                                        "Preço para professores",
+                                                        style: TextStyle(
+                                                          color:
+                                                              isSettingTeacherPrices
+                                                                  ? primaryBlue
+                                                                  : textDarkGrey,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           Expanded(
@@ -165,6 +221,10 @@ class _CourtDayState extends State<CourtDay> {
                                                           allowRecurrent: widget
                                                               .operationDay
                                                               .allowReccurrent,
+                                                          viewModel:
+                                                              widget.viewModel,
+                                                          isSettingTeacherPrices:
+                                                              isSettingTeacherPrices,
                                                         ),
                                                       ),
                                                       Expanded(
@@ -179,6 +239,8 @@ class _CourtDayState extends State<CourtDay> {
                                                               allowRecurrent: widget
                                                                   .operationDay
                                                                   .allowReccurrent,
+                                                              showTeacherPrices:
+                                                                  isSettingTeacherPrices,
                                                               priceRule: widget
                                                                   .operationDay
                                                                   .priceRules[index],
@@ -243,7 +305,8 @@ class _CourtDayState extends State<CourtDay> {
                                                                       widget
                                                                           .operationDay,
                                                                       false,
-                                                                      controller),
+                                                                      controller,
+                                                                      isSettingTeacherPrices),
                                                               onChangedRecurrentPrice: (newPrice,
                                                                       priceRule,
                                                                       controller) =>
@@ -253,7 +316,8 @@ class _CourtDayState extends State<CourtDay> {
                                                                       widget
                                                                           .operationDay,
                                                                       true,
-                                                                      controller),
+                                                                      controller,
+                                                                      isSettingTeacherPrices),
                                                             );
                                                           },
                                                         ),

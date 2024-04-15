@@ -1,8 +1,10 @@
+import 'package:intl/intl.dart';
 import 'package:sandfriends/Common/Model/User/User.dart';
 
 import '../Gender.dart';
 import '../Rank.dart';
 import '../Sport.dart';
+import 'UserComplete.dart';
 
 class UserStore extends User {
   bool isStorePlayer;
@@ -18,6 +20,7 @@ class UserStore extends User {
     super.preferenceSport,
     this.rank,
     required this.isStorePlayer,
+    super.registrationDate,
   });
 
   factory UserStore.fromUserJson(
@@ -44,6 +47,9 @@ class UserStore extends User {
         (rank) => rank.idRankCategory == parsedJson["IdRankCategory"],
       ),
       photo: parsedJson["Photo"],
+      registrationDate: parsedJson['RegistrationDate'] != null
+          ? DateFormat('dd/MM/yyyy').parse(parsedJson['RegistrationDate'])
+          : null,
     );
   }
   factory UserStore.fromStorePlayerJson(
@@ -67,15 +73,41 @@ class UserStore extends User {
       rank: availableRanks.firstWhere(
         (rank) => rank.idRankCategory == parsedJson["IdRankCategory"],
       ),
+      registrationDate: parsedJson['RegistrationDate'] != null
+          ? DateFormat('dd/MM/yyyy').parse(parsedJson['RegistrationDate'])
+          : null,
     );
   }
   factory UserStore.fromUserMinJson(Map<String, dynamic> parsedJson) {
     return UserStore(
-        id: parsedJson["IdUser"],
-        firstName: parsedJson["UserFirstName"] ?? parsedJson["FirstName"],
-        lastName: parsedJson["UserLastName"] ?? parsedJson["LastName"],
-        isStorePlayer: false,
-        photo: parsedJson["UserPhoto"] ?? parsedJson["Photo"]);
+      id: parsedJson["IdUser"],
+      firstName: parsedJson["UserFirstName"] ?? parsedJson["FirstName"],
+      lastName: parsedJson["UserLastName"] ?? parsedJson["LastName"],
+      isStorePlayer: false,
+      photo: parsedJson["UserPhoto"] ?? parsedJson["Photo"],
+      phoneNumber: parsedJson["PhoneNumber"],
+      registrationDate: parsedJson['RegistrationDate'] != null
+          ? DateFormat('dd/MM/yyyy').parse(parsedJson['RegistrationDate'])
+          : null,
+    );
+  }
+
+  factory UserStore.fromUserComplete(
+    UserComplete userComplete,
+  ) {
+    return UserStore(
+      id: userComplete.id,
+      firstName: userComplete.firstName,
+      lastName: userComplete.lastName,
+      phoneNumber: userComplete.phoneNumber,
+      gender: userComplete.gender,
+      isStorePlayer: false,
+      preferenceSport: userComplete.preferenceSport,
+      rank: userComplete.ranks
+          .firstWhere((rank) => rank.sport == userComplete.preferenceSport),
+      photo: userComplete.photo,
+      registrationDate: userComplete.registrationDate,
+    );
   }
 
   factory UserStore.copyFrom(UserStore refUserStore) {
@@ -89,6 +121,7 @@ class UserStore extends User {
       preferenceSport: refUserStore.preferenceSport,
       rank: refUserStore.rank,
       photo: refUserStore.photo,
+      registrationDate: refUserStore.registrationDate,
     );
   }
 }

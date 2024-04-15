@@ -56,7 +56,9 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                     children: [
                       InkWell(
                         onTap: () => widget.viewModel.openUserDetailsModal(
-                            UserDetailsModals.Photo, context),
+                          UserDetailsModals.Photo,
+                          context,
+                        ),
                         child: SizedBox(
                           height: remainingHeight * 0.5,
                           width: remainingHeight * 0.5 + (25 * 2),
@@ -99,13 +101,14 @@ class _UserDetailsCardState extends State<UserDetailsCard> {
                                 height: remainingHeight * 0.15,
                                 width: width,
                                 child: AutoSizeText(
-                                  "${widget.viewModel.userEdited.firstName} ${widget.viewModel.userEdited.lastName}",
+                                  widget.viewModel.userEdited.fullName,
                                   minFontSize: 22,
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                       color: textBlue,
                                       fontWeight: FontWeight.w700,
                                       decoration: TextDecoration.underline,
+                                      decorationColor: primaryBlue,
                                       overflow: TextOverflow.ellipsis),
                                 ),
                               ),

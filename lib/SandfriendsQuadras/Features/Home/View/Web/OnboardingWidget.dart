@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../Common/Utils/Constants.dart';
-import '../../../Menu/ViewModel/MenuProvider.dart';
+import '../../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../../ViewModel/HomeViewModel.dart';
 import 'OnboardingCheckItem.dart';
 
@@ -80,7 +80,7 @@ class OnboardingWidget extends StatelessWidget {
                               title: "Adicionar o logo do seu estabelecimento",
                               isChecked: viewModel.logoSet(context),
                               onTap: () {
-                                Provider.of<MenuProvider>(context,
+                                Provider.of<MenuProviderQuadras>(context,
                                         listen: false)
                                     .quickLinkBrand(context);
                               },
@@ -89,7 +89,7 @@ class OnboardingWidget extends StatelessWidget {
                               title: "Adicionar fotos das suas quadras (mín 3)",
                               isChecked: viewModel.photosSet(context),
                               onTap: () {
-                                Provider.of<MenuProvider>(context,
+                                Provider.of<MenuProviderQuadras>(context,
                                         listen: false)
                                     .quickLinkBrand(context);
                               },
@@ -106,7 +106,7 @@ class OnboardingWidget extends StatelessWidget {
                                   "Inserir uma descrição para o seu estabelecimento",
                               isChecked: viewModel.storeDescriptionSet(context),
                               onTap: () {
-                                Provider.of<MenuProvider>(context,
+                                Provider.of<MenuProviderQuadras>(context,
                                         listen: false)
                                     .quickLinkBrand(context);
                               },
@@ -115,7 +115,7 @@ class OnboardingWidget extends StatelessWidget {
                               title: "Cadastrar suas quadras",
                               isChecked: viewModel.courtsSet(context),
                               onTap: () {
-                                Provider.of<MenuProvider>(context,
+                                Provider.of<MenuProviderQuadras>(context,
                                         listen: false)
                                     .quickLinkMyCourts(context);
                               },

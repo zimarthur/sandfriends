@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../Components/SFTextField.dart';
+import '../../../Providers/Environment/EnvironmentProvider.dart';
 import '../../../Utils/Constants.dart';
 import '../../../Utils/Validators.dart';
 import '../ViewModel/UserDetailsViewModel.dart';
@@ -46,11 +48,14 @@ class _UserDetailsPhoneNumberState extends State<UserDetailsPhoneNumber> {
         const SizedBox(
           height: defaultPadding / 8,
         ),
-        const Text(
-          "Nenhum jogador terá acesso ao seu celular",
-          style: TextStyle(color: textDarkGrey),
-          textScaleFactor: 0.8,
-        ),
+        if (Provider.of<EnvironmentProvider>(context, listen: false)
+            .environment
+            .isSandfriends)
+          const Text(
+            "Nenhum jogador terá acesso ao seu celular",
+            style: TextStyle(color: textDarkGrey),
+            textScaleFactor: 0.8,
+          ),
       ],
     );
   }

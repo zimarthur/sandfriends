@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/RecurrentMatchSearch/Repository/RecurrentMatchDecoder.dart';
 import 'package:sandfriends/Sandfriends/Features/RecurrentMatchSearch/View/WeekdayModal.dart';
@@ -25,7 +26,9 @@ import '../Repository/RecurrentMatchSearchRepo.dart';
 class RecurrentMatchSearchViewModel extends ChangeNotifier {
   final recurrentMatchSearchRepo = RecurrentMatchSearchRepo();
 
-  late String titleText;
+  String get titleText => isTeacher
+      ? "Busca Aula Mensalista"
+      : "Busca Mensalista - ${selectedSport.description}";
   late Sport selectedSport;
 
   City? cityFilter;
@@ -49,13 +52,20 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
   AvailableStore? selectedStore;
   AvailableDay? selectedDay;
 
-  void initRecurrentMatchSearchViewModel(BuildContext context, int sportId) {
-    selectedSport = Provider.of<CategoriesProvider>(context, listen: false)
-        .sports
-        .firstWhere(
-          (sport) => sport.idSport == sportId,
-        );
-    titleText = "Busca Mensalista - ${selectedSport.description}";
+  bool isTeacher = false;
+
+  void initRecurrentMatchSearchViewModel(
+    BuildContext context,
+  ) {
+    Sport firstSport =
+        Provider.of<CategoriesProvider>(context, listen: false).sports.first;
+    selectedSport =
+        Provider.of<UserProvider>(context, listen: false).user != null
+            ? Provider.of<UserProvider>(context, listen: false)
+                    .user!
+                    .preferenceSport ??
+                firstSport
+            : firstSport;
     if (Provider.of<CategoriesProvider>(context, listen: false)
         .availableRegions
         .any(
@@ -68,6 +78,10 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
         )) {
       cityFilter = Provider.of<UserProvider>(context, listen: false).user!.city;
     }
+    isTeacher = Provider.of<EnvironmentProvider>(context, listen: false)
+        .environment
+        .isSandfriendsAulas;
+    notifyListeners();
   }
 
   void searchRecurrentCourts(context) {
@@ -78,13 +92,14 @@ class RecurrentMatchSearchViewModel extends ChangeNotifier {
       recurrentMatchSearchRepo
           .searchRecurrentCourts(
         context,
-        Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+        Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
         selectedSport.idSport,
         cityFilter!.cityId,
         datesFilter.join(";"),
         timeFilter!.start.format(context),
         timeFilter!.end.format(context),
         null,
+        isTeacher,
       )
           .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {

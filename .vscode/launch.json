@@ -38,6 +38,42 @@
             ]
         },
         {
+            "name": "Aulas Dev",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/SandfriendsAulas/main_dev.dart",
+            "args": [
+                "--flavor",
+                "aulasDev",
+                "--target",
+                "lib/SandfriendsAulas/main_dev.dart",
+            ]
+        },
+        {
+            "name": "Aulas Prod",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/SandfriendsAulas/main_prod.dart",
+            "args": [
+                "--flavor",
+                "aulasProd",
+                "--target",
+                "lib/SandfriendsAulas/main_prod.dart",
+            ]
+        },
+        {
+            "name": "Aulas Demo",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/SandfriendsAulas/main_demo.dart",
+            "args": [
+                "--flavor",
+                "aulasDemo",
+                "--target",
+                "lib/SandfriendsAulas/main_demo.dart",
+            ]
+        },
+        {
             "name": "Quadras Dev",
             "request": "launch",
             "type": "dart",

@@ -38,6 +38,7 @@ class _MatchWidgetState extends State<MatchWidgetMobile> {
           horizontal: defaultPadding / 2,
         ),
         child: ListView(
+          padding: EdgeInsets.zero,
           children: [
             SizedBox(
               height: height * 0.2,

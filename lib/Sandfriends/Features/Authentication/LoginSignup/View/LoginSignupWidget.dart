@@ -40,7 +40,11 @@ class _LoginSignupWidgetState extends State<LoginSignupWidget> {
                   Container(
                     alignment: Alignment.topCenter,
                     child: Image.asset(
-                      r"assets/image_login.png",
+                      Provider.of<EnvironmentProvider>(context, listen: false)
+                              .environment
+                              .isSandfriendsAulas
+                          ? r"assets/image_login_aulas.png"
+                          : r"assets/image_login.png",
                       height: height * 0.3,
                       fit: BoxFit.fill,
                       width: width,
@@ -49,7 +53,11 @@ class _LoginSignupWidgetState extends State<LoginSignupWidget> {
                   Container(
                     alignment: Alignment.bottomCenter,
                     child: Image.asset(
-                      r"assets/icon/logo_brand.png",
+                      Provider.of<EnvironmentProvider>(context, listen: false)
+                              .environment
+                              .isSandfriendsAulas
+                          ? r"assets/logo_brand_aulas.png"
+                          : r"assets/logo_brand.png",
                       height: height * 0.2,
                     ),
                   ),

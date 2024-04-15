@@ -5,12 +5,14 @@ import 'package:sandfriends/Common/Components/SFTextField.dart';
 import 'package:sandfriends/Common/Features/UserDetails/View/Modal/UserDetailsRankList.dart';
 import 'package:sandfriends/Common/Features/UserDetails/View/Web/SportFavorite.dart';
 import 'package:sandfriends/Common/Providers/Categories/CategoriesProvider.dart';
+import 'package:sandfriends/Common/Providers/Environment/Environment.dart';
 import 'package:sandfriends/SandfriendsWebPage/Features/LandingPage/View/WebHeader.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 import '../../../../../Sandfriends/Providers/UserProvider/UserProvider.dart';
 import '../../../../Components/SFAvatarUser.dart';
 import '../../../../Components/SFButton.dart';
+import '../../../../Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Utils/Constants.dart';
 import '../../../../Utils/Validators.dart';
 import '../../ViewModel/UserDetailsViewModel.dart';

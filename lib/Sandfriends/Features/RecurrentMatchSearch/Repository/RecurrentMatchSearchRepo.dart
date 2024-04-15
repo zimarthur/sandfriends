@@ -17,6 +17,7 @@ class RecurrentMatchSearchRepo {
     String timeStart,
     String timeEnd,
     int? idStore,
+    bool isTeacher,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
@@ -29,7 +30,8 @@ class RecurrentMatchSearchRepo {
           'Days': days,
           'TimeStart': timeStart,
           'TimeEnd': timeEnd,
-          if (idStore != null) 'IdStore': idStore
+          if (idStore != null) 'IdStore': idStore,
+          'IsTeacher': isTeacher,
         },
       ),
     );

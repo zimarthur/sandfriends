@@ -11,6 +11,7 @@ class LoginSignupRepo {
     BuildContext context,
     String email,
     String? appleToken,
+    bool isTeacher,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
@@ -19,6 +20,7 @@ class LoginSignupRepo {
         <String, Object>{
           if (appleToken != null) "AppleToken": appleToken,
           "Email": email,
+          "IsTeacher": isTeacher,
         },
       ),
     );

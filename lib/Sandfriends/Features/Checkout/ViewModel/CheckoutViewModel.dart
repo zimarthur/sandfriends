@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sandfriends/Common/Model/Coupon/CouponUser.dart';
 import 'package:sandfriends/Common/Model/CreditCard/CreditCardValidator.dart';
+import 'package:sandfriends/Common/Model/Team.dart';
 import 'package:sandfriends/Common/StandardScreen/StandardScreenViewModel.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/View/AddCupomModal.dart';
 import 'package:sandfriends/Sandfriends/Features/Checkout/View/CvvModal.dart';
@@ -43,6 +44,9 @@ class CheckoutViewModel extends ChangeNotifier {
   late bool isRecurrent;
   late bool isRenovating;
   List<DateTime> matchDates = [];
+
+  bool isTeacher = false;
+  Team? selectedTeam;
 
   CouponUser? appliedCoupon;
 
@@ -96,6 +100,10 @@ class CheckoutViewModel extends ChangeNotifier {
     return matchDates.length * matchPrice;
   }
 
+  bool get canMakeReservation =>
+      selectedPayment != SelectedPayment.NotSelected &&
+      (!isTeacher || (isTeacher && selectedTeam != null));
+
   void initCheckoutScreen(
     BuildContext context,
     Court receivedCourt,
@@ -110,7 +118,9 @@ class CheckoutViewModel extends ChangeNotifier {
       cpfController.text =
           Provider.of<UserProvider>(context, listen: false).user!.cpf!;
     }
-
+    isTeacher = Provider.of<EnvironmentProvider>(context, listen: false)
+        .environment
+        .isSandfriendsAulas;
     availableHours =
         Provider.of<CategoriesProvider>(context, listen: false).hours;
     court = receivedCourt;
@@ -124,7 +134,7 @@ class CheckoutViewModel extends ChangeNotifier {
       checkoutRepo
           .recurrentMonthAvailableHours(
         context,
-        Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+        Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
         weekday,
         startingHour.hour,
         endingHour.hour,
@@ -147,6 +157,17 @@ class CheckoutViewModel extends ChangeNotifier {
             Provider.of<StandardScreenViewModel>(context, listen: false)
                 .setPageStatusOk();
           });
+          if (matchDates.isEmpty) {
+            Provider.of<StandardScreenViewModel>(context, listen: false)
+                .addModalMessage(
+              SFModalMessage(
+                title:
+                    "Esse horário está disponível para mensalista, mas não tem mais horários nesse mês. Tente outro horário",
+                onTap: () => Navigator.pop(context),
+                isHappy: false,
+              ),
+            );
+          }
         } else {
           Provider.of<StandardScreenViewModel>(context, listen: false)
               .addModalMessage(
@@ -217,7 +238,7 @@ class CheckoutViewModel extends ChangeNotifier {
   }
 
   void validateReservation(BuildContext context) {
-    if (selectedPayment != SelectedPayment.NotSelected) {
+    if (canMakeReservation) {
       String? validationCpf = cpfValidator(cpfController.text, null);
       String? validationCvv = validateCVV(cvvController.text);
       if (selectedPayment == SelectedPayment.Pix && validationCpf != null) {
@@ -248,7 +269,8 @@ class CheckoutViewModel extends ChangeNotifier {
       }
     } else {
       scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
+        scrollController.position.maxScrollExtent /
+            (selectedTeam == null && isTeacher ? 2 : 1),
         duration: Duration(milliseconds: 300),
         curve: Curves.easeOut,
       );
@@ -269,7 +291,7 @@ class CheckoutViewModel extends ChangeNotifier {
     checkoutRepo
         .matchReservation(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       court.idStoreCourt!,
       sport.idSport,
       date,
@@ -325,7 +347,7 @@ class CheckoutViewModel extends ChangeNotifier {
     checkoutRepo
         .recurrentMatchReservation(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       court.idStoreCourt!,
       sport.idSport,
       weekday,
@@ -341,6 +363,7 @@ class CheckoutViewModel extends ChangeNotifier {
           : null,
       cvvController.text,
       isRenovating,
+      selectedTeam,
     )
         .then((response) {
       if (selectedPayment == SelectedPayment.Pix &&
@@ -453,5 +476,12 @@ class CheckoutViewModel extends ChangeNotifier {
         );
       }
     });
+  }
+
+  void onSelectTeam(Team team) {
+    if (team.sport == sport) {
+      selectedTeam = team;
+      notifyListeners();
+    }
   }
 }

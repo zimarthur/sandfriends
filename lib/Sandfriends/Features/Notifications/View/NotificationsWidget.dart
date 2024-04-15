@@ -26,6 +26,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
               .notifications
               .isNotEmpty
           ? ListView.builder(
+              padding: EdgeInsets.zero,
               itemCount: Provider.of<UserProvider>(context, listen: false)
                   .notifications
                   .length,

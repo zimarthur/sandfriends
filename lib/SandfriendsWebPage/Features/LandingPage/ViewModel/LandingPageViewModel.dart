@@ -12,6 +12,7 @@ import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart
 import '../../../../Common/Managers/LocalStorage/LocalStorageManager.dart';
 import '../../../../Common/Model/User/UserComplete.dart';
 import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../../../Sandfriends/Features/Authentication/LoadLogin/Repository/LoadLoginRepo.dart';
 import '../../../../Sandfriends/Features/Authentication/LoadLogin/ViewModel/LoadLoginViewModel.dart';
@@ -31,9 +32,19 @@ class LandingPageViewModel extends MatchSearchViewModel {
     }
     Provider.of<StandardScreenViewModel>(context, listen: false).setLoading();
 
-    String? accessToken = await LocalStorageManager().getAccessToken(context);
+    String? accessToken =
+        Provider.of<EnvironmentProvider>(context, listen: false).accessToken;
 
-    loadLoginRepo.validateLogin(context, accessToken, false).then((response) {
+    loadLoginRepo
+        .validateLogin(
+      context,
+      accessToken,
+      false,
+      Provider.of<EnvironmentProvider>(context, listen: false)
+          .environment
+          .isSandfriendsAulas,
+    )
+        .then((response) {
       if (response.responseStatus == NetworkResponseStatus.success) {
         Map<String, dynamic> responseBody = json.decode(
           response.responseBody!,
@@ -85,7 +96,7 @@ class LandingPageViewModel extends MatchSearchViewModel {
     homeRepo
         .getUserInfo(
       context,
-      Provider.of<UserProvider>(context, listen: false).user!.accessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       null,
     )
         .then((response) {

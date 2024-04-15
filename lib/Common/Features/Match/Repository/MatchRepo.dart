@@ -139,6 +139,24 @@ class MatchRepo {
     return response;
   }
 
+  Future<NetworkResponse> joinClass(
+    BuildContext context,
+    String accessToken,
+    int idMatch,
+  ) async {
+    NetworkResponse response = await _apiService.postResponse(
+      context,
+      ApiEndPoints.joinClass,
+      jsonEncode(
+        <String, Object>{
+          "AccessToken": accessToken,
+          "IdMatch": idMatch,
+        },
+      ),
+    );
+    return response;
+  }
+
   Future<NetworkResponse> saveOpenMatch(
     BuildContext context,
     String accessToken,
@@ -155,6 +173,32 @@ class MatchRepo {
           "IdMatch": idMatch,
           "IsOpenMatch": isOpenMatch,
           "MaxUsers": maxUsers,
+        },
+      ),
+    );
+    return response;
+  }
+
+  Future<NetworkResponse> updateClassMatchMembers(
+    BuildContext context,
+    String accessToken,
+    int idMatch,
+    List<int> usersToAdd,
+    List<int> usersToRemove,
+  ) async {
+    NetworkResponse response = await _apiService.postResponse(
+      context,
+      ApiEndPoints.updateClassMatchMembers,
+      jsonEncode(
+        <String, Object>{
+          "AccessToken": accessToken,
+          "IdMatch": idMatch,
+          "UsersToAdd": [
+            for (var user in usersToAdd) user,
+          ],
+          "UsersToRemove": [
+            for (var user in usersToRemove) user,
+          ]
         },
       ),
     );

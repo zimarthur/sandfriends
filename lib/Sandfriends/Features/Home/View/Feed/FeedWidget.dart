@@ -41,7 +41,10 @@ class _FeedWidgetState extends State<FeedWidget> {
             ),
             RefreshIndicator(
               onRefresh: () async {
-                widget.viewModel.getUserInfo(context, Tuple2(null, null));
+                widget.viewModel.getUserInfo(
+                  context,
+                  null,
+                );
               },
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),

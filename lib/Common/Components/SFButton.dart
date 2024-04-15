@@ -51,6 +51,7 @@ class _SFButtonState extends State<SFButton> {
                 child: SvgPicture.asset(
                   widget.iconPath,
                   color: !widget.isPrimary ? widget.color : textWhite,
+                  height: widget.iconSize,
                 ),
               ),
             FittedBox(
@@ -69,6 +70,7 @@ class _SFButtonState extends State<SFButton> {
                 child: SvgPicture.asset(
                   widget.iconPath,
                   color: !widget.isPrimary ? widget.color : textWhite,
+                  height: widget.iconSize,
                 ),
               ),
           ],

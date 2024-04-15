@@ -9,10 +9,11 @@ import '../../../../Common/Model/Gender.dart';
 import '../../../../Common/Model/Sport.dart';
 import '../../../../Common/Model/User/UserStore.dart';
 import '../../../../Common/Providers/Categories/CategoriesProvider.dart';
+import '../../../../Common/Providers/Environment/EnvironmentProvider.dart';
 import '../../../../Common/StandardScreen/StandardScreenViewModel.dart';
 import '../../../../Remote/NetworkResponse.dart';
 import '../../Menu/ViewModel/StoreProvider.dart';
-import '../../Menu/ViewModel/MenuProvider.dart';
+import '../../Menu/ViewModel/MenuProviderQuadras.dart';
 import '../Model/PieChartKpi.dart';
 import '../Model/PlayersDataSource.dart';
 import '../Model/PlayersTableCallback.dart';
@@ -156,11 +157,12 @@ class PlayersViewModel extends ChangeNotifier {
         openStorePlayerWidget(context, player);
         break;
       case PlayersTableCallback.Delete:
-        Provider.of<MenuProvider>(context, listen: false).setModalConfirmation(
-            context,
-            "Deseja mesmo excluir ${player.fullName}?",
-            "Após a exclusão, os dados de ${player.firstName} não estarão mais disponíveis",
-            () => deletePlayer(context, player), () {
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .setModalConfirmation(
+                context,
+                "Deseja mesmo excluir ${player.fullName}?",
+                "Após a exclusão, os dados de ${player.firstName} não estarão mais disponíveis",
+                () => deletePlayer(context, player), () {
           Provider.of<StandardScreenViewModel>(context, listen: false)
               .closeModal();
         });
@@ -186,7 +188,7 @@ class PlayersViewModel extends ChangeNotifier {
     playersRepo
         .addPlayer(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       player,
     )
         .then((response) {
@@ -211,9 +213,10 @@ class PlayersViewModel extends ChangeNotifier {
         );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });
@@ -224,7 +227,7 @@ class PlayersViewModel extends ChangeNotifier {
     playersRepo
         .editPlayer(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       player,
     )
         .then((response) {
@@ -249,9 +252,10 @@ class PlayersViewModel extends ChangeNotifier {
         );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });
@@ -262,7 +266,7 @@ class PlayersViewModel extends ChangeNotifier {
     playersRepo
         .deleteStorePlayer(
       context,
-      Provider.of<StoreProvider>(context, listen: false).loggedAccessToken,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
       player.id!,
     )
         .then((response) {
@@ -284,9 +288,10 @@ class PlayersViewModel extends ChangeNotifier {
         );
       } else if (response.responseStatus ==
           NetworkResponseStatus.expiredToken) {
-        Provider.of<MenuProvider>(context, listen: false).logout(context);
+        Provider.of<MenuProviderQuadras>(context, listen: false)
+            .logout(context);
       } else {
-        Provider.of<MenuProvider>(context, listen: false)
+        Provider.of<MenuProviderQuadras>(context, listen: false)
             .setMessageModalFromResponse(context, response);
       }
     });

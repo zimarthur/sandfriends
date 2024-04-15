@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Providers/Environment/EnvironmentProvider.dart';
 
 import '../../../../../Common/Utils/Constants.dart';
 import '../ViewModel/LoadLoginViewModel.dart';
@@ -20,10 +22,14 @@ class _LoadLoginScreenState extends State<LoadLoginScreen> {
 
   @override
   void initState() {
-    if (widget.redirectUri != null) {
-      viewModel.storeRedirectUri(context, widget.redirectUri!);
-    }
-    viewModel.validateLogin(context);
+    Provider.of<EnvironmentProvider>(context, listen: false)
+        .initEnvironmentProvider(context)
+        .then((value) {
+      if (widget.redirectUri != null) {
+        viewModel.storeRedirectUri(context, widget.redirectUri!);
+      }
+      viewModel.validateLogin(context);
+    });
 
     super.initState();
   }

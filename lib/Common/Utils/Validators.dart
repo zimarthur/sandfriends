@@ -1,6 +1,6 @@
-String? emailValidator(String? value) {
+String? emailValidator(String? value, {String? onEmpty}) {
   if (value == null || value.isEmpty) {
-    return "digite seu e-mail";
+    return onEmpty ?? "digite seu e-mail";
   } else if (RegExp(
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
       .hasMatch(value)) {

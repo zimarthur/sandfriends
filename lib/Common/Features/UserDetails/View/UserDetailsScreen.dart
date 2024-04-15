@@ -14,9 +14,11 @@ import 'Web/UserDetailsWidgetWeb.dart';
 class UserDetailsScreen extends StatefulWidget {
   final Sport? initSport;
   final UserDetailsModals initModalEnum;
-  const UserDetailsScreen(
-      {Key? key, required this.initSport, required this.initModalEnum})
-      : super(key: key);
+  const UserDetailsScreen({
+    Key? key,
+    this.initSport,
+    this.initModalEnum = UserDetailsModals.None,
+  }) : super(key: key);
 
   @override
   State<UserDetailsScreen> createState() => _UserDetailsScreenState();
