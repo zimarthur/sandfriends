@@ -11,8 +11,8 @@
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
-		8E1F676D2BC965D6002990F2 /* config in Resources */ = {isa = PBXBuildFile; fileRef = 8E1F676C2BC965D6002990F2 /* config */; };
 		8E6664B32B88E52A00CF3850 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E6664B22B88E52A00CF3850 /* GoogleService-Info.plist */; };
+		8EFC00542BC96E2500FE3C54 /* config in Resources */ = {isa = PBXBuildFile; fileRef = 8EFC00532BC96E2500FE3C54 /* config */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
@@ -69,9 +69,9 @@
 		82CDC414E2F1BAC89390B0DF /* Pods-Runner.release-prod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-prod.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-prod.xcconfig"; sourceTree = "<group>"; };
 		8C235C7305EBBC84812C339B /* Pods-Runner.profile-aulasdev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-aulasdev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-aulasdev.xcconfig"; sourceTree = "<group>"; };
 		8CFF2D505C01C1979E020615 /* Pods-Runner.release-quadrasdev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-quadrasdev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-quadrasdev.xcconfig"; sourceTree = "<group>"; };
-		8E1F676C2BC965D6002990F2 /* config */ = {isa = PBXFileReference; lastKnownFileType = folder; name = config; path = ../../../../Downloads/config; sourceTree = "<group>"; };
 		8E6664B22B88E52A00CF3850 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E800EF02B88296800D0349E /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
+		8EFC00532BC96E2500FE3C54 /* config */ = {isa = PBXFileReference; lastKnownFileType = folder; path = config; sourceTree = "<group>"; };
 		92E803124BE13CF4FBCA959F /* Pods-Runner.profile-quadrasdev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-quadrasdev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-quadrasdev.xcconfig"; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
@@ -135,7 +135,7 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
-				8E1F676C2BC965D6002990F2 /* config */,
+				8EFC00532BC96E2500FE3C54 /* config */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				97C146EF1CF9000F007C117D /* Products */,
@@ -302,7 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
-				8E1F676D2BC965D6002990F2 /* config in Resources */,
+				8EFC00542BC96E2500FE3C54 /* config in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
@@ -328,7 +328,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin\n";
 		};
 		6432FBF401A64E19E7A81CB5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -400,7 +400,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
 		};
 		B26B903263AB1AEFBEAA536C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2088,13 +2088,13 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 3MSKRZ999R;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsQuadras/main_demo.dart";
+				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsAulas/main_prod.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.quadras.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.aulas.prod;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2188,13 +2188,13 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 3MSKRZ999R;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsQuadras/main_demo.dart";
+				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsAulas/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.quadras.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.aulas.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2288,13 +2288,13 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 3MSKRZ999R;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsQuadras/main_demo.dart";
+				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsAulas/main_demo.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.quadras.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.aulas.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2385,13 +2385,13 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 3MSKRZ999R;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsQuadras/main_demo.dart";
+				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsAulas/main_prod.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.quadras.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.aulas.prod;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -2479,13 +2479,13 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 3MSKRZ999R;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsQuadras/main_demo.dart";
+				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsAulas/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.quadras.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.aulas.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -2573,13 +2573,13 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 3MSKRZ999R;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsQuadras/main_demo.dart";
+				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsAulas/main_demo.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.quadras.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.aulas.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -2665,13 +2665,13 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 3MSKRZ999R;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsQuadras/main_demo.dart";
+				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsAulas/main_prod.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.quadras.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.aulas.prod;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -2757,13 +2757,13 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 3MSKRZ999R;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsQuadras/main_demo.dart";
+				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsAulas/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.quadras.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.aulas.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -2849,13 +2849,13 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 3MSKRZ999R;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsQuadras/main_demo.dart";
+				FLUTTER_TARGET = "/Users/arthur/Development/Sandfriends Project/sandfriends/lib/SandfriendsAulas/main_demo.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.quadras.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sandfriends.aulas.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
