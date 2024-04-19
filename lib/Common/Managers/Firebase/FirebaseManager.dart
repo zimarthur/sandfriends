@@ -17,7 +17,7 @@ class FirebaseManager {
   }) async {
     FirebaseOptions firebaseOption = firebaseOptions[environment.product]![
         environment.flavor]![environment.device]!;
-    FirebaseApp app = await Firebase.initializeApp();
+    FirebaseApp app = await Firebase.initializeApp(options: firebaseOption);
     print("firebase configured");
     print("androidClientId ${app.options.androidClientId}");
     print("apiKey ${app.options.apiKey}");
