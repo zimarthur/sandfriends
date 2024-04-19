@@ -17,7 +17,7 @@ class MatchSearchFilterScreen extends StatefulWidget {
   CustomFilter currentCustomFilter;
   City? selectedCityId;
   bool? hideOrderBy;
-  bool isRecurrent;
+  bool? isRecurrent;
   MatchSearchFilterScreen({
     required this.defaultCustomFilter,
     required this.currentCustomFilter,
@@ -55,6 +55,7 @@ class _MatchSearchFilterScreenState extends State<MatchSearchFilterScreen> {
         builder: (context, viewModel, _) {
           return StandardScreen(
             titleText: "Filtros",
+            customOnTapReturn: () => viewModel.onReturn(context),
             // rightWidget: viewModel.customFilterHasChanged
             //     ? InkWell(
             //         onTap: () => viewModel.clearFilter(),
@@ -66,7 +67,7 @@ class _MatchSearchFilterScreenState extends State<MatchSearchFilterScreen> {
             //         ),
             //       )
             //     : Container(),
-            appBarType: widget.isRecurrent
+            appBarType: viewModel.isRecurrent
                 ? AppBarType.PrimaryLightBlue
                 : AppBarType.Primary,
             child: FilterBasicWidget(), // MatchSearchFilterWidget(),

@@ -71,7 +71,7 @@ class CheckoutDetails extends StatelessWidget {
               ),
               CheckoutDetailsItem(
                   title: "Preço",
-                  value: Provider.of<CheckoutViewModel>(context, listen: false)
+                  value: Provider.of<CheckoutViewModel>(context)
                       .matchPrice
                       .formatPrice()),
             ],

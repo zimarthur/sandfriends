@@ -125,8 +125,10 @@ class _RecurrentMatchCardState extends State<RecurrentMatchCard> {
                                 imageUrl: Provider.of<EnvironmentProvider>(
                                         context,
                                         listen: false)
-                                    .urlBuilder(widget
-                                        .recurrentMatch.court.store!.logo!),
+                                    .urlBuilder(
+                                  widget.recurrentMatch.court.store!.logo!,
+                                  isImage: true,
+                                ),
                                 height: 80,
                                 width: 80,
                                 placeholder: (context, url) => SizedBox(

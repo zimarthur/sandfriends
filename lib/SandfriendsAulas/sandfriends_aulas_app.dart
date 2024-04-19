@@ -174,6 +174,7 @@ class SandfriendsAulasApp extends GenericApp {
                   sport: arguments['sport'] as Sport,
                   isRecurrent: arguments['isRecurrent'] as bool,
                   isRenovating: arguments['isRenovating'] as bool,
+                  team: arguments['team'] as Team?,
                 );
               },
             );

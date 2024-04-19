@@ -567,9 +567,9 @@ class MyCourtsViewModel extends ChangeNotifier {
       missingInfo = "Informe os esportes permitidos na quadra";
     } else if (court.operationDays.any((opDay) => opDay.prices.any((price) =>
         price.price == 0 ||
-        price.recurrentPrice == 0 ||
+        (price.recurrentPrice == 0 && opDay.allowReccurrent) ||
         price.priceTeacher == 0 ||
-        price.recurrentPriceTeacher == 0))) {
+        (price.recurrentPriceTeacher == 0 && opDay.allowReccurrent)))) {
       missingInfo = "Opa! Você tem alguma quadra sem preço configurado";
     }
     return missingInfo;

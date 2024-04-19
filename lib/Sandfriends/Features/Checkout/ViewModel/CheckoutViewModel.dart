@@ -104,6 +104,8 @@ class CheckoutViewModel extends ChangeNotifier {
       selectedPayment != SelectedPayment.NotSelected &&
       (!isTeacher || (isTeacher && selectedTeam != null));
 
+  bool get canChangeTeam => !isRenovating;
+
   void initCheckoutScreen(
     BuildContext context,
     Court receivedCourt,
@@ -113,6 +115,7 @@ class CheckoutViewModel extends ChangeNotifier {
     int? receivedWeekday,
     bool receivedIsRecurrent,
     bool receivedIsRenovating,
+    Team? receivedSelectedTeam,
   ) {
     if (Provider.of<UserProvider>(context, listen: false).user?.cpf != null) {
       cpfController.text =
@@ -125,10 +128,12 @@ class CheckoutViewModel extends ChangeNotifier {
         Provider.of<CategoriesProvider>(context, listen: false).hours;
     court = receivedCourt;
     hourPrices = receivedHourPrices;
-    sport = receivedSport;
 
+    sport = receivedSport;
+    selectedTeam = receivedSelectedTeam;
     isRecurrent = receivedIsRecurrent;
     isRenovating = receivedIsRenovating;
+    notifyListeners();
     if (isRecurrent) {
       weekday = receivedWeekday!;
       checkoutRepo
@@ -140,6 +145,7 @@ class CheckoutViewModel extends ChangeNotifier {
         endingHour.hour,
         court.idStoreCourt!,
         isRenovating,
+        isTeacher,
       )
           .then((response) {
         if (response.responseStatus == NetworkResponseStatus.success) {
@@ -149,9 +155,22 @@ class CheckoutViewModel extends ChangeNotifier {
 
           final responseRecurrentDays =
               responseBody['RecurrentMonthAvailableHours'];
+          final responseStorePrices = responseBody['HourPrices'];
+          matchDates.clear();
           for (var day in responseRecurrentDays) {
             matchDates.add(DateFormat('dd/MM/yyyy').parse(day));
           }
+
+          hourPrices.clear();
+          for (var hourPrice in responseStorePrices) {
+            hourPrices.add(
+              HourPriceUser.fromJson(
+                hourPrice,
+                Provider.of<CategoriesProvider>(context, listen: false).hours,
+              ),
+            );
+          }
+
           notifyListeners();
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Provider.of<StandardScreenViewModel>(context, listen: false)

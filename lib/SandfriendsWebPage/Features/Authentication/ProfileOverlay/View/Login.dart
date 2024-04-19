@@ -9,9 +9,8 @@ import '../../../../../Common/Components/SFTextField.dart';
 import '../../../../../Common/Utils/Constants.dart';
 import '../../../../../Common/Utils/Validators.dart';
 
-final loginFormKey = GlobalKey<FormState>();
-
 class Login extends StatelessWidget {
+  final loginFormKey = GlobalKey<FormState>();
   VoidCallback onTapLogin;
   VoidCallback onTapLoginGoogle;
   Login({

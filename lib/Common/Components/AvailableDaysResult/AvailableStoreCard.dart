@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:sandfriends/Common/Components/SFAvatarStore.dart';
 import 'package:sandfriends/Sandfriends/Providers/UserProvider/UserProvider.dart';
 import 'package:sandfriends/Common/Model/AvailableHour.dart';
 import 'package:geolocator/geolocator.dart';

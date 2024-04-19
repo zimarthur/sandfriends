@@ -75,7 +75,9 @@ class SportItem extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             border: isSelected
-                ? null
+                ? Border.all(
+                    color: primaryDarkBlue,
+                  )
                 : Border.all(
                     color: textDarkGrey,
                   ),

@@ -18,4 +18,15 @@ class HourPriceUser {
 
   @override
   int get hashCode => hour.hashCode ^ price.hashCode;
+
+  factory HourPriceUser.fromJson(
+    Map<String, dynamic> json,
+    List<Hour> availableHours,
+  ) {
+    return HourPriceUser(
+      hour: availableHours
+          .firstWhere((hour) => hour.hour == json["IdAvailableHour"]),
+      price: json["Price"],
+    );
+  }
 }

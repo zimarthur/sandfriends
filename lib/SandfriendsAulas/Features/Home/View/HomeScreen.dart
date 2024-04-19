@@ -175,6 +175,7 @@ class _HomeScreenAulasState extends State<HomeScreenAulas> {
                                 )
                               : ListView.builder(
                                   shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
                                   itemCount: Provider.of<TeacherProvider>(
                                     context,
                                   ).todayMatches.length,

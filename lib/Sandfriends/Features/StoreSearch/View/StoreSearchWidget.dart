@@ -74,6 +74,7 @@ class _StoreSearchWidgetState extends State<StoreSearchWidget> {
                   )
                 : ListView.builder(
                     itemCount: widget.viewModel.stores.length,
+                    padding: EdgeInsets.zero,
                     itemBuilder: (context, index) {
                       StoreUser store = widget.viewModel.stores[index];
                       return InkWell(

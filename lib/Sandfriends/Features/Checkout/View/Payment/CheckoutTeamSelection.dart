@@ -42,24 +42,27 @@ class _CheckoutPaymentState extends State<CheckoutTeamSelection> {
             children: [
               Expanded(
                 child: Text(
-                  "Selecione a turma",
+                  widget.viewModel.canChangeTeam
+                      ? "Selecione a turma"
+                      : "Turma",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                   textScaleFactor: 1.3,
                 ),
               ),
-              GestureDetector(
-                onTap: () => Navigator.pushNamed(context, "/create_team"),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: defaultPadding / 2),
-                  child: SvgPicture.asset(
-                    r"assets/icon/plus_circle.svg",
-                    height: 25,
+              if (widget.viewModel.canChangeTeam)
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(context, "/create_team"),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: defaultPadding / 2),
+                    child: SvgPicture.asset(
+                      r"assets/icon/plus_circle.svg",
+                      height: 25,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         ),
@@ -106,14 +109,19 @@ class _CheckoutPaymentState extends State<CheckoutTeamSelection> {
                   padding: EdgeInsets.zero,
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: Provider.of<TeacherProvider>(context)
-                      .teacher
-                      .teams
-                      .length,
+                  itemCount: widget.viewModel.canChangeTeam
+                      ? Provider.of<TeacherProvider>(context)
+                          .teacher
+                          .teams
+                          .length
+                      : 1,
                   itemBuilder: (context, index) {
-                    Team team = Provider.of<TeacherProvider>(context)
-                        .teacher
-                        .teams[index];
+                    Team team = widget.viewModel.canChangeTeam
+                        ? Provider.of<TeacherProvider>(context)
+                            .teacher
+                            .teams[index]
+                        : widget.viewModel.selectedTeam!;
+
                     return GestureDetector(
                       onTap: () => widget.viewModel.onSelectTeam(team),
                       child: Container(
@@ -126,7 +134,8 @@ class _CheckoutPaymentState extends State<CheckoutTeamSelection> {
                               decoration: BoxDecoration(
                                 borderRadius:
                                     BorderRadius.circular(defaultBorderRadius),
-                                color: widget.viewModel.selectedTeam == team
+                                color: widget.viewModel.selectedTeam?.idTeam ==
+                                        team.idTeam
                                     ? primaryBlue
                                     : secondaryPaper,
                               ),
@@ -162,7 +171,7 @@ class _CheckoutPaymentState extends State<CheckoutTeamSelection> {
                                         ),
                                       ),
                                       Text(
-                                        " - ${team.rank == null ? 'qualquer categ.' : team.rank!.name} - ${team.gender.name}",
+                                        " | ${team.rank.name} | ${team.gender.name}",
                                         style: TextStyle(
                                           color: textDarkGrey,
                                           fontWeight: FontWeight.w300,

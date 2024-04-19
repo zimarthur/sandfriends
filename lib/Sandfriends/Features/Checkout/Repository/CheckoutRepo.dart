@@ -106,6 +106,7 @@ class CheckoutRepo {
     int timeEnd,
     int idStoreCourt,
     bool isRenovating,
+    bool isTeacher,
   ) async {
     NetworkResponse response = await _apiService.postResponse(
       context,
@@ -118,6 +119,7 @@ class CheckoutRepo {
           "TimeBegin": timeBegin,
           "TimeEnd": timeEnd,
           "IsRenovating": isRenovating,
+          "IsTeacher": isTeacher,
         },
       ),
     );

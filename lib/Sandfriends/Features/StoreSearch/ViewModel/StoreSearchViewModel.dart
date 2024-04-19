@@ -182,7 +182,8 @@ class StoreSearchViewModel extends ChangeNotifier {
       'selectedCityId': selectedCity,
       'hideOrderBy': true,
       'isRecurrent': isRecurrent,
-    }).then((newFilter) {
+    }).then((args) {
+      final newFilter = (args as Map<String, CustomFilter>)['newFilter'];
       if (newFilter is CustomFilter) {
         bool needsUpdate = false;
         if (currentCustomFilter.sport.idSport != newFilter.sport.idSport) {

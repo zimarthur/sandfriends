@@ -99,6 +99,8 @@ class AppInfoViewModel extends ChangeNotifier {
 
   void onTapLogout(BuildContext context) {
     LocalStorageManager().storeAccessToken(context, "");
+    Provider.of<EnvironmentProvider>(context, listen: false)
+        .setAccessToken(null);
     Navigator.pushNamedAndRemoveUntil(
       context,
       '/login_signup',

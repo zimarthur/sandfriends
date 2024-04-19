@@ -85,7 +85,9 @@ class LandingPageViewModel extends MatchSearchViewModel {
         initMatchSearchViewModel(
           context,
         );
-      } else {}
+      } else {
+        print("OIO(IOI)");
+      }
 
       Provider.of<StandardScreenViewModel>(context, listen: false)
           .setPageStatusOk();

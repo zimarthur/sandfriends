@@ -56,6 +56,7 @@ class RecurrenClassesWidget extends StatelessWidget {
                         child: ClassItem(
                           recMatch: recurrentMatchesForWeekday[index],
                           team: recurrentMatchesForWeekday[index].team!,
+                          canRenewRecurrentMatch: true,
                         ),
                       );
                     },

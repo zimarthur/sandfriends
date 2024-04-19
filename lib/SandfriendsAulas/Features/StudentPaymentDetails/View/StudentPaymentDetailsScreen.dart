@@ -139,6 +139,9 @@ class _StudentPaymentDetailsScreenState
                           borderRadius: BorderRadius.circular(
                             defaultBorderRadius,
                           ),
+                          border: Border.all(
+                            color: divider,
+                          ),
                           boxShadow: const [
                             BoxShadow(
                               blurRadius: 2,

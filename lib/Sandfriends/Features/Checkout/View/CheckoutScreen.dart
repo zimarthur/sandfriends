@@ -7,6 +7,7 @@ import 'package:sandfriends/Common/Model/AppBarType.dart';
 import 'package:sandfriends/Common/Model/Court.dart';
 import 'package:sandfriends/Common/Model/Sport.dart';
 
+import '../../../../Common/Model/Team.dart';
 import '../../../../Common/StandardScreen/StandardScreen.dart';
 
 class CheckoutScreen extends StatefulWidget {
@@ -17,6 +18,7 @@ class CheckoutScreen extends StatefulWidget {
   final int? weekday;
   final bool isRecurrent;
   final bool isRenovating;
+  final Team? team;
 
   const CheckoutScreen({
     super.key,
@@ -27,6 +29,7 @@ class CheckoutScreen extends StatefulWidget {
     required this.weekday,
     required this.isRecurrent,
     required this.isRenovating,
+    required this.team,
   });
 
   @override
@@ -47,6 +50,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       widget.weekday,
       widget.isRecurrent,
       widget.isRenovating,
+      widget.team,
     );
     super.initState();
   }

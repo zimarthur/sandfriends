@@ -126,6 +126,7 @@ class MatchSearchViewModel extends StandardScreenViewModel {
         notifyListeners();
       }
     });
+    notifyListeners();
   }
 
   void searchCourts(context) {
@@ -322,7 +323,7 @@ class MatchSearchViewModel extends StandardScreenViewModel {
   }
 
   void goToMatch(BuildContext context, String matchUrl) {
-    Navigator.pushNamed(context, '/match/$matchUrl');
+    Navigator.pushNamed(context, '/partida/$matchUrl');
   }
 
   Future<void> goToSearchFilter(BuildContext context) async {
@@ -330,7 +331,8 @@ class MatchSearchViewModel extends StandardScreenViewModel {
       'defaultCustomFilter': defaultCustomFilter,
       'currentCustomFilter': currentCustomFilter,
       'selectedCityId': cityFilter,
-    }).then((newFilter) {
+    }).then((args) {
+      final newFilter = (args as Map<String, CustomFilter>)['newFilter'];
       if (newFilter is CustomFilter) {
         bool needsUpdate = false;
         if (currentCustomFilter.sport.idSport != newFilter.sport.idSport) {

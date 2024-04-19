@@ -31,6 +31,7 @@ class DatePicker extends StatefulWidget {
 class _DatePickerState extends State<DatePicker> {
   @override
   Widget build(BuildContext context) {
+    print(widget.allowPastDates);
     return CalendarDatePicker2(
       config: CalendarDatePicker2Config(
         firstDayOfWeek: 1,

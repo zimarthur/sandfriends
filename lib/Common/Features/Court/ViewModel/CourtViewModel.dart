@@ -418,7 +418,7 @@ class CourtViewModel extends CheckoutViewModel {
     matchSearchRepo
         .searchCourts(
       context,
-      Provider.of<EnvironmentProvider>(context, listen: false).accessToken!,
+      Provider.of<EnvironmentProvider>(context, listen: false).accessToken,
       selectedSport!.idSport,
       store!.city.cityId,
       selectedDate!,

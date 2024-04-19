@@ -291,6 +291,8 @@ class MenuProviderQuadras extends DrawerProvider {
 
   void logout(BuildContext context) {
     Provider.of<StoreProvider>(context, listen: false).clearStoreProvider();
+    Provider.of<EnvironmentProvider>(context, listen: false)
+        .setAccessToken(null);
     LocalStorageManager().storeAccessToken(context, "");
     Navigator.pushNamedAndRemoveUntil(
       context,

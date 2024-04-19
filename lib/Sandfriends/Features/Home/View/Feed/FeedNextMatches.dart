@@ -67,7 +67,7 @@ class _FeedNextMatchesState extends State<FeedNextMatches> {
                   padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                   margin: EdgeInsets.symmetric(horizontal: width * 0.03),
                   decoration: BoxDecoration(
-                    color: divider,
+                    color: divider.withAlpha(126),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Column(
@@ -76,9 +76,9 @@ class _FeedNextMatchesState extends State<FeedNextMatches> {
                     children: [
                       const Flexible(
                         child: Text(
-                          "Você não tem nenhuma partida agendada",
+                          "Nenhuma partida agendada",
                           style: TextStyle(
-                            color: textWhite,
+                            color: textDarkGrey,
                             fontWeight: FontWeight.w700,
                           ),
                         ),

@@ -29,9 +29,11 @@ class MatchSearchFilterViewModel extends ChangeNotifier {
     CustomFilter recCurrentCustomFilter,
     City? recCity,
     bool? recHideOrderBy,
-    bool recIsRecurrent,
+    bool? recIsRecurrent,
   ) {
-    isRecurrent = recIsRecurrent;
+    if (recIsRecurrent != null) {
+      isRecurrent = recIsRecurrent;
+    }
     defaultCustomFilter = CustomFilter.copyFrom(recDefaultCustomFilter);
     currentCustomFilter = CustomFilter.copyFrom(recCurrentCustomFilter);
     cityFilter = recCity;
@@ -94,5 +96,11 @@ class MatchSearchFilterViewModel extends ChangeNotifier {
     }
     currentCustomFilter.orderBy = newOrderBy;
     notifyListeners();
+  }
+
+  void onReturn(BuildContext context) {
+    Navigator.pop(context, {
+      'newFilter': CustomFilter.copyFrom(currentCustomFilter),
+    });
   }
 }

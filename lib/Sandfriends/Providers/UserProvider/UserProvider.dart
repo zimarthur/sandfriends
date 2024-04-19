@@ -130,6 +130,8 @@ class UserProvider extends ChangeNotifier {
   void logoutUserProvider(BuildContext context) {
     clear();
     _user = null;
+    Provider.of<EnvironmentProvider>(context, listen: false)
+        .setAccessToken(null);
     LocalStorageManager().storeAccessToken(context, "");
     notifyListeners();
   }

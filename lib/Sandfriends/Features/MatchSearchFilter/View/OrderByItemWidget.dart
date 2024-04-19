@@ -34,7 +34,9 @@ class _OrderByItemWidgetState extends State<OrderByItemWidget> {
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: isSelected ? widget.primaryColor.withAlpha(64) : null,
-                  border: !isSelected ? Border.all(color: textDarkGrey) : null),
+                  border: !isSelected
+                      ? Border.all(color: textDarkGrey)
+                      : Border.all(color: primaryDarkBlue)),
               child: Center(
                 child: SvgPicture.asset(
                   widget.icon,

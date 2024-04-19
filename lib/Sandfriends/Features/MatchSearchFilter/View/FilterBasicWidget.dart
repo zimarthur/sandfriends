@@ -49,6 +49,7 @@ class _FilterBasicWidgetState extends State<FilterBasicWidget> {
                   ),
                   if (!viewModel.hideOrderBy)
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
                           height: 3 * defaultPadding,

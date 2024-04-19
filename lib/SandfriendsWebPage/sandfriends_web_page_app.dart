@@ -15,6 +15,7 @@ import '../Common/Model/Hour.dart';
 import '../Common/Model/HourPrice/HourPriceUser.dart';
 import '../Common/Model/Sport.dart';
 import '../Common/Model/Store/StoreUser.dart';
+import '../Common/Model/Team.dart';
 import '../Sandfriends/Features/Authentication/EmailConfirmation/View/EmailConfirmationScreen.dart';
 import '../Sandfriends/Features/Checkout/View/CheckoutScreen.dart';
 import '../SandfriendsQuadras/Features/Authentication/ChangePassword/View/ChangePasswordScreen.dart';
@@ -132,6 +133,7 @@ class SandfriendsWebPageApp extends GenericApp {
                   sport: arguments['sport'] as Sport,
                   isRecurrent: arguments['isRecurrent'] as bool,
                   isRenovating: arguments['isRenovating'] as bool,
+                  team: arguments['team'] as Team?,
                 );
               },
             );

@@ -157,7 +157,7 @@ class SandfriendsApp extends GenericApp {
                     arguments['currentCustomFilter'] as CustomFilter,
                 selectedCityId: arguments['selectedCityId'] as City?,
                 hideOrderBy: arguments['hideOrderBy'] as bool?,
-                isRecurrent: arguments['isRecurrent'] as bool,
+                isRecurrent: arguments['isRecurrent'] as bool?,
               );
             },
           );
@@ -208,6 +208,7 @@ class SandfriendsApp extends GenericApp {
                   sport: arguments['sport'] as Sport,
                   isRecurrent: arguments['isRecurrent'] as bool,
                   isRenovating: arguments['isRenovating'] as bool,
+                  team: arguments['team'] as Team?,
                 );
               },
             );

@@ -289,8 +289,9 @@ class StoreProvider extends ChangeNotifier {
                         (hour) => hour.hour == courtPrices["IdAvailableHour"]),
                 price: courtPrices["Price"],
                 recurrentPrice: courtPrices["RecurrentPrice"],
-                priceTeacher: courtPrices["PriceTeacher"],
-                recurrentPriceTeacher: courtPrices["RecurrentPriceTeacher"],
+                priceTeacher: courtPrices["PriceTeacher"] ?? 0,
+                recurrentPriceTeacher:
+                    courtPrices["RecurrentPriceTeacher"] ?? 0,
                 endingHour: Provider.of<CategoriesProvider>(context,
                         listen: false)
                     .hours
